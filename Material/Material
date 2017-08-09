@@ -3,3 +3,4 @@
 #include "3D/3D"
 
 #include "Material.h"
+#include "MaterialTemplate.h"
