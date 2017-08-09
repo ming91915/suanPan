@@ -175,7 +175,6 @@
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Section.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
-    <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp" />

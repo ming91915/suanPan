@@ -23,8 +23,11 @@
 #define CENTRALDIFFERENCE_H
 
 #include "Solver.h"
+
 class CentralDifference : public Solver
 {
+    double max_dt = 0.;
+
     double DT = 0.;
 
     double C0 = 0., C1 = 0., C2 = 0., C3 = 0.;

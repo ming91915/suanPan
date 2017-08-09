@@ -90,9 +90,6 @@
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -55,11 +55,14 @@ int CentralDifference::analyze(const double& T)
     auto& D = getDomain();
     auto& W = D->getWorkroom();
 
-    auto tmp_mass = conv_to<mat>::from(W->getMass());
-    auto tmp_stiffness = conv_to<mat>::from(W->getStiffness());
-    auto eig_val = eig_sym(tmp_mass.i() * tmp_stiffness);
+    if(W->is_band()) {
+        printf("CentralDifference::analyze() currently does not suppoort band matrix.\n");
+        return -1;
+    }
 
-    auto max_dt = datum::pi / sqrt(eig_val.max());
+    auto eig_val = eig_sym(W->getMass().i() * W->getStiffness());
+
+    max_dt = datum::pi / sqrt(eig_val.max());
 
     return 0;
 }

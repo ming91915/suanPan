@@ -23,6 +23,11 @@ int BFGS::analyze(const double& T)
     auto& W = D->getWorkroom();
     auto& C = getConvergence();
 
+    if(W->is_band()) {
+        printf("BFGS::analyze() currently does not suppoort band matrix.\n");
+        return -1;
+    }
+
     auto time_left = T;
     auto step = time_left / 1.;
 

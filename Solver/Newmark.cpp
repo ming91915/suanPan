@@ -33,6 +33,11 @@ int Newmark::updateStatus()
 {
     auto& W = getDomain()->getWorkroom();
 
+    if(W->is_band()) {
+        printf("Newmark::updateStatus() currently does not suppoort band matrix.\n");
+        return -1;
+    }
+
     if(DT != W->getIncreTime()) {
         DT = W->getIncreTime();
         C2 = 1. / alpha / DT;
