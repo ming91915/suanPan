@@ -4,6 +4,7 @@ project(suanPan)
 
 include_directories(.)
 include_directories(./Include/armadillo)
+include_directories(./Include/hdf5-common)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     include_directories(./Include/hdf5-gcc)
