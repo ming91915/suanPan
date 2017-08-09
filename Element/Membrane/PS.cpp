@@ -47,8 +47,14 @@ void PS::initialize(const shared_ptr<Domain>& D)
     tmp_a.zeros();
     tmp_c.zeros();
 
-    mat n(2, m_node * m_dof, fill::zeros);
     mat jacob_center = shapeFunctionQuad({ 0, 0 }, 1) * ele_coor;
+
+    auto jacob_a = jacob_center(0, 0) * jacob_center(0, 0);
+    auto jacob_b = jacob_center(1, 0) * jacob_center(1, 0);
+    auto jacob_c = jacob_center(0, 1) * jacob_center(0, 1);
+    auto jacob_d = jacob_center(1, 1) * jacob_center(1, 1);
+    auto jacob_e = jacob_center(0, 0) * jacob_center(0, 1);
+    auto jacob_f = jacob_center(1, 0) * jacob_center(1, 1);
 
     for(const auto& I : int_pt) {
         auto pn = shapeFunctionQuad(I->coor, 1);
@@ -57,11 +63,14 @@ void PS::initialize(const shared_ptr<Domain>& D)
         auto tmp_factor = thickness * det(jacob) * I->weight;
 
         auto n_int = shapeFunctionQuad(I->coor, 0);
-        for(unsigned K = 0; K < m_node; ++K) {
-            n(0, 2 * K) = n_int(0, K);
-            n(1, 2 * K + 1) = n_int(0, K);
+
+        auto tmp_density = I->m_material->getParameter();
+        if(tmp_density != 0.) {
+            tmp_density *= tmp_factor;
+            for(unsigned J = 0; J < 4; ++J)
+                for(auto K = J; K < 4; ++K)
+                    mass(2 * J, 2 * K) += tmp_density * n_int(J) * n_int(K);
         }
-        mass += n.t() * n * tmp_factor * I->m_material->getParameter();
 
         I->strain_mat.zeros(3, m_node * m_dof);
         for(unsigned K = 0; K < m_node; ++K) {
@@ -75,16 +84,26 @@ void PS::initialize(const shared_ptr<Domain>& D)
         I->n_stress(0, 0) = 1.;
         I->n_stress(1, 1) = 1.;
         I->n_stress(2, 2) = 1.;
-        I->n_stress(0, 3) = jacob_center(0, 0) * jacob_center(0, 0) * I->coor(1);
-        I->n_stress(0, 4) = jacob_center(1, 0) * jacob_center(1, 0) * I->coor(0);
-        I->n_stress(1, 3) = jacob_center(0, 1) * jacob_center(0, 1) * I->coor(1);
-        I->n_stress(1, 4) = jacob_center(1, 1) * jacob_center(1, 1) * I->coor(0);
-        I->n_stress(2, 3) = jacob_center(0, 0) * jacob_center(0, 1) * I->coor(1);
-        I->n_stress(2, 4) = jacob_center(1, 0) * jacob_center(1, 1) * I->coor(0);
+        I->n_stress(0, 3) = jacob_a * I->coor(1);
+        I->n_stress(0, 4) = jacob_b * I->coor(0);
+        I->n_stress(1, 3) = jacob_c * I->coor(1);
+        I->n_stress(1, 4) = jacob_d * I->coor(0);
+        I->n_stress(2, 3) = jacob_e * I->coor(1);
+        I->n_stress(2, 4) = jacob_f * I->coor(0);
 
         tmp_c += I->n_stress.t() * I->strain_mat * tmp_factor;
         tmp_a += I->n_stress.t() * inv_stiffness * I->n_stress * tmp_factor;
     }
+
+    if(mass(0, 0) != 0.)
+        for(auto I = 0; I < 8; I += 2) {
+            mass(I + 1, I + 1) = mass(I, I);
+            for(auto J = I + 2; J < 8; J += 2) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
+            }
+        }
 
     stiffness = tmp_c.t() * solve(tmp_a, tmp_c);
 }

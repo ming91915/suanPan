@@ -1,9 +1,8 @@
 /**
 * @class CP4
 * @brief The CP4 class handles CPS4, CPE4, CPS4R and CPE4R elements. It is a four node
-* constant
-* strain membrane element with optional reduced integration for both plane stress and
-* plane strain problems.
+* constant strain membrane element with optional reduced integration for both plane stress
+* and plane strain problems.
 * @author T
 * @date 07/08/2017
 * @version 0.1.2
@@ -30,19 +29,19 @@ class CP4 final : public Element
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness = 1.;
+    double thickness;
 
-    bool reduced_scheme = false;
+    bool reduced_scheme;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
 public:
-    CP4(const unsigned&,
-        const uvec&,
-        const unsigned&,
-        const double& = 1.,
-        const bool& = false,
-        const bool& = false);
+    CP4(const unsigned&,      // tag
+        const uvec&,          // node tags
+        const unsigned&,      // material tag
+        const double& = 1.,   // thickness
+        const bool& = false,  // reduced integration
+        const bool& = false); // nonlinear geometry switch
 
     void initialize(const shared_ptr<Domain>&) override;
 

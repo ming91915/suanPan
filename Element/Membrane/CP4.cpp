@@ -50,46 +50,21 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         auto tmp_density = I->m_material->getParameter();
         if(tmp_density != 0.) {
             tmp_density *= I->jacob_det * I->weight * thickness;
-            mass(0, 0) += tmp_density * n_int(0) * n_int(0);
-            mass(0, 2) += tmp_density * n_int(0) * n_int(1);
-            mass(0, 4) += tmp_density * n_int(0) * n_int(2);
-            mass(0, 6) += tmp_density * n_int(0) * n_int(3);
-
-            mass(2, 2) += tmp_density * n_int(1) * n_int(1);
-            mass(2, 4) += tmp_density * n_int(1) * n_int(2);
-            mass(2, 6) += tmp_density * n_int(1) * n_int(3);
-
-            mass(4, 4) += tmp_density * n_int(2) * n_int(2);
-            mass(4, 6) += tmp_density * n_int(2) * n_int(3);
-
-            mass(6, 6) += tmp_density * n_int(3) * n_int(3);
+            for(auto J = 0; J < 4; ++J)
+                for(auto K = J; K < 4; ++K)
+                    mass(2 * J, 2 * K) += tmp_density * n_int(J) * n_int(K);
         }
     }
 
-    if(mass(0, 0) != 0.) {
-        mass(1, 1) = mass(0, 0);
-        mass(1, 3) = mass(0, 2);
-        mass(1, 5) = mass(0, 4);
-        mass(1, 7) = mass(0, 6);
-        mass(3, 3) = mass(2, 2);
-        mass(3, 5) = mass(2, 4);
-        mass(3, 7) = mass(2, 6);
-        mass(5, 5) = mass(4, 4);
-        mass(5, 7) = mass(4, 6);
-        mass(7, 7) = mass(6, 6);
-        mass(3, 1) = mass(0, 2);
-        mass(5, 1) = mass(0, 4);
-        mass(7, 1) = mass(0, 6);
-        mass(5, 3) = mass(2, 4);
-        mass(7, 3) = mass(2, 6);
-        mass(7, 5) = mass(4, 6);
-        mass(2, 0) = mass(0, 2);
-        mass(4, 0) = mass(0, 4);
-        mass(6, 0) = mass(0, 6);
-        mass(4, 2) = mass(2, 4);
-        mass(6, 2) = mass(2, 6);
-        mass(6, 4) = mass(4, 6);
-    }
+    if(mass(0, 0) != 0.)
+        for(auto I = 0; I < 8; I += 2) {
+            mass(I + 1, I + 1) = mass(I, I);
+            for(auto J = I + 2; J < 8; J += 2) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
+            }
+        }
 }
 
 int CP4::updateStatus()

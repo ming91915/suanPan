@@ -162,6 +162,9 @@
 #ifndef ET_GQ12
 #define ET_GQ12 2004
 #endif
+#ifndef ET_CP3
+#define ET_CP3 2005
+#endif
 
 #if defined(__cplusplus)
 #endif

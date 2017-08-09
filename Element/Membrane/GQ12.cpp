@@ -7,6 +7,7 @@ const unsigned GQ12::m_dof = 3;
 
 GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     : Element(T, ET_GQ12, m_node, m_dof, N, uvec({ M }), false)
+    , thickness(TH)
 {
 }
 

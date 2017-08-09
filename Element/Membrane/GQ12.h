@@ -34,7 +34,7 @@ class GQ12 : public Element
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness = 1.;
+    double thickness;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

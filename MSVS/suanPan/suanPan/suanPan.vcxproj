@@ -168,6 +168,7 @@
     <ClCompile Include="..\..\..\Domain\Workroom.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
+    <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\GQ12.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
