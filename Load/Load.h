@@ -1,0 +1,39 @@
+/**
+ * @class Load
+ * @brief A Load class.
+ *
+ * The Load class is in charge of returning load level according to given time increment.
+ *
+ * @author T
+ * @date 03/07/2017
+ * @file Load.h
+ */
+
+#ifndef LOAD_H
+#define LOAD_H
+
+#include <Domain/Tag.h>
+
+class Amplitude;
+class Domain;
+
+class Load : public Tag
+{
+protected:
+    unsigned step_tag = 0;
+
+    shared_ptr<Amplitude> magnitude;
+
+public:
+    explicit Load(const unsigned& = 0,
+        const unsigned& = CT_LOAD,
+        const unsigned& = 0,
+        const shared_ptr<Amplitude>& = nullptr);
+    virtual ~Load();
+
+    virtual int process(const shared_ptr<Domain>&) = 0;
+
+    const unsigned& getStepTag() const;
+};
+
+#endif

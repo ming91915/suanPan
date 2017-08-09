@@ -1,0 +1,61 @@
+/**
+* @class Elastic2D
+* @brief The Elastic2D class defines a isotropic elastic material for plane stress and
+* plane strain problems.
+*
+* The Young's modulus is stored in `elastic_modulus`. The Poisson's ratio is stored in
+* `poissons_ratio`. The `material_type` labels if it is plane stress or plane strain. The
+* default value `0` represents plane stress. Initializing the object with a nonzero value
+* gives a plane strain type response.
+*
+* @author T
+* @date 29/07/2017
+* @version 0.1.1
+* @file Elastic2D.h
+* @addtogroup Material-2D
+* @ingroup Material
+* @{
+*/
+
+#ifndef ELASTIC2D_H
+#define ELASTIC2D_H
+
+#include <Material/Material.h>
+
+class Elastic2D : public Material
+{
+    double elastic_modulus = 2E5; /**< elastic modulus */
+    double poissons_ratio = .2;
+
+    unsigned material_type = 0;
+
+public:
+    explicit Elastic2D(const unsigned& = 0,
+        const double& = 2E5,
+        const double& = .2,
+        const double& = 0,
+        const unsigned& = 0);
+    explicit Elastic2D(const double&,
+        const double& = .2,
+        const double& = 0,
+        const unsigned& = 0);
+    ~Elastic2D();
+
+    void initialize() override;
+
+    unique_ptr<Material> getCopy() override;
+
+    int updateTrialStatus(const vec&) override;
+
+    int clearStatus() override;
+    int commitStatus() override;
+    int resetStatus() override;
+
+    void print() override;
+
+    double getParameter(const unsigned& = 0) const override;
+};
+
+#endif
+
+//! @}

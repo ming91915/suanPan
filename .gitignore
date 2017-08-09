@@ -13,6 +13,13 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+/MSVS/Release/*
+/MSVS/suanPan/suanPan/x64/*
+/MSVS/suanPan/.vs/*
+/Document/*
+/.idea/*
+/cmake-build-debug/*
+/cmake-build-release/*
 
 # Windows shortcuts
 *.lnk

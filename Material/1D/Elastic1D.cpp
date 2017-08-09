@@ -1,0 +1,75 @@
+#include "Elastic1D.h"
+
+Elastic1D::Elastic1D(const unsigned& T, const double& E, const double& R)
+    : Material(T, MT_ELASTIC1D)
+    , elastic_modulus(E)
+{
+    density = R;
+    Elastic1D::initialize();
+}
+
+Elastic1D::Elastic1D(const double& E, const double& R)
+    : Material(0, MT_ELASTIC1D)
+    , elastic_modulus(E)
+{
+    density = R;
+    Elastic1D::initialize();
+}
+
+void Elastic1D::initialize()
+{
+    current_strain.zeros(1);
+    current_stress.zeros(1);
+    trial_strain.zeros(1);
+    trial_stress.zeros(1);
+    // incre_strain.zeros(1);
+    // incre_stress.zeros(1);
+
+    initial_stiffness = { elastic_modulus };
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
+}
+
+unique_ptr<Material> Elastic1D::getCopy() { return make_unique<Elastic1D>(*this); }
+
+int Elastic1D::updateTrialStatus(const vec& t_strain)
+{
+    trial_strain = t_strain;
+    trial_stress = elastic_modulus * trial_strain;
+    // incre_strain = trial_strain - current_strain;
+    // incre_stress = trial_stress - current_stress;
+    return 0;
+}
+
+int Elastic1D::clearStatus()
+{
+    current_strain.zeros(1);
+    current_stress.zeros(1);
+    trial_strain.zeros(1);
+    trial_stress.zeros(1);
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
+    return 0;
+}
+
+int Elastic1D::commitStatus()
+{
+    current_strain = trial_strain;
+    current_stress = trial_stress;
+    // current_stiffness = trial_stiffness;
+    return 0;
+}
+
+int Elastic1D::resetStatus()
+{
+    trial_strain = current_strain;
+    trial_stress = current_stress;
+    // trial_stiffness = current_stiffness;
+    return 0;
+}
+
+void Elastic1D::print()
+{
+    printf("A 1-D Elastic Material %u.\n", getTag());
+    printf("Young's Modulus:\t%.4E.\n\n", elastic_modulus);
+}

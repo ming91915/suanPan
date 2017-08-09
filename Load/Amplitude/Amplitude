@@ -1,0 +1,4 @@
+#include "Amplitude.h"
+
+#include "Ramp.h"
+#include "Tabular.h"
