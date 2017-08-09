@@ -186,9 +186,6 @@
     <ClCompile Include="..\..\..\Step\Step.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\suanPan_Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -203,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\suanPan_Main.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

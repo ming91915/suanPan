@@ -5,7 +5,7 @@ void argumentParser(int argc, char** argv)
 {
     printf("+------------------------------------------------------------+\n");
     printf("|                                                            |\n");
-    printf("|    suanPan --- An Open Source FEM Platform                 |\n");
+    printf("|    suanPan --- An Open Source FEM Framework (%u-bit)       |\n", __ARCH__);
     printf("|                                                            |\n");
     printf("|                                           Acrux (0.1.0)    |\n");
     printf("|                                                            |\n");

@@ -7,4 +7,4 @@ void create_new_element(const shared_ptr<Domain>& D, const char* C)
     if(!input_file.is_open()) return;
 
     string command_line;
-};
+}

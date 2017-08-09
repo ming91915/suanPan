@@ -1,8 +1,12 @@
+#ifndef TESTFUNCTIONS_H
+#define TESTFUNCTIONS_H
+
 void example_ODE()
 {
     DP45 E(make_shared<ODE_INSTANCE>(), make_shared<RelError>());
     E.initialize();
-    E.getWorkroom()->current_displacement(0) = 1;
+    auto& D = getCurrentDisplacement(E.getWorkroom());
+    D(0) = 1;
     E.analyze(1);
     E.getWorkroom()->getTrialDisplacement().print();
 }
@@ -11,12 +15,11 @@ void example_Newmark()
 {
     auto B = make_shared<Workroom>(3, SUANPAN_DYNAMICS);
     B->initialize();
-    auto M = speye(3, 3);
+    mat M = eye(3, 3);
     M(1, 1) = 3;
     B->updateMass(M);
     mat K = { { 2, -1, 0 }, { -1, 4, -2 }, { 0, -2, 2 } };
-    sp_mat KK(K);
-    B->updateStiffness(KK);
+    B->updateStiffness(K);
     B->updateCurrentAcceleration({ 0, 0, 6 });
     B->updateTrialLoad({ 0, 0, 6 });
     auto W = make_shared<Domain>();
@@ -519,7 +522,7 @@ void example_CP4()
             2));
 
     Newton S(D, make_shared<AbsResidual>(1E-4));
-    S.setStepSize(.0001, 0, 1);
+    S.setStepSize(.01, 0, 1);
     S.enable_symm();
     S.enable_band();
     S.initialize();
@@ -528,3 +531,5 @@ void example_CP4()
     cout << "\n";
     D->getNode(7)->getCurrentDisplacement().print();
 }
+
+#endif
