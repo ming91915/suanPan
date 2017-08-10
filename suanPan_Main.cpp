@@ -1,6 +1,5 @@
 #include <suanPan>
 
-void example_temp();
 void example_symm_mat();
 
 int main(int argc, char** argv)
@@ -11,28 +10,10 @@ int main(int argc, char** argv)
     T.tic();
 
     example_symm_mat();
-
+	
     cout << endl << T.toc() << endl;
 
     return 0;
-}
-
-void example_temp()
-{
-    auto D = make_shared<Domain>();
-    D->insert(make_shared<Elastic2D>(static_cast<unsigned>(1), 2E4, 0.2));
-    D->insert(make_shared<Node>(1, vec({ 0, 0 })));
-    D->insert(make_shared<Node>(2, vec({ 1, 0 })));
-    D->insert(make_shared<Node>(3, vec({ 1, 1 })));
-    D->insert(make_shared<Node>(4, vec({ 0, 1 })));
-    D->insert(make_shared<GQ12>(1, uvec({ 1, 2, 3, 4 }), 1, 1));
-    D->insert(make_shared<BC>(1, 0, uvec({ 1, 4 }), "p"));
-    D->insert(make_shared<CLoad>(1, 0, 20000, uvec({ 2, 3 }), 1));
-    Newton S(D, make_shared<AbsResidual>(1E-4));
-    S.initialize();
-    S.analyze(1);
-    cout << "\n";
-    D->getNode(2)->getCurrentDisplacement().print();
 }
 
 void example_symm_mat()

@@ -16,5 +16,8 @@
 #ifndef MT_BILINEAR3D
 #define MT_BILINEAR3D 1004
 #endif
+#ifndef MT_MPF
+#define MT_MPF 1005
+#endif
 
 #endif

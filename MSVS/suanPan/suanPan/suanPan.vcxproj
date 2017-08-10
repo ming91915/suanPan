@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\..\Load\RCM.cpp" />
     <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp" />
     <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp" />
+    <ClCompile Include="..\..\..\Material\1D\MPF.cpp" />
     <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp" />
     <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp" />
     <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp" />
@@ -216,6 +217,7 @@
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Material\1D\MPF.h" />
     <ClInclude Include="..\..\..\suanPan.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
