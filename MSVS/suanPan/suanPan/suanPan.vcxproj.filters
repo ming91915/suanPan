@@ -15,6 +15,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\suanPan_Main.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\Constraint\BC\BC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,6 +75,9 @@
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,10 +90,13 @@
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Element\Section.cpp">
+    <ClCompile Include="..\..\..\Element\Section\Section.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
@@ -124,6 +133,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Material\Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
@@ -196,15 +208,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\suanPan_Main.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,6 +14,7 @@
 #define PS_H
 
 #include <Element/Element.h>
+#include <array>
 
 #ifndef PLANE_STRESS
 #define PLANE_STRESS 0
@@ -22,7 +23,9 @@
 #define PLANE_STRAIN 1
 #endif
 
-class PS : public Element
+using std::array;
+
+class PS final : public Element
 {
     struct IntegrationPoint {
         vec coor;

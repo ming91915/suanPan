@@ -11,6 +11,8 @@
 #define STORAGE_H
 
 #include <suanPan.h>
+#include <unordered_map>
+using std::unordered_map;
 
 template <typename T> class Storage
 {

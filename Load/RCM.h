@@ -19,6 +19,9 @@
 #define RCM_H
 
 #include <suanPan.h>
+#include <vector>
+
+using std::vector;
 
 template <typename T> uvec RCM(const T&);
 

@@ -11,6 +11,9 @@
 #define DOMAIN_H
 
 #include "Tag.h"
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
 class BC;
 class Constraint;
@@ -19,6 +22,12 @@ class Load;
 class Material;
 class Node;
 class Workroom;
+
+using std::unordered_map;
+using std::unordered_set;
+using std::vector;
+
+using std::enable_shared_from_this;
 
 class Domain : public Tag, public enable_shared_from_this<Domain>
 {

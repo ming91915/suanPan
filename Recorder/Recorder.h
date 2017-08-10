@@ -11,6 +11,9 @@
 #define RECORDER_H
 
 #include <Domain/Tag.h>
+#include <vector>
+
+using std::vector;
 
 class Recorder : public Tag
 {
