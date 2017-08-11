@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     T.tic();
 
     example_symm_mat();
-	
+
     cout << endl << T.toc() << endl;
 
     return 0;

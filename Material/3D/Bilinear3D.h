@@ -27,14 +27,14 @@ class Bilinear3D : public Material
     const double hardening_ratio; /**< hardening ratio */
     const double beta;            /**< isotropic/kinematic hardening factor */
 
-    double tolerance;
+    const double tolerance;
 
-    double shear_modulus;       /**< shear modulus */
-    double double_shear;        /**< double shear modulus */
-    double square_double_shear; /**< double shear modulus */
-    double plastic_modulus;     /**< plastic modulus */
+    const double shear_modulus;       /**< shear modulus */
+    const double double_shear;        /**< double shear modulus */
+    const double square_double_shear; /**< double shear modulus */
+    const double plastic_modulus;     /**< plastic modulus */
 
-    double factor;
+    const double factor;
 
     double current_plastic_strain;
     double trial_plastic_strain;
@@ -45,12 +45,6 @@ class Bilinear3D : public Material
 public:
     explicit Bilinear3D(const unsigned& = 0, /**< tag */
         const double& = 2E5,                 /**< elastic modulus */
-        const double& = 0.,                  /**< poisson's ratio */
-        const double& = 0.,                  /**< initial yield stress */
-        const double& = 0.,                  /**< hardening ratio */
-        const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const double& = 0.);                 /**< density */
-    explicit Bilinear3D(const double&,       /**< elastic modulus */
         const double& = 0.,                  /**< poisson's ratio */
         const double& = 0.,                  /**< initial yield stress */
         const double& = 0.,                  /**< hardening ratio */

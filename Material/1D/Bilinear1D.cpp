@@ -12,6 +12,8 @@ Bilinear1D::Bilinear1D(const unsigned& T,
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
+    , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
+    , tolerance(1E-10 * yield_stress)
 {
     density = R;
     Bilinear1D::initialize();
@@ -27,6 +29,8 @@ Bilinear1D::Bilinear1D(const double& E,
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
+    , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
+    , tolerance(1E-10 * yield_stress)
 {
     density = R;
     Bilinear1D::initialize();
@@ -34,10 +38,6 @@ Bilinear1D::Bilinear1D(const double& E,
 
 void Bilinear1D::initialize()
 {
-    tolerance = 1E-10 * yield_stress;
-
-    plastic_modulus = elastic_modulus * hardening_ratio / (1. - hardening_ratio);
-
     current_strain.zeros(1);
     current_stress.zeros(1);
 

@@ -17,13 +17,13 @@
 
 class Bilinear1D : public Material
 {
-    double elastic_modulus; /**< elastic modulus */
-    double yield_stress;    /**< initial yield stress */
-    double hardening_ratio; /**< hardening ratio */
-    double beta;            /**< isotropic/kinematic hardening factor */
-    double plastic_modulus; /**< plastic modulus */
+    const double elastic_modulus; /**< elastic modulus */
+    const double yield_stress;    /**< initial yield stress */
+    const double hardening_ratio; /**< hardening ratio */
+    const double beta;            /**< isotropic/kinematic hardening factor */
+    const double plastic_modulus; /**< plastic modulus */
 
-    double tolerance;
+    const double tolerance;
 
     double current_back_stress = 0.;
     double current_plastic_strain = 0.;

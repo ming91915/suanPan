@@ -17,23 +17,12 @@ Bilinear3D::Bilinear3D(const unsigned& T,
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
-{
-    density = R;
-    Bilinear3D::initialize();
-}
-
-Bilinear3D::Bilinear3D(const double& E,
-    const double& V,
-    const double& Y,
-    const double& H,
-    const double& B,
-    const double& R)
-    : Material(0, MT_BILINEAR3D)
-    , elastic_modulus(E)
-    , poissons_ratio(V)
-    , yield_stress(Y)
-    , hardening_ratio(H)
-    , beta(B)
+    , tolerance(1E-10 * yield_stress)
+    , shear_modulus(elastic_modulus / (2. + 2. * poissons_ratio))
+    , double_shear(2. * shear_modulus)
+    , square_double_shear(double_shear * double_shear)
+    , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
+    , factor(2. / 3. * plastic_modulus)
 {
     density = R;
     Bilinear3D::initialize();
@@ -41,16 +30,6 @@ Bilinear3D::Bilinear3D(const double& E,
 
 void Bilinear3D::initialize()
 {
-    tolerance = 1E-10 * yield_stress;
-
-    shear_modulus = elastic_modulus / (2. + 2. * poissons_ratio);
-    double_shear = 2. * shear_modulus;
-    square_double_shear = double_shear * double_shear;
-
-    plastic_modulus = elastic_modulus * hardening_ratio / (1. - hardening_ratio);
-
-    factor = 2. / 3. * plastic_modulus;
-
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);

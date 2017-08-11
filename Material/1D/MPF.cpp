@@ -93,11 +93,12 @@ int MPF::updateTrialStatus(const vec& t_strain)
         load_sign = trial_load_sign;
     }
 
-    auto XI =
-        reverse_strain != 0. ? abs(reverse_strain - pre_inter_strain) / yield_strain : 0.;
-
     auto R = R0;
-    if(!constant_radius) R -= A1 * XI / (A2 + XI);
+
+    if(!constant_radius && reverse_strain != 0.) {
+        auto XI = abs(reverse_strain - pre_inter_strain) / yield_strain;
+        R -= A1 * XI / (A2 + XI);
+    }
 
     auto normal_strain =
         (trial_strain(0) - reverse_strain) / (inter_strain - reverse_strain);

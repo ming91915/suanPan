@@ -24,8 +24,8 @@
 
 class Elastic2D : public Material
 {
-    double elastic_modulus = 2E5; /**< elastic modulus */
-    double poissons_ratio = .2;
+    const double elastic_modulus; // elastic modulus
+    const double poissons_ratio;  // poissons ratio
 
     unsigned material_type = 0;
 

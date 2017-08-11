@@ -17,15 +17,15 @@
 
 class MPF final : public Material
 {
-    const double elastic_modulus;
-    const double yield_stress;
-    const double hardening_ratio;
-    const double R0, A1, A2, A3, A4;
+    const double elastic_modulus;    // elastic modulus
+    const double yield_stress;       // yield stress
+    const double hardening_ratio;    // hardening ratio
+    const double R0, A1, A2, A3, A4; // model parameters
 
-    const bool isotropic_hardening;
-    const bool constant_radius;
+    const bool isotropic_hardening; // isotropic hardening switch
+    const bool constant_radius;     // constant radius switch
 
-    const double yield_strain;
+    const double yield_strain; // yield strain
 
 public:
     explicit MPF(const unsigned& = 0, // tag
@@ -46,13 +46,10 @@ public:
     unique_ptr<Material> getCopy() override;
 
     int updateIncreStatus(const vec&) override;
-
     int updateTrialStatus(const vec&) override;
 
     int clearStatus() override;
-
     int commitStatus() override;
-
     int resetStatus() override;
 };
 
