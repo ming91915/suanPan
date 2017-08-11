@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Base">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="1D">
+      <UniqueIdentifier>{d0255a2f-49fe-4e18-ac88-2e804b10730b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2D">
+      <UniqueIdentifier>{c788e7e3-f70e-4c07-8486-4a6c86010cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3D">
+      <UniqueIdentifier>{af05f7dd-291f-47a1-85c8-9cdc30cf3b59}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Material\Material.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\Concrete01.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\MPF.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\RambergOsgood.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp">
+      <Filter>3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp">
+      <Filter>3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

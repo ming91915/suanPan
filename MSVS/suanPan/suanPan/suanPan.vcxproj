@@ -103,12 +103,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../;../../../Include/armadillo;../../../Include/hdf5-msvc;../../../Include/hdf5-common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../;../../../Include/armadillo/;../../../Include/hdf5-common/;../../../Include/hdf5-msvc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>../../../Libs/msvc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Material.lib;superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../;../../../Include/armadillo;../../../Include/hdf5-msvc;../../../Include/hdf5-common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../;../../../Include/armadillo/;../../../Include/hdf5-common/;../../../Include/hdf5-msvc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -144,8 +144,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../../../Libs/msvc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Material.lib;Element.lib;superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -166,15 +166,6 @@
     <ClCompile Include="..\..\..\Domain\Storage.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Domain\Workroom.cpp" />
-    <ClCompile Include="..\..\..\Element\Element.cpp" />
-    <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
-    <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
-    <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp" />
-    <ClCompile Include="..\..\..\Element\Membrane\GQ12.cpp" />
-    <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
-    <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
-    <ClCompile Include="..\..\..\Element\Section\Section.cpp" />
-    <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
     <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
@@ -182,14 +173,6 @@
     <ClCompile Include="..\..\..\Load\CLoad.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
     <ClCompile Include="..\..\..\Load\RCM.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\MPF.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp" />
-    <ClCompile Include="..\..\..\Material\Material.cpp" />
-    <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
     <ClCompile Include="..\..\..\Solver\CentralDifference.cpp" />
@@ -218,7 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\1D\MPF.h" />
+    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h" />
     <ClInclude Include="..\..\..\suanPan.h" />
+    <ClInclude Include="..\..\..\Toolbox\ClassTag.h" />
+    <ClInclude Include="..\..\..\Toolbox\ElementTag.h" />
+    <ClInclude Include="..\..\..\Toolbox\MaterialTag.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -38,8 +38,9 @@ void MPF::initialize()
     current_stress.zeros(1);
     trial_stress.zeros(1);
 
-    current_stiffness.zeros(1, 1);
-    trial_stiffness.zeros(1, 1);
+    initial_stiffness = { elastic_modulus };
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
 
     current_history.zeros(7);
     trial_history.zeros(7);

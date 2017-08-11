@@ -24,6 +24,21 @@ Elastic2D::Elastic2D(const double& E,
     , material_type(TP)
 {
     density = R;
+
+    auto EE = material_type == 0 ?
+        elastic_modulus :
+        elastic_modulus / (1 - poissons_ratio * poissons_ratio);
+
+    auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
+
+    initial_stiffness.zeros(3, 3);
+    initial_stiffness(0, 0) = 1;
+    initial_stiffness(1, 1) = 1;
+    initial_stiffness(2, 2) = (1. - VV) / 2.;
+    initial_stiffness(0, 1) = VV;
+    initial_stiffness(1, 0) = VV;
+    initial_stiffness *= EE / (1. - VV * VV);
+
     Elastic2D::initialize();
 }
 
@@ -35,21 +50,6 @@ void Elastic2D::initialize()
     current_stress.zeros(3);
     trial_strain.zeros(3);
     trial_stress.zeros(3);
-    // incre_strain.zeros(3);
-    // incre_stress.zeros(3);
-
-    auto E = material_type == 0 ? elastic_modulus :
-                                  elastic_modulus / (1 - poissons_ratio * poissons_ratio);
-
-    auto V = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
-
-    initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1;
-    initial_stiffness(1, 1) = 1;
-    initial_stiffness(2, 2) = (1. - V) / 2.;
-    initial_stiffness(0, 1) = V;
-    initial_stiffness(1, 0) = V;
-    initial_stiffness *= E / (1. - V * V);
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -68,12 +68,7 @@ int Elastic2D::updateTrialStatus(const vec& t_strain)
 
 int Elastic2D::clearStatus()
 {
-    current_strain.zeros(3);
-    current_stress.zeros(3);
-    trial_strain.zeros(3);
-    trial_stress.zeros(3);
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    initialize();
     return 0;
 }
 

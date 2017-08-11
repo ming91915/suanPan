@@ -25,6 +25,18 @@ Bilinear3D::Bilinear3D(const unsigned& T,
     , factor(2. / 3. * plastic_modulus)
 {
     density = R;
+
+    auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
+
+    initial_stiffness.zeros(6, 6);
+
+    for(auto I = 0; I < 3; ++I)
+        for(auto J = 0; J < 3; ++J) initial_stiffness(I, J) = lambda;
+
+    for(auto I = 0; I < 3; ++I) initial_stiffness(I, I) += double_shear;
+
+    for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
+
     Bilinear3D::initialize();
 }
 
@@ -40,17 +52,6 @@ void Bilinear3D::initialize()
 
     current_plastic_strain = 0.;
     trial_plastic_strain = 0.;
-
-    auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
-
-    initial_stiffness.zeros(6, 6);
-
-    for(auto I = 0; I < 3; ++I)
-        for(auto J = 0; J < 3; ++J) initial_stiffness(I, J) = lambda;
-
-    for(auto I = 0; I < 3; ++I) initial_stiffness(I, I) += double_shear;
-
-    for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -95,21 +96,7 @@ int Bilinear3D::updateTrialStatus(const vec& t_strain)
 
 int Bilinear3D::clearStatus()
 {
-    current_strain.zeros(6);
-    trial_strain.zeros(6);
-
-    current_stress.zeros(6);
-    trial_stress.zeros(6);
-
-    current_back_stress.zeros(6);
-    trial_back_stress.zeros(6);
-
-    current_plastic_strain = 0.;
-    trial_plastic_strain = 0.;
-
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
-
+    initialize();
     return 0;
 }
 

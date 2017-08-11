@@ -1,6 +1,7 @@
 #include <suanPan>
 
 void example_symm_mat();
+void example_RO();
 
 int main(int argc, char** argv)
 {
@@ -9,11 +10,41 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-    example_symm_mat();
+    example_RO();
 
     cout << endl << T.toc() << endl;
 
     return 0;
+}
+
+void example_RO()
+{
+    RambergOsgood A;
+    vector<double> B, C;
+    for(auto I = 0; I < 30; ++I) {
+        A.updateIncreStatus({ 0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+    for(auto I = 0; I < 50; ++I) {
+        A.updateIncreStatus({ -0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+    for(auto I = 0; I < 50; ++I) {
+        A.updateIncreStatus({ 0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+
+    mat D(B.size(), 2);
+    D.col(0) = vec(B);
+    D.col(1) = vec(C);
+
+    D.save("D", raw_ascii);
 }
 
 void example_symm_mat()

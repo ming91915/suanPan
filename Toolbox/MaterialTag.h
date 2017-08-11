@@ -19,5 +19,11 @@
 #ifndef MT_MPF
 #define MT_MPF 1005
 #endif
+#ifndef MT_CONCRETE01
+#define MT_CONCRETE01 1006
+#endif
+#ifndef MT_RAMBERGOSGOOD
+#define MT_RAMBERGOSGOOD 1007
+#endif
 
 #endif
