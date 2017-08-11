@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-    example_RO();
+	example_symm_mat();
 
     cout << endl << T.toc() << endl;
 
