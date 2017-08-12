@@ -107,8 +107,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Material.lib;superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../$(Configuration)/Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Material.lib;Element.lib;superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -144,7 +144,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../Libs/msvc/;../../$(Configuration)/Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Material.lib;Element.lib;superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -166,7 +166,6 @@
     <ClCompile Include="..\..\..\Domain\Storage.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Domain\Workroom.cpp" />
-    <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp" />
@@ -195,13 +194,12 @@
     <ClCompile Include="..\..\..\suanPan_Main.cpp" />
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\elementParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Material\1D\MPF.h" />
-    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h" />
     <ClInclude Include="..\..\..\suanPan.h" />
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h" />
     <ClInclude Include="..\..\..\Toolbox\ElementTag.h" />

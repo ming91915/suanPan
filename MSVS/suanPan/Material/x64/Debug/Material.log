@@ -1,12 +1,1 @@
-﻿  MaterialTemplate.cpp
-  Material.cpp
-  Elastic3D.cpp
-  Bilinear3D.cpp
-  Elastic2D.cpp
-  RambergOsgood.cpp
-  MPF.cpp
-  Elastic1D.cpp
-  Concrete01.cpp
-  Bilinear1D.cpp
-  Generating Code...
-  Material.vcxproj -> C:\Users\T\Documents\GitHub\suanPan\MSVS\suanPan\Material\../../Libs/Material.lib
+﻿  Material.vcxproj -> C:\Users\T\Documents\GitHub\suanPan\MSVS\suanPan\Material\../../Debug/Libs/Material.lib

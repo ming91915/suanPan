@@ -1,4 +1,6 @@
 #include "argumentParser.h"
+#include "commandParser.h"
+#include <Domain/Domain.h>
 #include <suanPan.h>
 
 void argumentParser(int argc, char** argv)
@@ -19,7 +21,8 @@ void argumentParser(int argc, char** argv)
             printf("Version: Acrux 0.1.0.\n");
             printf("Date: 29/07/2017.\n");
         } else if(_strcmpi(argv[I], "-f") == 0) {
-            printf("Read File.\n");
+            auto domain = make_shared<Domain>();
+            process_file(domain, argv[++I]);
         }
     }
 };

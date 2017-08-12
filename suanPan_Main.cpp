@@ -1,3 +1,4 @@
+#include <Toolbox/commandParser.h>
 #include <suanPan>
 
 void example_symm_mat();
@@ -10,7 +11,24 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-	example_symm_mat();
+    auto D = make_shared<Domain>();
+    D->insert(make_shared<Elastic2D>(static_cast<unsigned>(1), 1, 1. / 3.));
+    process_file(D, "W.tcl");
+
+    cout << "The model has " << D->getNumberNode() << " nodes.\n";
+    cout << "The model has " << D->getNumberElement() << " elements.\n";
+
+    Newton S(D, make_shared<AbsResidual>(1E-4));
+    S.enable_band();
+    S.enable_symm();
+    S.setStepSize(.1, 0, 1);
+    S.initialize();
+
+    auto INFO = S.analyze(1);
+    if(INFO != 0) cout << INFO << endl;
+
+    cout << "\n";
+    D->getNode(1326)->getCurrentDisplacement().print();
 
     cout << endl << T.toc() << endl;
 

@@ -429,4 +429,9 @@ void Node::updateIncreStatus(const vec& D, const vec& V, const vec& A)
 /**
  * \brief Method to print basic information.
  */
-void Node::print() { printf("A Node object with tag %u.\n", getTag()); }
+void Node::print()
+{
+    printf("Node %u:\n", getTag());
+    coordinate.print();
+    printf("\n");
+}

@@ -32,6 +32,7 @@ void Solver::initialize()
         tmp_workroom->enable_band();
     else
         tmp_workroom->disable_band();
+
     if(symm_mat)
         tmp_workroom->enable_symm();
     else

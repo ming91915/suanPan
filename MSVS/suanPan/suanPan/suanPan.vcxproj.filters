@@ -5,18 +5,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
+    <Filter Include="Convergence">
+      <UniqueIdentifier>{2e459f7e-dd55-4cd7-849b-d01cf9fd6550}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Solver">
+      <UniqueIdentifier>{038d868d-f52f-415f-8ecd-4b018ba46aed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
+    <Filter Include="Main">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
-      <Filter>Resource Files</Filter>
+      <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\BC\BC.cpp">
       <Filter>Source Files</Filter>
@@ -28,30 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\Tie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsDisp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsError.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsIncreDisp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsResidual.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\Convergence.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelDisp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelError.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelIncreDisp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Domain.cpp">
@@ -67,9 +49,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Workroom.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Include\armadillo\wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
@@ -91,45 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\BFGS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\CentralDifference.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Newmark.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Newton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\BS23.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\DP45.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE_Solver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK23.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK45.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Ramm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Solver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\User_Function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Analysis.cpp">
@@ -162,25 +102,85 @@
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\AbsResidual.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\AbsIncreDisp.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\AbsError.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\AbsDisp.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\RelIncreDisp.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\RelError.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\RelDisp.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Convergence\Convergence.cpp">
+      <Filter>Convergence</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK45.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK23.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\BS23.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\DP45.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE_Solver.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Newton.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Newmark.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\BFGS.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\CentralDifference.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Solver.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Ramm.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\User_Function.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\elementParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\MPF.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\MaterialTag.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\ElementTag.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

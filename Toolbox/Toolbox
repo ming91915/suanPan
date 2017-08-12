@@ -1,6 +1,8 @@
 #include "integrationPlan.h"
 #include "shapeFunctionQuad.h"
 #include "argumentParser.h"
+#include "commandParser.h"
+#include "elementParser.h"
 #include "tensorToolbox.h"
 #include "SymmMat_bones.hpp"
 #include "SymmMat_meat.hpp"
