@@ -41,7 +41,7 @@ void Domain::initialize()
         }
 
         // ADJACENCY MATRIX
-        umat tmp_mat(dof_idx, dof_idx, fill::zeros);
+        sp_umat tmp_mat(dof_idx, dof_idx);
 
         // LABEL ADJACENCY
         for(const auto& I : element_pool)
@@ -76,18 +76,17 @@ void Domain::initialize()
             factory->setNumberDOF(dof_idx);
 
         // FIND BANDWIDTH
-        umat N = tmp_mat(idx_rcm, idx_rcm);
         unsigned L = 1, U = 1;
         for(unsigned I = 0; I < dof_idx; ++I) {
             auto TL = I, TU = I;
 
             for(auto J = I + 1; J < dof_idx; ++J)
-                if(N(J, I) != 0) TL = J;
+                if(tmp_mat(idx_rcm(J), idx_rcm(I)) != 0) TL = J;
             auto TTL = TL - I;
             if(TTL > L) L = TTL;
 
             for(auto J = static_cast<int>(I) - 1; J >= 0; --J)
-                if(N(J, I) != 0) TU = J;
+                if(tmp_mat(idx_rcm(J), idx_rcm(I)) != 0) TU = J;
             auto TTU = I - TU;
             if(TTU > U) U = TTU;
         }
