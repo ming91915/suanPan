@@ -40,34 +40,39 @@ void Domain::initialize()
             I.second->setOriginalDOF(dof_idx);
         }
 
+        tmp_node_pool.clear();
+        for(const auto& I : node_pool)
+            if(I.second->getStatus()) tmp_node_pool.push_back(I.second);
+
+        tmp_element_pool.clear();
+        for(const auto& I : element_pool)
+            if(I.second->getStatus()) tmp_element_pool.push_back(I.second);
+
         // ADJACENCY MATRIX
         sp_umat tmp_mat(dof_idx, dof_idx);
 
         // LABEL ADJACENCY
-        for(const auto& I : element_pool)
-            if(I.second->getStatus()) {
-                I.second->updateEncodingDOF();
-                auto& J = I.second->getEncodingDOF();
-                for(const auto& K : J)
-                    for(const auto& L : J)
-                        if(tmp_mat(K, L) != 1) tmp_mat(K, L) = 1;
-            }
+        for(const auto& I : tmp_element_pool) {
+            I->updateEncodingDOF();
+            auto& J = I->getEncodingDOF();
+            for(const auto& K : J)
+                for(const auto& L : J)
+                    if(tmp_mat(K, L) != 1) tmp_mat(K, L) = 1;
+        }
 
         // RCM OPTIMIZATION
         auto idx_rcm = RCM(tmp_mat);
         uvec idx_sorted = sort_index(idx_rcm);
 
         // ASSIGN NEW LABELS TO ACTIVE NODES
-        for(const auto& I : node_pool)
-            if(I.second->getStatus())
-                I.second->setReorderDOF(idx_sorted(I.second->getOriginalDOF()));
+        for(const auto& I : tmp_node_pool)
+            I->setReorderDOF(idx_sorted(I->getOriginalDOF()));
 
         // INITIALIZE DERIVED ELEMENTS
-        for(const auto& I : element_pool)
-            if(I.second->getStatus()) {
-                I.second->initialize(shared_from_this());
-                I.second->updateEncodingDOF();
-            }
+        for(const auto& I : tmp_element_pool) {
+            I->initialize(shared_from_this());
+            I->updateEncodingDOF();
+        }
 
         //! TODO: FACTORY SHOULD BE INITIALIZED ACCORDING TO THE PROBLEM TYPE.
         if(factory == nullptr)
@@ -92,14 +97,6 @@ void Domain::initialize()
         }
 
         factory->setBandwidth(L, U);
-
-        tmp_node_pool.clear();
-        for(const auto& I : node_pool)
-            if(I.second->getStatus()) tmp_node_pool.push_back(I.second);
-
-        tmp_element_pool.clear();
-        for(const auto& I : element_pool)
-            if(I.second->getStatus()) tmp_element_pool.push_back(I.second);
     }
 }
 
@@ -319,44 +316,36 @@ unsigned Domain::getNumberNode() const { return static_cast<unsigned>(node_pool.
 void Domain::updateResistance() const
 {
     factory->clearResistance();
-    for(const auto& I : element_pool)
-        if(I.second->getStatus())
-            factory->assembleResistance(
-                I.second->getResistance(), I.second->getEncodingDOF());
+    for(const auto& I : tmp_element_pool)
+        factory->assembleResistance(I->getResistance(), I->getEncodingDOF());
 }
 
 void Domain::updateMass() const
 {
     factory->clearMass();
-    for(const auto& I : element_pool)
-        if(I.second->getStatus())
-            factory->assembleMass(I.second->getMass(), I.second->getEncodingDOF());
+    for(const auto& I : tmp_element_pool)
+        factory->assembleMass(I->getMass(), I->getEncodingDOF());
 }
 
 void Domain::updateInitialStiffness() const
 {
     factory->clearStiffness();
-    for(const auto& I : element_pool)
-        if(I.second->getStatus())
-            factory->assembleStiffness(
-                I.second->getInitialStiffness(), I.second->getEncodingDOF());
+    for(const auto& I : tmp_element_pool)
+        factory->assembleStiffness(I->getInitialStiffness(), I->getEncodingDOF());
 }
 
 void Domain::updateStiffness() const
 {
     factory->clearStiffness();
-    for(const auto& I : element_pool)
-        if(I.second->getStatus())
-            factory->assembleStiffness(
-                I.second->getStiffness(), I.second->getEncodingDOF());
+    for(const auto& I : tmp_element_pool)
+        factory->assembleStiffness(I->getStiffness(), I->getEncodingDOF());
 }
 
 void Domain::updateDamping() const
 {
     factory->clearDamping();
-    for(const auto& I : element_pool)
-        if(I.second->getStatus())
-            factory->assembleDamping(I.second->getDamping(), I.second->getEncodingDOF());
+    for(const auto& I : tmp_element_pool)
+        factory->assembleDamping(I->getDamping(), I->getEncodingDOF());
 }
 
 void Domain::updateTrialStatus() const

@@ -21,7 +21,7 @@ int main(int argc, char** argv)
     Newton S(D, make_shared<AbsResidual>(1E-4));
     S.enable_band();
     S.enable_symm();
-    S.setStepSize(.1, 0, 1);
+    S.setStepSize(.01, 0, 1);
     S.initialize();
 
     auto INFO = S.analyze(1);
