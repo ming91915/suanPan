@@ -15,8 +15,11 @@ $RECYCLE.BIN/
 *.msp
 /MSVS/Release/*
 /MSVS/Debug/*
+/MSVS/Libs/*
 /MSVS/suanPan/suanPan/x64/*
 /MSVS/suanPan/.vs/*
+/MSVS/suanPan/Element/x64/*
+/MSVS/suanPan/Material/x64/*
 /Document/*
 /.idea/*
 /cmake-build-debug/*
