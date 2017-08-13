@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Material", "Material\Materi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Element", "Element\Element.vcxproj", "{1811B701-0D47-4AE8-81AC-666F1CC678C4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ElementExample", "ElementExample\ElementExample.vcxproj", "{3763B48A-A715-4CA6-A768-BE3E071E2081}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -45,6 +47,14 @@ Global
 		{1811B701-0D47-4AE8-81AC-666F1CC678C4}.Release|x64.Build.0 = Release|x64
 		{1811B701-0D47-4AE8-81AC-666F1CC678C4}.Release|x86.ActiveCfg = Release|Win32
 		{1811B701-0D47-4AE8-81AC-666F1CC678C4}.Release|x86.Build.0 = Release|Win32
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Debug|x64.ActiveCfg = Debug|x64
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Debug|x64.Build.0 = Debug|x64
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Debug|x86.ActiveCfg = Debug|Win32
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Debug|x86.Build.0 = Debug|Win32
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x64.ActiveCfg = Release|x64
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x64.Build.0 = Release|x64
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x86.ActiveCfg = Release|Win32
+		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

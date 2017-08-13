@@ -18,16 +18,17 @@ ExternalModule::ExternalModule(const string& L, const string& M)
 
 bool ExternalModule::locate_module()
 {
-    ext_library = LoadLibrary(LPCWSTR(library_name.c_str()));
+    library_name += ".dll";
+    ext_library = LoadLibraryA(library_name.c_str());
     if(!ext_library) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), tolower);
-        ext_library = LoadLibrary(LPCWSTR(library_name.c_str()));
+        ext_library = LoadLibraryA(library_name.c_str());
     }
     if(!ext_library) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), toupper);
-        ext_library = LoadLibrary(LPCWSTR(library_name.c_str()));
+        ext_library = LoadLibraryA(library_name.c_str());
     }
     if(!ext_library) {
         printf("Cannot find the library with given name.\n");

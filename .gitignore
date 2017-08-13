@@ -20,6 +20,7 @@ $RECYCLE.BIN/
 /MSVS/suanPan/.vs/*
 /MSVS/suanPan/Element/x64/*
 /MSVS/suanPan/Material/x64/*
+/MSVS/suanPan/ElementExample/x64/*
 /Document/*
 /.idea/*
 /cmake-build-debug/*

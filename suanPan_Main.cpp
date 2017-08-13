@@ -30,7 +30,14 @@ int main(int argc, char** argv)
     // cout << "\n";
     // D->getNode(1326)->getCurrentDisplacement().print();
 
-    ExternalModule A("cPS4");
+    ExternalModule A("ElementExample");
+    A.locate_module();
+    unique_ptr<Element> new_elemnt = nullptr;
+    istringstream command("1 1 2 3 1 1");
+
+    A.new_object(new_elemnt, command);
+
+    new_elemnt->print();
 
     cout << endl << T.toc() << endl;
 
