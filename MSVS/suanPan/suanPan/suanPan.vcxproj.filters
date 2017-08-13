@@ -182,5 +182,161 @@
     <ClInclude Include="..\..\..\Toolbox\ElementTag.h">
       <Filter>Header</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\Recorder.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\BFGS.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\CentralDifference.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Newmark.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Newton.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_INSTANCE.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Ramm.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Solver.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\User_Function.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\BS23.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\DP45.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE_Solver.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\RK23.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\RK45.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Dynamic.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Frequence.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Static.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Step.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Analysis.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\testFunctions.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\argumentParser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\commandParser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\elementParser.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Node.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Storage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Tag.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Workroom.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Domain.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\AbsError.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\AbsIncreDisp.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\AbsResidual.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\Convergence.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\RelDisp.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\RelError.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\RelIncreDisp.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Convergence\AbsDisp.h">
+      <Filter>Convergence</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Ramp.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Tabular.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Load.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\RCM.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\CLoad.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\MPC.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\Tie.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\Constraint.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\BC\BC.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

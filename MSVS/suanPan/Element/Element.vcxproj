@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
@@ -148,6 +149,18 @@
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Section\Section.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
+    <ClInclude Include="..\..\..\Element\Element.h" />
+    <ClInclude Include="..\..\..\Element\ElementTemplate.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\CP3.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\CP4.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\GQ12.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
+    <ClInclude Include="..\..\..\Element\Section\Section.h" />
+    <ClInclude Include="..\..\..\Element\Truss\Truss2D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

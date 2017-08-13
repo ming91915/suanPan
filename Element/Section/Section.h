@@ -21,7 +21,7 @@ public:
     }
     virtual ~Section() {}
 
-    virtual void print() override;
+    void print() override;
 };
 
 #endif

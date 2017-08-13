@@ -74,49 +74,17 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
     mat inv_coor = inv(ele_coor);
 
     strain_mat.zeros(3, m_node * m_dof);
-    strain_mat(0, 0) = inv_coor(1, 0);
-    strain_mat(1, 1) = inv_coor(2, 0);
-    strain_mat(2, 0) = inv_coor(2, 0);
-    strain_mat(2, 1) = inv_coor(1, 0);
-
-    strain_mat(0, 2) = inv_coor(1, 1);
-    strain_mat(1, 3) = inv_coor(2, 1);
-    strain_mat(2, 2) = inv_coor(2, 1);
-    strain_mat(2, 3) = inv_coor(1, 1);
-
-    strain_mat(0, 4) = inv_coor(1, 2);
-    strain_mat(1, 5) = inv_coor(2, 2);
-    strain_mat(2, 4) = inv_coor(2, 2);
-    strain_mat(2, 5) = inv_coor(1, 2);
+    for(auto I = 0; I < 3; ++I) {
+        strain_mat(0, 2 * I) = inv_coor(1, I);
+        strain_mat(1, 2 * I + 1) = inv_coor(2, I);
+        strain_mat(2, 2 * I) = inv_coor(2, I);
+        strain_mat(2, 2 * I + 1) = inv_coor(1, I);
+    }
 
     auto tmp_density = m_material->getParameter();
     if(tmp_density != 0.) {
-        tmp_density *= area * thickness;
         vec n = mean(ele_coor) * inv_coor;
-        auto tmp_a = n(0) * n(0) * tmp_density;
-        auto tmp_b = n(1) * n(1) * tmp_density;
-        auto tmp_c = n(2) * n(2) * tmp_density;
-        auto tmp_d = n(0) * n(1) * tmp_density;
-        auto tmp_e = n(1) * n(2) * tmp_density;
-        auto tmp_f = n(2) * n(0) * tmp_density;
-        mass(0, 0) = tmp_a;
-        mass(1, 1) = tmp_a;
-        mass(2, 2) = tmp_b;
-        mass(3, 3) = tmp_b;
-        mass(4, 4) = tmp_c;
-        mass(5, 5) = tmp_c;
-        mass(0, 2) = tmp_d;
-        mass(1, 3) = tmp_d;
-        mass(2, 0) = tmp_d;
-        mass(3, 1) = tmp_d;
-        mass(0, 4) = tmp_f;
-        mass(1, 5) = tmp_f;
-        mass(4, 0) = tmp_f;
-        mass(5, 1) = tmp_f;
-        mass(2, 4) = tmp_e;
-        mass(3, 5) = tmp_e;
-        mass(4, 2) = tmp_e;
-        mass(5, 3) = tmp_e;
+        mass = n * n.t() * tmp_density * area * thickness;
     }
 }
 

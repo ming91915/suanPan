@@ -150,6 +150,18 @@
     <ClCompile Include="..\..\..\Material\Material.cpp" />
     <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h" />
+    <ClInclude Include="..\..\..\Material\1D\Concrete01.h" />
+    <ClInclude Include="..\..\..\Material\1D\Elastic1D.h" />
+    <ClInclude Include="..\..\..\Material\1D\MPF.h" />
+    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h" />
+    <ClInclude Include="..\..\..\Material\2D\Elastic2D.h" />
+    <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h" />
+    <ClInclude Include="..\..\..\Material\3D\Elastic3D.h" />
+    <ClInclude Include="..\..\..\Material\Material.h" />
+    <ClInclude Include="..\..\..\Material\MaterialTemplate.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

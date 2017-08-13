@@ -16,6 +16,9 @@
     <Filter Include="Section">
       <UniqueIdentifier>{56f5edb3-ffb4-4e65-9226-8b8ee150dd6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cube">
+      <UniqueIdentifier>{33b9a486-b7d8-42c7-84ec-96b32a9b6b7b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp">
@@ -45,5 +48,40 @@
     <ClCompile Include="..\..\..\Element\Section\Section.cpp">
       <Filter>Section</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp">
+      <Filter>Cube</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
+      <Filter>Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\ElementTemplate.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Element.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\CP3.h">
+      <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\CP4.h">
+      <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\GQ12.h">
+      <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\PS.h">
+      <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\QE2.h">
+      <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Section\Section.h">
+      <Filter>Section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Truss\Truss2D.h">
+      <Filter>Truss</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

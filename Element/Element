@@ -1,6 +1,7 @@
 #include "Truss/Truss"
 #include "Membrane/Membrane"
 #include "Section/Section"
+#include "Cube/Cube"
 
 #include "Element.h"
 #include "ElementTemplate.h"

@@ -47,4 +47,36 @@
       <Filter>3D</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h">
+      <Filter>1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\Concrete01.h">
+      <Filter>1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\Elastic1D.h">
+      <Filter>1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\MPF.h">
+      <Filter>1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h">
+      <Filter>1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\2D\Elastic2D.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h">
+      <Filter>3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\3D\Elastic3D.h">
+      <Filter>3D</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
