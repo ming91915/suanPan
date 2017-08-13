@@ -168,6 +168,9 @@
     <ClCompile Include="..\..\..\Toolbox\elementParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Domain\ExternalModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -337,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\BC\BC.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\ExternalModule.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

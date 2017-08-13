@@ -4,3 +4,4 @@
 #include "Tag.h"
 #include "Workroom.h"
 #include "Node.h"
+#include "ExternalModule.h"

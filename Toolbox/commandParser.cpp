@@ -1,4 +1,5 @@
 #include "commandParser.h"
+#include "Domain/ExternalModule.h"
 #include "elementParser.h"
 #include <Constraint/BC/BC.h>
 #include <Domain/Domain.h>
@@ -47,10 +48,18 @@ void create_new_element(const shared_ptr<Domain>& domain, istringstream& command
 {
     string element_id;
     command >> element_id;
+    unique_ptr<Element> new_elemnt = nullptr;
     if(_strcmpi(element_id.c_str(), "CP4") == 0) {
-        unique_ptr<Element> new_elemnt;
         new_cp4_(new_elemnt, command);
         domain->insert(move(new_elemnt));
+        return;
+    }
+    if(new_elemnt == nullptr) {
+        ExternalModule ext_library(element_id);
+        if(ext_library.locate_module()) {
+            ext_library.new_object(new_elemnt, command);
+            domain->insert(move(new_elemnt));
+        }
     }
 }
 

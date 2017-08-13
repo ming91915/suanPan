@@ -15,17 +15,35 @@
 
 #include <Element/Element.h>
 
-class C3D8 : public Element
+class C3D8 final : public Element
 {
-public:
-    C3D8();
-    ~C3D8();
+    struct IntegrationPoint {
+        vec coor;
+        double weight, jacob_det;
+        mat pn_pxy;
+        unique_ptr<Material> c_material;
+    };
 
-    virtual void initialize(const shared_ptr<Domain>&) override;
-    virtual int updateStatus() override;
-    virtual int commitStatus() override;
-    virtual int clearStatus() override;
-    virtual int resetStatus() override;
+    static const unsigned c_node;
+    static const unsigned c_dof;
+
+    bool reduced_scheme;
+
+    vector<unique_ptr<IntegrationPoint>> int_pt;
+
+public:
+    C3D8(const unsigned&,     // tag
+        const uvec&,          // node tags
+        const unsigned&,      // material tag
+        const bool& = false,  // reduced integration
+        const bool& = false); // nonlinear geometry switch
+
+    void initialize(const shared_ptr<Domain>&) override;
+
+    int updateStatus() override;
+    int commitStatus() override;
+    int clearStatus() override;
+    int resetStatus() override;
 };
 
 #endif

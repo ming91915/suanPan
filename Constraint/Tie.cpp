@@ -1,5 +1,7 @@
 #include "Tie.h"
-#include <Domain/Domain>
+#include <Domain/Domain.h>
+#include <Domain/Node.h>
+#include <Domain/Workroom.h>
 
 Tie::Tie(const unsigned& T,
     const unsigned& S,

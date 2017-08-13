@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.8)
 project(suanPan)
 
 option(USE_HDF5 "USE HDF5 LIBRARY" ON)
+option(USE_OPENBLAS "USE OPENBLAS" ON)
 option(USE_OPENMP "USE OPENMP" OFF)
 
 include_directories(.)
@@ -22,11 +23,11 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")
     set(CMAKE_CXX_FLAGS "-fexceptions")
-    if (USE_OPENMP)
-        set(CMAKE_CXX_FLAGS "-fopenmp")
-        set(CMAKE_EXE_LINKER_FLAGS "-fopenmp")
-        add_definitions(-DSUANPAN_OPENMP)
-    endif ()
+    #if (USE_OPENMP)
+    #    set(CMAKE_CXX_FLAGS "-fopenmp")
+    #    set(CMAKE_EXE_LINKER_FLAGS "-fopenmp")
+    #    add_definitions(-DSUANPAN_OPENMP)
+    #endif ()
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -68,8 +69,13 @@ add_subdirectory(Toolbox)
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_link_libraries(${PROJECT_NAME}
             libarpack.a
-            libsuperlu.a
-            libopenblas.a
+            libsuperlu.a)
+    if (USE_OPENBLAS)
+        target_link_libraries(${PROJECT_NAME} libopenblas.a)
+    else()
+        target_link_libraries(${PROJECT_NAME} libopenblas.a)
+    endif ()
+    target_link_libraries(${PROJECT_NAME}
             libgfortran.a
             libquadmath.a
             libhdf5-static.a
