@@ -20,6 +20,8 @@ public:
     {
     }
     virtual ~Section() {}
+
+    virtual void print() override;
 };
 
 #endif

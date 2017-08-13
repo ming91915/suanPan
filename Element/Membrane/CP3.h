@@ -15,7 +15,7 @@
 
 #include <Element/Element.h>
 
-class CP3 : public Element
+class CP3 final : public Element
 {
     static const unsigned m_node;
     static const unsigned m_dof;

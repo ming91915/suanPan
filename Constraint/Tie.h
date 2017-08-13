@@ -34,7 +34,6 @@ public:
         const unsigned& DA,
         const unsigned& NB,
         const unsigned& DB);
-    ~Tie() {}
 
     int process(const shared_ptr<Domain>&) override;
 };
