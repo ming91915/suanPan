@@ -35,6 +35,11 @@ void Gap01::initialize()
 
 unique_ptr<Material> Gap01::getCopy() { return make_unique<Gap01>(*this); }
 
+int Gap01::updateIncreStatus(const vec& i_strain)
+{
+    return updateTrialStatus(current_strain + i_strain);
+}
+
 int Gap01::updateTrialStatus(const vec& t_strain)
 {
     trial_reverse_strain = current_reverse_strain;

@@ -2,7 +2,7 @@
 #include <suanPan>
 
 void example_symm_mat();
-void example_RO();
+void example_uni_material();
 
 int main(int argc, char** argv)
 {
@@ -30,6 +30,8 @@ int main(int argc, char** argv)
     // cout << "\n";
     // D->getNode(1326)->getCurrentDisplacement().print();
 
+    example_uni_material();
+
     ExternalModule A("ElementExample");
     if(A.locate_module()) {
         unique_ptr<Element> new_elemnt = nullptr;
@@ -43,9 +45,10 @@ int main(int argc, char** argv)
     return 0;
 }
 
-void example_RO()
+void example_uni_material()
 {
-    RambergOsgood A;
+    // RambergOsgood A;
+    Gap01 A(0, 2E5, 400, 0.001);
     vector<double> B, C;
     for(auto I = 0; I < 30; ++I) {
         A.updateIncreStatus({ 0.0001 });

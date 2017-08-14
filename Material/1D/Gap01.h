@@ -29,14 +29,19 @@ class Gap01 : public Material
     double trial_reverse_strain = 0.;
 
 public:
-    Gap01(const unsigned&,
-        const double&,
-        const double&,
-        const double& = 0.,
-        const double& = 0.);
+    explicit Gap01(const unsigned& = 0, // tag
+        const double& = 2E5,            // elastic modulus
+        const double& = 200.,           // yield stress
+        const double& = 0.,             // gap strain
+        const double& = 0.);            // density
+
     void initialize() override;
+
     unique_ptr<Material> getCopy() override;
+
+    int updateIncreStatus(const vec&) override;
     int updateTrialStatus(const vec&) override;
+
     int clearStatus() override;
     int commitStatus() override;
     int resetStatus() override;
