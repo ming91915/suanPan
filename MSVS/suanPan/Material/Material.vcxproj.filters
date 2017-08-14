@@ -46,6 +46,9 @@
     <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp">
       <Filter>3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Material\1D\Gap01.cpp">
+      <Filter>1D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Material\3D\Elastic3D.h">
       <Filter>3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\1D\Gap01.h">
+      <Filter>1D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,5 +25,8 @@
 #ifndef MT_RAMBERGOSGOOD
 #define MT_RAMBERGOSGOOD 1007
 #endif
+#ifndef MT_GAP01
+#define MT_GAP01 1008
+#endif
 
 #endif
