@@ -16,22 +16,29 @@ ExternalModule::ExternalModule(const string& L, const string& M)
 {
 }
 
+ExternalModule::~ExternalModule()
+{
+#ifdef SUANPAN_UNIX
+    if(ext_library != nullptr) dlclose(ext_library);
+#endif
+}
+
 bool ExternalModule::locate_module()
 {
 #ifdef SUANPAN_WIN
     library_name += ".dll";
-    ext_library_win = LoadLibraryA(library_name.c_str());
-    if(ext_library_win == nullptr) {
+    ext_library = LoadLibraryA(library_name.c_str());
+    if(ext_library == nullptr) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), tolower);
-        ext_library_win = LoadLibraryA(library_name.c_str());
+        ext_library = LoadLibraryA(library_name.c_str());
     }
-    if(ext_library_win == nullptr) {
+    if(ext_library == nullptr) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), toupper);
-        ext_library_win = LoadLibraryA(library_name.c_str());
+        ext_library = LoadLibraryA(library_name.c_str());
     }
-    if(ext_library_win == nullptr) {
+    if(ext_library == nullptr) {
         suanpan_error("locate_module() cannot find the library with the given name.\n");
         return false;
     }
@@ -40,7 +47,7 @@ bool ExternalModule::locate_module()
     module_name = "new_" + module_name + "_";
 
     ext_creator = reinterpret_cast<void*>(
-        GetProcAddress(ext_library_win, LPCSTR(module_name.c_str())));
+        GetProcAddress(HINSTANCE(ext_library), LPCSTR(module_name.c_str())));
 
     if(ext_creator == nullptr) {
         suanpan_error("locate_module() cannot find the function with the given name.\n");
@@ -48,9 +55,17 @@ bool ExternalModule::locate_module()
     }
 #elif defined(SUANPAN_UNIX)
     library_name += ".so";
-    ext_library_unix = dlopen(library_name.c_str(), RTLD_NOW);
+    ext_library = dlopen(library_name.c_str(), RTLD_NOW);
+    if(ext_library == nullptr) {
+        suanpan_error("locate_module() cannot find the library with the given name.\n");
+        return false;
+    }
 
-    dlclose(ext_library_unix);
+    ext_creator = dlsym(ext_library, module_name.c_str());
+    if(ext_creator == nullptr) {
+        suanpan_error("locate_module() cannot find the function with the given name.\n");
+        return false;
+    }
 #endif
 
     return true;

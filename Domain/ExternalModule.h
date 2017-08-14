@@ -31,13 +31,13 @@ class ExternalModule
     string library_name;
     string module_name;
 
-    HINSTANCE ext_library_win = nullptr;
-    void* ext_library_unix = nullptr;
+    void* ext_library = nullptr;
     void* ext_creator = nullptr;
 
 public:
     explicit ExternalModule(const string&);
     explicit ExternalModule(const string&, const string&);
+    ~ExternalModule();
 
     bool locate_module();
 
