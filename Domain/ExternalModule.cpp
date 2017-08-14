@@ -21,17 +21,17 @@ bool ExternalModule::locate_module()
 #ifdef SUANPAN_WIN
     library_name += ".dll";
     ext_library_win = LoadLibraryA(library_name.c_str());
-    if(!ext_library_win) {
+    if(ext_library_win == nullptr) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), tolower);
         ext_library_win = LoadLibraryA(library_name.c_str());
     }
-    if(!ext_library_win) {
+    if(ext_library_win == nullptr) {
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), toupper);
         ext_library_win = LoadLibraryA(library_name.c_str());
     }
-    if(!ext_library_win) {
+    if(ext_library_win == nullptr) {
         suanpan_error("locate_module() cannot find the library with the given name.\n");
         return false;
     }
@@ -39,9 +39,10 @@ bool ExternalModule::locate_module()
     transform(module_name.begin(), module_name.end(), module_name.begin(), tolower);
     module_name = "new_" + module_name + "_";
 
-    ext_creator = GetProcAddress(ext_library_win, LPCSTR(module_name.c_str()));
+    ext_creator = reinterpret_cast<void*>(
+        GetProcAddress(ext_library_win, LPCSTR(module_name.c_str())));
 
-    if(!ext_creator) {
+    if(ext_creator == nullptr) {
         suanpan_error("locate_module() cannot find the function with the given name.\n");
         return false;
     }
@@ -58,11 +59,13 @@ bool ExternalModule::locate_module()
 void ExternalModule::new_object(unique_ptr<Element>& return_obj,
     istringstream& command) const
 {
-    static_cast<element_creator>(ext_creator)(return_obj, command);
+    auto concrete_creator = element_creator(ext_creator);
+    concrete_creator(return_obj, command);
 }
 
 void ExternalModule::new_object(unique_ptr<Material>& return_obj,
     istringstream& command) const
 {
-    static_cast<material_creator>(ext_creator)(return_obj, command);
+    auto concrete_creator = material_creator(ext_creator);
+    concrete_creator(return_obj, command);
 }
