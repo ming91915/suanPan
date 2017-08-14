@@ -27,6 +27,8 @@ bool ExternalModule::locate_module()
 {
 #ifdef SUANPAN_WIN
     library_name += ".dll";
+    auto gnu_name = "lib" + library_name;
+
     ext_library = LoadLibraryA(library_name.c_str());
     if(ext_library == nullptr) {
         transform(
@@ -37,6 +39,17 @@ bool ExternalModule::locate_module()
         transform(
             library_name.begin(), library_name.end(), library_name.begin(), toupper);
         ext_library = LoadLibraryA(library_name.c_str());
+    }
+    if(ext_library == nullptr) {
+        ext_library = LoadLibraryA(gnu_name.c_str());
+    }
+    if(ext_library == nullptr) {
+        transform(gnu_name.begin(), gnu_name.end(), gnu_name.begin(), tolower);
+        ext_library = LoadLibraryA(gnu_name.c_str());
+    }
+    if(ext_library == nullptr) {
+        transform(gnu_name.begin(), gnu_name.end(), gnu_name.begin(), toupper);
+        ext_library = LoadLibraryA(gnu_name.c_str());
     }
     if(ext_library == nullptr) {
         suanpan_error("locate_module() cannot find the library with the given name.\n");
