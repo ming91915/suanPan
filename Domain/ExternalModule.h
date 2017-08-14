@@ -15,8 +15,13 @@
 #ifndef EXTERNALMODULE_H
 #define EXTERNALMODULE_H
 
-#include "Element/Element.h"
+#include <suanPan.h>
+#ifdef SUANPAN_WIN
 #include <windows.h>
+#elif defined(SUANPAN_UNIX)
+#include <dlfcn.h>
+#endif
+#include "Element/Element.h"
 
 using std::string;
 using std::istringstream;
@@ -26,7 +31,8 @@ class ExternalModule
     string library_name;
     string module_name;
 
-    HINSTANCE ext_library = nullptr;
+    HINSTANCE ext_library_win = nullptr;
+    void* ext_library_unix = nullptr;
     void* ext_creator = nullptr;
 
 public:

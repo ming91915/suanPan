@@ -13,13 +13,43 @@
 #ifdef _MSC_VER
 #endif
 
-#if defined(__x86_64__) || defined(_WIN64)
-#define __ARCH__ 64
-#else
-#define __ARCH__ 32
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(__WIN32__)
+#ifdef SUANPAN_ARCH
+#undef SUANPAN_ARCH
+#endif
+#define SUANPAN_ARCH 32
+#ifdef SUANPAN_WIN
+#undef SUANPAN_WIN
+#endif
+#define SUANPAN_WIN
 #endif
 
-#ifdef __GNUC__
+#if defined(__x86_64) || defined(__x86_64__) || defined(WIN64) || defined(_WIN64) || \
+    defined(__WIN64) || defined(__WIN64__)
+#ifdef SUANPAN_ARCH
+#undef SUANPAN_ARCH
+#endif
+#define SUANPAN_ARCH 64
+#ifdef SUANPAN_WIN
+#undef SUANPAN_WIN
+#endif
+#define SUANPAN_WIN
+#endif
+
+#if defined(unix) || defined(__unix__) || defined(__linux__) || defined(linux)
+#ifdef SUANPAN_UNIX
+#undef SUANPAN_UNIX
+#endif
+#define SUANPAN_UNIX
+#endif
+
+#ifdef __VERSION__
+#define SUANPAN_VERSION __VERSION__
+#define SUANPAN_COMPILER "GCC"
+#endif
+#ifdef _MSC_FULL_VER
+#define SUANPAN_VERSION _MSC_FULL_VER
+#define SUANPAN_COMPILER "MSVC"
 #endif
 
 #ifdef _USRDLL

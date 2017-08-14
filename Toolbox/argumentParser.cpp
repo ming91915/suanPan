@@ -7,7 +7,8 @@ void argumentParser(int argc, char** argv)
 {
     printf("+------------------------------------------------------------+\n");
     printf("|                                                            |\n");
-    printf("|    suanPan --- An Open Source FEM Framework (%u-bit)       |\n", __ARCH__);
+    printf(
+        "|    suanPan --- An Open Source FEM Framework (%u-bit)       |\n", SUANPAN_ARCH);
     printf("|                                                            |\n");
     printf("|                                           Acrux (0.1.0)    |\n");
     printf("|                                                            |\n");
@@ -18,8 +19,10 @@ void argumentParser(int argc, char** argv)
     for(auto I = 0; I < argc; ++I) {
         if(_strcmpi(argv[I], "-v") == 0) {
             printf("A FEM Framework.\n");
-            printf("Version: Acrux 0.1.0.\n");
-            printf("Date: 29/07/2017.\n");
+            printf("\tversion Acrux 0.1.0\n");
+            printf("\tdate 14/08/2017\n");
+            printf("\tcompiled with %s version %s\n", SUANPAN_COMPILER,
+                std::to_string(SUANPAN_VERSION).c_str());
         } else if(_strcmpi(argv[I], "-f") == 0) {
             auto domain = make_shared<Domain>();
             process_file(domain, argv[++I]);
