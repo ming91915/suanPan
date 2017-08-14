@@ -22,18 +22,32 @@ class QE2 : public Element
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat jacob, strain_mat, pn_pxy;
+        mat jacob, pn_pxy;
+        mat strain_mat, stress_mat, disp_mat, enhanced_mat;
         unique_ptr<Material> m_material;
     };
 
     static const unsigned m_node;
     static const unsigned m_dof;
 
+    static mat mapping;
+
     double thickness = 1.;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
     mat ele_coor, inv_stiffness;
+
+    double A1 = 0., A2 = 0., A3 = 0., B1 = 0., B2 = 0., B3 = 0.;
+
+    vec trial_q;      // displacement
+    vec trial_alpha;  // strain
+    vec trial_beta;   // stress
+    vec trial_lambda; // enhanced strain
+    vec current_q;
+    vec current_alpha;
+    vec current_beta;
+    vec current_lambda;
 
 public:
     QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH = 1.);

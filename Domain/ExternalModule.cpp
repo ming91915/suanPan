@@ -69,7 +69,7 @@ bool ExternalModule::locate_module()
         return false;
     }
 #elif defined(SUANPAN_UNIX)
-    library_name += ".so";
+    library_name = "./" + library_name + ".so";
     ext_library = dlopen(library_name.c_str(), RTLD_NOW);
     if(ext_library == nullptr) {
         suanpan_error("locate_module() cannot find the library with the given name.\n");

@@ -1,6 +1,7 @@
 #include "QE2.h"
 #include "Toolbox/integrationPlan.h"
 #include "Toolbox/shapeFunctionQuad.h"
+#include "Toolbox/tensorToolbox.h"
 
 const unsigned QE2::m_node = 4;
 const unsigned QE2::m_dof = 2;
@@ -13,8 +14,23 @@ QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
 
 void QE2::initialize(const shared_ptr<Domain>& D)
 {
+    if(mapping.is_empty()) {
+        mapping(4, 4);
+        mapping.fill(.25);
+        mapping(1, 0) = -.25;
+        mapping(1, 3) = -.25;
+        mapping(2, 0) = -.25;
+        mapping(2, 1) = -.25;
+        mapping(3, 1) = -.25;
+        mapping(3, 3) = -.25;
+    }
+
     auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
-    inv_stiffness = material_proto->getInitialStiffness();
+
+    if(!inv(inv_stiffness, material_proto->getInitialStiffness())) {
+        suanpan_fatal("initialize() fails to get initial stiffness.\n");
+        return;
+    }
 
     integrationPlan plan(2, 2, 1);
 
@@ -40,14 +56,18 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;
         I->jacob_det = det(I->jacob);
-        I->pn_pxy = solve(I->jacob, pn);
+        if(!solve(I->pn_pxy, I->jacob, pn))
+            suanpan_warning("initialize() finds a badly shaped element.\n");
 
-        auto n_int = shapeFunctionQuad(I->coor, 0);
-        for(unsigned K = 0; K < m_node; ++K) {
-            n(0, 2 * K) = n_int(0, K);
-            n(1, 2 * K + 1) = n_int(0, K);
+        if(I->m_material->getParameter() != 0.) {
+            auto n_int = shapeFunctionQuad(I->coor, 0);
+            for(unsigned K = 0; K < m_node; ++K) {
+                n(0, 2 * K) = n_int(0, K);
+                n(1, 2 * K + 1) = n_int(0, K);
+            }
+            mass += n.t() * n * I->jacob_det * I->weight * I->m_material->getParameter() *
+                thickness;
         }
-        mass += n.t() * n * I->jacob_det * I->weight * I->m_material->getParameter();
 
         I->strain_mat.zeros(3, m_node * m_dof);
         for(unsigned K = 0; K < m_node; ++K) {
@@ -57,7 +77,6 @@ void QE2::initialize(const shared_ptr<Domain>& D)
             I->strain_mat(0, 2 * K) = I->pn_pxy(0, K);
         }
     }
-    mass *= thickness;
 }
 
 int QE2::updateStatus() { return 0; }
