@@ -4,8 +4,8 @@
 * corotational
 * transformation.
 * @author T
-* @date 03/08/2017
-* @version 0.1.0
+* @date 14/08/2017
+* @version 0.1.1
 * @file Truss2D.h
 * @addtogroup Truss
 * @ingroup Element
@@ -29,13 +29,13 @@ class Truss2D final : public Element
     bool log_strain = true;  /**<  */
 public:
     explicit Truss2D(const unsigned& T = 0);
-    Truss2D(const unsigned&,
-        const uvec&,
-        const unsigned&,
-        const double&,
-        const bool& = false,
-        const bool& = true,
-        const bool& = true);
+    Truss2D(const unsigned&, // tag
+        const uvec&,         // node tag
+        const unsigned&,     // material tag
+        const double&,       // area
+        const bool& = false, // nonlinear geometry switch
+        const bool& = true,  // update area swicth
+        const bool& = true); // log strain swicth
 
     void initialize(const shared_ptr<Domain>&) override;
 

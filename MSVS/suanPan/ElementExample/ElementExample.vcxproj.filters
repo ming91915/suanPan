@@ -33,22 +33,19 @@
     <ClCompile Include="..\..\..\Element\Element.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Constraint\BC\BC.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Load.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Load\RCM.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
+      <Filter>Depend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Load\RCM.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
   </ItemGroup>

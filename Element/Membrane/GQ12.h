@@ -22,6 +22,7 @@
 #define GQ12_H
 
 #include <Element/Element.h>
+
 class GQ12 : public Element
 {
     struct IntegrationPoint {

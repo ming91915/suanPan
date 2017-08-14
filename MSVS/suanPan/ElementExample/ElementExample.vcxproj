@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\..\Developer\Element\ElementExample.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Constraint\BC\BC.cpp" />
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp" />
     <ClCompile Include="..\..\..\Developer\Element\ElementExample.cpp" />
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
