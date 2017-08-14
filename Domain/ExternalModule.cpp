@@ -18,7 +18,9 @@ ExternalModule::ExternalModule(const string& L, const string& M)
 
 ExternalModule::~ExternalModule()
 {
-#ifdef SUANPAN_UNIX
+#ifdef SUANPAN_WIN
+    if(ext_library != nullptr) FreeLibrary(HINSTANCE(ext_library));
+#elif defined(SUANPAN_UNIX)
     if(ext_library != nullptr) dlclose(ext_library);
 #endif
 }
