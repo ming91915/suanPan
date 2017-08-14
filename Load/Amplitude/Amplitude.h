@@ -58,7 +58,7 @@ public:
     explicit Amplitude(const unsigned& = 0, const unsigned& = CT_AMPLITUDE);
     virtual ~Amplitude();
 
-    virtual double getAmplitude(const double&) = 0;
+    virtual double getAmplitude(const double&);
 };
 
 #endif

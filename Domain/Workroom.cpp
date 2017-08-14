@@ -6,8 +6,6 @@ Workroom::Workroom(const unsigned& D, const unsigned& T)
 {
 }
 
-Workroom::~Workroom() {}
-
 const bool& Workroom::is_symm() const { return symm_mat; }
 
 const bool& Workroom::is_band() const { return band_mat; }

@@ -111,9 +111,6 @@ void Domain::process(const unsigned& ST)
     for(const auto& I : load_pool)
         if(I.second->getStepTag() <= ST && I.second->getStatus())
             I.second->process(shared_from_this());
-    for(const auto& I : bc_pool)
-        if(I.second->getStepTag() <= ST && I.second->getStatus())
-            I.second->process(shared_from_this());
     for(const auto& I : constraint_pool)
         if(I.second->getStepTag() <= ST && I.second->getStatus())
             I.second->process(shared_from_this());
@@ -122,17 +119,6 @@ void Domain::process(const unsigned& ST)
 void Domain::setWorkroom(const shared_ptr<Workroom>& W) { factory = W; }
 
 const shared_ptr<Workroom>& Domain::getWorkroom() const { return factory; }
-
-void Domain::insert(const shared_ptr<BC>& ITEM)
-{
-    auto F = bc_pool.insert({ ITEM->getTag(), ITEM });
-    if(!F.second) {
-        printf("Domain::insert() fails to insert the BC with tag %u as the object with "
-               "the same tag already exists in the model.\n",
-            ITEM->getTag());
-    }
-    updated = false;
-}
 
 void Domain::insert(const shared_ptr<Constraint>& ITEM)
 {
@@ -187,65 +173,40 @@ void Domain::insert(const shared_ptr<Node>& ITEM)
     }
 }
 
-void Domain::erase_bc(const unsigned& T)
-{
-    if(bc_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
-    updated = false;
-}
-
 void Domain::erase_constraint(const unsigned& T)
 {
-    if(constraint_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
+    if(constraint_pool.erase(T) != 1)
+        suanpan_error("erase() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_element(const unsigned& T)
 {
-    if(element_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
+    if(element_pool.erase(T) != 1)
+        suanpan_error("erase() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_load(const unsigned& T)
 {
-    if(load_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
+    if(load_pool.erase(T) != 1)
+        suanpan_error("erase() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_material(const unsigned& T)
 {
-    if(material_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
+    if(material_pool.erase(T) != 1)
+        suanpan_error("erase() cannot find the object with given tag.\n");
+    updated = false;
 }
 
 void Domain::erase_node(const unsigned& T)
 {
-    if(node_pool.erase(T) != 1) {
-#ifdef SUANPAN_DEBUG
-        printf("Domain::erase() cannot find the object with given tag %u.\n", T);
-#endif
-    }
+    if(node_pool.erase(T) != 1)
+        suanpan_error("erase() cannot find the object with given tag.\n");
+    updated = false;
 }
-
-void Domain::disable_bc(const unsigned& T) { bc_pool.at(T)->disable(); }
 
 void Domain::disable_constraint(const unsigned& T) { constraint_pool.at(T)->disable(); }
 
@@ -264,8 +225,6 @@ void Domain::disable_node(const unsigned& T)
     disabled_node.insert(T);
     node_pool.at(T)->disable();
 }
-
-const shared_ptr<BC>& Domain::getBC(const unsigned& T) const { return bc_pool.at(T); }
 
 const shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T) const
 {
@@ -291,8 +250,6 @@ const shared_ptr<Node>& Domain::getNode(const unsigned& T) const
 {
     return node_pool.at(T);
 }
-
-unsigned Domain::getNumberBC() const { return static_cast<unsigned>(bc_pool.size()); }
 
 unsigned Domain::getNumberConstraint() const
 {
@@ -438,7 +395,6 @@ void Domain::clearStatus()
 
     factory->clearStatus();
 
-    disabled_bc.clear();
     disabled_constraint.clear();
     disabled_element.clear();
     disabled_load.clear();

@@ -48,7 +48,7 @@
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp">
+    <ClCompile Include="..\..\..\Toolbox\debug.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
   </ItemGroup>

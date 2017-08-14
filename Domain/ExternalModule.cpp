@@ -31,7 +31,7 @@ bool ExternalModule::locate_module()
         ext_library = LoadLibraryA(library_name.c_str());
     }
     if(!ext_library) {
-        printf("Cannot find the library with given name.\n");
+        suanpan_error("locate_module() cannot find the library with the given name.\n");
         return false;
     }
 
@@ -41,7 +41,7 @@ bool ExternalModule::locate_module()
     ext_creator = GetProcAddress(ext_library, LPCSTR(module_name.c_str()));
 
     if(!ext_creator) {
-        printf("Cannot find the method with given name.\n");
+        suanpan_error("locate_module() cannot find the function with the given name.\n");
         return false;
     }
 

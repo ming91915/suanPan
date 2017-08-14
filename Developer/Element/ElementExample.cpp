@@ -1,24 +1,30 @@
 #include "ElementExample.h"
 
-#ifdef _USRDLL
-#define DLL_EXPORT extern "C" __declspec(dllexport)
-#else
-#define DLL_EXPORT
-#endif
-
 DLL_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
     std::istringstream& command)
 {
     unsigned tag;
-    command >> tag;
+    if(command.good())
+        command >> tag;
+    else
+        suanpan_error("ElementExample needs a tag.\n");
+
     unsigned node;
     vector<uword> node_tag;
     for(auto I = 0; I < 3; ++I) {
-        command >> node;
+        if(command.good())
+            command >> node;
+        else
+            suanpan_error("ElementExample needs 3 ndoes.\n");
         node_tag.push_back(node);
     }
+
     unsigned material_tag;
-    command >> material_tag;
+    if(command.good())
+        command >> material_tag;
+    else
+        suanpan_error("ElementExample needs a material tag.\n");
+
     auto thickness = 1.;
     if(command.good()) command >> thickness;
 

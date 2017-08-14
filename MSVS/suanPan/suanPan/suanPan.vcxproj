@@ -202,6 +202,7 @@
     <ClCompile Include="..\..\..\suanPan_Main.cpp" />
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
     <ClCompile Include="..\..\..\Toolbox\elementParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="..\..\..\Toolbox\argumentParser.h" />
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h" />
     <ClInclude Include="..\..\..\Toolbox\commandParser.h" />
+    <ClInclude Include="..\..\..\Toolbox\debug.h" />
     <ClInclude Include="..\..\..\Toolbox\elementParser.h" />
     <ClInclude Include="..\..\..\Toolbox\ElementTag.h" />
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />

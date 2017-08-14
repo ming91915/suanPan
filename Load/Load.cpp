@@ -1,5 +1,5 @@
 #include "Load.h"
-#include "Amplitude/Ramp.h"
+#include "Amplitude/Amplitude.h"
 
 Load::Load(const unsigned& T,
     const unsigned& CT,
@@ -9,7 +9,7 @@ Load::Load(const unsigned& T,
     , step_tag(ST)
     , magnitude(A)
 {
-    if(magnitude == nullptr) magnitude = make_shared<Ramp>();
+    if(magnitude == nullptr) magnitude = make_shared<Amplitude>();
 }
 
 Load::~Load()

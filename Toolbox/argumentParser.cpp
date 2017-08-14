@@ -25,4 +25,4 @@ void argumentParser(int argc, char** argv)
             process_file(domain, argv[++I]);
         }
     }
-};
+}

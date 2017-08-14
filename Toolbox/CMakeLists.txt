@@ -6,4 +6,5 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Toolbox/shapeFunctionQuad.cpp"
         "Toolbox/tensorToolbox.cpp"
         "Toolbox/SymmMat_bones.hpp"
-        "Toolbox/SymmMat_meat.hpp")
+        "Toolbox/SymmMat_meat.hpp"
+        "Toolbox/debug.cpp")

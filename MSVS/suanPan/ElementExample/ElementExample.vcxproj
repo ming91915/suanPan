@@ -31,9 +31,9 @@
     <ClCompile Include="..\..\..\Domain\Workroom.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
-    <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
     <ClCompile Include="..\..\..\Load\RCM.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -110,11 +110,13 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;ELEMENTEXAMPLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../;../../../Include/armadillo/;../../../Include/hdf5-common/;../../../Include/hdf5-msvc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>../../../Libs/msvc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>superlu.lib;arpack.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -20,13 +20,14 @@ void process_file(const shared_ptr<Domain>& domain, const char* file_name)
         if(!command_line.empty()) {
             istringstream tmp_str(command_line);
             tmp_str >> command_id;
-            if(command_id == "node") create_new_node(domain, tmp_str);
-            if(command_id == "element") create_new_element(domain, tmp_str);
-            if(command_id == "fix") create_new_bc(domain, tmp_str);
-            if(command_id == "cload") create_new_cload(domain, tmp_str);
-            if(command_id == "element") create_new_element(domain, tmp_str);
-            if(command_id == "element") create_new_element(domain, tmp_str);
-            if(command_id == "element") create_new_element(domain, tmp_str);
+            if(command_id == "node")
+                create_new_node(domain, tmp_str);
+            else if(command_id == "element")
+                create_new_element(domain, tmp_str);
+            else if(command_id == "fix")
+                create_new_bc(domain, tmp_str);
+            else if(command_id == "cload")
+                create_new_cload(domain, tmp_str);
         }
     }
 }
@@ -48,19 +49,19 @@ void create_new_element(const shared_ptr<Domain>& domain, istringstream& command
 {
     string element_id;
     command >> element_id;
-    unique_ptr<Element> new_elemnt = nullptr;
+    unique_ptr<Element> new_element = nullptr;
+
     if(_strcmpi(element_id.c_str(), "CP4") == 0) {
-        new_cp4_(new_elemnt, command);
-        domain->insert(move(new_elemnt));
-        return;
-    }
-    if(new_elemnt == nullptr) {
+        new_cp4_(new_element, command);
+    } else {
         ExternalModule ext_library(element_id);
-        if(ext_library.locate_module()) {
-            ext_library.new_object(new_elemnt, command);
-            domain->insert(move(new_elemnt));
-        }
+        if(ext_library.locate_module()) ext_library.new_object(new_element, command);
     }
+
+    if(new_element != nullptr)
+        domain->insert(move(new_element));
+    else
+        suanpan_error("create_new_element() fails to create new element.\n");
 }
 
 void create_new_bc(const shared_ptr<Domain>& domain, istringstream& command)
@@ -114,16 +115,5 @@ void create_new_cload(const shared_ptr<Domain>& domain, istringstream& command)
         command >> X;
         node_tag.push_back(X);
     }
-    if(dof_id == 1)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 1));
-    else if(dof_id == 2)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 2));
-    else if(dof_id == 3)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 3));
-    else if(dof_id == 4)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 4));
-    else if(dof_id == 5)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 5));
-    else if(dof_id == 6)
-        domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), 6));
+    domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), dof_id));
 }

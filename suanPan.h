@@ -22,11 +22,18 @@
 #ifdef __GNUC__
 #endif
 
+#ifdef _USRDLL
+#define DLL_EXPORT extern "C" __declspec(dllexport)
+#else
+#define DLL_EXPORT
+#endif
+
 // auto invalid_code = static_cast<unsigned>(-1);
 
 #include <Toolbox/ClassTag.h>
 #include <Toolbox/ElementTag.h>
 #include <Toolbox/MaterialTag.h>
+#include <Toolbox/debug.h>
 
 #include <armadillo>
 #include <memory>

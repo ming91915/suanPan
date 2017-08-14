@@ -97,7 +97,6 @@ class Workroom final
     mat eigenvector; /**< eigenvectors */
 public:
     explicit Workroom(const unsigned& = 0, const unsigned& = SUANPAN_NONE);
-    ~Workroom();
 
     const bool& is_symm() const;
     const bool& is_band() const;

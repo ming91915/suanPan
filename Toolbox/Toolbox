@@ -7,3 +7,4 @@
 #include "SymmMat_bones.hpp"
 #include "SymmMat_meat.hpp"
 #include "testFunctions.h"
+#include "debug.h"

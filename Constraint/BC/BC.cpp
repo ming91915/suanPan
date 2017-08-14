@@ -128,60 +128,60 @@ const uvec& BC::getDOF() const { return dofs; }
 int BC::process(const shared_ptr<Domain>& D)
 {
     auto& W = D->getWorkroom();
-    auto& tmp_matrix = getStiffness(W);
+    auto& t_matrix = getStiffness(W);
 
     if(!W->is_band()) {
         for(const auto& I : nodes) {
-            auto& tmp_node = D->getNode(static_cast<unsigned>(I));
-            if(tmp_node->getStatus()) {
-                auto& tmp_dof = tmp_node->getReorderDOF();
+            auto& t_node = D->getNode(static_cast<unsigned>(I));
+            if(t_node->getStatus()) {
+                auto& t_dof = t_node->getReorderDOF();
                 for(const auto& J : dofs)
-                    if(J <= tmp_dof.n_elem) {
-                        auto& tmp_idx = tmp_dof(J - 1);
-                        if(D->insertRestrainedDOF(static_cast<unsigned>(tmp_idx))) {
-                            if(tmp_matrix(tmp_idx, tmp_idx) == 0) {
-                                auto& tmp_set = D->getRestrainedDOF();
-                                if(tmp_set.size() == 1)
-                                    tmp_matrix(tmp_idx, tmp_idx) = 1E6 * tmp_matrix.max();
-                                else if(*tmp_set.cbegin() == tmp_idx)
-                                    tmp_matrix(tmp_idx, tmp_idx) = tmp_matrix(
-                                        *++tmp_set.cbegin(), *++tmp_set.cbegin());
+                    if(J <= t_dof.n_elem) {
+                        auto& t_idx = t_dof(J - 1);
+                        if(D->insertRestrainedDOF(static_cast<unsigned>(t_idx))) {
+                            if(t_matrix(t_idx, t_idx) == 0) {
+                                auto& t_set = D->getRestrainedDOF();
+                                if(t_set.size() == 1)
+                                    t_matrix(t_idx, t_idx) = 1E6 * t_matrix.max();
+                                else if(*t_set.cbegin() == t_idx)
+                                    t_matrix(t_idx, t_idx) =
+                                        t_matrix(*++t_set.cbegin(), *++t_set.cbegin());
                                 else
-                                    tmp_matrix(tmp_idx, tmp_idx) =
-                                        tmp_matrix(*tmp_set.cbegin(), *tmp_set.cbegin());
+                                    t_matrix(t_idx, t_idx) =
+                                        t_matrix(*t_set.cbegin(), *t_set.cbegin());
                             } else
-                                tmp_matrix(tmp_idx, tmp_idx) *= 1E6;
+                                t_matrix(t_idx, t_idx) *= 1E6;
                         }
                     }
             }
         }
     } else {
-        unsigned tmp_i = 0;
+        unsigned t_zero = 0;
         if(!W->is_symm()) {
             unsigned L, U;
             W->getBandwidth(L, U);
-            tmp_i = L + U;
+            t_zero = L + U;
         }
         for(const auto& I : nodes) {
-            auto& tmp_node = D->getNode(static_cast<unsigned>(I));
-            if(tmp_node->getStatus()) {
-                auto& tmp_dof = tmp_node->getReorderDOF();
+            auto& t_node = D->getNode(static_cast<unsigned>(I));
+            if(t_node->getStatus()) {
+                auto& t_dof = t_node->getReorderDOF();
                 for(const auto& J : dofs)
-                    if(J <= tmp_dof.n_elem) {
-                        auto& tmp_idx = tmp_dof(J - 1);
-                        if(D->insertRestrainedDOF(static_cast<unsigned>(tmp_idx))) {
-                            if(tmp_matrix(tmp_i, tmp_idx) == 0) {
-                                auto& tmp_set = D->getRestrainedDOF();
-                                if(tmp_set.size() == 1)
-                                    tmp_matrix(tmp_i, tmp_idx) = 1E6 * tmp_matrix.max();
-                                else if(*tmp_set.cbegin() == tmp_idx)
-                                    tmp_matrix(tmp_i, tmp_idx) =
-                                        tmp_matrix(tmp_i, *++tmp_set.cbegin());
+                    if(J <= t_dof.n_elem) {
+                        auto& t_idx = t_dof(J - 1);
+                        if(D->insertRestrainedDOF(static_cast<unsigned>(t_idx))) {
+                            if(t_matrix(t_zero, t_idx) == 0) {
+                                auto& t_set = D->getRestrainedDOF();
+                                if(t_set.size() == 1)
+                                    t_matrix(t_zero, t_idx) = 1E6 * t_matrix.max();
+                                else if(*t_set.cbegin() == t_idx)
+                                    t_matrix(t_zero, t_idx) =
+                                        t_matrix(t_zero, *++t_set.cbegin());
                                 else
-                                    tmp_matrix(tmp_i, tmp_idx) =
-                                        tmp_matrix(tmp_i, *tmp_set.cbegin());
+                                    t_matrix(t_zero, t_idx) =
+                                        t_matrix(t_zero, *t_set.cbegin());
                             } else
-                                tmp_matrix(tmp_i, tmp_idx) *= 1E6;
+                                t_matrix(t_zero, t_idx) *= 1E6;
                         }
                     }
             }
