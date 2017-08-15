@@ -1,5 +1,5 @@
 ﻿#include "Bilinear1D.h"
-#include <toolbox/tensorToolbox.h>
+#include <Toolbox/tensorToolbox.h>
 
 Bilinear1D::Bilinear1D(const unsigned& T,
     const double& E,

@@ -1,6 +1,9 @@
 #ifndef SUANPAN_H
 #define SUANPAN_H
 
+// SUANPAN_DEBUG
+// _DEBUG --> MSVC
+// DEBUG --> GCC
 #if defined(_DEBUG) || defined(DEBUG)
 #define SUANPAN_DEBUG
 #else
@@ -10,52 +13,76 @@
 #if defined(__cplusplus)
 #endif
 
-#ifdef _MSC_VER
-#endif
-
+// SUANPAN_ARCH SUANPAN_WIN
+// WIN32 _WIN32 __WIN32 __WIN32__ --> MSVC GCC
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(__WIN32__)
 #ifdef SUANPAN_ARCH
 #undef SUANPAN_ARCH
 #endif
 #define SUANPAN_ARCH 32
-#ifdef SUANPAN_WIN
-#undef SUANPAN_WIN
-#endif
+#ifndef SUANPAN_WIN
 #define SUANPAN_WIN
 #endif
+#endif
 
-#if defined(__x86_64) || defined(__x86_64__) || defined(WIN64) || defined(_WIN64) || \
-    defined(__WIN64) || defined(__WIN64__)
+// SUANPAN_ARCH SUANPAN_WIN
+#if defined(WIN64) || defined(_WIN64) || defined(__WIN64) || defined(__WIN64__)
 #ifdef SUANPAN_ARCH
 #undef SUANPAN_ARCH
 #endif
 #define SUANPAN_ARCH 64
-#ifdef SUANPAN_WIN
-#undef SUANPAN_WIN
-#endif
+#ifndef SUANPAN_WIN
 #define SUANPAN_WIN
 #endif
-
-#if defined(unix) || defined(__unix__) || defined(__linux__) || defined(linux)
-#ifdef SUANPAN_UNIX
-#undef SUANPAN_UNIX
 #endif
+
+// SUANPAN_UNIX
+#if defined(unix) || defined(__unix__) || defined(__linux__) || defined(linux)
+#ifndef SUANPAN_UNIX
 #define SUANPAN_UNIX
 #endif
+#if __x86_64 == 1
+#define SUANPAN_ARCH 64
+#else
+#define SUANPAN_ARCH 32
+#endif
+#endif
 
+// SUANPAN_VERSION SUANPAN_COMPILER
+// __VERSION__ --> GCC
 #ifdef __VERSION__
 #define SUANPAN_VERSION __VERSION__
 #define SUANPAN_COMPILER "GCC"
+#define SUANPAN_COMPILERI 1
 #endif
+// _MSC_FULL_VER --> MSVC
 #ifdef _MSC_FULL_VER
 #define SUANPAN_VERSION _MSC_FULL_VER
 #define SUANPAN_COMPILER "MSVC"
+#define SUANPAN_COMPILERI 2
 #endif
 
+// SUANPAN_DLL
 #ifdef _USRDLL
-#define DLL_EXPORT extern "C" __declspec(dllexport)
+#ifndef SUANPAN_DLL
+#define SUANPAN_DLL
+#endif
+#endif
+
+#ifdef SUANPAN_DLL
+#ifdef SUANPAN_WIN
+#define DLL_EXPORT extern "C" __declspec(dllexport) // WIN MSVC GCC EXPORT
+#elif defined(SUANPAN_UNIX)
+#define DLL_EXPORT extern "C" // UNIX GCC EXPORT
 #else
-#define DLL_EXPORT
+#define DLL_EXPORT // EMPTY
+#endif
+#else
+#define DLL_EXPORT // EMPTY
+#endif
+
+#if defined(SUANPAN_UNIX)
+#define _strcmpi strcasecmp
 #endif
 
 // auto invalid_code = static_cast<unsigned>(-1);

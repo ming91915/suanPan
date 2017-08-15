@@ -1,5 +1,5 @@
 #include "Bilinear3D.h"
-#include <toolbox/tensorToolbox.h>
+#include <Toolbox/tensorToolbox.h>
 
 const vec Bilinear3D::norm_weight = { 1, 1, 1, 2, 2, 2 };
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);

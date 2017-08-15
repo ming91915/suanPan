@@ -1,6 +1,48 @@
 #ifndef TESTFUNCTIONS_H
 #define TESTFUNCTIONS_H
 
+void example_ext_module()
+{
+    ExternalModule A("ElementExample");
+    if(A.locate_module()) {
+        unique_ptr<Element> new_elemnt = nullptr;
+        istringstream command("1 1 2 3 1 1");
+        A.new_object(new_elemnt, command);
+        new_elemnt->print();
+    }
+}
+
+void example_uni_material()
+{
+    // RambergOsgood A;
+    Gap01 A(0, 2E5, 400, 0.001);
+    vector<double> B, C;
+    for(auto I = 0; I < 30; ++I) {
+        A.updateIncreStatus({ 0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+    for(auto I = 0; I < 50; ++I) {
+        A.updateIncreStatus({ -0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+    for(auto I = 0; I < 50; ++I) {
+        A.updateIncreStatus({ 0.0001 });
+        A.commitStatus();
+        B.push_back(as_scalar(A.getStrain()));
+        C.push_back(as_scalar(A.getStress()));
+    }
+
+    mat D(B.size(), 2);
+    D.col(0) = vec(B);
+    D.col(1) = vec(C);
+
+    D.save("D", raw_ascii);
+}
+
 void example_ODE()
 {
     DP45 E(make_shared<ODE_INSTANCE>(), make_shared<RelError>());

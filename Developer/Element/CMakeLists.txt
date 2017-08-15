@@ -7,13 +7,13 @@ include_directories(../../)
 include_directories(../../Include/armadillo)
 
 add_definitions(-DARMA_DONT_USE_HDF5)
-add_definitions(-D_USRDLL)
+add_definitions(-DSUANPAN_DLL)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     link_directories(../../Libs/gcc)
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")
-    set(CMAKE_CXX_FLAGS "-fexceptions")
+    set(CMAKE_CXX_FLAGS "-O3 -fexceptions")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
@@ -45,8 +45,5 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_link_libraries(${PROJECT_NAME}
-            arpack.lib
-            superlu.lib
-            lapack.lib)
+    target_link_libraries(${PROJECT_NAME} arpack.lib superlu.lib lapack.lib)
 endif ()

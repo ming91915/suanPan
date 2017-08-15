@@ -16,7 +16,7 @@
 #define EXTERNALMODULE_H
 
 #include <suanPan.h>
-#ifdef SUANPAN_WIN
+#if defined(SUANPAN_WIN)
 #include <windows.h>
 #elif defined(SUANPAN_UNIX)
 #include <dlfcn.h>

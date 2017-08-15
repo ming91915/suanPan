@@ -23,7 +23,7 @@ class QE2 : public Element
         vec coor;
         double weight, jacob_det;
         mat jacob, pn_pxy;
-        mat strain_mat, stress_mat, disp_mat, enhanced_mat;
+        mat P, A, B, BI;
         unique_ptr<Material> m_material;
     };
 

@@ -89,6 +89,12 @@ public:
     const shared_ptr<Material>& getMaterial(const unsigned&) const;
     const shared_ptr<Node>& getNode(const unsigned&) const;
 
+    shared_ptr<Constraint>& getConstraint(const unsigned&);
+    shared_ptr<Element>& getElement(const unsigned&);
+    shared_ptr<Load>& getLoad(const unsigned&);
+    shared_ptr<Material>& getMaterial(const unsigned&);
+    shared_ptr<Node>& getNode(const unsigned&);
+
     unsigned getNumberConstraint() const;
     unsigned getNumberElement() const;
     unsigned getNumberLoad() const;

@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.8)
 
 project(suanPan)
 
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+
 option(USE_HDF5 "USE HDF5 LIBRARY" ON)
 option(USE_OPENBLAS "USE OPENBLAS" ON)
 option(USE_OPENMP "USE OPENMP" OFF)
@@ -41,6 +43,17 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     set(CMAKE_CXX_FLAGS_DEBUG "/D \"DEBUG\"")
 endif ()
 
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    add_definitions(-DARMA_DONT_USE_HDF5)
+    add_definitions(-DARMA_DONT_USE_ARPACK)
+    add_definitions(-DARMA_DONT_USE_SUPERLU)
+    link_libraries("-ldl -pthread")
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")
+    set(CMAKE_CXX_FLAGS "-fexceptions")
+
+endif ()
+
 add_executable(${PROJECT_NAME}
         "suanPan.h"
         "suanPan_Main.cpp"
@@ -66,6 +79,8 @@ add_subdirectory(Solver)
 add_subdirectory(Step)
 add_subdirectory(Toolbox)
 
+if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     target_link_libraries(${PROJECT_NAME}
             libarpack.a
@@ -77,16 +92,30 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     endif ()
     target_link_libraries(${PROJECT_NAME}
             libgfortran.a
-            libquadmath.a
+            libquadmath.a)
+    if (USE_HDF5)
+    target_link_libraries(${PROJECT_NAME}
             libhdf5-static.a
             libhdf5_cpp-static.a)
+    endif()
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_link_libraries(${PROJECT_NAME}
             arpack.lib
             superlu.lib
-            lapack.lib
+            lapack.lib)
+    if (USE_HDF5)
+    target_link_libraries(${PROJECT_NAME}
             libhdf5.lib
             libhdf5_cpp.lib)
+    endif()
 endif ()
+
+elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(${PROJECT_NAME}
+    	    libopenblas.a
+            libgfortran.a
+            libquadmath.a)
+endif ()
+

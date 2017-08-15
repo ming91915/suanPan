@@ -251,6 +251,19 @@ const shared_ptr<Node>& Domain::getNode(const unsigned& T) const
     return node_pool.at(T);
 }
 
+shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T)
+{
+    return constraint_pool[T];
+}
+
+shared_ptr<Element>& Domain::getElement(const unsigned& T) { return element_pool[T]; }
+
+shared_ptr<Load>& Domain::getLoad(const unsigned& T) { return load_pool[T]; }
+
+shared_ptr<Material>& Domain::getMaterial(const unsigned& T) { return material_pool[T]; }
+
+shared_ptr<Node>& Domain::getNode(const unsigned& T) { return node_pool[T]; }
+
 unsigned Domain::getNumberConstraint() const
 {
     return static_cast<unsigned>(constraint_pool.size());
