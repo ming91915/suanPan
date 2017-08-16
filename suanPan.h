@@ -71,16 +71,17 @@
 
 #ifdef SUANPAN_DLL
 #ifdef SUANPAN_WIN
-#define DLL_EXPORT extern "C" __declspec(dllexport) // WIN MSVC GCC EXPORT
+#define SUANPAN_EXPORT extern "C" __declspec(dllexport) // WIN MSVC GCC EXPORT
 #elif defined(SUANPAN_UNIX)
-#define DLL_EXPORT extern "C" // UNIX GCC EXPORT
+#define SUANPAN_EXPORT extern "C" // UNIX GCC EXPORT
 #else
-#define DLL_EXPORT // EMPTY
+#define SUANPAN_EXPORT // EMPTY
 #endif
 #else
-#define DLL_EXPORT // EMPTY
+#define SUANPAN_EXPORT // EMPTY
 #endif
 
+// TWO IMPLEMENTATIONS
 #if defined(SUANPAN_UNIX)
 #define _strcmpi strcasecmp
 #endif

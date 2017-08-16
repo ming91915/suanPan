@@ -9,11 +9,15 @@ double tr(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
 
+mat shapeStress(const double&, const double&, const unsigned&);
 mat shapeStress(const vec&, const unsigned&);
 
 mat shapeStress5(const vec&);
 mat shapeStress7(const vec&);
 mat shapeStress9(const vec&);
+mat shapeStress5(const double&, const double&);
+mat shapeStress7(const double&, const double&);
+mat shapeStress9(const double&, const double&);
 
 mat shapeStrain(const vec&, const double&, const unsigned&);
 

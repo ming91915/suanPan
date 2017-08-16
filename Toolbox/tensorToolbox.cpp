@@ -29,7 +29,7 @@ vec dev(const vec& S)
     return D;
 }
 
-mat shapeStress(const vec& C, const unsigned& S)
+mat shapeStress(const double& X, const double& Y, const unsigned& S)
 {
     mat N(3, S, fill::zeros);
 
@@ -37,28 +37,37 @@ mat shapeStress(const vec& C, const unsigned& S)
 
     switch(S) {
     case 5:
-        N(0, 4) = C(1);
-        N(1, 3) = C(0);
+        N(0, 4) = Y;
+        N(1, 3) = X;
     case 7:
-        N(0, 6) = C(0);
-        N(1, 5) = C(1);
-        N(2, 5) = -C(0);
-        N(2, 6) = -C(1);
+        N(0, 6) = X;
+        N(1, 5) = Y;
+        N(2, 5) = -X;
+        N(2, 6) = -Y;
     case 9:
-        N(0, 8) = 2. * C(0) * C(1);
+        N(0, 8) = 2. * X * Y;
         N(1, 7) = N(0, 8);
-        N(2, 7) = -C(0) * C(0);
-        N(2, 8) = -C(1) * C(1);
+        N(2, 7) = -X * X;
+        N(2, 8) = -Y * Y;
     default:
+        suanpan_error("shapeStress() cannot identify the size.\n");
         return N;
     }
 }
+
+mat shapeStress(const vec& C, const unsigned& S) { return shapeStress(C(0), C(1), S); }
 
 mat shapeStress5(const vec& C) { return shapeStress(C, 5); }
 
 mat shapeStress7(const vec& C) { return shapeStress(C, 7); }
 
 mat shapeStress9(const vec& C) { return shapeStress(C, 9); }
+
+mat shapeStress5(const double& X, const double& Y) { return shapeStress(X, Y, 5); }
+
+mat shapeStress7(const double& X, const double& Y) { return shapeStress(X, Y, 7); }
+
+mat shapeStress9(const double& X, const double& Y) { return shapeStress(X, Y, 9); }
 
 mat shapeStrain(const vec& C, const double& V, const unsigned& S)
 {

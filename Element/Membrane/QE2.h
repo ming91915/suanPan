@@ -2,6 +2,7 @@
 * @class QE2
 * @brief A QE2 class.
 *
+* [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
 *
 * @author T
 * @date 30/07/2017
@@ -36,18 +37,28 @@ class QE2 : public Element
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
-    mat ele_coor, inv_stiffness;
+    mat ele_coor;
 
-    double A1 = 0., A2 = 0., A3 = 0., B1 = 0., B2 = 0., B3 = 0.;
+    mat HI, HIL, HILI; // constant matrices
 
-    vec trial_q;      // displacement
+    vec FI;         // variadic vectors
+    mat HT, QT, TT; // variadic matrices
+
+    vec trial_disp;   // displacement
+    vec trial_lambda; // enhanced strain
     vec trial_alpha;  // strain
     vec trial_beta;   // stress
-    vec trial_lambda; // enhanced strain
-    vec current_q;
+
+    vec current_disp;
+    vec current_lambda;
     vec current_alpha;
     vec current_beta;
-    vec current_lambda;
+
+    mat initial_qtitt;
+    mat trial_qtitt; // eq. 65
+    mat trial_qtifi; // eq. 65
+    mat current_qtitt;
+    mat current_qtifi;
 
 public:
     QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH = 1.);

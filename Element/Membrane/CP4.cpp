@@ -39,6 +39,7 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
+    mass.zeros();
     for(const auto& I : int_pt) {
         auto pn = shapeFunctionQuad(I->coor, 1);
         mat jacob = pn * ele_coor;

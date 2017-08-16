@@ -40,6 +40,7 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     strain_mat(2, 4) = inv_coor(2, 2);
     strain_mat(2, 5) = inv_coor(1, 2);
 
+    mass.zeros();
     auto tmp_density = m_material->getParameter();
     if(tmp_density != 0.) {
         tmp_density *= area * thickness;
@@ -75,10 +76,9 @@ int CP3::updateStatus()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
-    for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_disp = node_ptr.at(I).lock()->getTrialDisplacement();
-        for(const auto& J : tmp_disp) trial_disp(idx++) = J;
-    }
+    for(const auto& I : node_ptr)
+        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+
     m_material->updateTrialStatus(strain_mat * trial_disp);
 
     stiffness =

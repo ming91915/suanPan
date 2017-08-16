@@ -422,11 +422,16 @@ void Domain::clearStatus()
 #pragma omp parallel for
     for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->clearStatus();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_element_pool.size(); ++I)
-        tmp_element_pool.at(I)->clearStatus();
+    for(auto I = 0; I < tmp_element_pool.size(); ++I) {
+        tmp_element_pool.at(I)->resetStatus();
+        tmp_element_pool.at(I)->updateStatus();
+    }
 #else
     for(const auto& I : tmp_node_pool) I->clearStatus();
-    for(const auto& I : tmp_element_pool) I->clearStatus();
+    for(const auto& I : tmp_element_pool) {
+        I->resetStatus();
+        I->updateStatus();
+    }
 #endif
 }
 

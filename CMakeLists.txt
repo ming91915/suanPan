@@ -2,14 +2,14 @@ cmake_minimum_required(VERSION 3.8)
 
 project(suanPan)
 
+include_directories(.)
+include_directories(./Include/armadillo)
+
 if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 
 option(USE_HDF5 "USE HDF5 LIBRARY" ON)
 option(USE_OPENBLAS "USE OPENBLAS" ON)
 option(USE_OPENMP "USE OPENMP" OFF)
-
-include_directories(.)
-include_directories(./Include/armadillo)
 
 if (USE_HDF5)
     include_directories(./Include/hdf5-common)
@@ -47,6 +47,7 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_definitions(-DARMA_DONT_USE_HDF5)
     add_definitions(-DARMA_DONT_USE_ARPACK)
     add_definitions(-DARMA_DONT_USE_SUPERLU)
+    link_directories(./Libs/linux)
     link_libraries("-ldl -pthread")
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")

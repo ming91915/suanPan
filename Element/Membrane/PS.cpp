@@ -43,11 +43,7 @@ void PS::initialize(const shared_ptr<Domain>& D)
         for(unsigned J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mass.zeros();
-    tmp_a.zeros();
-    tmp_c.zeros();
-
-    mat jacob_center = shapeFunctionQuad({ 0, 0 }, 1) * ele_coor;
+    mat jacob_center = shapeFunctionQuad({ 0., 0. }, 1) * ele_coor;
 
     auto jacob_a = jacob_center(0, 0) * jacob_center(0, 0);
     auto jacob_b = jacob_center(1, 0) * jacob_center(1, 0);
@@ -56,6 +52,9 @@ void PS::initialize(const shared_ptr<Domain>& D)
     auto jacob_e = jacob_center(0, 0) * jacob_center(0, 1);
     auto jacob_f = jacob_center(1, 0) * jacob_center(1, 1);
 
+    mass.zeros();
+    tmp_a.zeros();
+    tmp_c.zeros();
     for(const auto& I : int_pt) {
         auto pn = shapeFunctionQuad(I->coor, 1);
         mat jacob = pn * ele_coor;

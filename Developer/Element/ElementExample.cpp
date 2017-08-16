@@ -1,6 +1,6 @@
 #include "ElementExample.h"
 
-DLL_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
+SUANPAN_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
     std::istringstream& command)
 {
     unsigned tag;
@@ -15,7 +15,7 @@ DLL_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
         if(command.good())
             command >> node;
         else
-            suanpan_error("ElementExample needs 3 ndoes.\n");
+            suanpan_error("ElementExample needs 3 nodes.\n");
         node_tag.push_back(node);
     }
 
@@ -82,10 +82,9 @@ int ElementExample::updateStatus()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
-    for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_disp = node_ptr.at(I).lock()->getTrialDisplacement();
-        for(const auto& J : tmp_disp) trial_disp(idx++) = J;
-    }
+    for(const auto& I : node_ptr)
+        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+
     m_material->updateTrialStatus(strain_mat * trial_disp);
 
     stiffness =
