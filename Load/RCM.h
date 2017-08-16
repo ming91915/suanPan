@@ -23,6 +23,8 @@
 
 using std::vector;
 
+uvec RCM(const vector<uvec>&, const uvec&);
+
 template <typename T> uvec RCM(const T&);
 
 uvec RCM(const mat&);

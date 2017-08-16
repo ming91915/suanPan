@@ -3,10 +3,10 @@
  * @brief A Static class.
  *
  * This class corresponds to the Static, General step in Abaqus, which handles a static
- * problem using Newton (or Newton like) solvers.
+ * problem using Newton (or quasi Newton) solvers.
  *
  * @author T
- * @date 03/07/2017
+ * @date 16/08/2017
  * @file Static.h
  */
 
@@ -18,8 +18,11 @@
 class Static : public Step
 {
 public:
-    explicit Static(const unsigned& = 0) {}
-    ~Static() {}
+    explicit Static(const unsigned& = 0,
+        const shared_ptr<Solver>& = nullptr,
+        const double& = 1.);
+
+    int analyze() override;
 };
 
 #endif

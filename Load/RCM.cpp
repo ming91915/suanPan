@@ -1,5 +1,41 @@
 #include "RCM.h"
 
+uvec RCM(const vector<uvec>& A, const uvec& E)
+{
+#ifdef SUANPAN_DEBUG
+    wall_clock TM;
+    TM.tic();
+#endif
+
+    auto S = E.n_elem;
+
+    uvec G = sort_index(E);
+    uvec M(S, fill::zeros);
+    uvec R(S, fill::zeros);
+
+    uword IDXA = 0, IDXB = S - 1, IDXC = S - 1;
+
+    while(IDXA < S) {
+        if(IDXB == IDXC) {
+            while(IDXA < S && M(G(IDXA)) == 1) ++IDXA;
+            if(IDXA == S) break;
+            R(IDXC--) = G(IDXA);
+            M(G(IDXA++)) = 1;
+        }
+        for(const auto& IDX : A.at(R(IDXB--)))
+            if(M(IDX) != 1) {
+                R(IDXC--) = IDX;
+                M(IDX) = 1;
+            }
+    }
+
+#ifdef SUANPAN_DEBUG
+    cout << "RCM algorithm takes " << TM.toc() << " seconds.\n";
+#endif
+
+    return R;
+}
+
 template <typename T> uvec RCM(const T& MEAT)
 {
 #ifdef SUANPAN_DEBUG
@@ -63,7 +99,7 @@ template <typename T> uvec RCM(const T& MEAT)
             R(IDXC--) = G(IDXA);
             //! Label it as renumbered and move IDXA to next position.
             M(G(IDXA++)) = 1;
-        };
+        }
         //! Now we at least has one root, which is indicated by the indicator IDXB, in our
         //! graph, push in all children into the vector. As they are already sorted, we
         //! can simply push in. When the loop is finished, move IDXB to next position,
@@ -72,8 +108,8 @@ template <typename T> uvec RCM(const T& MEAT)
             if(M(IDX) != 1) {
                 R(IDXC--) = IDX;
                 M(IDX) = 1;
-            };
-    };
+            }
+    }
 
 #ifdef SUANPAN_DEBUG
     cout << "RCM algorithm takes " << TM.toc() << " seconds.\n";

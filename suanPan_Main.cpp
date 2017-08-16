@@ -13,6 +13,8 @@ int main(int argc, char** argv)
 
     example_ext_module();
 
+    example_file();
+
     cout << endl << T.toc() << endl;
 
     return 0;
@@ -27,13 +29,9 @@ void example_file()
     cout << "The model has " << D->getNumberNode() << " nodes.\n";
     cout << "The model has " << D->getNumberElement() << " elements.\n";
 
-    Newton S(D, make_shared<AbsResidual>(1E-4));
-    S.enable_band();
-    S.enable_symm();
-    S.setStepSize(.01, 0, 1);
-    S.initialize();
+    Static S(1, make_shared<Newton>(D, make_shared<AbsResidual>(1E-4)));
 
-    auto INFO = S.analyze(1);
+    auto INFO = S.analyze();
     if(INFO != 0) cout << INFO << endl;
 
     cout << endl;

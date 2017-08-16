@@ -48,21 +48,39 @@ void Domain::initialize()
         for(const auto& I : element_pool)
             if(I.second->getStatus()) tmp_element_pool.push_back(I.second);
 
-        // ADJACENCY MATRIX
-        sp_umat tmp_mat(dof_idx, dof_idx);
-
-        // LABEL ADJACENCY
+        // RCM OPTIMIZATION
+        vector<unordered_set<uword>> adjacency(dof_idx);
         for(const auto& I : tmp_element_pool) {
             I->updateEncodingDOF();
             auto& J = I->getEncodingDOF();
             for(const auto& K : J)
-                for(const auto& L : J)
-                    if(tmp_mat(K, L) != 1) tmp_mat(K, L) = 1;
+                for(const auto& L : J) adjacency[K].insert(L);
         }
 
-        // RCM OPTIMIZATION
-        auto idx_rcm = RCM(tmp_mat);
+        uvec num_degree(dof_idx);
+        for(unsigned I = 0; I < dof_idx; ++I) num_degree(I) = adjacency[I].size();
+
+        vector<uvec> adjacency_sorted(dof_idx);
+        for(unsigned I = 0; I < dof_idx; ++I) {
+            uvec J(num_degree(I));
+            unsigned K = 0;
+            for(const auto& L : adjacency[I]) J(K++) = L;
+            adjacency_sorted[I] = J(sort_index(num_degree(J)));
+        }
+
+        auto idx_rcm = RCM(adjacency_sorted, num_degree);
         uvec idx_sorted = sort_index(idx_rcm);
+
+        auto L = 1, U = 1;
+        for(unsigned I = 0; I < dof_idx; ++I) {
+            for(const auto& J : adjacency[idx_rcm(I)]) {
+                int K = int(idx_sorted(J)) - I;
+                if(K > L)
+                    L = K;
+                else if(K < U)
+                    U = K;
+            }
+        }
 
         // ASSIGN NEW LABELS TO ACTIVE NODES
         for(const auto& I : tmp_node_pool)
@@ -80,23 +98,7 @@ void Domain::initialize()
         else
             factory->setNumberDOF(dof_idx);
 
-        // FIND BANDWIDTH
-        unsigned L = 1, U = 1;
-        for(unsigned I = 0; I < dof_idx; ++I) {
-            auto TL = I, TU = I;
-
-            for(auto J = I + 1; J < dof_idx; ++J)
-                if(tmp_mat(idx_rcm(J), idx_rcm(I)) != 0) TL = J;
-            auto TTL = TL - I;
-            if(TTL > L) L = TTL;
-
-            for(auto J = static_cast<int>(I) - 1; J >= 0; --J)
-                if(tmp_mat(idx_rcm(J), idx_rcm(I)) != 0) TU = J;
-            auto TTU = I - TU;
-            if(TTU > U) U = TTU;
-        }
-
-        factory->setBandwidth(L, U);
+        factory->setBandwidth(L, -U);
     }
 }
 

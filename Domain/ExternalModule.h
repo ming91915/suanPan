@@ -37,6 +37,10 @@ class ExternalModule
 public:
     explicit ExternalModule(const string&);
     explicit ExternalModule(const string&, const string&);
+    ExternalModule(const ExternalModule&) = delete;
+    ExternalModule(ExternalModule&&) = delete;
+    ExternalModule& operator=(const ExternalModule&) = delete;
+    ExternalModule& operator=(ExternalModule&&) = delete;
     ~ExternalModule();
 
     bool locate_module();

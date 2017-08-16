@@ -8,7 +8,7 @@ const unsigned QE2::m_dof = 2;
 mat QE2::mapping;
 
 QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_QE2, m_node, m_dof, N, uvec({ M }), false)
+    : Element(T, ET_QE2, m_node, m_dof, N, uvec({ M }))
     , thickness(TH)
 {
 }
