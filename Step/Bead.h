@@ -10,10 +10,14 @@
 #ifndef BEAD_H
 #define BEAD_H
 
-#include <Domain/Domain.h>
-#include <Recorder/Recorder.h>
-#include <Step/Step.h>
 #include <suanPan.h>
+#include <unordered_map>
+
+class Domain;
+class Step;
+class Recorder;
+
+using std::unordered_map;
 
 class Bead
 {
