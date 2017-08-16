@@ -174,6 +174,9 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Step\Bead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\debug.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Bead.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,5 +1,7 @@
 #include "commandParser.h"
 #include "Domain/ExternalModule.h"
+#include "Step/Dynamic.h"
+#include "Step/Static.h"
 #include "elementParser.h"
 #include <Constraint/BC/BC.h>
 #include <Domain/Domain.h>
@@ -28,6 +30,10 @@ void process_file(const shared_ptr<Domain>& domain, const char* file_name)
                 create_new_bc(domain, tmp_str);
             else if(command_id == "cload")
                 create_new_cload(domain, tmp_str);
+            else if(command_id == "step")
+                create_new_step(domain, tmp_str);
+            else if(command_id == "disable")
+                disable_object(domain, tmp_str);
         }
     }
 }
@@ -116,4 +122,48 @@ void create_new_cload(const shared_ptr<Domain>& domain, istringstream& command)
         node_tag.push_back(X);
     }
     domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), dof_id));
+}
+
+void create_new_step(const shared_ptr<Domain>& domain, istringstream& command)
+{
+    string step_type;
+    command >> step_type;
+    unsigned tag;
+    command >> tag;
+    auto time = 1.;
+    if(command.good()) command >> time;
+
+    //! TODO: SEPERATE STEP AND DOMAIN
+    if(step_type == "static")
+        auto S = make_shared<Static>(tag, nullptr, time);
+    else if(step_type == "dynamic")
+        auto S = make_shared<Dynamic>(tag);
+}
+
+void disable_object(const shared_ptr<Domain>& domain, istringstream& command)
+{
+    string object_type;
+    command >> object_type;
+    unsigned tag;
+    if(object_type == "node") {
+        while(command.good()) {
+            command >> tag;
+            domain->disable_node(tag);
+        }
+    } else if(object_type == "element") {
+        while(command.good()) {
+            command >> tag;
+            domain->disable_element(tag);
+        }
+    } else if(object_type == "load") {
+        while(command.good()) {
+            command >> tag;
+            domain->disable_load(tag);
+        }
+    } else if(object_type == "bc" || object_type == "constraint") {
+        while(command.good()) {
+            command >> tag;
+            domain->disable_constraint(tag);
+        }
+    }
 }

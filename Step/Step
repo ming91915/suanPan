@@ -1,5 +1,6 @@
 #include "Step.h"
 
+#include "Bead.h"
 #include "Dynamic.h"
 #include "Frequence.h"
 #include "Static.h"

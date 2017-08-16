@@ -5,10 +5,7 @@
  * @date 05/08/2017
  * @version 0.1.1
  * @file Newton.h
- * @verbatim
- *
- * Update and review loop strategy.
- *
+ * @{
  */
 
 #ifndef NEWTON_H
@@ -43,3 +40,5 @@ public:
 };
 
 #endif
+
+//! @}

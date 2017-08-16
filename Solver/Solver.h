@@ -38,6 +38,7 @@
  * @date 27/07/2017
  * @version 0.2.1
  * @file Solver.h
+ * @{
  */
 
 #ifndef SOLVER_H
@@ -167,3 +168,5 @@ int po_solve(vec&, mat&, const vec&);
 int pb_solve(vec&, mat&, const vec&);
 
 #endif
+
+//! @}

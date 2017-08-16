@@ -10,6 +10,8 @@ Step::Step(const unsigned& T,
 {
 }
 
+int Step::analyze() { return -1; }
+
 void Step::setSolver(const shared_ptr<Solver>& S) { solver = S; }
 
 const shared_ptr<Solver>& Step::getSolver() const { return solver; }

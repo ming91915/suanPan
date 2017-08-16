@@ -126,8 +126,8 @@ void Domain::insert(const shared_ptr<Constraint>& ITEM)
 {
     auto F = constraint_pool.insert({ ITEM->getTag(), ITEM });
     if(!F.second) {
-        printf("Domain::insert() fails to insert the constraint with tag %u as the "
-               "object with the same tag already exists in the model.\n",
+        suanpan_error("insert() fails to insert the constraint with tag %u as the "
+                      "object with the same tag already exists in the model.\n",
             ITEM->getTag());
     }
     updated = false;
@@ -137,8 +137,8 @@ void Domain::insert(const shared_ptr<Element>& ITEM)
 {
     auto F = element_pool.insert({ ITEM->getTag(), ITEM });
     if(!F.second) {
-        printf("Domain::insert() fails to insert the element with tag %u as the object "
-               "with the same tag already exists in the model.\n",
+        suanpan_error("insert() fails to insert the element with tag %u as the object "
+                      "with the same tag already exists in the model.\n",
             ITEM->getTag());
     }
     updated = false;
@@ -148,8 +148,8 @@ void Domain::insert(const shared_ptr<Load>& ITEM)
 {
     auto F = load_pool.insert({ ITEM->getTag(), ITEM });
     if(!F.second) {
-        printf("Domain::insert() fails to insert the load with tag %u as the object with "
-               "the same tag already exists in the model.\n",
+        suanpan_error("insert() fails to insert the load with tag %u as the object with "
+                      "the same tag already exists in the model.\n",
             ITEM->getTag());
     }
     updated = false;
@@ -159,8 +159,8 @@ void Domain::insert(const shared_ptr<Material>& ITEM)
 {
     auto F = material_pool.insert({ ITEM->getTag(), ITEM });
     if(!F.second) {
-        printf("Domain::insert() fails to insert the material with tag %u as the object "
-               "with the same tag already exists in the model.\n",
+        suanpan_error("insert() fails to insert the material with tag %u as the object "
+                      "with the same tag already exists in the model.\n",
             ITEM->getTag());
     }
 }
@@ -169,8 +169,8 @@ void Domain::insert(const shared_ptr<Node>& ITEM)
 {
     auto F = node_pool.insert({ ITEM->getTag(), ITEM });
     if(!F.second) {
-        printf("Domain::insert() fails to insert the node with tag %u as the object with "
-               "the same tag already exists in the model.\n",
+        suanpan_error("insert() fails to insert the node with tag %u as the object with "
+                      "the same tag already exists in the model.\n",
             ITEM->getTag());
     }
 }
@@ -178,54 +178,68 @@ void Domain::insert(const shared_ptr<Node>& ITEM)
 void Domain::erase_constraint(const unsigned& T)
 {
     if(constraint_pool.erase(T) != 1)
-        suanpan_error("erase() cannot find the object with given tag.\n");
+        suanpan_error("erase_constraint() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_element(const unsigned& T)
 {
     if(element_pool.erase(T) != 1)
-        suanpan_error("erase() cannot find the object with given tag.\n");
+        suanpan_error("erase_element() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_load(const unsigned& T)
 {
     if(load_pool.erase(T) != 1)
-        suanpan_error("erase() cannot find the object with given tag.\n");
+        suanpan_error("erase_load() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_material(const unsigned& T)
 {
     if(material_pool.erase(T) != 1)
-        suanpan_error("erase() cannot find the object with given tag.\n");
+        suanpan_error("erase_material() cannot find the object with given tag.\n");
     updated = false;
 }
 
 void Domain::erase_node(const unsigned& T)
 {
     if(node_pool.erase(T) != 1)
-        suanpan_error("erase() cannot find the object with given tag.\n");
+        suanpan_error("erase_node() cannot find the object with given tag.\n");
     updated = false;
 }
 
-void Domain::disable_constraint(const unsigned& T) { constraint_pool.at(T)->disable(); }
+void Domain::disable_constraint(const unsigned& T)
+{
+    constraint_pool.at(T)->disable();
+    suanpan_debug("disable_constraint() disables Constraint %u.\n", T);
+}
 
 void Domain::disable_element(const unsigned& T)
 {
     disabled_element.insert(T);
     element_pool.at(T)->disable();
+    suanpan_debug("disable_element() disables Element %u.\n", T);
 }
 
-void Domain::disable_load(const unsigned& T) { load_pool.at(T)->disable(); }
+void Domain::disable_load(const unsigned& T)
+{
+    load_pool.at(T)->disable();
+    suanpan_debug("disable_load() disables Load %u.\n", T);
+}
 
-void Domain::disable_material(const unsigned& T) { material_pool.at(T)->disable(); }
+void Domain::disable_material(const unsigned& T)
+{
+    material_pool.at(T)->disable();
+    suanpan_debug("disable_material() disables Material %u.\n", T);
+}
 
 void Domain::disable_node(const unsigned& T)
 {
     disabled_node.insert(T);
     node_pool.at(T)->disable();
+    suanpan_debug("disable_node() disables Node %u.\n", T);
 }
 
 const shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T) const
@@ -486,4 +500,12 @@ const unordered_set<unsigned>& Domain::getRestrainedDOF() const
 const unordered_set<unsigned>& Domain::getConstrainedDOF() const
 {
     return constrained_dofs;
+}
+
+void Domain::summary() const
+{
+    suanpan_debug("The model contains:\n");
+    suanpan_debug("%u nodes\n", getNumberNode());
+    suanpan_debug("%u elements\n", getNumberElement());
+    suanpan_debug("%u materials\n", getNumberMaterial());
 }

@@ -24,7 +24,7 @@ public:
         const double& = 1.);
     virtual ~Step() {}
 
-    virtual int analyze() = 0;
+    virtual int analyze();
 
     void setSolver(const shared_ptr<Solver>&);
     const shared_ptr<Solver>& getSolver() const;

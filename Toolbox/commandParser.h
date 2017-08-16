@@ -16,5 +16,8 @@ void create_new_node(const shared_ptr<Domain>&, istringstream&);
 void create_new_element(const shared_ptr<Domain>&, istringstream&);
 void create_new_bc(const shared_ptr<Domain>&, istringstream&);
 void create_new_cload(const shared_ptr<Domain>&, istringstream&);
+void create_new_step(const shared_ptr<Domain>&, istringstream&);
+
+void disable_object(const shared_ptr<Domain>&, istringstream&);
 
 #endif
