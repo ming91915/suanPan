@@ -17,7 +17,7 @@ class Newton : public Solver
 {
     bool fixed_size = false; /**< auto-stepping */
 
-    double ini_step_size = 1E-1; /**< initial step size */
+    double ini_step_size = 1; /**< initial step size */
 
     double min_step_size = 1E-6; /**< minimum step size */
     double max_step_size = 1;    /**< maximum step size */

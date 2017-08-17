@@ -17,6 +17,9 @@ unique_ptr<Material> Concrete01::getCopy() { return make_unique<Concrete01>(*thi
 int Concrete01::updateTrialStatus(const vec& t_strain)
 {
     trial_strain = t_strain;
+    incre_strain = trial_strain - current_strain;
+    if(incre_strain(0) == 0.) return 0;
+
     return 0;
 }
 

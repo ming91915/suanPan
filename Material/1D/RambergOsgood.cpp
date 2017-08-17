@@ -50,6 +50,8 @@ int RambergOsgood::updateTrialStatus(const vec& t_strain)
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
 
+    if(incre_strain(0) == 0.) return 0;
+
     auto reverse_strain = current_history(0);
     auto reverse_stress = current_history(1);
     auto load_sign = current_history(2);

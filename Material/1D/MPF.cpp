@@ -58,6 +58,11 @@ int MPF::updateIncreStatus(const vec& i_strain)
 
 int MPF::updateTrialStatus(const vec& t_strain)
 {
+    trial_strain = t_strain;
+    incre_strain = trial_strain - current_strain;
+
+    if(incre_strain(0) == 0.) return 0;
+
     auto reverse_stress = current_history(0);
     auto reverse_strain = current_history(1);
     auto inter_stress = current_history(2);
@@ -65,9 +70,6 @@ int MPF::updateTrialStatus(const vec& t_strain)
     auto pre_inter_strain = current_history(4);
     auto max_strain = current_history(5);
     auto load_sign = current_history(6);
-
-    trial_strain = t_strain;
-    incre_strain = trial_strain - current_strain;
 
     auto shift_stress = 0.;
     if(isotropic_hardening) {

@@ -59,12 +59,14 @@ unique_ptr<Material> Bilinear1D::getCopy() { return make_unique<Bilinear1D>(*thi
 
 int Bilinear1D::updateTrialStatus(const vec& t_strain)
 {
+    trial_strain = t_strain;
+    incre_strain = trial_strain - current_strain;
+
+    if(incre_strain(0) == 0.) return 0;
+
     trial_back_stress = current_back_stress;
     trial_plastic_strain = current_plastic_strain;
     trial_stiffness = initial_stiffness;
-
-    trial_strain = t_strain;
-    incre_strain = trial_strain - current_strain;
 
     trial_stress = current_stress + elastic_modulus * incre_strain;
 

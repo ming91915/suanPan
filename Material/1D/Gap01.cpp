@@ -42,10 +42,12 @@ int Gap01::updateIncreStatus(const vec& i_strain)
 
 int Gap01::updateTrialStatus(const vec& t_strain)
 {
-    trial_reverse_strain = current_reverse_strain;
-
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
+
+    if(incre_strain(0) == 0.) return 0;
+
+    trial_reverse_strain = current_reverse_strain;
 
     trial_load_flag = sign(incre_strain(0));
 

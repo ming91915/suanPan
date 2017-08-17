@@ -35,6 +35,7 @@ unique_ptr<Material> Elastic1D::getCopy() { return make_unique<Elastic1D>(*this)
 int Elastic1D::updateTrialStatus(const vec& t_strain)
 {
     trial_strain = t_strain;
+    if(trial_strain(0) == current_strain(0)) return 0;
     trial_stress = elastic_modulus * trial_strain;
     // incre_strain = trial_strain - current_strain;
     // incre_stress = trial_stress - current_stress;
