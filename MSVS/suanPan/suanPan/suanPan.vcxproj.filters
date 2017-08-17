@@ -19,6 +19,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Parser">
+      <UniqueIdentifier>{92394c5f-c204-4173-a50c-16c2b4503795}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
@@ -85,12 +88,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Step.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\commandParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp">
@@ -165,9 +162,6 @@
     <ClCompile Include="..\..\..\Solver\ODE.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\elementParser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -176,6 +170,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Bead.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\commandParser.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\elementParser.cpp">
+      <Filter>Parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp">
+      <Filter>Parser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,15 +261,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\testFunctions.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\argumentParser.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\commandParser.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\elementParser.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
@@ -355,6 +349,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Bead.h">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\commandParser.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\elementParser.h">
+      <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\argumentParser.h">
+      <Filter>Parser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

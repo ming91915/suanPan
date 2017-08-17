@@ -1,13 +1,13 @@
 #include "commandParser.h"
-#include "Domain/ExternalModule.h"
-#include "Step/Dynamic.h"
-#include "Step/Static.h"
 #include "elementParser.h"
 #include <Constraint/BC/BC.h>
 #include <Domain/Domain.h>
+#include <Domain/ExternalModule.h>
 #include <Domain/Node.h>
 #include <Element/Element.h>
 #include <Load/CLoad.h>
+#include <Step/Dynamic.h>
+#include <Step/Static.h>
 
 void process_file(const shared_ptr<Domain>& domain, const char* file_name)
 {
