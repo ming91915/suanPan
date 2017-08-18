@@ -1,6 +1,6 @@
-target_sources(${PROJECT_NAME} PRIVATE
-        "Element/Membrane/CP3.cpp"
-        "Element/Membrane/CP4.cpp"
-        "Element/Membrane/GQ12.cpp"
-        "Element/Membrane/PS.cpp"
-        "Element/Membrane/QE2.cpp")
+set(Membrane
+	Membrane/CP3.cpp
+	Membrane/CP4.cpp
+	Membrane/GQ12.cpp
+	Membrane/PS.cpp
+	Membrane/QE2.cpp)

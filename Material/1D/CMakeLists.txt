@@ -1,7 +1,7 @@
-target_sources(${PROJECT_NAME} PRIVATE
-        "Material/1D/Elastic1D.cpp"
-        "Material/1D/Bilinear1D.cpp"
-        "Material/1D/MPF.cpp"
-        "Material/1D/Concrete01.cpp"
-        "Material/1D/RambergOsgood.cpp"
-        "Material/1D/Gap01.cpp")
+set(M1D
+	1D/Bilinear1D.cpp
+	1D/Concrete01.cpp
+	1D/Elastic1D.cpp
+	1D/Gap01.cpp
+	1D/MPF.cpp
+	1D/RambergOsgood.cpp)

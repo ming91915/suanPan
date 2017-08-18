@@ -1,5 +1,8 @@
+#include "H5Cpp.h"
 #include <Toolbox/commandParser.h>
 #include <suanPan>
+
+using namespace H5;
 
 void example_symm_mat();
 void example_file();
@@ -11,9 +14,24 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-    example_ext_module();
+    Exception::dontPrint();
 
-    example_file();
+    // Create a new file using the default property lists.
+    H5File file("S.h5", H5F_ACC_TRUNC);
+
+    mat A(10, 40, fill::randn);
+    // Create the data space for the dataset.
+    hsize_t dims[2]; // dataset dimensions
+    dims[0] = 10;
+    dims[1] = 40;
+    DataSpace dataspace(2, dims);
+
+    // Create the dataset.
+    auto dataset = file.createDataSet("Node", PredType::NATIVE_DOUBLE, dataspace);
+
+    dataset.write(A.memptr(), PredType::NATIVE_DOUBLE);
+
+    file.close();
 
     cout << endl << T.toc() << endl;
 

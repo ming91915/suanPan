@@ -168,6 +168,9 @@
     <ClCompile Include="..\..\..\Convergence\RelDisp.cpp" />
     <ClCompile Include="..\..\..\Convergence\RelError.cpp" />
     <ClCompile Include="..\..\..\Convergence\RelIncreDisp.cpp" />
+    <ClCompile Include="..\..\..\Database\Database.cpp" />
+    <ClCompile Include="..\..\..\Database\HDF.cpp" />
+    <ClCompile Include="..\..\..\Database\SQL.cpp" />
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
@@ -222,6 +225,9 @@
     <ClInclude Include="..\..\..\Convergence\RelDisp.h" />
     <ClInclude Include="..\..\..\Convergence\RelError.h" />
     <ClInclude Include="..\..\..\Convergence\RelIncreDisp.h" />
+    <ClInclude Include="..\..\..\Database\Database.h" />
+    <ClInclude Include="..\..\..\Database\HDF.h" />
+    <ClInclude Include="..\..\..\Database\SQL.h" />
     <ClInclude Include="..\..\..\Domain\Domain.h" />
     <ClInclude Include="..\..\..\Domain\ExternalModule.h" />
     <ClInclude Include="..\..\..\Domain\Node.h" />

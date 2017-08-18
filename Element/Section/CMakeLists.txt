@@ -1,2 +1,2 @@
-target_sources(${PROJECT_NAME} PRIVATE
-        "Element/Section/Section.cpp")
+set(Section
+	Section/Section.cpp)

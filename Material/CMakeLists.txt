@@ -1,7 +1,16 @@
-target_sources(${PROJECT_NAME} PRIVATE
-        "Material/Material.cpp"
-        "Material/MaterialTemplate.cpp")
+cmake_minimum_required(VERSION 3.8)
 
-add_subdirectory(1D)
-add_subdirectory(2D)
-add_subdirectory(3D)
+project(Material)
+
+set(ROOT ..)
+
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../Libs)
+
+include(${ROOT}/Configuration.cmake)
+
+include(1D/CMakeLists.txt)
+include(2D/CMakeLists.txt)
+include(3D/CMakeLists.txt)
+
+add_library(${PROJECT_NAME} STATIC Material.cpp MaterialTemplate.cpp
+	${M1D} ${M2D} ${M3D})

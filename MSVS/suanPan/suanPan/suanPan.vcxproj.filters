@@ -180,6 +180,15 @@
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Database\Database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Database\SQL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Database\HDF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -358,6 +367,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\argumentParser.h">
       <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Database\Database.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Database\SQL.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Database\HDF.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
