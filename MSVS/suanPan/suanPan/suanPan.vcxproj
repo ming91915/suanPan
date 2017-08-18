@@ -209,6 +209,7 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
     <ClCompile Include="..\..\..\Toolbox\elementParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\materialParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
   </ItemGroup>
@@ -269,6 +270,7 @@
     <ClInclude Include="..\..\..\Toolbox\elementParser.h" />
     <ClInclude Include="..\..\..\Toolbox\ElementTag.h" />
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
+    <ClInclude Include="..\..\..\Toolbox\materialParser.h" />
     <ClInclude Include="..\..\..\Toolbox\MaterialTag.h" />
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h" />
     <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp" />

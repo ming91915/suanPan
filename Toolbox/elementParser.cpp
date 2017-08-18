@@ -132,14 +132,20 @@ void new_truss2d_(unique_ptr<Element>& return_obj, istringstream& command)
     double area;
     command >> area;
 
-    unsigned nonlinear = 0;
-    if(command.good()) command >> nonlinear;
+    unsigned nonlinear = 0, update_area = 0, log_strain = 0;
 
-    unsigned update_area = 0;
-    if(command.good()) command >> update_area;
-
-    unsigned log_strain = 0;
-    if(command.good()) command >> log_strain;
+    if(command.good()) {
+        command >> nonlinear;
+        if(command.good()) {
+            command >> update_area;
+            if(command.good())
+                command >> log_strain;
+            else
+                suanpan_debug("new_truss2d_ assumes engineering strain.\n");
+        } else
+            suanpan_debug("new_truss2d_ assumes constant area.\n");
+    } else
+        suanpan_debug("new_truss2d_ uses linear geometry.\n");
 
     return_obj = make_unique<Truss2D>(tag, uvec(node_tag), material_tag,
         static_cast<bool>(nonlinear), static_cast<bool>(update_area),

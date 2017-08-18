@@ -33,8 +33,8 @@ class Bilinear1D final : public Material
 public:
     explicit Bilinear1D(const unsigned& = 0, /**< tag */
         const double& = 2E5,                 /**< elastic modulus */
-        const double& = 0.,                  /**< initial yield stress */
-        const double& = 0.,                  /**< hardening ratio */
+        const double& = 400.,                /**< initial yield stress */
+        const double& = .05,                 /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
         const double& = 0.);                 /**< density */
     explicit Bilinear1D(const double&,       /**< elastic modulus */
