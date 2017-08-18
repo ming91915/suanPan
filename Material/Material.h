@@ -41,7 +41,7 @@ public:
 
     virtual ~Material();
 
-    virtual void initialize();
+    virtual void initialize() = 0;
 
     virtual double getParameter(const unsigned& = 0) const;
 
@@ -51,16 +51,16 @@ public:
     virtual const mat& getStiffness() const;
     virtual const mat& getInitialStiffness() const;
 
-    virtual unique_ptr<Material> getCopy();
+    virtual unique_ptr<Material> getCopy() = 0;
 
     virtual int updateIncreStatus(const vec&);
     virtual int updateIncreStatus(const vec&, const vec&);
     virtual int updateTrialStatus(const vec&);
     virtual int updateTrialStatus(const vec&, const vec&);
 
-    virtual int clearStatus();
-    virtual int commitStatus();
-    virtual int resetStatus();
+    virtual int clearStatus() = 0;
+    virtual int commitStatus() = 0;
+    virtual int resetStatus() = 0;
 };
 
 #endif

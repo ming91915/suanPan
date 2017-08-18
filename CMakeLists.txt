@@ -125,4 +125,3 @@ elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
             libgfortran.a
             libquadmath.a)
 endif ()
-

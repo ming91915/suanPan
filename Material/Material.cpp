@@ -26,7 +26,7 @@ const mat& Material::getStiffness() const { return trial_stiffness; }
 
 const mat& Material::getInitialStiffness() const { return initial_stiffness; }
 
-unique_ptr<Material> Material::getCopy() { return make_unique<Material>(*this); }
+unique_ptr<Material> Material::getCopy() { return nullptr; }
 
 int Material::updateIncreStatus(const vec&) { return -1; }
 

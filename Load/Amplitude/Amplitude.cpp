@@ -13,3 +13,5 @@ double Amplitude::getAmplitude(const double& T)
     if(T > 1.) return 1.;
     return T;
 }
+
+void Amplitude::print() { suanpan_debug("This is an Amplitude object.\n"); }

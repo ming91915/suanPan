@@ -59,6 +59,8 @@ public:
     virtual ~Amplitude();
 
     virtual double getAmplitude(const double&);
+
+    void print() override;
 };
 
 #endif

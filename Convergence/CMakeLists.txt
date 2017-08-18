@@ -3,7 +3,7 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Convergence/AbsDisp.cpp"
         "Convergence/AbsError.cpp"
         "Convergence/AbsIncreDisp.cpp"
+        "Convergence/AbsResidual.cpp"
         "Convergence/RelDisp.cpp"
         "Convergence/RelError.cpp"
-        "Convergence/RelIncreDisp.cpp"
-        "Convergence/AbsResidual.cpp")
+        "Convergence/RelIncreDisp.cpp")
