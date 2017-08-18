@@ -50,6 +50,9 @@ public:
         const uvec& = {},
         const uvec& = {},
         const bool& = false);
+    Element(const Element&) = delete;
+    Element& operator=(const Element&) = delete;
+
     virtual ~Element();
 
     virtual void initialize(const shared_ptr<Domain>&) = 0;

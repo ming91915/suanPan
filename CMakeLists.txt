@@ -102,8 +102,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
             libquadmath.a)
     if (USE_HDF5)
     target_link_libraries(${PROJECT_NAME}
-            libhdf5-static.a
-            libhdf5_cpp-static.a)
+            libhdf5_cpp-static.a
+            libhdf5-static.a)
     endif()
 endif()
 
@@ -114,8 +114,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
             lapack.lib)
     if (USE_HDF5)
     target_link_libraries(${PROJECT_NAME}
-            libhdf5.lib
-            libhdf5_cpp.lib)
+            libhdf5_cpp.lib
+            libhdf5.lib)
     endif()
 endif ()
 
