@@ -42,7 +42,8 @@ void new_elastic2d_(unique_ptr<Material>& return_obj, istringstream& command)
     } else
         suanpan_debug("new_elastic2d_() assumes zero density.\n");
 
-    return_obj = make_unique<Elastic2D>(tag, elastic_modulus, density, material_type);
+    return_obj = make_unique<Elastic2D>(
+        tag, elastic_modulus, poissons_ratio, density, material_type);
 }
 
 void new_elastic3d_(unique_ptr<Material>& return_obj, istringstream& command)

@@ -10,7 +10,7 @@ const unsigned ElementTemplate::m_dof = 2;
 /**
 * @brief
 * Here we target our ElementTemplate class to fulfill the functionality of a constant
-* stress triangular element, viz., CPS3 in Abaqus notation.
+* stress triangular element, viz., CPS3, in Abaqus notation.
 *
 * The constructor of Element class asks for seven parameters, they are:
 * - Element Object Tag (T)
@@ -23,8 +23,8 @@ const unsigned ElementTemplate::m_dof = 2;
 *
 * In our example, CT and F will be constants, NN is 3 and ND is 2. So we have three
 * parameters plus thickness for our derived element. Except for initializing private
-* member variables. We do not have to do anything. All other initializations will be
-* handled by the Element and Domain classs. As simple as this.
+* member variables, we do not have to do anything. All other initializations will be
+* handled by the Element and Domain class. As simple as this.
 */
 ElementTemplate::ElementTemplate(const unsigned& T,
     const uvec& NT,
@@ -47,6 +47,11 @@ ElementTemplate::ElementTemplate(const unsigned& T,
  * \f{gather}{B=\partial{}N=\partial{}\left(\phi{}C^{-1}\right),\f}
  * where
  * \f{gather}{C=\begin{bmatrix}1&x_i&y_i\\1&x_j&y_j\\1&x_k&y_k\end{bmatrix}.\f}
+ *
+ * One can also initialize stiffness matrix and/or other build-in matrices from Element
+ * class (check the definition for details) in the initialize() method. However, this it
+ * not necessary, as the Solver will always call updateStatus() method with a zero trial
+ * displacement to update current stiffness and resistance before running iterations.
  */
 void ElementTemplate::initialize(const shared_ptr<Domain>& D)
 {

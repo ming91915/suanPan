@@ -75,7 +75,7 @@ int Newton::analyze(const double& T)
             W->updateTrialDisplacement(W->getTrialDisplacement() + W->getNinja());
             // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED
             D->updateTrialStatus();
-        } while(!C->if_converged() && counter++ < max_iteration);
+        } while(!C->if_converged() && ++counter < max_iteration);
         if(C->getFlag()) {
             // EXIT LOOP WITH CONVERGED STATUS COMMIT STATUS
             D->commitStatus();
@@ -85,7 +85,7 @@ int Newton::analyze(const double& T)
             // FAIL TO CONVERGE FOR CURRENT INCREMENT RESET STATUS
             D->resetStatus();
             // HALVE THE STEP SIZE
-            if(step < min_step_size) {
+            if(step <= min_step_size) {
                 printf("Newton::analyze() reaches minimum step size.\n");
                 return -1;
             }

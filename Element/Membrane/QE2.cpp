@@ -128,12 +128,12 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     FI.zeros(2);
 
-    trial_disp.zeros(m_node * m_dof);
+    trial_disp.zeros(8);
     trial_lambda.zeros(2);
     trial_alpha.zeros(7);
     trial_beta.zeros(7);
 
-    current_disp.zeros(m_node * m_dof);
+    current_disp.zeros(8);
     current_lambda.zeros(2);
     current_alpha.zeros(7);
     current_beta.zeros(7);
@@ -141,9 +141,12 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
 int QE2::updateStatus()
 {
+    current_disp = trial_disp;
+
     auto idx = 0;
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getCoordinate()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+    if(norm(trial_disp) < 1E-20) return 0; // quick return
 
     auto incre_disp = trial_disp - current_disp;                 // eq. 46
     auto incre_lambda = -trial_qtitt * incre_disp - trial_qtifi; // eq. 65
@@ -166,6 +169,7 @@ int QE2::updateStatus()
         FI += I->BI.t() * tmp_vector;                                       // eq. 54
         resistance += I->B.t() * tmp_vector;                                // eq. 54
     }
+
     QT = HILI.t() * HT * HILI;                             // eq. 60
     TT = HILI.t() * HT * HIL;                              // eq. 60
     trial_qtitt = solve(QT, TT);                           // eq. 65
@@ -205,6 +209,8 @@ int QE2::clearStatus()
 
     current_qtifi.zeros(2);
     trial_qtifi.zeros(2);
+
+    stiffness = initial_stiffness;
 
     current_qtitt = initial_qtitt;
     trial_qtitt = initial_qtitt;

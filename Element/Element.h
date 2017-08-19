@@ -23,10 +23,9 @@ class Node;
 
 class Element : public Tag
 {
-protected:
     unsigned num_node = 0; /**< number of nodes */
     unsigned num_dof = 0;  /**< number of DoFs */
-
+protected:
     uvec node_encoding; /**< node encoding vector */
     uvec material_tag;  /**< material tags */
 

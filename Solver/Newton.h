@@ -34,7 +34,7 @@ public:
 
     int analyze(const double&) override;
 
-    void setStepSize(const double&, const double&, const double& = 1);
+    void setStepSize(const double&, const double& = 0, const double& = 0);
 
     void print() override;
 };
