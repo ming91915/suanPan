@@ -1,5 +1,6 @@
 #include "commandParser.h"
 #include "elementParser.h"
+#include "materialParser.h"
 #include <Constraint/BC/BC.h>
 #include <Domain/Domain.h>
 #include <Domain/ExternalModule.h>
@@ -24,6 +25,8 @@ void process_file(const shared_ptr<Domain>& domain, const char* file_name)
             tmp_str >> command_id;
             if(command_id == "node")
                 create_new_node(domain, tmp_str);
+            else if(command_id == "material")
+                create_new_material(domain, tmp_str);
             else if(command_id == "element")
                 create_new_element(domain, tmp_str);
             else if(command_id == "fix")
@@ -51,15 +54,38 @@ void create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
     domain->insert(make_shared<Node>(node_id, vec(coor)));
 }
 
+void create_new_material(const shared_ptr<Domain>& domain, istringstream& command)
+{
+    string material_id;
+    command >> material_id;
+    unique_ptr<Material> new_material = nullptr;
+
+    if(_strcmpi(material_id.c_str(), "Elastic2D") == 0)
+        new_elastic2d_(new_material, command);
+    else {
+        ExternalModule ext_library(material_id);
+        if(ext_library.locate_module()) ext_library.new_object(new_material, command);
+    }
+
+    if(new_material != nullptr)
+        domain->insert(move(new_material));
+    else
+        suanpan_error("create_new_element() fails to create new element.\n");
+}
+
 void create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
 {
     string element_id;
     command >> element_id;
     unique_ptr<Element> new_element = nullptr;
 
-    if(_strcmpi(element_id.c_str(), "CP4") == 0) {
+    if(_strcmpi(element_id.c_str(), "CP4") == 0)
         new_cp4_(new_element, command);
-    } else {
+    else if(_strcmpi(element_id.c_str(), "PS") == 0)
+        new_ps_(new_element, command);
+    else if(_strcmpi(element_id.c_str(), "QE2") == 0)
+        new_qe2_(new_element, command);
+    else {
         ExternalModule ext_library(element_id);
         if(ext_library.locate_module()) ext_library.new_object(new_element, command);
     }

@@ -31,28 +31,28 @@ vec dev(const vec& S)
 
 mat shapeStress(const double& X, const double& Y, const unsigned& S)
 {
-    mat N(3, S, fill::zeros);
+    mat N = zeros(3, S);
 
     for(auto I = 0; I < 3; ++I) N(I, I) = 1;
 
-    switch(S) {
-    case 5:
+    if(S >= 5) {
         N(0, 4) = Y;
         N(1, 3) = X;
-    case 7:
-        N(0, 6) = X;
-        N(1, 5) = Y;
-        N(2, 5) = -X;
-        N(2, 6) = -Y;
-    case 9:
-        N(0, 8) = 2. * X * Y;
-        N(1, 7) = N(0, 8);
-        N(2, 7) = -X * X;
-        N(2, 8) = -Y * Y;
-    default:
-        suanpan_error("shapeStress() cannot identify the size.\n");
-        return N;
+        if(S >= 7) {
+            N(0, 6) = X;
+            N(1, 5) = Y;
+            N(2, 5) = -X;
+            N(2, 6) = -Y;
+            if(S == 9) {
+                N(0, 8) = 2. * X * Y;
+                N(1, 7) = N(0, 8);
+                N(2, 7) = -X * X;
+                N(2, 8) = -Y * Y;
+            }
+        }
     }
+
+    return N;
 }
 
 mat shapeStress(const vec& C, const unsigned& S) { return shapeStress(C(0), C(1), S); }

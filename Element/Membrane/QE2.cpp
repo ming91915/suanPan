@@ -36,7 +36,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     // INTEGRATION POINTS INITIALIZATION
     integrationPlan plan(2, 2, 1);
     for(unsigned I = 0; I < 4; ++I) {
-        int_pt[I] = make_unique<IntegrationPoint>();
+        int_pt.push_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
@@ -52,7 +52,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     mat tmp_const = trans(mapping * ele_coor);
 
-    vec disp_mode(4, fill::ones);
+    vec disp_mode(4, fill::zeros);
 
     mass.zeros();
 
@@ -74,7 +74,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
-        I->P = shapeStress7(disp_mode * tmp_const);
+        I->P = shapeStress7(tmp_const * disp_mode);
         mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
         solve(I->A, ini_stiffness, I->P);
@@ -127,6 +127,16 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     trial_qtifi.zeros(2);
 
     FI.zeros(2);
+
+    trial_disp.zeros(m_node * m_dof);
+    trial_lambda.zeros(2);
+    trial_alpha.zeros(7);
+    trial_beta.zeros(7);
+
+    current_disp.zeros(m_node * m_dof);
+    current_lambda.zeros(2);
+    current_alpha.zeros(7);
+    current_beta.zeros(7);
 }
 
 int QE2::updateStatus()
