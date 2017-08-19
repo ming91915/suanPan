@@ -28,5 +28,8 @@
 #ifndef MT_GAP01
 #define MT_GAP01 1008
 #endif
+#ifndef MT_BILINEAR2D
+#define MT_BILINEAR2D 1009
+#endif
 
 #endif

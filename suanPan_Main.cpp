@@ -42,8 +42,7 @@ void example_file()
     auto D = make_shared<Domain>();
     process_file(D, "A.tcl");
 
-    cout << "The model has " << D->getNumberNode() << " nodes.\n";
-    cout << "The model has " << D->getNumberElement() << " elements.\n";
+    D->summary();
 
     Static S(1, make_shared<Newton>(D, make_shared<AbsResidual>(1E-4)));
 
