@@ -45,8 +45,8 @@ class Bilinear3D : public Material
 public:
     explicit Bilinear3D(const unsigned& = 0, /**< tag */
         const double& = 2E5,                 /**< elastic modulus */
-        const double& = 0.,                  /**< poisson's ratio */
-        const double& = 0.,                  /**< initial yield stress */
+        const double& = .25,                 /**< poisson's ratio */
+        const double& = 400.,                /**< initial yield stress */
         const double& = 0.,                  /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
         const double& = 0.);                 /**< density */
@@ -55,6 +55,7 @@ public:
 
     unique_ptr<Material> getCopy() override;
 
+    int updateIncreStatus(const vec&) override;
     int updateTrialStatus(const vec&) override;
 
     int clearStatus() override;

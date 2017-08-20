@@ -15,9 +15,11 @@ mat shapeStress(const vec&, const unsigned&);
 mat shapeStress5(const vec&);
 mat shapeStress7(const vec&);
 mat shapeStress9(const vec&);
+mat shapeStress12(const vec&);
 mat shapeStress5(const double&, const double&);
 mat shapeStress7(const double&, const double&);
 mat shapeStress9(const double&, const double&);
+mat shapeStress12(const double&, const double&);
 
 mat shapeStrain(const vec&, const double&, const unsigned&);
 

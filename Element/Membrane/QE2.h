@@ -61,7 +61,7 @@ class QE2 : public Element
     mat current_qtifi;
 
 public:
-    QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH = 1.);
+    QE2(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
     void initialize(const shared_ptr<Domain>&) override;
 

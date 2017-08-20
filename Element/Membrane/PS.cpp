@@ -72,17 +72,15 @@ void PS::initialize(const shared_ptr<Domain>& D)
         }
 
         I->strain_mat.zeros(3, m_node * m_dof);
-        for(unsigned K = 0; K < m_node; ++K) {
-            I->strain_mat(2, 2 * K + 1) = pn_pxy(0, K);
-            I->strain_mat(2, 2 * K) = pn_pxy(1, K);
-            I->strain_mat(1, 2 * K + 1) = pn_pxy(1, K);
-            I->strain_mat(0, 2 * K) = pn_pxy(0, K);
+        for(unsigned J = 0; J < m_node; ++J) {
+            I->strain_mat(2, 2 * J + 1) = pn_pxy(0, J);
+            I->strain_mat(2, 2 * J) = pn_pxy(1, J);
+            I->strain_mat(1, 2 * J + 1) = pn_pxy(1, J);
+            I->strain_mat(0, 2 * J) = pn_pxy(0, J);
         }
 
         I->n_stress.zeros(3, 5);
-        I->n_stress(0, 0) = 1.;
-        I->n_stress(1, 1) = 1.;
-        I->n_stress(2, 2) = 1.;
+        for(auto J = 0; J < 3; ++J) I->n_stress(J, J) = 1.;
         I->n_stress(0, 3) = jacob_a * I->coor(1);
         I->n_stress(0, 4) = jacob_b * I->coor(0);
         I->n_stress(1, 3) = jacob_c * I->coor(1);

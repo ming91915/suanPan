@@ -40,7 +40,7 @@ class GQ12 : public Element
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
 public:
-    GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH = 1.);
+    GQ12(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
     void initialize(const shared_ptr<Domain>&) override;
 

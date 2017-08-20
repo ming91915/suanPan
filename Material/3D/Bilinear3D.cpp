@@ -59,6 +59,11 @@ void Bilinear3D::initialize()
 
 unique_ptr<Material> Bilinear3D::getCopy() { return make_unique<Bilinear3D>(*this); }
 
+int Bilinear3D::updateIncreStatus(const vec& i_strain)
+{
+    return updateTrialStatus(current_strain + i_strain);
+}
+
 int Bilinear3D::updateTrialStatus(const vec& t_strain)
 {
     trial_strain = t_strain;

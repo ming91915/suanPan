@@ -56,12 +56,12 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     mass.zeros();
 
-    mat n(2, m_node * m_dof, fill::zeros);
+    mat n(2, 8, fill::zeros);
 
     auto tmp_density = material_proto->getParameter() * thickness;
 
     mat H(7, 7, fill::zeros);
-    mat L(7, m_node * m_dof, fill::zeros);
+    mat L(7, 8, fill::zeros);
     mat LI(7, 2, fill::zeros);
     for(const auto& I : int_pt) {
         auto pn = shapeFunctionQuad(I->coor, 1);
@@ -77,10 +77,11 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         I->P = shapeStress7(tmp_const * disp_mode);
         mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
-        solve(I->A, ini_stiffness, I->P);
+        if(!solve(I->A, ini_stiffness, I->P))
+            suanpan_warning("initialize() finds a singular initial stiffness matrix.\n");
         H += tmp_mat * I->A;
 
-        I->B = zeros(3, m_node * m_dof);
+        I->B = zeros(3, 8);
         for(unsigned K = 0; K < m_node; ++K) {
             I->B(2, 2 * K + 1) = I->pn_pxy(0, K);
             I->B(2, 2 * K) = I->pn_pxy(1, K);
@@ -172,8 +173,8 @@ int QE2::updateStatus()
 
     QT = HILI.t() * HT * HILI;                             // eq. 60
     TT = HILI.t() * HT * HIL;                              // eq. 60
-    trial_qtitt = solve(QT, TT);                           // eq. 65
-    trial_qtifi = solve(QT, FI);                           // eq. 65
+    solve(trial_qtitt, QT, TT);                            // eq. 65
+    solve(trial_qtifi, QT, FI);                            // eq. 65
     resistance -= TT.t() * trial_qtifi;                    // eq. 64
     stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
 
@@ -182,7 +183,6 @@ int QE2::updateStatus()
 
 int QE2::commitStatus()
 {
-    current_disp = trial_disp;
     current_lambda = trial_lambda;
     current_alpha = trial_alpha;
     current_beta = trial_beta;
@@ -197,12 +197,10 @@ int QE2::commitStatus()
 
 int QE2::clearStatus()
 {
-    current_disp.zeros();
     current_lambda.zeros();
     current_alpha.zeros();
     current_beta.zeros();
 
-    trial_disp.zeros();
     trial_lambda.zeros();
     trial_alpha.zeros();
     trial_beta.zeros();
@@ -222,7 +220,6 @@ int QE2::clearStatus()
 
 int QE2::resetStatus()
 {
-    trial_disp = current_disp;
     trial_lambda = current_lambda;
     trial_alpha = current_alpha;
     trial_beta = current_beta;

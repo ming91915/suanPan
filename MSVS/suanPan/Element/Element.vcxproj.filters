@@ -51,6 +51,9 @@
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp">
       <Filter>Cube</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Membrane\Proto01.cpp">
+      <Filter>Membrane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Truss\Truss2D.h">
       <Filter>Truss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\Proto01.h">
+      <Filter>Membrane</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

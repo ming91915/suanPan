@@ -22,5 +22,8 @@
 #ifndef ET_C3D8
 #define ET_C3D8 2006
 #endif
+#ifndef ET_PROTO01
+#define ET_PROTO01 2007
+#endif
 
 #endif

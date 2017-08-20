@@ -16,8 +16,8 @@ public:
         const double& = 400.,                /**< initial yield stress */
         const double& = .05,                 /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const unsigned& = 0,
-        const double& = 0.); /**< density */
+        const unsigned& = 0,                 /**< plane stress or plane strain */
+        const double& = 0.);                 /**< density */
 
     void initialize() override;
 

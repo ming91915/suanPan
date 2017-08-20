@@ -32,8 +32,6 @@ int main(int argc, char** argv)
 
     example_file();
 
-    cout << endl << T.toc() << endl;
-
     return 0;
 }
 
