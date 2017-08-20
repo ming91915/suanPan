@@ -3,10 +3,12 @@
 
 void suanpan_debug(const char* M, ...)
 {
+#ifdef SUANPAN_DEBUG
     va_list arguments;
     va_start(arguments, M);
     vprintf(M, arguments);
     va_end(arguments);
+#endif
 }
 
 void suanpan_warning(const char* M, ...)

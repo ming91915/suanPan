@@ -12,12 +12,7 @@ Load::Load(const unsigned& T,
     if(magnitude == nullptr) magnitude = make_shared<Amplitude>();
 }
 
-Load::~Load()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Load %u dtor() Called.\n", getTag());
-#endif
-}
+Load::~Load() { suanpan_debug("Load %u dtor() Called.\n", getTag()); }
 
 int Load::process(const shared_ptr<Domain>&) { return -1; }
 

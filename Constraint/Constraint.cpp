@@ -15,12 +15,7 @@ Constraint::Constraint(const unsigned& T, const unsigned& CT, const unsigned& ST
 /**
  * \brief The default destructor.
  */
-Constraint::~Constraint()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Constraint %u dtor() Called.\n", getTag());
-#endif
-}
+Constraint::~Constraint() { suanpan_debug("Constraint %u dtor() Called.\n", getTag()); }
 
 /**
  * \brief Method to set `step_tag`.

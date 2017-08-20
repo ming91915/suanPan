@@ -13,3 +13,7 @@ void ODE::setDimension(const unsigned& D) { num_dim = D; }
 const unsigned& ODE::getDimension() const { return num_dim; }
 
 void ODE::print() { printf("ODE::print() is unimplemented.\n"); }
+
+void ODE::operator()(const unsigned& D) { num_dim = D; }
+
+unsigned ODE::operator()() { return num_dim; }

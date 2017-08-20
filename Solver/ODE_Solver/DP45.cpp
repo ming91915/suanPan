@@ -24,19 +24,19 @@ int DP45::updateStatus()
     auto& D = getODE();
     auto& W = getWorkroom();
 
-    S1 = D->getDY(W->getCurrentTime(), W->getCurrentDisplacement());
-    S2 = D->getDY(W->getCurrentTime() + .2 * W->getIncreTime(),
+    S1 = D->eval(W->getCurrentTime(), W->getCurrentDisplacement());
+    S2 = D->eval(W->getCurrentTime() + .2 * W->getIncreTime(),
         W->getCurrentDisplacement() + W->getIncreTime() * .2 * S1);
-    S3 = D->getDY(W->getCurrentTime() + .3 * W->getIncreTime(),
+    S3 = D->eval(W->getCurrentTime() + .3 * W->getIncreTime(),
         W->getCurrentDisplacement() + W->getIncreTime() * (.075 * S1 + .225 * S2));
-    S4 = D->getDY(W->getCurrentTime() + .8 * W->getIncreTime(),
+    S4 = D->eval(W->getCurrentTime() + .8 * W->getIncreTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() * (44. / 45. * S1 - 56. / 15. * S2 + 32. / 9. * S3));
-    S5 = D->getDY(W->getCurrentTime() + 8. / 9. * W->getIncreTime(),
+    S5 = D->eval(W->getCurrentTime() + 8. / 9. * W->getIncreTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() * (19372. / 6561. * S1 - 25360. / 2187. * S2 +
                                     64448. / 6561. * S3 - 212. / 729. * S4));
-    S6 = D->getDY(W->getTrialTime(),
+    S6 = D->eval(W->getTrialTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() *
                 (9017. / 3168. * S1 - 355. / 33. * S2 + 46732. / 5247. * S3 +
@@ -46,7 +46,7 @@ int DP45::updateStatus()
         W->getIncreTime() * (35. / 384. * S1 + 500. / 1113. * S3 + 125. / 192. * S4 -
                                 2187. / 6784. * S5 + 11. / 84. * S6));
 
-    S7 = D->getDY(W->getTrialTime(), W->getTrialDisplacement());
+    S7 = D->eval(W->getTrialTime(), W->getTrialDisplacement());
 
     W->setError(norm(W->getIncreTime() *
         (71. / 57600. * S1 - 71. / 16695. * S3 + 71. / 1920. * S4 -

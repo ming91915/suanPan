@@ -14,7 +14,7 @@
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H
 
-#include "../Solver.h"
+#include <Solver/Solver.h>
 
 class ODE;
 class Workroom;

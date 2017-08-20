@@ -49,12 +49,7 @@ Node::Node(const unsigned& T, const unsigned& D, const vec& C)
 /**
  * \brief Default destructor.
  */
-Node::~Node()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Node %u dtor() Called.\n", getTag());
-#endif
-}
+Node::~Node() { suanpan_debug("Node %u dtor() Called.\n", getTag()); }
 
 /**
  * \brief This method should be called after Element objects are set. Element objects will

@@ -26,17 +26,20 @@ int BS23::updateStatus()
 
     if(D == nullptr || W == nullptr) return -1;
 
-    S1 = D->getDY(W->getCurrentTime(), W->getCurrentDisplacement());
-    S2 = D->getDY(W->getCurrentTime() + .5 * W->getIncreTime(),
-        W->getCurrentDisplacement() + W->getIncreTime() * .5 * S1);
-    S3 = D->getDY(W->getCurrentTime() + .75 * W->getIncreTime(),
-        W->getCurrentDisplacement() + W->getIncreTime() * .75 * S2);
+    auto& c_time = W->getCurrentTime();
+    auto& t_time = W->getTrialTime();
+    auto& i_time = W->getIncreTime();
+    auto& c_disp = W->getCurrentDisplacement();
 
-    W->updateIncreDisplacement(W->getIncreTime() * (2. * S1 + 3. * S2 + 4. * S3) / 9.);
+    S1 = D->eval(c_time, c_disp);
+    S2 = D->eval(c_time + .5 * i_time, c_disp + i_time * .5 * S1);
+    S3 = D->eval(c_time + .75 * i_time, c_disp + i_time * .75 * S2);
 
-    S4 = D->getDY(W->getTrialTime(), W->getTrialDisplacement());
+    W->updateIncreDisplacement(i_time * (2. * S1 + 3. * S2 + 4. * S3) / 9.);
 
-    W->setError(norm(W->getIncreTime() * (-5. * S1 + 6. * S2 + 8. * S3 - 9. * S4) / 72.));
+    S4 = D->eval(t_time, W->getTrialDisplacement());
+
+    W->setError(norm(i_time * (-5. * S1 + 6. * S2 + 8. * S3 - 9. * S4) / 72.));
 
     return 0;
 }

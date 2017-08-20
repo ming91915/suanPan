@@ -10,7 +10,7 @@
  * variables and \f$y'\f$ are the corresponding derivatives. There could be only one
  * independent variable, or more often, multiple variables. The key method is
  *
- *     const vec& getDY(const double&T, const vec&Y)
+ *     const vec& eval(const double&T, const vec&Y)
  *
  * which returns the left hand side \f$y'\f$. This method is used in ODE_Solver.
  *
@@ -26,10 +26,8 @@
  *
  *     class ODE_INSTANCE : public ODE
  *     {
- *         ODE_INSTANCE(const unsigned& DIM = 2)
- *             : DIMENSION(DIM)
- *             , DY(DIM){};
- *         vec getDY(const double& T, const vec& Y)
+ *         ODE_INSTANCE() : ODE(0, 0, 2) {}
+ *         vec eval(const double& T, const vec& Y)
  *         {
  *             mat A = { { 1, 3 }, { 5, 3 } };
  *             return A * Y;
@@ -39,7 +37,8 @@
  * For non-linear system, element-wise computation should be used.
  *
  * @author T
- * @date 12/07/2017
+ * @date 20/08/2017
+ * @version 0.1.1
  * @file ODE.h
  */
 
@@ -58,16 +57,19 @@ public:
     virtual ~ODE();
 
     //! Method to set dimension of the problem.
-    virtual void setDimension(const unsigned& D);
+    virtual void setDimension(const unsigned&);
+    virtual void operator()(const unsigned&);
     //! Method to return dimension of the problem, will be used to determine the size of
     //! input vector.
     virtual const unsigned& getDimension() const;
+    virtual unsigned operator()();
 
     //! Override the base class's print function.
     void print() override;
 
     //! Method to return LHS --- the derivatives.
-    virtual vec getDY(const double&, const vec&) = 0;
+    virtual vec eval(const double&, const vec&) = 0;
+    virtual vec operator()(const double&, const vec&) = 0;
 };
 
 #endif

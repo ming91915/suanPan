@@ -24,20 +24,20 @@ int RK45::updateStatus()
     auto& D = getODE();
     auto& W = getWorkroom();
 
-    S1 = D->getDY(W->getCurrentTime(), W->getCurrentDisplacement());
-    S2 = D->getDY(W->getCurrentTime() + .25 * W->getIncreTime(),
+    S1 = D->eval(W->getCurrentTime(), W->getCurrentDisplacement());
+    S2 = D->eval(W->getCurrentTime() + .25 * W->getIncreTime(),
         W->getCurrentDisplacement() + W->getIncreTime() * .25 * S1);
-    S3 = D->getDY(W->getCurrentTime() + .375 * W->getIncreTime(),
+    S3 = D->eval(W->getCurrentTime() + .375 * W->getIncreTime(),
         W->getCurrentDisplacement() + W->getIncreTime() * (.09375 * S1 + .28125 * S2));
-    S4 = D->getDY(W->getCurrentTime() + 12. / 13. * W->getIncreTime(),
+    S4 = D->eval(W->getCurrentTime() + 12. / 13. * W->getIncreTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() *
                 (1932. / 2197. * S1 - 7200. / 2197. * S2 + 7296. / 2197. * S3));
-    S5 = D->getDY(W->getTrialTime(),
+    S5 = D->eval(W->getTrialTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() *
                 (439. / 216. * S1 - 8. * S2 + 3680. / 513. * S3 - 845. / 4104. * S4));
-    S6 = D->getDY(W->getCurrentTime() + .5 * W->getIncreTime(),
+    S6 = D->eval(W->getCurrentTime() + .5 * W->getIncreTime(),
         W->getCurrentDisplacement() +
             W->getIncreTime() * (-8. / 27. * S1 + 2. * S2 - 3544. / 2565. * S3 +
                                     1859. / 4104. * S4 - 11. / 40. * S5));

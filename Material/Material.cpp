@@ -5,12 +5,7 @@ Material::Material(const unsigned& T, const unsigned& CT)
 {
 }
 
-Material::~Material()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Material %u dtor() Called.\n", getTag());
-#endif
-}
+Material::~Material() { suanpan_debug("Material %u dtor() Called.\n", getTag()); }
 
 void Material::initialize() {}
 

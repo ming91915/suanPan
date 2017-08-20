@@ -21,7 +21,7 @@ void ODE_Solver::initialize()
 {
     auto& tmp_ode = getODE();
 
-    if(tmp_ode == nullptr) throw invalid_argument("ODE_Solver needs a valid ODE.\n");
+    if(tmp_ode == nullptr) suanpan_error("initialize() needs a valid ODE.\n");
 
     auto& ode_size = tmp_ode->getDimension();
 

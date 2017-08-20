@@ -16,12 +16,7 @@ Element::Element(const unsigned& T,
 {
 }
 
-Element::~Element()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Element %u dtor() Called.\n", getTag());
-#endif
-}
+Element::~Element() { suanpan_debug("Element %u dtor() Called.\n", getTag()); }
 
 void Element::initialize(const shared_ptr<Domain>& D)
 {

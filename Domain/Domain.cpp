@@ -12,12 +12,7 @@ Domain::Domain(const unsigned& T)
 {
 }
 
-Domain::~Domain()
-{
-#ifdef SUANPAN_DEBUG
-    printf("Domain %u dtor() Called.\n", getTag());
-#endif
-}
+Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", getTag()); }
 
 const bool& Domain::is_updated() const { return updated; }
 
