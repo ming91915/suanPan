@@ -65,11 +65,11 @@ public:
     void setWorkroom(const shared_ptr<Workroom>& W);
     const shared_ptr<Workroom>& getWorkroom() const;
 
-    void insert(const shared_ptr<Constraint>&);
-    void insert(const shared_ptr<Element>&);
-    void insert(const shared_ptr<Load>&);
-    void insert(const shared_ptr<Material>&);
-    void insert(const shared_ptr<Node>&);
+    bool insert(const shared_ptr<Constraint>&);
+    bool insert(const shared_ptr<Element>&);
+    bool insert(const shared_ptr<Load>&);
+    bool insert(const shared_ptr<Material>&);
+    bool insert(const shared_ptr<Node>&);
 
     void erase_constraint(const unsigned&);
     void erase_element(const unsigned&);

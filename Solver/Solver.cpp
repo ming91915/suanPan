@@ -18,7 +18,7 @@ Solver::~Solver() {}
 void Solver::initialize()
 {
     if(database == nullptr || converger == nullptr) {
-        suanpan_fatal("Solver needs a valid Domain and Convergence.\n");
+        suanpan_fatal("initialize() needs a valid Domain and Convergence.\n");
         return;
     }
 

@@ -33,5 +33,4 @@ void suanpan_fatal(const char* M, ...)
     va_start(arguments, M);
     vprintf(M, arguments);
     va_end(arguments);
-    std::terminate();
 }

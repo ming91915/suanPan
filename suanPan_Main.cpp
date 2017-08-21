@@ -14,25 +14,25 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-    example_file();
+    // example_file();
 
     return 0;
 }
 
 void example_file()
 {
-    auto D = make_shared<Domain>();
-    process_file(D, "TEST");
+    // auto M = make_shared<Bead>();
+    // process_file(D, "TEST");
 
-    D->summary();
+    // D->summary();
 
-    Static S(1, make_shared<Newton>(D, make_shared<AbsResidual>(1E-4)));
+    // Static S(1, make_shared<Newton>(D, make_shared<AbsResidual>(1E-4)));
 
-    auto INFO = S.analyze();
-    if(INFO != 0) cout << INFO << endl;
+    // auto INFO = S.analyze();
+    // if(INFO != 0) cout << INFO << endl;
 
-    cout << endl;
-    D->getNode(6)->getCurrentDisplacement().print();
+    // cout << endl;
+    // D->getNode(6)->getCurrentDisplacement().print();
 }
 
 void example_symm_mat()

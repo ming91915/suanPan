@@ -7,6 +7,7 @@
 Node::Node(const unsigned& T)
     : Tag(T, CT_NODE)
 {
+    suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
@@ -19,6 +20,7 @@ Node::Node(const unsigned& T, const vec& C)
     , num_dof(static_cast<unsigned>(C.n_elem))
     , coordinate(C)
 {
+    suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
@@ -31,6 +33,7 @@ Node::Node(const unsigned& T, const unsigned& D)
     , num_dof(D)
     , coordinate(num_dof)
 {
+    suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
@@ -44,12 +47,13 @@ Node::Node(const unsigned& T, const unsigned& D, const vec& C)
     , num_dof(D)
     , coordinate(C)
 {
+    suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
  * \brief Default destructor.
  */
-Node::~Node() { suanpan_debug("Node %u dtor() Called.\n", getTag()); }
+Node::~Node() { suanpan_debug("Node %u dtor() called.\n", getTag()); }
 
 /**
  * \brief This method should be called after Element objects are set. Element objects will

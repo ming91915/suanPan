@@ -30,9 +30,9 @@
 class BFGS : public Solver
 {
 public:
-    explicit BFGS(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr);
+    explicit BFGS(const unsigned& = 0,             // tag
+        const shared_ptr<Domain>& = nullptr,       // domain pointer
+        const shared_ptr<Convergence>& = nullptr); // convergence pointer
     explicit BFGS(const shared_ptr<Domain>&, const shared_ptr<Convergence>& = nullptr);
 
     int updateStatus() override;

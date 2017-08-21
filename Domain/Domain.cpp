@@ -10,6 +10,7 @@
 Domain::Domain(const unsigned& T)
     : Tag(T, CT_DOMAIN)
 {
+    suanpan_debug("Domain %u ctor() called.\n", T);
 }
 
 Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", getTag()); }
@@ -117,57 +118,57 @@ void Domain::setWorkroom(const shared_ptr<Workroom>& W) { factory = W; }
 
 const shared_ptr<Workroom>& Domain::getWorkroom() const { return factory; }
 
-void Domain::insert(const shared_ptr<Constraint>& C)
+bool Domain::insert(const shared_ptr<Constraint>& C)
 {
     auto F = constraint_pool.insert({ C->getTag(), C });
-    if(!F.second) {
+    if(!F.second)
         suanpan_error("insert() fails to insert the constraint with tag %u as the "
                       "object with the same tag already exists in the model.\n",
             C->getTag());
-    }
     updated = false;
+    return F.second;
 }
 
-void Domain::insert(const shared_ptr<Element>& E)
+bool Domain::insert(const shared_ptr<Element>& E)
 {
     auto F = element_pool.insert({ E->getTag(), E });
-    if(!F.second) {
+    if(!F.second)
         suanpan_error("insert() fails to insert the element with tag %u as the object "
                       "with the same tag already exists in the model.\n",
             E->getTag());
-    }
     updated = false;
+    return F.second;
 }
 
-void Domain::insert(const shared_ptr<Load>& L)
+bool Domain::insert(const shared_ptr<Load>& L)
 {
     auto F = load_pool.insert({ L->getTag(), L });
-    if(!F.second) {
+    if(!F.second)
         suanpan_error("insert() fails to insert the load with tag %u as the object with "
                       "the same tag already exists in the model.\n",
             L->getTag());
-    }
     updated = false;
+    return F.second;
 }
 
-void Domain::insert(const shared_ptr<Material>& M)
+bool Domain::insert(const shared_ptr<Material>& M)
 {
     auto F = material_pool.insert({ M->getTag(), M });
-    if(!F.second) {
+    if(!F.second)
         suanpan_error("insert() fails to insert the material with tag %u as the object "
                       "with the same tag already exists in the model.\n",
             M->getTag());
-    }
+    return F.second;
 }
 
-void Domain::insert(const shared_ptr<Node>& N)
+bool Domain::insert(const shared_ptr<Node>& N)
 {
     auto F = node_pool.insert({ N->getTag(), N });
-    if(!F.second) {
+    if(!F.second)
         suanpan_error("insert() fails to insert the node with tag %u as the object with "
                       "the same tag already exists in the model.\n",
             N->getTag());
-    }
+    return F.second;
 }
 
 void Domain::erase_constraint(const unsigned& T)
@@ -500,7 +501,7 @@ const unordered_set<unsigned>& Domain::getConstrainedDOF() const
 
 void Domain::summary() const
 {
-    suanpan_debug("The model contains:\n");
+    suanpan_debug("The Domain %u contains:\n", getTag());
     suanpan_debug("%u nodes\n", getNumberNode());
     suanpan_debug("%u elements\n", getNumberElement());
     suanpan_debug("%u materials\n", getNumberMaterial());

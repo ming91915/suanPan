@@ -1,4 +1,6 @@
 #include "commandParser.h"
+#include "Convergence/AbsResidual.h"
+#include "Solver/Newton.h"
 #include "elementParser.h"
 #include "materialParser.h"
 #include <Constraint/BC/BC.h>
@@ -7,39 +9,107 @@
 #include <Domain/Node.h>
 #include <Element/Element.h>
 #include <Load/CLoad.h>
+#include <Step/Bead.h>
 #include <Step/Dynamic.h>
 #include <Step/Static.h>
 
-void process_file(const shared_ptr<Domain>& domain, const char* file_name)
+using std::string;
+using std::ifstream;
+using std::vector;
+
+int process_command(const shared_ptr<Bead>& model, istringstream& command)
+{
+    string command_id;
+    command >> command_id;
+
+    auto& domain = model->getCurrentDomain();
+
+    if(command_id == "model")
+        create_new_domain(model, command);
+    else if(command_id == "step")
+        create_new_step(model, command);
+    else if(command_id == "recorder")
+        create_new_recorder(model, command);
+    else if(command_id == "disable")
+        disable_object(model, command);
+    else if(command_id == "erase" || command_id == "delete")
+        erase_object(model, command);
+    else if(command_id == "node")
+        create_new_node(domain, command);
+    else if(command_id == "material")
+        create_new_material(domain, command);
+    else if(command_id == "element")
+        create_new_element(domain, command);
+    else if(command_id == "fix")
+        create_new_bc(domain, command);
+    else if(command_id == "cload")
+        create_new_cload(domain, command);
+    else if(command_id == "analyze")
+        model->analyze();
+    else if(command_id == "clear")
+        domain->clearStatus();
+    else if(command_id == "summary")
+        domain->summary();
+    else if(command_id == "exit" || command_id == "quit")
+        return 1;
+
+    return 0;
+}
+
+void process_file(const shared_ptr<Bead>& model, const char* file_name)
 {
     ifstream input_file(file_name);
 
     if(!input_file.is_open()) return;
 
     string command_line;
-    string command_id;
     while(input_file.good()) {
         getline(input_file, command_line);
         if(!command_line.empty()) {
             istringstream tmp_str(command_line);
-            tmp_str >> command_id;
-            if(command_id == "node")
-                create_new_node(domain, tmp_str);
-            else if(command_id == "material")
-                create_new_material(domain, tmp_str);
-            else if(command_id == "element")
-                create_new_element(domain, tmp_str);
-            else if(command_id == "fix")
-                create_new_bc(domain, tmp_str);
-            else if(command_id == "cload")
-                create_new_cload(domain, tmp_str);
-            else if(command_id == "step")
-                create_new_step(domain, tmp_str);
-            else if(command_id == "disable")
-                disable_object(domain, tmp_str);
+            if(process_command(model, tmp_str) == 1) return;
         }
     }
 }
+
+void create_new_domain(const shared_ptr<Bead>& model, istringstream& command)
+{
+    unsigned model_id;
+    command >> model_id;
+
+    auto& tmp_domain = model->getDomain(model_id);
+
+    if(tmp_domain == nullptr)
+        tmp_domain = make_shared<Domain>(model_id);
+    else
+        suanpan_debug("create_new_model() switches to an existing model.\n");
+
+    model->setCurrentDomain(model_id);
+}
+
+void create_new_step(const shared_ptr<Bead>& model, istringstream& command)
+{
+    string step_type;
+    command >> step_type;
+    string solver_type;
+    command >> solver_type;
+    unsigned tag;
+    command >> tag;
+    unsigned converger_tag;
+    command >> converger_tag;
+    auto time = 1.;
+    if(command.good()) command >> time;
+
+    //! TODO: SEPERATE STEP AND DOMAIN
+    if(step_type == "static") {
+        if(_strcmpi(solver_type.c_str(), "Newton") == 0) {
+            model->insert(make_shared<Static>(tag, nullptr, time));
+        }
+    } else if(step_type == "dynamic")
+        model->insert(make_shared<Dynamic>(tag));
+}
+
+void create_new_recorder(const shared_ptr<Bead>& model, istringstream& command) {}
 
 void create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
 {
@@ -51,7 +121,8 @@ void create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
         command >> X;
         coor.push_back(X);
     }
-    domain->insert(make_shared<Node>(node_id, vec(coor)));
+    if(!domain->insert(make_shared<Node>(node_id, vec(coor))))
+        suanpan_debug("create_new_node() fails to insert new node.\n");
 }
 
 void create_new_material(const shared_ptr<Domain>& domain, istringstream& command)
@@ -67,10 +138,10 @@ void create_new_material(const shared_ptr<Domain>& domain, istringstream& comman
         if(ext_library.locate_module()) ext_library.new_object(new_material, command);
     }
 
-    if(new_material != nullptr)
-        domain->insert(move(new_material));
-    else
-        suanpan_error("create_new_element() fails to create new element.\n");
+    if(new_material == nullptr)
+        suanpan_debug("create_new_material() fails to insert new material.\n");
+    else if(!domain->insert(move(new_material)))
+        suanpan_debug("create_new_material() fails to insert new material.\n");
 }
 
 void create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
@@ -150,24 +221,10 @@ void create_new_cload(const shared_ptr<Domain>& domain, istringstream& command)
     domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), dof_id));
 }
 
-void create_new_step(const shared_ptr<Domain>& domain, istringstream& command)
+void disable_object(const shared_ptr<Bead>& model, istringstream& command)
 {
-    string step_type;
-    command >> step_type;
-    unsigned tag;
-    command >> tag;
-    auto time = 1.;
-    if(command.good()) command >> time;
+    auto& domain = model->getCurrentDomain();
 
-    //! TODO: SEPERATE STEP AND DOMAIN
-    if(step_type == "static")
-        auto S = make_shared<Static>(tag, nullptr, time);
-    else if(step_type == "dynamic")
-        auto S = make_shared<Dynamic>(tag);
-}
-
-void disable_object(const shared_ptr<Domain>& domain, istringstream& command)
-{
     string object_type;
     command >> object_type;
     unsigned tag;
@@ -190,6 +247,36 @@ void disable_object(const shared_ptr<Domain>& domain, istringstream& command)
         while(command.good()) {
             command >> tag;
             domain->disable_constraint(tag);
+        }
+    }
+}
+
+void erase_object(const shared_ptr<Bead>& model, istringstream& command)
+{
+    auto& domain = model->getCurrentDomain();
+
+    string object_type;
+    command >> object_type;
+    unsigned tag;
+    if(object_type == "node") {
+        while(command.good()) {
+            command >> tag;
+            domain->erase_node(tag);
+        }
+    } else if(object_type == "element") {
+        while(command.good()) {
+            command >> tag;
+            domain->erase_element(tag);
+        }
+    } else if(object_type == "load") {
+        while(command.good()) {
+            command >> tag;
+            domain->erase_load(tag);
+        }
+    } else if(object_type == "bc" || object_type == "constraint") {
+        while(command.good()) {
+            command >> tag;
+            domain->erase_constraint(tag);
         }
     }
 }

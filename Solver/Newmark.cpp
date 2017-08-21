@@ -12,7 +12,7 @@ Newmark::Newmark(const unsigned& T,
     , beta(B)
 {
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        throw invalid_argument("Newmark parameters are not acceptable.\n");
+        throw invalid_argument("Newmark() parameters are not acceptable.\n");
 }
 
 Newmark::Newmark(const shared_ptr<Domain>& D,
@@ -24,7 +24,7 @@ Newmark::Newmark(const shared_ptr<Domain>& D,
     , beta(B)
 {
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        throw invalid_argument("Newmark parameters are not acceptable.\n");
+        throw invalid_argument("Newmark() parameters are not acceptable.\n");
 }
 
 Newmark::~Newmark() {}
