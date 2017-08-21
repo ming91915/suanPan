@@ -28,13 +28,14 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     }
 
     // MATERIAL MODEL PROTOTYPE
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
 
     // INITIAL FLEXIBILITY
     auto& ini_stiffness = material_proto->getInitialStiffness();
 
     // INTEGRATION POINTS INITIALIZATION
-    integrationPlan plan(2, 2, 1);
+    const integrationPlan plan(2, 2, 1);
+    int_pt.clear();
     for(unsigned I = 0; I < 4; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
@@ -50,7 +51,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mat tmp_const = trans(mapping * ele_coor);
+    const mat tmp_const = trans(mapping * ele_coor);
 
     vec disp_mode(4, fill::zeros);
 
@@ -58,13 +59,13 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     mat n(2, 8, fill::zeros);
 
-    auto tmp_density = material_proto->getParameter() * thickness;
+    const auto tmp_density = material_proto->getParameter() * thickness;
 
     mat H(7, 7, fill::zeros);
     mat L(7, 8, fill::zeros);
     mat LI(7, 2, fill::zeros);
     for(const auto& I : int_pt) {
-        auto pn = shapeFunctionQuad(I->coor, 1);
+        const auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;
         I->jacob_det = det(I->jacob);
         if(!solve(I->pn_pxy, I->jacob, pn))
@@ -75,7 +76,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         disp_mode(3) = I->coor(0) * I->coor(1);
 
         I->P = shapeStress7(tmp_const * disp_mode);
-        mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
+        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
         if(!solve(I->A, ini_stiffness, I->P))
             suanpan_warning("initialize() finds a singular initial stiffness matrix.\n");
@@ -100,7 +101,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         LI += tmp_mat * I->BI;
 
         if(tmp_density != 0.) {
-            auto n_int = shapeFunctionQuad(I->coor, 0);
+            const auto n_int = shapeFunctionQuad(I->coor, 0);
             for(unsigned K = 0; K < m_node; ++K) {
                 n(0, 2 * K) = n_int(0, K);
                 n(1, 2 * K + 1) = n_int(0, K);
@@ -113,7 +114,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     solve(HIL, H, L);
     solve(HILI, H, LI);
     HT = H;
-    mat tmp_mat = HILI.t() * HT;
+    const mat tmp_mat = HILI.t() * HT;
     QT = tmp_mat * HILI;
     TT = tmp_mat * HIL;
 
@@ -149,10 +150,10 @@ int QE2::updateStatus()
         for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
     if(norm(trial_disp) < 1E-20) return 0; // quick return
 
-    auto incre_disp = trial_disp - current_disp;                 // eq. 46
-    auto incre_lambda = -trial_qtitt * incre_disp - trial_qtifi; // eq. 65
-    auto incre_alpha = HIL * incre_disp + HILI * incre_lambda;   // eq. 57
-    auto incre_beta = HI * HT * incre_alpha;                     // eq. 58
+    const vec incre_disp = trial_disp - current_disp;                 // eq. 46
+    const vec incre_lambda = -trial_qtitt * incre_disp - trial_qtifi; // eq. 65
+    const vec incre_alpha = HIL * incre_disp + HILI * incre_lambda;   // eq. 57
+    const vec incre_beta = HI * HT * incre_alpha;                     // eq. 58
 
     trial_lambda += incre_lambda; // eq. 66
     trial_alpha += incre_alpha;   // eq. 46
@@ -164,8 +165,8 @@ int QE2::updateStatus()
     auto code = 0;
     for(const auto& I : int_pt) {
         code += I->m_material->updateTrialStatus(I->A * trial_alpha);
-        auto tmp_factor = I->jacob_det * I->weight * thickness;
-        vec tmp_vector = I->P * trial_beta * tmp_factor;
+        const auto tmp_factor = I->jacob_det * I->weight * thickness;
+        const vec tmp_vector = I->P * trial_beta * tmp_factor;
         HT += I->A.t() * I->m_material->getStiffness() * I->A * tmp_factor; // eq. 56
         FI += I->BI.t() * tmp_vector;                                       // eq. 54
         resistance += I->B.t() * tmp_vector;                                // eq. 54

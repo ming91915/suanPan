@@ -23,10 +23,8 @@ int BFGS::analyze(const double& T)
     auto& W = D->getWorkroom();
     auto& C = getConvergence();
 
-    if(W->is_band()) {
-        printf("BFGS::analyze() currently does not suppoort band matrix.\n");
-        return -1;
-    }
+    if(W->is_band())
+        suanpan_fatal("BFGS::analyze() currently does not suppoort band matrix.\n");
 
     auto time_left = T;
     auto step = time_left / 1.;
@@ -56,7 +54,7 @@ int BFGS::analyze(const double& T)
         D->updateTrialStatus();
 
         while(!C->if_converged()) {
-            auto factor = as_scalar(tmp_residual.t() * tmp_ninja);
+            auto factor = dot(tmp_residual, tmp_ninja);
             mat tmp_a = tmp_eye - tmp_ninja * tmp_residual.t() / factor;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;

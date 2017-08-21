@@ -14,22 +14,6 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 
-    // Exception::dontPrint();
-
-    // H5File file("S.h5", H5F_ACC_TRUNC);
-
-    // mat A(10, 40, fill::randn);
-    // hsize_t dims[2];
-    // dims[0] = 10;
-    // dims[1] = 40;
-    // DataSpace dataspace(2, dims);
-
-    // auto dataset = file.createDataSet("Node", PredType::NATIVE_DOUBLE, dataspace);
-
-    // dataset.write(A.memptr(), PredType::NATIVE_DOUBLE);
-
-    // file.close();
-
     example_file();
 
     return 0;

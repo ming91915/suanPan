@@ -38,26 +38,20 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 
-        target_link_libraries(${PROJECT_NAME}
-                libarpack.a
-                libsuperlu.a)
+        target_link_libraries(${PROJECT_NAME} arpack superlu)
 
         if (USE_OPENBLAS)
-            target_link_libraries(${PROJECT_NAME} libopenblas.a)
+            target_link_libraries(${PROJECT_NAME} openblas)
         elseif(USE_NETLIB)
-            target_link_libraries(${PROJECT_NAME} libopenblas.a)
+            target_link_libraries(${PROJECT_NAME} openblas)
         else()
             message("Please check either USE_OPENBLAS or USE_NETLIB.")
         endif ()
 
-        target_link_libraries(${PROJECT_NAME}
-                libgfortran.a
-                libquadmath.a)
+        target_link_libraries(${PROJECT_NAME} gfortran quadmath)
 
         if (USE_HDF5)
-            target_link_libraries(${PROJECT_NAME}
-                    libhdf5_cpp-static.a
-                    libhdf5-static.a)
+            target_link_libraries(${PROJECT_NAME} hdf5_cpp-static hdf5-static)
         endif()
 
     endif()
@@ -78,8 +72,5 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
     endif ()
 
 elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(${PROJECT_NAME}
-    	    libopenblas.a
-            libgfortran.a
-            libquadmath.a)
+    target_link_libraries(${PROJECT_NAME} openblas gfortran quadmath)
 endif ()

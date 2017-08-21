@@ -28,7 +28,7 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
         link_directories(${ROOT}/Libs/gcc)
 
         set(CMAKE_CXX_FLAGS "-O3 -fexceptions")
-        set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG")
+        set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
         #if (USE_OPENMP)
         #    set(CMAKE_CXX_FLAGS "-fopenmp")
         #    set(CMAKE_EXE_LINKER_FLAGS "-fopenmp")

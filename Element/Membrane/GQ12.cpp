@@ -13,48 +13,49 @@ GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH
 
 void GQ12::initialize(const shared_ptr<Domain>& D)
 {
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
 
-    integrationPlan plan(2, 2, 1);
+    const integrationPlan plan(2, 2, 1);
 
+    int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows(); ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
-        int_pt.at(I)->coor.zeros(2);
-        for(auto J = 0; J < 2; ++J) int_pt.at(I)->coor(J) = plan(I, J);
-        int_pt.at(I)->weight = plan(I, 2);
-        int_pt.at(I)->m_material = material_proto->getCopy();
+        int_pt[I]->coor.zeros(2);
+        for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
+        int_pt[I]->weight = plan(I, 2);
+        int_pt[I]->m_material = material_proto->getCopy();
     }
 
     mat ele_coor(m_node, 2);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
         for(unsigned J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    auto LX1 = ele_coor(1, 1) - ele_coor(0, 1);
-    auto LX2 = ele_coor(2, 1) - ele_coor(1, 1);
-    auto LX3 = ele_coor(3, 1) - ele_coor(2, 1);
-    auto LX4 = ele_coor(0, 1) - ele_coor(3, 1);
-    auto LY1 = ele_coor(0, 0) - ele_coor(1, 0);
-    auto LY2 = ele_coor(1, 0) - ele_coor(2, 0);
-    auto LY3 = ele_coor(2, 0) - ele_coor(3, 0);
-    auto LY4 = ele_coor(3, 0) - ele_coor(0, 0);
+    const auto LX1 = ele_coor(1, 1) - ele_coor(0, 1);
+    const auto LX2 = ele_coor(2, 1) - ele_coor(1, 1);
+    const auto LX3 = ele_coor(3, 1) - ele_coor(2, 1);
+    const auto LX4 = ele_coor(0, 1) - ele_coor(3, 1);
+    const auto LY1 = ele_coor(0, 0) - ele_coor(1, 0);
+    const auto LY2 = ele_coor(1, 0) - ele_coor(2, 0);
+    const auto LY3 = ele_coor(2, 0) - ele_coor(3, 0);
+    const auto LY4 = ele_coor(3, 0) - ele_coor(0, 0);
 
     mat pnt(2, 8);
 
     for(const auto& I : int_pt) {
-        auto pn = shapeFunctionQuad(I->coor, 1);
-        mat jacob = pn * ele_coor;
+        const auto pn = shapeFunctionQuad(I->coor, 1);
+        const mat jacob = pn * ele_coor;
         I->jacob_det = det(jacob);
-        mat pn_pxy = solve(jacob, pn);
+        const mat pn_pxy = solve(jacob, pn);
 
-        auto X = 2. * I->coor(0);
-        auto Y = 2. * I->coor(1);
+        const auto X = 2. * I->coor(0);
+        const auto Y = 2. * I->coor(1);
 
-        auto AA = I->coor(0) + 1.;
-        auto BB = I->coor(0) - 1.;
-        auto CC = I->coor(1) + 1.;
-        auto DD = I->coor(1) - 1.;
+        const auto AA = I->coor(0) + 1.;
+        const auto BB = I->coor(0) - 1.;
+        const auto CC = I->coor(1) + 1.;
+        const auto DD = I->coor(1) - 1.;
 
         pnt(0, 0) = DD * (LX4 * CC - LX1 * X);
         pnt(0, 1) = DD * (LX2 * CC + LX1 * X);
@@ -73,7 +74,7 @@ void GQ12::initialize(const shared_ptr<Domain>& D)
         pnt(1, 6) = AA * (LY3 * BB - LY2 * Y);
         pnt(1, 7) = -BB * (LY3 * AA + LY4 * Y);
 
-        mat pnt_pxy = solve(jacob, pnt / 16.);
+        const mat pnt_pxy = solve(jacob, pnt / 16.);
 
         I->strain_mat.zeros(3, m_node * m_dof);
         for(auto J = 0; J < m_node; ++J) {
@@ -100,7 +101,7 @@ int GQ12::updateStatus()
     resistance.zeros();
     for(const auto& I : int_pt) {
         code += I->m_material->updateTrialStatus(I->strain_mat * trial_disp);
-        mat tmp_factor = I->strain_mat.t() * I->jacob_det * I->weight * thickness;
+        const mat tmp_factor = I->strain_mat.t() * I->jacob_det * I->weight * thickness;
         stiffness += tmp_factor * I->m_material->getStiffness() * I->strain_mat;
         resistance += tmp_factor * I->m_material->getStress();
     }

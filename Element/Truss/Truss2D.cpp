@@ -70,10 +70,8 @@ int Truss2D::updateStatus()
 
     auto& t_disp_i = node_i->getTrialDisplacement();
     auto& t_disp_j = node_j->getTrialDisplacement();
-    auto& coord_i = node_i->getCoordinate();
-    auto& coord_j = node_j->getCoordinate();
 
-    vec trial_strain(1);
+    double trial_strain;
 
     vec disp_diff = t_disp_j - t_disp_i;
 
@@ -81,6 +79,8 @@ int Truss2D::updateStatus()
     auto new_length = length;
 
     if(nlgeom) {
+        auto& coord_i = node_i->getCoordinate();
+        auto& coord_j = node_j->getCoordinate();
         vec pos_diff = disp_diff + coord_j - coord_i;
 
         new_length = norm(pos_diff);
@@ -90,13 +90,13 @@ int Truss2D::updateStatus()
         if(update_area) new_area = area * length / new_length;
 
         if(log_strain)
-            trial_strain(0) = log(new_length / length);
+            trial_strain = log(new_length / length);
         else
-            trial_strain(0) = new_length / length - 1.;
+            trial_strain = new_length / length - 1.;
     } else
-        trial_strain(0) = accu(disp_diff % direction_cosine) / length;
+        trial_strain = dot(disp_diff, direction_cosine) / length;
 
-    t_material->updateTrialStatus(trial_strain);
+    t_material->updateTrialStatus({ trial_strain });
 
     auto tmp_d = new_area / new_length * as_scalar(t_material->getStiffness());
     auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);

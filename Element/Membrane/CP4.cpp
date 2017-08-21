@@ -19,34 +19,35 @@ CP4::CP4(const unsigned& T,
 
 void CP4::initialize(const shared_ptr<Domain>& D)
 {
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
 
     unsigned order = 2;
     if(reduced_scheme) order = 1;
-    integrationPlan plan(2, order, 1);
+    const integrationPlan plan(2, order, 1);
 
+    int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows(); ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
-        int_pt.at(I)->coor.zeros(2);
-        for(auto J = 0; J < 2; ++J) int_pt.at(I)->coor(J) = plan(I, J);
-        int_pt.at(I)->weight = plan(I, 2);
-        int_pt.at(I)->m_material = material_proto->getCopy();
+        int_pt[I]->coor.zeros(2);
+        for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
+        int_pt[I]->weight = plan(I, 2);
+        int_pt[I]->m_material = material_proto->getCopy();
     }
 
     mat ele_coor(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
     mass.zeros();
     for(const auto& I : int_pt) {
-        auto pn = shapeFunctionQuad(I->coor, 1);
-        mat jacob = pn * ele_coor;
+        const auto pn = shapeFunctionQuad(I->coor, 1);
+        const mat jacob = pn * ele_coor;
         I->jacob_det = det(jacob);
         I->pn_pxy = solve(jacob, pn);
 
-        auto n_int = shapeFunctionQuad(I->coor, 0);
+        const auto n_int = shapeFunctionQuad(I->coor, 0);
 
         auto tmp_density = I->m_material->getParameter();
         if(tmp_density != 0.) {
@@ -111,47 +112,47 @@ int CP4::updateStatus()
         // 8*3*3*8*3*8=13824
         // FOLLOWING CODES ONLY HAVE 117 MULTIPLICATIONS AND 95 ADDTIONS AND COPY OF UPPER
         // TRIANGLE TO LOWER PART
-        auto tmp_factor = I->jacob_det * I->weight * thickness;
+        const auto tmp_factor = I->jacob_det * I->weight * thickness;
 
         auto& tmp_stiff = I->m_material->getStiffness();
         auto& tmp_stress = I->m_material->getStress();
 
-        auto D00 = tmp_factor * tmp_stiff(0, 0);
-        auto D01 = tmp_factor * tmp_stiff(0, 1);
-        auto D02 = tmp_factor * tmp_stiff(0, 2);
-        auto D11 = tmp_factor * tmp_stiff(1, 1);
-        auto D12 = tmp_factor * tmp_stiff(1, 2);
-        auto D22 = tmp_factor * tmp_stiff(2, 2);
+        const auto D00 = tmp_factor * tmp_stiff(0, 0);
+        const auto D01 = tmp_factor * tmp_stiff(0, 1);
+        const auto D02 = tmp_factor * tmp_stiff(0, 2);
+        const auto D11 = tmp_factor * tmp_stiff(1, 1);
+        const auto D12 = tmp_factor * tmp_stiff(1, 2);
+        const auto D22 = tmp_factor * tmp_stiff(2, 2);
 
-        auto S0 = tmp_factor * tmp_stress(0);
-        auto S1 = tmp_factor * tmp_stress(1);
-        auto S2 = tmp_factor * tmp_stress(2);
+        const auto S0 = tmp_factor * tmp_stress(0);
+        const auto S1 = tmp_factor * tmp_stress(1);
+        const auto S2 = tmp_factor * tmp_stress(2);
 
-        auto AA = D02 * NX1;
-        auto BB = D12 * NY1;
-        auto CC = D02 * NX2;
-        auto DD = D12 * NY2;
-        auto EE = D02 * NX3;
-        auto FF = D12 * NY3;
-        auto GG = D12 * NY4;
-        auto HH = D00 * NX1 + D02 * NY1;
-        auto II = D12 * NX1 + D11 * NY1;
-        auto JJ = D00 * NX2 + D02 * NY2;
-        auto KK = D12 * NX2 + D11 * NY2;
-        auto LL = D12 * NX3 + D11 * NY3;
-        auto MM = D00 * NX3 + D02 * NY3;
-        auto NN = D02 * NX4 + D22 * NY4;
-        auto OO = D22 * NY1 + AA;
-        auto PP = D01 * NY1 + AA;
-        auto QQ = D01 * NX1 + BB;
-        auto RR = D22 * NX1 + BB;
-        auto SS = D01 * NY2 + CC;
-        auto TT = D22 * NY2 + CC;
-        auto UU = D01 * NX2 + DD;
-        auto VV = D22 * NX2 + DD;
-        auto WW = D22 * NY3 + EE;
-        auto XX = D01 * NX3 + FF;
-        auto YY = D22 * NX3 + FF;
+        const auto AA = D02 * NX1;
+        const auto BB = D12 * NY1;
+        const auto CC = D02 * NX2;
+        const auto DD = D12 * NY2;
+        const auto EE = D02 * NX3;
+        const auto FF = D12 * NY3;
+        const auto GG = D12 * NY4;
+        const auto HH = D00 * NX1 + D02 * NY1;
+        const auto II = D12 * NX1 + D11 * NY1;
+        const auto JJ = D00 * NX2 + D02 * NY2;
+        const auto KK = D12 * NX2 + D11 * NY2;
+        const auto LL = D12 * NX3 + D11 * NY3;
+        const auto MM = D00 * NX3 + D02 * NY3;
+        const auto NN = D02 * NX4 + D22 * NY4;
+        const auto OO = D22 * NY1 + AA;
+        const auto PP = D01 * NY1 + AA;
+        const auto QQ = D01 * NX1 + BB;
+        const auto RR = D22 * NX1 + BB;
+        const auto SS = D01 * NY2 + CC;
+        const auto TT = D22 * NY2 + CC;
+        const auto UU = D01 * NX2 + DD;
+        const auto VV = D22 * NX2 + DD;
+        const auto WW = D22 * NY3 + EE;
+        const auto XX = D01 * NX3 + FF;
+        const auto YY = D22 * NX3 + FF;
 
         stiffness(0, 0) += NX1 * HH + NY1 * OO;
         stiffness(0, 1) += NX1 * OO + NY1 * QQ;

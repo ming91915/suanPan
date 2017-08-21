@@ -11,18 +11,18 @@ CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH
 
 void CP3::initialize(const shared_ptr<Domain>& D)
 {
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
     m_material = material_proto->getCopy();
 
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
         for(auto J = 0; J < 2; ++J) ele_coor(I, J + 1) = tmp_coor(J);
     }
 
     area = det(ele_coor) / 2.;
 
-    mat inv_coor = inv(ele_coor);
+    const mat inv_coor = inv(ele_coor);
 
     strain_mat.zeros(3, m_node * m_dof);
     strain_mat(0, 0) = inv_coor(1, 0);
@@ -45,12 +45,12 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     if(tmp_density != 0.) {
         tmp_density *= area * thickness;
         vec n = mean(ele_coor) * inv_coor;
-        auto tmp_a = n(0) * n(0) * tmp_density;
-        auto tmp_b = n(1) * n(1) * tmp_density;
-        auto tmp_c = n(2) * n(2) * tmp_density;
-        auto tmp_d = n(0) * n(1) * tmp_density;
-        auto tmp_e = n(1) * n(2) * tmp_density;
-        auto tmp_f = n(2) * n(0) * tmp_density;
+        const auto tmp_a = n(0) * n(0) * tmp_density;
+        const auto tmp_b = n(1) * n(1) * tmp_density;
+        const auto tmp_c = n(2) * n(2) * tmp_density;
+        const auto tmp_d = n(0) * n(1) * tmp_density;
+        const auto tmp_e = n(1) * n(2) * tmp_density;
+        const auto tmp_f = n(2) * n(0) * tmp_density;
         mass(0, 0) = tmp_a;
         mass(1, 1) = tmp_a;
         mass(2, 2) = tmp_b;
@@ -81,9 +81,9 @@ int CP3::updateStatus()
 
     m_material->updateTrialStatus(strain_mat * trial_disp);
 
-    stiffness =
-        strain_mat.t() * m_material->getStiffness() * strain_mat * area * thickness;
-    resistance = strain_mat.t() * m_material->getStress() * area * thickness;
+    const mat tmp_factor = strain_mat.t() * area * thickness;
+    stiffness = tmp_factor * m_material->getStiffness() * strain_mat;
+    resistance = tmp_factor * m_material->getStress();
 
     return 0;
 }
