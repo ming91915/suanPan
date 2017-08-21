@@ -430,7 +430,8 @@ void Node::updateIncreStatus(const vec& D, const vec& V, const vec& A)
  */
 void Node::print()
 {
-    printf("Node %u:\n", getTag());
+    suanpan_info("Node %u:\n", getTag());
     coordinate.print();
-    printf("\n");
+    suanpan_info("Displacement:\n");
+    current_displacement.print();
 }

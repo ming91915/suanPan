@@ -231,3 +231,13 @@ int QE2::resetStatus()
     for(const auto& I : int_pt) code += I->m_material->resetStatus();
     return code;
 }
+
+void QE2::print()
+{
+    suanpan_info("Piltner's mixed element connects:\n");
+    node_encoding.t().print();
+    for(auto I = 0; I < int_pt.size(); ++I) {
+        suanpan_info("Integration Point %u:\n", I + 1);
+        int_pt[I]->m_material->print();
+    }
+}

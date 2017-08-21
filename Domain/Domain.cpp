@@ -501,8 +501,8 @@ const unordered_set<unsigned>& Domain::getConstrainedDOF() const
 
 void Domain::summary() const
 {
-    suanpan_debug("The Domain %u contains:\n", getTag());
-    suanpan_debug("%u nodes\n", getNumberNode());
-    suanpan_debug("%u elements\n", getNumberElement());
-    suanpan_debug("%u materials\n", getNumberMaterial());
+    suanpan_info("The Domain %u contains:\n", getTag());
+    suanpan_info("%u nodes\n", getNumberNode());
+    suanpan_info("%u elements\n", getNumberElement());
+    suanpan_info("%u materials\n", getNumberMaterial());
 }

@@ -56,6 +56,8 @@ public:
     const shared_ptr<Step>& getCurrentStep() const;
     shared_ptr<Step>& getCurrentStep();
 
+    int erase_domain(const unsigned&);
+
     void setCurrentDomain(const unsigned&) const;
     void setCurrentStep(const unsigned&) const;
 

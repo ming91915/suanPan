@@ -103,7 +103,13 @@ int Elastic2D::resetStatus()
     return 0;
 }
 
-void Elastic2D::print() { printf("Planar Isotropic Elastic Material.\n"); }
+void Elastic2D::print()
+{
+    suanpan_info("Strain:\n");
+    getStrain().t().print();
+    suanpan_info("Stress:\n");
+    getStress().t().print();
+}
 
 double Elastic2D::getParameter(const unsigned& F) const
 {

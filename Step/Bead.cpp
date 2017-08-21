@@ -70,6 +70,21 @@ const shared_ptr<Step>& Bead::getCurrentStep() const { return steps.at(current_s
 
 shared_ptr<Step>& Bead::getCurrentStep() { return steps[current_step]; }
 
+int Bead::erase_domain(const unsigned& T)
+{
+    auto& tmp_domain = getDomain(T);
+    if(tmp_domain == nullptr)
+        suanpan_info("erase_domain() cannot find the Domain %u, nothing changed.\n", T);
+    else {
+        auto flag = 'Y';
+        suanpan_info(
+            "erase_domain() is about to delete Domain %u, are you sure? [Y/N]", T);
+        std::cin.get(flag);
+        if(flag == 'Y' || flag == '\n') domains.erase(T);
+    }
+    return 0;
+}
+
 void Bead::setCurrentDomain(const unsigned& T) const
 {
     auto tmp_ptr = &current_domain;

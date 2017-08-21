@@ -1,9 +1,9 @@
 #include "commandParser.h"
-#include "Convergence/AbsResidual.h"
 #include "Solver/Newton.h"
 #include "elementParser.h"
 #include "materialParser.h"
 #include <Constraint/BC/BC.h>
+#include <Convergence/Convergence>
 #include <Domain/Domain.h>
 #include <Domain/ExternalModule.h>
 #include <Domain/Node.h>
@@ -24,8 +24,12 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
 
     auto& domain = model->getCurrentDomain();
 
-    if(command_id == "model")
+    if(command_id == "file")
+        process_file(model, command);
+    else if(command_id == "model")
         create_new_domain(model, command);
+    else if(command_id == "converger")
+        create_new_converger(model, command);
     else if(command_id == "step")
         create_new_step(model, command);
     else if(command_id == "recorder")
@@ -44,13 +48,15 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
         create_new_bc(domain, command);
     else if(command_id == "cload")
         create_new_cload(domain, command);
+    else if(command_id == "print")
+        print_info(domain, command);
     else if(command_id == "analyze")
         model->analyze();
     else if(command_id == "clear")
         domain->clearStatus();
-    else if(command_id == "summary")
-        domain->summary();
-    else if(command_id == "exit" || command_id == "quit")
+    else if(command_id == "summary") {
+        if(domain != nullptr) domain->summary();
+    } else if(command_id == "exit" || command_id == "quit")
         return 1;
 
     return 0;
@@ -72,6 +78,13 @@ void process_file(const shared_ptr<Bead>& model, const char* file_name)
     }
 }
 
+void process_file(const shared_ptr<Bead>& model, istringstream& command)
+{
+    string file_name;
+    command >> file_name;
+    process_file(model, file_name.c_str());
+}
+
 void create_new_domain(const shared_ptr<Bead>& model, istringstream& command)
 {
     unsigned model_id;
@@ -82,28 +95,63 @@ void create_new_domain(const shared_ptr<Bead>& model, istringstream& command)
     if(tmp_domain == nullptr)
         tmp_domain = make_shared<Domain>(model_id);
     else
-        suanpan_debug("create_new_model() switches to an existing model.\n");
+        suanpan_info("create_new_model() switches to an existing model.\n");
 
     model->setCurrentDomain(model_id);
 }
 
-void create_new_step(const shared_ptr<Bead>& model, istringstream& command)
+void create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
 {
-    string step_type;
-    command >> step_type;
-    string solver_type;
-    command >> solver_type;
+    const auto& tmp_domain = model->getCurrentDomain();
+
+    string converger_id;
+    command >> converger_id;
+
     unsigned tag;
     command >> tag;
+
+    auto tolerance = 1E-8;
+    if(command.good()) command >> tolerance;
+
+    auto print_flag = 0;
+    if(command.good()) command >> print_flag;
+
+    if(_strcmpi(converger_id.c_str(), "AbsResidual") == 0)
+        model->insert(make_shared<AbsResidual>(tag, tmp_domain, tolerance, !!print_flag));
+    else if(_strcmpi(converger_id.c_str(), "AbsIncreDisp") == 0)
+        model->insert(
+            make_shared<AbsIncreDisp>(tag, tmp_domain, tolerance, !!print_flag));
+}
+
+void create_new_step(const shared_ptr<Bead>& model, istringstream& command)
+{
+    const auto& tmp_domain = model->getCurrentDomain();
+
+    string step_type;
+    command >> step_type;
+
+    string solver_type;
+    command >> solver_type;
+
+    unsigned tag;
+    command >> tag;
+
     unsigned converger_tag;
     command >> converger_tag;
+    const auto& tmp_converger = model->getConvergence(converger_tag);
+    if(tmp_converger == nullptr) {
+        suanpan_error(
+            "create_new_step() cannot find a the converger, please define it first.\n");
+        return;
+    }
+
     auto time = 1.;
     if(command.good()) command >> time;
 
-    //! TODO: SEPERATE STEP AND DOMAIN
     if(step_type == "static") {
         if(_strcmpi(solver_type.c_str(), "Newton") == 0) {
-            model->insert(make_shared<Static>(tag, nullptr, time));
+            model->insert(make_shared<Static>(
+                tag, make_shared<Newton>(tag, tmp_domain, tmp_converger), time));
         }
     } else if(step_type == "dynamic")
         model->insert(make_shared<Dynamic>(tag));
@@ -221,6 +269,26 @@ void create_new_cload(const shared_ptr<Domain>& domain, istringstream& command)
     domain->insert(make_shared<CLoad>(load_id, 0, magnitude, uvec(node_tag), dof_id));
 }
 
+void print_info(const shared_ptr<Domain>& domain, istringstream& command)
+{
+    string object_id;
+    command >> object_id;
+
+    unsigned tag;
+    if(object_id == "node")
+        while(command.good()) {
+            command >> tag;
+            domain->getNode(tag)->print();
+            suanpan_info("\n");
+        }
+    else if(object_id == "element")
+        while(command.good()) {
+            command >> tag;
+            domain->getElement(tag)->print();
+            suanpan_info("\n");
+        }
+}
+
 void disable_object(const shared_ptr<Bead>& model, istringstream& command)
 {
     auto& domain = model->getCurrentDomain();
@@ -258,7 +326,12 @@ void erase_object(const shared_ptr<Bead>& model, istringstream& command)
     string object_type;
     command >> object_type;
     unsigned tag;
-    if(object_type == "node") {
+    if(object_type == "domain") {
+        while(command.good()) {
+            command >> tag;
+            model->erase_domain(tag);
+        }
+    } else if(object_type == "node") {
         while(command.good()) {
             command >> tag;
             domain->erase_node(tag);
