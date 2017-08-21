@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 void example_file()
 {
     auto D = make_shared<Domain>();
-    process_file(D, "A.tcl");
+    process_file(D, "TEST");
 
     D->summary();
 

@@ -75,7 +75,7 @@ int Bilinear3D::updateTrialStatus(const vec& t_strain)
 
     vec shifted_stress = dev(trial_stress) - current_back_stress;
 
-    auto norm_shifted_stress = sqrt(accu(norm_weight % shifted_stress % shifted_stress));
+    auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
 
     auto yield_func = norm_shifted_stress -
         root_two_third *

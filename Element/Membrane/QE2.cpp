@@ -91,11 +91,10 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         }
         L += tmp_mat * I->B;
 
+        const vec tmp_vec = I->coor / I->jacob_det;
         I->BI = zeros(3, 2);
-        I->BI(0, 0) =
-            (-tmp_const(1, 2) * I->coor(0) - tmp_const(1, 1) * I->coor(1)) / I->jacob_det;
-        I->BI(1, 1) =
-            (tmp_const(0, 2) * I->coor(0) + tmp_const(0, 1) * I->coor(1)) / I->jacob_det;
+        I->BI(0, 0) = -tmp_const(1, 2) * tmp_vec(0) - tmp_const(1, 1) * tmp_vec(1);
+        I->BI(1, 1) = tmp_const(0, 2) * tmp_vec(0) + tmp_const(0, 1) * tmp_vec(1);
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
         LI += tmp_mat * I->BI;
