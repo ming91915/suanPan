@@ -32,25 +32,29 @@ add_subdirectory(Solver)
 add_subdirectory(Step)
 add_subdirectory(Toolbox)
 
+if(BUILD_DLL_EXAMPLE)
+	add_subdirectory(Developer/Element)
+endif()
+
 target_link_libraries(${PROJECT_NAME} Element Material)
 
-if (CMAKE_SYSTEM_NAME MATCHES "Windows")
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
 
         target_link_libraries(${PROJECT_NAME} arpack superlu)
 
-        if (USE_OPENBLAS)
+        if(USE_OPENBLAS)
             target_link_libraries(${PROJECT_NAME} openblas)
         elseif(USE_NETLIB)
             target_link_libraries(${PROJECT_NAME} openblas)
         else()
             message("Please check either USE_OPENBLAS or USE_NETLIB.")
-        endif ()
+        endif()
 
         target_link_libraries(${PROJECT_NAME} gfortran quadmath)
 
-        if (USE_HDF5)
+        if(USE_HDF5)
             target_link_libraries(${PROJECT_NAME} hdf5_cpp-static hdf5-static)
         endif()
 
@@ -58,19 +62,14 @@ if (CMAKE_SYSTEM_NAME MATCHES "Windows")
     
     if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 
-        target_link_libraries(${PROJECT_NAME}
-                arpack.lib
-                superlu.lib
-                lapack.lib)
+        target_link_libraries(${PROJECT_NAME} arpack.lib superlu.lib lapack.lib)
 
-        if (USE_HDF5)
-        target_link_libraries(${PROJECT_NAME}
-                libhdf5_cpp.lib
-                libhdf5.lib)
+        if(USE_HDF5)
+        target_link_libraries(${PROJECT_NAME} libhdf5_cpp.lib libhdf5.lib)
         endif()
 
-    endif ()
+    endif()
 
-elseif (CMAKE_SYSTEM_NAME MATCHES "Linux")
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_link_libraries(${PROJECT_NAME} openblas gfortran quadmath)
-endif ()
+endif()

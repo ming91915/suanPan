@@ -6,6 +6,8 @@ add_definitions(-DSUANPAN_DLL)
 
 set(ROOT ../..)
 
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../..)
+
 include(${ROOT}/Configuration.cmake)
 
 add_library(${PROJECT_NAME} SHARED
@@ -22,14 +24,9 @@ add_library(${PROJECT_NAME} SHARED
 	"${ROOT}/Toolbox/debug.cpp")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_link_libraries(${PROJECT_NAME}
-		libarpack.a
-		libsuperlu.a
-		libopenblas.a
-		libgfortran.a
-		libquadmath.a)
+    target_link_libraries(${PROJECT_NAME} arpack superlu openblas gfortran quadmath)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_link_libraries(${PROJECT_NAME} arpack.lib superlu.lib lapack.lib)
-endif ()
+endif()
