@@ -23,11 +23,14 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     string command_id;
     if((command >> command_id).fail()) return 0;
 
+    if(command_id == "exit" || command_id == "quit") return SUANPAN_EXIT;
+
+    if(command_id == "file" && process_file(model, command) == SUANPAN_EXIT)
+        return SUANPAN_EXIT;
+
     auto& domain = getCurrentDomain(model);
 
-    if(command_id == "file") // process model script
-        process_file(model, command);
-    else if(command_id == "domain") // create new domain
+    if(command_id == "domain") // create new domain
         create_new_domain(model, command);
     else if(command_id == "converger") // create new convergence
         create_new_converger(model, command);
@@ -62,8 +65,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
         domain->clearStatus();
     else if(command_id == "summary") { // print current domain summary
         if(domain != nullptr) domain->summary();
-    } else if(command_id == "exit" || command_id == "quit") // exit
-        return SUANPAN_EXIT;
+    }
 
     return 0;
 }
