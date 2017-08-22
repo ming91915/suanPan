@@ -38,7 +38,7 @@ void argumentParser(int argc, char** argv)
         if(input_file_name != "") {
             auto model = make_shared<Bead>();
             if(process_file(model, input_file_name.c_str()) == SUANPAN_EXIT) return;
-            if(output_file.is_open()) cout.rdbuf(buffer_backup);
+            cout.rdbuf(buffer_backup);
             cli_mode(model);
         }
     } else {
@@ -55,7 +55,7 @@ void print_header()
         SUANPAN_ARCH);
     suanpan_info("|  \\__       |__/ __   __   |                 Acrux (0.1.0)  |\n");
     suanpan_info("|     \\ |  | |   |  \\ |  |  |                                |\n");
-    suanpan_info("|  \\__/ |__| |   |__X |  |  |          maintained by T.L.C.  |\n");
+    suanpan_info("|  \\__/ |__| |   |__X |  |  |            maintained by tlc  |\n");
     suanpan_info("|                           |           all rights reserved  |\n");
     suanpan_info("+------------------------------------------------------------+\n\n");
 }
@@ -67,10 +67,9 @@ void print_version()
 #elif defined(_MSC_FULL_VER)
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
-    suanpan_info("A FEM Framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0\n");
-    suanpan_info("\tdate 22/08/2017\n");
-    suanpan_info("\tcompiled with %s version %s\n", SUANPAN_COMPILER, version.c_str());
+    suanpan_info("suanPan is an open source FEM framework.\n");
+    suanpan_info("\tversion Acrux 0.1.0, date 23/08/2017, compiled with %s %s\n",
+        SUANPAN_COMPILER, version.c_str());
 }
 
 void print_helper()
@@ -88,7 +87,7 @@ void cli_mode(const shared_ptr<Bead>& model)
     while(true) {
         suanpan_info("suanPan --> ");
         getline(std::cin, command_line);
-        if(!command_line.empty()) {
+        if(!command_line.empty() && command_line[0] != '#') {
             istringstream tmp_str(command_line);
             if(process_command(model, tmp_str) == SUANPAN_EXIT) return;
         }
