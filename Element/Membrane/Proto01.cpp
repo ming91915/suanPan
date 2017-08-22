@@ -70,7 +70,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
-        I->P = shapeStress12(tmp_const * disp_mode);
+        I->P = shapeStress11(tmp_const * disp_mode);
         mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
         solve(I->A, ini_stiffness, I->P);

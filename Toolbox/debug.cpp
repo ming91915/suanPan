@@ -5,7 +5,6 @@ using std::vector;
 
 void suanpan_info(const char* M, ...)
 {
-    cout << "info: ";
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);
     va_copy(arguments_b, arguments_a);
@@ -13,7 +12,7 @@ void suanpan_info(const char* M, ...)
     va_end(arguments_a);
     vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
     va_end(arguments_b);
-    cout << buffer.data() << "\n";
+    cout << buffer.data();
 }
 
 void suanpan_debug(const char* M, ...)
@@ -27,7 +26,7 @@ void suanpan_debug(const char* M, ...)
     va_end(arguments_a);
     vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
     va_end(arguments_b);
-    cout << buffer.data() << "\n";
+    cout << buffer.data();
 #endif
 }
 
@@ -41,7 +40,7 @@ void suanpan_warning(const char* M, ...)
     va_end(arguments_a);
     vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
     va_end(arguments_b);
-    cout << buffer.data() << "\n";
+    cout << buffer.data();
 }
 
 void suanpan_error(const char* M, ...)
@@ -54,7 +53,7 @@ void suanpan_error(const char* M, ...)
     va_end(arguments_a);
     vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
     va_end(arguments_b);
-    cout << buffer.data() << "\n";
+    cout << buffer.data();
 }
 
 void suanpan_fatal(const char* M, ...)
@@ -67,5 +66,5 @@ void suanpan_fatal(const char* M, ...)
     va_end(arguments_a);
     vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
     va_end(arguments_b);
-    cout << buffer.data() << "\n";
+    cout << buffer.data();
 }

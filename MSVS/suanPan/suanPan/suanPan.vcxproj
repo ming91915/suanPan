@@ -212,6 +212,7 @@
     <ClCompile Include="..\..\..\Toolbox\materialParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Constraint\BC\BC.h" />
@@ -277,6 +278,7 @@
     <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp" />
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h" />
     <ClInclude Include="..\..\..\Toolbox\testFunctions.h" />
+    <ClInclude Include="..\..\..\Toolbox\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

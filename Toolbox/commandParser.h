@@ -10,8 +10,8 @@ class Domain;
 
 int process_command(const shared_ptr<Bead>&, istringstream&);
 
-void process_file(const shared_ptr<Bead>&, const char*);
-void process_file(const shared_ptr<Bead>&, istringstream&);
+int process_file(const shared_ptr<Bead>&, const char*);
+int process_file(const shared_ptr<Bead>&, istringstream&);
 
 void create_new_domain(const shared_ptr<Bead>&, istringstream&);
 void create_new_converger(const shared_ptr<Bead>&, istringstream&);

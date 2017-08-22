@@ -37,9 +37,8 @@ void argumentParser(int argc, char** argv)
 
         if(input_file_name != "") {
             auto model = make_shared<Bead>();
-            process_file(model, input_file_name.c_str());
+            if(process_file(model, input_file_name.c_str()) == SUANPAN_EXIT) return;
             if(output_file.is_open()) cout.rdbuf(buffer_backup);
-
             cli_mode(model);
         }
     } else {
@@ -87,7 +86,7 @@ void cli_mode(const shared_ptr<Bead>& model)
 {
     string command_line;
     while(true) {
-        cout << "suanPan --> ";
+        suanpan_info("suanPan --> ");
         getline(std::cin, command_line);
         if(!command_line.empty()) {
             istringstream tmp_str(command_line);

@@ -1,5 +1,5 @@
 #include "Gap01.h"
-#include <Toolbox/tensorToolbox.h>
+#include <Toolbox/utility.h>
 
 Gap01::Gap01(const unsigned& T,
     const double& E,

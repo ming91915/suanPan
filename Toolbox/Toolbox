@@ -9,3 +9,4 @@
 #include "SymmMat_meat.hpp"
 #include "tensorToolbox.h"
 #include "testFunctions.h"
+#include "utility.h"

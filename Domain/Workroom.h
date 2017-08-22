@@ -42,7 +42,7 @@ using T2 = mat; /**< alias */
 
 class Workroom final
 {
-    friend class Solver;
+    // friend class Solver;
 
     unsigned number_dof = 0;    /**< number of DoFs */
     unsigned analysis_type = 0; /**< type of analysis */

@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 
     argumentParser(argc, argv);
 
-    cout << T.toc() << endl;
+    cout << T.toc() << "\n";
 
     return 0;
 }

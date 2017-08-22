@@ -1,5 +1,5 @@
 #include "RambergOsgood.h"
-#include <Toolbox/tensorToolbox.h>
+#include <Toolbox/utility.h>
 
 RambergOsgood::RambergOsgood(const unsigned& T,
     const double& E,

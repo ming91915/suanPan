@@ -192,6 +192,9 @@
     <ClCompile Include="..\..\..\Toolbox\materialParser.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\utility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -382,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\materialParser.h">
       <Filter>Parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\utility.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

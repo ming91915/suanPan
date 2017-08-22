@@ -12,21 +12,27 @@ vec dev(const vec&);
 mat shapeStress(const double&, const double&, const unsigned&);
 mat shapeStress(const vec&, const unsigned&);
 
-mat shapeStress5(const vec&);
-mat shapeStress7(const vec&);
-mat shapeStress9(const vec&);
-mat shapeStress12(const vec&);
 mat shapeStress5(const double&, const double&);
 mat shapeStress7(const double&, const double&);
 mat shapeStress9(const double&, const double&);
-mat shapeStress12(const double&, const double&);
+mat shapeStress11(const double&, const double&);
 
+mat shapeStress5(const vec&);
+mat shapeStress7(const vec&);
+mat shapeStress9(const vec&);
+mat shapeStress11(const vec&);
+
+mat shapeStrain(const double&, const double&, const double&, const unsigned&);
 mat shapeStrain(const vec&, const double&, const unsigned&);
 
-mat shapeStrain5(const vec&, const unsigned&);
-mat shapeStrain7(const vec&, const unsigned&);
-mat shapeStrain9(const vec&, const unsigned&);
+mat shapeStrain5(const double&, const double&, const double&);
+mat shapeStrain7(const double&, const double&, const double&);
+mat shapeStrain9(const double&, const double&, const double&);
+mat shapeStrain11(const double&, const double&, const double&);
 
-template <typename T> T sign(const T& I) { return (I > 0.) - (I < 0.); }
+mat shapeStrain5(const vec&, const double&);
+mat shapeStrain7(const vec&, const double&);
+mat shapeStrain9(const vec&, const double&);
+mat shapeStrain11(const vec&, const double&);
 
 #endif

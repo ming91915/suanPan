@@ -22,16 +22,16 @@ using std::unordered_map;
 
 class Bead
 {
-    unordered_map<unsigned, shared_ptr<Domain>> domains;
-    unordered_map<unsigned, shared_ptr<Convergence>> convergers;
-    unordered_map<unsigned, shared_ptr<Step>> steps;
-    unordered_map<unsigned, shared_ptr<Recorder>> loggers;
+    unsigned current_domain = 1;
+    unsigned current_step = 0;
+
+    unordered_map<unsigned, shared_ptr<Domain>> domain_pool;
+    unordered_map<unsigned, shared_ptr<Convergence>> converger_pool;
+    unordered_map<unsigned, shared_ptr<Step>> step_pool;
+    unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;
 
 public:
     Bead();
-
-    const unsigned current_domain = 1;
-    const unsigned current_step = 0;
 
     bool insert(const shared_ptr<Domain>&);
     bool insert(const shared_ptr<Convergence>&);
@@ -39,29 +39,34 @@ public:
     bool insert(const shared_ptr<Recorder>&);
 
     const shared_ptr<Domain>& getDomain(const unsigned&) const;
-    shared_ptr<Domain>& getDomain(const unsigned&);
-
     const shared_ptr<Convergence>& getConvergence(const unsigned&) const;
-    shared_ptr<Convergence>& getConvergence(const unsigned&);
-
     const shared_ptr<Step>& getStep(const unsigned&) const;
-    shared_ptr<Step>& getStep(const unsigned&);
-
     const shared_ptr<Recorder>& getRecorder(const unsigned&) const;
-    shared_ptr<Recorder>& getRecorder(const unsigned&);
 
     const shared_ptr<Domain>& getCurrentDomain() const;
-    shared_ptr<Domain>& getCurrentDomain();
-
     const shared_ptr<Step>& getCurrentStep() const;
-    shared_ptr<Step>& getCurrentStep();
+
+    friend shared_ptr<Domain>& getDomain(const shared_ptr<Bead>&, const unsigned&);
+    friend shared_ptr<Convergence>& getConvergence(const shared_ptr<Bead>&,
+        const unsigned&);
+    friend shared_ptr<Step>& getStep(const shared_ptr<Bead>&, const unsigned&);
+    friend shared_ptr<Recorder>& getRecorder(const shared_ptr<Bead>&, const unsigned&);
+    friend shared_ptr<Domain>& getCurrentDomain(const shared_ptr<Bead>&);
+    friend shared_ptr<Step>& getCurrentStep(const shared_ptr<Bead>&);
 
     int erase_domain(const unsigned&);
 
-    void setCurrentDomain(const unsigned&) const;
-    void setCurrentStep(const unsigned&) const;
+    void setCurrentDomain(const unsigned&);
+    void setCurrentStep(const unsigned&);
 
     void analyze();
 };
+
+shared_ptr<Domain>& getDomain(const shared_ptr<Bead>&, const unsigned&);
+shared_ptr<Convergence>& getConvergence(const shared_ptr<Bead>&, const unsigned&);
+shared_ptr<Step>& getStep(const shared_ptr<Bead>&, const unsigned&);
+shared_ptr<Recorder>& getRecorder(const shared_ptr<Bead>&, const unsigned&);
+shared_ptr<Domain>& getCurrentDomain(const shared_ptr<Bead>&);
+shared_ptr<Step>& getCurrentStep(const shared_ptr<Bead>&);
 
 #endif

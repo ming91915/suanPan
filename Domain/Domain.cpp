@@ -70,7 +70,7 @@ void Domain::initialize()
         auto L = 1, U = 1;
         for(unsigned I = 0; I < dof_idx; ++I) {
             for(const auto& J : adjacency[idx_rcm(I)]) {
-                int K = int(idx_sorted(J)) - I;
+                int K = static_cast<int>(idx_sorted(J)) - I;
                 if(K > L)
                     L = K;
                 else if(K < U)
@@ -104,7 +104,7 @@ void Domain::process(const unsigned& ST)
     restrained_dofs.clear();
     constrained_dofs.clear();
 
-    factory->updateTrialLoad(zeros(factory->getNumberDOF()));
+    getTrialLoad(factory).zeros();
 
     for(const auto& I : load_pool)
         if(I.second->getStepTag() <= ST && I.second->getStatus())
@@ -121,10 +121,7 @@ const shared_ptr<Workroom>& Domain::getWorkroom() const { return factory; }
 bool Domain::insert(const shared_ptr<Constraint>& C)
 {
     auto F = constraint_pool.insert({ C->getTag(), C });
-    if(!F.second)
-        suanpan_error("insert() fails to insert the constraint with tag %u as the "
-                      "object with the same tag already exists in the model.\n",
-            C->getTag());
+    if(!F.second) suanpan_error("insert() fails to insert Constraint %u.\n", C->getTag());
     updated = false;
     return F.second;
 }
@@ -132,10 +129,7 @@ bool Domain::insert(const shared_ptr<Constraint>& C)
 bool Domain::insert(const shared_ptr<Element>& E)
 {
     auto F = element_pool.insert({ E->getTag(), E });
-    if(!F.second)
-        suanpan_error("insert() fails to insert the element with tag %u as the object "
-                      "with the same tag already exists in the model.\n",
-            E->getTag());
+    if(!F.second) suanpan_error("insert() fails to insert Element %u.\n", E->getTag());
     updated = false;
     return F.second;
 }
@@ -143,10 +137,7 @@ bool Domain::insert(const shared_ptr<Element>& E)
 bool Domain::insert(const shared_ptr<Load>& L)
 {
     auto F = load_pool.insert({ L->getTag(), L });
-    if(!F.second)
-        suanpan_error("insert() fails to insert the load with tag %u as the object with "
-                      "the same tag already exists in the model.\n",
-            L->getTag());
+    if(!F.second) suanpan_error("insert() fails to insert Load %u.\n", L->getTag());
     updated = false;
     return F.second;
 }
@@ -154,89 +145,102 @@ bool Domain::insert(const shared_ptr<Load>& L)
 bool Domain::insert(const shared_ptr<Material>& M)
 {
     auto F = material_pool.insert({ M->getTag(), M });
-    if(!F.second)
-        suanpan_error("insert() fails to insert the material with tag %u as the object "
-                      "with the same tag already exists in the model.\n",
-            M->getTag());
+    if(!F.second) suanpan_error("insert() fails to insert Material %u.\n", M->getTag());
     return F.second;
 }
 
 bool Domain::insert(const shared_ptr<Node>& N)
 {
     auto F = node_pool.insert({ N->getTag(), N });
-    if(!F.second)
-        suanpan_error("insert() fails to insert the node with tag %u as the object with "
-                      "the same tag already exists in the model.\n",
-            N->getTag());
+    if(!F.second) suanpan_error("insert() fails to insert Node %u.\n", N->getTag());
     return F.second;
 }
 
 void Domain::erase_constraint(const unsigned& T)
 {
     if(constraint_pool.erase(T) != 1)
-        suanpan_error(
-            "erase_constraint() cannot find the object with given tag %u.\n", T);
-    updated = false;
+        suanpan_info("erase_constraint() cannot find Constraint %u.\n", T);
+    else
+        updated = false;
 }
 
 void Domain::erase_element(const unsigned& T)
 {
     if(element_pool.erase(T) != 1)
-        suanpan_error("erase_element() cannot find the object with given tag %u.\n", T);
-    updated = false;
+        suanpan_error("erase_element() cannot find Element %u.\n", T);
+    else
+        updated = false;
 }
 
 void Domain::erase_load(const unsigned& T)
 {
     if(load_pool.erase(T) != 1)
-        suanpan_error("erase_load() cannot find the object with given tag %u.\n", T);
-    updated = false;
+        suanpan_info("erase_load() cannot find Load %u.\n", T);
+    else
+        updated = false;
 }
 
 void Domain::erase_material(const unsigned& T)
 {
     if(material_pool.erase(T) != 1)
-        suanpan_error("erase_material() cannot find the object with given tag %u.\n", T);
-    updated = false;
+        suanpan_info("erase_material() cannot find Material %u.\n", T);
+    else
+        updated = false;
 }
 
 void Domain::erase_node(const unsigned& T)
 {
     if(node_pool.erase(T) != 1)
-        suanpan_error("erase_node() cannot find the object with given tag %u.\n", T);
-    updated = false;
+        suanpan_info("erase_node() cannot find Node %u.\n", T);
+    else
+        updated = false;
 }
 
 void Domain::disable_constraint(const unsigned& T)
 {
-    constraint_pool.at(T)->disable();
-    suanpan_debug("disable_constraint() disables object with tag %u.\n", T);
+    if(constraint_pool.find(T) != constraint_pool.end()) {
+        constraint_pool.at(T)->disable();
+        suanpan_debug("disable_constraint() disables Constraint %u.\n", T);
+    } else
+        suanpan_info("disable_constraint() cannot find Constraint %u.\n", T);
 }
 
 void Domain::disable_element(const unsigned& T)
 {
-    disabled_element.insert(T);
-    element_pool.at(T)->disable();
-    suanpan_debug("disable_element() disables object with tag %u.\n", T);
+    if(element_pool.find(T) != element_pool.end()) {
+        disabled_element.insert(T);
+        element_pool.at(T)->disable();
+        suanpan_debug("disable_element() disables Element %u.\n", T);
+    } else
+        suanpan_info("disable_element() cannot find Element %u.\n", T);
 }
 
 void Domain::disable_load(const unsigned& T)
 {
-    load_pool.at(T)->disable();
-    suanpan_debug("disable_load() disables object with tag %u.\n", T);
+    if(load_pool.find(T) != load_pool.end()) {
+        load_pool.at(T)->disable();
+        suanpan_debug("disable_load() disables Load %u.\n", T);
+    } else
+        suanpan_info("disable_load() cannot find Load %u.\n", T);
 }
 
 void Domain::disable_material(const unsigned& T)
 {
-    material_pool.at(T)->disable();
-    suanpan_debug("disable_material() disables object with tag %u.\n", T);
+    if(material_pool.find(T) != material_pool.end()) {
+        material_pool.at(T)->disable();
+        suanpan_debug("disable_material() disables Material %u.\n", T);
+    } else
+        suanpan_info("disable_material() cannot find Material %u.\n", T);
 }
 
 void Domain::disable_node(const unsigned& T)
 {
-    disabled_node.insert(T);
-    node_pool.at(T)->disable();
-    suanpan_debug("disable_node() disables object with tag %u.\n", T);
+    if(node_pool.find(T) != node_pool.end()) {
+        disabled_node.insert(T);
+        node_pool.at(T)->disable();
+        suanpan_debug("disable_node() disables Node %u.\n", T);
+    } else
+        suanpan_info("disable_node() cannot find Node %u.\n", T);
 }
 
 const shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T) const
@@ -329,7 +333,7 @@ void Domain::updateTrialStatus() const
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool.at(I)->updateTrialStatus(trial_dsp, trial_vel, trial_acc);
+                tmp_node_pool[I]->updateTrialStatus(trial_dsp, trial_vel, trial_acc);
 #else
             for(const auto& I : tmp_node_pool)
                 I->updateTrialStatus(trial_dsp, trial_vel, trial_acc);
@@ -338,14 +342,14 @@ void Domain::updateTrialStatus() const
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool.at(I)->updateTrialStatus(trial_dsp);
+                tmp_node_pool[I]->updateTrialStatus(trial_dsp);
 #else
             for(const auto& I : tmp_node_pool) I->updateTrialStatus(trial_dsp);
 #endif
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
         for(auto I = 0; I < tmp_element_pool.size(); ++I)
-            tmp_element_pool.at(I)->updateStatus();
+            tmp_element_pool[I]->updateStatus();
 #else
         for(const auto& I : tmp_element_pool) I->updateStatus();
 #endif
@@ -488,10 +492,8 @@ const unordered_set<unsigned>& Domain::getConstrainedDOF() const
 
 void Domain::summary() const
 {
-    suanpan_info("The Domain %u contains:\n", getTag());
-    suanpan_info("%u nodes\n", getNumberNode());
-    suanpan_info("%u elements\n", getNumberElement());
-    suanpan_info("%u materials\n", getNumberMaterial());
+    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials.\n",
+        getTag(), getNumberNode(), getNumberElement(), getNumberMaterial());
 }
 
 shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>& D, const unsigned& T)
