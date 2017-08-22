@@ -55,7 +55,7 @@ void print_header()
         SUANPAN_ARCH);
     suanpan_info("|  \\__       |__/ __   __   |                 Acrux (0.1.0)  |\n");
     suanpan_info("|     \\ |  | |   |  \\ |  |  |                                |\n");
-    suanpan_info("|  \\__/ |__| |   |__X |  |  |            maintained by tlc  |\n");
+    suanpan_info("|  \\__/ |__| |   |__X |  |  |             maintained by tlc  |\n");
     suanpan_info("|                           |           all rights reserved  |\n");
     suanpan_info("+------------------------------------------------------------+\n\n");
 }
