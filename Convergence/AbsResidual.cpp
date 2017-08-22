@@ -33,7 +33,7 @@ const bool& AbsResidual::if_converged()
 
     setFlag(getTolerance() > getError() ? true : false);
 
-    if(if_print()) printf("Absolute Residual: %.5E.\n", getError());
+    if(if_print()) suanpan_info("Absolute Residual: %.5E.\n", getError());
 
     return getFlag();
 }

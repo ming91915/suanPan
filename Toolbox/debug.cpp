@@ -1,44 +1,71 @@
 #include "debug.h"
 #include <cstdarg>
 
+using std::vector;
+
 void suanpan_info(const char* M, ...)
 {
-    va_list arguments;
-    va_start(arguments, M);
-    vprintf(M, arguments);
-    va_end(arguments);
+    cout << "info: ";
+    va_list arguments_a, arguments_b;
+    va_start(arguments_a, M);
+    va_copy(arguments_b, arguments_a);
+    vector<char> buffer(1 + vsnprintf(nullptr, 0, M, arguments_a));
+    va_end(arguments_a);
+    vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
+    va_end(arguments_b);
+    cout << buffer.data() << "\n";
 }
 
 void suanpan_debug(const char* M, ...)
 {
 #ifdef SUANPAN_DEBUG
-    va_list arguments;
-    va_start(arguments, M);
-    vprintf(M, arguments);
-    va_end(arguments);
+    cout << "debug: ";
+    va_list arguments_a, arguments_b;
+    va_start(arguments_a, M);
+    va_copy(arguments_b, arguments_a);
+    vector<char> buffer(1 + vsnprintf(nullptr, 0, M, arguments_a));
+    va_end(arguments_a);
+    vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
+    va_end(arguments_b);
+    cout << buffer.data() << "\n";
 #endif
 }
 
 void suanpan_warning(const char* M, ...)
 {
-    va_list arguments;
-    va_start(arguments, M);
-    vprintf(M, arguments);
-    va_end(arguments);
+    cout << "warning: ";
+    va_list arguments_a, arguments_b;
+    va_start(arguments_a, M);
+    va_copy(arguments_b, arguments_a);
+    vector<char> buffer(1 + vsnprintf(nullptr, 0, M, arguments_a));
+    va_end(arguments_a);
+    vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
+    va_end(arguments_b);
+    cout << buffer.data() << "\n";
 }
 
 void suanpan_error(const char* M, ...)
 {
-    va_list arguments;
-    va_start(arguments, M);
-    vprintf(M, arguments);
-    va_end(arguments);
+    cout << "error: ";
+    va_list arguments_a, arguments_b;
+    va_start(arguments_a, M);
+    va_copy(arguments_b, arguments_a);
+    vector<char> buffer(1 + vsnprintf(nullptr, 0, M, arguments_a));
+    va_end(arguments_a);
+    vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
+    va_end(arguments_b);
+    cout << buffer.data() << "\n";
 }
 
 void suanpan_fatal(const char* M, ...)
 {
-    va_list arguments;
-    va_start(arguments, M);
-    vprintf(M, arguments);
-    va_end(arguments);
+    cout << "fatal: ";
+    va_list arguments_a, arguments_b;
+    va_start(arguments_a, M);
+    va_copy(arguments_b, arguments_a);
+    vector<char> buffer(1 + vsnprintf(nullptr, 0, M, arguments_a));
+    va_end(arguments_a);
+    vsnprintf(&buffer[0], buffer.size(), M, arguments_b);
+    va_end(arguments_b);
+    cout << buffer.data() << "\n";
 }

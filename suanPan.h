@@ -81,6 +81,10 @@
 #define SUANPAN_EXPORT // EMPTY
 #endif
 
+#ifndef SUANPAN_EXIT
+#define SUANPAN_EXIT 1
+#endif
+
 // TWO IMPLEMENTATIONS
 #if defined(SUANPAN_UNIX)
 #define _strcmpi strcasecmp

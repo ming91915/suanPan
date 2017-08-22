@@ -9,30 +9,14 @@ void example_file();
 
 int main(int argc, char** argv)
 {
-    argumentParser(argc, argv);
-
     wall_clock T;
     T.tic();
 
-    // example_file();
+    argumentParser(argc, argv);
+
+    cout << T.toc() << endl;
 
     return 0;
-}
-
-void example_file()
-{
-    // auto M = make_shared<Bead>();
-    // process_file(D, "TEST");
-
-    // D->summary();
-
-    // Static S(1, make_shared<Newton>(D, make_shared<AbsResidual>(1E-4)));
-
-    // auto INFO = S.analyze();
-    // if(INFO != 0) cout << INFO << endl;
-
-    // cout << endl;
-    // D->getNode(6)->getCurrentDisplacement().print();
 }
 
 void example_symm_mat()

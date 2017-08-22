@@ -264,19 +264,6 @@ const shared_ptr<Node>& Domain::getNode(const unsigned& T) const
     return node_pool.at(T);
 }
 
-shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T)
-{
-    return constraint_pool[T];
-}
-
-shared_ptr<Element>& Domain::getElement(const unsigned& T) { return element_pool[T]; }
-
-shared_ptr<Load>& Domain::getLoad(const unsigned& T) { return load_pool[T]; }
-
-shared_ptr<Material>& Domain::getMaterial(const unsigned& T) { return material_pool[T]; }
-
-shared_ptr<Node>& Domain::getNode(const unsigned& T) { return node_pool[T]; }
-
 unsigned Domain::getNumberConstraint() const
 {
     return static_cast<unsigned>(constraint_pool.size());
@@ -505,4 +492,29 @@ void Domain::summary() const
     suanpan_info("%u nodes\n", getNumberNode());
     suanpan_info("%u elements\n", getNumberElement());
     suanpan_info("%u materials\n", getNumberMaterial());
+}
+
+shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->constraint_pool[T];
+}
+
+shared_ptr<Element>& getElement(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->element_pool[T];
+}
+
+shared_ptr<Load>& getLoad(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->load_pool[T];
+}
+
+shared_ptr<Material>& getMaterial(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->material_pool[T];
+}
+
+shared_ptr<Node>& getNode(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->node_pool[T];
 }

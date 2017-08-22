@@ -10,7 +10,15 @@
 #ifndef ARGUMENTPARSER_H
 #define ARGUMENTPARSER_H
 
+#include <Step/Bead.h>
+
 //! A simple parser.
 void argumentParser(int, char**);
+
+void print_header();
+void print_version();
+void print_helper();
+
+void cli_mode(const shared_ptr<Bead>&);
 
 #endif

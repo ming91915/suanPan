@@ -89,11 +89,12 @@ public:
     const shared_ptr<Material>& getMaterial(const unsigned&) const;
     const shared_ptr<Node>& getNode(const unsigned&) const;
 
-    shared_ptr<Constraint>& getConstraint(const unsigned&);
-    shared_ptr<Element>& getElement(const unsigned&);
-    shared_ptr<Load>& getLoad(const unsigned&);
-    shared_ptr<Material>& getMaterial(const unsigned&);
-    shared_ptr<Node>& getNode(const unsigned&);
+    friend shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>&,
+        const unsigned&);
+    friend shared_ptr<Element>& getElement(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Load>& getLoad(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Material>& getMaterial(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Node>& getNode(const shared_ptr<Domain>&, const unsigned&);
 
     unsigned getNumberConstraint() const;
     unsigned getNumberElement() const;
@@ -124,5 +125,11 @@ public:
 
     void summary() const;
 };
+
+shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>&, const unsigned&);
+shared_ptr<Element>& getElement(const shared_ptr<Domain>&, const unsigned&);
+shared_ptr<Load>& getLoad(const shared_ptr<Domain>&, const unsigned&);
+shared_ptr<Material>& getMaterial(const shared_ptr<Domain>&, const unsigned&);
+shared_ptr<Node>& getNode(const shared_ptr<Domain>&, const unsigned&);
 
 #endif

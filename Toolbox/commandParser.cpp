@@ -57,7 +57,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     else if(command_id == "summary") {
         if(domain != nullptr) domain->summary();
     } else if(command_id == "exit" || command_id == "quit")
-        return 1;
+        return SUANPAN_EXIT;
 
     return 0;
 }

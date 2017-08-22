@@ -234,7 +234,7 @@ int QE2::resetStatus()
 
 void QE2::print()
 {
-    suanpan_info("Piltner's mixed element connects:\n");
+    suanpan_info("Piltner's mixed quad element %u connects nodes:\n", getTag());
     node_encoding.t().print();
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);
