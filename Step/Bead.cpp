@@ -61,7 +61,7 @@ const shared_ptr<Step>& Bead::getCurrentStep() const
     return step_pool.at(current_step);
 }
 
-int Bead::erase_domain(const unsigned& T)
+void Bead::erase_domain(const unsigned& T)
 {
     if(domain_pool.find(T) == domain_pool.end())
         suanpan_info("erase_domain() cannot find Domain %u, nothing changed.\n", T);
@@ -83,7 +83,48 @@ int Bead::erase_domain(const unsigned& T)
             }
         }
     }
-    return 0;
+}
+
+void Bead::erase_convergence(const unsigned& T) { converger_pool.erase(T); }
+
+void Bead::erase_step(const unsigned& T) { step_pool.erase(T); }
+
+void Bead::erase_recorder(const unsigned& T) { recorder_pool.erase(T); }
+
+void Bead::disable_domain(const unsigned& T)
+{
+    if(domain_pool.find(T) != domain_pool.end()) {
+        domain_pool.at(T)->disable();
+        suanpan_debug("disable_domain() disables Domain %u.\n", T);
+    } else
+        suanpan_info("disable_domain() cannot find Domain %u.\n", T);
+}
+
+void Bead::disable_convergence(const unsigned& T)
+{
+    if(converger_pool.find(T) != converger_pool.end()) {
+        converger_pool.at(T)->disable();
+        suanpan_debug("disable_convergence() disables Convergence %u.\n", T);
+    } else
+        suanpan_info("disable_convergence() cannot find Convergence %u.\n", T);
+}
+
+void Bead::disable_step(const unsigned& T)
+{
+    if(step_pool.find(T) != step_pool.end()) {
+        step_pool.at(T)->disable();
+        suanpan_debug("disable_step() disables Step %u.\n", T);
+    } else
+        suanpan_info("disable_step() cannot find Step %u.\n", T);
+}
+
+void Bead::disable_recorder(const unsigned& T)
+{
+    if(recorder_pool.find(T) != recorder_pool.end()) {
+        recorder_pool.at(T)->disable();
+        suanpan_debug("disable_recorder() disables Recorder %u.\n", T);
+    } else
+        suanpan_info("disable_recorder() cannot find Recorder %u.\n", T);
 }
 
 void Bead::setCurrentDomain(const unsigned& T) { current_domain = T; }
@@ -92,7 +133,8 @@ void Bead::setCurrentStep(const unsigned& T) { current_step = T; }
 
 void Bead::analyze()
 {
-    for(const auto& I : step_pool) I.second->analyze();
+    for(const auto& I : step_pool)
+        if(I.second->getStatus()) I.second->analyze();
 }
 
 shared_ptr<Domain>& getDomain(const shared_ptr<Bead>& B, const unsigned& T)

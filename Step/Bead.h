@@ -54,7 +54,15 @@ public:
     friend shared_ptr<Domain>& getCurrentDomain(const shared_ptr<Bead>&);
     friend shared_ptr<Step>& getCurrentStep(const shared_ptr<Bead>&);
 
-    int erase_domain(const unsigned&);
+    void erase_domain(const unsigned&);
+    void erase_convergence(const unsigned&);
+    void erase_step(const unsigned&);
+    void erase_recorder(const unsigned&);
+
+    void disable_domain(const unsigned&);
+    void disable_convergence(const unsigned&);
+    void disable_step(const unsigned&);
+    void disable_recorder(const unsigned&);
 
     void setCurrentDomain(const unsigned&);
     void setCurrentStep(const unsigned&);

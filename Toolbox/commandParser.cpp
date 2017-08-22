@@ -408,7 +408,15 @@ void disable_object(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     unsigned tag;
-    if(object_type == "node")
+    if(object_type == "converger")
+        while(!(command >> tag).fail()) model->disable_convergence(tag);
+    else if(object_type == "domain")
+        while(!(command >> tag).fail()) model->disable_domain(tag);
+    else if(object_type == "step")
+        while(!(command >> tag).fail()) model->disable_step(tag);
+    else if(object_type == "recorder")
+        while(!(command >> tag).fail()) model->disable_recorder(tag);
+    else if(object_type == "node")
         while(!(command >> tag).fail()) domain->disable_node(tag);
     else if(object_type == "element")
         while(!(command >> tag).fail()) domain->disable_element(tag);
@@ -433,8 +441,14 @@ void erase_object(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     unsigned tag;
-    if(object_type == "domain")
+    if(object_type == "converger")
+        while(!(command >> tag).fail()) model->erase_convergence(tag);
+    else if(object_type == "domain")
         while(!(command >> tag).fail()) model->erase_domain(tag);
+    else if(object_type == "step")
+        while(!(command >> tag).fail()) model->erase_step(tag);
+    else if(object_type == "recorder")
+        while(!(command >> tag).fail()) model->erase_recorder(tag);
     else if(object_type == "node")
         while(!(command >> tag).fail()) domain->erase_node(tag);
     else if(object_type == "element")
