@@ -425,7 +425,26 @@ void Node::update_incre_status(const vec& D, const vec& V, const vec& A)
     update_incre_status(D, V);
 }
 
-vector<vec> Node::record(const OutputList&) { return {}; }
+vector<vec> Node::record(const OutputList& L) const
+{
+    vector<vec> data;
+
+    switch(L) {
+    case OutputList::U:
+        data.push_back(current_displacement);
+        break;
+    case OutputList::V:
+        data.push_back(current_velocity);
+        break;
+    case OutputList::A:
+        data.push_back(current_acceleration);
+        break;
+    default:
+        break;
+    }
+
+    return data;
+}
 
 /**
  * \brief Method to print basic information.

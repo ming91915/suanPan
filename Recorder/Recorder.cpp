@@ -8,6 +8,7 @@ Recorder::Recorder(const unsigned& T,
     : Tag(T, CT)
     , object_tag(B)
     , variable_type(L)
+    , variable_name(to_char(L))
     , record_time(R)
 {
 }
@@ -28,4 +29,8 @@ void Recorder::insert(const double& T) { time_pool.push_back(T); }
 
 void Recorder::insert(const vector<vec>& D) { data_pool.push_back(D); }
 
+const vector<vector<vec>>& Recorder::get_data_pool() const { return data_pool; }
+
 void Recorder::record(const shared_ptr<Domain>&) {}
+
+void Recorder::print() { suanpan_info("print() needs to be overwritten.\n"); }

@@ -20,9 +20,9 @@ using std::vector;
 
 class Recorder : public Tag
 {
-protected:
     unsigned object_tag;
     OutputList variable_type;
+    const char* variable_name;
     vector<double> time_pool;      /**< recorded data */
     vector<vector<vec>> data_pool; /**< recorded data */
 
@@ -49,7 +49,11 @@ public:
     void insert(const double&);
     void insert(const vector<vec>&);
 
+    const vector<vector<vec>>& get_data_pool() const;
+
     virtual void record(const shared_ptr<Domain>&) = 0;
+
+    void print() override;
 };
 
 #endif

@@ -449,12 +449,12 @@ int print_info(const shared_ptr<Domain>& domain, istringstream& command)
             if(tmp_constraint != nullptr) tmp_constraint->print();
             suanpan_info("\n");
         }
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_recorder = get_recorder(domain, tag);
-            if(tmp_recorder != nullptr) tmp_recorder->print();
-            suanpan_info("\n");
-        }
+	else if (object_type == "recorder")
+		while (!(command >> tag).fail()) {
+			const auto& tmp_recorder = get_recorder(domain, tag);
+			if (tmp_recorder != nullptr) tmp_recorder->print();
+			suanpan_info("\n");
+		}
 
     return 0;
 }

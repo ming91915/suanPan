@@ -80,7 +80,7 @@ void new_cp4_(unique_ptr<Element>& return_obj, istringstream& command)
         if((command >> nonlinear).fail())
             suanpan_debug("new_cp4_() needs a valid nonlinear geometry switch (0,1).\n");
     } else
-        suanpan_debug("new_cp4_() assumes a standard integration scheme (2*2).\n");
+        suanpan_debug("new_cp4_() assumes linear geometry.\n");
 
     return_obj = make_unique<CP4>(
         tag, uvec(node_tag), material_tag, thickness, !!reduced_scheme, !!nonlinear);

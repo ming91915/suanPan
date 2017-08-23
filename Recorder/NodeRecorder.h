@@ -24,6 +24,8 @@ public:
         const bool& = true);
 
     void record(const shared_ptr<Domain>&) override;
+
+    void print() override;
 };
 
 #endif

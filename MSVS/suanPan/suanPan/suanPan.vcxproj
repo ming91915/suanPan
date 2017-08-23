@@ -185,6 +185,7 @@
     <ClCompile Include="..\..\..\Load\Load.cpp" />
     <ClCompile Include="..\..\..\Load\RCM.cpp" />
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
+    <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
     <ClCompile Include="..\..\..\Solver\CentralDifference.cpp" />

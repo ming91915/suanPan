@@ -106,7 +106,7 @@ public:
     void update_incre_status(const vec&, const vec&);
     void update_incre_status(const vec&, const vec&, const vec&);
 
-    vector<vec> record(const OutputList&);
+    vector<vec> record(const OutputList&) const;
 
     void print() override final;
 };

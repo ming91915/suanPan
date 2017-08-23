@@ -77,4 +77,7 @@ enum class OutputList {
     NL
 };
 
+const char* to_char(const OutputList&);
+OutputList to_list(const char*);
+
 #endif

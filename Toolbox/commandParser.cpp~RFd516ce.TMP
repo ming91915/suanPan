@@ -1,5 +1,4 @@
 #include "commandParser.h"
-#include "Recorder/NodeRecorder.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Convergence/Convergence>
@@ -14,6 +13,7 @@
 #include <Step/Bead.h>
 #include <Step/Dynamic.h>
 #include <Step/Static.h>
+#include "Recorder/NodeRecorder.h"
 
 using std::string;
 using std::ifstream;
@@ -36,6 +36,8 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
 
     if(command_id == "step") return create_new_step(model, command);
 
+    if(command_id == "recorder") return create_new_recorder(model, command);
+
     if(command_id == "disable" || command_id == "mute")
         return disable_object(model, command);
 
@@ -54,8 +56,8 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     if(command_id == "fix") return create_new_bc(domain, command);
 
     if(command_id == "cload") return create_new_cload(domain, command);
-
-    if(command_id == "recorder") return create_new_recorder(domain, command);
+	
+	if (command_id == "recorder") return create_new_recorder(domain, command);
 
     if(command_id == "analyze") return model->analyze();
 
@@ -237,6 +239,12 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
     return 0;
 }
 
+int create_new_recorder(const shared_ptr<Bead>& model, istringstream& command)
+{
+
+    return 0;
+}
+
 int create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
 {
     unsigned node_id;
@@ -382,38 +390,40 @@ int create_new_cload(const shared_ptr<Domain>& domain, istringstream& command)
     return 0;
 }
 
-int create_new_recorder(const shared_ptr<Domain>& domain, istringstream& command)
+int create_new_recorder(const shared_ptr<Domain>&domain, istringstream&command)
 {
-    unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_recorder() needs a valid tag.\n");
-        return 0;
-    }
+	unsigned tag;
+	if ((command >> tag).fail())
+	{
+		suanpan_info("create_new_recorder() needs a valid tag.\n");
+		return 0;
+	}
 
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("create_new_recorder() needs a valid object type.\n");
-        return 0;
-    }
+	string object_type;
+	if ((command >> object_type).fail())
+	{
+		suanpan_info("create_new_recorder() needs a valid object type.\n");
+		return 0;
+	}
 
-    string variable_type;
-    if((command >> variable_type).fail()) {
-        suanpan_info("create_new_recorder() needs a valid recorder type.\n");
-        return 0;
-    }
+	string variable_type;
+	if ((command >> variable_type).fail())
+	{
+		suanpan_info("create_new_recorder() needs a valid recorder type.\n");
+		return 0;
+	}
 
-    unsigned object_tag;
-    if((command >> object_tag).fail()) {
-        suanpan_info("create_new_recorder() needs a valid object tag.\n");
-        return 0;
-    }
+	unsigned object_tag;
+	if ((command >> object_tag).fail())
+	{
+		suanpan_info("create_new_recorder() needs a valid object tag.\n");
+		return 0;
+	}
 
-    if(_strcmpi(object_type.c_str(), "Node") == 0 &&
-        !domain->insert(make_shared<NodeRecorder>(
-            tag, object_tag, to_list(variable_type.c_str()), true)))
-        suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+	if (_strcmpi(object_type.c_str(),"Node")==0 && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true)))
+		suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
 
-    return 0;
+	return 0;
 }
 
 int print_info(const shared_ptr<Domain>& domain, istringstream& command)
@@ -447,12 +457,6 @@ int print_info(const shared_ptr<Domain>& domain, istringstream& command)
         while(!(command >> tag).fail()) {
             const auto& tmp_constraint = get_constraint(domain, tag);
             if(tmp_constraint != nullptr) tmp_constraint->print();
-            suanpan_info("\n");
-        }
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_recorder = get_recorder(domain, tag);
-            if(tmp_recorder != nullptr) tmp_recorder->print();
             suanpan_info("\n");
         }
 
