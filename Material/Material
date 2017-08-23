@@ -4,3 +4,4 @@
 
 #include "Material.h"
 #include "MaterialTemplate.h"
+#include "MaterialParser.h"

@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
+    <ClCompile Include="..\..\..\Element\ElementParser.cpp" />
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp" />
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
     <ClInclude Include="..\..\..\Element\Element.h" />
+    <ClInclude Include="..\..\..\Element\ElementParser.h" />
     <ClInclude Include="..\..\..\Element\ElementTemplate.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP3.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP4.h" />

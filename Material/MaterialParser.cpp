@@ -1,4 +1,4 @@
-#include "materialParser.h"
+#include "MaterialParser.h"
 #include <Material/Material>
 
 using std::vector;

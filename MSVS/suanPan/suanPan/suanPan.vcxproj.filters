@@ -174,9 +174,6 @@
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\elementParser.cpp">
-      <Filter>Parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp">
       <Filter>Parser</Filter>
     </ClCompile>
@@ -188,9 +185,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Database\HDF.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\materialParser.cpp">
-      <Filter>Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\utility.cpp">
       <Filter>Source Files</Filter>
@@ -368,9 +362,6 @@
     <ClInclude Include="..\..\..\Toolbox\commandParser.h">
       <Filter>Parser</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\elementParser.h">
-      <Filter>Parser</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\argumentParser.h">
       <Filter>Parser</Filter>
     </ClInclude>
@@ -382,9 +373,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Database\HDF.h">
       <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\materialParser.h">
-      <Filter>Parser</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\utility.h">
       <Filter>Header</Filter>

@@ -5,3 +5,4 @@
 
 #include "Element.h"
 #include "ElementTemplate.h"
+#include "ElementParser.h"

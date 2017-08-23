@@ -27,24 +27,27 @@ bool Bead::insert(const shared_ptr<Convergence>& C)
     return F.second;
 }
 
-const shared_ptr<Domain>& Bead::getDomain(const unsigned& T) const
+const shared_ptr<Domain>& Bead::get_domain(const unsigned& T) const
 {
     return domain_pool.at(T);
 }
 
-const shared_ptr<Step>& Bead::getStep(const unsigned& T) const { return step_pool.at(T); }
+const shared_ptr<Step>& Bead::get_step(const unsigned& T) const
+{
+    return step_pool.at(T);
+}
 
-const shared_ptr<Convergence>& Bead::getConvergence(const unsigned& T) const
+const shared_ptr<Convergence>& Bead::get_convergence(const unsigned& T) const
 {
     return converger_pool.at(T);
 }
 
-const shared_ptr<Domain>& Bead::getCurrentDomain() const
+const shared_ptr<Domain>& Bead::get_current_domain() const
 {
     return domain_pool.at(current_domain);
 }
 
-const shared_ptr<Step>& Bead::getCurrentStep() const
+const shared_ptr<Step>& Bead::get_current_step() const
 {
     return step_pool.at(current_step);
 }
@@ -61,11 +64,11 @@ void Bead::erase_domain(const unsigned& T)
         if(flag == 'Y' || flag == '\n') {
             domain_pool.erase(T);
             if(domain_pool.size() != 0) {
-                setCurrentDomain(domain_pool.cbegin()->first);
+                set_current_domain(domain_pool.cbegin()->first);
                 suanpan_info("erase_domain() switches to Domain %u.\n", current_domain);
             } else {
                 insert(make_shared<Domain>(1));
-                setCurrentDomain(1);
+                set_current_domain(1);
                 suanpan_info("erase_domain() removes the last domain and switches to "
                              "default Domain 1.\n");
             }
@@ -104,37 +107,39 @@ void Bead::disable_convergence(const unsigned& T)
         suanpan_info("disable_convergence() cannot find Convergence %u.\n", T);
 }
 
-void Bead::setCurrentDomain(const unsigned& T) { current_domain = T; }
+void Bead::set_current_domain(const unsigned& T) { current_domain = T; }
 
-void Bead::setCurrentStep(const unsigned& T) { current_step = T; }
+void Bead::set_current_step(const unsigned& T) { current_step = T; }
 
-void Bead::analyze()
+int Bead::analyze()
 {
+    auto code = 0;
     for(const auto& I : step_pool)
-        if(I.second->is_active()) I.second->analyze();
+        if(I.second->is_active()) code += I.second->analyze();
+    return code;
 }
 
-shared_ptr<Domain>& getDomain(const shared_ptr<Bead>& B, const unsigned& T)
+shared_ptr<Domain>& get_domain(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->domain_pool[T];
 }
 
-shared_ptr<Step>& getStep(const shared_ptr<Bead>& B, const unsigned& T)
+shared_ptr<Step>& get_step(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->step_pool[T];
 }
 
-shared_ptr<Convergence>& getConvergence(const shared_ptr<Bead>& B, const unsigned& T)
+shared_ptr<Convergence>& get_convergence(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->converger_pool[T];
 }
 
-shared_ptr<Domain>& getCurrentDomain(const shared_ptr<Bead>& B)
+shared_ptr<Domain>& get_current_domain(const shared_ptr<Bead>& B)
 {
     return B->domain_pool[B->current_domain];
 }
 
-shared_ptr<Step>& getCurrentStep(const shared_ptr<Bead>& B)
+shared_ptr<Step>& get_current_step(const shared_ptr<Bead>& B)
 {
     return B->step_pool[B->current_step];
 }
