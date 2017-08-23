@@ -53,7 +53,7 @@ Node::Node(const unsigned& T, const unsigned& D, const vec& C)
 /**
  * \brief Default destructor.
  */
-Node::~Node() { suanpan_debug("Node %u dtor() called.\n", getTag()); }
+Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
 
 /**
  * \brief This method should be called after Element objects are set. Element objects will
@@ -65,12 +65,12 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", getTag()); }
  */
 void Node::initialize()
 {
-    if(getStatus()) {
+    if(is_active()) {
         if(num_dof != 0) {
             original_dof.zeros(num_dof);
             original_dof.fill(-1);
 
-            reorder_dof.reset();
+            reordered_dof.reset();
 
             if(current_displacement.is_empty())
                 current_displacement.zeros(num_dof);
@@ -119,7 +119,7 @@ void Node::initialize()
 
             // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
         } else {
-            printf("Node %u is not used in the problem, now disable it.\n", getTag());
+            printf("Node %u is not used in the problem, now disable it.\n", get_tag());
             disable();
         }
     }
@@ -129,93 +129,93 @@ void Node::initialize()
  * \brief Method to return `num_dof`.
  * \return `num_dof`
  */
-const unsigned& Node::getNumberDOF() const { return num_dof; }
+const unsigned& Node::get_dof_number() const { return num_dof; }
 
 /**
  * \brief Method to return `original_dof`.
  * \return `original_dof`
  */
-const uvec& Node::getOriginalDOF() const { return original_dof; }
+const uvec& Node::get_original_dof() const { return original_dof; }
 
 /**
- * \brief Method to return `reorder_dof`.
- * \return `reorder_dof`
+ * \brief Method to return `reordered_dof`.
+ * \return `reordered_dof`
  */
-const uvec& Node::getReorderDOF() const { return reorder_dof; }
+const uvec& Node::get_reordered_dof() const { return reordered_dof; }
 
 /**
  * \brief Method to return `coordinate`.
  * \return `coordinate`
  */
-const vec& Node::getCoordinate() const { return coordinate; }
+const vec& Node::get_coordinate() const { return coordinate; }
 
 /**
  * \brief Method to return `current_displacement`.
  * \return `current_displacement`
  */
-const vec& Node::getCurrentDisplacement() const { return current_displacement; }
+const vec& Node::get_current_displacement() const { return current_displacement; }
 
 /**
  * \brief Method to return `current_velocity`.
  * \return `current_velocity`
  */
-const vec& Node::getCurrentVelocity() const { return current_velocity; }
+const vec& Node::get_current_velocity() const { return current_velocity; }
 
 /**
  * \brief Method to return `current_acceleration`.
  * \return `current_acceleration`
  */
-const vec& Node::getCurrentAcceleration() const { return current_acceleration; }
+const vec& Node::get_current_acceleration() const { return current_acceleration; }
 
 /**
  * \brief Method to return `incre_displacement`.
  * \return `incre_displacement`
  */
-const vec& Node::getIncreDisplacement() const { return incre_displacement; }
+const vec& Node::get_incre_displacement() const { return incre_displacement; }
 
 /**
  * \brief Method to return `incre_velocity`.
  * \return `incre_velocity`
  */
-const vec& Node::getIncreVelocity() const { return incre_velocity; }
+const vec& Node::get_incre_velocity() const { return incre_velocity; }
 
 /**
  * \brief Method to return `incre_acceleration`.
  * \return `incre_acceleration`
  */
-const vec& Node::getIncreAcceleration() const { return incre_acceleration; }
+const vec& Node::get_incre_acceleration() const { return incre_acceleration; }
 
 /**
  * \brief Method to return `trial_displacement`.
  * \return `trial_displacement`
  */
-const vec& Node::getTrialDisplacement() const { return trial_displacement; }
+const vec& Node::get_trial_displacement() const { return trial_displacement; }
 
 /**
  * \brief Method to return `trial_velocity`.
  * \return `trial_velocity`
  */
-const vec& Node::getTrialVelocity() const { return trial_velocity; }
+const vec& Node::get_trial_velocity() const { return trial_velocity; }
 
 /**
  * \brief Method to return `trial_acceleration`.
  * \return `trial_acceleration`
  */
-const vec& Node::getTrialAcceleration() const { return trial_acceleration; }
+const vec& Node::get_trial_acceleration() const { return trial_acceleration; }
 
 /**
  * \brief Method to set `num_dof`.
  * \param D `num_dof`
  */
-void Node::setNumberDOF(const unsigned& D) { num_dof = D; }
+void Node::set_dof_number(const unsigned& D) { num_dof = D; }
 
 /**
  * \brief Method to set `original_dof`.
  * \param F Current Index Counter
  */
-void Node::setOriginalDOF(unsigned& F)
+void Node::set_original_dof(unsigned& F)
 {
-    if(getStatus())
+    if(is_active())
         if(original_dof.n_elem == num_dof)
             for(unsigned I = 0; I < num_dof; ++I) original_dof(I) = F++;
 }
@@ -224,78 +224,78 @@ void Node::setOriginalDOF(unsigned& F)
  * \brief Method to set `original_dof`.
  * \param D `original_dof`
  */
-void Node::setOriginalDOF(const uvec& D) { original_dof = D; }
+void Node::set_original_dof(const uvec& D) { original_dof = D; }
 
 /**
- * \brief Method to set `reorder_dof`.
- * \param R `reorder_dof`
+ * \brief Method to set `reordered_dof`.
+ * \param R `reordered_dof`
  */
-void Node::setReorderDOF(const uvec& R) { reorder_dof = R; }
+void Node::set_reordered_dof(const uvec& R) { reordered_dof = R; }
 
 /**
  * \brief Method to set `coordinate`.
  * \param C `coordinate`
  */
-void Node::setCoordinate(const vec& C) { coordinate = C; }
+void Node::set_coordinate(const vec& C) { coordinate = C; }
 
 /**
  * \brief Method to set variable independently.
  * \param D `current_displacement`
  */
-void Node::setCurrentDisplacement(const vec& D) { current_displacement = D; }
+void Node::set_current_displacement(const vec& D) { current_displacement = D; }
 
 /**
  * \brief Method to set variable independently.
  * \param V `current_velocity`
  */
-void Node::setCurrentVelocity(const vec& V) { current_velocity = V; }
+void Node::set_current_velocity(const vec& V) { current_velocity = V; }
 
 /**
  * \brief Method to set variable independently.
  * \param A `current_acceleration`
  */
-void Node::setCurrentAcceleration(const vec& A) { current_acceleration = A; }
+void Node::set_current_acceleration(const vec& A) { current_acceleration = A; }
 
 /**
  * \brief Method to set variable independently.
  * \param D `incre_displacement`
  */
-void Node::setIncreDisplacement(const vec& D) { incre_displacement = D; }
+void Node::set_incre_displacement(const vec& D) { incre_displacement = D; }
 
 /**
  * \brief Method to set variable independently.
  * \param V `incre_velocity`
  */
-void Node::setIncreVelocity(const vec& V) { incre_velocity = V; }
+void Node::set_incre_velocity(const vec& V) { incre_velocity = V; }
 
 /**
  * \brief Method to set variable independently.
  * \param A `incre_acceleration`
  */
-void Node::setIncreAcceleration(const vec& A) { incre_acceleration = A; }
+void Node::set_incre_acceleration(const vec& A) { incre_acceleration = A; }
 
 /**
  * \brief Method to set variable independently.
  * \param D `trial_displacement`
  */
-void Node::setTrialDisplacement(const vec& D) { trial_displacement = D; }
+void Node::set_trial_displacement(const vec& D) { trial_displacement = D; }
 
 /**
  * \brief Method to set variable independently.
  * \param V `trial_velocity`
  */
-void Node::setTrialVelocity(const vec& V) { trial_velocity = V; }
+void Node::set_trial_velocity(const vec& V) { trial_velocity = V; }
 
 /**
  * \brief Method to set variable independently.
  * \param A `trial_acceleration`
  */
-void Node::setTrialAcceleration(const vec& A) { trial_acceleration = A; }
+void Node::set_trial_acceleration(const vec& A) { trial_acceleration = A; }
 
 /**
  * \brief Method to commit the status variables.
  */
-void Node::commitStatus()
+void Node::commit_status()
 {
     if(!trial_displacement.is_empty()) current_displacement = trial_displacement;
     if(!trial_velocity.is_empty()) current_velocity = trial_velocity;
@@ -306,7 +306,7 @@ void Node::commitStatus()
  * \brief Method to reset the status, there is no need to call this method as those
  * variables can be directly overwritten.
  */
-void Node::resetStatus()
+void Node::reset_status()
 {
     if(!current_displacement.is_empty()) {
         trial_displacement = current_displacement;
@@ -326,7 +326,7 @@ void Node::resetStatus()
 * \brief The method tests each status variable before filling it by zeros. For any of
 * them, empty means it is not used in analysis, then just keeps it unchanged.
 */
-void Node::clearStatus()
+void Node::clear_status()
 {
     if(!current_displacement.is_empty()) {
         current_displacement.zeros();
@@ -349,9 +349,9 @@ void Node::clearStatus()
  * \brief Method to update displacement.
  * \param D `trial_displacement`
  */
-void Node::updateTrialStatus(const vec& D)
+void Node::update_trial_status(const vec& D)
 {
-    for(unsigned I = 0; I < num_dof; I++) trial_displacement(I) = D(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) trial_displacement(I) = D(reordered_dof(I));
     // trial_displacement = D;
     incre_displacement = trial_displacement - current_displacement;
 }
@@ -362,12 +362,12 @@ void Node::updateTrialStatus(const vec& D)
  * \param D `trial_displacement`
  * \param V `trial_velocity`
  */
-void Node::updateTrialStatus(const vec& D, const vec& V)
+void Node::update_trial_status(const vec& D, const vec& V)
 {
-    for(unsigned I = 0; I < num_dof; I++) trial_velocity(I) = V(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) trial_velocity(I) = V(reordered_dof(I));
     // trial_velocity = V;
     incre_velocity = trial_velocity - current_velocity;
-    updateTrialStatus(D);
+    update_trial_status(D);
 }
 
 /**
@@ -377,21 +377,21 @@ void Node::updateTrialStatus(const vec& D, const vec& V)
  * \param V `trial_velocity`
  * \param A `trial_acceleration`
  */
-void Node::updateTrialStatus(const vec& D, const vec& V, const vec& A)
+void Node::update_trial_status(const vec& D, const vec& V, const vec& A)
 {
-    for(unsigned I = 0; I < num_dof; I++) trial_acceleration(I) = A(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) trial_acceleration(I) = A(reordered_dof(I));
     // trial_acceleration = A;
     incre_acceleration = trial_acceleration - current_acceleration;
-    updateTrialStatus(D, V);
+    update_trial_status(D, V);
 }
 
 /**
  * \brief Method to update displacement.
  * \param D `incre_displacement`
  */
-void Node::updateIncreStatus(const vec& D)
+void Node::update_incre_status(const vec& D)
 {
-    for(unsigned I = 0; I < num_dof; I++) incre_displacement(I) = D(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) incre_displacement(I) = D(reordered_dof(I));
     // incre_displacement = D;
     trial_displacement = current_displacement + incre_displacement;
 }
@@ -402,12 +402,12 @@ void Node::updateIncreStatus(const vec& D)
  * \param D `incre_displacement`
  * \param V `incre_velocity`
  */
-void Node::updateIncreStatus(const vec& D, const vec& V)
+void Node::update_incre_status(const vec& D, const vec& V)
 {
-    for(unsigned I = 0; I < num_dof; I++) incre_velocity(I) = V(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) incre_velocity(I) = V(reordered_dof(I));
     // incre_velocity = V;
     trial_velocity = current_velocity + incre_velocity;
-    updateIncreStatus(D);
+    update_incre_status(D);
 }
 
 /**
@@ -417,12 +417,12 @@ void Node::updateIncreStatus(const vec& D, const vec& V)
  * \param V `incre_velocity`
  * \param A `incre_acceleration`
  */
-void Node::updateIncreStatus(const vec& D, const vec& V, const vec& A)
+void Node::update_incre_status(const vec& D, const vec& V, const vec& A)
 {
-    for(unsigned I = 0; I < num_dof; I++) incre_acceleration(I) = A(reorder_dof(I));
+    for(unsigned I = 0; I < num_dof; I++) incre_acceleration(I) = A(reordered_dof(I));
     // incre_acceleration = A;
     trial_acceleration = current_acceleration + incre_acceleration;
-    updateIncreStatus(D, V);
+    update_incre_status(D, V);
 }
 
 /**
@@ -430,7 +430,7 @@ void Node::updateIncreStatus(const vec& D, const vec& V, const vec& A)
  */
 void Node::print()
 {
-    suanpan_info("Node %u:\n", getTag());
+    suanpan_info("Node %u:\n", get_tag());
     coordinate.print();
     suanpan_info("Displacement:\n");
     current_displacement.print();

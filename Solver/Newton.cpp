@@ -17,25 +17,25 @@ Newton::Newton(const shared_ptr<Domain>& D, const shared_ptr<Convergence>& C)
 
 int Newton::updateStatus()
 {
-    auto& W = getDomain()->getWorkroom();
+    auto& W = getDomain()->get_workroom();
 
     if(W->is_symm() && W->is_band())
-        return pb_solve(
-            getNinja(W), getStiffness(W), W->getTrialLoad() - W->getTrialResistance());
+        return pb_solve(get_ninja(W), get_stiffness(W),
+            W->get_trial_load() - W->get_trial_resistance());
 
     if(W->is_symm() && !W->is_band())
-        return sy_solve(
-            getNinja(W), getStiffness(W), W->getTrialLoad() - W->getTrialResistance());
+        return sy_solve(get_ninja(W), get_stiffness(W),
+            W->get_trial_load() - W->get_trial_resistance());
 
     if(!W->is_symm() && !W->is_band())
-        return ge_solve(
-            getNinja(W), getStiffness(W), W->getTrialLoad() - W->getTrialResistance());
+        return ge_solve(get_ninja(W), get_stiffness(W),
+            W->get_trial_load() - W->get_trial_resistance());
 
     if(!W->is_symm() && W->is_band()) {
         unsigned L, U;
-        W->getBandwidth(L, U);
-        return gb_solve(getNinja(W), getStiffness(W),
-            W->getTrialLoad() - W->getTrialResistance(), L, U);
+        W->get_bandwidth(L, U);
+        return gb_solve(get_ninja(W), get_stiffness(W),
+            W->get_trial_load() - W->get_trial_resistance(), L, U);
     }
 
     return -1;
@@ -44,11 +44,11 @@ int Newton::updateStatus()
 int Newton::analyze(const double& T)
 {
     auto& D = getDomain();
-    auto& W = D->getWorkroom();
+    auto& W = D->get_workroom();
     auto& C = getConvergence();
 
     // FORM INITIAL TAGENT STIFFNESS AND RESISTANCE FOR ELEMENTS
-    D->updateTrialStatus();
+    D->update_trial_status();
 
     auto time_left = T;
     auto step = ini_step_size;
@@ -57,36 +57,38 @@ int Newton::analyze(const double& T)
 
     while(time_left > 0. && num_increment++ < max_increment) {
         unsigned counter = 0;
-        W->updateIncreTime(step);
+        W->update_incre_time(step);
         do {
             // FORM GLOBAL STIFFNESS
-            D->updateStiffness();
+            D->update_stiffness();
             // FORM GLOBAL RESISTANCE
-            D->updateResistance();
+            D->update_resistance();
             // PROCESS BC AND LOAD
             D->process();
             // CALL SOLVER
             auto INFO = updateStatus();
             if(INFO != 0) {
-                printf("ERROR CODE FROM SOLVER: %u\n", INFO);
+                suanpan_error("analyze() recieves error code %u from solver.\n", INFO);
                 return INFO;
             }
             // UPDATE TRIAL STATUS FOR WORKROOM
-            W->updateTrialDisplacement(W->getTrialDisplacement() + W->getNinja());
+            W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
             // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED
-            D->updateTrialStatus();
+            D->update_trial_status();
         } while(!C->if_converged() && ++counter < max_iteration);
-        if(C->getFlag()) {
+        if(C->get_conv_flag()) {
             // EXIT LOOP WITH CONVERGED STATUS COMMIT STATUS
-            D->commitStatus();
+            D->commit_status();
+            // RECORD STATUS
+            D->record();
             // MOVE TOWARDS
             time_left -= step;
         } else {
             // FAIL TO CONVERGE FOR CURRENT INCREMENT RESET STATUS
-            D->resetStatus();
+            D->reset_status();
             // HALVE THE STEP SIZE
             if(step <= min_step_size) {
-                printf("Newton::analyze() reaches minimum step size.\n");
+                suanpan_warning("analyze() reaches minimum step size.\n");
                 return -1;
             }
             step /= 2.;
@@ -94,8 +96,8 @@ int Newton::analyze(const double& T)
     }
 
     if(num_increment > max_increment)
-        printf("Newton::analyze() reaches maximum iteration numbers. The trial status "
-               "may be unconverged.\n");
+        suanpan_warning("analyze() reaches maximum iteration numbers. The trial status "
+                        "may be unconverged.\n");
 
     return 0;
 }

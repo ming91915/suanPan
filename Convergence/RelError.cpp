@@ -34,12 +34,19 @@ RelError::RelError(const shared_ptr<Domain>& D, const double& E, const bool& P)
 */
 const bool& RelError::if_converged()
 {
-    auto& W = getDomain()->getWorkroom();
+    auto& tmp_domain = get_domain();
+    if(tmp_domain == nullptr) {
+        suanpan_error("if_converged() needs a valid domain.\n");
+        set_conv_flag(false);
+    } else {
+        auto& tmp_workroom = tmp_domain->get_workroom();
 
-    setError(W->getError() / norm(W->getTrialDisplacement()));
-    setFlag(getTolerance() > getError() ? true : false);
+        set_error(
+            tmp_workroom->get_error() / norm(tmp_workroom->get_trial_displacement()));
+        set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) printf("Relative Error: %.5E.\n", getError());
+        if(if_print()) suanpan_info("Relative Error: %.5E.\n", get_error());
+    }
 
-    return getFlag();
+    return get_conv_flag();
 }

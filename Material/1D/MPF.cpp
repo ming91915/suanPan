@@ -49,14 +49,14 @@ void MPF::initialize()
     current_history(3) = yield_strain;
 }
 
-unique_ptr<Material> MPF::getCopy() { return make_unique<MPF>(*this); }
+unique_ptr<Material> MPF::get_copy() { return make_unique<MPF>(*this); }
 
-int MPF::updateIncreStatus(const vec& i_strain)
+int MPF::update_incre_status(const vec& i_strain)
 {
-    return updateTrialStatus(current_strain + i_strain);
+    return update_trial_status(current_strain + i_strain);
 }
 
-int MPF::updateTrialStatus(const vec& t_strain)
+int MPF::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
@@ -126,13 +126,13 @@ int MPF::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int MPF::clearStatus()
+int MPF::clear_status()
 {
     initialize();
     return 0;
 }
 
-int MPF::commitStatus()
+int MPF::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -141,7 +141,7 @@ int MPF::commitStatus()
     return 0;
 }
 
-int MPF::resetStatus()
+int MPF::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;

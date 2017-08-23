@@ -12,10 +12,10 @@ Step::Step(const unsigned& T,
 
 int Step::analyze() { return -1; }
 
-void Step::setSolver(const shared_ptr<Solver>& S) { solver = S; }
+void Step::set_solver(const shared_ptr<Solver>& S) { solver = S; }
 
-const shared_ptr<Solver>& Step::getSolver() const { return solver; }
+const shared_ptr<Solver>& Step::get_solver() const { return solver; }
 
-void Step::setTimePerid(const double& T) { time_period = T; }
+void Step::set_time_perid(const double& T) { time_period = T; }
 
-const double& Step::getTimePeriod() const { return time_period; }
+const double& Step::get_time_period() const { return time_period; }

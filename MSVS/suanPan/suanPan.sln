@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "suanPan", "suanPan\suanPan.vcxproj", "{DFE098B0-CE36-42BC-AB34-3C7146543F57}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -14,6 +14,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Element", "Element\Element.vcxproj", "{1811B701-0D47-4AE8-81AC-666F1CC678C4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ElementExample", "ElementExample\ElementExample.vcxproj", "{3763B48A-A715-4CA6-A768-BE3E071E2081}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaterialExample", "MaterialExample\MaterialExample.vcxproj", "{1B02D5F5-714F-4C47-BD65-8878457B7761}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,8 +57,19 @@ Global
 		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x64.Build.0 = Release|x64
 		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x86.ActiveCfg = Release|Win32
 		{3763B48A-A715-4CA6-A768-BE3E071E2081}.Release|x86.Build.0 = Release|Win32
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Debug|x64.ActiveCfg = Debug|x64
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Debug|x64.Build.0 = Debug|x64
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Debug|x86.ActiveCfg = Debug|Win32
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Debug|x86.Build.0 = Debug|Win32
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Release|x64.ActiveCfg = Release|x64
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Release|x64.Build.0 = Release|x64
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Release|x86.ActiveCfg = Release|Win32
+		{1B02D5F5-714F-4C47-BD65-8878457B7761}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0E70EEE-4340-4EBC-9497-5F190FA9E6F4}
 	EndGlobalSection
 EndGlobal

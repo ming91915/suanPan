@@ -23,21 +23,21 @@ Truss2D::Truss2D(const unsigned& T,
 void Truss2D::initialize(const shared_ptr<Domain>& D)
 {
     vec pos_diff =
-        node_ptr.at(0).lock()->getCoordinate() - node_ptr.at(1).lock()->getCoordinate();
+        node_ptr.at(0).lock()->get_coordinate() - node_ptr.at(1).lock()->get_coordinate();
 
     length = norm(pos_diff);
 
     try {
-        t_material = D->getMaterial(static_cast<unsigned>(material_tag(0)))->getCopy();
+        t_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
     } catch(const out_of_range&) {
-        printf("Truss2D %u cannot find a valid Material %u\n", getTag(),
+        printf("Truss2D %u cannot find a valid Material %u\n", get_tag(),
             static_cast<unsigned>(material_tag(0)));
         throw;
     }
 
     direction_cosine = pos_diff / length;
 
-    auto tmp_d = area / length * as_scalar(t_material->getInitialStiffness());
+    auto tmp_d = area / length * as_scalar(t_material->get_initial_stiffness());
     auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);
     auto tmp_b = tmp_d * direction_cosine(1) * direction_cosine(1);
     auto tmp_c = tmp_d * direction_cosine(0) * direction_cosine(1);
@@ -63,13 +63,13 @@ void Truss2D::initialize(const shared_ptr<Domain>& D)
     initial_stiffness(3, 3) = tmp_b;
 }
 
-int Truss2D::updateStatus()
+int Truss2D::update_status()
 {
     auto node_i = node_ptr.at(0).lock();
     auto node_j = node_ptr.at(1).lock();
 
-    auto& t_disp_i = node_i->getTrialDisplacement();
-    auto& t_disp_j = node_j->getTrialDisplacement();
+    auto& t_disp_i = node_i->get_trial_displacement();
+    auto& t_disp_j = node_j->get_trial_displacement();
 
     double trial_strain;
 
@@ -79,8 +79,8 @@ int Truss2D::updateStatus()
     auto new_length = length;
 
     if(nlgeom) {
-        auto& coord_i = node_i->getCoordinate();
-        auto& coord_j = node_j->getCoordinate();
+        auto& coord_i = node_i->get_coordinate();
+        auto& coord_j = node_j->get_coordinate();
         vec pos_diff = disp_diff + coord_j - coord_i;
 
         new_length = norm(pos_diff);
@@ -96,9 +96,9 @@ int Truss2D::updateStatus()
     } else
         trial_strain = dot(disp_diff, direction_cosine) / length;
 
-    t_material->updateTrialStatus({ trial_strain });
+    t_material->update_trial_status({ trial_strain });
 
-    auto tmp_d = new_area / new_length * as_scalar(t_material->getStiffness());
+    auto tmp_d = new_area / new_length * as_scalar(t_material->get_stiffness());
     auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);
     auto tmp_b = tmp_d * direction_cosine(1) * direction_cosine(1);
     auto tmp_c = tmp_d * direction_cosine(0) * direction_cosine(1);
@@ -115,7 +115,7 @@ int Truss2D::updateStatus()
     stiffness(3, 3) = tmp_b;
 
     if(nlgeom) {
-        auto tmp_e = new_area / new_length * as_scalar(t_material->getStress());
+        auto tmp_e = new_area / new_length * as_scalar(t_material->get_stress());
         stiffness(0, 0) += tmp_e;
         stiffness(1, 1) += tmp_e;
         stiffness(2, 2) += tmp_e;
@@ -127,7 +127,7 @@ int Truss2D::updateStatus()
     for(auto I = 0; I < 3; ++I)
         for(auto J = I + 1; J < 4; ++J) stiffness(J, I) = stiffness(I, J);
 
-    auto tmp_f = new_area * as_scalar(t_material->getStress());
+    auto tmp_f = new_area * as_scalar(t_material->get_stress());
     resistance(2) = tmp_f * direction_cosine(0);
     resistance(3) = tmp_f * direction_cosine(1);
     resistance(0) = -resistance(2);
@@ -136,11 +136,11 @@ int Truss2D::updateStatus()
     return 0;
 }
 
-int Truss2D::commitStatus() { return t_material->commitStatus(); }
+int Truss2D::commit_status() { return t_material->commit_status(); }
 
-int Truss2D::clearStatus() { return t_material->clearStatus(); }
+int Truss2D::clear_status() { return t_material->clear_status(); }
 
-int Truss2D::resetStatus() { return t_material->resetStatus(); }
+int Truss2D::reset_status() { return t_material->reset_status(); }
 
 void Truss2D::print()
 {

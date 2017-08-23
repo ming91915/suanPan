@@ -5,33 +5,33 @@ Material::Material(const unsigned& T, const unsigned& CT)
 {
 }
 
-Material::~Material() { suanpan_debug("Material %u dtor() Called.\n", getTag()); }
+Material::~Material() { suanpan_debug("Material %u dtor() Called.\n", get_tag()); }
 
 void Material::initialize() {}
 
-double Material::getParameter(const unsigned&) const { return density; }
+double Material::get_parameter(const unsigned&) const { return density; }
 
-const vec& Material::getStrain() const { return trial_strain; }
+const vec& Material::get_strain() const { return trial_strain; }
 
-const vec& Material::getStrainRate() const { return trial_strain_rate; }
+const vec& Material::get_strain_rate() const { return trial_strain_rate; }
 
-const vec& Material::getStress() const { return trial_stress; }
+const vec& Material::get_stress() const { return trial_stress; }
 
-const mat& Material::getStiffness() const { return trial_stiffness; }
+const mat& Material::get_stiffness() const { return trial_stiffness; }
 
-const mat& Material::getInitialStiffness() const { return initial_stiffness; }
+const mat& Material::get_initial_stiffness() const { return initial_stiffness; }
 
-unique_ptr<Material> Material::getCopy() { return nullptr; }
+unique_ptr<Material> Material::get_copy() { return nullptr; }
 
-int Material::updateIncreStatus(const vec&) { return -1; }
+int Material::update_incre_status(const vec&) { return -1; }
 
-int Material::updateIncreStatus(const vec&, const vec&) { return -1; }
+int Material::update_incre_status(const vec&, const vec&) { return -1; }
 
-int Material::updateTrialStatus(const vec&) { return -1; }
+int Material::update_trial_status(const vec&) { return -1; }
 
-int Material::updateTrialStatus(const vec&, const vec&) { return -1; }
+int Material::update_trial_status(const vec&, const vec&) { return -1; }
 
-int Material::clearStatus()
+int Material::clear_status()
 {
     if(!current_strain.is_empty()) current_strain.zeros();
     if(!current_strain_rate.is_empty()) current_strain_rate.zeros();
@@ -53,7 +53,7 @@ int Material::clearStatus()
     return 0;
 }
 
-int Material::commitStatus()
+int Material::commit_status()
 {
     current_stiffness = trial_stiffness;
 
@@ -65,7 +65,7 @@ int Material::commitStatus()
     return 0;
 }
 
-int Material::resetStatus()
+int Material::reset_status()
 {
     trial_stiffness = current_stiffness;
 

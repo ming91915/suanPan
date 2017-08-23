@@ -21,7 +21,7 @@ public:
     explicit Ramp(const unsigned& = 0, const unsigned& = CT_RAMP);
     ~Ramp();
 
-    double getAmplitude(const double&) override final;
+    double get_amplitude(const double&) override final;
 
     void print() override final;
 };

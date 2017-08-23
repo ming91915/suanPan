@@ -21,14 +21,14 @@ public:
 
     void initialize() override;
 
-    double getParameter(const unsigned& = 0) const override;
+    double get_parameter(const unsigned& = 0) const override;
 
-    unique_ptr<Material> getCopy() override;
+    unique_ptr<Material> get_copy() override;
 
-    int updateIncreStatus(const vec&) override;
-    int updateTrialStatus(const vec&) override;
+    int update_incre_status(const vec&) override;
+    int update_trial_status(const vec&) override;
 
-    int clearStatus() override;
-    int commitStatus() override;
-    int resetStatus() override;
+    int clear_status() override;
+    int commit_status() override;
+    int reset_status() override;
 };

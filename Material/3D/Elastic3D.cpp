@@ -45,9 +45,9 @@ void Elastic3D::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Material> Elastic3D::getCopy() { return make_unique<Elastic3D>(*this); }
+unique_ptr<Material> Elastic3D::get_copy() { return make_unique<Elastic3D>(*this); }
 
-int Elastic3D::updateTrialStatus(const vec& t_strain)
+int Elastic3D::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     trial_stress = trial_stiffness * trial_strain;
@@ -56,7 +56,7 @@ int Elastic3D::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Elastic3D::clearStatus()
+int Elastic3D::clear_status()
 {
     current_strain.zeros(6);
     current_stress.zeros(6);
@@ -67,7 +67,7 @@ int Elastic3D::clearStatus()
     return 0;
 }
 
-int Elastic3D::commitStatus()
+int Elastic3D::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -75,7 +75,7 @@ int Elastic3D::commitStatus()
     return 0;
 }
 
-int Elastic3D::resetStatus()
+int Elastic3D::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;

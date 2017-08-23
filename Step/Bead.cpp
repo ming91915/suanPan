@@ -1,7 +1,6 @@
 #include "Bead.h"
-#include "Convergence/Convergence.h"
+#include <Convergence/Convergence.h>
 #include <Domain/Domain.h>
-#include <Recorder/Recorder.h>
 #include <Step/Step.h>
 
 Bead::Bead()
@@ -12,25 +11,19 @@ Bead::Bead()
 
 bool Bead::insert(const shared_ptr<Domain>& D)
 {
-    auto F = domain_pool.insert({ D->getTag(), D });
-    return F.second;
-}
-
-bool Bead::insert(const shared_ptr<Convergence>& C)
-{
-    auto F = converger_pool.insert({ C->getTag(), C });
+    auto F = domain_pool.insert({ D->get_tag(), D });
     return F.second;
 }
 
 bool Bead::insert(const shared_ptr<Step>& S)
 {
-    auto F = step_pool.insert({ S->getTag(), S });
+    auto F = step_pool.insert({ S->get_tag(), S });
     return F.second;
 }
 
-bool Bead::insert(const shared_ptr<Recorder>& R)
+bool Bead::insert(const shared_ptr<Convergence>& C)
 {
-    auto F = recorder_pool.insert({ R->getTag(), R });
+    auto F = converger_pool.insert({ C->get_tag(), C });
     return F.second;
 }
 
@@ -39,16 +32,11 @@ const shared_ptr<Domain>& Bead::getDomain(const unsigned& T) const
     return domain_pool.at(T);
 }
 
+const shared_ptr<Step>& Bead::getStep(const unsigned& T) const { return step_pool.at(T); }
+
 const shared_ptr<Convergence>& Bead::getConvergence(const unsigned& T) const
 {
     return converger_pool.at(T);
-}
-
-const shared_ptr<Step>& Bead::getStep(const unsigned& T) const { return step_pool.at(T); }
-
-const shared_ptr<Recorder>& Bead::getRecorder(const unsigned& T) const
-{
-    return recorder_pool.at(T);
 }
 
 const shared_ptr<Domain>& Bead::getCurrentDomain() const
@@ -85,11 +73,9 @@ void Bead::erase_domain(const unsigned& T)
     }
 }
 
-void Bead::erase_convergence(const unsigned& T) { converger_pool.erase(T); }
-
 void Bead::erase_step(const unsigned& T) { step_pool.erase(T); }
 
-void Bead::erase_recorder(const unsigned& T) { recorder_pool.erase(T); }
+void Bead::erase_convergence(const unsigned& T) { converger_pool.erase(T); }
 
 void Bead::disable_domain(const unsigned& T)
 {
@@ -98,15 +84,6 @@ void Bead::disable_domain(const unsigned& T)
         suanpan_debug("disable_domain() disables Domain %u.\n", T);
     } else
         suanpan_info("disable_domain() cannot find Domain %u.\n", T);
-}
-
-void Bead::disable_convergence(const unsigned& T)
-{
-    if(converger_pool.find(T) != converger_pool.end()) {
-        converger_pool.at(T)->disable();
-        suanpan_debug("disable_convergence() disables Convergence %u.\n", T);
-    } else
-        suanpan_info("disable_convergence() cannot find Convergence %u.\n", T);
 }
 
 void Bead::disable_step(const unsigned& T)
@@ -118,13 +95,13 @@ void Bead::disable_step(const unsigned& T)
         suanpan_info("disable_step() cannot find Step %u.\n", T);
 }
 
-void Bead::disable_recorder(const unsigned& T)
+void Bead::disable_convergence(const unsigned& T)
 {
-    if(recorder_pool.find(T) != recorder_pool.end()) {
-        recorder_pool.at(T)->disable();
-        suanpan_debug("disable_recorder() disables Recorder %u.\n", T);
+    if(converger_pool.find(T) != converger_pool.end()) {
+        converger_pool.at(T)->disable();
+        suanpan_debug("disable_convergence() disables Convergence %u.\n", T);
     } else
-        suanpan_info("disable_recorder() cannot find Recorder %u.\n", T);
+        suanpan_info("disable_convergence() cannot find Convergence %u.\n", T);
 }
 
 void Bead::setCurrentDomain(const unsigned& T) { current_domain = T; }
@@ -134,29 +111,29 @@ void Bead::setCurrentStep(const unsigned& T) { current_step = T; }
 void Bead::analyze()
 {
     for(const auto& I : step_pool)
-        if(I.second->getStatus()) I.second->analyze();
+        if(I.second->is_active()) I.second->analyze();
 }
 
 shared_ptr<Domain>& getDomain(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->domain_pool[T];
 }
-shared_ptr<Convergence>& getConvergence(const shared_ptr<Bead>& B, const unsigned& T)
-{
-    return B->converger_pool[T];
-}
+
 shared_ptr<Step>& getStep(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->step_pool[T];
 }
-shared_ptr<Recorder>& getRecorder(const shared_ptr<Bead>& B, const unsigned& T)
+
+shared_ptr<Convergence>& getConvergence(const shared_ptr<Bead>& B, const unsigned& T)
 {
-    return B->recorder_pool[T];
+    return B->converger_pool[T];
 }
+
 shared_ptr<Domain>& getCurrentDomain(const shared_ptr<Bead>& B)
 {
     return B->domain_pool[B->current_domain];
 }
+
 shared_ptr<Step>& getCurrentStep(const shared_ptr<Bead>& B)
 {
     return B->step_pool[B->current_step];

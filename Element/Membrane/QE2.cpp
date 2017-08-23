@@ -28,10 +28,10 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     }
 
     // MATERIAL MODEL PROTOTYPE
-    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     // INITIAL FLEXIBILITY
-    auto& ini_stiffness = material_proto->getInitialStiffness();
+    auto& ini_stiffness = material_proto->get_initial_stiffness();
 
     // INTEGRATION POINTS INITIALIZATION
     const integrationPlan plan(2, 2, 1);
@@ -41,13 +41,13 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->getCopy();
+        int_pt[I]->m_material = material_proto->get_copy();
     }
 
     // ELEMENT COORDINATES
     ele_coor.zeros(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
@@ -59,7 +59,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     mat n(2, 8, fill::zeros);
 
-    const auto tmp_density = material_proto->getParameter() * thickness;
+    const auto tmp_density = material_proto->get_parameter() * thickness;
 
     mat H(7, 7, fill::zeros);
     mat L(7, 8, fill::zeros);
@@ -140,13 +140,13 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     current_beta.zeros(7);
 }
 
-int QE2::updateStatus()
+int QE2::update_status()
 {
     current_disp = trial_disp;
 
     auto idx = 0;
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
     if(norm(trial_disp) < 1E-20) return 0; // quick return
 
     const vec incre_disp = trial_disp - current_disp;                 // eq. 46
@@ -163,12 +163,12 @@ int QE2::updateStatus()
     FI.zeros();
     auto code = 0;
     for(const auto& I : int_pt) {
-        code += I->m_material->updateTrialStatus(I->A * trial_alpha);
+        code += I->m_material->update_trial_status(I->A * trial_alpha);
         const auto tmp_factor = I->jacob_det * I->weight * thickness;
         const vec tmp_vector = I->P * trial_beta * tmp_factor;
-        HT += I->A.t() * I->m_material->getStiffness() * I->A * tmp_factor; // eq. 56
-        FI += I->BI.t() * tmp_vector;                                       // eq. 54
-        resistance += I->B.t() * tmp_vector;                                // eq. 54
+        HT += I->A.t() * I->m_material->get_stiffness() * I->A * tmp_factor; // eq. 56
+        FI += I->BI.t() * tmp_vector;                                        // eq. 54
+        resistance += I->B.t() * tmp_vector;                                 // eq. 54
     }
 
     QT = HILI.t() * HT * HILI;                             // eq. 60
@@ -181,7 +181,7 @@ int QE2::updateStatus()
     return code;
 }
 
-int QE2::commitStatus()
+int QE2::commit_status()
 {
     current_lambda = trial_lambda;
     current_alpha = trial_alpha;
@@ -191,11 +191,11 @@ int QE2::commitStatus()
     current_qtifi = trial_qtifi;
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commitStatus();
+    for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int QE2::clearStatus()
+int QE2::clear_status()
 {
     current_lambda.zeros();
     current_alpha.zeros();
@@ -214,11 +214,11 @@ int QE2::clearStatus()
     trial_qtitt = initial_qtitt;
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clearStatus();
+    for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int QE2::resetStatus()
+int QE2::reset_status()
 {
     trial_lambda = current_lambda;
     trial_alpha = current_alpha;
@@ -228,13 +228,13 @@ int QE2::resetStatus()
     trial_qtifi = current_qtifi;
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->resetStatus();
+    for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
 }
 
 void QE2::print()
 {
-    suanpan_info("Piltner's mixed quad element %u connects nodes:\n", getTag());
+    suanpan_info("Piltner's mixed quad element %u connects nodes:\n", get_tag());
     node_encoding.t().print();
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);

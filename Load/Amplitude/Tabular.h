@@ -22,7 +22,7 @@ public:
     Tabular(const unsigned&, const char*);
     ~Tabular();
 
-    double getAmplitude(const double&) override final;
+    double get_amplitude(const double&) override final;
 
     void print() override final;
 };

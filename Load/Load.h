@@ -33,7 +33,8 @@ public:
 
     virtual int process(const shared_ptr<Domain>&) = 0;
 
-    const unsigned& getStepTag() const;
+    void set_step_tag(const unsigned&);
+    const unsigned& get_step_tag() const;
 };
 
 #endif

@@ -37,9 +37,9 @@ public:
     BC(const unsigned&, const uvec&, const char*);
     ~BC();
 
-    const uvec& getNode() const;
+    const uvec& get_node() const;
 
-    const uvec& getDOF() const;
+    const uvec& get_dof() const;
 
     int process(const shared_ptr<Domain>&) override;
 };

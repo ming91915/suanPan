@@ -23,12 +23,12 @@ class Tie final : public MPC
     unsigned dof_j;
 
 public:
-    Tie(const unsigned& T,
-        const unsigned& S,
-        const unsigned& NA,
-        const unsigned& DA,
-        const unsigned& NB,
-        const unsigned& DB);
+    Tie(const unsigned& T,   // tag
+        const unsigned& S,   // step tag
+        const unsigned& NA,  // node a
+        const unsigned& DA,  // dof a
+        const unsigned& NB,  // node b
+        const unsigned& DB); // dof b
     Tie(const unsigned& S,
         const unsigned& NA,
         const unsigned& DA,

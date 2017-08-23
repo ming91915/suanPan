@@ -24,18 +24,18 @@ int RK23::updateStatus()
     auto& D = getODE();
     auto& W = getWorkroom();
 
-    auto& c_time = W->getCurrentTime();
-    auto& t_time = W->getTrialTime();
-    auto& i_time = W->getIncreTime();
-    auto& c_disp = W->getCurrentDisplacement();
+    auto& c_time = W->get_current_time();
+    auto& t_time = W->get_trial_time();
+    auto& i_time = W->get_incre_time();
+    auto& c_disp = W->get_current_displacement();
 
     S1 = D->eval(c_time, c_disp);
     S2 = D->eval(t_time, c_disp + i_time * S1);
     S3 = D->eval(c_time + .5 * i_time, c_disp + i_time * .25 * (S1 + S2));
 
-    W->updateIncreDisplacement(i_time * (S1 + S2 + 4. * S3) / 6.);
+    W->update_incre_displacement(i_time * (S1 + S2 + 4. * S3) / 6.);
 
-    W->setError(norm(i_time * (S1 + S2 - 2. * S3) / 3.));
+    W->set_error(norm(i_time * (S1 + S2 - 2. * S3) / 3.));
 
     return 0;
 }

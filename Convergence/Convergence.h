@@ -27,7 +27,7 @@ class Domain;
 
 class Convergence : public Tag
 {
-    shared_ptr<Domain> domain; /**< pointer to Domain */
+    shared_ptr<Domain> domain = nullptr; /**< pointer to Domain */
 
     double tolerance = 1E-8; /**< tolerance */
 
@@ -44,17 +44,17 @@ public:
         const bool& = false);
     virtual ~Convergence();
 
-    void setTolerance(const double&);
-    const double& getTolerance() const;
+    void set_tolerance(const double&);
+    const double& get_tolerance() const;
 
-    void setDomain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& getDomain() const;
+    void set_domain(const shared_ptr<Domain>&);
+    const shared_ptr<Domain>& get_domain() const;
 
-    void setError(const double&);
-    const double& getError() const;
+    void set_error(const double&);
+    const double& get_error() const;
 
-    void setFlag(const bool&);
-    const bool& getFlag() const;
+    void set_conv_flag(const bool&);
+    const bool& get_conv_flag() const;
 
     const bool& if_print() const;
 

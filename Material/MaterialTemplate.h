@@ -20,11 +20,11 @@
 * Correspondingly, there are getters to return the trial status of the Material model.
 * They are
 * ```cpp
-* virtual const vec& getStrain() const;
-* virtual const vec& getStrainRate() const;
-* virtual const vec& getStress() const;
-* virtual const mat& getStiffness() const;
-* virtual const mat& getInitialStiffness() const;
+* virtual const vec& get_strain() const;
+* virtual const vec& get_strain_rate() const;
+* virtual const vec& get_stress() const;
+* virtual const mat& get_stiffness() const;
+* virtual const mat& get_initial_stiffness() const;
 * ```
 * There is no need to override those methods if one decides to use pre-defined status
 * variables. As defined as virtual functions, the users are free to ignore all pre-defined
@@ -42,11 +42,11 @@
 *
 * The method that is in charge of returning a copy is called
 * ```cpp
-* virtual unique_ptr<Material> getCopy() = 0;
+* virtual unique_ptr<Material> get_copy() = 0;
 * ```
 * By calling the copy constructor, this method can be implemented in a very concise way.
 * ```cpp
-* unique_ptr<Material> getCopy() { return make_unique<MaterialName>(*this); };
+* unique_ptr<Material> get_copy() { return make_unique<MaterialName>(*this); };
 * ```
 * According to the rule of three or the rule of five, since here the method calls the
 * default copy constructor of a derived class, if the derived class is so complicated that
@@ -55,10 +55,12 @@
 *
 * The Material class defines four updating method.
 * ```cpp
-* virtual int updateIncreStatus(const vec&); // incre_strain
-* virtual int updateIncreStatus(const vec&, const vec&); // incre_strain incre_strain_rate
-* virtual int updateTrialStatus(const vec&); // trial_strain
-* virtual int updateTrialStatus(const vec&, const vec&); // trial_strain trial_strain_rate
+* virtual int update_incre_status(const vec&); // incre_strain
+* virtual int update_incre_status(const vec&, const vec&); // incre_strain
+* incre_strain_rate
+* virtual int update_trial_status(const vec&); // trial_strain
+* virtual int update_trial_status(const vec&, const vec&); // trial_strain
+* trial_strain_rate
 * ```
 * As the Material model only talks to Element objects, the developers are free to
 * implement any of them, even all four methods, providing that the corresponding Element
@@ -66,14 +68,14 @@
 *
 * The other status control methods are also need to be implemented.
 * ```cpp
-* virtual int clearStatus() = 0;
-* virtual int commitStatus() = 0;
-* virtual int resetStatus() = 0;
+* virtual int clear_status() = 0;
+* virtual int commit_status() = 0;
+* virtual int reset_status() = 0;
 * ```
 *
 * There is an additional method called
 * ```cpp
-* virtual double getParameter(const unsigned& = 0) const;
+* virtual double get_parameter(const unsigned& = 0) const;
 * ```
 * This is universal method to return material properties based on the input argument, as
 * some Element objects may need some material properties to compute particular data.
@@ -98,15 +100,15 @@ public:
 
     void initialize() override;
 
-    double getParameter(const unsigned& = 0) const override;
+    double get_parameter(const unsigned& = 0) const override;
 
-    unique_ptr<Material> getCopy() override;
+    unique_ptr<Material> get_copy() override;
 
-    int updateTrialStatus(const vec&) override;
+    int update_trial_status(const vec&) override;
 
-    int clearStatus() override;
-    int commitStatus() override;
-    int resetStatus() override;
+    int clear_status() override;
+    int commit_status() override;
+    int reset_status() override;
 };
 
 #endif

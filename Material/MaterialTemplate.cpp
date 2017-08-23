@@ -11,17 +11,17 @@ MaterialTemplate::MaterialTemplate(const unsigned& T)
 
 void MaterialTemplate::initialize() {}
 
-double MaterialTemplate::getParameter(const unsigned& T) const { return 0.; }
+double MaterialTemplate::get_parameter(const unsigned& T) const { return 0.; }
 
-unique_ptr<Material> MaterialTemplate::getCopy()
+unique_ptr<Material> MaterialTemplate::get_copy()
 {
     return make_unique<MaterialTemplate>(*this);
 }
 
-int MaterialTemplate::updateTrialStatus(const vec& t_strain) { return 0; }
+int MaterialTemplate::update_trial_status(const vec& t_strain) { return 0; }
 
-int MaterialTemplate::clearStatus() { return 0; }
+int MaterialTemplate::clear_status() { return 0; }
 
-int MaterialTemplate::commitStatus() { return 0; }
+int MaterialTemplate::commit_status() { return 0; }
 
-int MaterialTemplate::resetStatus() { return 0; }
+int MaterialTemplate::reset_status() { return 0; }

@@ -18,29 +18,30 @@ void Workroom::enable_band() { band_mat = true; }
 
 void Workroom::disable_band() { band_mat = false; }
 
-void Workroom::setNumberDOF(const unsigned& D) { number_dof = D; }
+void Workroom::set_dof_number(const unsigned& D) { number_dof = D; }
 
-const unsigned& Workroom::getNumberDOF() const { return number_dof; }
+const unsigned& Workroom::get_dof_number() const { return number_dof; }
 
-void Workroom::setAnalysisType(const unsigned& T) { analysis_type = T; }
+void Workroom::set_analysis_type(const unsigned& T) { analysis_type = T; }
 
-const unsigned& Workroom::getAnalysisType() const { return analysis_type; }
+const unsigned& Workroom::get_analysis_type() const { return analysis_type; }
 
-void Workroom::setBandwidth(const unsigned& L, const unsigned& U)
+void Workroom::set_bandwidth(const unsigned& L, const unsigned& U)
 {
     low_bandwidth = L;
     up_bandwidth = U;
+    shifted_bandwidth = L + U;
 }
 
-void Workroom::getBandwidth(unsigned& L, unsigned& U) const
+void Workroom::get_bandwidth(unsigned& L, unsigned& U) const
 {
     L = low_bandwidth;
     U = up_bandwidth;
 }
 
-void Workroom::setError(const double& E) { error = E; }
+void Workroom::set_error(const double& E) { error = E; }
 
-const double& Workroom::getError() const { return error; }
+const double& Workroom::get_error() const { return error; }
 
 void Workroom::initialize(const unsigned& S)
 {
@@ -50,29 +51,29 @@ void Workroom::initialize(const unsigned& S)
         ninja.zeros(D);
         switch(analysis_type) {
         case SUANPAN_DISP:
-            initializeDisplacement(D);
+            initialize_displacement(D);
             break;
         case SUANPAN_BUCKLE:
-            initializeEigen(D);
-            initializeMass(D);
-            initializeStiffness(D);
+            initialize_eigen(D);
+            initialize_mass(D);
+            initialize_stiffness(D);
             break;
         case SUANPAN_STATICS:
-            initializeLoad(D);
-            initializeResistance(D);
-            initializeDisplacement(D);
-            initializeMass(D);
-            initializeStiffness(D);
+            initialize_load(D);
+            initialize_resistance(D);
+            initialize_displacement(D);
+            initialize_mass(D);
+            initialize_stiffness(D);
             break;
         case SUANPAN_DYNAMICS:
-            initializeLoad(D);
-            initializeResistance(D);
-            initializeDisplacement(D);
-            initializeVelocity(D);
-            initializeAcceleration(D);
-            initializeMass(D);
-            initializeDamping(D);
-            initializeStiffness(D);
+            initialize_load(D);
+            initialize_resistance(D);
+            initialize_displacement(D);
+            initialize_velocity(D);
+            initialize_acceleration(D);
+            initialize_mass(D);
+            initialize_damping(D);
+            initialize_stiffness(D);
             break;
         case SUANPAN_NONE:
         default:
@@ -81,55 +82,55 @@ void Workroom::initialize(const unsigned& S)
     }
 }
 
-void Workroom::initializeLoad(const unsigned& D)
+void Workroom::initialize_load(const unsigned& D)
 {
     trial_load.zeros(D);
     incre_load.zeros(D);
     current_load.zeros(D);
 }
 
-void Workroom::initializeResistance(const unsigned& D)
+void Workroom::initialize_resistance(const unsigned& D)
 {
     trial_resistance.zeros(D);
     incre_resistance.zeros(D);
     current_resistance.zeros(D);
 }
 
-void Workroom::initializeDisplacement(const unsigned& D)
+void Workroom::initialize_displacement(const unsigned& D)
 {
     trial_displacement.zeros(D);
     incre_displacement.zeros(D);
     current_displacement.zeros(D);
 }
 
-void Workroom::initializeVelocity(const unsigned& D)
+void Workroom::initialize_velocity(const unsigned& D)
 {
     trial_velocity.zeros(D);
     incre_velocity.zeros(D);
     current_velocity.zeros(D);
 }
 
-void Workroom::initializeAcceleration(const unsigned& D)
+void Workroom::initialize_acceleration(const unsigned& D)
 {
     trial_acceleration.zeros(D);
     incre_acceleration.zeros(D);
     current_acceleration.zeros(D);
 }
 
-void Workroom::initializeTemperature(const unsigned& D)
+void Workroom::initialize_temperature(const unsigned& D)
 {
     trial_temperature.zeros(D);
     incre_temperature.zeros(D);
     current_temperature.zeros(D);
 }
 
-void Workroom::initializeEigen(const unsigned& D)
+void Workroom::initialize_eigen(const unsigned& D)
 {
     eigenvalue.zeros(D);
     eigenvector.zeros(D, D);
 }
 
-void Workroom::initializeMass(const unsigned& D)
+void Workroom::initialize_mass(const unsigned& D)
 {
     if(is_band())
         if(is_symm())
@@ -140,7 +141,7 @@ void Workroom::initializeMass(const unsigned& D)
         global_mass.zeros(D, D);
 }
 
-void Workroom::initializeDamping(const unsigned& D)
+void Workroom::initialize_damping(const unsigned& D)
 {
     if(is_band())
         if(is_symm())
@@ -151,7 +152,7 @@ void Workroom::initializeDamping(const unsigned& D)
         global_damping.zeros(D, D);
 }
 
-void Workroom::initializeStiffness(const unsigned& D)
+void Workroom::initialize_stiffness(const unsigned& D)
 {
     if(is_band())
         if(is_symm())
@@ -162,290 +163,298 @@ void Workroom::initializeStiffness(const unsigned& D)
         global_stiffness.zeros(D, D);
 }
 
-void Workroom::updateNinja(const vec& N) { ninja = N; }
+void Workroom::update_ninja(const vec& N) { ninja = N; }
 
-void Workroom::updateTrialTime(const double& T)
+void Workroom::update_trial_time(const double& T)
 {
     trial_time = T;
     incre_time = trial_time - current_time;
 }
 
-void Workroom::updateTrialLoad(const vec& L)
+void Workroom::update_trial_load(const vec& L)
 {
     trial_load = L;
     incre_load = trial_load - current_load;
 }
 
-void Workroom::updateTrialResistance(const vec& R)
+void Workroom::update_trial_resistance(const vec& R)
 {
     trial_resistance = R;
     incre_resistance = trial_resistance - current_resistance;
 }
 
-void Workroom::updateTrialDisplacement(const vec& D)
+void Workroom::update_trial_displacement(const vec& D)
 {
     trial_displacement = D;
     incre_displacement = trial_displacement - current_displacement;
 }
 
-void Workroom::updateTrialVelocity(const vec& V)
+void Workroom::update_trial_velocity(const vec& V)
 {
     trial_velocity = V;
     incre_velocity = trial_velocity - current_velocity;
 }
 
-void Workroom::updateTrialAcceleration(const vec& A)
+void Workroom::update_trial_acceleration(const vec& A)
 {
     trial_acceleration = A;
     incre_acceleration = trial_acceleration - current_acceleration;
 }
 
-void Workroom::updateTrialTemperature(const vec& T)
+void Workroom::update_trial_temperature(const vec& T)
 {
     trial_temperature = T;
     incre_temperature = trial_temperature - current_temperature;
 }
 
-void Workroom::updateIncreTime(const double& T)
+void Workroom::update_incre_time(const double& T)
 {
     incre_time = T;
     trial_time = current_time + incre_time;
 }
 
-void Workroom::updateIncreLoad(const vec& L)
+void Workroom::update_incre_load(const vec& L)
 {
     incre_load = L;
     trial_load = current_load + incre_load;
 }
 
-void Workroom::updateIncreResistance(const vec& R)
+void Workroom::update_incre_resistance(const vec& R)
 {
     incre_resistance = R;
     trial_resistance = current_resistance + incre_resistance;
 }
 
-void Workroom::updateIncreDisplacement(const vec& D)
+void Workroom::update_incre_displacement(const vec& D)
 {
     incre_displacement = D;
     trial_displacement = current_displacement + incre_displacement;
 }
 
-void Workroom::updateIncreVelocity(const vec& V)
+void Workroom::update_incre_velocity(const vec& V)
 {
     incre_velocity = V;
     trial_velocity = current_velocity + incre_velocity;
 }
 
-void Workroom::updateIncreAcceleration(const vec& A)
+void Workroom::update_incre_acceleration(const vec& A)
 {
     incre_acceleration = A;
     trial_acceleration = current_acceleration + incre_acceleration;
 }
 
-void Workroom::updateIncreTemperature(const vec& T)
+void Workroom::update_incre_temperature(const vec& T)
 {
     incre_temperature = T;
     trial_temperature = current_temperature + incre_temperature;
 }
 
-void Workroom::updateCurrentTime(const double& T) { current_time = T; }
+void Workroom::update_current_time(const double& T) { current_time = T; }
 
-void Workroom::updateCurrentLoad(const vec& L) { current_load = L; }
+void Workroom::update_current_load(const vec& L) { current_load = L; }
 
-void Workroom::updateCurrentResistance(const vec& R) { current_resistance = R; }
+void Workroom::update_current_resistance(const vec& R) { current_resistance = R; }
 
-void Workroom::updateCurrentDisplacement(const vec& D) { current_displacement = D; }
+void Workroom::update_current_displacement(const vec& D) { current_displacement = D; }
 
-void Workroom::updateCurrentVelocity(const vec& V) { current_velocity = V; }
+void Workroom::update_current_velocity(const vec& V) { current_velocity = V; }
 
-void Workroom::updateCurrentAcceleration(const vec& A) { current_acceleration = A; }
+void Workroom::update_current_acceleration(const vec& A) { current_acceleration = A; }
 
-void Workroom::updateCurrentTemperature(const vec& T) { current_temperature = T; }
+void Workroom::update_current_temperature(const vec& T) { current_temperature = T; }
 
-void Workroom::updatePreviousLoad(const vec& L) { pre_load = L; }
+void Workroom::update_pre_time(const double& T) { pre_time = T; }
 
-void Workroom::updatePreviousResistance(const vec& R) { pre_resistance = R; }
+void Workroom::update_pre_load(const vec& L) { pre_load = L; }
 
-void Workroom::updatePreviousDisplacement(const vec& D) { pre_displacement = D; }
+void Workroom::update_pre_resistance(const vec& R) { pre_resistance = R; }
 
-void Workroom::updatePreviousVelocity(const vec& V) { pre_velocity = V; }
+void Workroom::update_pre_displacement(const vec& D) { pre_displacement = D; }
 
-void Workroom::updatePreviousAcceleration(const vec& A) { pre_acceleration = A; }
+void Workroom::update_pre_velocity(const vec& V) { pre_velocity = V; }
 
-void Workroom::updatePreviousTemperature(const vec& T) { pre_temperature = T; }
+void Workroom::update_pre_acceleration(const vec& A) { pre_acceleration = A; }
 
-void Workroom::updateMass(const T2& M) { global_mass = M; }
+void Workroom::update_pre_temperature(const vec& T) { pre_temperature = T; }
 
-void Workroom::updateDamping(const T2& D) { global_damping = D; }
+void Workroom::update_mass(const T2& M) { global_mass = M; }
 
-void Workroom::updateStiffness(const T2& K) { global_stiffness = K; }
+void Workroom::update_damping(const T2& D) { global_damping = D; }
 
-const vec& Workroom::getNinja() const { return ninja; }
+void Workroom::update_stiffness(const T2& K) { global_stiffness = K; }
 
-const double& Workroom::getTrialTime() const { return trial_time; }
+const vec& Workroom::get_ninja() const { return ninja; }
 
-const vec& Workroom::getTrialLoad() const { return trial_load; }
+const double& Workroom::get_trial_time() const { return trial_time; }
 
-const vec& Workroom::getTrialResistance() const { return trial_resistance; }
+const vec& Workroom::get_trial_load() const { return trial_load; }
 
-const vec& Workroom::getTrialDisplacement() const { return trial_displacement; }
+const vec& Workroom::get_trial_resistance() const { return trial_resistance; }
 
-const vec& Workroom::getTrialVelocity() const { return trial_velocity; }
+const vec& Workroom::get_trial_displacement() const { return trial_displacement; }
 
-const vec& Workroom::getTrialAcceleration() const { return trial_acceleration; }
+const vec& Workroom::get_trial_velocity() const { return trial_velocity; }
 
-const vec& Workroom::getTrialTemperature() const { return trial_temperature; }
+const vec& Workroom::get_trial_acceleration() const { return trial_acceleration; }
 
-const double& Workroom::getIncreTime() const { return incre_time; }
+const vec& Workroom::get_trial_temperature() const { return trial_temperature; }
 
-const vec& Workroom::getIncreLoad() const { return incre_load; }
+const double& Workroom::get_incre_time() const { return incre_time; }
 
-const vec& Workroom::getIncreResistance() const { return incre_resistance; }
+const vec& Workroom::get_incre_load() const { return incre_load; }
 
-const vec& Workroom::getIncreDisplacement() const { return incre_displacement; }
+const vec& Workroom::get_incre_resistance() const { return incre_resistance; }
 
-const vec& Workroom::getIncreVelocity() const { return incre_velocity; }
+const vec& Workroom::get_incre_displacement() const { return incre_displacement; }
 
-const vec& Workroom::getIncreAcceleration() const { return incre_acceleration; }
+const vec& Workroom::get_incre_velocity() const { return incre_velocity; }
 
-const vec& Workroom::getIncreTemperature() const { return incre_temperature; }
+const vec& Workroom::get_incre_acceleration() const { return incre_acceleration; }
 
-const double& Workroom::getCurrentTime() const { return current_time; }
+const vec& Workroom::get_incre_temperature() const { return incre_temperature; }
 
-const vec& Workroom::getCurrentLoad() const { return current_load; }
+const double& Workroom::get_current_time() const { return current_time; }
 
-const vec& Workroom::getCurrentResistance() const { return current_resistance; }
+const vec& Workroom::get_current_load() const { return current_load; }
 
-const vec& Workroom::getCurrentDisplacement() const { return current_displacement; }
+const vec& Workroom::get_current_resistance() const { return current_resistance; }
 
-const vec& Workroom::getCurrentVelocity() const { return current_velocity; }
+const vec& Workroom::get_current_displacement() const { return current_displacement; }
 
-const vec& Workroom::getCurrentAcceleration() const { return current_acceleration; }
+const vec& Workroom::get_current_velocity() const { return current_velocity; }
 
-const vec& Workroom::getCurrentTemperature() const { return current_temperature; }
+const vec& Workroom::get_current_acceleration() const { return current_acceleration; }
 
-const vec& Workroom::getPreviousLoad() const { return pre_load; }
+const vec& Workroom::get_current_temperature() const { return current_temperature; }
 
-const vec& Workroom::getPreviousResistance() const { return pre_resistance; }
+const double& Workroom::get_pre_time() const { return pre_time; }
 
-const vec& Workroom::getPreviousDisplacement() const { return pre_displacement; }
+const vec& Workroom::get_pre_load() const { return pre_load; }
 
-const vec& Workroom::getPreviousVelocity() const { return pre_velocity; }
+const vec& Workroom::get_pre_resistance() const { return pre_resistance; }
 
-const vec& Workroom::getPreviousAcceleration() const { return pre_acceleration; }
+const vec& Workroom::get_pre_displacement() const { return pre_displacement; }
 
-const vec& Workroom::getPreviousTemperature() const { return pre_temperature; }
+const vec& Workroom::get_pre_velocity() const { return pre_velocity; }
 
-const T2& Workroom::getMass() const { return global_mass; }
+const vec& Workroom::get_pre_acceleration() const { return pre_acceleration; }
 
-const T2& Workroom::getDamping() const { return global_damping; }
+const vec& Workroom::get_pre_temperature() const { return pre_temperature; }
 
-const T2& Workroom::getStiffness() const { return global_stiffness; }
+const T2& Workroom::get_mass() const { return global_mass; }
 
-const vec& Workroom::getEigenvalue() const { return eigenvalue; }
+const T2& Workroom::get_damping() const { return global_damping; }
 
-const mat& Workroom::getEigenvector() const { return eigenvector; }
+const T2& Workroom::get_stiffness() const { return global_stiffness; }
 
-void Workroom::commitStatus(const unsigned& T)
+const vec& Workroom::get_eigenvalue() const { return eigenvalue; }
+
+const mat& Workroom::get_eigenvector() const { return eigenvector; }
+
+void Workroom::commit_status(const unsigned& T)
 {
-    commitTime();
+    commit_time();
 
     switch(T) {
     case SUANPAN_DISP:
-        commitDisplacement();
+        commit_displacement();
         break;
     case SUANPAN_BUCKLE:
         break;
     case SUANPAN_STATICS:
-        commitLoad();
-        commitDisplacement();
+        commit_load();
+        commit_displacement();
         break;
     case SUANPAN_DYNAMICS:
-        commitLoad();
-        commitDisplacement();
-        commitVelocity();
-        commitAcceleration();
+        commit_load();
+        commit_displacement();
+        commit_velocity();
+        commit_acceleration();
         break;
     default:
         break;
     }
-    // commitTemperature();
+    // commit_temperature();
 }
 
-void Workroom::commitTime() { current_time = trial_time; }
+void Workroom::commit_time() { current_time = trial_time; }
 
-void Workroom::commitLoad() { current_load = trial_load; }
+void Workroom::commit_load() { current_load = trial_load; }
 
-void Workroom::commitResistance() { current_resistance = trial_resistance; }
+void Workroom::commit_resistance() { current_resistance = trial_resistance; }
 
-void Workroom::commitDisplacement() { current_displacement = trial_displacement; }
+void Workroom::commit_displacement() { current_displacement = trial_displacement; }
 
-void Workroom::commitVelocity() { current_velocity = trial_velocity; }
+void Workroom::commit_velocity() { current_velocity = trial_velocity; }
 
-void Workroom::commitAcceleration() { current_acceleration = trial_acceleration; }
+void Workroom::commit_acceleration() { current_acceleration = trial_acceleration; }
 
-void Workroom::commitTemperature() { current_temperature = trial_temperature; }
+void Workroom::commit_temperature() { current_temperature = trial_temperature; }
 
-void Workroom::commitPreStatus(const unsigned& T)
+void Workroom::commit_pre_status(const unsigned& T)
 {
+    commit_pre_time();
+
     switch(T) {
     case SUANPAN_DISP:
-        commitPreDisplacement();
+        commit_pre_displacement();
         break;
     case SUANPAN_BUCKLE:
         break;
     case SUANPAN_STATICS:
-        commitPreLoad();
-        commitPreDisplacement();
+        commit_pre_load();
+        commit_pre_displacement();
         break;
     case SUANPAN_DYNAMICS:
-        commitPreLoad();
-        commitPreDisplacement();
-        commitPreVelocity();
-        commitPreAcceleration();
+        commit_pre_load();
+        commit_pre_displacement();
+        commit_pre_velocity();
+        commit_pre_acceleration();
         break;
     default:
         break;
     }
-    // commitPreTemperature();
+    // commit_pre_temperature();
 }
 
-void Workroom::commitPreLoad() { pre_load = current_load; }
+void Workroom::commit_pre_time() { pre_time = current_time; }
 
-void Workroom::commitPreResistance() { pre_resistance = current_resistance; }
+void Workroom::commit_pre_load() { pre_load = current_load; }
 
-void Workroom::commitPreDisplacement() { pre_displacement = current_displacement; }
+void Workroom::commit_pre_resistance() { pre_resistance = current_resistance; }
 
-void Workroom::commitPreVelocity() { pre_velocity = current_velocity; }
+void Workroom::commit_pre_displacement() { pre_displacement = current_displacement; }
 
-void Workroom::commitPreAcceleration() { pre_acceleration = current_acceleration; }
+void Workroom::commit_pre_velocity() { pre_velocity = current_velocity; }
 
-void Workroom::commitPreTemperature() { pre_temperature = current_temperature; }
+void Workroom::commit_pre_acceleration() { pre_acceleration = current_acceleration; }
 
-void Workroom::clearStatus()
+void Workroom::commit_pre_temperature() { pre_temperature = current_temperature; }
+
+void Workroom::clear_status()
 {
-    clearTime();
-    clearLoad();
-    clearResistance();
-    clearDisplacement();
-    clearVelocity();
-    clearAcceleration();
-    clearTemperature();
+    clear_time();
+    clear_load();
+    clear_resistance();
+    clear_displacement();
+    clear_velocity();
+    clear_acceleration();
+    clear_temperature();
 
-    clearEigen();
-    clearMass();
-    clearDamping();
-    clearStiffness();
+    clear_eigen();
+    clear_mass();
+    clear_damping();
+    clear_stiffness();
 }
 
-void Workroom::clearTime()
+void Workroom::clear_time()
 {
     trial_time = 0.;
     incre_time = 0.;
     current_time = 0.;
 }
 
-void Workroom::clearLoad()
+void Workroom::clear_load()
 {
     if(!pre_load.is_empty()) pre_load.zeros();
     if(!trial_load.is_empty()) trial_load.zeros();
@@ -453,7 +462,7 @@ void Workroom::clearLoad()
     if(!current_load.is_empty()) current_load.zeros();
 }
 
-void Workroom::clearResistance()
+void Workroom::clear_resistance()
 {
     if(!pre_resistance.is_empty()) pre_resistance.zeros();
     if(!trial_resistance.is_empty()) trial_resistance.zeros();
@@ -461,7 +470,7 @@ void Workroom::clearResistance()
     if(!current_resistance.is_empty()) current_resistance.zeros();
 }
 
-void Workroom::clearDisplacement()
+void Workroom::clear_displacement()
 {
     if(!pre_displacement.is_empty()) pre_displacement.zeros();
     if(!trial_displacement.is_empty()) trial_displacement.zeros();
@@ -469,7 +478,7 @@ void Workroom::clearDisplacement()
     if(!current_displacement.is_empty()) current_displacement.zeros();
 }
 
-void Workroom::clearVelocity()
+void Workroom::clear_velocity()
 {
     if(!pre_velocity.is_empty()) pre_velocity.zeros();
     if(!trial_velocity.is_empty()) trial_velocity.zeros();
@@ -477,7 +486,7 @@ void Workroom::clearVelocity()
     if(!current_velocity.is_empty()) current_velocity.zeros();
 }
 
-void Workroom::clearAcceleration()
+void Workroom::clear_acceleration()
 {
     if(!pre_acceleration.is_empty()) pre_acceleration.zeros();
     if(!trial_acceleration.is_empty()) trial_acceleration.zeros();
@@ -485,7 +494,7 @@ void Workroom::clearAcceleration()
     if(!current_acceleration.is_empty()) current_acceleration.zeros();
 }
 
-void Workroom::clearTemperature()
+void Workroom::clear_temperature()
 {
     if(!pre_temperature.is_empty()) pre_temperature.zeros();
     if(!trial_temperature.is_empty()) trial_temperature.zeros();
@@ -493,26 +502,26 @@ void Workroom::clearTemperature()
     if(!current_temperature.is_empty()) current_temperature.zeros();
 }
 
-void Workroom::resetStatus()
+void Workroom::reset_status()
 {
     ninja.zeros();
 
-    resetTime();
-    resetLoad();
-    resetResistance();
-    resetDisplacement();
-    resetVelocity();
-    resetAcceleration();
-    resetTemperature();
+    reset_time();
+    reset_load();
+    reset_resistance();
+    reset_displacement();
+    reset_velocity();
+    reset_acceleration();
+    reset_temperature();
 }
 
-void Workroom::resetTime()
+void Workroom::reset_time()
 {
     trial_time = current_time;
     incre_time = 0.;
 }
 
-void Workroom::resetLoad()
+void Workroom::reset_load()
 {
     if(!trial_load.is_empty()) {
         trial_load = current_load;
@@ -520,7 +529,7 @@ void Workroom::resetLoad()
     }
 }
 
-void Workroom::resetResistance()
+void Workroom::reset_resistance()
 {
     if(!trial_resistance.is_empty()) {
         trial_resistance = current_resistance;
@@ -528,7 +537,7 @@ void Workroom::resetResistance()
     }
 }
 
-void Workroom::resetDisplacement()
+void Workroom::reset_displacement()
 {
     if(!trial_displacement.is_empty()) {
         trial_displacement = current_displacement;
@@ -536,7 +545,7 @@ void Workroom::resetDisplacement()
     }
 }
 
-void Workroom::resetVelocity()
+void Workroom::reset_velocity()
 {
     if(!trial_velocity.is_empty()) {
         trial_velocity = current_velocity;
@@ -544,7 +553,7 @@ void Workroom::resetVelocity()
     }
 }
 
-void Workroom::resetAcceleration()
+void Workroom::reset_acceleration()
 {
     if(!trial_acceleration.is_empty()) {
         trial_acceleration = current_acceleration;
@@ -552,7 +561,7 @@ void Workroom::resetAcceleration()
     }
 }
 
-void Workroom::resetTemperature()
+void Workroom::reset_temperature()
 {
     if(!trial_temperature.is_empty()) {
         trial_temperature = current_temperature;
@@ -560,26 +569,26 @@ void Workroom::resetTemperature()
     }
 }
 
-void Workroom::clearEigen()
+void Workroom::clear_eigen()
 {
     eigenvalue.zeros();
     eigenvector.zeros();
 }
 
-void Workroom::clearMass() { global_mass.zeros(); }
+void Workroom::clear_mass() { global_mass.zeros(); }
 
-void Workroom::clearDamping() { global_damping.zeros(); }
+void Workroom::clear_damping() { global_damping.zeros(); }
 
-void Workroom::clearStiffness() { global_stiffness.zeros(); }
+void Workroom::clear_stiffness() { global_stiffness.zeros(); }
 
-void Workroom::print() { printf("This is a Workroom object.\n"); }
+void Workroom::print() { suanpan_info("This is a Workroom object.\n"); }
 
-void Workroom::assembleResistance(const mat& ER, const uvec& EI)
+void Workroom::assemble_resistance(const mat& ER, const uvec& EI)
 {
     for(unsigned I = 0; I < EI.n_elem; ++I) trial_resistance(EI(I)) += ER(I);
 }
 
-void Workroom::assembleMass(const mat& EM, const uvec& EI)
+void Workroom::assemble_mass(const mat& EM, const uvec& EI)
 {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
@@ -599,14 +608,13 @@ void Workroom::assembleMass(const mat& EM, const uvec& EI)
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J) global_mass(EI(J), EI(I)) += EM(J, I);
     else if(!is_symm() && is_band()) {
-        auto tmp_shift = low_bandwidth + up_bandwidth;
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_mass(EI(J) - EI(I) + tmp_shift, EI(I)) += EM(J, I);
+                global_mass(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EM(J, I);
     }
 }
 
-void Workroom::assembleDamping(const mat& EC, const uvec& EI)
+void Workroom::assemble_damping(const mat& EC, const uvec& EI)
 {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
@@ -627,14 +635,13 @@ void Workroom::assembleDamping(const mat& EC, const uvec& EI)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_damping(EI(J), EI(I)) += EC(J, I);
     else if(!is_symm() && is_band()) {
-        auto tmp_shift = low_bandwidth + up_bandwidth;
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_damping(EI(J) - EI(I) + tmp_shift, EI(I)) += EC(J, I);
+                global_damping(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EC(J, I);
     }
 }
 
-void Workroom::assembleStiffness(const mat& EK, const uvec& EI)
+void Workroom::assemble_stiffness(const mat& EK, const uvec& EI)
 {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
@@ -655,90 +662,100 @@ void Workroom::assembleStiffness(const mat& EK, const uvec& EI)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_stiffness(EI(J), EI(I)) += EK(J, I);
     else if(!is_symm() && is_band()) {
-        auto tmp_shift = low_bandwidth + up_bandwidth;
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_stiffness(EI(J) - EI(I) + tmp_shift, EI(I)) += EK(J, I);
+                global_stiffness(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EK(J, I);
     }
 }
 
-vec& getNinja(const shared_ptr<Workroom>& W) { return W->ninja; }
+vec& get_ninja(const shared_ptr<Workroom>& W) { return W->ninja; }
 
-double& getTrialTime(const shared_ptr<Workroom>& W) { return W->trial_time; }
+double& get_trial_time(const shared_ptr<Workroom>& W) { return W->trial_time; }
 
-vec& getTrialLoad(const shared_ptr<Workroom>& W) { return W->trial_load; }
+vec& get_trial_load(const shared_ptr<Workroom>& W) { return W->trial_load; }
 
-vec& getTrialResistance(const shared_ptr<Workroom>& W) { return W->trial_resistance; }
+vec& get_trial_resistance(const shared_ptr<Workroom>& W) { return W->trial_resistance; }
 
-vec& getTrialDisplacement(const shared_ptr<Workroom>& W) { return W->trial_displacement; }
+vec& get_trial_displacement(const shared_ptr<Workroom>& W)
+{
+    return W->trial_displacement;
+}
 
-vec& getTrialVelocity(const shared_ptr<Workroom>& W) { return W->trial_velocity; }
+vec& get_trial_velocity(const shared_ptr<Workroom>& W) { return W->trial_velocity; }
 
-vec& getTrialAcceleration(const shared_ptr<Workroom>& W) { return W->trial_acceleration; }
+vec& get_trial_acceleration(const shared_ptr<Workroom>& W)
+{
+    return W->trial_acceleration;
+}
 
-vec& getTrialTemperature(const shared_ptr<Workroom>& W) { return W->trial_temperature; }
+vec& get_trial_temperature(const shared_ptr<Workroom>& W) { return W->trial_temperature; }
 
-double& getIncreTime(const shared_ptr<Workroom>& W) { return W->incre_time; }
+double& get_incre_time(const shared_ptr<Workroom>& W) { return W->incre_time; }
 
-vec& getIncreLoad(const shared_ptr<Workroom>& W) { return W->incre_load; }
+vec& get_incre_load(const shared_ptr<Workroom>& W) { return W->incre_load; }
 
-vec& getIncreResistance(const shared_ptr<Workroom>& W) { return W->incre_resistance; }
+vec& get_incre_resistance(const shared_ptr<Workroom>& W) { return W->incre_resistance; }
 
-vec& getIncreDisplacement(const shared_ptr<Workroom>& W) { return W->incre_displacement; }
+vec& get_incre_displacement(const shared_ptr<Workroom>& W)
+{
+    return W->incre_displacement;
+}
 
-vec& getIncreVelocity(const shared_ptr<Workroom>& W) { return W->incre_velocity; }
+vec& get_incre_velocity(const shared_ptr<Workroom>& W) { return W->incre_velocity; }
 
-vec& getIncreAcceleration(const shared_ptr<Workroom>& W) { return W->incre_acceleration; }
+vec& get_incre_acceleration(const shared_ptr<Workroom>& W)
+{
+    return W->incre_acceleration;
+}
 
-vec& getIncreTemperature(const shared_ptr<Workroom>& W) { return W->incre_temperature; }
+vec& get_incre_temperature(const shared_ptr<Workroom>& W) { return W->incre_temperature; }
 
-double& getCurrentTime(const shared_ptr<Workroom>& W) { return W->current_time; }
+double& get_current_time(const shared_ptr<Workroom>& W) { return W->current_time; }
 
-vec& getCurrentLoad(const shared_ptr<Workroom>& W) { return W->current_load; }
+vec& get_current_load(const shared_ptr<Workroom>& W) { return W->current_load; }
 
-vec& getCurrentResistance(const shared_ptr<Workroom>& W) { return W->current_resistance; }
+vec& get_current_resistance(const shared_ptr<Workroom>& W)
+{
+    return W->current_resistance;
+}
 
-vec& getCurrentDisplacement(const shared_ptr<Workroom>& W)
+vec& get_current_displacement(const shared_ptr<Workroom>& W)
 {
     return W->current_displacement;
 }
 
-vec& getCurrentVelocity(const shared_ptr<Workroom>& W) { return W->current_velocity; }
+vec& get_current_velocity(const shared_ptr<Workroom>& W) { return W->current_velocity; }
 
-vec& getCurrentAcceleration(const shared_ptr<Workroom>& W)
+vec& get_current_acceleration(const shared_ptr<Workroom>& W)
 {
     return W->current_acceleration;
 }
 
-vec& getCurrentTemperature(const shared_ptr<Workroom>& W)
+vec& get_current_temperature(const shared_ptr<Workroom>& W)
 {
     return W->current_temperature;
 }
 
-vec& getPreviousLoad(const shared_ptr<Workroom>& W) { return W->pre_load; }
+double& get_pre_time(const shared_ptr<Workroom>& W) { return W->pre_time; }
 
-vec& getPreviousResistance(const shared_ptr<Workroom>& W) { return W->pre_resistance; }
+vec& get_pre_load(const shared_ptr<Workroom>& W) { return W->pre_load; }
 
-vec& getPreviousDisplacement(const shared_ptr<Workroom>& W)
-{
-    return W->pre_displacement;
-}
+vec& get_pre_resistance(const shared_ptr<Workroom>& W) { return W->pre_resistance; }
 
-vec& getPreviousVelocity(const shared_ptr<Workroom>& W) { return W->pre_velocity; }
+vec& get_pre_displacement(const shared_ptr<Workroom>& W) { return W->pre_displacement; }
 
-vec& getPreviousAcceleration(const shared_ptr<Workroom>& W)
-{
-    return W->pre_acceleration;
-}
+vec& get_pre_velocity(const shared_ptr<Workroom>& W) { return W->pre_velocity; }
 
-vec& getPreviousTemperature(const shared_ptr<Workroom>& W) { return W->pre_temperature; }
+vec& get_pre_acceleration(const shared_ptr<Workroom>& W) { return W->pre_acceleration; }
 
-T2& getMass(const shared_ptr<Workroom>& W) { return W->global_mass; }
+vec& get_pre_temperature(const shared_ptr<Workroom>& W) { return W->pre_temperature; }
 
-T2& getDamping(const shared_ptr<Workroom>& W) { return W->global_damping; }
+T2& get_mass(const shared_ptr<Workroom>& W) { return W->global_mass; }
 
-T2& getStiffness(const shared_ptr<Workroom>& W) { return W->global_stiffness; }
+T2& get_damping(const shared_ptr<Workroom>& W) { return W->global_damping; }
 
-vec& getEigenvalue(const shared_ptr<Workroom>& W) { return W->eigenvalue; }
+T2& get_stiffness(const shared_ptr<Workroom>& W) { return W->global_stiffness; }
 
-mat& getEigenvector(const shared_ptr<Workroom>& W) { return W->eigenvector; }
+vec& get_eigenvalue(const shared_ptr<Workroom>& W) { return W->eigenvalue; }
+
+mat& get_eigenvector(const shared_ptr<Workroom>& W) { return W->eigenvector; }

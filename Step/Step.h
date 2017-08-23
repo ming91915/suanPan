@@ -26,11 +26,11 @@ public:
 
     virtual int analyze();
 
-    void setSolver(const shared_ptr<Solver>&);
-    const shared_ptr<Solver>& getSolver() const;
+    void set_solver(const shared_ptr<Solver>&);
+    const shared_ptr<Solver>& get_solver() const;
 
-    void setTimePerid(const double&);
-    const double& getTimePeriod() const;
+    void set_time_perid(const double&);
+    const double& get_time_period() const;
 };
 
 #endif

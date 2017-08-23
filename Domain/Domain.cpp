@@ -6,6 +6,7 @@
 #include <Load/Load.h>
 #include <Load/RCM.h>
 #include <Material/Material.h>
+#include <Recorder/Recorder.h>
 
 Domain::Domain(const unsigned& T)
     : Tag(T, CT_DOMAIN)
@@ -13,42 +14,42 @@ Domain::Domain(const unsigned& T)
     suanpan_debug("Domain %u ctor() called.\n", T);
 }
 
-Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", getTag()); }
+Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", get_tag()); }
 
 const bool& Domain::is_updated() const { return updated; }
 
 void Domain::initialize()
 {
-    if(!updated) {
+    if(!is_updated()) {
         updated = true;
 
         // RESET STATUS
-        for(const auto& I : node_pool) I.second->setNumberDOF(0);
+        for(const auto& I : node_pool) I.second->set_dof_number(0);
 
         // SET DOF NUMBER FOR ACTIVE NODES
         for(const auto& I : element_pool)
-            if(I.second->getStatus()) I.second->Element::initialize(shared_from_this());
+            if(I.second->is_active()) I.second->Element::initialize(shared_from_this());
 
         // ASSIGN DOF LABEL FOR ACTIVE DOF
         unsigned dof_idx = 0;
         for(const auto& I : node_pool) {
             I.second->initialize();
-            I.second->setOriginalDOF(dof_idx);
+            I.second->set_original_dof(dof_idx);
         }
 
         tmp_node_pool.clear();
         for(const auto& I : node_pool)
-            if(I.second->getStatus()) tmp_node_pool.push_back(I.second);
+            if(I.second->is_active()) tmp_node_pool.push_back(I.second);
 
         tmp_element_pool.clear();
         for(const auto& I : element_pool)
-            if(I.second->getStatus()) tmp_element_pool.push_back(I.second);
+            if(I.second->is_active()) tmp_element_pool.push_back(I.second);
 
         // RCM OPTIMIZATION
         vector<unordered_set<uword>> adjacency(dof_idx);
         for(const auto& I : tmp_element_pool) {
-            I->updateEncodingDOF();
-            auto& J = I->getEncodingDOF();
+            I->update_dof_encoding();
+            auto& J = I->get_dof_encoding();
             for(const auto& K : J)
                 for(const auto& L : J) adjacency[K].insert(L);
         }
@@ -80,21 +81,21 @@ void Domain::initialize()
 
         // ASSIGN NEW LABELS TO ACTIVE NODES
         for(const auto& I : tmp_node_pool)
-            I->setReorderDOF(idx_sorted(I->getOriginalDOF()));
+            I->set_reordered_dof(idx_sorted(I->get_original_dof()));
 
         // INITIALIZE DERIVED ELEMENTS
         for(const auto& I : tmp_element_pool) {
             I->initialize(shared_from_this());
-            I->updateEncodingDOF();
+            I->update_dof_encoding();
         }
 
         //! TODO: FACTORY SHOULD BE INITIALIZED ACCORDING TO THE PROBLEM TYPE.
         if(factory == nullptr)
             factory = make_shared<Workroom>(dof_idx);
         else
-            factory->setNumberDOF(dof_idx);
+            factory->set_dof_number(dof_idx);
 
-        factory->setBandwidth(L, -U);
+        factory->set_bandwidth(L, -U);
     }
 }
 
@@ -104,55 +105,66 @@ void Domain::process(const unsigned& ST)
     restrained_dofs.clear();
     constrained_dofs.clear();
 
-    getTrialLoad(factory).zeros();
+    get_trial_load(factory).zeros();
 
     for(const auto& I : load_pool)
-        if(I.second->getStepTag() <= ST && I.second->getStatus())
+        if(I.second->get_step_tag() <= ST && I.second->is_active())
             I.second->process(shared_from_this());
     for(const auto& I : constraint_pool)
-        if(I.second->getStepTag() <= ST && I.second->getStatus())
+        if(I.second->get_step_tag() <= ST && I.second->is_active())
             I.second->process(shared_from_this());
 }
 
-void Domain::setWorkroom(const shared_ptr<Workroom>& W) { factory = W; }
+void Domain::set_workroom(const shared_ptr<Workroom>& W) { factory = W; }
 
-const shared_ptr<Workroom>& Domain::getWorkroom() const { return factory; }
+const shared_ptr<Workroom>& Domain::get_workroom() const { return factory; }
 
 bool Domain::insert(const shared_ptr<Constraint>& C)
 {
-    auto F = constraint_pool.insert({ C->getTag(), C });
-    if(!F.second) suanpan_error("insert() fails to insert Constraint %u.\n", C->getTag());
-    updated = false;
+    auto F = constraint_pool.insert({ C->get_tag(), C });
+    if(!F.second)
+        suanpan_error("insert() fails to insert Constraint %u.\n", C->get_tag());
+    if(updated) updated = false;
     return F.second;
 }
 
 bool Domain::insert(const shared_ptr<Element>& E)
 {
-    auto F = element_pool.insert({ E->getTag(), E });
-    if(!F.second) suanpan_error("insert() fails to insert Element %u.\n", E->getTag());
-    updated = false;
+    auto F = element_pool.insert({ E->get_tag(), E });
+    if(!F.second) suanpan_error("insert() fails to insert Element %u.\n", E->get_tag());
+    if(updated) updated = false;
     return F.second;
 }
 
 bool Domain::insert(const shared_ptr<Load>& L)
 {
-    auto F = load_pool.insert({ L->getTag(), L });
-    if(!F.second) suanpan_error("insert() fails to insert Load %u.\n", L->getTag());
-    updated = false;
+    auto F = load_pool.insert({ L->get_tag(), L });
+    if(!F.second) suanpan_error("insert() fails to insert Load %u.\n", L->get_tag());
+    if(updated) updated = false;
     return F.second;
 }
 
 bool Domain::insert(const shared_ptr<Material>& M)
 {
-    auto F = material_pool.insert({ M->getTag(), M });
-    if(!F.second) suanpan_error("insert() fails to insert Material %u.\n", M->getTag());
+    auto F = material_pool.insert({ M->get_tag(), M });
+    if(!F.second) suanpan_error("insert() fails to insert Material %u.\n", M->get_tag());
+    if(updated) updated = false;
     return F.second;
 }
 
 bool Domain::insert(const shared_ptr<Node>& N)
 {
-    auto F = node_pool.insert({ N->getTag(), N });
-    if(!F.second) suanpan_error("insert() fails to insert Node %u.\n", N->getTag());
+    auto F = node_pool.insert({ N->get_tag(), N });
+    if(!F.second) suanpan_error("insert() fails to insert Node %u.\n", N->get_tag());
+    if(updated) updated = false;
+    return F.second;
+}
+
+bool Domain::insert(const shared_ptr<Recorder>& R)
+{
+    auto F = recorder_pool.insert({ R->get_tag(), R });
+    if(!F.second) suanpan_error("insert() fails to insert Recorder %u.\n", R->get_tag());
+    if(updated) updated = false;
     return F.second;
 }
 
@@ -160,49 +172,76 @@ void Domain::erase_constraint(const unsigned& T)
 {
     if(constraint_pool.erase(T) != 1)
         suanpan_info("erase_constraint() cannot find Constraint %u.\n", T);
-    else
-        updated = false;
+    else {
+        disabled_constraint.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_constraint() erases Constraint %u.\n", T);
+    }
 }
 
 void Domain::erase_element(const unsigned& T)
 {
     if(element_pool.erase(T) != 1)
         suanpan_error("erase_element() cannot find Element %u.\n", T);
-    else
-        updated = false;
+    else {
+        disabled_element.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_element() erases Element %u.\n", T);
+    }
 }
 
 void Domain::erase_load(const unsigned& T)
 {
     if(load_pool.erase(T) != 1)
         suanpan_info("erase_load() cannot find Load %u.\n", T);
-    else
-        updated = false;
+    else {
+        disabled_load.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_load() erases Load %u.\n", T);
+    }
 }
 
 void Domain::erase_material(const unsigned& T)
 {
     if(material_pool.erase(T) != 1)
         suanpan_info("erase_material() cannot find Material %u.\n", T);
-    else
-        updated = false;
+    else {
+        disabled_material.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_material() erases Material %u.\n", T);
+    }
 }
 
 void Domain::erase_node(const unsigned& T)
 {
     if(node_pool.erase(T) != 1)
         suanpan_info("erase_node() cannot find Node %u.\n", T);
-    else
-        updated = false;
+    else {
+        disabled_node.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_node() erases Node %u.\n", T);
+    }
+}
+
+void Domain::erase_recorder(const unsigned& T)
+{
+    if(recorder_pool.erase(T) != 1)
+        suanpan_info("erase_recorder() cannot find Recorder %u.\n", T);
+    else {
+        disabled_recorder.erase(T);
+        if(updated) updated = false;
+        suanpan_debug("erase_recorder() erases Recorder %u.\n", T);
+    }
 }
 
 void Domain::disable_constraint(const unsigned& T)
 {
     if(constraint_pool.find(T) != constraint_pool.end()) {
+        disabled_constraint.insert(T);
         constraint_pool.at(T)->disable();
-        suanpan_debug("disable_constraint() disables Constraint %u.\n", T);
+        suanpan_info("disable_constraint() disables Constraint %u.\n", T);
     } else
-        suanpan_info("disable_constraint() cannot find Constraint %u.\n", T);
+        suanpan_debug("disable_constraint() cannot find Constraint %u.\n", T);
 }
 
 void Domain::disable_element(const unsigned& T)
@@ -210,27 +249,29 @@ void Domain::disable_element(const unsigned& T)
     if(element_pool.find(T) != element_pool.end()) {
         disabled_element.insert(T);
         element_pool.at(T)->disable();
-        suanpan_debug("disable_element() disables Element %u.\n", T);
+        suanpan_info("disable_element() disables Element %u.\n", T);
     } else
-        suanpan_info("disable_element() cannot find Element %u.\n", T);
+        suanpan_debug("disable_element() cannot find Element %u.\n", T);
 }
 
 void Domain::disable_load(const unsigned& T)
 {
     if(load_pool.find(T) != load_pool.end()) {
+        disabled_load.insert(T);
         load_pool.at(T)->disable();
-        suanpan_debug("disable_load() disables Load %u.\n", T);
+        suanpan_info("disable_load() disables Load %u.\n", T);
     } else
-        suanpan_info("disable_load() cannot find Load %u.\n", T);
+        suanpan_debug("disable_load() cannot find Load %u.\n", T);
 }
 
 void Domain::disable_material(const unsigned& T)
 {
     if(material_pool.find(T) != material_pool.end()) {
+        disabled_material.insert(T);
         material_pool.at(T)->disable();
-        suanpan_debug("disable_material() disables Material %u.\n", T);
+        suanpan_info("disable_material() disables Material %u.\n", T);
     } else
-        suanpan_info("disable_material() cannot find Material %u.\n", T);
+        suanpan_debug("disable_material() cannot find Material %u.\n", T);
 }
 
 void Domain::disable_node(const unsigned& T)
@@ -238,185 +279,206 @@ void Domain::disable_node(const unsigned& T)
     if(node_pool.find(T) != node_pool.end()) {
         disabled_node.insert(T);
         node_pool.at(T)->disable();
-        suanpan_debug("disable_node() disables Node %u.\n", T);
+        suanpan_info("disable_node() disables Node %u.\n", T);
     } else
-        suanpan_info("disable_node() cannot find Node %u.\n", T);
+        suanpan_debug("disable_node() cannot find Node %u.\n", T);
 }
 
-const shared_ptr<Constraint>& Domain::getConstraint(const unsigned& T) const
+void Domain::disable_recorder(const unsigned& T)
+{
+    if(recorder_pool.find(T) != recorder_pool.end()) {
+        disabled_recorder.insert(T);
+        recorder_pool.at(T)->disable();
+        suanpan_info("disable_recorder() disables Recorder %u.\n", T);
+    } else
+        suanpan_debug("disable_recorder() cannot find Recorder %u.\n", T);
+}
+
+const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const
 {
     return constraint_pool.at(T);
 }
 
-const shared_ptr<Element>& Domain::getElement(const unsigned& T) const
+const shared_ptr<Element>& Domain::get_element(const unsigned& T) const
 {
     return element_pool.at(T);
 }
 
-const shared_ptr<Load>& Domain::getLoad(const unsigned& T) const
+const shared_ptr<Load>& Domain::get_load(const unsigned& T) const
 {
     return load_pool.at(T);
 }
 
-const shared_ptr<Material>& Domain::getMaterial(const unsigned& T) const
+const shared_ptr<Material>& Domain::get_material(const unsigned& T) const
 {
     return material_pool.at(T);
 }
 
-const shared_ptr<Node>& Domain::getNode(const unsigned& T) const
+const shared_ptr<Node>& Domain::get_node(const unsigned& T) const
 {
     return node_pool.at(T);
 }
 
-unsigned Domain::getNumberConstraint() const
+const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const
+{
+    return recorder_pool.at(T);
+}
+
+unsigned Domain::get_constraint() const
 {
     return static_cast<unsigned>(constraint_pool.size());
 }
 
-unsigned Domain::getNumberElement() const
+unsigned Domain::get_element() const
 {
     return static_cast<unsigned>(element_pool.size());
 }
 
-unsigned Domain::getNumberLoad() const { return static_cast<unsigned>(load_pool.size()); }
+unsigned Domain::get_load() const { return static_cast<unsigned>(load_pool.size()); }
 
-unsigned Domain::getNumberMaterial() const
+unsigned Domain::get_material() const
 {
     return static_cast<unsigned>(material_pool.size());
 }
 
-unsigned Domain::getNumberNode() const { return static_cast<unsigned>(node_pool.size()); }
+unsigned Domain::get_node() const { return static_cast<unsigned>(node_pool.size()); }
 
-void Domain::updateResistance() const
+unsigned Domain::get_recorder() const
 {
-    factory->clearResistance();
-    for(const auto& I : tmp_element_pool)
-        factory->assembleResistance(I->getResistance(), I->getEncodingDOF());
+    return static_cast<unsigned>(recorder_pool.size());
 }
 
-void Domain::updateMass() const
+void Domain::update_resistance() const
 {
-    factory->clearMass();
+    factory->clear_resistance();
     for(const auto& I : tmp_element_pool)
-        factory->assembleMass(I->getMass(), I->getEncodingDOF());
+        factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
-void Domain::updateInitialStiffness() const
+void Domain::update_mass() const
 {
-    factory->clearStiffness();
+    factory->clear_mass();
     for(const auto& I : tmp_element_pool)
-        factory->assembleStiffness(I->getInitialStiffness(), I->getEncodingDOF());
+        factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
-void Domain::updateStiffness() const
+void Domain::update_initial_stiffness() const
 {
-    factory->clearStiffness();
+    factory->clear_stiffness();
     for(const auto& I : tmp_element_pool)
-        factory->assembleStiffness(I->getStiffness(), I->getEncodingDOF());
+        factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::updateDamping() const
+void Domain::update_stiffness() const
 {
-    factory->clearDamping();
+    factory->clear_stiffness();
     for(const auto& I : tmp_element_pool)
-        factory->assembleDamping(I->getDamping(), I->getEncodingDOF());
+        factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::updateTrialStatus() const
+void Domain::update_damping() const
 {
-    auto& trial_dsp = factory->getTrialDisplacement();
-    auto& trial_vel = factory->getTrialVelocity();
-    auto& trial_acc = factory->getTrialAcceleration();
+    factory->clear_damping();
+    for(const auto& I : tmp_element_pool)
+        factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
+}
+
+void Domain::update_trial_status() const
+{
+    auto& trial_dsp = factory->get_trial_displacement();
+    auto& trial_vel = factory->get_trial_velocity();
+    auto& trial_acc = factory->get_trial_acceleration();
 
     if(!trial_dsp.is_empty()) {
         if(!trial_acc.is_empty() && !trial_vel.is_empty()) {
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool[I]->updateTrialStatus(trial_dsp, trial_vel, trial_acc);
+                tmp_node_pool[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #else
             for(const auto& I : tmp_node_pool)
-                I->updateTrialStatus(trial_dsp, trial_vel, trial_acc);
+                I->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #endif
         } else
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool[I]->updateTrialStatus(trial_dsp);
+                tmp_node_pool[I]->update_trial_status(trial_dsp);
 #else
-            for(const auto& I : tmp_node_pool) I->updateTrialStatus(trial_dsp);
+            for(const auto& I : tmp_node_pool) I->update_trial_status(trial_dsp);
 #endif
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
         for(auto I = 0; I < tmp_element_pool.size(); ++I)
-            tmp_element_pool[I]->updateStatus();
+            tmp_element_pool[I]->update_status();
 #else
-        for(const auto& I : tmp_element_pool) I->updateStatus();
+        for(const auto& I : tmp_element_pool) I->update_status();
 #endif
     }
 }
 
-void Domain::updateIncreStatus() const
+void Domain::update_incre_status() const
 {
-    auto& incre_dsp = factory->getIncreDisplacement();
-    auto& incre_vel = factory->getIncreVelocity();
-    auto& incre_acc = factory->getIncreAcceleration();
+    auto& incre_dsp = factory->get_incre_displacement();
+    auto& incre_vel = factory->get_incre_velocity();
+    auto& incre_acc = factory->get_incre_acceleration();
 
     if(!incre_dsp.is_empty()) {
         if(!incre_acc.is_empty() && !incre_vel.is_empty()) {
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool.at(I)->updateTrialStatus(incre_dsp, incre_vel, incre_acc);
+                tmp_node_pool.at(I)->update_trial_status(incre_dsp, incre_vel, incre_acc);
 #else
             for(const auto& I : tmp_node_pool)
-                I->updateIncreStatus(incre_dsp, incre_vel, incre_acc);
+                I->update_incre_status(incre_dsp, incre_vel, incre_acc);
 #endif
         } else
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
             for(auto I = 0; I < tmp_node_pool.size(); ++I)
-                tmp_node_pool.at(I)->updateTrialStatus(incre_dsp);
+                tmp_node_pool.at(I)->update_trial_status(incre_dsp);
 #else
-            for(const auto& I : tmp_node_pool) I->updateIncreStatus(incre_dsp);
+            for(const auto& I : tmp_node_pool) I->update_incre_status(incre_dsp);
 #endif
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
         for(auto I = 0; I < tmp_element_pool.size(); ++I)
-            tmp_element_pool.at(I)->updateStatus();
+            tmp_element_pool.at(I)->update_status();
 #else
-        for(const auto& I : tmp_element_pool) I->updateStatus();
+        for(const auto& I : tmp_element_pool) I->update_status();
 #endif
     }
 }
 
-void Domain::commitStatus()
+void Domain::commit_status()
 {
-    factory->commitStatus();
+    factory->commit_status();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->commitStatus();
+    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->commit_status();
 #pragma omp parallel for
     for(auto I = 0; I < tmp_element_pool.size(); ++I)
-        tmp_element_pool.at(I)->commitStatus();
+        tmp_element_pool.at(I)->commit_status();
 #else
-    for(const auto& I : tmp_node_pool) I->commitStatus();
-    for(const auto& I : tmp_element_pool) I->commitStatus();
+    for(const auto& I : tmp_node_pool) I->commit_status();
+    for(const auto& I : tmp_element_pool) I->commit_status();
 #endif
 }
 
-void Domain::clearStatus()
+void Domain::clear_status()
 {
     updated = false;
 
-    factory->clearStatus();
+    factory->clear_status();
 
     disabled_constraint.clear();
     disabled_element.clear();
     disabled_load.clear();
     disabled_material.clear();
     disabled_node.clear();
+    disabled_recorder.clear();
 
     loaded_dofs.clear();
     restrained_dofs.clear();
@@ -424,99 +486,111 @@ void Domain::clearStatus()
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->clearStatus();
+    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->clear_status();
 #pragma omp parallel for
     for(auto I = 0; I < tmp_element_pool.size(); ++I) {
-        tmp_element_pool.at(I)->resetStatus();
-        tmp_element_pool.at(I)->updateStatus();
+        tmp_element_pool.at(I)->reset_status();
+        tmp_element_pool.at(I)->update_status();
     }
 #else
-    for(const auto& I : tmp_node_pool) I->clearStatus();
+    for(const auto& I : tmp_node_pool) I->clear_status();
     for(const auto& I : tmp_element_pool) {
-        I->resetStatus();
-        I->updateStatus();
+        I->reset_status();
+        I->update_status();
     }
 #endif
 }
 
-void Domain::resetStatus()
+void Domain::reset_status()
 {
-    factory->resetStatus();
+    factory->reset_status();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->resetStatus();
+    for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->reset_status();
 #pragma omp parallel for
     for(auto I = 0; I < tmp_element_pool.size(); ++I) {
-        tmp_element_pool.at(I)->resetStatus();
-        tmp_element_pool.at(I)->updateStatus();
+        tmp_element_pool.at(I)->reset_status();
+        tmp_element_pool.at(I)->update_status();
     }
 #else
-    for(const auto& I : tmp_node_pool) I->resetStatus();
+    for(const auto& I : tmp_node_pool) I->reset_status();
     for(const auto& I : tmp_element_pool) {
-        I->resetStatus();
-        I->updateStatus();
+        I->reset_status();
+        I->update_status();
     }
 #endif
 }
 
-bool Domain::insertLoadedDOF(const unsigned& T)
+bool Domain::insert_loaded_dof(const unsigned& T)
 {
     auto R = loaded_dofs.insert(T);
     return R.second;
 }
 
-bool Domain::insertRestrainedDOF(const unsigned& T)
+bool Domain::insert_restrained_dof(const unsigned& T)
 {
     auto R = restrained_dofs.insert(T);
     return R.second;
 }
 
-bool Domain::insertConstrainedDOF(const unsigned& T)
+bool Domain::insert_constrained_dof(const unsigned& T)
 {
     auto R = constrained_dofs.insert(T);
     return R.second;
 }
 
-const unordered_set<unsigned>& Domain::getLoadedDOF() const { return loaded_dofs; }
+const unordered_set<unsigned>& Domain::get_loaded_dof() const { return loaded_dofs; }
 
-const unordered_set<unsigned>& Domain::getRestrainedDOF() const
+const unordered_set<unsigned>& Domain::get_restrained_dof() const
 {
     return restrained_dofs;
 }
 
-const unordered_set<unsigned>& Domain::getConstrainedDOF() const
+const unordered_set<unsigned>& Domain::get_constrained_dof() const
 {
     return constrained_dofs;
 }
 
 void Domain::summary() const
 {
-    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials.\n",
-        getTag(), getNumberNode(), getNumberElement(), getNumberMaterial());
+    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials,\n",
+        get_tag(), get_node(), get_element(), get_material());
+    suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(),
+        get_constraint(), get_recorder());
 }
 
-shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>& D, const unsigned& T)
+void Domain::record() const
+{
+    for(const auto& I : recorder_pool) I.second->record();
+}
+
+shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->constraint_pool[T];
 }
 
-shared_ptr<Element>& getElement(const shared_ptr<Domain>& D, const unsigned& T)
+shared_ptr<Element>& get_element(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->element_pool[T];
 }
 
-shared_ptr<Load>& getLoad(const shared_ptr<Domain>& D, const unsigned& T)
+shared_ptr<Load>& get_load(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->load_pool[T];
 }
 
-shared_ptr<Material>& getMaterial(const shared_ptr<Domain>& D, const unsigned& T)
+shared_ptr<Material>& get_material(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->material_pool[T];
 }
 
-shared_ptr<Node>& getNode(const shared_ptr<Domain>& D, const unsigned& T)
+shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->node_pool[T];
+}
+
+shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T)
+{
+    return D->recorder_pool[T];
 }

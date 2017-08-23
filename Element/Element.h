@@ -15,7 +15,7 @@
 #include <Domain/Domain.h>
 #include <Domain/Node.h>
 #include <Domain/Tag.h>
-#include <Material/Material.h>
+#include <Material/Material.h> // for derived class
 
 class Domain;
 class Material;
@@ -23,8 +23,8 @@ class Node;
 
 class Element : public Tag
 {
-    unsigned num_node = 0; /**< number of nodes */
-    unsigned num_dof = 0;  /**< number of DoFs */
+    const unsigned num_node; /**< number of nodes */
+    const unsigned num_dof;  /**< number of DoFs */
 protected:
     uvec node_encoding; /**< node encoding vector */
     uvec material_tag;  /**< material tags */
@@ -56,25 +56,25 @@ public:
 
     virtual void initialize(const shared_ptr<Domain>&) = 0;
 
-    void updateEncodingDOF();
+    void update_dof_encoding();
 
-    const unsigned& getNumberDOF() const;
-    const unsigned& getNumberNode() const;
-    const uvec& getEncodingDOF() const;
-    const uvec& getEncodingNode() const;
+    const unsigned& get_dof_number() const;
+    const unsigned& get_node_number() const;
+    const uvec& get_dof_encoding() const;
+    const uvec& get_node_encoding() const;
 
-    const vector<weak_ptr<Node>>& getNodePtr() const;
+    const vector<weak_ptr<Node>>& get_node_ptr() const;
 
-    virtual const vec& getResistance() const;
-    virtual const mat& getMass() const;
-    virtual const mat& getDamping() const;
-    virtual const mat& getStiffness() const;
-    virtual const mat& getInitialStiffness() const;
+    virtual const vec& get_resistance() const;
+    virtual const mat& get_mass() const;
+    virtual const mat& get_damping() const;
+    virtual const mat& get_stiffness() const;
+    virtual const mat& get_initial_stiffness() const;
 
-    virtual int updateStatus() = 0;
-    virtual int commitStatus() = 0;
-    virtual int clearStatus() = 0;
-    virtual int resetStatus() = 0;
+    virtual int update_status() = 0;
+    virtual int commit_status() = 0;
+    virtual int clear_status() = 0;
+    virtual int reset_status() = 0;
 };
 
 #endif

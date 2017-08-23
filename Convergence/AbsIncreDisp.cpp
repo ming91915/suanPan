@@ -34,10 +34,17 @@ AbsIncreDisp::AbsIncreDisp(const shared_ptr<Domain>& D, const double& E, const b
 */
 const bool& AbsIncreDisp::if_converged()
 {
-    setError(norm(getDomain()->getWorkroom()->getNinja()));
-    setFlag(getTolerance() > getError() ? true : false);
+    auto& tmp_domain = get_domain();
+    if(tmp_domain == nullptr) {
+        suanpan_error("if_converged() needs a valid domain.\n");
+        set_conv_flag(false);
+    } else {
+        set_error(norm(tmp_domain->get_workroom()->get_ninja()));
+        set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) printf("Absolute Incremental Displacement Error: %.5E.\n", getError());
+        if(if_print())
+            suanpan_info("Absolute Incremental Displacement Error: %.5E.\n", get_error());
+    }
 
-    return getFlag();
+    return get_conv_flag();
 }

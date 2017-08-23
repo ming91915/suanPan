@@ -21,6 +21,7 @@ class Element;
 class Load;
 class Material;
 class Node;
+class Recorder;
 
 using std::unordered_map;
 using std::unordered_set;
@@ -39,6 +40,7 @@ class Domain : public Tag, public enable_shared_from_this<Domain>
     unordered_map<unsigned, shared_ptr<Load>> load_pool;             /**< data storage */
     unordered_map<unsigned, shared_ptr<Material>> material_pool;     /**< data storage */
     unordered_map<unsigned, shared_ptr<Node>> node_pool;             /**< data storage */
+    unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;
 
     vector<shared_ptr<Element>> tmp_element_pool;
     vector<shared_ptr<Node>> tmp_node_pool;
@@ -48,6 +50,7 @@ class Domain : public Tag, public enable_shared_from_this<Domain>
     unordered_set<unsigned> disabled_load;       /**< data storage */
     unordered_set<unsigned> disabled_material;   /**< data storage */
     unordered_set<unsigned> disabled_node;       /**< data storage */
+    unordered_set<unsigned> disabled_recorder;   /**< data storage */
 
     unordered_set<unsigned> restrained_dofs;  /**< data storage */
     unordered_set<unsigned> constrained_dofs; /**< data storage */
@@ -62,74 +65,75 @@ public:
 
     void process(const unsigned& = 0);
 
-    void setWorkroom(const shared_ptr<Workroom>& W);
-    const shared_ptr<Workroom>& getWorkroom() const;
+    void set_workroom(const shared_ptr<Workroom>&);
+    const shared_ptr<Workroom>& get_workroom() const;
 
     bool insert(const shared_ptr<Constraint>&);
     bool insert(const shared_ptr<Element>&);
     bool insert(const shared_ptr<Load>&);
     bool insert(const shared_ptr<Material>&);
     bool insert(const shared_ptr<Node>&);
+    bool insert(const shared_ptr<Recorder>&);
 
     void erase_constraint(const unsigned&);
     void erase_element(const unsigned&);
     void erase_load(const unsigned&);
     void erase_material(const unsigned&);
     void erase_node(const unsigned&);
+    void erase_recorder(const unsigned&);
 
     void disable_constraint(const unsigned&);
     void disable_element(const unsigned&);
     void disable_load(const unsigned&);
     void disable_material(const unsigned&);
     void disable_node(const unsigned&);
+    void disable_recorder(const unsigned&);
 
-    const shared_ptr<Constraint>& getConstraint(const unsigned&) const;
-    const shared_ptr<Element>& getElement(const unsigned&) const;
-    const shared_ptr<Load>& getLoad(const unsigned&) const;
-    const shared_ptr<Material>& getMaterial(const unsigned&) const;
-    const shared_ptr<Node>& getNode(const unsigned&) const;
+    const shared_ptr<Constraint>& get_constraint(const unsigned&) const;
+    const shared_ptr<Element>& get_element(const unsigned&) const;
+    const shared_ptr<Load>& get_load(const unsigned&) const;
+    const shared_ptr<Material>& get_material(const unsigned&) const;
+    const shared_ptr<Node>& get_node(const unsigned&) const;
+    const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
 
-    friend shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>&,
+    friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&,
         const unsigned&);
-    friend shared_ptr<Element>& getElement(const shared_ptr<Domain>&, const unsigned&);
-    friend shared_ptr<Load>& getLoad(const shared_ptr<Domain>&, const unsigned&);
-    friend shared_ptr<Material>& getMaterial(const shared_ptr<Domain>&, const unsigned&);
-    friend shared_ptr<Node>& getNode(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Element>& get_element(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Load>& get_load(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Material>& get_material(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
 
-    unsigned getNumberConstraint() const;
-    unsigned getNumberElement() const;
-    unsigned getNumberLoad() const;
-    unsigned getNumberMaterial() const;
-    unsigned getNumberNode() const;
+    unsigned get_constraint() const;
+    unsigned get_element() const;
+    unsigned get_load() const;
+    unsigned get_material() const;
+    unsigned get_node() const;
+    unsigned get_recorder() const;
 
-    void updateResistance() const;
-    void updateMass() const;
-    void updateInitialStiffness() const;
-    void updateStiffness() const;
-    void updateDamping() const;
+    void update_resistance() const;
+    void update_mass() const;
+    void update_initial_stiffness() const;
+    void update_stiffness() const;
+    void update_damping() const;
 
-    void updateTrialStatus() const;
-    void updateIncreStatus() const;
+    void update_trial_status() const;
+    void update_incre_status() const;
 
-    void commitStatus();
-    void clearStatus();
-    void resetStatus();
+    void commit_status();
+    void clear_status();
+    void reset_status();
 
-    bool insertLoadedDOF(const unsigned&);
-    bool insertRestrainedDOF(const unsigned&);
-    bool insertConstrainedDOF(const unsigned&);
+    bool insert_loaded_dof(const unsigned&);
+    bool insert_restrained_dof(const unsigned&);
+    bool insert_constrained_dof(const unsigned&);
 
-    const unordered_set<unsigned>& getLoadedDOF() const;
-    const unordered_set<unsigned>& getRestrainedDOF() const;
-    const unordered_set<unsigned>& getConstrainedDOF() const;
+    const unordered_set<unsigned>& get_loaded_dof() const;
+    const unordered_set<unsigned>& get_restrained_dof() const;
+    const unordered_set<unsigned>& get_constrained_dof() const;
 
+    void record() const;
     void summary() const;
 };
-
-shared_ptr<Constraint>& getConstraint(const shared_ptr<Domain>&, const unsigned&);
-shared_ptr<Element>& getElement(const shared_ptr<Domain>&, const unsigned&);
-shared_ptr<Load>& getLoad(const shared_ptr<Domain>&, const unsigned&);
-shared_ptr<Material>& getMaterial(const shared_ptr<Domain>&, const unsigned&);
-shared_ptr<Node>& getNode(const shared_ptr<Domain>&, const unsigned&);
 
 #endif

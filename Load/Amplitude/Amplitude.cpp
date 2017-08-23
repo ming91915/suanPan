@@ -7,7 +7,7 @@ Amplitude::Amplitude(const unsigned& T, const unsigned& CT)
 
 Amplitude::~Amplitude() {}
 
-double Amplitude::getAmplitude(const double& T)
+double Amplitude::get_amplitude(const double& T)
 {
     if(T < 0.) return 0.;
     if(T > 1.) return 1.;

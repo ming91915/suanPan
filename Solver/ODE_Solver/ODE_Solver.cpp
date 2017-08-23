@@ -27,15 +27,15 @@ void ODE_Solver::initialize()
 
     if(factory == nullptr)
         factory = make_shared<Workroom>(ode_size, SUANPAN_DISP);
-    else if(ode_size != factory->getNumberDOF())
-        factory->setAnalysisType(SUANPAN_DISP);
+    else if(ode_size != factory->get_dof_number())
+        factory->set_analysis_type(SUANPAN_DISP);
 
-    factory->initializeDisplacement(ode_size);
+    factory->initialize_displacement(ode_size);
 
     auto tmp_domain = make_shared<Domain>();
-    tmp_domain->setWorkroom(factory);
+    tmp_domain->set_workroom(factory);
 
-    getConvergence()->setDomain(tmp_domain);
+    getConvergence()->set_domain(tmp_domain);
 }
 
 int ODE_Solver::analyze(const double& T)
@@ -45,7 +45,7 @@ int ODE_Solver::analyze(const double& T)
 
     auto factor = .2;
 
-    switch(getClassTag()) {
+    switch(get_class_tag()) {
     case CT_BS23:
     case CT_RK23:
         factor = 1. / 3.;
@@ -60,13 +60,13 @@ int ODE_Solver::analyze(const double& T)
     auto step = time_left;
 
     while(time_left > 0.) {
-        W->updateIncreTime(step);
+        W->update_incre_time(step);
         if(updateStatus() == -1) return -1;
         if(C->if_converged()) {
-            W->commitStatus();
+            W->commit_status();
             time_left -= step;
         }
-        step *= .8 * pow(C->getTolerance() / C->getError(), factor);
+        step *= .8 * pow(C->get_tolerance() / C->get_error(), factor);
         if(step > time_left) step = time_left;
     }
 

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(ElementExample)
 
@@ -23,10 +23,12 @@ add_library(${PROJECT_NAME} SHARED
 	"${ROOT}/Load/RCM.cpp"
 	"${ROOT}/Toolbox/debug.cpp")
 
+target_link_libraries(${PROJECT_NAME} arpack superlu)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_link_libraries(${PROJECT_NAME} arpack superlu openblas gfortran quadmath)
+    target_link_libraries(${PROJECT_NAME} openblas gfortran quadmath)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_link_libraries(${PROJECT_NAME} arpack.lib superlu.lib lapack.lib)
+    target_link_libraries(${PROJECT_NAME} lapack)
 endif()

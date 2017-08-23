@@ -7,7 +7,7 @@
  * patterns. The time and amplitude are stored in two different vectors: `TIME` and `AMP`.
  * By calling the method
  *
- *     double getAmplitude(const double& NEW_TIME_POINT);
+ *     double get_amplitude(const double& NEW_TIME_POINT);
  *
  * The Amplitude is interpolated. If the given `NEW_TIME_POINT` is beyond the right bound,
  * the Amplitude will be set to the maximum one. Such a case may happen to the auto step
@@ -58,7 +58,7 @@ public:
     explicit Amplitude(const unsigned& = 0, const unsigned& = CT_AMPLITUDE);
     virtual ~Amplitude();
 
-    virtual double getAmplitude(const double&);
+    virtual double get_amplitude(const double&);
 
     void print() override;
 };

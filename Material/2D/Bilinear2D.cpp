@@ -42,41 +42,45 @@ void Bilinear2D::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-double Bilinear2D::getParameter(const unsigned& T) const { return base.getParameter(T); }
-
-unique_ptr<Material> Bilinear2D::getCopy() { return make_unique<Bilinear2D>(*this); }
-
-int Bilinear2D::updateIncreStatus(const vec& i_strain)
+double Bilinear2D::get_parameter(const unsigned& T) const
 {
-    return updateTrialStatus(current_strain + i_strain);
+    return base.get_parameter(T);
 }
 
-int Bilinear2D::updateTrialStatus(const vec& t_strain)
+unique_ptr<Material> Bilinear2D::get_copy() { return make_unique<Bilinear2D>(*this); }
+
+int Bilinear2D::update_incre_status(const vec& i_strain)
+{
+    return update_trial_status(current_strain + i_strain);
+}
+
+int Bilinear2D::update_trial_status(const vec& t_strain)
 {
     trial_full_strain(0) = t_strain(0);
     trial_full_strain(1) = t_strain(1);
     trial_full_strain(3) = t_strain(2);
 
-    base.updateTrialStatus(trial_full_strain);
+    base.update_trial_status(trial_full_strain);
 
     // PLANE STRESS
     if(material_type == 0)
-        while(fabs(base.getStress().at(2)) > 1E-10) {
-            trial_full_strain(2) -= base.getStress().at(2) / base.getStiffness().at(2, 2);
-            base.updateTrialStatus(trial_full_strain);
+        while(fabs(base.get_stress().at(2)) > 1E-10) {
+            trial_full_strain(2) -=
+                base.get_stress().at(2) / base.get_stiffness().at(2, 2);
+            base.update_trial_status(trial_full_strain);
         }
 
-    auto& tmp_strain = base.getStrain();
+    auto& tmp_strain = base.get_strain();
     trial_strain(0) = tmp_strain.at(0);
     trial_strain(1) = tmp_strain.at(1);
     trial_strain(2) = tmp_strain.at(3);
 
-    auto& tmp_stress = base.getStress();
+    auto& tmp_stress = base.get_stress();
     trial_stress(0) = tmp_stress.at(0);
     trial_stress(1) = tmp_stress.at(1);
     trial_stress(2) = tmp_stress.at(3);
 
-    auto& tmp_stiffness = base.getStiffness();
+    auto& tmp_stiffness = base.get_stiffness();
     trial_stiffness(0, 0) = tmp_stiffness.at(0, 0);
     trial_stiffness(0, 1) = tmp_stiffness.at(0, 1);
     trial_stiffness(0, 2) = tmp_stiffness.at(0, 3);
@@ -108,26 +112,26 @@ int Bilinear2D::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Bilinear2D::clearStatus()
+int Bilinear2D::clear_status()
 {
     initialize();
-    return base.clearStatus();
+    return base.clear_status();
 }
 
-int Bilinear2D::commitStatus()
+int Bilinear2D::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
 
-    return base.commitStatus();
+    return base.commit_status();
 }
 
-int Bilinear2D::resetStatus()
+int Bilinear2D::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;
 
-    return base.resetStatus();
+    return base.reset_status();
 }

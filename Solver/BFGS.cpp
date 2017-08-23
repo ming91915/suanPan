@@ -20,7 +20,7 @@ int BFGS::updateStatus() { return 0; }
 int BFGS::analyze(const double& T)
 {
     auto& D = getDomain();
-    auto& W = D->getWorkroom();
+    auto& W = D->get_workroom();
     auto& C = getConvergence();
 
     if(W->is_band())
@@ -29,44 +29,44 @@ int BFGS::analyze(const double& T)
     auto time_left = T;
     auto step = time_left / 1.;
 
-    auto tmp_size = W->getNumberDOF();
+    auto tmp_size = W->get_dof_number();
 
     auto tmp_eye = eye(tmp_size, tmp_size);
 
-    auto& tmp_ninja = getNinja(W);
+    auto& tmp_ninja = get_ninja(W);
 
     while(time_left > 0.) {
-        W->updateIncreTime(step);
+        W->update_incre_time(step);
 
-        D->updateStiffness();
-        D->updateResistance();
+        D->update_stiffness();
+        D->update_resistance();
         D->process();
 
-        vec tmp_residual = W->getTrialLoad() - W->getTrialResistance();
+        vec tmp_residual = W->get_trial_load() - W->get_trial_resistance();
 
         mat inv_stiffness;
 
-        if(!inv(inv_stiffness, W->getStiffness())) return -1;
+        if(!inv(inv_stiffness, W->get_stiffness())) return -1;
 
-        if(!solve(tmp_ninja, W->getStiffness(), tmp_residual)) return -1;
+        if(!solve(tmp_ninja, W->get_stiffness(), tmp_residual)) return -1;
 
-        W->updateTrialDisplacement(W->getTrialDisplacement() + W->getNinja());
-        D->updateTrialStatus();
+        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+        D->update_trial_status();
 
         while(!C->if_converged()) {
             auto factor = dot(tmp_residual, tmp_ninja);
             mat tmp_a = tmp_eye - tmp_ninja * tmp_residual.t() / factor;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
-            D->updateResistance();
-            tmp_residual = W->getTrialLoad() - W->getTrialResistance();
+            D->update_resistance();
+            tmp_residual = W->get_trial_load() - W->get_trial_resistance();
 
             tmp_ninja = inv_stiffness * tmp_residual;
 
-            W->updateTrialDisplacement(W->getTrialDisplacement() + W->getNinja());
-            D->updateTrialStatus();
+            W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+            D->update_trial_status();
         }
-        D->commitStatus();
+        D->commit_status();
         time_left -= step;
     }
 

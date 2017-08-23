@@ -16,7 +16,7 @@ using std::unordered_map;
 
 template <typename T> class Storage
 {
-    unordered_map<unsigned int, shared_ptr<T>> DATA; /**< The map stores the pointer. */
+    unordered_map<unsigned int, shared_ptr<T>> pool; /**< The map stores the pointer. */
 public:
     Storage() {}
     ~Storage() { suanpan_debug("Storage dtor() Called.\n"); }
@@ -25,7 +25,7 @@ public:
 
     void erase(const unsigned int&);
 
-    const shared_ptr<T>& getItem(const unsigned int&);
+    const shared_ptr<T>& get(const unsigned int&);
 
     unsigned size();
 };

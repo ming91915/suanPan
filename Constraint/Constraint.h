@@ -25,8 +25,8 @@ public:
         const unsigned& = 0);
     virtual ~Constraint();
 
-    void setStepTag(const unsigned&);
-    const unsigned& getStepTag() const;
+    void set_step_tag(const unsigned&);
+    const unsigned& get_step_tag() const;
 
     virtual int process(const shared_ptr<Domain>&) = 0;
 };

@@ -12,8 +12,10 @@ Load::Load(const unsigned& T,
     if(magnitude == nullptr) magnitude = make_shared<Amplitude>();
 }
 
-Load::~Load() { suanpan_debug("Load %u dtor() Called.\n", getTag()); }
+Load::~Load() { suanpan_debug("Load %u dtor() Called.\n", get_tag()); }
 
 int Load::process(const shared_ptr<Domain>&) { return -1; }
 
-const unsigned& Load::getStepTag() const { return step_tag; }
+void Load::set_step_tag(const unsigned& T) { step_tag = T; }
+
+const unsigned& Load::get_step_tag() const { return step_tag; }

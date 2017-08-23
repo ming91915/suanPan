@@ -27,8 +27,8 @@ class Node final : public Tag
 
     vec coordinate; /**< coordinates of the node */
 
-    uvec original_dof; /**< original indices */
-    uvec reorder_dof;  /**< renumbered indices */
+    uvec original_dof;  /**< original indices */
+    uvec reordered_dof; /**< renumbered indices */
 
     vec current_displacement; /**< current displacement */
     vec current_velocity;     /**< current velocity */
@@ -51,57 +51,57 @@ public:
 
     void initialize();
 
-    const unsigned& getNumberDOF() const;
+    const unsigned& get_dof_number() const;
 
-    const uvec& getOriginalDOF() const;
-    const uvec& getReorderDOF() const;
+    const uvec& get_original_dof() const;
+    const uvec& get_reordered_dof() const;
 
-    const vec& getCoordinate() const;
+    const vec& get_coordinate() const;
 
-    const vec& getCurrentDisplacement() const;
-    const vec& getCurrentVelocity() const;
-    const vec& getCurrentAcceleration() const;
+    const vec& get_current_displacement() const;
+    const vec& get_current_velocity() const;
+    const vec& get_current_acceleration() const;
 
-    const vec& getIncreDisplacement() const;
-    const vec& getIncreVelocity() const;
-    const vec& getIncreAcceleration() const;
+    const vec& get_incre_displacement() const;
+    const vec& get_incre_velocity() const;
+    const vec& get_incre_acceleration() const;
 
-    const vec& getTrialDisplacement() const;
-    const vec& getTrialVelocity() const;
-    const vec& getTrialAcceleration() const;
+    const vec& get_trial_displacement() const;
+    const vec& get_trial_velocity() const;
+    const vec& get_trial_acceleration() const;
 
-    void setNumberDOF(const unsigned&);
+    void set_dof_number(const unsigned&);
 
-    void setOriginalDOF(unsigned&);
-    void setOriginalDOF(const uvec&);
+    void set_original_dof(unsigned&);
+    void set_original_dof(const uvec&);
 
-    void setReorderDOF(const uvec&);
+    void set_reordered_dof(const uvec&);
 
-    void setCoordinate(const vec&);
+    void set_coordinate(const vec&);
 
-    void setCurrentDisplacement(const vec&);
-    void setCurrentVelocity(const vec&);
-    void setCurrentAcceleration(const vec&);
+    void set_current_displacement(const vec&);
+    void set_current_velocity(const vec&);
+    void set_current_acceleration(const vec&);
 
-    void setIncreDisplacement(const vec&);
-    void setIncreVelocity(const vec&);
-    void setIncreAcceleration(const vec&);
+    void set_incre_displacement(const vec&);
+    void set_incre_velocity(const vec&);
+    void set_incre_acceleration(const vec&);
 
-    void setTrialDisplacement(const vec&);
-    void setTrialVelocity(const vec&);
-    void setTrialAcceleration(const vec&);
+    void set_trial_displacement(const vec&);
+    void set_trial_velocity(const vec&);
+    void set_trial_acceleration(const vec&);
 
-    void commitStatus();
-    void resetStatus();
-    void clearStatus();
+    void commit_status();
+    void reset_status();
+    void clear_status();
 
-    void updateTrialStatus(const vec&);
-    void updateTrialStatus(const vec&, const vec&);
-    void updateTrialStatus(const vec&, const vec&, const vec&);
+    void update_trial_status(const vec&);
+    void update_trial_status(const vec&, const vec&);
+    void update_trial_status(const vec&, const vec&, const vec&);
 
-    void updateIncreStatus(const vec&);
-    void updateIncreStatus(const vec&, const vec&);
-    void updateIncreStatus(const vec&, const vec&, const vec&);
+    void update_incre_status(const vec&);
+    void update_incre_status(const vec&, const vec&);
+    void update_incre_status(const vec&, const vec&, const vec&);
 
     void print() override final;
 };

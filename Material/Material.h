@@ -43,24 +43,24 @@ public:
 
     virtual void initialize() = 0;
 
-    virtual double getParameter(const unsigned& = 0) const;
+    virtual double get_parameter(const unsigned& = 0) const;
 
-    virtual const vec& getStrain() const;
-    virtual const vec& getStrainRate() const;
-    virtual const vec& getStress() const;
-    virtual const mat& getStiffness() const;
-    virtual const mat& getInitialStiffness() const;
+    virtual const vec& get_strain() const;
+    virtual const vec& get_strain_rate() const;
+    virtual const vec& get_stress() const;
+    virtual const mat& get_stiffness() const;
+    virtual const mat& get_initial_stiffness() const;
 
-    virtual unique_ptr<Material> getCopy() = 0;
+    virtual unique_ptr<Material> get_copy() = 0;
 
-    virtual int updateIncreStatus(const vec&);
-    virtual int updateIncreStatus(const vec&, const vec&);
-    virtual int updateTrialStatus(const vec&);
-    virtual int updateTrialStatus(const vec&, const vec&);
+    virtual int update_incre_status(const vec&);
+    virtual int update_incre_status(const vec&, const vec&);
+    virtual int update_trial_status(const vec&);
+    virtual int update_trial_status(const vec&, const vec&);
 
-    virtual int clearStatus() = 0;
-    virtual int commitStatus() = 0;
-    virtual int resetStatus() = 0;
+    virtual int clear_status() = 0;
+    virtual int commit_status() = 0;
+    virtual int reset_status() = 0;
 };
 
 #endif

@@ -28,15 +28,16 @@ public:
     explicit Tag(const unsigned& = 0, const unsigned& = 0);
     virtual ~Tag();
 
-    void setTag(const unsigned&);
-    const unsigned& getTag() const;
+    void set_tag(const unsigned&);
+    const unsigned& get_tag() const;
 
-    void setClassTag(const unsigned&);
-    const unsigned& getClassTag() const;
+    void set_class_tag(const unsigned&);
+    const unsigned& get_class_tag() const;
 
     void enable();
     void disable();
-    const bool& getStatus() const;
+
+    const bool& is_active() const;
 
     virtual void print();
 };

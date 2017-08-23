@@ -11,20 +11,21 @@
 #define RECORDER_H
 
 #include <Domain/Tag.h>
-#include <vector>
 
 using std::vector;
 
 class Recorder : public Tag
 {
 protected:
-    vector<double> pool; /**< recorded data */
+    vector<vec> pool; /**< recorded data */
 public:
     explicit Recorder(const unsigned& T = 0, const unsigned& CT = CT_RECORDER)
         : Tag(T, CT)
     {
     }
     virtual ~Recorder() {}
+
+    virtual void record() = 0;
 };
 
 #endif

@@ -13,8 +13,8 @@
  * `intOrder` is the integration order.
  * `intType` is the integration type. 1 is Gauss and 2 is Lobatto.
  *
- * The data is stored in `double** intPts`.
- * The data can be acquired by using method `getIntPts()`.
+ * The data is stored in `double** int_pts`.
+ * The data can be acquired by using method `get_integration_scheme()`.
  * Single element could be accessed by `(int, int)` operator.
  * The data is arranged as follows.
  *
@@ -42,12 +42,9 @@
 #ifndef INTEGRATIONPLAN_H
 #define INTEGRATIONPLAN_H
 
-#include <cmath>
-#include <stdio.h>
-
 class integrationPlan final
 {
-    double** intPts;
+    double** int_pts;
     unsigned num_row;
     unsigned num_col;
 
@@ -67,7 +64,7 @@ public:
     unsigned n_elem() const;
 
     //! GET POINTER TO THE DATA CHUCK
-    double** getIntPts() const;
+    double** get_integration_scheme() const;
 
     //! GET SINGLE ELEMENT
     double operator()(const unsigned&, const unsigned&) const;

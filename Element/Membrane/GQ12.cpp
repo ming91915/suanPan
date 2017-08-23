@@ -13,7 +13,7 @@ GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH
 
 void GQ12::initialize(const shared_ptr<Domain>& D)
 {
-    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const integrationPlan plan(2, 2, 1);
 
@@ -23,12 +23,12 @@ void GQ12::initialize(const shared_ptr<Domain>& D)
         int_pt[I]->coor.zeros(2);
         for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->getCopy();
+        int_pt[I]->m_material = material_proto->get_copy();
     }
 
     mat ele_coor(m_node, 2);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(unsigned J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
@@ -89,43 +89,43 @@ void GQ12::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int GQ12::updateStatus()
+int GQ12::update_status()
 {
     auto code = 0, idx = 0;
 
     vec trial_disp(m_node * m_dof);
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
 
     stiffness.zeros();
     resistance.zeros();
     for(const auto& I : int_pt) {
-        code += I->m_material->updateTrialStatus(I->strain_mat * trial_disp);
+        code += I->m_material->update_trial_status(I->strain_mat * trial_disp);
         const mat tmp_factor = I->strain_mat.t() * I->jacob_det * I->weight * thickness;
-        stiffness += tmp_factor * I->m_material->getStiffness() * I->strain_mat;
-        resistance += tmp_factor * I->m_material->getStress();
+        stiffness += tmp_factor * I->m_material->get_stiffness() * I->strain_mat;
+        resistance += tmp_factor * I->m_material->get_stress();
     }
 
     return code;
 }
 
-int GQ12::commitStatus()
+int GQ12::commit_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commitStatus();
+    for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int GQ12::clearStatus()
+int GQ12::clear_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clearStatus();
+    for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int GQ12::resetStatus()
+int GQ12::reset_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->resetStatus();
+    for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
 }

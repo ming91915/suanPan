@@ -16,7 +16,7 @@ Element::Element(const unsigned& T,
 {
 }
 
-Element::~Element() { suanpan_debug("Element %u dtor() Called.\n", getTag()); }
+Element::~Element() { suanpan_debug("Element %u dtor() Called.\n", get_tag()); }
 
 void Element::initialize(const shared_ptr<Domain>& D)
 {
@@ -36,56 +36,56 @@ void Element::initialize(const shared_ptr<Domain>& D)
 
     // CHECK NODE VALIDITY
     for(const auto& I : node_encoding)
-        if(!D->getNode(static_cast<unsigned>(I))->getStatus()) {
-            printf("Element %u finds a disabled Node %u, now disable it.\n", getTag(),
+        if(!D->get_node(static_cast<unsigned>(I))->is_active()) {
+            printf("Element %u finds a disabled Node %u, now disable it.\n", get_tag(),
                 static_cast<unsigned>(I));
-            D->disable_element(getTag());
+            D->disable_element(get_tag());
             return;
         }
 
     // ADJUST DOF NUMBER
     for(const auto& I : node_encoding) {
-        auto& tmp_node = D->getNode(static_cast<unsigned>(I));
-        if(tmp_node->getNumberDOF() < num_dof) tmp_node->setNumberDOF(num_dof);
+        auto& tmp_node = D->get_node(static_cast<unsigned>(I));
+        if(tmp_node->get_dof_number() < num_dof) tmp_node->set_dof_number(num_dof);
         node_ptr.push_back(tmp_node);
     }
 }
 
-void Element::updateEncodingDOF()
+void Element::update_dof_encoding()
 {
     auto I = 0;
     for(const auto& J : node_ptr) {
         auto K = J.lock();
-        auto node_dof = K->getReorderDOF();
-        if(node_dof.is_empty()) node_dof = K->getOriginalDOF();
+        auto node_dof = K->get_reordered_dof();
+        if(node_dof.is_empty()) node_dof = K->get_original_dof();
         for(unsigned L = 0; L < num_dof; ++L) dof_encoding(I++) = node_dof(L);
     }
 }
 
-const unsigned& Element::getNumberDOF() const { return num_dof; }
+const unsigned& Element::get_dof_number() const { return num_dof; }
 
-const unsigned& Element::getNumberNode() const { return num_node; }
+const unsigned& Element::get_node_number() const { return num_node; }
 
-const uvec& Element::getEncodingDOF() const { return dof_encoding; }
+const uvec& Element::get_dof_encoding() const { return dof_encoding; }
 
-const uvec& Element::getEncodingNode() const { return node_encoding; }
+const uvec& Element::get_node_encoding() const { return node_encoding; }
 
-const vector<weak_ptr<Node>>& Element::getNodePtr() const { return node_ptr; }
+const vector<weak_ptr<Node>>& Element::get_node_ptr() const { return node_ptr; }
 
-const vec& Element::getResistance() const { return resistance; }
+const vec& Element::get_resistance() const { return resistance; }
 
-const mat& Element::getMass() const { return mass; }
+const mat& Element::get_mass() const { return mass; }
 
-const mat& Element::getDamping() const { return damping; }
+const mat& Element::get_damping() const { return damping; }
 
-const mat& Element::getStiffness() const { return stiffness; }
+const mat& Element::get_stiffness() const { return stiffness; }
 
-const mat& Element::getInitialStiffness() const { return initial_stiffness; }
+const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
-int Element::updateStatus() { return -1; }
+int Element::update_status() { return -1; }
 
-int Element::commitStatus() { return -1; }
+int Element::commit_status() { return -1; }
 
-int Element::clearStatus() { return -1; }
+int Element::clear_status() { return -1; }
 
-int Element::resetStatus() { return -1; }
+int Element::reset_status() { return -1; }

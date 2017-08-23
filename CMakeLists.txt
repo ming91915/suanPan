@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(suanPan)
 
@@ -34,15 +34,16 @@ add_subdirectory(Toolbox)
 
 if(BUILD_DLL_EXAMPLE)
 	add_subdirectory(Developer/Element)
+    add_subdirectory(Developer/Material)
 endif()
 
 target_link_libraries(${PROJECT_NAME} Element Material)
 
+target_link_libraries(${PROJECT_NAME} arpack superlu)
+
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-
-        target_link_libraries(${PROJECT_NAME} arpack superlu)
 
         if(USE_OPENBLAS)
             target_link_libraries(${PROJECT_NAME} openblas)
@@ -62,10 +63,10 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     
     if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 
-        target_link_libraries(${PROJECT_NAME} arpack.lib superlu.lib lapack.lib)
+        target_link_libraries(${PROJECT_NAME} lapack)
 
         if(USE_HDF5)
-        target_link_libraries(${PROJECT_NAME} libhdf5_cpp.lib libhdf5.lib)
+        target_link_libraries(${PROJECT_NAME} libhdf5_cpp libhdf5)
         endif()
 
     endif()

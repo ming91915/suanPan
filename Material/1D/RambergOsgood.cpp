@@ -35,17 +35,17 @@ void RambergOsgood::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Material> RambergOsgood::getCopy()
+unique_ptr<Material> RambergOsgood::get_copy()
 {
     return make_unique<RambergOsgood>(*this);
 }
 
-int RambergOsgood::updateIncreStatus(const vec& i_strain)
+int RambergOsgood::update_incre_status(const vec& i_strain)
 {
-    return updateTrialStatus(current_strain + i_strain);
+    return update_trial_status(current_strain + i_strain);
 }
 
-int RambergOsgood::updateTrialStatus(const vec& t_strain)
+int RambergOsgood::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
@@ -85,13 +85,13 @@ int RambergOsgood::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int RambergOsgood::clearStatus()
+int RambergOsgood::clear_status()
 {
     initialize();
     return 0;
 }
 
-int RambergOsgood::commitStatus()
+int RambergOsgood::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -100,7 +100,7 @@ int RambergOsgood::commitStatus()
     return 0;
 }
 
-int RambergOsgood::resetStatus()
+int RambergOsgood::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;

@@ -62,7 +62,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     else if(command_id == "analyze") // run analysis
         model->analyze();
     else if(command_id == "clear") // clear current domain status
-        domain->clearStatus();
+        domain->clear_status();
     else if(command_id == "summary") { // print current domain summary
         if(domain != nullptr) domain->summary();
     }
@@ -371,25 +371,25 @@ void print_info(const shared_ptr<Domain>& domain, istringstream& command)
     unsigned tag;
     if(object_type == "node")
         while(!(command >> tag).fail()) {
-            const auto& tmp_node = getNode(domain, tag);
+            const auto& tmp_node = get_node(domain, tag);
             if(tmp_node != nullptr) tmp_node->print();
             suanpan_info("\n");
         }
     else if(object_type == "element")
         while(!(command >> tag).fail()) {
-            const auto& tmp_element = getElement(domain, tag);
+            const auto& tmp_element = get_element(domain, tag);
             if(tmp_element != nullptr) tmp_element->print();
             suanpan_info("\n");
         }
     else if(object_type == "material")
         while(!(command >> tag).fail()) {
-            const auto& tmp_material = getMaterial(domain, tag);
+            const auto& tmp_material = get_material(domain, tag);
             if(tmp_material != nullptr) tmp_material->print();
             suanpan_info("\n");
         }
     else if(object_type == "constraint")
         while(!(command >> tag).fail()) {
-            const auto& tmp_constraint = getConstraint(domain, tag);
+            const auto& tmp_constraint = get_constraint(domain, tag);
             if(tmp_constraint != nullptr) tmp_constraint->print();
             suanpan_info("\n");
         }
@@ -410,22 +410,24 @@ void disable_object(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     unsigned tag;
-    if(object_type == "converger")
-        while(!(command >> tag).fail()) model->disable_convergence(tag);
-    else if(object_type == "domain")
+    if(object_type == "domain")
         while(!(command >> tag).fail()) model->disable_domain(tag);
     else if(object_type == "step")
         while(!(command >> tag).fail()) model->disable_step(tag);
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) model->disable_recorder(tag);
-    else if(object_type == "node")
-        while(!(command >> tag).fail()) domain->disable_node(tag);
+    else if(object_type == "converger")
+        while(!(command >> tag).fail()) model->disable_convergence(tag);
+    else if(object_type == "bc" || object_type == "constraint")
+        while(!(command >> tag).fail()) domain->disable_constraint(tag);
     else if(object_type == "element")
         while(!(command >> tag).fail()) domain->disable_element(tag);
     else if(object_type == "load")
         while(!(command >> tag).fail()) domain->disable_load(tag);
-    else if(object_type == "bc" || object_type == "constraint")
-        while(!(command >> tag).fail()) domain->disable_constraint(tag);
+    else if(object_type == "material")
+        while(!(command >> tag).fail()) domain->disable_material(tag);
+    else if(object_type == "node")
+        while(!(command >> tag).fail()) domain->disable_node(tag);
+    else if(object_type == "recorder")
+        while(!(command >> tag).fail()) domain->disable_recorder(tag);
 }
 
 void erase_object(const shared_ptr<Bead>& model, istringstream& command)
@@ -443,20 +445,22 @@ void erase_object(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     unsigned tag;
-    if(object_type == "converger")
-        while(!(command >> tag).fail()) model->erase_convergence(tag);
-    else if(object_type == "domain")
+    if(object_type == "domain")
         while(!(command >> tag).fail()) model->erase_domain(tag);
     else if(object_type == "step")
         while(!(command >> tag).fail()) model->erase_step(tag);
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) model->erase_recorder(tag);
-    else if(object_type == "node")
-        while(!(command >> tag).fail()) domain->erase_node(tag);
+    else if(object_type == "converger")
+        while(!(command >> tag).fail()) model->erase_convergence(tag);
+    else if(object_type == "bc" || object_type == "constraint")
+        while(!(command >> tag).fail()) domain->erase_constraint(tag);
     else if(object_type == "element")
         while(!(command >> tag).fail()) domain->erase_element(tag);
     else if(object_type == "load")
         while(!(command >> tag).fail()) domain->erase_load(tag);
-    else if(object_type == "bc" || object_type == "constraint")
-        while(!(command >> tag).fail()) domain->erase_constraint(tag);
+    else if(object_type == "material")
+        while(!(command >> tag).fail()) domain->erase_material(tag);
+    else if(object_type == "node")
+        while(!(command >> tag).fail()) domain->erase_node(tag);
+    else if(object_type == "recorder")
+        while(!(command >> tag).fail()) domain->erase_recorder(tag);
 }

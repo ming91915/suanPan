@@ -58,22 +58,22 @@ CLoad::~CLoad() {}
 
 int CLoad::process(const shared_ptr<Domain>& D)
 {
-    auto& tmp_workroom = D->getWorkroom();
+    auto& tmp_workroom = D->get_workroom();
 
-    auto final_load = pattern * magnitude->getAmplitude(tmp_workroom->getTrialTime());
+    auto final_load = pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());
 
-    auto tmp_load = tmp_workroom->getTrialLoad();
+    auto tmp_load = tmp_workroom->get_trial_load();
 
     for(const auto& I : nodes) {
-        auto& tmp_node = D->getNode(static_cast<unsigned>(I));
-        if(tmp_node->getStatus()) {
-            auto& tmp_dof = tmp_node->getReorderDOF();
+        auto& tmp_node = D->get_node(static_cast<unsigned>(I));
+        if(tmp_node->is_active()) {
+            auto& tmp_dof = tmp_node->get_reordered_dof();
             for(const auto& J : dofs)
                 if(J <= tmp_dof.n_elem) tmp_load(tmp_dof(J - 1)) += final_load;
         }
     }
 
-    tmp_workroom->updateTrialLoad(tmp_load);
+    tmp_workroom->update_trial_load(tmp_load);
 
     return 0;
 }

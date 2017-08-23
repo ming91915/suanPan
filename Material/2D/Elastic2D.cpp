@@ -70,9 +70,9 @@ void Elastic2D::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Material> Elastic2D::getCopy() { return make_unique<Elastic2D>(*this); }
+unique_ptr<Material> Elastic2D::get_copy() { return make_unique<Elastic2D>(*this); }
 
-int Elastic2D::updateTrialStatus(const vec& t_strain)
+int Elastic2D::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     trial_stress = trial_stiffness * trial_strain;
@@ -81,13 +81,13 @@ int Elastic2D::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Elastic2D::clearStatus()
+int Elastic2D::clear_status()
 {
     initialize();
     return 0;
 }
 
-int Elastic2D::commitStatus()
+int Elastic2D::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -95,7 +95,7 @@ int Elastic2D::commitStatus()
     return 0;
 }
 
-int Elastic2D::resetStatus()
+int Elastic2D::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;
@@ -106,12 +106,12 @@ int Elastic2D::resetStatus()
 void Elastic2D::print()
 {
     suanpan_info("Strain:\n");
-    getStrain().t().print();
+    get_strain().t().print();
     suanpan_info("Stress:\n");
-    getStress().t().print();
+    get_stress().t().print();
 }
 
-double Elastic2D::getParameter(const unsigned& F) const
+double Elastic2D::get_parameter(const unsigned& F) const
 {
     switch(F) {
     case 0:

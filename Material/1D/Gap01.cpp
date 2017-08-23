@@ -33,14 +33,14 @@ void Gap01::initialize()
     trial_reverse_strain = 0.;
 }
 
-unique_ptr<Material> Gap01::getCopy() { return make_unique<Gap01>(*this); }
+unique_ptr<Material> Gap01::get_copy() { return make_unique<Gap01>(*this); }
 
-int Gap01::updateIncreStatus(const vec& i_strain)
+int Gap01::update_incre_status(const vec& i_strain)
 {
-    return updateTrialStatus(current_strain + i_strain);
+    return update_trial_status(current_strain + i_strain);
 }
 
-int Gap01::updateTrialStatus(const vec& t_strain)
+int Gap01::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
@@ -78,13 +78,13 @@ int Gap01::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Gap01::clearStatus()
+int Gap01::clear_status()
 {
     initialize();
     return 0;
 }
 
-int Gap01::commitStatus()
+int Gap01::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -94,7 +94,7 @@ int Gap01::commitStatus()
     return 0;
 }
 
-int Gap01::resetStatus()
+int Gap01::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;

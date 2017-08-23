@@ -22,18 +22,24 @@ AbsResidual::AbsResidual(const double& E, const bool& P)
 
 const bool& AbsResidual::if_converged()
 {
-    auto& D = getDomain();
-    auto& W = D->getWorkroom();
+    auto& tmp_domain = get_domain();
+    if(tmp_domain == nullptr) {
+        suanpan_error("if_converged() needs a valid domain.\n");
+        set_conv_flag(false);
+    } else {
+        auto& tmp_workroom = tmp_domain->get_workroom();
 
-    vec tmp_residual = W->getTrialLoad() - W->getTrialResistance();
+        vec tmp_residual =
+            tmp_workroom->get_trial_load() - tmp_workroom->get_trial_resistance();
 
-    for(const auto& I : D->getRestrainedDOF()) tmp_residual(I) = 0.;
+        for(const auto& I : tmp_domain->get_restrained_dof()) tmp_residual(I) = 0.;
 
-    setError(norm(tmp_residual));
+        set_error(norm(tmp_residual));
 
-    setFlag(getTolerance() > getError() ? true : false);
+        set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("Absolute Residual: %.5E.\n", getError());
+        if(if_print()) suanpan_info("Absolute Residual: %.5E.\n", get_error());
+    }
 
-    return getFlag();
+    return get_conv_flag();
 }

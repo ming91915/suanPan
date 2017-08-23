@@ -7,7 +7,7 @@ Ramp::Ramp(const unsigned& T, const unsigned& CT)
 
 Ramp::~Ramp() {}
 
-double Ramp::getAmplitude(const double& T)
+double Ramp::get_amplitude(const double& T)
 {
     if(T < 0.) return 0.;
     if(T > 1.) return 1.;

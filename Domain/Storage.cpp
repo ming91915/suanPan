@@ -2,14 +2,14 @@
 
 template <typename T> void Storage<T>::insert(const shared_ptr<T>& I)
 {
-    DATA[I->getTag()] = I;
+    pool[I->get_tag()] = I;
 }
 
-template <typename T> void Storage<T>::erase(const unsigned& L) { DATA.erase(L); }
+template <typename T> void Storage<T>::erase(const unsigned& L) { pool.erase(L); }
 
-template <typename T> const shared_ptr<T>& Storage<T>::getItem(const unsigned& L)
+template <typename T> const shared_ptr<T>& Storage<T>::get(const unsigned& L)
 {
-    return DATA.at(L);
+    return pool.at(L);
 }
 
-template <typename T> unsigned Storage<T>::size() { return DATA.size(); }
+template <typename T> unsigned Storage<T>::size() { return pool.size(); }

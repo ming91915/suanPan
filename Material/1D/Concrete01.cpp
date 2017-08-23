@@ -12,9 +12,9 @@ void Concrete01::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Material> Concrete01::getCopy() { return make_unique<Concrete01>(*this); }
+unique_ptr<Material> Concrete01::get_copy() { return make_unique<Concrete01>(*this); }
 
-int Concrete01::updateTrialStatus(const vec& t_strain)
+int Concrete01::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
@@ -23,8 +23,8 @@ int Concrete01::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Concrete01::clearStatus() { return 0; }
+int Concrete01::clear_status() { return 0; }
 
-int Concrete01::commitStatus() { return 0; }
+int Concrete01::commit_status() { return 0; }
 
-int Concrete01::resetStatus() { return 0; }
+int Concrete01::reset_status() { return 0; }

@@ -100,7 +100,7 @@
 * Member methods include getters of above member variables for outside usage.
 *
 * ```cpp
-* const unsigned& getNumberDOF() const;
+* const unsigned& get_dof_number() const;
 * const unsigned& getNumberNode() const;
 * const uvec& getEncodingDOF() const;
 * const uvec& getEncodingNode() const;
@@ -108,10 +108,10 @@
 * const vector<weak_ptr<Node>>& getNodePtr() const;
 *
 * virtual const vec& getResistance() const;
-* virtual const mat& getMass() const;
-* virtual const mat& getDamping() const;
-* virtual const mat& getStiffness() const;
-* virtual const mat& getInitialStiffness() const;
+* virtual const mat& get_mass() const;
+* virtual const mat& get_damping() const;
+* virtual const mat& get_stiffness() const;
+* virtual const mat& get_initial_stiffness() const;
 * ```
 *
 * The later five methods are declared as virtual methods so that they could be overridden
@@ -121,9 +121,9 @@
 * derived classes. The easiest ones are three status control methods.
 *
 * ```cpp
-* virtual int commitStatus() = 0;
-* virtual int clearStatus() = 0;
-* virtual int resetStatus() = 0;
+* virtual int commit_status() = 0;
+* virtual int clear_status() = 0;
+* virtual int reset_status() = 0;
 * ```
 *
 * Basically they are the wrappers of the corresponding methods in material models. So
@@ -145,7 +145,7 @@
 * Another one is in charge of updating status.
 *
 * ```cpp
-* virtual int updateStatus() = 0;
+* virtual int update_status() = 0;
 * ```
 *
 * This method get trial displacement via pointers of connected Node objects, and calculate
@@ -159,7 +159,7 @@
 * in meterial model. So in fact, **only two methods should be overridden**. They are
 * ```cpp
 * virtual void initialize(const shared_ptr<Domain>&) = 0;
-* virtual int updateStatus() = 0;
+* virtual int update_status() = 0;
 * ```
 *
 * A vivid example will be exhibited in this template class.
@@ -198,10 +198,12 @@ public:
     ElementTemplate(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
     void initialize(const shared_ptr<Domain>&) override;
-    int updateStatus() override;
-    int commitStatus() override;
-    int clearStatus() override;
-    int resetStatus() override;
+
+    int update_status() override;
+
+    int commit_status() override;
+    int clear_status() override;
+    int reset_status() override;
 };
 
 #endif

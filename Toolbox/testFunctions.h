@@ -18,22 +18,22 @@ void example_uni_material()
     Gap01 A(0, 2E5, 400, 0.001);
     vector<double> B, C;
     for(auto I = 0; I < 30; ++I) {
-        A.updateIncreStatus({ 0.0001 });
-        A.commitStatus();
-        B.push_back(as_scalar(A.getStrain()));
-        C.push_back(as_scalar(A.getStress()));
+        A.update_incre_status({ 0.0001 });
+        A.commit_status();
+        B.push_back(as_scalar(A.get_strain()));
+        C.push_back(as_scalar(A.get_stress()));
     }
     for(auto I = 0; I < 50; ++I) {
-        A.updateIncreStatus({ -0.0001 });
-        A.commitStatus();
-        B.push_back(as_scalar(A.getStrain()));
-        C.push_back(as_scalar(A.getStress()));
+        A.update_incre_status({ -0.0001 });
+        A.commit_status();
+        B.push_back(as_scalar(A.get_strain()));
+        C.push_back(as_scalar(A.get_stress()));
     }
     for(auto I = 0; I < 50; ++I) {
-        A.updateIncreStatus({ 0.0001 });
-        A.commitStatus();
-        B.push_back(as_scalar(A.getStrain()));
-        C.push_back(as_scalar(A.getStress()));
+        A.update_incre_status({ 0.0001 });
+        A.commit_status();
+        B.push_back(as_scalar(A.get_strain()));
+        C.push_back(as_scalar(A.get_stress()));
     }
 
     mat D(B.size(), 2);
@@ -47,10 +47,10 @@ void example_ODE()
 {
     DP45 E(make_shared<ODE_INSTANCE>(), make_shared<RelError>());
     E.initialize();
-    auto& D = getCurrentDisplacement(E.getWorkroom());
+    auto& D = get_current_displacement(E.getWorkroom());
     D(0) = 1;
     E.analyze(1);
-    E.getWorkroom()->getTrialDisplacement().print();
+    E.getWorkroom()->get_trial_displacement().print();
 }
 
 void example_Newmark()
@@ -59,21 +59,21 @@ void example_Newmark()
     B->initialize();
     mat M = eye(3, 3);
     M(1, 1) = 3;
-    B->updateMass(M);
+    B->update_mass(M);
     mat K = { { 2, -1, 0 }, { -1, 4, -2 }, { 0, -2, 2 } };
-    B->updateStiffness(K);
-    B->updateCurrentAcceleration({ 0, 0, 6 });
-    B->updateTrialLoad({ 0, 0, 6 });
+    B->update_stiffness(K);
+    B->update_current_acceleration({ 0, 0, 6 });
+    B->update_trial_load({ 0, 0, 6 });
     auto W = make_shared<Domain>();
-    W->setWorkroom(B);
+    W->set_workroom(B);
     Newmark C(W);
     for(auto i = 0; i < 363; ++i) {
-        B->updateIncreTime(0.01);
+        B->update_incre_time(0.01);
         C.updateStatus();
-        B->commitStatus();
+        B->commit_status();
     }
-    cout << B->getCurrentTime() << endl;
-    B->getCurrentDisplacement().print();
+    cout << B->get_current_time() << endl;
+    B->get_current_displacement().print();
 }
 
 void example_Truss2D()
@@ -105,7 +105,7 @@ void example_Truss2D()
     // S.analyze(.5);
 
     cout << "\n";
-    D->getNode(2)->getCurrentDisplacement().print();
+    D->get_node(2)->get_current_displacement().print();
 }
 
 void example_CP3()
@@ -122,7 +122,7 @@ void example_CP3()
     S.initialize();
     S.analyze(1);
     cout << "\n";
-    D->getNode(2)->getCurrentDisplacement().print();
+    D->get_node(2)->get_current_displacement().print();
 }
 
 void example_GQ12()
@@ -154,7 +154,7 @@ void example_GQ12()
     S.initialize();
     S.analyze(1);
     cout << "\n";
-    D->getNode(5)->getCurrentDisplacement().print();
+    D->get_node(5)->get_current_displacement().print();
 }
 
 #endif

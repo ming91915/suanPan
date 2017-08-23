@@ -24,9 +24,9 @@ void Solver::initialize()
 
     database->initialize();
 
-    auto& tmp_workroom = database->getWorkroom();
+    auto& tmp_workroom = database->get_workroom();
 
-    tmp_workroom->setAnalysisType(SUANPAN_STATICS);
+    tmp_workroom->set_analysis_type(SUANPAN_STATICS);
 
     if(band_mat)
         tmp_workroom->enable_band();
@@ -40,7 +40,7 @@ void Solver::initialize()
 
     tmp_workroom->initialize();
 
-    converger->setDomain(database);
+    converger->set_domain(database);
 }
 
 void Solver::setDomain(const shared_ptr<Domain>& D) { database = D; }

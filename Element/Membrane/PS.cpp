@@ -21,9 +21,9 @@ PS::PS(const unsigned& T,
 
 void PS::initialize(const shared_ptr<Domain>& D)
 {
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
-    inv_stiffness = inv(material_proto->getInitialStiffness());
+    inv_stiffness = inv(material_proto->get_initial_stiffness());
 
     integrationPlan plan(2, 2, 1);
 
@@ -34,12 +34,12 @@ void PS::initialize(const shared_ptr<Domain>& D)
         int_pt.at(I)->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt.at(I)->coor(J) = plan(I, J);
         int_pt.at(I)->weight = plan(I, 2);
-        int_pt.at(I)->m_material = material_proto->getCopy();
+        int_pt.at(I)->m_material = material_proto->get_copy();
     }
 
     ele_coor.zeros(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr.at(I).lock()->get_coordinate();
         for(unsigned J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
@@ -63,7 +63,7 @@ void PS::initialize(const shared_ptr<Domain>& D)
 
         auto n_int = shapeFunctionQuad(I->coor, 0);
 
-        auto tmp_density = I->m_material->getParameter();
+        auto tmp_density = I->m_material->get_parameter();
         if(tmp_density != 0.) {
             tmp_density *= tmp_factor;
             for(unsigned J = 0; J < 4; ++J)
@@ -105,36 +105,36 @@ void PS::initialize(const shared_ptr<Domain>& D)
     stiffness = tmp_c.t() * solve(tmp_a, tmp_c);
 }
 
-int PS::updateStatus()
+int PS::update_status()
 {
     auto idx = 0;
 
     vec trial_disp(m_node * m_dof);
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
 
     resistance = stiffness * trial_disp;
 
     return 0;
 }
 
-int PS::commitStatus()
+int PS::commit_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commitStatus();
+    for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int PS::clearStatus()
+int PS::clear_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clearStatus();
+    for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int PS::resetStatus()
+int PS::reset_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->resetStatus();
+    for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
 }

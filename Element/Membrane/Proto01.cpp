@@ -27,9 +27,9 @@ Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const doub
 void Proto01::initialize(const shared_ptr<Domain>& D)
 {
     // MATERIAL MODEL PROTOTYPE
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     // INITIAL FLEXIBILITY
-    auto& ini_stiffness = material_proto->getInitialStiffness();
+    auto& ini_stiffness = material_proto->get_initial_stiffness();
 
     // INTEGRATION POINTS INITIALIZATION
     integrationPlan plan(2, 2, 1);
@@ -39,13 +39,13 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->getCopy();
+        int_pt[I]->m_material = material_proto->get_copy();
     }
 
     // ELEMENT COORDINATES
     ele_coor.zeros(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
@@ -87,22 +87,22 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int Proto01::updateStatus()
+int Proto01::update_status()
 {
     throw std::logic_error("The method or operation is not implemented.");
 }
 
-int Proto01::commitStatus()
+int Proto01::commit_status()
 {
     throw std::logic_error("The method or operation is not implemented.");
 }
 
-int Proto01::clearStatus()
+int Proto01::clear_status()
 {
     throw std::logic_error("The method or operation is not implemented.");
 }
 
-int Proto01::resetStatus()
+int Proto01::reset_status()
 {
     throw std::logic_error("The method or operation is not implemented.");
 }

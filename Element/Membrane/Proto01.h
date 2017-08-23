@@ -35,9 +35,9 @@ public:
 
     void initialize(const shared_ptr<Domain>&) override;
 
-    int updateStatus() override;
+    int update_status() override;
 
-    int commitStatus() override;
-    int clearStatus() override;
-    int resetStatus() override;
+    int commit_status() override;
+    int clear_status() override;
+    int reset_status() override;
 };

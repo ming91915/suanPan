@@ -57,14 +57,14 @@ void Bilinear3D::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Material> Bilinear3D::getCopy() { return make_unique<Bilinear3D>(*this); }
+unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
 
-int Bilinear3D::updateIncreStatus(const vec& i_strain)
+int Bilinear3D::update_incre_status(const vec& i_strain)
 {
-    return updateTrialStatus(current_strain + i_strain);
+    return update_trial_status(current_strain + i_strain);
 }
 
-int Bilinear3D::updateTrialStatus(const vec& t_strain)
+int Bilinear3D::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
@@ -99,13 +99,13 @@ int Bilinear3D::updateTrialStatus(const vec& t_strain)
     return 0;
 }
 
-int Bilinear3D::clearStatus()
+int Bilinear3D::clear_status()
 {
     initialize();
     return 0;
 }
 
-int Bilinear3D::commitStatus()
+int Bilinear3D::commit_status()
 {
     current_strain = trial_strain;
     current_stress = trial_stress;
@@ -116,7 +116,7 @@ int Bilinear3D::commitStatus()
     return 0;
 }
 
-int Bilinear3D::resetStatus()
+int Bilinear3D::reset_status()
 {
     trial_strain = current_strain;
     trial_stress = current_stress;

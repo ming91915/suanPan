@@ -4,29 +4,34 @@ SUANPAN_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
     std::istringstream& command)
 {
     unsigned tag;
-    if(command.good())
-        command >> tag;
-    else
-        suanpan_error("ElementExample needs a tag.\n");
+    if((command >> tag).fail()) {
+        suanpan_error("new_elementexample_() needs a tag.\n");
+        return;
+    }
 
     unsigned node;
     vector<uword> node_tag;
     for(auto I = 0; I < 3; ++I) {
-        if(command.good())
-            command >> node;
-        else
-            suanpan_error("ElementExample needs 3 nodes.\n");
+        if((command >> node).fail()) {
+            suanpan_error("new_elementexample_() needs 3 nodes.\n");
+            return;
+        }
         node_tag.push_back(node);
     }
 
     unsigned material_tag;
-    if(command.good())
-        command >> material_tag;
-    else
-        suanpan_error("ElementExample needs a material tag.\n");
+    if((command >> material_tag).fail()) {
+        suanpan_error("new_elementexample_() needs a material tag.\n");
+        return;
+    }
 
     auto thickness = 1.;
-    if(command.good()) command >> thickness;
+    if(command.eof())
+        suanpan_info("new_elementexample_() assumes a unit thickness.\n");
+    else if((command >> thickness).fail()) {
+        suanpan_error("new_elementexample_() needs a valid thickness.\n");
+        return;
+    }
 
     return_obj =
         make_unique<ElementExample>(tag, uvec(node_tag), material_tag, thickness);
@@ -50,12 +55,12 @@ ElementExample::ElementExample(const unsigned& T,
 
 void ElementExample::initialize(const shared_ptr<Domain>& D)
 {
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
-    m_material = material_proto->getCopy();
+    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+    m_material = material_proto->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr.at(I).lock()->get_coordinate();
         for(auto J = 0; J < 2; ++J) ele_coor(I, J + 1) = tmp_coor(J);
     }
 
@@ -71,33 +76,36 @@ void ElementExample::initialize(const shared_ptr<Domain>& D)
         strain_mat(2, 2 * I + 1) = inv_coor(1, I);
     }
 
-    auto tmp_density = m_material->getParameter();
+    auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         vec n = mean(ele_coor) * inv_coor;
         mass = n * n.t() * tmp_density * area * thickness;
     }
 }
 
-int ElementExample::updateStatus()
+int ElementExample::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
 
-    m_material->updateTrialStatus(strain_mat * trial_disp);
+    m_material->update_trial_status(strain_mat * trial_disp);
 
     stiffness =
-        strain_mat.t() * m_material->getStiffness() * strain_mat * area * thickness;
-    resistance = strain_mat.t() * m_material->getStress() * area * thickness;
+        strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
+    resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
 
     return 0;
 }
 
-int ElementExample::commitStatus() { return m_material->commitStatus(); }
+int ElementExample::commit_status() { return m_material->commit_status(); }
 
-int ElementExample::clearStatus() { return m_material->clearStatus(); }
+int ElementExample::clear_status() { return m_material->clear_status(); }
 
-int ElementExample::resetStatus() { return m_material->resetStatus(); }
+int ElementExample::reset_status() { return m_material->reset_status(); }
 
-void ElementExample::print() { printf("This is an element example.\n"); }
+void ElementExample::print()
+{
+    suanpan_info("This is an element example based on CPS3 element.\n");
+}

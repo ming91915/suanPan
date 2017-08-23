@@ -34,10 +34,16 @@ AbsError::AbsError(const shared_ptr<Domain>& D, const double& E, const bool& P)
  */
 const bool& AbsError::if_converged()
 {
-    setError(getDomain()->getWorkroom()->getError());
-    setFlag(getTolerance() > getError() ? true : false);
+    auto& tmp_domain = get_domain();
+    if(tmp_domain == nullptr) {
+        suanpan_error("if_converged() needs a valid domain.\n");
+        set_conv_flag(false);
+    } else {
+        set_error(tmp_domain->get_workroom()->get_error());
+        set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) printf("Absolute Error: %.5E.\n", getError());
+        if(if_print()) suanpan_info("Absolute Error: %.5E.\n", get_error());
+    }
 
-    return getFlag();
+    return get_conv_flag();
 }

@@ -30,7 +30,7 @@ uvec RCM(const vector<uvec>& A, const uvec& E)
     }
 
 #ifdef SUANPAN_DEBUG
-    cout << "RCM algorithm takes " << TM.toc() << " seconds.\n";
+    suanpan_debug("RCM algorithm takes %.5E seconds.\n", TM.toc());
 #endif
 
     return R;
@@ -112,7 +112,7 @@ template <typename T> uvec RCM(const T& MEAT)
     }
 
 #ifdef SUANPAN_DEBUG
-    cout << "RCM algorithm takes " << TM.toc() << " seconds.\n";
+    suanpan_debug("RCM algorithm takes %.5E seconds.\n", TM.toc());
 #endif
 
     return R;

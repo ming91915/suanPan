@@ -19,7 +19,7 @@ CP4::CP4(const unsigned& T,
 
 void CP4::initialize(const shared_ptr<Domain>& D)
 {
-    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     unsigned order = 2;
     if(reduced_scheme) order = 1;
@@ -31,12 +31,12 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         int_pt[I]->coor.zeros(2);
         for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->getCopy();
+        int_pt[I]->m_material = material_proto->get_copy();
     }
 
     mat ele_coor(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
@@ -49,7 +49,7 @@ void CP4::initialize(const shared_ptr<Domain>& D)
 
         const auto n_int = shapeFunctionQuad(I->coor, 0);
 
-        auto tmp_density = I->m_material->getParameter();
+        auto tmp_density = I->m_material->get_parameter();
         if(tmp_density != 0.) {
             tmp_density *= I->jacob_det * I->weight * thickness;
             for(auto J = 0; J < 4; ++J)
@@ -69,14 +69,14 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         }
 }
 
-int CP4::updateStatus()
+int CP4::update_status()
 {
     auto code = 0;
 
-    auto& TD0 = node_ptr.at(0).lock()->getTrialDisplacement();
-    auto& TD1 = node_ptr.at(1).lock()->getTrialDisplacement();
-    auto& TD2 = node_ptr.at(2).lock()->getTrialDisplacement();
-    auto& TD3 = node_ptr.at(3).lock()->getTrialDisplacement();
+    auto& TD0 = node_ptr.at(0).lock()->get_trial_displacement();
+    auto& TD1 = node_ptr.at(1).lock()->get_trial_displacement();
+    auto& TD2 = node_ptr.at(2).lock()->get_trial_displacement();
+    auto& TD3 = node_ptr.at(3).lock()->get_trial_displacement();
 
     vec tmp_strain(3);
 
@@ -97,7 +97,7 @@ int CP4::updateStatus()
         tmp_strain(2) = NX1 * TD0(1) + NX2 * TD1(1) + NX3 * TD2(1) + NX4 * TD3(1) +
             NY1 * TD0(0) + NY2 * TD1(0) + NY3 * TD2(0) + NY4 * TD3(0);
 
-        code += I->m_material->updateTrialStatus(tmp_strain);
+        code += I->m_material->update_trial_status(tmp_strain);
 
         // OPTIMIZED STIFFNESS MATRRIX FORMULATION B'*D*B
         // MATLAB SYMBOLIC COMPUTATION CODE:
@@ -114,8 +114,8 @@ int CP4::updateStatus()
         // TRIANGLE TO LOWER PART
         const auto tmp_factor = I->jacob_det * I->weight * thickness;
 
-        auto& tmp_stiff = I->m_material->getStiffness();
-        auto& tmp_stress = I->m_material->getStress();
+        auto& tmp_stiff = I->m_material->get_stiffness();
+        auto& tmp_stress = I->m_material->get_stress();
 
         const auto D00 = tmp_factor * tmp_stiff(0, 0);
         const auto D01 = tmp_factor * tmp_stiff(0, 1);
@@ -207,24 +207,24 @@ int CP4::updateStatus()
     return code;
 }
 
-int CP4::commitStatus()
+int CP4::commit_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commitStatus();
+    for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int CP4::clearStatus()
+int CP4::clear_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clearStatus();
+    for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int CP4::resetStatus()
+int CP4::reset_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->resetStatus();
+    for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
 }
 

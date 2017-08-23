@@ -11,12 +11,12 @@ CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH
 
 void CP3::initialize(const shared_ptr<Domain>& D)
 {
-    const auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
-    m_material = material_proto->getCopy();
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+    m_material = material_proto->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->getCoordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(auto J = 0; J < 2; ++J) ele_coor(I, J + 1) = tmp_coor(J);
     }
 
@@ -41,7 +41,7 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     strain_mat(2, 5) = inv_coor(1, 2);
 
     mass.zeros();
-    auto tmp_density = m_material->getParameter();
+    auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         tmp_density *= area * thickness;
         vec n = mean(ele_coor) * inv_coor;
@@ -72,24 +72,24 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int CP3::updateStatus()
+int CP3::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->getTrialDisplacement()) trial_disp(idx++) = J;
+        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
 
-    m_material->updateTrialStatus(strain_mat * trial_disp);
+    m_material->update_trial_status(strain_mat * trial_disp);
 
     const mat tmp_factor = strain_mat.t() * area * thickness;
-    stiffness = tmp_factor * m_material->getStiffness() * strain_mat;
-    resistance = tmp_factor * m_material->getStress();
+    stiffness = tmp_factor * m_material->get_stiffness() * strain_mat;
+    resistance = tmp_factor * m_material->get_stress();
 
     return 0;
 }
 
-int CP3::commitStatus() { return m_material->commitStatus(); }
+int CP3::commit_status() { return m_material->commit_status(); }
 
-int CP3::clearStatus() { return m_material->clearStatus(); }
+int CP3::clear_status() { return m_material->clear_status(); }
 
-int CP3::resetStatus() { return m_material->resetStatus(); }
+int CP3::reset_status() { return m_material->reset_status(); }

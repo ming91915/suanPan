@@ -31,10 +31,12 @@ public:
     CP3(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
     void initialize(const shared_ptr<Domain>&) override;
-    int updateStatus() override;
-    int commitStatus() override;
-    int clearStatus() override;
-    int resetStatus() override;
+
+    int update_status() override;
+
+    int commit_status() override;
+    int clear_status() override;
+    int reset_status() override;
 };
 
 #endif

@@ -1,4 +1,6 @@
 #include "integrationPlan.h"
+#include <cmath>
+#include <cstdio>
 
 integrationPlan::integrationPlan(const unsigned& intDimension,
     const unsigned& intOrder,
@@ -137,31 +139,31 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
         }
     }
     auto IDX = 0;
-    intPts = new double*[num_row];
+    int_pts = new double*[num_row];
     if(intDimension == 1) {
         for(unsigned i = 0; i < intOrder; ++i) {
-            intPts[IDX] = new double[num_col];
-            intPts[IDX][0] = PTL[i];
-            intPts[IDX++][1] = PTW[i];
+            int_pts[IDX] = new double[num_col];
+            int_pts[IDX][0] = PTL[i];
+            int_pts[IDX++][1] = PTW[i];
         }
     } else if(intDimension == 2) {
         for(unsigned i = 0; i < intOrder; ++i) {
             for(unsigned j = 0; j < intOrder; ++j) {
-                intPts[IDX] = new double[num_col];
-                intPts[IDX][0] = PTL[i];
-                intPts[IDX][1] = PTL[j];
-                intPts[IDX++][2] = PTW[i] * PTW[j];
+                int_pts[IDX] = new double[num_col];
+                int_pts[IDX][0] = PTL[i];
+                int_pts[IDX][1] = PTL[j];
+                int_pts[IDX++][2] = PTW[i] * PTW[j];
             }
         }
     } else if(intDimension == 3) {
         for(unsigned i = 0; i < intOrder; ++i) {
             for(unsigned j = 0; j < intOrder; ++j) {
                 for(unsigned k = 0; k < intOrder; ++k) {
-                    intPts[IDX] = new double[num_col];
-                    intPts[IDX][0] = PTL[i];
-                    intPts[IDX][1] = PTL[j];
-                    intPts[IDX][2] = PTL[k];
-                    intPts[IDX++][3] = PTW[i] * PTW[j] * PTW[k];
+                    int_pts[IDX] = new double[num_col];
+                    int_pts[IDX][0] = PTL[i];
+                    int_pts[IDX][1] = PTL[j];
+                    int_pts[IDX][2] = PTL[k];
+                    int_pts[IDX++][3] = PTW[i] * PTW[j] * PTW[k];
                 }
             }
         }
@@ -175,8 +177,8 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
 
 integrationPlan::~integrationPlan()
 {
-    for(unsigned i = 0; i < num_row; ++i) delete[] intPts[i];
-    delete[] intPts;
+    for(unsigned i = 0; i < num_row; ++i) delete[] int_pts[i];
+    delete[] int_pts;
 }
 
 const unsigned& integrationPlan::n_rows() const { return num_row; }
@@ -185,11 +187,11 @@ const unsigned& integrationPlan::n_cols() const { return num_col; }
 
 unsigned integrationPlan::n_elem() const { return num_col * num_row; }
 
-double** integrationPlan::getIntPts() const { return intPts; }
+double** integrationPlan::get_integration_scheme() const { return int_pts; }
 
 double integrationPlan::operator()(const unsigned& i, const unsigned& j) const
 {
-    if(i < num_row && j < num_col && i >= 0 && j >= 0) return intPts[i][j];
+    if(i < num_row && j < num_col && i >= 0 && j >= 0) return int_pts[i][j];
     printf("OUT OF BOUND.\n");
     return 0.;
 }
@@ -198,8 +200,8 @@ void integrationPlan::print() const
 {
     for(unsigned i = 0; i < num_row; ++i) {
         printf("Node %d\t", i + 1);
-        for(unsigned j = 0; j < num_col - 1; ++j) printf("%+.6E\t", intPts[i][j]);
-        printf("Weight\t%+.6E\n", intPts[i][num_col - 1]);
+        for(unsigned j = 0; j < num_col - 1; ++j) printf("%+.6E\t", int_pts[i][j]);
+        printf("Weight\t%+.6E\n", int_pts[i][num_col - 1]);
     }
     printf("\n");
 }

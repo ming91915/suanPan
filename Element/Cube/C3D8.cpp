@@ -15,25 +15,25 @@ C3D8::C3D8(const unsigned& T,
 
 void C3D8::initialize(const shared_ptr<Domain>&) {}
 
-int C3D8::updateStatus() { return 0; }
+int C3D8::update_status() { return 0; }
 
-int C3D8::commitStatus()
+int C3D8::commit_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->c_material->commitStatus();
+    for(const auto& I : int_pt) code += I->c_material->commit_status();
     return code;
 }
 
-int C3D8::clearStatus()
+int C3D8::clear_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->c_material->clearStatus();
+    for(const auto& I : int_pt) code += I->c_material->clear_status();
     return code;
 }
 
-int C3D8::resetStatus()
+int C3D8::reset_status()
 {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->c_material->resetStatus();
+    for(const auto& I : int_pt) code += I->c_material->reset_status();
     return code;
 }

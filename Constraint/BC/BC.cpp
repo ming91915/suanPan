@@ -112,13 +112,13 @@ BC::~BC() {}
  * \brief Method to get Node indices.
  * \return `nodes`
  */
-const uvec& BC::getNode() const { return nodes; }
+const uvec& BC::get_node() const { return nodes; }
 
 /**
  * \brief Method to get DoF indices.
  * \return `dofs`
  */
-const uvec& BC::getDOF() const { return dofs; }
+const uvec& BC::get_dof() const { return dofs; }
 
 /**
  * \brief Method to apply the BC to the system.
@@ -127,20 +127,20 @@ const uvec& BC::getDOF() const { return dofs; }
  */
 int BC::process(const shared_ptr<Domain>& D)
 {
-    auto& W = D->getWorkroom();
-    auto& t_matrix = getStiffness(W);
+    auto& W = D->get_workroom();
+    auto& t_matrix = get_stiffness(W);
 
     if(!W->is_band()) {
         for(const auto& I : nodes) {
-            auto& t_node = D->getNode(static_cast<unsigned>(I));
-            if(t_node->getStatus()) {
-                auto& t_dof = t_node->getReorderDOF();
+            auto& t_node = D->get_node(static_cast<unsigned>(I));
+            if(t_node->is_active()) {
+                auto& t_dof = t_node->get_reordered_dof();
                 for(const auto& J : dofs)
                     if(J <= t_dof.n_elem) {
                         auto& t_idx = t_dof(J - 1);
-                        if(D->insertRestrainedDOF(static_cast<unsigned>(t_idx))) {
+                        if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
                             if(t_matrix(t_idx, t_idx) == 0) {
-                                auto& t_set = D->getRestrainedDOF();
+                                auto& t_set = D->get_restrained_dof();
                                 if(t_set.size() == 1)
                                     t_matrix(t_idx, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)
@@ -159,19 +159,19 @@ int BC::process(const shared_ptr<Domain>& D)
         unsigned t_zero = 0;
         if(!W->is_symm()) {
             unsigned L, U;
-            W->getBandwidth(L, U);
+            W->get_bandwidth(L, U);
             t_zero = L + U;
         }
         for(const auto& I : nodes) {
-            auto& t_node = D->getNode(static_cast<unsigned>(I));
-            if(t_node->getStatus()) {
-                auto& t_dof = t_node->getReorderDOF();
+            auto& t_node = D->get_node(static_cast<unsigned>(I));
+            if(t_node->is_active()) {
+                auto& t_dof = t_node->get_reordered_dof();
                 for(const auto& J : dofs)
                     if(J <= t_dof.n_elem) {
                         auto& t_idx = t_dof(J - 1);
-                        if(D->insertRestrainedDOF(static_cast<unsigned>(t_idx))) {
+                        if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
                             if(t_matrix(t_zero, t_idx) == 0) {
-                                auto& t_set = D->getRestrainedDOF();
+                                auto& t_set = D->get_restrained_dof();
                                 if(t_set.size() == 1)
                                     t_matrix(t_zero, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)

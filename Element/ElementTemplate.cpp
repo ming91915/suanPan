@@ -50,7 +50,7 @@ ElementTemplate::ElementTemplate(const unsigned& T,
  *
  * One can also initialize stiffness matrix and/or other build-in matrices from Element
  * class (check the definition for details) in the initialize() method. However, this it
- * not necessary, as the Solver will always call updateStatus() method with a zero trial
+ * not necessary, as the Solver will always call update_status() method with a zero trial
  * displacement to update current stiffness and resistance before running iterations.
  */
 void ElementTemplate::initialize(const shared_ptr<Domain>& D)
@@ -58,10 +58,10 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
     //! As CPS3 is a constant stress/strain element, one integration point at the center
     //! of the element is enough. Hence we only have one material model defined. First we
     //! get a reference of the Material object from the Domain and then call the
-    //! `getCopy()` method to get a local copy.
-    auto& material_proto = D->getMaterial(static_cast<unsigned>(material_tag(0)));
+    //! `get_copy()` method to get a local copy.
+    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     //! Direct assignment is allowed, the move semantics will automatically be invoked.
-    m_material = material_proto->getCopy();
+    m_material = material_proto->get_copy();
 
     //! The node pointers are handled in the base Element class, we do not have to set it
     //! manually. Now we could fill in the `ele_coor` matrix. The area/natural coordinate
@@ -69,7 +69,7 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
     //! This will be used for the computation of the shape function.
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->getCoordinate();
+        auto& tmp_coor = node_ptr.at(I).lock()->get_coordinate();
         for(auto J = 0; J < 2; ++J) ele_coor(I, J + 1) = tmp_coor(J);
     }
 
@@ -86,7 +86,7 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
         strain_mat(2, 2 * I + 1) = inv_coor(1, I);
     }
 
-    auto tmp_density = m_material->getParameter();
+    auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         vec n = mean(ele_coor) * inv_coor;
         mass = n * n.t() * tmp_density * area * thickness;
@@ -99,25 +99,25 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
 * trail strain to the material model. Then get updated stiffness and stress back to form
 * element stiffness and resistance.
 */
-int ElementTemplate::updateStatus()
+int ElementTemplate::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_disp = node_ptr.at(I).lock()->getTrialDisplacement();
+        auto& tmp_disp = node_ptr.at(I).lock()->get_trial_displacement();
         for(const auto& J : tmp_disp) trial_disp(idx++) = J;
     }
-    m_material->updateTrialStatus(strain_mat * trial_disp);
+    m_material->update_trial_status(strain_mat * trial_disp);
 
     stiffness =
-        strain_mat.t() * m_material->getStiffness() * strain_mat * area * thickness;
-    resistance = strain_mat.t() * m_material->getStress() * area * thickness;
+        strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
+    resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
 
     return 0;
 }
 
-int ElementTemplate::commitStatus() { return m_material->commitStatus(); }
+int ElementTemplate::commit_status() { return m_material->commit_status(); }
 
-int ElementTemplate::clearStatus() { return m_material->clearStatus(); }
+int ElementTemplate::clear_status() { return m_material->clear_status(); }
 
-int ElementTemplate::resetStatus() { return m_material->resetStatus(); }
+int ElementTemplate::reset_status() { return m_material->reset_status(); }

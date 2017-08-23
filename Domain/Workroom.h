@@ -48,6 +48,7 @@ class Workroom final
     unsigned analysis_type = 0; /**< type of analysis */
     unsigned low_bandwidth = 0; /**< low bandwidth */
     unsigned up_bandwidth = 0;  /**< up bandwidth */
+    unsigned shifted_bandwidth = 0;
 
     bool symm_mat = false; /**< symmetric matrix storage */
     bool band_mat = false; /**< banded matrix storage */
@@ -55,6 +56,7 @@ class Workroom final
     double trial_time = 0.;   /**< global trial (pseudo) time */
     double incre_time = 0.;   /**< global incremental (pseudo) time */
     double current_time = 0.; /**< global current (pseudo) time */
+    double pre_time = 0.;     /**< global previous (pseudo) time */
 
     double error = 0.; /**< error produced by certain solvers */
 
@@ -107,235 +109,199 @@ public:
     void enable_band();
     void disable_band();
 
-    void setNumberDOF(const unsigned&);
-    const unsigned& getNumberDOF() const;
+    void set_dof_number(const unsigned&);
+    const unsigned& get_dof_number() const;
 
-    void setAnalysisType(const unsigned&);
-    const unsigned& getAnalysisType() const;
+    void set_analysis_type(const unsigned&);
+    const unsigned& get_analysis_type() const;
 
-    void setBandwidth(const unsigned&, const unsigned&);
-    void getBandwidth(unsigned&, unsigned&) const;
+    void set_bandwidth(const unsigned&, const unsigned&);
+    void get_bandwidth(unsigned&, unsigned&) const;
 
-    void setError(const double&);
-    const double& getError() const;
+    void set_error(const double&);
+    const double& get_error() const;
 
     void initialize(const unsigned& = 0);
 
-    void initializeLoad(const unsigned&);
-    void initializeResistance(const unsigned&);
-    void initializeDisplacement(const unsigned&);
-    void initializeVelocity(const unsigned&);
-    void initializeAcceleration(const unsigned&);
-    void initializeTemperature(const unsigned&);
+    void initialize_load(const unsigned&);
+    void initialize_resistance(const unsigned&);
+    void initialize_displacement(const unsigned&);
+    void initialize_velocity(const unsigned&);
+    void initialize_acceleration(const unsigned&);
+    void initialize_temperature(const unsigned&);
 
-    void initializeEigen(const unsigned&);
-    void initializeMass(const unsigned&);
-    void initializeDamping(const unsigned&);
-    void initializeStiffness(const unsigned&);
+    void initialize_eigen(const unsigned&);
+    void initialize_mass(const unsigned&);
+    void initialize_damping(const unsigned&);
+    void initialize_stiffness(const unsigned&);
 
-    void updateNinja(const vec&);
+    void update_ninja(const vec&);
 
-    void updateTrialTime(const double&);
-    void updateTrialLoad(const vec&);
-    void updateTrialResistance(const vec&);
-    void updateTrialDisplacement(const vec&);
-    void updateTrialVelocity(const vec&);
-    void updateTrialAcceleration(const vec&);
-    void updateTrialTemperature(const vec&);
+    void update_trial_time(const double&);
+    void update_trial_load(const vec&);
+    void update_trial_resistance(const vec&);
+    void update_trial_displacement(const vec&);
+    void update_trial_velocity(const vec&);
+    void update_trial_acceleration(const vec&);
+    void update_trial_temperature(const vec&);
 
-    void updateIncreTime(const double&);
-    void updateIncreLoad(const vec&);
-    void updateIncreResistance(const vec&);
-    void updateIncreDisplacement(const vec&);
-    void updateIncreVelocity(const vec&);
-    void updateIncreAcceleration(const vec&);
-    void updateIncreTemperature(const vec&);
+    void update_incre_time(const double&);
+    void update_incre_load(const vec&);
+    void update_incre_resistance(const vec&);
+    void update_incre_displacement(const vec&);
+    void update_incre_velocity(const vec&);
+    void update_incre_acceleration(const vec&);
+    void update_incre_temperature(const vec&);
 
-    void updateCurrentTime(const double&);
-    void updateCurrentLoad(const vec&);
-    void updateCurrentResistance(const vec&);
-    void updateCurrentDisplacement(const vec&);
-    void updateCurrentVelocity(const vec&);
-    void updateCurrentAcceleration(const vec&);
-    void updateCurrentTemperature(const vec&);
+    void update_current_time(const double&);
+    void update_current_load(const vec&);
+    void update_current_resistance(const vec&);
+    void update_current_displacement(const vec&);
+    void update_current_velocity(const vec&);
+    void update_current_acceleration(const vec&);
+    void update_current_temperature(const vec&);
 
-    void updatePreviousLoad(const vec&);
-    void updatePreviousResistance(const vec&);
-    void updatePreviousDisplacement(const vec&);
-    void updatePreviousVelocity(const vec&);
-    void updatePreviousAcceleration(const vec&);
-    void updatePreviousTemperature(const vec&);
+    void update_pre_time(const double&);
+    void update_pre_load(const vec&);
+    void update_pre_resistance(const vec&);
+    void update_pre_displacement(const vec&);
+    void update_pre_velocity(const vec&);
+    void update_pre_acceleration(const vec&);
+    void update_pre_temperature(const vec&);
 
-    void updateMass(const T2&);
-    void updateDamping(const T2&);
-    void updateStiffness(const T2&);
+    void update_mass(const T2&);
+    void update_damping(const T2&);
+    void update_stiffness(const T2&);
 
-    const vec& getNinja() const;
+    const vec& get_ninja() const;
 
-    const double& getTrialTime() const;
-    const vec& getTrialLoad() const;
-    const vec& getTrialResistance() const;
-    const vec& getTrialDisplacement() const;
-    const vec& getTrialVelocity() const;
-    const vec& getTrialAcceleration() const;
-    const vec& getTrialTemperature() const;
+    const double& get_trial_time() const;
+    const vec& get_trial_load() const;
+    const vec& get_trial_resistance() const;
+    const vec& get_trial_displacement() const;
+    const vec& get_trial_velocity() const;
+    const vec& get_trial_acceleration() const;
+    const vec& get_trial_temperature() const;
 
-    const double& getIncreTime() const;
-    const vec& getIncreLoad() const;
-    const vec& getIncreResistance() const;
-    const vec& getIncreDisplacement() const;
-    const vec& getIncreVelocity() const;
-    const vec& getIncreAcceleration() const;
-    const vec& getIncreTemperature() const;
+    const double& get_incre_time() const;
+    const vec& get_incre_load() const;
+    const vec& get_incre_resistance() const;
+    const vec& get_incre_displacement() const;
+    const vec& get_incre_velocity() const;
+    const vec& get_incre_acceleration() const;
+    const vec& get_incre_temperature() const;
 
-    const double& getCurrentTime() const;
-    const vec& getCurrentLoad() const;
-    const vec& getCurrentResistance() const;
-    const vec& getCurrentDisplacement() const;
-    const vec& getCurrentVelocity() const;
-    const vec& getCurrentAcceleration() const;
-    const vec& getCurrentTemperature() const;
+    const double& get_current_time() const;
+    const vec& get_current_load() const;
+    const vec& get_current_resistance() const;
+    const vec& get_current_displacement() const;
+    const vec& get_current_velocity() const;
+    const vec& get_current_acceleration() const;
+    const vec& get_current_temperature() const;
 
-    const vec& getPreviousLoad() const;
-    const vec& getPreviousResistance() const;
-    const vec& getPreviousDisplacement() const;
-    const vec& getPreviousVelocity() const;
-    const vec& getPreviousAcceleration() const;
-    const vec& getPreviousTemperature() const;
+    const double& get_pre_time() const;
+    const vec& get_pre_load() const;
+    const vec& get_pre_resistance() const;
+    const vec& get_pre_displacement() const;
+    const vec& get_pre_velocity() const;
+    const vec& get_pre_acceleration() const;
+    const vec& get_pre_temperature() const;
 
-    const T2& getMass() const;
-    const T2& getDamping() const;
-    const T2& getStiffness() const;
+    const T2& get_mass() const;
+    const T2& get_damping() const;
+    const T2& get_stiffness() const;
 
-    const vec& getEigenvalue() const;
-    const mat& getEigenvector() const;
+    const vec& get_eigenvalue() const;
+    const mat& get_eigenvector() const;
 
-    friend vec& getNinja(const shared_ptr<Workroom>&);
+    friend vec& get_ninja(const shared_ptr<Workroom>&);
 
-    friend double& getTrialTime(const shared_ptr<Workroom>&);
-    friend vec& getTrialLoad(const shared_ptr<Workroom>&);
-    friend vec& getTrialResistance(const shared_ptr<Workroom>&);
-    friend vec& getTrialDisplacement(const shared_ptr<Workroom>&);
-    friend vec& getTrialVelocity(const shared_ptr<Workroom>&);
-    friend vec& getTrialAcceleration(const shared_ptr<Workroom>&);
-    friend vec& getTrialTemperature(const shared_ptr<Workroom>&);
+    friend double& get_trial_time(const shared_ptr<Workroom>&);
+    friend vec& get_trial_load(const shared_ptr<Workroom>&);
+    friend vec& get_trial_resistance(const shared_ptr<Workroom>&);
+    friend vec& get_trial_displacement(const shared_ptr<Workroom>&);
+    friend vec& get_trial_velocity(const shared_ptr<Workroom>&);
+    friend vec& get_trial_acceleration(const shared_ptr<Workroom>&);
+    friend vec& get_trial_temperature(const shared_ptr<Workroom>&);
 
-    friend double& getIncreTime(const shared_ptr<Workroom>&);
-    friend vec& getIncreLoad(const shared_ptr<Workroom>&);
-    friend vec& getIncreResistance(const shared_ptr<Workroom>&);
-    friend vec& getIncreDisplacement(const shared_ptr<Workroom>&);
-    friend vec& getIncreVelocity(const shared_ptr<Workroom>&);
-    friend vec& getIncreAcceleration(const shared_ptr<Workroom>&);
-    friend vec& getIncreTemperature(const shared_ptr<Workroom>&);
+    friend double& get_incre_time(const shared_ptr<Workroom>&);
+    friend vec& get_incre_load(const shared_ptr<Workroom>&);
+    friend vec& get_incre_resistance(const shared_ptr<Workroom>&);
+    friend vec& get_incre_displacement(const shared_ptr<Workroom>&);
+    friend vec& get_incre_velocity(const shared_ptr<Workroom>&);
+    friend vec& get_incre_acceleration(const shared_ptr<Workroom>&);
+    friend vec& get_incre_temperature(const shared_ptr<Workroom>&);
 
-    friend double& getCurrentTime(const shared_ptr<Workroom>&);
-    friend vec& getCurrentLoad(const shared_ptr<Workroom>&);
-    friend vec& getCurrentResistance(const shared_ptr<Workroom>&);
-    friend vec& getCurrentDisplacement(const shared_ptr<Workroom>&);
-    friend vec& getCurrentVelocity(const shared_ptr<Workroom>&);
-    friend vec& getCurrentAcceleration(const shared_ptr<Workroom>&);
-    friend vec& getCurrentTemperature(const shared_ptr<Workroom>&);
+    friend double& get_current_time(const shared_ptr<Workroom>&);
+    friend vec& get_current_load(const shared_ptr<Workroom>&);
+    friend vec& get_current_resistance(const shared_ptr<Workroom>&);
+    friend vec& get_current_displacement(const shared_ptr<Workroom>&);
+    friend vec& get_current_velocity(const shared_ptr<Workroom>&);
+    friend vec& get_current_acceleration(const shared_ptr<Workroom>&);
+    friend vec& get_current_temperature(const shared_ptr<Workroom>&);
 
-    friend vec& getPreviousLoad(const shared_ptr<Workroom>&);
-    friend vec& getPreviousResistance(const shared_ptr<Workroom>&);
-    friend vec& getPreviousDisplacement(const shared_ptr<Workroom>&);
-    friend vec& getPreviousVelocity(const shared_ptr<Workroom>&);
-    friend vec& getPreviousAcceleration(const shared_ptr<Workroom>&);
-    friend vec& getPreviousTemperature(const shared_ptr<Workroom>&);
+    friend double& get_pre_time(const shared_ptr<Workroom>&);
+    friend vec& get_pre_load(const shared_ptr<Workroom>&);
+    friend vec& get_pre_resistance(const shared_ptr<Workroom>&);
+    friend vec& get_pre_displacement(const shared_ptr<Workroom>&);
+    friend vec& get_pre_velocity(const shared_ptr<Workroom>&);
+    friend vec& get_pre_acceleration(const shared_ptr<Workroom>&);
+    friend vec& get_pre_temperature(const shared_ptr<Workroom>&);
 
-    friend T2& getMass(const shared_ptr<Workroom>&);
-    friend T2& getDamping(const shared_ptr<Workroom>&);
-    friend T2& getStiffness(const shared_ptr<Workroom>&);
+    friend T2& get_mass(const shared_ptr<Workroom>&);
+    friend T2& get_damping(const shared_ptr<Workroom>&);
+    friend T2& get_stiffness(const shared_ptr<Workroom>&);
 
-    friend vec& getEigenvalue(const shared_ptr<Workroom>&);
-    friend mat& getEigenvector(const shared_ptr<Workroom>&);
+    friend vec& get_eigenvalue(const shared_ptr<Workroom>&);
+    friend mat& get_eigenvector(const shared_ptr<Workroom>&);
 
-    void commitStatus(const unsigned& = SUANPAN_STATICS);
-    void commitTime();
-    void commitLoad();
-    void commitResistance();
-    void commitDisplacement();
-    void commitVelocity();
-    void commitAcceleration();
-    void commitTemperature();
+    void commit_status(const unsigned& = SUANPAN_STATICS);
+    void commit_time();
+    void commit_load();
+    void commit_resistance();
+    void commit_displacement();
+    void commit_velocity();
+    void commit_acceleration();
+    void commit_temperature();
 
-    void commitPreStatus(const unsigned& = SUANPAN_STATICS);
-    void commitPreLoad();
-    void commitPreResistance();
-    void commitPreDisplacement();
-    void commitPreVelocity();
-    void commitPreAcceleration();
-    void commitPreTemperature();
+    void commit_pre_status(const unsigned& = SUANPAN_STATICS);
+    void commit_pre_time();
+    void commit_pre_load();
+    void commit_pre_resistance();
+    void commit_pre_displacement();
+    void commit_pre_velocity();
+    void commit_pre_acceleration();
+    void commit_pre_temperature();
 
-    void clearStatus();
-    void clearTime();
-    void clearLoad();
-    void clearResistance();
-    void clearDisplacement();
-    void clearVelocity();
-    void clearAcceleration();
-    void clearTemperature();
+    void clear_status();
+    void clear_time();
+    void clear_load();
+    void clear_resistance();
+    void clear_displacement();
+    void clear_velocity();
+    void clear_acceleration();
+    void clear_temperature();
 
-    void resetStatus();
-    void resetTime();
-    void resetLoad();
-    void resetResistance();
-    void resetDisplacement();
-    void resetVelocity();
-    void resetAcceleration();
-    void resetTemperature();
+    void reset_status();
+    void reset_time();
+    void reset_load();
+    void reset_resistance();
+    void reset_displacement();
+    void reset_velocity();
+    void reset_acceleration();
+    void reset_temperature();
 
-    void clearEigen();
-    void clearMass();
-    void clearDamping();
-    void clearStiffness();
+    void clear_eigen();
+    void clear_mass();
+    void clear_damping();
+    void clear_stiffness();
 
     static void print();
 
-    void assembleResistance(const mat&, const uvec&);
-    void assembleMass(const mat&, const uvec&);
-    void assembleDamping(const mat&, const uvec&);
-    void assembleStiffness(const mat&, const uvec&);
+    void assemble_resistance(const mat&, const uvec&);
+    void assemble_mass(const mat&, const uvec&);
+    void assemble_damping(const mat&, const uvec&);
+    void assemble_stiffness(const mat&, const uvec&);
 };
-
-vec& getNinja(const shared_ptr<Workroom>&);
-
-double& getTrialTime(const shared_ptr<Workroom>&);
-vec& getTrialLoad(const shared_ptr<Workroom>&);
-vec& getTrialResistance(const shared_ptr<Workroom>&);
-vec& getTrialDisplacement(const shared_ptr<Workroom>&);
-vec& getTrialVelocity(const shared_ptr<Workroom>&);
-vec& getTrialAcceleration(const shared_ptr<Workroom>&);
-vec& getTrialTemperature(const shared_ptr<Workroom>&);
-
-double& getIncreTime(const shared_ptr<Workroom>&);
-vec& getIncreLoad(const shared_ptr<Workroom>&);
-vec& getIncreResistance(const shared_ptr<Workroom>&);
-vec& getIncreDisplacement(const shared_ptr<Workroom>&);
-vec& getIncreVelocity(const shared_ptr<Workroom>&);
-vec& getIncreAcceleration(const shared_ptr<Workroom>&);
-vec& getIncreTemperature(const shared_ptr<Workroom>&);
-
-double& getCurrentTime(const shared_ptr<Workroom>&);
-vec& getCurrentLoad(const shared_ptr<Workroom>&);
-vec& getCurrentResistance(const shared_ptr<Workroom>&);
-vec& getCurrentDisplacement(const shared_ptr<Workroom>&);
-vec& getCurrentVelocity(const shared_ptr<Workroom>&);
-vec& getCurrentAcceleration(const shared_ptr<Workroom>&);
-vec& getCurrentTemperature(const shared_ptr<Workroom>&);
-
-vec& getPreviousLoad(const shared_ptr<Workroom>&);
-vec& getPreviousResistance(const shared_ptr<Workroom>&);
-vec& getPreviousDisplacement(const shared_ptr<Workroom>&);
-vec& getPreviousVelocity(const shared_ptr<Workroom>&);
-vec& getPreviousAcceleration(const shared_ptr<Workroom>&);
-vec& getPreviousTemperature(const shared_ptr<Workroom>&);
-
-T2& getMass(const shared_ptr<Workroom>&);
-T2& getDamping(const shared_ptr<Workroom>&);
-T2& getStiffness(const shared_ptr<Workroom>&);
-
-vec& getEigenvalue(const shared_ptr<Workroom>&);
-mat& getEigenvector(const shared_ptr<Workroom>&);
 
 #endif

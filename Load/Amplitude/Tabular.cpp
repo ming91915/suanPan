@@ -30,7 +30,7 @@ Tabular::Tabular(const unsigned& T, const char* P)
 
 Tabular::~Tabular() {}
 
-double Tabular::getAmplitude(const double& T)
+double Tabular::get_amplitude(const double& T)
 {
     uword IDX = 0;
     for(uword i = 0; i < time.n_elem; ++i)
