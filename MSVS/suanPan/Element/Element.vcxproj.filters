@@ -95,5 +95,8 @@
     <ClInclude Include="..\..\..\Element\ElementParser.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Element\ElementTag.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

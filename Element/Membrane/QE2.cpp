@@ -232,6 +232,22 @@ int QE2::reset_status()
     return code;
 }
 
+vector<vec> QE2::record(const OutputList& T)
+{
+    vector<vec> data;
+    switch(T) {
+    case OutputList::E:
+        for(const auto& I : int_pt) data.push_back(I->m_material->get_strain());
+        break;
+    case OutputList::S:
+        for(const auto& I : int_pt) data.push_back(I->m_material->get_stress());
+        break;
+    default:
+        break;
+    }
+    return data;
+}
+
 void QE2::print()
 {
     suanpan_info("Piltner's mixed quad element %u connects nodes:\n", get_tag());

@@ -167,6 +167,7 @@
     <ClInclude Include="..\..\..\Material\3D\Elastic3D.h" />
     <ClInclude Include="..\..\..\Material\Material.h" />
     <ClInclude Include="..\..\..\Material\MaterialParser.h" />
+    <ClInclude Include="..\..\..\Material\MaterialTag.h" />
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

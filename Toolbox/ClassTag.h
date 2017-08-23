@@ -124,5 +124,8 @@
 #ifndef CT_ABSRESIDUAL
 #define CT_ABSRESIDUAL 41
 #endif
+#ifndef CT_NODERECORDER
+#define CT_NODERECORDER 42
+#endif
 
 #endif

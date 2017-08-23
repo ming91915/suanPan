@@ -75,6 +75,8 @@ public:
     virtual int commit_status() = 0;
     virtual int clear_status() = 0;
     virtual int reset_status() = 0;
+
+    virtual vector<vec> record(const OutputList&);
 };
 
 #endif

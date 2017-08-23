@@ -4,5 +4,6 @@
 #include "Cube/Cube"
 
 #include "Element.h"
+#include "ElementTag.h"
 #include "ElementTemplate.h"
 #include "ElementParser.h"

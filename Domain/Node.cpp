@@ -425,6 +425,8 @@ void Node::update_incre_status(const vec& D, const vec& V, const vec& A)
     update_incre_status(D, V);
 }
 
+vector<vec> Node::record(const OutputList&) { return {}; }
+
 /**
  * \brief Method to print basic information.
  */

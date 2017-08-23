@@ -184,6 +184,7 @@
     <ClCompile Include="..\..\..\Load\CLoad.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
     <ClCompile Include="..\..\..\Load\RCM.cpp" />
+    <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
     <ClCompile Include="..\..\..\Solver\CentralDifference.cpp" />
@@ -241,6 +242,8 @@
     <ClInclude Include="..\..\..\Load\CLoad.h" />
     <ClInclude Include="..\..\..\Load\Load.h" />
     <ClInclude Include="..\..\..\Load\RCM.h" />
+    <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
+    <ClInclude Include="..\..\..\Recorder\OutputList.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
     <ClInclude Include="..\..\..\Solver\CentralDifference.h" />
@@ -267,9 +270,7 @@
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h" />
     <ClInclude Include="..\..\..\Toolbox\commandParser.h" />
     <ClInclude Include="..\..\..\Toolbox\debug.h" />
-    <ClInclude Include="..\..\..\Toolbox\ElementTag.h" />
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
-    <ClInclude Include="..\..\..\Toolbox\MaterialTag.h" />
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h" />
     <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp" />
     <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp" />

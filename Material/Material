@@ -3,5 +3,6 @@
 #include "3D/3D"
 
 #include "Material.h"
+#include "MaterialTag.h"
 #include "MaterialTemplate.h"
 #include "MaterialParser.h"

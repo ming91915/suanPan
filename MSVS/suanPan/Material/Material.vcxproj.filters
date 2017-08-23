@@ -96,5 +96,8 @@
     <ClInclude Include="..\..\..\Material\MaterialParser.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Material\MaterialTag.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,3 +8,4 @@
 #include "tensorToolbox.h"
 #include "testFunctions.h"
 #include "utility.h"
+#include "ClassTag.h"

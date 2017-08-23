@@ -189,18 +189,15 @@
     <ClCompile Include="..\..\..\Toolbox\utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\MaterialTag.h">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\ElementTag.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Recorder\Recorder.h">
@@ -375,6 +372,12 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\utility.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\OutputList.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\NodeRecorder.h">
       <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>

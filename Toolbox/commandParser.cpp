@@ -88,7 +88,7 @@ int process_file(const shared_ptr<Bead>& model, const char* file_name)
     }
 
     string command_line;
-    while(getline(input_file, command_line).good()) {
+    while(!getline(input_file, command_line).fail()) {
         if(!command_line.empty() && command_line[0] != '#') {
             istringstream tmp_str(command_line);
             if(process_command(model, tmp_str) == SUANPAN_EXIT) return SUANPAN_EXIT;

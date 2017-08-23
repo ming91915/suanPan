@@ -157,6 +157,7 @@
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
     <ClInclude Include="..\..\..\Element\Element.h" />
     <ClInclude Include="..\..\..\Element\ElementParser.h" />
+    <ClInclude Include="..\..\..\Element\ElementTag.h" />
     <ClInclude Include="..\..\..\Element\ElementTemplate.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP3.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP4.h" />

@@ -19,7 +19,10 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "Tag.h"
+#include <Domain/Tag.h>
+#include <Recorder/OutputList.h>
+
+using std::vector;
 
 class Node final : public Tag
 {
@@ -102,6 +105,8 @@ public:
     void update_incre_status(const vec&);
     void update_incre_status(const vec&, const vec&);
     void update_incre_status(const vec&, const vec&, const vec&);
+
+    vector<vec> record(const OutputList&);
 
     void print() override final;
 };

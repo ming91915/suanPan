@@ -560,9 +560,10 @@ void Domain::summary() const
         get_constraint(), get_recorder());
 }
 
-void Domain::record() const
+void Domain::record()
 {
-    for(const auto& I : recorder_pool) I.second->record();
+    for(const auto& I : recorder_pool)
+        if(I.second->is_active()) I.second->record(shared_from_this());
 }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T)

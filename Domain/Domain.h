@@ -132,7 +132,8 @@ public:
     const unordered_set<unsigned>& get_restrained_dof() const;
     const unordered_set<unsigned>& get_constrained_dof() const;
 
-    void record() const;
+    void record();
+
     void summary() const;
 };
 

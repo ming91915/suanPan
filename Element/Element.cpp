@@ -89,3 +89,5 @@ int Element::commit_status() { return -1; }
 int Element::clear_status() { return -1; }
 
 int Element::reset_status() { return -1; }
+
+vector<vec> Element::record(const OutputList&) { return {}; }
