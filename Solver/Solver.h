@@ -122,38 +122,24 @@ extern "C" void dspsv_(char* UPLO,
 #include <Domain/Tag.h>
 
 class Domain;
-class Convergence;
 
 class Solver : public Tag
 {
-    bool band_mat = false;
-    bool symm_mat = false;
-
-    shared_ptr<Domain> database = nullptr;       /**< domain */
-    shared_ptr<Convergence> converger = nullptr; /**< convergence */
+    shared_ptr<Domain> database = nullptr; /**< domain */
 public:
     explicit Solver(const unsigned& = 0,
         const unsigned& = CT_SOLVER,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr);
+        const shared_ptr<Domain>& = nullptr);
     virtual ~Solver();
 
-    virtual void initialize();
+    virtual int initialize();
 
     virtual int update_status() = 0;
 
-    virtual int analyze(const double&) = 0;
+    virtual int analyze(const unsigned& = 0) = 0;
 
     void set_domain(const shared_ptr<Domain>&);
     const shared_ptr<Domain>& get_domain() const;
-
-    void set_convergence(const shared_ptr<Convergence>&);
-    const shared_ptr<Convergence>& get_convergence() const;
-
-    void enable_band();
-    void disable_band();
-    void enable_symm();
-    void disable_symm();
 };
 
 // GENERAL MATRIX

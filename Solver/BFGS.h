@@ -29,15 +29,15 @@
 
 class BFGS : public Solver
 {
+    mat const_eye;
+
 public:
-    explicit BFGS(const unsigned& = 0,             // tag
-        const shared_ptr<Domain>& = nullptr,       // domain pointer
-        const shared_ptr<Convergence>& = nullptr); // convergence pointer
-    explicit BFGS(const shared_ptr<Domain>&, const shared_ptr<Convergence>& = nullptr);
+    explicit BFGS(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
+    explicit BFGS(const shared_ptr<Domain>&);
 
     int update_status() override;
 
-    int analyze(const double&) override;
+    int analyze(const unsigned&) override;
 
     void print() override;
 };

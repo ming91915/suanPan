@@ -38,9 +38,9 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
 
     if(command_id == "solver") return create_new_solver(model, command);
 
-    if(command_id == "fix") return create_new_bc(model, command);
+	if (command_id == "fix") return create_new_bc(model, command);
 
-    if(command_id == "cload") return create_new_cload(model, command);
+	if (command_id == "cload") return create_new_cload(model, command);
 
     if(command_id == "disable" || command_id == "mute")
         return disable_object(model, command);
@@ -160,13 +160,15 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    if(step_type == "static") {
-        if(!model->insert(make_shared<Static>(tag, nullptr, nullptr, nullptr, time)))
-            suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(step_type == "dynamic") {
-        if(!model->insert(make_shared<Dynamic>(tag)))
-            suanpan_error("create_new_step() cannot create the new step.\n");
-    } else
+	if (step_type == "static") {
+		if (!model->insert(make_shared<Static>(tag, nullptr, nullptr, nullptr, time)))
+			suanpan_error("create_new_step() cannot create the new step.\n");
+	}
+	else if (step_type == "dynamic") {
+		if (!model->insert(make_shared<Dynamic>(tag)))
+			suanpan_error("create_new_step() cannot create the new step.\n");
+	}
+    else
         suanpan_info("create_new_step() cannot identify step type.\n");
 
     model->set_current_step(tag);
@@ -244,13 +246,15 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    if(_strcmpi(solver_type.c_str(), "Newton") == 0) {
-        if(!model->insert(make_shared<Newton>(tag)))
-            suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else if(_strcmpi(solver_type.c_str(), "BFGS") == 0) {
-        if(!model->insert(make_shared<Newton>(tag)))
-            suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else
+	if (_strcmpi(solver_type.c_str(), "Newton") == 0) {
+		if (!model->insert(make_shared<Newton>(tag)))
+			suanpan_error("create_new_solver() cannot create the new solver.\n");
+	}
+	else if (_strcmpi(solver_type.c_str(), "BFGS") == 0) {
+		if (!model->insert(make_shared<Newton>(tag)))
+			suanpan_error("create_new_solver() cannot create the new solver.\n");
+	}
+    else
         suanpan_error("create_new_solver() cannot identify solver type.\n");
 
     model->get_current_step()->set_solver(model->get_solver(tag));
@@ -260,84 +264,83 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command)
 
 int create_new_bc(const shared_ptr<Bead>& model, istringstream& command)
 {
-    unsigned bc_id;
-    if((command >> bc_id).fail()) {
-        suanpan_info("create_new_bc() needs BC type.\n");
-        return 0;
-    }
+	unsigned bc_id;
+	if ((command >> bc_id).fail()) {
+		suanpan_info("create_new_bc() needs BC type.\n");
+		return 0;
+	}
 
-    string dof_id;
-    if((command >> dof_id).fail()) {
-        suanpan_info("create_new_bc() needs valid DoFs.\n");
-        return 0;
-    }
+	string dof_id;
+	if ((command >> dof_id).fail()) {
+		suanpan_info("create_new_bc() needs valid DoFs.\n");
+		return 0;
+	}
 
-    unsigned node;
-    vector<uword> node_tag;
-    while(!(command >> node).fail()) node_tag.push_back(node);
+	unsigned node;
+	vector<uword> node_tag;
+	while (!(command >> node).fail()) node_tag.push_back(node);
 
-    const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step()->get_tag();
+	const auto& domain = model->get_current_domain();
+	const auto& step_tag = model->get_current_step()->get_tag();
 
-    auto bc_type = tolower(dof_id[0]);
-    if(bc_type == 'p')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "PINNED"));
-    else if(bc_type == 'e')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "ENCASTRE"));
-    else if(bc_type == 'x')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "XSYMM"));
-    else if(bc_type == 'y')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "YSYMM"));
-    else if(bc_type == 'z')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "ZSYMM"));
-    else if(bc_type == '1')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 1));
-    else if(bc_type == '2')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 2));
-    else if(bc_type == '3')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 3));
-    else if(bc_type == '4')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 4));
-    else if(bc_type == '5')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 5));
-    else if(bc_type == '6')
-        domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 6));
+	auto bc_type = tolower(dof_id[0]);
+	if (bc_type == 'p')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "PINNED"));
+	else if (bc_type == 'e')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "ENCASTRE"));
+	else if (bc_type == 'x')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "XSYMM"));
+	else if (bc_type == 'y')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "YSYMM"));
+	else if (bc_type == 'z')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "ZSYMM"));
+	else if (bc_type == '1')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 1));
+	else if (bc_type == '2')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 2));
+	else if (bc_type == '3')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 3));
+	else if (bc_type == '4')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 4));
+	else if (bc_type == '5')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 5));
+	else if (bc_type == '6')
+		domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), 6));
 
-    return 0;
+	return 0;
 }
 
 int create_new_cload(const shared_ptr<Bead>& model, istringstream& command)
 {
-    unsigned load_id;
-    if((command >> load_id).fail()) {
-        suanpan_info("create_new_cload() needs a tag.\n");
-        return 0;
-    }
+	unsigned load_id;
+	if ((command >> load_id).fail()) {
+		suanpan_info("create_new_cload() needs a tag.\n");
+		return 0;
+	}
 
-    double magnitude;
-    if((command >> magnitude).fail()) {
-        suanpan_info("create_new_cload() needs load magnitude.\n");
-        return 0;
-    }
+	double magnitude;
+	if ((command >> magnitude).fail()) {
+		suanpan_info("create_new_cload() needs load magnitude.\n");
+		return 0;
+	}
 
-    unsigned dof_id;
-    if((command >> dof_id).fail()) {
-        suanpan_info("create_new_cload() needs a valid DoF.\n");
-        return 0;
-    }
+	unsigned dof_id;
+	if ((command >> dof_id).fail()) {
+		suanpan_info("create_new_cload() needs a valid DoF.\n");
+		return 0;
+	}
 
-    unsigned node;
-    vector<uword> node_tag;
-    while(!(command >> node).fail()) node_tag.push_back(node);
+	unsigned node;
+	vector<uword> node_tag;
+	while (!(command >> node).fail()) node_tag.push_back(node);
 
-    const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step()->get_tag();
+	const auto& domain = model->get_current_domain();
+	const auto& step_tag = model->get_current_step()->get_tag();
 
-    if(!domain->insert(
-           make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id)))
-        suanpan_error("create_new_cload() fails to create new load.\n");
+	if (!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id)))
+		suanpan_error("create_new_cload() fails to create new load.\n");
 
-    return 0;
+	return 0;
 }
 
 int create_new_node(const shared_ptr<Domain>& domain, istringstream& command)

@@ -1,15 +1,16 @@
 /**
- * @class ODE_Solver
- * @brief A ODE_Solver class.
- *
- * The ODE_Solver object stores ODE system status and calls an ODE object to get trial
- * status.
- *
- * @author T
- * @date 16/07/2017
- * @version 0.1.0
- * @file ODE_Solver.h
- */
+* @class ODE_Solver
+* @brief A ODE_Solver class.
+*
+* The ODE_Solver object stores ODE system status and calls an ODE object to get trial
+* status.
+*
+* @author T
+* @date 16/07/2017
+* @version 0.1.0
+* @file ODE_Solver.h
+* @{
+*/
 
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H
@@ -18,11 +19,14 @@
 
 class ODE;
 class Workroom;
+class Convergence;
 
 class ODE_Solver : public Solver
 {
-    shared_ptr<ODE> ode_system = nullptr;   /**<  */
-    shared_ptr<Workroom> factory = nullptr; /**<  */
+    shared_ptr<ODE> ode_system = nullptr;
+    shared_ptr<Convergence> converger = nullptr;
+    shared_ptr<Workroom> factory = nullptr;
+
 public:
     explicit ODE_Solver(const unsigned& = 0,
         const unsigned& = CT_ODESOLVER,
@@ -31,17 +35,22 @@ public:
         const shared_ptr<Workroom>& = nullptr);
     virtual ~ODE_Solver();
 
-    void initialize() override;
+    int initialize() override;
 
-    int analyze(const double& = 1.) override final;
+    int analyze(const unsigned& = 1.) override final;
 
     int update_status() override = 0;
 
-    void setODE(const shared_ptr<ODE>&);
-    const shared_ptr<ODE>& getODE() const;
+    void set_ode(const shared_ptr<ODE>&);
+    const shared_ptr<ODE>& get_ode() const;
 
-    void setWorkroom(const shared_ptr<Workroom>);
-    const shared_ptr<Workroom>& getWorkroom() const;
+    void set_convergence(const shared_ptr<Convergence>&);
+    const shared_ptr<Convergence>& get_convergence() const;
+
+    void set_workroom(const shared_ptr<Workroom>&);
+    const shared_ptr<Workroom>& get_workroom() const;
 };
 
 #endif
+
+//! @}

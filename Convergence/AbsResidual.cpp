@@ -38,7 +38,7 @@ const bool& AbsResidual::if_converged()
 
         set_conv_flag(get_tolerance() > get_error());
 
-        if(if_print()) suanpan_info("Absolute Residual: %.5E.\n", get_error());
+        if(if_print()) suanpan_info("absolute residual: %.5E.\n", get_error());
     }
 
     return get_conv_flag();

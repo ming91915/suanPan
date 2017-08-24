@@ -5,7 +5,7 @@
  * \brief The complete constructor.
  * \param T `unique_tag`
  * \param CT `class_tag`
- * \param D `domain`
+ * \param D `database`
  * \param E `tolerance`
  * \param P `print_flag`
  */
@@ -15,7 +15,7 @@ Convergence::Convergence(const unsigned& T,
     const double& E,
     const bool& P)
     : Tag(T, CT)
-    , domain(D)
+    , database(D)
     , tolerance(E)
     , print_flag(P)
 {
@@ -25,6 +25,16 @@ Convergence::Convergence(const unsigned& T,
  * \brief The default destructor.
  */
 Convergence::~Convergence() {}
+
+int Convergence::initialize()
+{
+    if(database == nullptr) {
+        suanpan_error("initialize() needs a valid Domain.\n");
+        return -1;
+    }
+
+    return 0;
+}
 
 /**
  * \brief Method to set `tolerance`.
@@ -42,13 +52,13 @@ const double& Convergence::get_tolerance() const { return tolerance; }
 * \brief Method to set `domain`.
 * \param D `domain`
 */
-void Convergence::set_domain(const shared_ptr<Domain>& D) { domain = D; }
+void Convergence::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
 /**
 * \brief Method to return `domain`.
 * \return `domain`
 */
-const shared_ptr<Domain>& Convergence::get_domain() const { return domain; }
+const shared_ptr<Domain>& Convergence::get_domain() const { return database; }
 
 /**
  * \brief Method to set `error`.

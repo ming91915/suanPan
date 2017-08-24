@@ -72,6 +72,11 @@ void Elastic2D::initialize()
 
 unique_ptr<Material> Elastic2D::get_copy() { return make_unique<Elastic2D>(*this); }
 
+int Elastic2D::update_incre_status(const vec& i_strain)
+{
+    return update_trial_status(current_strain + i_strain);
+}
+
 int Elastic2D::update_trial_status(const vec& t_strain)
 {
     trial_strain = t_strain;

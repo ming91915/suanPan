@@ -20,6 +20,8 @@ public:
     }
 
     virtual ~Dynamic() {}
+
+    int analyze() override;
 };
 
 #endif

@@ -17,9 +17,20 @@
 
 class Static : public Step
 {
+    bool fixed_size = false; /**< auto-stepping */
+
+    double ini_step_size = 1; /**< initial step size */
+
+    double min_step_size = 1E-6; /**< minimum step size */
+    double max_step_size = 1;    /**< maximum step size */
+
+    unsigned max_iteration = 7;       /**< maximum iteration per sub-step */
+    unsigned max_increment = 1000000; /**< maximum increment number */
 public:
     explicit Static(const unsigned& = 0,
+        const shared_ptr<Domain>& = nullptr,
         const shared_ptr<Solver>& = nullptr,
+        const shared_ptr<Convergence>& = nullptr,
         const double& = 1.);
 
     int analyze() override;

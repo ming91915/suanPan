@@ -15,26 +15,13 @@
 
 class Newton : public Solver
 {
-    bool fixed_size = false; /**< auto-stepping */
-
-    double ini_step_size = 1; /**< initial step size */
-
-    double min_step_size = 1E-6; /**< minimum step size */
-    double max_step_size = 1;    /**< maximum step size */
-
-    unsigned max_iteration = 7;       /**< maximum iteration per sub-step */
-    unsigned max_increment = 1000000; /**< maximum increment number */
 public:
-    explicit Newton(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr);
-    explicit Newton(const shared_ptr<Domain>&, const shared_ptr<Convergence>& = nullptr);
+    explicit Newton(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
+    explicit Newton(const shared_ptr<Domain>&);
 
     int update_status() override;
 
-    int analyze(const double&) override;
-
-    void setStepSize(const double&, const double& = 0, const double& = 0);
+    int analyze(const unsigned&) override;
 
     void print() override;
 };

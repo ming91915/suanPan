@@ -21,8 +21,8 @@ RK45::~RK45() {}
 
 int RK45::update_status()
 {
-    auto& D = getODE();
-    auto& W = getWorkroom();
+    auto& D = get_ode();
+    auto& W = get_workroom();
 
     S1 = D->eval(W->get_current_time(), W->get_current_displacement());
     S2 = D->eval(W->get_current_time() + .25 * W->get_incre_time(),

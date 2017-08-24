@@ -21,8 +21,8 @@ RK23::~RK23() {}
 
 int RK23::update_status()
 {
-    auto& D = getODE();
-    auto& W = getWorkroom();
+    auto& D = get_ode();
+    auto& W = get_workroom();
 
     auto& c_time = W->get_current_time();
     auto& t_time = W->get_trial_time();

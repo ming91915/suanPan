@@ -47,10 +47,10 @@ void example_ODE()
 {
     DP45 E(make_shared<ODE_INSTANCE>(), make_shared<RelError>());
     E.initialize();
-    auto& D = get_current_displacement(E.getWorkroom());
+    auto& D = get_current_displacement(E.get_workroom());
     D(0) = 1;
     E.analyze(1);
-    E.getWorkroom()->get_trial_displacement().print();
+    E.get_workroom()->get_trial_displacement().print();
 }
 
 void example_Newmark()
@@ -95,16 +95,6 @@ void example_Truss2D()
     D->insert(make_shared<BC>(3, 0, uvec({ 3 }), 2));
     D->insert(make_shared<CLoad>(1, 0, 20000, uvec({ 2 }), 2));
 
-    Newton S(D, make_shared<AbsResidual>(1E-4, true));
-    S.initialize();
-
-    auto INFO = S.analyze(1);
-    if(INFO != 0) cout << INFO << endl;
-
-    // D->disable_bc(3);
-    // S.analyze(.5);
-
-    cout << "\n";
     D->get_node(2)->get_current_displacement().print();
 }
 
@@ -118,10 +108,7 @@ void example_CP3()
     D->insert(make_shared<ElementTemplate>(1, uvec({ 1, 3, 2 }), 1, 1));
     D->insert(make_shared<BC>(1, 0, uvec({ 1, 3 }), "p"));
     D->insert(make_shared<CLoad>(1, 0, 20000, uvec({ 2 }), 2));
-    Newton S(D, make_shared<AbsIncreDisp>(nullptr, 1E-4));
-    S.initialize();
-    S.analyze(1);
-    cout << "\n";
+
     D->get_node(2)->get_current_displacement().print();
 }
 
@@ -150,10 +137,6 @@ void example_GQ12()
     D->insert(make_shared<BC>(3, 0, uvec({ 10 }), 3));
     D->insert(make_shared<CLoad>(1, 0, 20, uvec({ 5, 6 }), 2));
 
-    Newton S(D, make_shared<AbsIncreDisp>(nullptr, 1E-4));
-    S.initialize();
-    S.analyze(1);
-    cout << "\n";
     D->get_node(5)->get_current_displacement().print();
 }
 

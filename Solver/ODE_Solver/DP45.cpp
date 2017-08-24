@@ -21,8 +21,8 @@ DP45::~DP45() {}
 
 int DP45::update_status()
 {
-    auto& D = getODE();
-    auto& W = getWorkroom();
+    auto& D = get_ode();
+    auto& W = get_workroom();
 
     S1 = D->eval(W->get_current_time(), W->get_current_displacement());
     S2 = D->eval(W->get_current_time() + .2 * W->get_incre_time(),

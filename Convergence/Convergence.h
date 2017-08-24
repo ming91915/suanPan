@@ -27,7 +27,7 @@ class Domain;
 
 class Convergence : public Tag
 {
-    shared_ptr<Domain> domain = nullptr; /**< pointer to Domain */
+    shared_ptr<Domain> database = nullptr; /**< pointer to Domain */
 
     double tolerance = 1E-8; /**< tolerance */
 
@@ -43,6 +43,8 @@ public:
         const double& = 1E-8,
         const bool& = false);
     virtual ~Convergence();
+
+    virtual int initialize();
 
     void set_tolerance(const double&);
     const double& get_tolerance() const;

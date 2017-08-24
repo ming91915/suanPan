@@ -101,7 +101,6 @@ void Domain::initialize()
             I->update_dof_encoding();
         }
 
-        //! TODO: FACTORY SHOULD BE INITIALIZED ACCORDING TO THE PROBLEM TYPE.
         if(factory == nullptr)
             factory = make_shared<Workroom>(dof_idx);
         else

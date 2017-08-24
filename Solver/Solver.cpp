@@ -1,63 +1,27 @@
 #include "Solver.h"
-#include <Convergence/Convergence.h>
-#include <Domain/Domain.h>
-#include <Domain/Workroom.h>
 
-Solver::Solver(const unsigned& T,
-    const unsigned& CT,
-    const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C)
+Solver::Solver(const unsigned& T, const unsigned& CT, const shared_ptr<Domain>& D)
     : Tag(T, CT)
     , database(D)
-    , converger(C)
 {
+    suanpan_debug("Solver %u ctor() called.\n", get_tag());
 }
 
-Solver::~Solver() {}
+Solver::~Solver() { suanpan_debug("Solver %u dtor() called.\n", get_tag()); }
 
-void Solver::initialize()
+int Solver::initialize()
 {
-    if(database == nullptr || converger == nullptr) {
-        suanpan_fatal("initialize() needs a valid Domain and Convergence.\n");
-        return;
+    if(database == nullptr) {
+        suanpan_error("initialize() needs a valid Domain.\n");
+        return -1;
     }
 
-    database->initialize();
-
-    auto& tmp_workroom = database->get_workroom();
-
-    tmp_workroom->set_analysis_type(SUANPAN_STATICS);
-
-    if(band_mat)
-        tmp_workroom->enable_band();
-    else
-        tmp_workroom->disable_band();
-
-    if(symm_mat)
-        tmp_workroom->enable_symm();
-    else
-        tmp_workroom->disable_symm();
-
-    tmp_workroom->initialize();
-
-    converger->set_domain(database);
+    return 0;
 }
 
 void Solver::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
 const shared_ptr<Domain>& Solver::get_domain() const { return database; }
-
-void Solver::set_convergence(const shared_ptr<Convergence>& C) { converger = C; }
-
-const shared_ptr<Convergence>& Solver::get_convergence() const { return converger; }
-
-void Solver::enable_band() { band_mat = true; }
-
-void Solver::disable_band() { band_mat = false; }
-
-void Solver::enable_symm() { symm_mat = true; }
-
-void Solver::disable_symm() { symm_mat = false; }
 
 int ge_solve(vec& X, mat& A, const vec& B)
 {

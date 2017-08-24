@@ -4,27 +4,23 @@
 
 Newmark::Newmark(const unsigned& T,
     const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C,
     const double& A,
     const double& B)
-    : Solver(T, CT_NEWMARK, D, C)
+    : Solver(T, CT_NEWMARK, D)
     , alpha(A)
     , beta(B)
 {
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        throw invalid_argument("Newmark() parameters are not acceptable.\n");
+        suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
-Newmark::Newmark(const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C,
-    const double& A,
-    const double& B)
-    : Solver(0, CT_NEWMARK, D, C)
+Newmark::Newmark(const shared_ptr<Domain>& D, const double& A, const double& B)
+    : Solver(0, CT_NEWMARK, D)
     , alpha(A)
     , beta(B)
 {
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        throw invalid_argument("Newmark() parameters are not acceptable.\n");
+        suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
 Newmark::~Newmark() {}
@@ -34,7 +30,7 @@ int Newmark::update_status()
     auto& W = get_domain()->get_workroom();
 
     if(W->is_band()) {
-        printf("Newmark::update_status() currently does not suppoort band matrix.\n");
+        suanpan_error("update_status() currently does not suppoort band matrix.\n");
         return -1;
     }
 
@@ -78,4 +74,4 @@ int Newmark::update_status()
 
 void Newmark::print() { printf("A Newmark solver.\n"); }
 
-int Newmark::analyze(const double&) { return 0; }
+int Newmark::analyze(const unsigned&) { return -1; }

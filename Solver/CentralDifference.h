@@ -33,15 +33,12 @@ class CentralDifference : public Solver
     double C0 = 0., C1 = 0., C2 = 0., C3 = 0.;
 
 public:
-    explicit CentralDifference(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr);
-    explicit CentralDifference(const shared_ptr<Domain>&,
-        const shared_ptr<Convergence>& = nullptr);
+    explicit CentralDifference(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
+    explicit CentralDifference(const shared_ptr<Domain>&);
 
     int update_status() override;
 
-    int analyze(const double&) override;
+    int analyze(const unsigned&) override;
 };
 
 #endif

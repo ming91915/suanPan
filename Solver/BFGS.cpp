@@ -1,37 +1,38 @@
 #include "BFGS.h"
+#include "Convergence/AbsResidual.h"
 #include <Convergence/Convergence.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 
-BFGS::BFGS(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C)
-    : Solver(T, CT_BFGS, D, C)
+BFGS::BFGS(const unsigned& T, const shared_ptr<Domain>& D)
+    : Solver(T, CT_BFGS, D)
 {
 }
 
-BFGS::BFGS(const shared_ptr<Domain>& D, const shared_ptr<Convergence>& C)
-    : Solver(0, CT_BFGS, D, C)
+BFGS::BFGS(const shared_ptr<Domain>& D)
+    : Solver(0, CT_BFGS, D)
 {
 }
 
 int BFGS::update_status() { return 0; }
 
-int BFGS::analyze(const double& T)
+int BFGS::analyze(const unsigned& T)
 {
     auto& D = get_domain();
     auto& W = D->get_workroom();
-    auto& C = get_convergence();
+    auto C = make_shared<AbsResidual>();
 
-    if(W->is_band())
-        suanpan_fatal("BFGS::analyze() currently does not suppoort band matrix.\n");
+    if(W->is_band() || W->is_symm()) {
+        suanpan_fatal("analyze() currently does not suppoort band matrix.\n");
+        return -1;
+    }
 
-    auto time_left = T;
+    auto& tmp_size = W->get_dof_number();
+    if(const_eye.is_empty() || const_eye.n_cols != tmp_size)
+        const_eye = eye(tmp_size, tmp_size);
+
+    auto time_left = 1.;
     auto step = time_left / 1.;
-
-    auto tmp_size = W->get_dof_number();
-
-    auto tmp_eye = eye(tmp_size, tmp_size);
 
     auto& tmp_ninja = get_ninja(W);
 
@@ -48,14 +49,14 @@ int BFGS::analyze(const double& T)
 
         if(!inv(inv_stiffness, W->get_stiffness())) return -1;
 
-        if(!solve(tmp_ninja, W->get_stiffness(), tmp_residual)) return -1;
+        tmp_ninja = inv_stiffness * tmp_residual;
 
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         D->update_trial_status();
 
         while(!C->if_converged()) {
             auto factor = dot(tmp_residual, tmp_ninja);
-            mat tmp_a = tmp_eye - tmp_ninja * tmp_residual.t() / factor;
+            mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
             D->update_resistance();

@@ -21,8 +21,8 @@ BS23::~BS23() {}
 
 int BS23::update_status()
 {
-    auto& D = getODE();
-    auto& W = getWorkroom();
+    auto& D = get_ode();
+    auto& W = get_workroom();
 
     if(D == nullptr || W == nullptr) return -1;
 

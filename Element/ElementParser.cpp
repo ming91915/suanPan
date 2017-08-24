@@ -73,7 +73,7 @@ void new_cp4_(unique_ptr<Element>& return_obj, istringstream& command)
         if((command >> reduced_scheme).fail())
             suanpan_debug("new_cp4_() needs a valid reduced integration switch (0,1).\n");
     } else
-        suanpan_debug("new_cp4_() assumes a standard integration scheme (2*2).\n");
+        suanpan_debug("new_cp4_() assumes standard integration scheme (2*2).\n");
 
     unsigned nonlinear = 0;
     if(!command.eof()) {

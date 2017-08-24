@@ -2,16 +2,13 @@
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 
-CentralDifference::CentralDifference(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C)
-    : Solver(T, CT_CENTRALDIFFERENCE, D, C)
+CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<Domain>& D)
+    : Solver(T, CT_CENTRALDIFFERENCE, D)
 {
 }
 
-CentralDifference::CentralDifference(const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C)
-    : Solver(0, CT_CENTRALDIFFERENCE, D, C)
+CentralDifference::CentralDifference(const shared_ptr<Domain>& D)
+    : Solver(0, CT_CENTRALDIFFERENCE, D)
 {
 }
 
@@ -38,7 +35,7 @@ int CentralDifference::update_status()
            solve_opts::fast + solve_opts::no_approx))
         return -1;
 
-    //! TODO: Send Trial Displacement to NR Solver to Get Converged Displacement.
+    //! TODO: SEND TRIAL DISPLACEMENT TO NR SOLVER TO GET CONVERGED DISPLACEMENT.
 
     W->update_current_velocity(
         C1 * (W->get_trial_displacement() - W->get_pre_displacement()));
@@ -50,13 +47,13 @@ int CentralDifference::update_status()
     return 0;
 }
 
-int CentralDifference::analyze(const double& T)
+int CentralDifference::analyze(const unsigned& T)
 {
     auto& D = get_domain();
     auto& W = D->get_workroom();
 
     if(W->is_band()) {
-        printf("CentralDifference::analyze() currently does not suppoort band matrix.\n");
+        suanpan_error("analyze() currently does not suppoort band matrix.\n");
         return -1;
     }
 
