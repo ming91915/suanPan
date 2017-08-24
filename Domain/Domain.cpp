@@ -4,9 +4,9 @@
 #include <Constraint/BC/BC.h>
 #include <Element/Element.h>
 #include <Load/Load.h>
-#include <Toolbox/RCM.h>
 #include <Material/Material.h>
 #include <Recorder/Recorder.h>
+#include <Toolbox/RCM.h>
 
 Domain::Domain(const unsigned& T)
     : Tag(T, CT_DOMAIN)
@@ -37,13 +37,25 @@ void Domain::initialize()
             I.second->set_original_dof(dof_idx);
         }
 
-        tmp_node_pool.clear();
-        for(const auto& I : node_pool)
-            if(I.second->is_active()) tmp_node_pool.push_back(I.second);
+        // PUSH IN ALL VALID ACTIVE CONSTRAINTS
+        tmp_constraint_pool.clear();
+        for(const auto& I : constraint_pool)
+            if(I.second->is_active()) tmp_constraint_pool.push_back(I.second);
 
+        // PUSH IN ALL VALID ACTIVE ELEMENTS
         tmp_element_pool.clear();
         for(const auto& I : element_pool)
             if(I.second->is_active()) tmp_element_pool.push_back(I.second);
+
+        // PUSH IN ALL VALID ACTIVE LOADS
+        tmp_load_pool.clear();
+        for(const auto& I : load_pool)
+            if(I.second->is_active()) tmp_load_pool.push_back(I.second);
+
+        // PUSH IN ALL VALID ACTIVE NODES
+        tmp_node_pool.clear();
+        for(const auto& I : node_pool)
+            if(I.second->is_active()) tmp_node_pool.push_back(I.second);
 
         // RCM OPTIMIZATION
         vector<unordered_set<uword>> adjacency(dof_idx);
@@ -107,12 +119,16 @@ void Domain::process(const unsigned& ST)
 
     get_trial_load(factory).zeros();
 
-    for(const auto& I : load_pool)
-        if(I.second->get_step_tag() <= ST && I.second->is_active())
-            I.second->process(shared_from_this());
-    for(const auto& I : constraint_pool)
-        if(I.second->get_step_tag() <= ST && I.second->is_active())
-            I.second->process(shared_from_this());
+    for(const auto& I : tmp_load_pool)
+        if(I->get_step_tag() <= ST) I->process(shared_from_this());
+    for(const auto& I : tmp_constraint_pool)
+        if(I->get_step_tag() <= ST) I->process(shared_from_this());
+}
+
+void Domain::record()
+{
+    for(const auto& I : recorder_pool)
+        if(I.second->is_active()) I.second->record(shared_from_this());
 }
 
 void Domain::set_workroom(const shared_ptr<Workroom>& W) { factory = W; }
@@ -294,6 +310,71 @@ void Domain::disable_recorder(const unsigned& T)
         suanpan_debug("disable_recorder() cannot find Recorder %u.\n", T);
 }
 
+void Domain::enable_all()
+{
+    for(const auto& I : disabled_constraint) constraint_pool[I]->enable();
+    for(const auto& I : disabled_element) element_pool[I]->enable();
+    for(const auto& I : disabled_load) load_pool[I]->enable();
+    for(const auto& I : disabled_material) material_pool[I]->enable();
+    for(const auto& I : disabled_node) node_pool[I]->enable();
+    for(const auto& I : disabled_recorder) recorder_pool[I]->enable();
+
+    disabled_constraint.clear();
+    disabled_element.clear();
+    disabled_load.clear();
+    disabled_material.clear();
+    disabled_node.clear();
+    disabled_recorder.clear();
+}
+
+void Domain::enable_constraint(const unsigned& T)
+{
+    if(disabled_constraint.erase(T) == 1) {
+        constraint_pool[T]->enable();
+        suanpan_info("enable_constraint() enables Element %u.\n", T);
+    }
+}
+
+void Domain::enable_element(const unsigned& T)
+{
+    if(disabled_element.erase(T) == 1) {
+        element_pool[T]->enable();
+        suanpan_info("enable_element() enables Constraint %u.\n", T);
+    }
+}
+
+void Domain::enable_load(const unsigned& T)
+{
+    if(disabled_load.erase(T) == 1) {
+        load_pool[T]->enable();
+        suanpan_info("enable_load() enables Load %u.\n", T);
+    }
+}
+
+void Domain::enable_material(const unsigned& T)
+{
+    if(disabled_material.erase(T) == 1) {
+        material_pool[T]->enable();
+        suanpan_info("enable_material() enables Material %u.\n", T);
+    }
+}
+
+void Domain::enable_node(const unsigned& T)
+{
+    if(disabled_node.erase(T) == 1) {
+        node_pool[T]->enable();
+        suanpan_info("enable_node() enables Node %u.\n", T);
+    }
+}
+
+void Domain::enable_recorder(const unsigned& T)
+{
+    if(disabled_recorder.erase(T) == 1) {
+        recorder_pool[T]->enable();
+        suanpan_info("enable_recorder() enables Recorder %u.\n", T);
+    }
+}
+
 const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const
 {
     return constraint_pool.at(T);
@@ -469,33 +550,20 @@ void Domain::commit_status()
 
 void Domain::clear_status()
 {
-    updated = false;
-
     factory->clear_status();
-
-    disabled_constraint.clear();
-    disabled_element.clear();
-    disabled_load.clear();
-    disabled_material.clear();
-    disabled_node.clear();
-    disabled_recorder.clear();
-
-    loaded_dofs.clear();
-    restrained_dofs.clear();
-    constrained_dofs.clear();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
     for(auto I = 0; I < tmp_node_pool.size(); ++I) tmp_node_pool.at(I)->clear_status();
 #pragma omp parallel for
     for(auto I = 0; I < tmp_element_pool.size(); ++I) {
-        tmp_element_pool.at(I)->reset_status();
+        tmp_element_pool.at(I)->clear_status();
         tmp_element_pool.at(I)->update_status();
     }
 #else
     for(const auto& I : tmp_node_pool) I->clear_status();
     for(const auto& I : tmp_element_pool) {
-        I->reset_status();
+        I->clear_status();
         I->update_status();
     }
 #endif
@@ -558,12 +626,6 @@ void Domain::summary() const
         get_tag(), get_node(), get_element(), get_material());
     suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(),
         get_constraint(), get_recorder());
-}
-
-void Domain::record()
-{
-    for(const auto& I : recorder_pool)
-        if(I.second->is_active()) I.second->record(shared_from_this());
 }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T)

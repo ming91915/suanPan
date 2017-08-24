@@ -42,7 +42,9 @@ class Domain : public Tag, public enable_shared_from_this<Domain>
     unordered_map<unsigned, shared_ptr<Node>> node_pool;             /**< data storage */
     unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;
 
+    vector<shared_ptr<Constraint>> tmp_constraint_pool;
     vector<shared_ptr<Element>> tmp_element_pool;
+    vector<shared_ptr<Load>> tmp_load_pool;
     vector<shared_ptr<Node>> tmp_node_pool;
 
     unordered_set<unsigned> disabled_constraint; /**< data storage */
@@ -64,6 +66,8 @@ public:
     void initialize();
 
     void process(const unsigned& = 0);
+
+    void record();
 
     void set_workroom(const shared_ptr<Workroom>&);
     const shared_ptr<Workroom>& get_workroom() const;
@@ -88,6 +92,15 @@ public:
     void disable_material(const unsigned&);
     void disable_node(const unsigned&);
     void disable_recorder(const unsigned&);
+
+    void enable_all();
+
+    void enable_constraint(const unsigned&);
+    void enable_element(const unsigned&);
+    void enable_load(const unsigned&);
+    void enable_material(const unsigned&);
+    void enable_node(const unsigned&);
+    void enable_recorder(const unsigned&);
 
     const shared_ptr<Constraint>& get_constraint(const unsigned&) const;
     const shared_ptr<Element>& get_element(const unsigned&) const;
@@ -131,8 +144,6 @@ public:
     const unordered_set<unsigned>& get_loaded_dof() const;
     const unordered_set<unsigned>& get_restrained_dof() const;
     const unordered_set<unsigned>& get_constrained_dof() const;
-
-    void record();
 
     void summary() const;
 };
