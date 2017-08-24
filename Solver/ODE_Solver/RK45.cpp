@@ -54,4 +54,4 @@ int RK45::update_status()
     return 0;
 }
 
-void RK45::print() { printf("A Runge--Kutta--Fehlberg 4/5 Solver Object.\n"); }
+void RK45::print() { suanpan_info("A Runge--Kutta--Fehlberg 4/5 Solver Object.\n"); }

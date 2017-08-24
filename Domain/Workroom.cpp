@@ -43,43 +43,47 @@ void Workroom::set_error(const double& E) { error = E; }
 
 const double& Workroom::get_error() const { return error; }
 
-void Workroom::initialize(const unsigned& S)
-{
-    auto D = S == 0 ? number_dof : S;
+const bool& Workroom::is_initialized() const { return initialized; }
 
-    if(D != 0) {
-        ninja.zeros(D);
+int Workroom::initialize()
+{
+    if(!initialized) initialized = true;
+
+    if(number_dof != 0) {
+        ninja.zeros(number_dof);
         switch(analysis_type) {
         case SUANPAN_DISP:
-            initialize_displacement(D);
+            initialize_displacement(number_dof);
             break;
         case SUANPAN_BUCKLE:
-            initialize_eigen(D);
-            initialize_mass(D);
-            initialize_stiffness(D);
+            initialize_eigen(number_dof);
+            initialize_mass(number_dof);
+            initialize_stiffness(number_dof);
             break;
         case SUANPAN_STATICS:
-            initialize_load(D);
-            initialize_resistance(D);
-            initialize_displacement(D);
-            initialize_mass(D);
-            initialize_stiffness(D);
+            initialize_load(number_dof);
+            initialize_resistance(number_dof);
+            initialize_displacement(number_dof);
+            initialize_mass(number_dof);
+            initialize_stiffness(number_dof);
             break;
         case SUANPAN_DYNAMICS:
-            initialize_load(D);
-            initialize_resistance(D);
-            initialize_displacement(D);
-            initialize_velocity(D);
-            initialize_acceleration(D);
-            initialize_mass(D);
-            initialize_damping(D);
-            initialize_stiffness(D);
+            initialize_load(number_dof);
+            initialize_resistance(number_dof);
+            initialize_displacement(number_dof);
+            initialize_velocity(number_dof);
+            initialize_acceleration(number_dof);
+            initialize_mass(number_dof);
+            initialize_damping(number_dof);
+            initialize_stiffness(number_dof);
             break;
         case SUANPAN_NONE:
         default:
             break;
         }
     }
+
+    return 0;
 }
 
 void Workroom::initialize_load(const unsigned& D)

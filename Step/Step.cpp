@@ -1,5 +1,4 @@
 #include "Step.h"
-#include <Convergence/Convergence.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 #include <Solver/Solver.h>
@@ -20,8 +19,12 @@ Step::Step(const unsigned& T,
     enable_symm();
 }
 
+const bool& Step::is_initialized() const { return initialized; }
+
 int Step::initialize()
 {
+    if(!initialized) initialized = true;
+
     if(factory == nullptr) factory = make_shared<Workroom>();
 
     if(database == nullptr) {
@@ -35,34 +38,35 @@ int Step::initialize()
     }
 
     if(converger == nullptr) {
-        suanpan_error("initialize() needs a valid Converger.\n");
+        suanpan_error("initialize() needs a valid Convergence.\n");
         return -1;
     }
 
+    auto code = 0;
+
     database->set_workroom(factory);
-    database->initialize();
+    if(!database->is_initialized()) code += database->initialize();
 
     factory->set_analysis_type(SUANPAN_STATICS);
 
-    if(band_mat)
-        factory->enable_band();
-    else
-        factory->disable_band();
-
-    if(symm_mat)
+    if(is_symm())
         factory->enable_symm();
     else
         factory->disable_symm();
 
-    factory->initialize();
+    if(is_band())
+        factory->enable_band();
+    else
+        factory->disable_band();
+
+    if(!factory->is_initialized()) code += factory->initialize();
 
     solver->set_domain(database);
-    solver->initialize();
+    solver->set_convergence(converger);
 
-    converger->set_domain(database);
-    converger->initialize();
+    if(!solver->is_initialized()) code += solver->initialize();
 
-    return 0;
+    return code;
 }
 
 int Step::analyze() { return -1; }
@@ -86,6 +90,10 @@ const shared_ptr<Convergence>& Step::get_convergence() const { return converger;
 void Step::set_time_perid(const double& T) { time_period = T; }
 
 const double& Step::get_time_period() const { return time_period; }
+
+const bool& Step::is_symm() const { return symm_mat; }
+
+const bool& Step::is_band() const { return band_mat; }
 
 void Step::enable_band() { band_mat = true; }
 

@@ -18,8 +18,12 @@ Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", get_tag()); }
 
 const bool& Domain::is_updated() const { return updated; }
 
-void Domain::initialize()
+const bool& Domain::is_initialized() const { return initialized; }
+
+int Domain::initialize()
 {
+    if(!initialized) initialized = true;
+
     if(!is_updated()) {
         updated = true;
 
@@ -108,6 +112,8 @@ void Domain::initialize()
 
         factory->set_bandwidth(L, -U);
     }
+
+    return 0;
 }
 
 void Domain::process(const unsigned& ST)

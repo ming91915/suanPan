@@ -21,12 +21,14 @@ using std::vector;
 
 int process_command(const shared_ptr<Bead>& model, istringstream& command)
 {
+    if(model == nullptr) return 0;
+
     string command_id;
     if((command >> command_id).fail()) return 0;
 
-    if(command_id == "exit" || command_id == "quit") return SUANPAN_EXIT;
+    if(command_id == "exit") return SUANPAN_EXIT;
 
-    if(model == nullptr) return 0;
+    if(command_id == "quit") return SUANPAN_EXIT;
 
     if(command_id == "file") return process_file(model, command);
 
@@ -42,13 +44,17 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
 
     if(command_id == "cload") return create_new_cload(model, command);
 
-    if(command_id == "disable" || command_id == "mute")
-        return disable_object(model, command);
+    if(command_id == "disable") return disable_object(model, command);
 
-    if(command_id == "erase" || command_id == "delete" || command_id == "remove")
-        return erase_object(model, command);
+    if(command_id == "mute") return disable_object(model, command);
 
-    auto& domain = get_current_domain(model);
+    if(command_id == "erase") return erase_object(model, command);
+
+    if(command_id == "delete") return erase_object(model, command);
+
+    if(command_id == "remove") return erase_object(model, command);
+
+    const auto& domain = get_current_domain(model);
     if(domain == nullptr) return 0;
 
     if(command_id == "node") return create_new_node(domain, command);
@@ -71,12 +77,12 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    if(command_id == "print") return print_info(domain, command);
+    if(command_id == "peek") return print_info(domain, command);
 
     if(command_id == "version")
         print_version();
     else if(command_id == "help")
-        print_helper();
+        print_command_usage(command);
 
     return 0;
 }
@@ -136,12 +142,6 @@ int create_new_domain(const shared_ptr<Bead>& model, istringstream& command)
 
 int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
 {
-    const auto& tmp_domain = get_current_domain(model);
-    if(tmp_domain == nullptr) {
-        suanpan_info("create_new_step() needs a valid domain.\n");
-        return 0;
-    }
-
     string step_type;
     if((command >> step_type).fail()) {
         suanpan_info("create_new_step() requires step type.\n");
@@ -171,7 +171,7 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
 
     model->set_current_step(tag);
 
-    model->get_current_step()->set_domain(tmp_domain);
+    model->get_current_step()->set_domain(model->get_current_domain());
 
     return 0;
 }
@@ -202,6 +202,12 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
+    auto max_iteration = 7;
+    if(!command.eof() && (command >> max_iteration).fail()) {
+        suanpan_info("create_new_converger() reads wrong max iteration.\n");
+        return 0;
+    }
+
     auto print_flag = 0;
     if(!command.eof() && (command >> print_flag).fail()) {
         suanpan_info("create_new_converger() reads wrong print flag.\n");
@@ -209,17 +215,17 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     if(_strcmpi(converger_id.c_str(), "AbsResidual") == 0) {
-        if(!model->insert(
-               make_shared<AbsResidual>(tag, nullptr, tolerance, !!print_flag)))
+        if(!model->insert(make_shared<AbsResidual>(
+               tag, nullptr, tolerance, max_iteration, !!print_flag)))
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(_strcmpi(converger_id.c_str(), "AbsIncreDisp") == 0) {
-        if(!model->insert(
-               make_shared<AbsIncreDisp>(tag, nullptr, tolerance, !!print_flag)))
+        if(!model->insert(make_shared<AbsIncreDisp>(
+               tag, nullptr, tolerance, max_iteration, !!print_flag)))
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else
         suanpan_info("create_new_converger() cannot identify the converger type.\n");
 
-    model->get_current_step()->set_convergence(model->get_convergence(tag));
+    tmp_step->set_convergence(model->get_convergence(tag));
 
     return 0;
 }
@@ -253,7 +259,7 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command)
     } else
         suanpan_error("create_new_solver() cannot identify solver type.\n");
 
-    model->get_current_step()->set_solver(model->get_solver(tag));
+    tmp_step->set_solver(model->get_solver(tag));
 
     return 0;
 }
@@ -559,4 +565,24 @@ int erase_object(const shared_ptr<Bead>& model, istringstream& command)
         while(!(command >> tag).fail()) domain->erase_recorder(tag);
 
     return 0;
+}
+
+void print_command_usage(istringstream& command)
+{
+    string command_id;
+    command >> command_id;
+
+    if(_strcmpi(command_id.c_str(), "converger") == 0) {
+        suanpan_info("\nconverger $type $tag $tolerance [$max_iteration] [$if_print]\n");
+        suanpan_info("\t$type --- converger type\n");
+        suanpan_info("\t$tag --- converger tag\n");
+        suanpan_info("\t$tolerance --- tolerance -> 1E-8\n");
+        suanpan_info("\t$max_iteration --- maximum iteration number -> 7\n");
+        suanpan_info("\t$if_print --- print error in each iteration -> false\n\n");
+    } else if(_strcmpi(command_id.c_str(), "step") == 0) {
+        suanpan_info("\nstep $type $tag [$time_period]\n");
+        suanpan_info("\t$type --- step type\n");
+        suanpan_info("\t$tag --- step tag\n");
+        suanpan_info("\t$time_period --- step time period -> 1.0\n\n");
+    }
 }

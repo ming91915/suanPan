@@ -24,8 +24,6 @@ int BS23::update_status()
     auto& D = get_ode();
     auto& W = get_workroom();
 
-    if(D == nullptr || W == nullptr) return -1;
-
     auto& c_time = W->get_current_time();
     auto& t_time = W->get_trial_time();
     auto& i_time = W->get_incre_time();
@@ -44,4 +42,4 @@ int BS23::update_status()
     return 0;
 }
 
-void BS23::print() { printf("A Bogacki--Shampine 2/3 Pair Solver object.\n"); }
+void BS23::print() { suanpan_info("A Bogacki--Shampine 2/3 Pair Solver object.\n"); }

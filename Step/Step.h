@@ -1,11 +1,11 @@
 /**
- * @class Step
- * @brief A Step class.
- * @author T
- * @date 25/08/2017
- * @version 0.2.0
- * @file Step.h
- */
+* @class Step
+* @brief A Step class.
+* @author T
+* @date 25/08/2017
+* @version 0.2.0
+* @file Step.h
+*/
 
 #ifndef STEP_H
 #define STEP_H
@@ -19,8 +19,10 @@ class Convergence;
 
 class Step : public Tag
 {
-    bool band_mat = false;
+    bool initialized = false;
+
     bool symm_mat = false;
+    bool band_mat = false;
 
     double time_period = 1.0; /**< time period */
 
@@ -37,6 +39,8 @@ public:
         const shared_ptr<Convergence>& = nullptr,
         const double& = 1.);
     virtual ~Step() {}
+
+    const bool& is_initialized() const;
 
     virtual int initialize();
 
@@ -57,10 +61,14 @@ public:
     void set_time_perid(const double&);
     const double& get_time_period() const;
 
-    void enable_band();
-    void disable_band();
+    const bool& is_symm() const;
+    const bool& is_band() const;
+
     void enable_symm();
     void disable_symm();
+
+    void enable_band();
+    void disable_band();
 };
 
 #endif

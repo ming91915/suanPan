@@ -19,12 +19,10 @@
 
 class ODE;
 class Workroom;
-class Convergence;
 
 class ODE_Solver : public Solver
 {
     shared_ptr<ODE> ode_system = nullptr;
-    shared_ptr<Convergence> converger = nullptr;
     shared_ptr<Workroom> factory = nullptr;
 
 public:
@@ -43,9 +41,6 @@ public:
 
     void set_ode(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& get_ode() const;
-
-    void set_convergence(const shared_ptr<Convergence>&);
-    const shared_ptr<Convergence>& get_convergence() const;
 
     void set_workroom(const shared_ptr<Workroom>&);
     const shared_ptr<Workroom>& get_workroom() const;

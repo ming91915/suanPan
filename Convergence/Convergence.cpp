@@ -28,14 +28,22 @@ Convergence::Convergence(const unsigned& T,
  */
 Convergence::~Convergence() {}
 
+const bool& Convergence::is_initialized() const { return initialized; }
+
 int Convergence::initialize()
 {
+    if(!initialized) initialized = true;
+
     if(database == nullptr) {
         suanpan_error("initialize() needs a valid Domain.\n");
         return -1;
     }
 
-    return 0;
+    auto code = 0;
+
+    if(!database->is_initialized()) code += database->initialize();
+
+    return code;
 }
 
 /**

@@ -32,6 +32,7 @@ using std::enable_shared_from_this;
 class Domain : public Tag, public enable_shared_from_this<Domain>
 {
     bool updated = false;
+    bool initialized = false;
 
     shared_ptr<Workroom> factory; /**< working room */
 
@@ -62,8 +63,9 @@ public:
     ~Domain();
 
     const bool& is_updated() const;
+    const bool& is_initialized() const;
 
-    void initialize();
+    int initialize();
 
     void process(const unsigned& = 0);
 

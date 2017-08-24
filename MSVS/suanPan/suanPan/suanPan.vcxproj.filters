@@ -195,6 +195,9 @@
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -381,6 +384,9 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\RCM.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

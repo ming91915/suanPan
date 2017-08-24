@@ -24,7 +24,6 @@ class Static : public Step
     double min_step_size = 1E-6; /**< minimum step size */
     double max_step_size = 1;    /**< maximum step size */
 
-    unsigned max_iteration = 7;       /**< maximum iteration per sub-step */
     unsigned max_increment = 1000000; /**< maximum increment number */
 public:
     explicit Static(const unsigned& = 0,

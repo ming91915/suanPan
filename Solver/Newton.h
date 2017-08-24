@@ -16,8 +16,10 @@
 class Newton : public Solver
 {
 public:
-    explicit Newton(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
-    explicit Newton(const shared_ptr<Domain>&);
+    explicit Newton(const unsigned& = 0,
+        const shared_ptr<Domain>& = nullptr,
+        const shared_ptr<Convergence>& = nullptr);
+    explicit Newton(const shared_ptr<Domain>&, const shared_ptr<Convergence>& = nullptr);
 
     int update_status() override;
 

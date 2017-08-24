@@ -11,7 +11,7 @@
 * printed out.
 *
 * @author T
-* @date 08/08/2017
+* @date 25/08/2017
 * @version 0.2.1
 * @file Convergence.h
 * @addtogroup Convergence
@@ -27,17 +27,20 @@ class Domain;
 
 class Convergence : public Tag
 {
-    shared_ptr<Domain> database = nullptr; /**< pointer to Domain */
+    shared_ptr<Domain> database; /**< pointer to Domain */
 
     double tolerance; /**< tolerance */
 
-    unsigned max_iteration;
+    unsigned max_iteration; /**< max iteration number */
 
-    bool print_flag = false; /**< print flag */
+    bool print_flag; /**< print flag */
 
     double error = 0.; /**< current error */
 
     bool conv_flag = false; /**< convergence flag */
+
+    bool initialized = false;
+
 public:
     explicit Convergence(const unsigned& = 0,
         const unsigned& = CT_CONVERGENCE,
@@ -46,6 +49,8 @@ public:
         const unsigned& = 7,
         const bool& = false);
     virtual ~Convergence();
+
+    const bool& is_initialized() const;
 
     virtual int initialize();
 

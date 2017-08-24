@@ -44,14 +44,16 @@ class Workroom final
 {
     // friend class Solver;
 
+    bool initialized = false;
+
+    bool symm_mat = false; /**< symmetric matrix storage */
+    bool band_mat = false; /**< banded matrix storage */
+
     unsigned number_dof = 0;    /**< number of DoFs */
     unsigned analysis_type = 0; /**< type of analysis */
     unsigned low_bandwidth = 0; /**< low bandwidth */
     unsigned up_bandwidth = 0;  /**< up bandwidth */
     unsigned shifted_bandwidth = 0;
-
-    bool symm_mat = false; /**< symmetric matrix storage */
-    bool band_mat = false; /**< banded matrix storage */
 
     double trial_time = 0.;   /**< global trial (pseudo) time */
     double incre_time = 0.;   /**< global incremental (pseudo) time */
@@ -121,7 +123,9 @@ public:
     void set_error(const double&);
     const double& get_error() const;
 
-    void initialize(const unsigned& = 0);
+    const bool& is_initialized() const;
+
+    int initialize();
 
     void initialize_load(const unsigned&);
     void initialize_resistance(const unsigned&);

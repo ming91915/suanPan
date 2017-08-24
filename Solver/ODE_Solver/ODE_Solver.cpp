@@ -9,7 +9,7 @@ ODE_Solver::ODE_Solver(const unsigned& T,
     const shared_ptr<ODE>& E,
     const shared_ptr<Convergence>& C,
     const shared_ptr<Workroom>& W)
-    : Solver(T, CT, nullptr)
+    : Solver(T, CT, nullptr, C)
     , ode_system(E)
     , factory(W)
 {
@@ -33,10 +33,11 @@ int ODE_Solver::initialize()
 
     factory->initialize_displacement(ode_size);
 
-    auto tmp_domain = make_shared<Domain>();
-    tmp_domain->set_workroom(factory);
-
-    converger->set_domain(tmp_domain);
+    auto& tmp_converger = get_convergence();
+    if(tmp_converger == nullptr) {
+        suanpan_error("initialize() needs a valid Convergence.\n");
+        return -1;
+    }
 
     return 0;
 }
@@ -45,6 +46,8 @@ int ODE_Solver::update_status() { return -1; }
 
 int ODE_Solver::analyze(const unsigned& T)
 {
+    auto& tmp_converger = get_convergence();
+
     auto factor = .2;
 
     switch(get_class_tag()) {
@@ -64,11 +67,12 @@ int ODE_Solver::analyze(const unsigned& T)
     while(time_left > 0.) {
         factory->update_incre_time(step);
         if(update_status() != 0) return -1;
-        if(converger->if_converged()) {
+        if(tmp_converger->if_converged()) {
             factory->commit_status();
             time_left -= step;
         }
-        step *= .8 * pow(converger->get_tolerance() / converger->get_error(), factor);
+        step *=
+            .8 * pow(tmp_converger->get_tolerance() / tmp_converger->get_error(), factor);
         if(step > time_left) step = time_left;
     }
 
@@ -78,10 +82,6 @@ int ODE_Solver::analyze(const unsigned& T)
 void ODE_Solver::set_ode(const shared_ptr<ODE>& E) { ode_system = E; }
 
 const shared_ptr<ODE>& ODE_Solver::get_ode() const { return ode_system; }
-
-void ODE_Solver::set_convergence(const shared_ptr<Convergence>& C) { converger = C; }
-
-const shared_ptr<Convergence>& ODE_Solver::get_convergence() const { return converger; }
 
 void ODE_Solver::set_workroom(const shared_ptr<Workroom>& W) { factory = W; }
 

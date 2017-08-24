@@ -1,20 +1,22 @@
 #include "H5Cpp.h"
-#include <Toolbox/commandParser.h>
 #include <suanPan>
 
 using namespace H5;
 
 void example_symm_mat();
-void example_file();
 
 int main(int argc, char** argv)
 {
+#ifdef SUANPAN_DEBUG
     wall_clock T;
     T.tic();
+#endif
 
     argumentParser(argc, argv);
 
+#ifdef SUANPAN_DEBUG
     cout << T.toc() << "\n";
+#endif
 
     return 0;
 }

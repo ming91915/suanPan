@@ -30,4 +30,6 @@ int create_new_recorder(const shared_ptr<Domain>&, istringstream&);
 
 int print_info(const shared_ptr<Domain>&, istringstream&);
 
+void print_command_usage(istringstream&);
+
 #endif

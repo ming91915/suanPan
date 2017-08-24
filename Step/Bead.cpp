@@ -59,6 +59,16 @@ const shared_ptr<Domain>& Bead::get_current_domain() const
     return domain_pool.at(current_domain);
 }
 
+const shared_ptr<Solver>& Bead::get_current_solver() const
+{
+    return solver_pool.at(current_solver);
+}
+
+const shared_ptr<Convergence>& Bead::get_current_convergence() const
+{
+    return converger_pool.at(current_converger);
+}
+
 const shared_ptr<Step>& Bead::get_current_step() const
 {
     return step_pool.at(current_step);
@@ -150,7 +160,47 @@ void Bead::disable_step(const unsigned& T)
         suanpan_info("disable_step() cannot find Step %u.\n", T);
 }
 
+void Bead::enable_domain(const unsigned& T)
+{
+    if(domain_pool.find(T) != domain_pool.end()) {
+        domain_pool.at(T)->enable();
+        suanpan_debug("enable_domain() enables Domain %u.\n", T);
+    } else
+        suanpan_info("enable_domain() cannot find Domain %u.\n", T);
+}
+
+void Bead::enable_solver(const unsigned& T)
+{
+    if(solver_pool.find(T) != solver_pool.end()) {
+        solver_pool.at(T)->enable();
+        suanpan_debug("enable_solver() enables Solver %u.\n", T);
+    } else
+        suanpan_info("enable_solver() cannot find Solver %u.\n", T);
+}
+
+void Bead::enable_convergence(const unsigned& T)
+{
+    if(converger_pool.find(T) != converger_pool.end()) {
+        converger_pool.at(T)->enable();
+        suanpan_debug("enable_convergence() enables Convergence %u.\n", T);
+    } else
+        suanpan_info("enable_convergence() cannot find Convergence %u.\n", T);
+}
+
+void Bead::enable_step(const unsigned& T)
+{
+    if(step_pool.find(T) != step_pool.end()) {
+        step_pool.at(T)->enable();
+        suanpan_debug("enable_step() enables Step %u.\n", T);
+    } else
+        suanpan_info("enable_step() cannot find Step %u.\n", T);
+}
+
 void Bead::set_current_domain(const unsigned& T) { current_domain = T; }
+
+void Bead::set_current_solver(const unsigned& T) { current_solver = T; }
+
+void Bead::set_current_convergence(const unsigned& T) { current_converger = T; }
 
 void Bead::set_current_step(const unsigned& T) { current_step = T; }
 
@@ -158,10 +208,8 @@ int Bead::analyze()
 {
     auto code = 0;
     for(const auto& I : step_pool)
-        if(I.second->is_active()) {
-            I.second->initialize();
+        if(I.second->is_active() && I.second->initialize() == 0)
             code += I.second->analyze();
-        }
     return code;
 }
 
@@ -188,6 +236,16 @@ shared_ptr<Step>& get_step(const shared_ptr<Bead>& B, const unsigned& T)
 shared_ptr<Domain>& get_current_domain(const shared_ptr<Bead>& B)
 {
     return B->domain_pool[B->current_domain];
+}
+
+shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>& B)
+{
+    return B->solver_pool[B->current_solver];
+}
+
+shared_ptr<Convergence>& get_current_convergence(const shared_ptr<Bead>& B)
+{
+    return B->converger_pool[B->current_converger];
 }
 
 shared_ptr<Step>& get_current_step(const shared_ptr<Bead>& B)

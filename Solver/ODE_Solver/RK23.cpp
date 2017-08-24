@@ -40,4 +40,4 @@ int RK23::update_status()
     return 0;
 }
 
-void RK23::print() { printf("A Runge--Kutta 2/3 Solver Object.\n"); }
+void RK23::print() { suanpan_info("A Runge--Kutta 2/3 Solver Object.\n"); }

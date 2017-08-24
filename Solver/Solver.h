@@ -44,93 +44,25 @@
 #ifndef SOLVER_H
 #define SOLVER_H
 
-namespace suanPan
-{
-// extern "C" void dgesv_(int* N, int* NRHS, double* A, int* LDA, int* IPIV, double* B,
-// int* LDB, int* INFO);
-extern "C" void dgbsv_(int* N,
-    int* KL,
-    int* KU,
-    int* NRHS,
-    double* AB,
-    int* LDAB,
-    int* IPIV,
-    double* B,
-    int* LDB,
-    int* INFO);
-extern "C" void dsysv_(char* UPLO,
-    int* N,
-    int* NRHS,
-    double* A,
-    int* LDA,
-    int* IPIV,
-    double* B,
-    int* LDB,
-    double* WORK,
-    int* LWORK,
-    int* INFO);
-extern "C" void dposv_(char* UPLO,
-    int* N,
-    int* NRHS,
-    double* A,
-    int* LDA,
-    double* B,
-    int* LDB,
-    int* INFO);
-extern "C" void dpbsv_(char* UPLO,
-    int* N,
-    int* KD,
-    int* NRHS,
-    double* AB,
-    int* LDAB,
-    double* B,
-    int* LDB,
-    int* INFO);
-extern "C" void dsygvx_(int* ITYPE,
-    char* JOBZ,
-    char* RANGE,
-    char* UPLO,
-    int* N,
-    double* A,
-    int* LDA,
-    double* B,
-    int* LDB,
-    double* VL,
-    double* VU,
-    int* IL,
-    int* IU,
-    double* ABSTOL,
-    int* M,
-    double* W,
-    double* Z,
-    int* LDZ,
-    double* WORK,
-    int* LWORK,
-    int* IWORK,
-    int* IFAIL,
-    int* INFO);
-extern "C" void dspsv_(char* UPLO,
-    int* N,
-    int* NRHS,
-    double* AP,
-    int* IPIV,
-    double* B,
-    int* LDB,
-    int* INFO);
-}
-
 #include <Domain/Tag.h>
 
 class Domain;
+class Convergence;
 
 class Solver : public Tag
 {
-    shared_ptr<Domain> database = nullptr; /**< domain */
+    bool initialized = false;
+
+    shared_ptr<Domain> database = nullptr;       /**< domain */
+    shared_ptr<Convergence> converger = nullptr; /**< domain */
 public:
     explicit Solver(const unsigned& = 0,
         const unsigned& = CT_SOLVER,
-        const shared_ptr<Domain>& = nullptr);
+        const shared_ptr<Domain>& = nullptr,
+        const shared_ptr<Convergence>& = nullptr);
     virtual ~Solver();
+
+    const bool& is_initialized() const;
 
     virtual int initialize();
 
@@ -140,18 +72,10 @@ public:
 
     void set_domain(const shared_ptr<Domain>&);
     const shared_ptr<Domain>& get_domain() const;
-};
 
-// GENERAL MATRIX
-int ge_solve(vec&, mat&, const vec&);
-// GENERAL BAND MATRIX
-int gb_solve(vec&, mat&, const vec&, const unsigned&, const unsigned&);
-// SYMMETRIC MATRIX
-int sy_solve(vec&, mat&, const vec&);
-// SYMMETRIC POSITIVE DEFINITE MATRIX
-int po_solve(vec&, mat&, const vec&);
-// SYMMETRIC POSITIVE DEFINITE BAND MATRIX
-int pb_solve(vec&, mat&, const vec&);
+    void set_convergence(const shared_ptr<Convergence>&);
+    const shared_ptr<Convergence>& get_convergence() const;
+};
 
 #endif
 

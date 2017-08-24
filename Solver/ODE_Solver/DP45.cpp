@@ -55,4 +55,4 @@ int DP45::update_status()
     return 0;
 }
 
-void DP45::print() { printf("A Dormand--Prince 4/5 Pair Solver object.\n"); }
+void DP45::print() { suanpan_info("A Dormand--Prince 4/5 Pair Solver object.\n"); }
