@@ -19,6 +19,7 @@ template <typename T> class Storage
     unordered_map<unsigned int, shared_ptr<T>> pool; /**< The map stores the pointer. */
 public:
     Storage() {}
+
     ~Storage() { suanpan_debug("Storage dtor() Called.\n"); }
 
     void insert(const shared_ptr<T>&);

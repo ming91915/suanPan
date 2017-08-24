@@ -69,7 +69,7 @@ void example_Newmark()
     Newmark C(W);
     for(auto i = 0; i < 363; ++i) {
         B->update_incre_time(0.01);
-        C.updateStatus();
+        C.update_status();
         B->commit_status();
     }
     cout << B->get_current_time() << endl;

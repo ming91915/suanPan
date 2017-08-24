@@ -19,7 +19,7 @@ BS23::BS23(const shared_ptr<ODE>& D,
 
 BS23::~BS23() {}
 
-int BS23::updateStatus()
+int BS23::update_status()
 {
     auto& D = getODE();
     auto& W = getWorkroom();

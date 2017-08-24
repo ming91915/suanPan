@@ -19,7 +19,7 @@ RK23::RK23(const shared_ptr<ODE>& D,
 
 RK23::~RK23() {}
 
-int RK23::updateStatus()
+int RK23::update_status()
 {
     auto& D = getODE();
     auto& W = getWorkroom();

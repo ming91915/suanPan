@@ -43,13 +43,13 @@ void Solver::initialize()
     converger->set_domain(database);
 }
 
-void Solver::setDomain(const shared_ptr<Domain>& D) { database = D; }
+void Solver::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
-const shared_ptr<Domain>& Solver::getDomain() const { return database; }
+const shared_ptr<Domain>& Solver::get_domain() const { return database; }
 
-void Solver::setConvergence(const shared_ptr<Convergence>& C) { converger = C; }
+void Solver::set_convergence(const shared_ptr<Convergence>& C) { converger = C; }
 
-const shared_ptr<Convergence>& Solver::getConvergence() const { return converger; }
+const shared_ptr<Convergence>& Solver::get_convergence() const { return converger; }
 
 void Solver::enable_band() { band_mat = true; }
 

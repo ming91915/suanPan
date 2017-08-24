@@ -73,7 +73,7 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             printf("NOT YET IMPLEMENTED.\n");
             return;
         }
-        };
+        }
     }
     // LOBATTO INTEGRATION
     else if(intType == 2) {

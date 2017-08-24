@@ -45,7 +45,7 @@ public:
         const double& = .5);
     ~Newmark();
 
-    int updateStatus() override;
+    int update_status() override;
 
     int analyze(const double&) override;
 

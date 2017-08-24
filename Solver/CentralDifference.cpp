@@ -15,9 +15,9 @@ CentralDifference::CentralDifference(const shared_ptr<Domain>& D,
 {
 }
 
-int CentralDifference::updateStatus()
+int CentralDifference::update_status()
 {
-    auto& W = getDomain()->get_workroom();
+    auto& W = get_domain()->get_workroom();
 
     if(DT != W->get_incre_time() || W->get_pre_displacement().is_empty()) {
         DT = W->get_incre_time();
@@ -52,7 +52,7 @@ int CentralDifference::updateStatus()
 
 int CentralDifference::analyze(const double& T)
 {
-    auto& D = getDomain();
+    auto& D = get_domain();
     auto& W = D->get_workroom();
 
     if(W->is_band()) {

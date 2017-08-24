@@ -18,6 +18,7 @@ public:
         : Step(T, CT_FREQUENCE)
     {
     }
+
     virtual ~Frequence() {}
 };
 

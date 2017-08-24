@@ -19,7 +19,7 @@ RK45::RK45(const shared_ptr<ODE>& D,
 
 RK45::~RK45() {}
 
-int RK45::updateStatus()
+int RK45::update_status()
 {
     auto& D = getODE();
     auto& W = getWorkroom();

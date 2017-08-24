@@ -140,15 +140,15 @@ public:
 
     virtual void initialize();
 
-    virtual int updateStatus() = 0;
+    virtual int update_status() = 0;
 
     virtual int analyze(const double&) = 0;
 
-    void setDomain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& getDomain() const;
+    void set_domain(const shared_ptr<Domain>&);
+    const shared_ptr<Domain>& get_domain() const;
 
-    void setConvergence(const shared_ptr<Convergence>&);
-    const shared_ptr<Convergence>& getConvergence() const;
+    void set_convergence(const shared_ptr<Convergence>&);
+    const shared_ptr<Convergence>& get_convergence() const;
 
     void enable_band();
     void disable_band();

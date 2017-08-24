@@ -36,7 +36,7 @@ public:
         const shared_ptr<Workroom>& = nullptr);
     ~BS23();
 
-    int updateStatus() override;
+    int update_status() override;
 
     void print() override;
 };

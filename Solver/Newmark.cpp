@@ -29,9 +29,9 @@ Newmark::Newmark(const shared_ptr<Domain>& D,
 
 Newmark::~Newmark() {}
 
-int Newmark::updateStatus()
+int Newmark::update_status()
 {
-    auto& W = getDomain()->get_workroom();
+    auto& W = get_domain()->get_workroom();
 
     if(W->is_band()) {
         printf("Newmark::update_status() currently does not suppoort band matrix.\n");

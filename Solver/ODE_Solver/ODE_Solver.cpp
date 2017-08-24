@@ -35,13 +35,13 @@ void ODE_Solver::initialize()
     auto tmp_domain = make_shared<Domain>();
     tmp_domain->set_workroom(factory);
 
-    getConvergence()->set_domain(tmp_domain);
+    get_convergence()->set_domain(tmp_domain);
 }
 
 int ODE_Solver::analyze(const double& T)
 {
     auto& W = getWorkroom();
-    auto& C = getConvergence();
+    auto& C = get_convergence();
 
     auto factor = .2;
 
@@ -61,7 +61,7 @@ int ODE_Solver::analyze(const double& T)
 
     while(time_left > 0.) {
         W->update_incre_time(step);
-        if(updateStatus() == -1) return -1;
+        if(update_status() == -1) return -1;
         if(C->if_converged()) {
             W->commit_status();
             time_left -= step;

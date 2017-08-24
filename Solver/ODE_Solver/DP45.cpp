@@ -19,7 +19,7 @@ DP45::DP45(const shared_ptr<ODE>& D,
 
 DP45::~DP45() {}
 
-int DP45::updateStatus()
+int DP45::update_status()
 {
     auto& D = getODE();
     auto& W = getWorkroom();

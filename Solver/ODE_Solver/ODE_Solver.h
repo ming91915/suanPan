@@ -35,7 +35,7 @@ public:
 
     int analyze(const double& = 1.) override final;
 
-    int updateStatus() override = 0;
+    int update_status() override = 0;
 
     void setODE(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& getODE() const;

@@ -35,7 +35,7 @@ public:
         const shared_ptr<Convergence>& = nullptr); // convergence pointer
     explicit BFGS(const shared_ptr<Domain>&, const shared_ptr<Convergence>& = nullptr);
 
-    int updateStatus() override;
+    int update_status() override;
 
     int analyze(const double&) override;
 

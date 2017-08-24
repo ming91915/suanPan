@@ -15,9 +15,9 @@ Newton::Newton(const shared_ptr<Domain>& D, const shared_ptr<Convergence>& C)
 {
 }
 
-int Newton::updateStatus()
+int Newton::update_status()
 {
-    auto& W = getDomain()->get_workroom();
+    auto& W = get_domain()->get_workroom();
 
     if(W->is_symm() && W->is_band())
         return pb_solve(get_ninja(W), get_stiffness(W),
@@ -43,9 +43,9 @@ int Newton::updateStatus()
 
 int Newton::analyze(const double& T)
 {
-    auto& D = getDomain();
+    auto& D = get_domain();
     auto& W = D->get_workroom();
-    auto& C = getConvergence();
+    auto& C = get_convergence();
 
     // FORM INITIAL TAGENT STIFFNESS AND RESISTANCE FOR ELEMENTS
     D->update_trial_status();
@@ -66,7 +66,7 @@ int Newton::analyze(const double& T)
             // PROCESS BC AND LOAD
             D->process();
             // CALL SOLVER
-            auto INFO = updateStatus();
+            auto INFO = update_status();
             if(INFO != 0) {
                 suanpan_error("analyze() recieves error code %u from solver.\n", INFO);
                 return INFO;

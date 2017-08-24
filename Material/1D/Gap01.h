@@ -17,6 +17,7 @@
 #define GAP01_H
 
 #include <Material/Material.h>
+
 class Gap01 : public Material
 {
     const double elastic_modulus;

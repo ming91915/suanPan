@@ -15,13 +15,13 @@ BFGS::BFGS(const shared_ptr<Domain>& D, const shared_ptr<Convergence>& C)
 {
 }
 
-int BFGS::updateStatus() { return 0; }
+int BFGS::update_status() { return 0; }
 
 int BFGS::analyze(const double& T)
 {
-    auto& D = getDomain();
+    auto& D = get_domain();
     auto& W = D->get_workroom();
-    auto& C = getConvergence();
+    auto& C = get_convergence();
 
     if(W->is_band())
         suanpan_fatal("BFGS::analyze() currently does not suppoort band matrix.\n");

@@ -22,6 +22,7 @@ public:
         const unsigned& = CT_STEP,
         const shared_ptr<Solver>& = nullptr,
         const double& = 1.);
+
     virtual ~Step() {}
 
     virtual int analyze();

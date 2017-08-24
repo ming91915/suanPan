@@ -89,20 +89,20 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
 
 int Proto01::update_status()
 {
-    throw std::logic_error("The method or operation is not implemented.");
+    throw logic_error("The method or operation is not implemented.");
 }
 
 int Proto01::commit_status()
 {
-    throw std::logic_error("The method or operation is not implemented.");
+    throw logic_error("The method or operation is not implemented.");
 }
 
 int Proto01::clear_status()
 {
-    throw std::logic_error("The method or operation is not implemented.");
+    throw logic_error("The method or operation is not implemented.");
 }
 
 int Proto01::reset_status()
 {
-    throw std::logic_error("The method or operation is not implemented.");
+    throw logic_error("The method or operation is not implemented.");
 }

@@ -19,6 +19,7 @@ public:
         : Element(T, CT)
     {
     }
+
     virtual ~Section() {}
 
     void print() override;

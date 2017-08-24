@@ -11,10 +11,12 @@
 #define RAMM_H
 
 #include "Solver.h"
+
 class Ramm : public Solver
 {
 public:
     Ramm() {}
+
     ~Ramm() {}
 };
 

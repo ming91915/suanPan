@@ -40,7 +40,7 @@ public:
         const shared_ptr<Workroom>& = nullptr);
     ~DP45();
 
-    int updateStatus() override;
+    int update_status() override;
 
     void print() override;
 };
