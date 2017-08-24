@@ -13,19 +13,19 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
-/MSVS/Release/*
-/MSVS/Debug/*
-/MSVS/Libs/*
-/MSVS/suanPan/suanPan/x64/*
-/MSVS/suanPan/.vs/*
-/MSVS/suanPan/Element/x64/*
-/MSVS/suanPan/Material/x64/*
-/MSVS/suanPan/ElementExample/x64/*
-/MSVS/suanPan/MaterialExample/x64/*
-/Document/*
 /.idea/*
 /cmake-build-debug/*
 /cmake-build-release/*
+/Document/*
+/MSVS/Debug/*
+/MSVS/Libs/*
+/MSVS/Release/*
+/MSVS/suanPan/.vs/*
+/MSVS/suanPan/Element/x64/*
+/MSVS/suanPan/ElementExample/x64/*
+/MSVS/suanPan/Material/x64/*
+/MSVS/suanPan/MaterialExample/x64/*
+/MSVS/suanPan/suanPan/x64/*
 
 # Windows shortcuts
 *.lnk

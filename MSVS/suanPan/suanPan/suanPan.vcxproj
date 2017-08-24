@@ -183,7 +183,6 @@
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp" />
     <ClCompile Include="..\..\..\Load\CLoad.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
-    <ClCompile Include="..\..\..\Load\RCM.cpp" />
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
@@ -211,6 +210,7 @@
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\RCM.cpp" />
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
     <ClCompile Include="..\..\..\Toolbox\utility.cpp" />
@@ -242,7 +242,6 @@
     <ClInclude Include="..\..\..\Load\Amplitude\Tabular.h" />
     <ClInclude Include="..\..\..\Load\CLoad.h" />
     <ClInclude Include="..\..\..\Load\Load.h" />
-    <ClInclude Include="..\..\..\Load\RCM.h" />
     <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
     <ClInclude Include="..\..\..\Recorder\OutputList.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
@@ -272,6 +271,7 @@
     <ClInclude Include="..\..\..\Toolbox\commandParser.h" />
     <ClInclude Include="..\..\..\Toolbox\debug.h" />
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
+    <ClInclude Include="..\..\..\Toolbox\RCM.h" />
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h" />
     <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp" />
     <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp" />

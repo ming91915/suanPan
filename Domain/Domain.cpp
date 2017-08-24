@@ -4,7 +4,7 @@
 #include <Constraint/BC/BC.h>
 #include <Element/Element.h>
 #include <Load/Load.h>
-#include <Load/RCM.h>
+#include <Toolbox/RCM.h>
 #include <Material/Material.h>
 #include <Recorder/Recorder.h>
 

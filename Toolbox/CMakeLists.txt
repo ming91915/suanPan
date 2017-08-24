@@ -3,8 +3,10 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Toolbox/commandParser.cpp"
         "Toolbox/debug.cpp"
         "Toolbox/integrationPlan.cpp"
+        "Toolbox/RCM.cpp"
         "Toolbox/shapeFunctionQuad.cpp"
         "Toolbox/SymmMat_bones.hpp"
         "Toolbox/SymmMat_meat.hpp"
         "Toolbox/tensorToolbox.cpp"
-        "Toolbox/utility.cpp")
+        "Toolbox/utility.cpp"
+        )

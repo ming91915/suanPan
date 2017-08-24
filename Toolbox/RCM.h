@@ -19,7 +19,6 @@
 #define RCM_H
 
 #include <suanPan.h>
-#include <vector>
 
 using std::vector;
 
