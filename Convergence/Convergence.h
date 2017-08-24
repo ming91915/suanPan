@@ -29,7 +29,9 @@ class Convergence : public Tag
 {
     shared_ptr<Domain> database = nullptr; /**< pointer to Domain */
 
-    double tolerance = 1E-8; /**< tolerance */
+    double tolerance; /**< tolerance */
+
+    unsigned max_iteration;
 
     bool print_flag = false; /**< print flag */
 
@@ -41,6 +43,7 @@ public:
         const unsigned& = CT_CONVERGENCE,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
+        const unsigned& = 7,
         const bool& = false);
     virtual ~Convergence();
 
@@ -48,6 +51,9 @@ public:
 
     void set_tolerance(const double&);
     const double& get_tolerance() const;
+
+    void set_max_iteration(const unsigned&);
+    const unsigned& get_max_iteration() const;
 
     void set_domain(const shared_ptr<Domain>&);
     const shared_ptr<Domain>& get_domain() const;

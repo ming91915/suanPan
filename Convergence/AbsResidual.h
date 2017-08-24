@@ -31,11 +31,13 @@ public:
     explicit AbsResidual(const unsigned& = 0,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
+        const unsigned& = 7,
         const bool& = false);
     explicit AbsResidual(const shared_ptr<Domain>&,
         const double& = 1E-8,
+        const unsigned& = 7,
         const bool& = false);
-    explicit AbsResidual(const double&, const bool& = false);
+    explicit AbsResidual(const double&, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

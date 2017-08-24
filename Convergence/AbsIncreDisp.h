@@ -21,9 +21,11 @@ public:
     explicit AbsIncreDisp(const unsigned& = 0,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
+        const unsigned& = 7,
         const bool& = false);
     explicit AbsIncreDisp(const shared_ptr<Domain>&,
         const double& = 1E-8,
+        const unsigned& = 7,
         const bool& = false);
 
     const bool& if_converged() override;

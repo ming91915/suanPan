@@ -13,10 +13,12 @@ Convergence::Convergence(const unsigned& T,
     const unsigned& CT,
     const shared_ptr<Domain>& D,
     const double& E,
+    const unsigned& M,
     const bool& P)
     : Tag(T, CT)
     , database(D)
     , tolerance(E)
+    , max_iteration(M)
     , print_flag(P)
 {
 }
@@ -47,6 +49,10 @@ void Convergence::set_tolerance(const double& T) { tolerance = T; }
  * \return `tolerance`
  */
 const double& Convergence::get_tolerance() const { return tolerance; }
+
+void Convergence::set_max_iteration(const unsigned& M) { max_iteration = M; }
+
+const unsigned& Convergence::get_max_iteration() const { return max_iteration; }
 
 /**
 * \brief Method to set `domain`.
