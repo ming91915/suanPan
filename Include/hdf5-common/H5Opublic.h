@@ -36,14 +36,16 @@
 
 /* Flags for object copy (H5Ocopy) */
 #define H5O_COPY_SHALLOW_HIERARCHY_FLAG (0x0001u) /* Copy only immediate members */
-#define H5O_COPY_EXPAND_SOFT_LINK_FLAG (0x0002u)  /* Expand soft links into new objects \
-                                                     */
+#define H5O_COPY_EXPAND_SOFT_LINK_FLAG                \
+    (0x0002u) /* Expand soft links into new objects \ \
+                 */
 #define H5O_COPY_EXPAND_EXT_LINK_FLAG \
     (0x0004u) /* Expand external links into new objects */
 #define H5O_COPY_EXPAND_REFERENCE_FLAG \
     (0x0008u) /* Copy objects that are pointed by references */
-#define H5O_COPY_WITHOUT_ATTR_FLAG (0x0010u)  /* Copy object without copying attributes \
-                                                 */
+#define H5O_COPY_WITHOUT_ATTR_FLAG                        \
+    (0x0010u) /* Copy object without copying attributes \ \
+                 */
 #define H5O_COPY_PRESERVE_NULL_FLAG (0x0020u) /* Copy NULL messages (empty space) */
 #define H5O_COPY_MERGE_COMMITTED_DTYPE_FLAG \
     (0x0040u)                  /* Merge committed datatypes in dest file */

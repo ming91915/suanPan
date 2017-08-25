@@ -1,7 +1,7 @@
 #include "suanPan.h"
 
 #include "Constraint/Constraint"
-#include "Convergence/Convergence"
+#include "Converger/Converger"
 #include "Domain/Domain"
 #include "Element/Element"
 #include "Load/Load"

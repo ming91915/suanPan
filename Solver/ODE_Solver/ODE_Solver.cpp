@@ -1,5 +1,5 @@
 #include "ODE_Solver.h"
-#include <Convergence/Convergence.h>
+#include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 #include <Solver/ODE.h>
@@ -7,9 +7,9 @@
 ODE_Solver::ODE_Solver(const unsigned& T,
     const unsigned& CT,
     const shared_ptr<ODE>& E,
-    const shared_ptr<Convergence>& C,
+    const shared_ptr<Converger>& C,
     const shared_ptr<Workroom>& W)
-    : Solver(T, CT, nullptr, C)
+    : Solver(T, CT, nullptr, C, nullptr)
     , ode_system(E)
     , factory(W)
 {
@@ -27,15 +27,15 @@ int ODE_Solver::initialize()
     auto& ode_size = ode_system->getDimension();
 
     if(factory == nullptr)
-        factory = make_shared<Workroom>(ode_size, SUANPAN_DISP);
+        factory = make_shared<Workroom>(ode_size, AnalysisType::DISP);
     else if(ode_size != factory->get_dof_number())
-        factory->set_analysis_type(SUANPAN_DISP);
+        factory->set_analysis_type(AnalysisType::DISP);
 
     factory->initialize_displacement(ode_size);
 
-    auto& tmp_converger = get_convergence();
+    auto& tmp_converger = get_converger();
     if(tmp_converger == nullptr) {
-        suanpan_error("initialize() needs a valid Convergence.\n");
+        suanpan_error("initialize() needs a valid Converger.\n");
         return -1;
     }
 
@@ -46,7 +46,7 @@ int ODE_Solver::update_status() { return -1; }
 
 int ODE_Solver::analyze(const unsigned& T)
 {
-    auto& tmp_converger = get_convergence();
+    auto& tmp_converger = get_converger();
 
     auto factor = .2;
 

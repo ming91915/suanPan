@@ -53,29 +53,29 @@
         )
 
 /* Size of the extensible array header on disk */
-#define H5EA_HEADER_SIZE(sizeof_addr, sizeof_size)                                    \
-    (/* General metadata fields */                                                    \
-        H5EA_METADATA_PREFIX_SIZE(TRUE)                                               \
-                                                                                      \
-        /* General array information */                                               \
-        + 1 /* Element Size */                                                        \
-        + 1 /* Max. # of elements bits */                                             \
-        + 1 /* # of elements to store in index block */                               \
-        + 1 /* Min. # elements per data block */                                      \
-        + 1 /* Min. # of data block pointers for a super block */                     \
-        + 1 /* Log2(Max. # of elements in data block page) - i.e. # of bits needed to \
-               store max. # of elements in data block page */                         \
-                                                                                      \
-        /* Extensible Array statistics fields */                                      \
-        + (sizeof_size) /* Number of super blocks created */                          \
-        + (sizeof_size) /* Size of super blocks created */                            \
-        + (sizeof_size) /* Number of data blocks created */                           \
-        + (sizeof_size) /* Size of data blocks created */                             \
-        + (sizeof_size) /* Max. index set */                                          \
-        + (sizeof_size) /* Number of elements 'realized' */                           \
-                                                                                      \
-        /* Extensible Array Header specific fields */                                 \
-        + (sizeof_addr) /* File address of index block */                             \
+#define H5EA_HEADER_SIZE(sizeof_addr, sizeof_size)                                      \
+    (/* General metadata fields */                                                      \
+        H5EA_METADATA_PREFIX_SIZE(TRUE)                                                 \
+                                                                                        \
+        /* General array information */                                                 \
+        + 1 /* Element Size */                                                          \
+        + 1 /* Max. # of elements bits */                                               \
+        + 1 /* # of elements to store in index block */                                 \
+        + 1 /* Min. # elements per data block */                                        \
+        + 1 /* Min. # of data block pointers for a super block */                       \
+        + 1 /* Log2(Max. # of elements in data block page) - i.e. # of bits needed to \ \
+               store max. # of elements in data block page */                           \
+                                                                                        \
+        /* Extensible Array statistics fields */                                        \
+        + (sizeof_size) /* Number of super blocks created */                            \
+        + (sizeof_size) /* Size of super blocks created */                              \
+        + (sizeof_size) /* Number of data blocks created */                             \
+        + (sizeof_size) /* Size of data blocks created */                               \
+        + (sizeof_size) /* Max. index set */                                            \
+        + (sizeof_size) /* Number of elements 'realized' */                             \
+                                                                                        \
+        /* Extensible Array Header specific fields */                                   \
+        + (sizeof_addr) /* File address of index block */                               \
         )
 
 /* Size of the extensible array header on disk (via file pointer) */
@@ -113,7 +113,7 @@
                                                                                          \
         /* Extensible Array Super Block specific fields */                               \
         + ((s)->ndblks *                                                                 \
-              (s)->dblk_page_init_size) /* Data block 'page init' bitmasks in super      \
+              (s)->dblk_page_init_size) /* Data block 'page init' bitmasks in super \                                                                                       \
                                            block (can be 0 if no pages) */               \
         +                                                                                \
         ((s)->ndblks * (s)->hdr->sizeof_addr) /* Data block addresses in super block  */ \

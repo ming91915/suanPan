@@ -31,8 +31,8 @@
 #ifndef CT_ABSDISP
 #define CT_ABSDISP 10
 #endif
-#ifndef CT_CONVERGENCE
-#define CT_CONVERGENCE 11
+#ifndef CT_CONVERGER
+#define CT_CONVERGER 11
 #endif
 #ifndef CT_DOMAIN
 #define CT_DOMAIN 12
@@ -126,6 +126,12 @@
 #endif
 #ifndef CT_NODERECORDER
 #define CT_NODERECORDER 42
+#endif
+#ifndef CT_INTERGRATOR
+#define CT_INTERGRATOR 43
+#endif
+#ifndef CT_PLAININTERGRATOR
+#define CT_PLAININTERGRATOR 44
 #endif
 
 #endif

@@ -47,19 +47,23 @@
 #include <Domain/Tag.h>
 
 class Domain;
-class Convergence;
+class Converger;
+class Integrator;
 
 class Solver : public Tag
 {
     bool initialized = false;
 
-    shared_ptr<Domain> database = nullptr;       /**< domain */
-    shared_ptr<Convergence> converger = nullptr; /**< domain */
+    shared_ptr<Domain> database = nullptr;
+    shared_ptr<Converger> converger = nullptr;
+    shared_ptr<Integrator> modifier = nullptr;
+
 public:
     explicit Solver(const unsigned& = 0,
         const unsigned& = CT_SOLVER,
         const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr);
+        const shared_ptr<Converger>& = nullptr,
+        const shared_ptr<Integrator>& = nullptr);
     virtual ~Solver();
 
     const bool& is_initialized() const;
@@ -73,8 +77,11 @@ public:
     void set_domain(const shared_ptr<Domain>&);
     const shared_ptr<Domain>& get_domain() const;
 
-    void set_convergence(const shared_ptr<Convergence>&);
-    const shared_ptr<Convergence>& get_convergence() const;
+    void set_converger(const shared_ptr<Converger>&);
+    const shared_ptr<Converger>& get_converger() const;
+
+    void set_integrator(const shared_ptr<Integrator>&);
+    const shared_ptr<Integrator>& get_integrator() const;
 };
 
 #endif

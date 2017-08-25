@@ -26,11 +26,8 @@ class Static : public Step
 
     unsigned max_increment = 1000000; /**< maximum increment number */
 public:
-    explicit Static(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Solver>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr,
-        const double& = 1.);
+    explicit Static(const unsigned& = 0, // tag
+        const double& = 1.);             // step time period
 
     int analyze() override;
 };

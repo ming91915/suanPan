@@ -6,7 +6,7 @@ Newmark::Newmark(const unsigned& T,
     const shared_ptr<Domain>& D,
     const double& A,
     const double& B)
-    : Solver(T, CT_NEWMARK, D)
+    : Integrator(T, CT_NEWMARK, D)
     , alpha(A)
     , beta(B)
 {
@@ -15,7 +15,7 @@ Newmark::Newmark(const unsigned& T,
 }
 
 Newmark::Newmark(const shared_ptr<Domain>& D, const double& A, const double& B)
-    : Solver(0, CT_NEWMARK, D)
+    : Integrator(0, CT_NEWMARK, D)
     , alpha(A)
     , beta(B)
 {
@@ -25,14 +25,27 @@ Newmark::Newmark(const shared_ptr<Domain>& D, const double& A, const double& B)
 
 Newmark::~Newmark() {}
 
+int Newmark::initialize()
+{
+    auto code = Integrator::initialize();
+
+    if(code == 0) {
+        auto& W = get_domain()->get_workroom();
+
+        if(W->is_band() || W->is_symm()) {
+            suanpan_error(
+                "initialize() currently does not suppoort band or symmetric matrix.\n");
+            return -1;
+        }
+    }
+
+    return code;
+}
+
 int Newmark::update_status()
 {
-    auto& W = get_domain()->get_workroom();
-
-    if(W->is_band()) {
-        suanpan_error("update_status() currently does not suppoort band matrix.\n");
-        return -1;
-    }
+    auto& D = get_domain();
+    auto& W = D->get_workroom();
 
     if(DT != W->get_incre_time()) {
         DT = W->get_incre_time();
@@ -46,32 +59,30 @@ int Newmark::update_status()
         C6 = DT - C7;
     }
 
-    mat EK = W->get_stiffness() + C0 * W->get_mass() + C1 * W->get_damping();
+    D->update_stiffness();
 
-    vec EP = W->get_trial_load() +
-        W->get_mass() *
+    get_stiffness(W) += C0 * W->get_mass() + C1 * W->get_damping();
+
+    D->update_resistance();
+
+    get_trial_resistance(W) -= W->get_mass() *
             (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() +
-                C3 * W->get_current_acceleration()) +
+                C3 * W->get_current_acceleration()) -
         W->get_damping() *
             (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() +
                 C5 * W->get_current_acceleration());
 
-    vec tmp_disp;
+    return 0;
+}
 
-    if(!solve(tmp_disp, EK, EP)) return -1;
-
-    W->update_trial_displacement(tmp_disp);
-
-    //! TODO: Send Trial Displacement to NR Solver to Get Converged Displacement.
+void Newmark::commit_status()
+{
+    auto& W = get_domain()->get_workroom();
 
     W->update_trial_acceleration(C0 * W->get_incre_displacement() -
         C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
     W->update_trial_velocity(W->get_current_velocity() +
         C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
-
-    return 0;
 }
 
-void Newmark::print() { printf("A Newmark solver.\n"); }
-
-int Newmark::analyze(const unsigned&) { return -1; }
+void Newmark::print() { suanpan_info("A Newmark solver.\n"); }

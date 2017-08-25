@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Convergence">
-      <UniqueIdentifier>{2e459f7e-dd55-4cd7-849b-d01cf9fd6550}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Solver">
       <UniqueIdentifier>{038d868d-f52f-415f-8ecd-4b018ba46aed}</UniqueIdentifier>
     </Filter>
@@ -21,6 +18,9 @@
     </Filter>
     <Filter Include="Parser">
       <UniqueIdentifier>{92394c5f-c204-4173-a50c-16c2b4503795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Converger">
+      <UniqueIdentifier>{2e459f7e-dd55-4cd7-849b-d01cf9fd6550}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,30 +96,6 @@
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsResidual.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsIncreDisp.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsError.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\AbsDisp.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelIncreDisp.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelError.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\RelDisp.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Convergence\Convergence.cpp">
-      <Filter>Convergence</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Solver\ODE_Solver\RK45.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
@@ -138,13 +114,7 @@
     <ClCompile Include="..\..\..\Solver\Newton.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Newmark.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Solver\BFGS.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\CentralDifference.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Solver\Solver.cpp">
@@ -198,6 +168,42 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Integrator\PlainIntegrator.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Integrator\Newmark.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\Converger.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\RelDisp.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\RelError.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\RelIncreDisp.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\AbsDisp.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\AbsError.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\AbsIncreDisp.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\AbsResidual.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -210,12 +216,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\BFGS.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\CentralDifference.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Newmark.h">
       <Filter>Solver</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\Newton.h">
@@ -299,30 +299,6 @@
     <ClInclude Include="..\..\..\Domain\Domain.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\AbsError.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\AbsIncreDisp.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\AbsResidual.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\Convergence.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\RelDisp.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\RelError.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\RelIncreDisp.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Convergence\AbsDisp.h">
-      <Filter>Convergence</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -388,6 +364,42 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\PlainIntegrator.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\Intergrator.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\Converger.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\RelDisp.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\RelError.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\RelIncreDisp.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\AbsDisp.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\AbsError.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\AbsIncreDisp.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\AbsResidual.h">
+      <Filter>Converger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

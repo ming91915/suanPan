@@ -1,7 +1,7 @@
 #include "Workroom.h"
 
-Workroom::Workroom(const unsigned& D, const unsigned& T)
-    : number_dof(D)
+Workroom::Workroom(const unsigned& D, const AnalysisType& T)
+    : dof_number(D)
     , analysis_type(T)
 {
 }
@@ -18,13 +18,13 @@ void Workroom::enable_band() { band_mat = true; }
 
 void Workroom::disable_band() { band_mat = false; }
 
-void Workroom::set_dof_number(const unsigned& D) { number_dof = D; }
+void Workroom::set_dof_number(const unsigned& D) { dof_number = D; }
 
-const unsigned& Workroom::get_dof_number() const { return number_dof; }
+const unsigned& Workroom::get_dof_number() const { return dof_number; }
 
-void Workroom::set_analysis_type(const unsigned& T) { analysis_type = T; }
+void Workroom::set_analysis_type(const AnalysisType& T) { analysis_type = T; }
 
-const unsigned& Workroom::get_analysis_type() const { return analysis_type; }
+const AnalysisType& Workroom::get_analysis_type() const { return analysis_type; }
 
 void Workroom::set_bandwidth(const unsigned& L, const unsigned& U)
 {
@@ -49,35 +49,35 @@ int Workroom::initialize()
 {
     if(!initialized) initialized = true;
 
-    if(number_dof != 0) {
-        ninja.zeros(number_dof);
+    if(dof_number != 0) {
+        ninja.zeros(dof_number);
         switch(analysis_type) {
-        case SUANPAN_DISP:
-            initialize_displacement(number_dof);
+        case AnalysisType::DISP:
+            initialize_displacement(dof_number);
             break;
-        case SUANPAN_BUCKLE:
-            initialize_eigen(number_dof);
-            initialize_mass(number_dof);
-            initialize_stiffness(number_dof);
+        case AnalysisType::EIGEN:
+            initialize_eigen(dof_number);
+            initialize_mass(dof_number);
+            initialize_stiffness(dof_number);
             break;
-        case SUANPAN_STATICS:
-            initialize_load(number_dof);
-            initialize_resistance(number_dof);
-            initialize_displacement(number_dof);
-            initialize_mass(number_dof);
-            initialize_stiffness(number_dof);
+        case AnalysisType::STATICS:
+            initialize_load(dof_number);
+            initialize_resistance(dof_number);
+            initialize_displacement(dof_number);
+            initialize_mass(dof_number);
+            initialize_stiffness(dof_number);
             break;
-        case SUANPAN_DYNAMICS:
-            initialize_load(number_dof);
-            initialize_resistance(number_dof);
-            initialize_displacement(number_dof);
-            initialize_velocity(number_dof);
-            initialize_acceleration(number_dof);
-            initialize_mass(number_dof);
-            initialize_damping(number_dof);
-            initialize_stiffness(number_dof);
+        case AnalysisType::DYNAMICS:
+            initialize_load(dof_number);
+            initialize_resistance(dof_number);
+            initialize_displacement(dof_number);
+            initialize_velocity(dof_number);
+            initialize_acceleration(dof_number);
+            initialize_mass(dof_number);
+            initialize_damping(dof_number);
+            initialize_stiffness(dof_number);
             break;
-        case SUANPAN_NONE:
+        case AnalysisType::NONE:
         default:
             break;
         }
@@ -355,21 +355,21 @@ const vec& Workroom::get_eigenvalue() const { return eigenvalue; }
 
 const mat& Workroom::get_eigenvector() const { return eigenvector; }
 
-void Workroom::commit_status(const unsigned& T)
+void Workroom::commit_status()
 {
     commit_time();
 
-    switch(T) {
-    case SUANPAN_DISP:
+    switch(analysis_type) {
+    case AnalysisType::DISP:
         commit_displacement();
         break;
-    case SUANPAN_BUCKLE:
+    case AnalysisType::EIGEN:
         break;
-    case SUANPAN_STATICS:
+    case AnalysisType::STATICS:
         commit_load();
         commit_displacement();
         break;
-    case SUANPAN_DYNAMICS:
+    case AnalysisType::DYNAMICS:
         commit_load();
         commit_displacement();
         commit_velocity();
@@ -395,21 +395,21 @@ void Workroom::commit_acceleration() { current_acceleration = trial_acceleration
 
 void Workroom::commit_temperature() { current_temperature = trial_temperature; }
 
-void Workroom::commit_pre_status(const unsigned& T)
+void Workroom::commit_pre_status()
 {
     commit_pre_time();
 
-    switch(T) {
-    case SUANPAN_DISP:
+    switch(analysis_type) {
+    case AnalysisType::DISP:
         commit_pre_displacement();
         break;
-    case SUANPAN_BUCKLE:
+    case AnalysisType::EIGEN:
         break;
-    case SUANPAN_STATICS:
+    case AnalysisType::STATICS:
         commit_pre_load();
         commit_pre_displacement();
         break;
-    case SUANPAN_DYNAMICS:
+    case AnalysisType::DYNAMICS:
         commit_pre_load();
         commit_pre_displacement();
         commit_pre_velocity();

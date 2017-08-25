@@ -1,6 +1,6 @@
 /**
 * @class AbsDisp
-* @brief The AbsDisp class handles convergence test to indicate if the iteration
+* @brief The AbsDisp class handles converger test to indicate if the iteration
 * converges.
 *
 * The criterion:
@@ -13,16 +13,16 @@
 * @date 08/08/2017
 * @version 0.2.0
 * @file AbsDisp.h
-* @addtogroup Convergence
+* @addtogroup Converger
 * @{
 */
 
 #ifndef ABSDISP_H
 #define ABSDISP_H
 
-#include "Convergence.h"
+#include "Converger.h"
 
-class AbsDisp final : public Convergence
+class AbsDisp final : public Converger
 {
 public:
     explicit AbsDisp(const unsigned& = 0,

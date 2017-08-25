@@ -89,7 +89,7 @@ struct H5HL_t {
     size_t sizeof_size; /* Size of file sizes                                           */
     size_t sizeof_addr; /* Size of file addresses                                       */
     hbool_t single_cache_obj; /* Indicate if the heap is a single object in the cache */
-    H5HL_free_t* freelist; /* the free list */
+    H5HL_free_t* freelist;    /* the free list */
 
     /* Prefix-specific fields */
     H5HL_prfx_t* prfx;  /* The prefix object for the heap                       */

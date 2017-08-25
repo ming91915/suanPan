@@ -1,4 +1,4 @@
-#include "Convergence.h"
+#include "Converger.h"
 #include <Domain/Domain.h>
 
 /**
@@ -9,7 +9,7 @@
  * \param E `tolerance`
  * \param P `print_flag`
  */
-Convergence::Convergence(const unsigned& T,
+Converger::Converger(const unsigned& T,
     const unsigned& CT,
     const shared_ptr<Domain>& D,
     const double& E,
@@ -26,11 +26,11 @@ Convergence::Convergence(const unsigned& T,
 /**
  * \brief The default destructor.
  */
-Convergence::~Convergence() {}
+Converger::~Converger() {}
 
-const bool& Convergence::is_initialized() const { return initialized; }
+const bool& Converger::is_initialized() const { return initialized; }
 
-int Convergence::initialize()
+int Converger::initialize()
 {
     if(!initialized) initialized = true;
 
@@ -50,65 +50,65 @@ int Convergence::initialize()
  * \brief Method to set `tolerance`.
  * \param T `tolerance`
  */
-void Convergence::set_tolerance(const double& T) { tolerance = T; }
+void Converger::set_tolerance(const double& T) { tolerance = T; }
 
 /**
  * \brief Method to return `tolerance`.
  * \return `tolerance`
  */
-const double& Convergence::get_tolerance() const { return tolerance; }
+const double& Converger::get_tolerance() const { return tolerance; }
 
-void Convergence::set_max_iteration(const unsigned& M) { max_iteration = M; }
+void Converger::set_max_iteration(const unsigned& M) { max_iteration = M; }
 
-const unsigned& Convergence::get_max_iteration() const { return max_iteration; }
+const unsigned& Converger::get_max_iteration() const { return max_iteration; }
 
 /**
 * \brief Method to set `domain`.
 * \param D `domain`
 */
-void Convergence::set_domain(const shared_ptr<Domain>& D) { database = D; }
+void Converger::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
 /**
 * \brief Method to return `domain`.
 * \return `domain`
 */
-const shared_ptr<Domain>& Convergence::get_domain() const { return database; }
+const shared_ptr<Domain>& Converger::get_domain() const { return database; }
 
 /**
  * \brief Method to set `error`.
  * \param E `error`
  */
-void Convergence::set_error(const double& E) { error = E; }
+void Converger::set_error(const double& E) { error = E; }
 
 /**
  * \brief Method to return `error`.
  * \return `error`
  */
-const double& Convergence::get_error() const { return error; }
+const double& Converger::get_error() const { return error; }
 
 /**
  * \brief Method to set `conv_flag`.
  * \param C `conv_flag`
  */
-void Convergence::set_conv_flag(const bool& C) { conv_flag = C; }
+void Converger::set_conv_flag(const bool& C) { conv_flag = C; }
 
 /**
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`
  */
-const bool& Convergence::get_conv_flag() const { return conv_flag; }
+const bool& Converger::get_conv_flag() const { return conv_flag; }
 
 /**
  * \brief Method to return `print_flag`.
  * \return `print_flag`
  */
-const bool& Convergence::if_print() const { return print_flag; }
+const bool& Converger::if_print() const { return print_flag; }
 
 /**
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`
  */
-const bool& Convergence::if_converged()
+const bool& Converger::if_converged()
 {
     conv_flag = false;
     return conv_flag;

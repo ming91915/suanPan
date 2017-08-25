@@ -33,10 +33,10 @@ class DP45 final : public ODE_Solver
 public:
     explicit DP45(const unsigned& = 0,
         const shared_ptr<ODE>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr,
+        const shared_ptr<Converger>& = nullptr,
         const shared_ptr<Workroom>& = nullptr);
     explicit DP45(const shared_ptr<ODE>&,
-        const shared_ptr<Convergence>& = nullptr,
+        const shared_ptr<Converger>& = nullptr,
         const shared_ptr<Workroom>& = nullptr);
     ~DP45();
 

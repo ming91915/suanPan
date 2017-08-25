@@ -8,20 +8,21 @@ set(ROOT ../..)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../..)
 
-include(${ROOT}/Configuration.cmake)
+include(${ROOT}/config.cmake)
 
 add_library(${PROJECT_NAME} SHARED
-	"ElementExample.cpp"
-	"${ROOT}/Constraint/Constraint.cpp"
-	"${ROOT}/Domain/Domain.cpp"
-	"${ROOT}/Domain/Node.cpp"
-	"${ROOT}/Domain/Tag.cpp"
-	"${ROOT}/Domain/Workroom.cpp"
-	"${ROOT}/Element/Element.cpp"
-	"${ROOT}/Load/Amplitude/Amplitude.cpp"
-	"${ROOT}/Load/Load.cpp"
-	"${ROOT}/Load/RCM.cpp"
-	"${ROOT}/Toolbox/debug.cpp")
+    "ElementExample.cpp"
+    "${ROOT}/Constraint/Constraint.cpp"
+    "${ROOT}/Domain/Domain.cpp"
+    "${ROOT}/Domain/Node.cpp"
+    "${ROOT}/Domain/Tag.cpp"
+    "${ROOT}/Domain/Workroom.cpp"
+    "${ROOT}/Element/Element.cpp"
+    "${ROOT}/Load/Amplitude/Amplitude.cpp"
+    "${ROOT}/Load/Load.cpp"
+    "${ROOT}/Toolbox/RCM.cpp"
+    "${ROOT}/Toolbox/debug.cpp"
+    )
 
 target_link_libraries(${PROJECT_NAME} arpack superlu)
 

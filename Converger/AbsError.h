@@ -1,6 +1,6 @@
 /**
 * @class AbsError
-* @brief The AbsError class that handles convergence test to indicate if the iteration
+* @brief The AbsError class that handles converger test to indicate if the iteration
 * converges.
 *
 * The criterion:
@@ -13,16 +13,16 @@
 * @date 08/08/2017
 * @version 0.2.0
 * @file AbsError.h
-* @addtogroup Convergence
+* @addtogroup Converger
 * @{
 */
 
 #ifndef ABSERROR_H
 #define ABSERROR_H
 
-#include "Convergence.h"
+#include "Converger.h"
 
-class AbsError final : public Convergence
+class AbsError final : public Converger
 {
 public:
     explicit AbsError(const unsigned& = 0,

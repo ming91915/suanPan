@@ -29,7 +29,7 @@ public:
     explicit ODE_Solver(const unsigned& = 0,
         const unsigned& = CT_ODESOLVER,
         const shared_ptr<ODE>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr,
+        const shared_ptr<Converger>& = nullptr,
         const shared_ptr<Workroom>& = nullptr);
     virtual ~ODE_Solver();
 

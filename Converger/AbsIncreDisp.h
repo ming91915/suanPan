@@ -1,21 +1,21 @@
 /**
 * @class AbsIncreDisp
-* @brief The AbsIncreDisp class that handles convergence test to indicate if the iteration
+* @brief The AbsIncreDisp class that handles converger test to indicate if the iteration
 * converges.
 * @author T
 * @date 27/07/2017
 * @version 0.1.0
 * @file AbsIncreDisp.h
-* @addtogroup Convergence
+* @addtogroup Converger
 * @{
 */
 
 #ifndef ABSINCREDISP_H
 #define ABSINCREDISP_H
 
-#include "Convergence.h"
+#include "Converger.h"
 
-class AbsIncreDisp : public Convergence
+class AbsIncreDisp : public Converger
 {
 public:
     explicit AbsIncreDisp(const unsigned& = 0,

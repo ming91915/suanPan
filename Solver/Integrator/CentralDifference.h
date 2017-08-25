@@ -22,9 +22,9 @@
 #ifndef CENTRALDIFFERENCE_H
 #define CENTRALDIFFERENCE_H
 
-#include "Solver.h"
+#include "Integrator.h"
 
-class CentralDifference : public Solver
+class CentralDifference : public Integrator
 {
     double max_dt = 0.;
 
@@ -36,9 +36,11 @@ public:
     explicit CentralDifference(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
     explicit CentralDifference(const shared_ptr<Domain>&);
 
+    int initialize() override;
+
     int update_status() override;
 
-    int analyze(const unsigned&) override;
+    void commit_status() override;
 };
 
 #endif

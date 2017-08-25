@@ -20,7 +20,7 @@
 /* Issue error if contradicting macros have been defined. */
 #if(defined(H5_USE_16_API) || defined(H5_USE_18_API)) && defined(H5_NO_DEPRECATED_SYMBOLS)
 #error "Can't choose old API versions when deprecated APIs are disabled"
-#endif /* (defined(H5_USE_16_API) || defined(H5_USE_18_API)) && \
+#endif /* (defined(H5_USE_16_API) || defined(H5_USE_18_API)) && \ \
           defined(H5_NO_DEPRECATED_SYMBOLS) */
 
 /* If a particular "global" version of the library's interfaces is chosen,

@@ -7,7 +7,7 @@ RelDisp::RelDisp(const unsigned& T,
     const double& E,
     const unsigned& M,
     const bool& P)
-    : Convergence(T, CT_RELDISP, D, E, M, P)
+    : Converger(T, CT_RELDISP, D, E, M, P)
 {
 }
 
@@ -15,7 +15,7 @@ RelDisp::RelDisp(const shared_ptr<Domain>& D,
     const double& E,
     const unsigned& M,
     const bool& P)
-    : Convergence(0, CT_RELDISP, D, E, M, P)
+    : Converger(0, CT_RELDISP, D, E, M, P)
 {
 }
 

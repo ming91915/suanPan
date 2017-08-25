@@ -14,8 +14,8 @@
 class Dynamic : public Step
 {
 public:
-    explicit Dynamic(const unsigned& T = 0)
-        : Step(T, CT_DYNAMIC)
+    explicit Dynamic(const unsigned& T = 0, const double& P = 1.)
+        : Step(T, CT_DYNAMIC, P)
     {
     }
 

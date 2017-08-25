@@ -1,6 +1,6 @@
 /**
 * @class AbsResidual
-* @brief The Convergence class handles convergence test to indicate if the iteration
+* @brief The Converger class handles converger test to indicate if the iteration
 * converges according to various rules.
 *
 * The class stores a pointer `factory` pointed to the Workroom and get information from
@@ -14,18 +14,18 @@
 * @date 08/08/2017
 * @version 0.2.0
 * @file AbsResidual.h
-* @addtogroup Convergence
+* @addtogroup Converger
 * @{
 */
 
 #ifndef ABSRESIDUAL_H
 #define ABSRESIDUAL_H
 
-#include "Convergence.h"
+#include "Converger.h"
 
 class Domain;
 
-class AbsResidual : public Convergence
+class AbsResidual : public Converger
 {
 public:
     explicit AbsResidual(const unsigned& = 0,

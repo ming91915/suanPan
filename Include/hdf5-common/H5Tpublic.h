@@ -193,8 +193,8 @@ typedef struct {
 } hvl_t;
 
 /* Variable Length String information */
-#define H5T_VARIABLE                                                                   \
-    ((size_t)(-1)) /* Indicate that a string is variable length (null-terminated in C, \
+#define H5T_VARIABLE                                                                     \
+    ((size_t)(-1)) /* Indicate that a string is variable length (null-terminated in C, \ \
                       instead of fixed length) */
 
 /* Opaque information */

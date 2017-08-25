@@ -1,14 +1,17 @@
 #include "Solver.h"
-#include <Convergence/Convergence.h>
+#include "Integrator/Integrator.h"
+#include <Converger/Converger.h>
 #include <Domain/Domain.h>
 
 Solver::Solver(const unsigned& T,
     const unsigned& CT,
     const shared_ptr<Domain>& D,
-    const shared_ptr<Convergence>& C)
+    const shared_ptr<Converger>& C,
+    const shared_ptr<Integrator>& G)
     : Tag(T, CT)
     , database(D)
     , converger(C)
+    , modifier(G)
 {
     suanpan_debug("Solver %u ctor() called.\n", get_tag());
 }
@@ -27,7 +30,12 @@ int Solver::initialize()
     }
 
     if(converger == nullptr) {
-        suanpan_error("initialize() needs a valid Convergence.\n");
+        suanpan_error("initialize() needs a valid Converger.\n");
+        return -1;
+    }
+
+    if(modifier == nullptr) {
+        suanpan_error("initialize() needs a valid Integrator.\n");
         return -1;
     }
 
@@ -39,6 +47,10 @@ int Solver::initialize()
 
     if(!converger->is_initialized()) code += converger->initialize();
 
+    modifier->set_domain(database);
+
+    if(!modifier->is_initialized()) code += modifier->initialize();
+
     return code;
 }
 
@@ -46,6 +58,10 @@ void Solver::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
 const shared_ptr<Domain>& Solver::get_domain() const { return database; }
 
-void Solver::set_convergence(const shared_ptr<Convergence>& C) { converger = C; }
+void Solver::set_converger(const shared_ptr<Converger>& C) { converger = C; }
 
-const shared_ptr<Convergence>& Solver::get_convergence() const { return converger; }
+const shared_ptr<Converger>& Solver::get_converger() const { return converger; }
+
+void Solver::set_integrator(const shared_ptr<Integrator>& G) { modifier = G; }
+
+const shared_ptr<Integrator>& Solver::get_integrator() const { return modifier; }

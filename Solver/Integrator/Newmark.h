@@ -22,9 +22,9 @@
 #ifndef NEWMARK_H
 #define NEWMARK_H
 
-#include "Solver.h"
+#include "Integrator.h"
 
-class Newmark final : public Solver
+class Newmark final : public Integrator
 {
     double alpha = .25; /**< parameter */
     double beta = .5;   /**< parameter */
@@ -41,9 +41,11 @@ public:
     explicit Newmark(const shared_ptr<Domain>&, const double& = .25, const double& = .5);
     ~Newmark();
 
+    int initialize() override;
+
     int update_status() override;
 
-    int analyze(const unsigned&) override;
+    void commit_status() override;
 
     void print() override;
 };

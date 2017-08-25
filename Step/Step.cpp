@@ -1,23 +1,18 @@
 #include "Step.h"
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
+#include <Solver/Integrator/PlainIntegrator.h>
 #include <Solver/Solver.h>
 
-Step::Step(const unsigned& T,
-    const unsigned& CT,
-    const shared_ptr<Domain>& D,
-    const shared_ptr<Solver>& S,
-    const shared_ptr<Convergence>& C,
-    const double& P)
+Step::Step(const unsigned& T, const unsigned& CT, const double& P)
     : Tag(T, CT)
     , time_period(P)
-    , database(D)
-    , solver(S)
-    , converger(C)
 {
     enable_band();
     enable_symm();
 }
+
+Step::~Step() {}
 
 const bool& Step::is_initialized() const { return initialized; }
 
@@ -37,8 +32,8 @@ int Step::initialize()
         return -1;
     }
 
-    if(converger == nullptr) {
-        suanpan_error("initialize() needs a valid Convergence.\n");
+    if(tester == nullptr) {
+        suanpan_error("initialize() needs a valid Converger.\n");
         return -1;
     }
 
@@ -47,7 +42,24 @@ int Step::initialize()
     database->set_workroom(factory);
     if(!database->is_initialized()) code += database->initialize();
 
-    factory->set_analysis_type(SUANPAN_STATICS);
+    switch(get_class_tag()) {
+    case CT_STATIC:
+        factory->set_analysis_type(AnalysisType::STATICS);
+        if(modifier == nullptr) modifier = make_shared<PlainIntegrator>();
+        break;
+    case CT_DYNAMIC:
+        factory->set_analysis_type(AnalysisType::DYNAMICS);
+        if(modifier == nullptr) {
+            suanpan_error("initialize() needs a valid Integrator.\n");
+            return -1;
+        }
+        break;
+    case CT_FREQUENCE:
+        factory->set_analysis_type(AnalysisType::EIGEN);
+        break;
+    default:
+        break;
+    }
 
     if(is_symm())
         factory->enable_symm();
@@ -62,7 +74,8 @@ int Step::initialize()
     if(!factory->is_initialized()) code += factory->initialize();
 
     solver->set_domain(database);
-    solver->set_convergence(converger);
+    solver->set_converger(tester);
+    solver->set_integrator(modifier);
 
     if(!solver->is_initialized()) code += solver->initialize();
 
@@ -83,9 +96,13 @@ void Step::set_solver(const shared_ptr<Solver>& S) { solver = S; }
 
 const shared_ptr<Solver>& Step::get_solver() const { return solver; }
 
-void Step::set_convergence(const shared_ptr<Convergence>& C) { converger = C; }
+void Step::set_converger(const shared_ptr<Converger>& C) { tester = C; }
 
-const shared_ptr<Convergence>& Step::get_convergence() const { return converger; }
+const shared_ptr<Converger>& Step::get_converger() const { return tester; }
+
+void Step::set_integrator(const shared_ptr<Integrator>& G) { modifier = G; }
+
+const shared_ptr<Integrator>& Step::get_integrator() const { return modifier; }
 
 void Step::set_time_perid(const double& T) { time_period = T; }
 

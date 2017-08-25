@@ -56,20 +56,20 @@
         )
 
 /* Size of the Fixed Array header on disk */
-#define H5FA_HEADER_SIZE(sizeof_addr, sizeof_size)                                    \
-    (/* General metadata fields */                                                    \
-        H5FA_METADATA_PREFIX_SIZE(TRUE)                                               \
-                                                                                      \
-        /* General array information */                                               \
-        + 1 /* Element Size */                                                        \
-        + 1 /* Log2(Max. # of elements in data block page) - i.e. # of bits needed to \
-               store max. # of elements in data block page */                         \
-                                                                                      \
-        /* Fixed Array statistics fields */                                           \
-        + (sizeof_size) /* # of elements in the fixed array */                        \
-                                                                                      \
-        /* Fixed Array Header specific fields */                                      \
-        + (sizeof_addr) /* File address of Fixed Array data block */                  \
+#define H5FA_HEADER_SIZE(sizeof_addr, sizeof_size)                                      \
+    (/* General metadata fields */                                                      \
+        H5FA_METADATA_PREFIX_SIZE(TRUE)                                                 \
+                                                                                        \
+        /* General array information */                                                 \
+        + 1 /* Element Size */                                                          \
+        + 1 /* Log2(Max. # of elements in data block page) - i.e. # of bits needed to \ \
+               store max. # of elements in data block page */                           \
+                                                                                        \
+        /* Fixed Array statistics fields */                                             \
+        + (sizeof_size) /* # of elements in the fixed array */                          \
+                                                                                        \
+        /* Fixed Array Header specific fields */                                        \
+        + (sizeof_addr) /* File address of Fixed Array data block */                    \
         )
 
 /* Size of the fixed array header on disk (via file pointer) */
@@ -90,7 +90,7 @@
             ->sizeof_addr /* File address of Fixed Array header owning the data block */ \
                                                                                          \
         /* Fixed Array Data Block specific fields */                                     \
-        + (d)->dblk_page_init_size /* Fixed array data block 'page init' bitmasks (can   \
+        + (d)->dblk_page_init_size /* Fixed array data block 'page init' bitmasks (can \                                                                                       \
                                       be 0 if no pages) */                               \
         )
 

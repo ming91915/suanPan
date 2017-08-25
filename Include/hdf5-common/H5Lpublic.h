@@ -70,6 +70,7 @@ typedef enum {
     H5L_TYPE_SOFT /* Maximum value link value for "built-in" link types */
 #define H5L_TYPE_UD_MIN                                                                 \
     H5L_TYPE_EXTERNAL /* Link ids at or above this value are "user-defined" link types. \
+                       * \                                                              \
                          */
 
 /* Information struct for link (for H5Lget_info/H5Lget_info_by_idx) */

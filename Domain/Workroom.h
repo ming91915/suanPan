@@ -19,26 +19,11 @@
 #ifndef WORKROOM_H
 #define WORKROOM_H
 
-#ifndef SUANPAN_NONE
-#define SUANPAN_NONE 0 /**< Nothing */
-#endif
-#ifndef SUANPAN_DISP
-#define SUANPAN_DISP 1 /**< Displacement Only */
-#endif
-#ifndef SUANPAN_BUCKLE
-#define SUANPAN_BUCKLE 2 /**< Eigenvalue Eigenvector */
-#endif
-#ifndef SUANPAN_STATICS
-#define SUANPAN_STATICS 3 /**< Displacement Load Resistance Matrices */
-#endif
-#ifndef SUANPAN_DYNAMICS
-#define SUANPAN_DYNAMICS 4 /**< All */
-#endif
+enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 
 #include <suanPan.h>
 
 using T2 = mat; /**< alias */
-// using T2 = sp_mat; /**< alias */
 
 class Workroom final
 {
@@ -49,8 +34,10 @@ class Workroom final
     bool symm_mat = false; /**< symmetric matrix storage */
     bool band_mat = false; /**< banded matrix storage */
 
-    unsigned number_dof = 0;    /**< number of DoFs */
-    unsigned analysis_type = 0; /**< type of analysis */
+    unsigned dof_number = 0; /**< number of DoFs */
+
+    AnalysisType analysis_type = AnalysisType::NONE; /**< type of analysis */
+
     unsigned low_bandwidth = 0; /**< low bandwidth */
     unsigned up_bandwidth = 0;  /**< up bandwidth */
     unsigned shifted_bandwidth = 0;
@@ -100,7 +87,7 @@ class Workroom final
 
     mat eigenvector; /**< eigenvectors */
 public:
-    explicit Workroom(const unsigned& = 0, const unsigned& = SUANPAN_NONE);
+    explicit Workroom(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE);
 
     const bool& is_symm() const;
     const bool& is_band() const;
@@ -114,8 +101,8 @@ public:
     void set_dof_number(const unsigned&);
     const unsigned& get_dof_number() const;
 
-    void set_analysis_type(const unsigned&);
-    const unsigned& get_analysis_type() const;
+    void set_analysis_type(const AnalysisType&);
+    const AnalysisType& get_analysis_type() const;
 
     void set_bandwidth(const unsigned&, const unsigned&);
     void get_bandwidth(unsigned&, unsigned&) const;
@@ -259,7 +246,7 @@ public:
     friend vec& get_eigenvalue(const shared_ptr<Workroom>&);
     friend mat& get_eigenvector(const shared_ptr<Workroom>&);
 
-    void commit_status(const unsigned& = SUANPAN_STATICS);
+    void commit_status();
     void commit_time();
     void commit_load();
     void commit_resistance();
@@ -268,7 +255,7 @@ public:
     void commit_acceleration();
     void commit_temperature();
 
-    void commit_pre_status(const unsigned& = SUANPAN_STATICS);
+    void commit_pre_status();
     void commit_pre_time();
     void commit_pre_load();
     void commit_pre_resistance();

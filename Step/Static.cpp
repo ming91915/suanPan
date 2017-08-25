@@ -1,14 +1,11 @@
 #include "Static.h"
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
+#include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 
-Static::Static(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const shared_ptr<Solver>& S,
-    const shared_ptr<Convergence>& C,
-    const double& P)
-    : Step(T, CT_STATIC, D, S, C, P)
+Static::Static(const unsigned& T, const double& P)
+    : Step(T, CT_STATIC, P)
 {
 }
 
@@ -17,6 +14,7 @@ int Static::analyze()
     auto& tmp_workroom = get_workroom();
     auto& tmp_domain = get_domain();
     auto& tmp_solver = get_solver();
+    auto& tmp_integrator = get_integrator();
 
     // FORM INITIAL TAGENT STIFFNESS AND RESISTANCE FOR ELEMENTS
     tmp_domain->update_trial_status();
@@ -30,6 +28,7 @@ int Static::analyze()
         tmp_workroom->update_incre_time(step);
         auto code = tmp_solver->analyze(get_tag());
         if(code == 0) {
+            tmp_integrator->commit_status();
             tmp_domain->commit_status();
             tmp_domain->record();
             time_left -= step;
@@ -48,8 +47,7 @@ int Static::analyze()
     }
 
     if(num_increment > max_increment)
-        suanpan_warning("analyze() reaches maximum iteration number. The trial status "
-                        "may be unconverged.\n");
+        suanpan_warning("analyze() reaches maximum iteration number.\n");
 
     return 0;
 }

@@ -1,21 +1,21 @@
-#include "AbsDisp.h"
+#include "AbsError.h"
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 
 /**
-* \brief The complete constructor.
+* \brief The default constructor.
 * \param T `unique_tag`
 * \param D `domain`
 * \param E `tolerance`
 * \param M `max_itertation`
 * \param P `print_flag`
 */
-AbsDisp::AbsDisp(const unsigned& T,
+AbsError::AbsError(const unsigned& T,
     const shared_ptr<Domain>& D,
     const double& E,
     const unsigned& M,
     const bool& P)
-    : Convergence(T, CT_ABSDISP, D, E, M, P)
+    : Converger(T, CT_ABSERROR, D, E, M, P)
 {
 }
 
@@ -26,24 +26,24 @@ AbsDisp::AbsDisp(const unsigned& T,
 * \param M `max_itertation`
 * \param P `print_flag`
 */
-AbsDisp::AbsDisp(const shared_ptr<Domain>& D,
+AbsError::AbsError(const shared_ptr<Domain>& D,
     const double& E,
     const unsigned& M,
     const bool& P)
-    : Convergence(0, CT_ABSDISP, D, E, M, P)
+    : Converger(0, CT_ABSERROR, D, E, M, P)
 {
 }
 
 /**
- * \brief
- * \return
+ * \brief Method to return `conv_flag`.
+ * \return `conv_flag`
  */
-const bool& AbsDisp::if_converged()
+const bool& AbsError::if_converged()
 {
-    set_error(norm(get_domain()->get_workroom()->get_incre_displacement()));
+    set_error(get_domain()->get_workroom()->get_error());
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("Absolute Displacement Error: %.5E.\n", get_error());
+    if(if_print()) suanpan_info("Absolute Error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

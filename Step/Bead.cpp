@@ -1,5 +1,5 @@
 #include "Bead.h"
-#include <Convergence/Convergence.h>
+#include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Solver/Solver.h>
 #include <Step/Step.h>
@@ -22,7 +22,7 @@ bool Bead::insert(const shared_ptr<Solver>& S)
     return F.second;
 }
 
-bool Bead::insert(const shared_ptr<Convergence>& C)
+bool Bead::insert(const shared_ptr<Converger>& C)
 {
     auto F = converger_pool.insert({ C->get_tag(), C });
     return F.second;
@@ -44,7 +44,7 @@ const shared_ptr<Solver>& Bead::get_solver(const unsigned& T) const
     return solver_pool.at(T);
 }
 
-const shared_ptr<Convergence>& Bead::get_convergence(const unsigned& T) const
+const shared_ptr<Converger>& Bead::get_converger(const unsigned& T) const
 {
     return converger_pool.at(T);
 }
@@ -64,7 +64,7 @@ const shared_ptr<Solver>& Bead::get_current_solver() const
     return solver_pool.at(current_solver);
 }
 
-const shared_ptr<Convergence>& Bead::get_current_convergence() const
+const shared_ptr<Converger>& Bead::get_current_converger() const
 {
     return converger_pool.at(current_converger);
 }
@@ -100,7 +100,7 @@ void Bead::erase_domain(const unsigned& T)
 
 void Bead::erase_solver(const unsigned& T) { solver_pool.erase(T); }
 
-void Bead::erase_convergence(const unsigned& T) { converger_pool.erase(T); }
+void Bead::erase_converger(const unsigned& T) { converger_pool.erase(T); }
 
 void Bead::erase_step(const unsigned& T)
 {
@@ -142,13 +142,13 @@ void Bead::disable_solver(const unsigned& T)
         suanpan_info("disable_step() cannot find Solver %u.\n", T);
 }
 
-void Bead::disable_convergence(const unsigned& T)
+void Bead::disable_converger(const unsigned& T)
 {
     if(converger_pool.find(T) != converger_pool.end()) {
         converger_pool.at(T)->disable();
-        suanpan_debug("disable_convergence() disables Convergence %u.\n", T);
+        suanpan_debug("disable_converger() disables Converger %u.\n", T);
     } else
-        suanpan_info("disable_convergence() cannot find Convergence %u.\n", T);
+        suanpan_info("disable_converger() cannot find Converger %u.\n", T);
 }
 
 void Bead::disable_step(const unsigned& T)
@@ -178,13 +178,13 @@ void Bead::enable_solver(const unsigned& T)
         suanpan_info("enable_solver() cannot find Solver %u.\n", T);
 }
 
-void Bead::enable_convergence(const unsigned& T)
+void Bead::enable_converger(const unsigned& T)
 {
     if(converger_pool.find(T) != converger_pool.end()) {
         converger_pool.at(T)->enable();
-        suanpan_debug("enable_convergence() enables Convergence %u.\n", T);
+        suanpan_debug("enable_converger() enables Converger %u.\n", T);
     } else
-        suanpan_info("enable_convergence() cannot find Convergence %u.\n", T);
+        suanpan_info("enable_converger() cannot find Converger %u.\n", T);
 }
 
 void Bead::enable_step(const unsigned& T)
@@ -200,7 +200,7 @@ void Bead::set_current_domain(const unsigned& T) { current_domain = T; }
 
 void Bead::set_current_solver(const unsigned& T) { current_solver = T; }
 
-void Bead::set_current_convergence(const unsigned& T) { current_converger = T; }
+void Bead::set_current_converger(const unsigned& T) { current_converger = T; }
 
 void Bead::set_current_step(const unsigned& T) { current_step = T; }
 
@@ -223,7 +223,7 @@ shared_ptr<Solver>& get_solver(const shared_ptr<Bead>& B, const unsigned& T)
     return B->solver_pool[T];
 }
 
-shared_ptr<Convergence>& get_convergence(const shared_ptr<Bead>& B, const unsigned& T)
+shared_ptr<Converger>& get_converger(const shared_ptr<Bead>& B, const unsigned& T)
 {
     return B->converger_pool[T];
 }
@@ -243,7 +243,7 @@ shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>& B)
     return B->solver_pool[B->current_solver];
 }
 
-shared_ptr<Convergence>& get_current_convergence(const shared_ptr<Bead>& B)
+shared_ptr<Converger>& get_current_converger(const shared_ptr<Bead>& B)
 {
     return B->converger_pool[B->current_converger];
 }

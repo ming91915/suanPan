@@ -1,29 +1,29 @@
 /**
-* @class RelError
-* @brief The RelError class that handles convergence test to indicate if the iteration
+* @class RelIncreDisp
+* @brief The RelIncreDisp class that handles converger test to indicate if the iteration
 * converges.
 * @author T
 * @date 08/08/2017
 * @version 0.2.0
-* @file RelError.h
-* @addtogroup Convergence
+* @file RelIncreDisp.h
+* @addtogroup Converger
 * @{
 */
 
-#ifndef RELERROR_H
-#define RELERROR_H
+#ifndef RELINCREDISP_H
+#define RELINCREDISP_H
 
-#include "Convergence.h"
+#include "Converger.h"
 
-class RelError final : public Convergence
+class RelIncreDisp : public Converger
 {
 public:
-    explicit RelError(const unsigned& = 0,
+    explicit RelIncreDisp(const unsigned& = 0,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
         const unsigned& = 7,
         const bool& = false);
-    explicit RelError(const shared_ptr<Domain>&,
+    explicit RelIncreDisp(const shared_ptr<Domain>&,
         const double& = 1E-8,
         const unsigned& = 7,
         const bool& = false);

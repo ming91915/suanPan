@@ -15,7 +15,8 @@
 class Workroom;
 class Domain;
 class Solver;
-class Convergence;
+class Converger;
+class Integrator;
 
 class Step : public Tag
 {
@@ -26,19 +27,15 @@ class Step : public Tag
 
     double time_period = 1.0; /**< time period */
 
-    shared_ptr<Workroom> factory;
-    shared_ptr<Domain> database;
-    shared_ptr<Solver> solver;
-    shared_ptr<Convergence> converger;
+    shared_ptr<Workroom> factory = nullptr;
+    shared_ptr<Domain> database = nullptr;
+    shared_ptr<Solver> solver = nullptr;
+    shared_ptr<Converger> tester = nullptr;
+    shared_ptr<Integrator> modifier = nullptr;
 
 public:
-    explicit Step(const unsigned& = 0,
-        const unsigned& = CT_STEP,
-        const shared_ptr<Domain>& = nullptr,
-        const shared_ptr<Solver>& = nullptr,
-        const shared_ptr<Convergence>& = nullptr,
-        const double& = 1.);
-    virtual ~Step() {}
+    explicit Step(const unsigned& = 0, const unsigned& = CT_STEP, const double& = 1.);
+    virtual ~Step();
 
     const bool& is_initialized() const;
 
@@ -55,8 +52,11 @@ public:
     void set_solver(const shared_ptr<Solver>&);
     const shared_ptr<Solver>& get_solver() const;
 
-    void set_convergence(const shared_ptr<Convergence>&);
-    const shared_ptr<Convergence>& get_convergence() const;
+    void set_converger(const shared_ptr<Converger>&);
+    const shared_ptr<Converger>& get_converger() const;
+
+    void set_integrator(const shared_ptr<Integrator>&);
+    const shared_ptr<Integrator>& get_integrator() const;
 
     void set_time_perid(const double&);
     const double& get_time_period() const;

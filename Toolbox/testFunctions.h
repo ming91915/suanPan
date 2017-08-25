@@ -1,6 +1,8 @@
 #ifndef TESTFUNCTIONS_H
 #define TESTFUNCTIONS_H
 
+#include <suanPan>
+
 void example_ext_module()
 {
     ExternalModule A("ElementExample");
@@ -55,7 +57,7 @@ void example_ODE()
 
 void example_Newmark()
 {
-    auto B = make_shared<Workroom>(3, SUANPAN_DYNAMICS);
+    auto B = make_shared<Workroom>(3, AnalysisType::DYNAMICS);
     B->initialize();
     mat M = eye(3, 3);
     M(1, 1) = 3;

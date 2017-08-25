@@ -4,7 +4,7 @@ project(suanPan)
 
 set(ROOT .)
 
-include(${ROOT}/Configuration.cmake)
+include(${ROOT}/config.cmake)
 
 link_directories(${PROJECT_BINARY_DIR}/Libs)
 
@@ -12,7 +12,7 @@ add_executable(${PROJECT_NAME}
         "suanPan.h"
         "suanPan_Main.cpp"
         "Constraint/CMakeLists.txt"
-        "Convergence/CMakeLists.txt"
+        "Converger/CMakeLists.txt"
         "Domain/CMakeLists.txt"
         "Load/CMakeLists.txt"
         "Recorder/CMakeLists.txt"
@@ -24,7 +24,7 @@ add_subdirectory(Element)
 add_subdirectory(Material)
 
 add_subdirectory(Constraint)
-add_subdirectory(Convergence)
+add_subdirectory(Converger)
 add_subdirectory(Domain)
 add_subdirectory(Load)
 add_subdirectory(Recorder)

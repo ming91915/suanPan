@@ -1,6 +1,6 @@
 /**
-* @class Convergence
-* @brief The Convergence class handles convergence test to indicate if the iteration
+* @class Converger
+* @brief The Converger class handles converger test to indicate if the iteration
 * converges according to various rules.
 *
 * The class stores a pointer `factory` pointed to the Workroom and get information from
@@ -13,19 +13,19 @@
 * @author T
 * @date 25/08/2017
 * @version 0.2.1
-* @file Convergence.h
-* @addtogroup Convergence
+* @file Converger.h
+* @addtogroup Converger
 * @{
 */
 
-#ifndef CONVERGENCE_H
-#define CONVERGENCE_H
+#ifndef CONVERGER_H
+#define CONVERGER_H
 
 #include "Domain/Tag.h"
 
 class Domain;
 
-class Convergence : public Tag
+class Converger : public Tag
 {
     shared_ptr<Domain> database; /**< pointer to Domain */
 
@@ -37,18 +37,18 @@ class Convergence : public Tag
 
     double error = 0.; /**< current error */
 
-    bool conv_flag = false; /**< convergence flag */
+    bool conv_flag = false; /**< converger flag */
 
     bool initialized = false;
 
 public:
-    explicit Convergence(const unsigned& = 0,
-        const unsigned& = CT_CONVERGENCE,
+    explicit Converger(const unsigned& = 0,
+        const unsigned& = CT_CONVERGER,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
         const unsigned& = 7,
         const bool& = false);
-    virtual ~Convergence();
+    virtual ~Converger();
 
     const bool& is_initialized() const;
 

@@ -178,8 +178,9 @@
     1 /* Section is first range of blocks in an indirect block row */
 #define H5HF_FSPACE_SECT_NORMAL_ROW \
     2 /* Section is a range of blocks in an indirect block row */
-#define H5HF_FSPACE_SECT_INDIRECT 3 /* Section is a span of blocks in an indirect block \
-                                       */
+#define H5HF_FSPACE_SECT_INDIRECT                           \
+    3 /* Section is a span of blocks in an indirect block \ \
+         */
 
 /* Flags for 'op' operations */
 #define H5HF_OP_MODIFY 0x0001          /* Operation will modify object */
@@ -265,9 +266,8 @@ typedef struct H5HF_free_section_t {
         struct {
             H5HF_indirect_t*
                 parent; /* Indirect block parent for free section's direct block */
-            unsigned
-                par_entry; /* Entry of free section's direct block in parent indirect
-                              block */
+            unsigned par_entry; /* Entry of free section's direct block in parent indirect
+                                   block */
         } single;
         struct {
             struct H5HF_free_section_t*
@@ -377,14 +377,13 @@ typedef struct H5HF_hdr_t {
                                    pinned/protected */
     H5FS_t* fspace;             /* Free space list for objects in heap */
     H5HF_block_iter_t
-        next_block;       /* Block iterator for searching for next block with space */
-    H5B2_t* huge_bt2;     /* v2 B-tree handle for huge objects */
-    hsize_t huge_max_id;  /* Max. 'huge' heap ID before rolling 'huge' heap IDs over */
-    uint8_t huge_id_size; /* Size of 'huge' heap IDs (in bytes) */
-    hbool_t
-        huge_ids_direct; /* Flag to indicate that 'huge' object's offset & length are
-                            stored directly in heap ID */
-    size_t tiny_max_len; /* Max. size of tiny objects for this heap */
+        next_block;          /* Block iterator for searching for next block with space */
+    H5B2_t* huge_bt2;        /* v2 B-tree handle for huge objects */
+    hsize_t huge_max_id;     /* Max. 'huge' heap ID before rolling 'huge' heap IDs over */
+    uint8_t huge_id_size;    /* Size of 'huge' heap IDs (in bytes) */
+    hbool_t huge_ids_direct; /* Flag to indicate that 'huge' object's offset & length are
+                                stored directly in heap ID */
+    size_t tiny_max_len;     /* Max. size of tiny objects for this heap */
     hbool_t tiny_len_extended; /* Flag to indicate that 'tiny' object's length is stored
                                   in extended form (i.e. w/extra byte) */
     uint8_t heap_off_size;     /* Size of heap offsets (in bytes) */

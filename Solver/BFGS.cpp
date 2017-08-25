@@ -1,6 +1,6 @@
 #include "BFGS.h"
-#include "Convergence/AbsResidual.h"
-#include <Convergence/Convergence.h>
+#include "Converger/AbsResidual.h"
+#include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 

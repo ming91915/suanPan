@@ -4,14 +4,14 @@
 
 RK23::RK23(const unsigned& T,
     const shared_ptr<ODE>& D,
-    const shared_ptr<Convergence>& C,
+    const shared_ptr<Converger>& C,
     const shared_ptr<Workroom>& W)
     : ODE_Solver(T, CT_RK23, D, C, W)
 {
 }
 
 RK23::RK23(const shared_ptr<ODE>& D,
-    const shared_ptr<Convergence>& C,
+    const shared_ptr<Converger>& C,
     const shared_ptr<Workroom>& W)
     : ODE_Solver(0, CT_RK23, D, C, W)
 {

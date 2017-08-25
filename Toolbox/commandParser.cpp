@@ -2,7 +2,7 @@
 #include "Recorder/NodeRecorder.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
-#include <Convergence/Convergence>
+#include <Converger/Converger>
 #include <Domain/Domain.h>
 #include <Domain/ExternalModule.h>
 #include <Domain/Node.h>
@@ -160,11 +160,11 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    if(step_type == "static") {
-        if(!model->insert(make_shared<Static>(tag, nullptr, nullptr, nullptr, time)))
+    if(_strcmpi(step_type.c_str(), "Static") == 0) {
+        if(!model->insert(make_shared<Static>(tag, time)))
             suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(step_type == "dynamic") {
-        if(!model->insert(make_shared<Dynamic>(tag)))
+    } else if(_strcmpi(step_type.c_str(), "Dynamic") == 0) {
+        if(!model->insert(make_shared<Dynamic>(tag, time)))
             suanpan_error("create_new_step() cannot create the new step.\n");
     } else
         suanpan_info("create_new_step() cannot identify step type.\n");
@@ -186,7 +186,7 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
 
     string converger_id;
     if((command >> converger_id).fail()) {
-        suanpan_info("create_new_converger() requires convergence type.\n");
+        suanpan_info("create_new_converger() requires converger type.\n");
         return 0;
     }
 
@@ -225,7 +225,7 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
     } else
         suanpan_info("create_new_converger() cannot identify the converger type.\n");
 
-    tmp_step->set_convergence(model->get_convergence(tag));
+    tmp_step->set_converger(model->get_converger(tag));
 
     return 0;
 }
@@ -513,7 +513,7 @@ int disable_object(const shared_ptr<Bead>& model, istringstream& command)
     else if(object_type == "step")
         while(!(command >> tag).fail()) model->disable_step(tag);
     else if(object_type == "converger")
-        while(!(command >> tag).fail()) model->disable_convergence(tag);
+        while(!(command >> tag).fail()) model->disable_converger(tag);
     else if(object_type == "bc" || object_type == "constraint")
         while(!(command >> tag).fail()) domain->disable_constraint(tag);
     else if(object_type == "element")
@@ -550,7 +550,7 @@ int erase_object(const shared_ptr<Bead>& model, istringstream& command)
     else if(object_type == "step")
         while(!(command >> tag).fail()) model->erase_step(tag);
     else if(object_type == "converger")
-        while(!(command >> tag).fail()) model->erase_convergence(tag);
+        while(!(command >> tag).fail()) model->erase_converger(tag);
     else if(object_type == "bc" || object_type == "constraint")
         while(!(command >> tag).fail()) domain->erase_constraint(tag);
     else if(object_type == "element")

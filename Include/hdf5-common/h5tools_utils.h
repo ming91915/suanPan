@@ -101,9 +101,8 @@ typedef struct obj_t {
     haddr_t objno;
     char* objname;
     hbool_t displayed; /* Flag to indicate that the object has been displayed */
-    hbool_t
-        recorded; /* Flag for named datatypes to indicate they were found in the group
-                     hierarchy */
+    hbool_t recorded; /* Flag for named datatypes to indicate they were found in the group
+                         hierarchy */
 } obj_t;
 
 /*struct for the tables that the find_objs function uses*/
