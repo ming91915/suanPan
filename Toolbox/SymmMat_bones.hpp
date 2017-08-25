@@ -9,20 +9,17 @@ public:
 
     SymmMat();
 
-    explicit SymmMat(const uword in_rows, const uword in_cols);
+    explicit SymmMat(const uword& in_size);
 
     template <typename fill_type>
-    SymmMat(const uword in_rows,
-        const uword in_cols,
-        const fill::fill_class<fill_type>& f);
+    SymmMat(const uword& in_size, const fill::fill_class<fill_type>& f);
 
-    arma_warn_unused eT& at(const uword in_row, const uword in_col);
-    arma_warn_unused const eT& at(const uword in_row, const uword in_col) const;
-    arma_warn_unused eT& operator()(const uword in_row, const uword in_col);
-    arma_warn_unused const eT& operator()(const uword in_row, const uword in_col) const;
+    eT& at(const uword& in_row, const uword& in_col);
+    const eT& at(const uword& in_row, const uword& in_col) const;
+    eT& operator()(const uword& in_row, const uword& in_col);
+    const eT& operator()(const uword& in_row, const uword& in_col) const;
 
 protected:
     void init_cold();
-
-    void init_warm(uword in_rows, uword in_cols);
+    void init_warm(const uword& in_size);
 };

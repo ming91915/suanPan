@@ -10,9 +10,10 @@ Step::Step(const unsigned& T, const unsigned& CT, const double& P)
 {
     enable_band();
     enable_symm();
+    suanpan_debug("Step %u ctor() called.\n", T);
 }
 
-Step::~Step() {}
+Step::~Step() { suanpan_debug("Step %u dtor() called.\n", get_tag()); }
 
 const bool& Step::is_initialized() const { return initialized; }
 

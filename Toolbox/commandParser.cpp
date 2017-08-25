@@ -14,6 +14,7 @@
 #include <Step/Bead.h>
 #include <Step/Dynamic.h>
 #include <Step/Static.h>
+#include <Toolbox/utility.h>
 
 using std::string;
 using std::ifstream;
@@ -23,8 +24,11 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
 {
     if(model == nullptr) return 0;
 
-    string command_id;
-    if((command >> command_id).fail()) return 0;
+    //   string command_id;
+    // if (!get_input(command, command_id))return 0;
+
+    auto command_id = get_input<string>(command);
+    if(command.fail()) return 0;
 
     if(command_id == "exit") return SUANPAN_EXIT;
 
@@ -43,6 +47,8 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     if(command_id == "fix") return create_new_bc(model, command);
 
     if(command_id == "cload") return create_new_cload(model, command);
+
+    if(command_id == "enable") return enable_object(model, command);
 
     if(command_id == "disable") return disable_object(model, command);
 
@@ -109,7 +115,7 @@ int process_file(const shared_ptr<Bead>& model, const char* file_name)
 int process_file(const shared_ptr<Bead>& model, istringstream& command)
 {
     string file_name;
-    if((command >> file_name).fail()) {
+    if(!get_input(command, file_name)) {
         suanpan_info("process_file() needs a file name.\n");
         return 0;
     }
@@ -161,17 +167,19 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     if(_strcmpi(step_type.c_str(), "Static") == 0) {
-        if(!model->insert(make_shared<Static>(tag, time)))
+        if(model->insert(make_shared<Static>(tag, time))) {
+            model->set_current_step(tag);
+            model->get_current_step()->set_domain(model->get_current_domain());
+        } else
             suanpan_error("create_new_step() cannot create the new step.\n");
     } else if(_strcmpi(step_type.c_str(), "Dynamic") == 0) {
-        if(!model->insert(make_shared<Dynamic>(tag, time)))
+        if(model->insert(make_shared<Dynamic>(tag, time))) {
+            model->set_current_step(tag);
+            model->get_current_step()->set_domain(model->get_current_domain());
+        } else
             suanpan_error("create_new_step() cannot create the new step.\n");
     } else
         suanpan_info("create_new_step() cannot identify step type.\n");
-
-    model->set_current_step(tag);
-
-    model->get_current_step()->set_domain(model->get_current_domain());
 
     return 0;
 }
@@ -215,17 +223,19 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     if(_strcmpi(converger_id.c_str(), "AbsResidual") == 0) {
-        if(!model->insert(make_shared<AbsResidual>(
+        if(model->insert(make_shared<AbsResidual>(
                tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(_strcmpi(converger_id.c_str(), "AbsIncreDisp") == 0) {
-        if(!model->insert(make_shared<AbsIncreDisp>(
+        if(model->insert(make_shared<AbsIncreDisp>(
                tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else
         suanpan_info("create_new_converger() cannot identify the converger type.\n");
-
-    tmp_step->set_converger(model->get_converger(tag));
 
     return 0;
 }
@@ -251,15 +261,17 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command)
     }
 
     if(_strcmpi(solver_type.c_str(), "Newton") == 0) {
-        if(!model->insert(make_shared<Newton>(tag)))
+        if(model->insert(make_shared<Newton>(tag)))
+            tmp_step->set_solver(model->get_solver(tag));
+        else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
     } else if(_strcmpi(solver_type.c_str(), "BFGS") == 0) {
-        if(!model->insert(make_shared<Newton>(tag)))
+        if(model->insert(make_shared<Newton>(tag)))
+            tmp_step->set_solver(model->get_solver(tag));
+        else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
     } else
         suanpan_error("create_new_solver() cannot identify solver type.\n");
-
-    tmp_step->set_solver(model->get_solver(tag));
 
     return 0;
 }
@@ -334,7 +346,7 @@ int create_new_cload(const shared_ptr<Bead>& model, istringstream& command)
 
     unsigned node;
     vector<uword> node_tag;
-    while(!(command >> node).fail()) node_tag.push_back(node);
+    while(get_input(command, node)) node_tag.push_back(node);
 
     const auto& domain = model->get_current_domain();
     const auto& step_tag = model->get_current_step()->get_tag();
@@ -356,7 +368,7 @@ int create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
 
     vector<double> coor;
     double X;
-    while(!(command >> X).fail()) coor.push_back(X);
+    while(get_input(command, X)) coor.push_back(X);
 
     if(!domain->insert(make_shared<Node>(node_id, vec(coor))))
         suanpan_debug("create_new_node() fails to insert Node %u.\n", node_id);
@@ -493,6 +505,45 @@ int print_info(const shared_ptr<Domain>& domain, istringstream& command)
     return 0;
 }
 
+int enable_object(const shared_ptr<Bead>& model, istringstream& command)
+{
+    const auto& domain = get_current_domain(model);
+    if(domain == nullptr) {
+        suanpan_info("enable_object() needs a valid domain.\n");
+        return 0;
+    }
+
+    string object_type;
+    if((command >> object_type).fail()) {
+        suanpan_info("enable_object() needs object type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(object_type == "domain")
+        while(!(command >> tag).fail()) model->enable_domain(tag);
+    else if(object_type == "step")
+        while(!(command >> tag).fail()) model->enable_step(tag);
+    else if(object_type == "converger")
+        while(!(command >> tag).fail()) model->enable_converger(tag);
+    else if(object_type == "bc")
+        while(!(command >> tag).fail()) domain->enable_constraint(tag);
+    else if(object_type == "constraint")
+        while(!(command >> tag).fail()) domain->enable_constraint(tag);
+    else if(object_type == "element")
+        while(!(command >> tag).fail()) domain->enable_element(tag);
+    else if(object_type == "load")
+        while(!(command >> tag).fail()) domain->enable_load(tag);
+    else if(object_type == "material")
+        while(!(command >> tag).fail()) domain->enable_material(tag);
+    else if(object_type == "node")
+        while(!(command >> tag).fail()) domain->enable_node(tag);
+    else if(object_type == "recorder")
+        while(!(command >> tag).fail()) domain->enable_recorder(tag);
+
+    return 0;
+}
+
 int disable_object(const shared_ptr<Bead>& model, istringstream& command)
 {
     const auto& domain = get_current_domain(model);
@@ -514,7 +565,9 @@ int disable_object(const shared_ptr<Bead>& model, istringstream& command)
         while(!(command >> tag).fail()) model->disable_step(tag);
     else if(object_type == "converger")
         while(!(command >> tag).fail()) model->disable_converger(tag);
-    else if(object_type == "bc" || object_type == "constraint")
+    else if(object_type == "bc")
+        while(!(command >> tag).fail()) domain->disable_constraint(tag);
+    else if(object_type == "constraint")
         while(!(command >> tag).fail()) domain->disable_constraint(tag);
     else if(object_type == "element")
         while(!(command >> tag).fail()) domain->disable_element(tag);
@@ -551,7 +604,9 @@ int erase_object(const shared_ptr<Bead>& model, istringstream& command)
         while(!(command >> tag).fail()) model->erase_step(tag);
     else if(object_type == "converger")
         while(!(command >> tag).fail()) model->erase_converger(tag);
-    else if(object_type == "bc" || object_type == "constraint")
+    else if(object_type == "bc")
+        while(!(command >> tag).fail()) domain->erase_constraint(tag);
+    else if(object_type == "constraint")
         while(!(command >> tag).fail()) domain->erase_constraint(tag);
     else if(object_type == "element")
         while(!(command >> tag).fail()) domain->erase_element(tag);

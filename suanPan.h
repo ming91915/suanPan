@@ -90,8 +90,6 @@
 #define _strcmpi strcasecmp
 #endif
 
-// auto invalid_code = static_cast<unsigned>(-1);
-
 #include <Element/ElementTag.h>
 #include <Material/MaterialTag.h>
 #include <Toolbox/ClassTag.h>

@@ -6,7 +6,8 @@
  * problem using Newton (or quasi Newton) solvers.
  *
  * @author T
- * @date 16/08/2017
+ * @date 26/08/2017
+ * @version 0.1.1
  * @file Static.h
  */
 
@@ -21,7 +22,7 @@ class Static : public Step
 
     double ini_step_size = 1; /**< initial step size */
 
-    double min_step_size = 1E-6; /**< minimum step size */
+    double min_step_size = 1E-8; /**< minimum step size */
     double max_step_size = 1;    /**< maximum step size */
 
     unsigned max_increment = 1000000; /**< maximum increment number */

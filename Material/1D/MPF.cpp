@@ -106,7 +106,7 @@ int MPF::update_trial_status(const vec& t_strain)
     auto normal_strain =
         (trial_strain(0) - reverse_strain) / (inter_strain - reverse_strain);
     auto tmp_a = 1. + pow(normal_strain, R);
-    auto tmp_b = (1 - hardening_ratio) / pow(tmp_a, 1. / R);
+    auto tmp_b = (1. - hardening_ratio) / pow(tmp_a, 1. / R);
 
     auto normal_stress = (hardening_ratio + tmp_b) * normal_strain;
 

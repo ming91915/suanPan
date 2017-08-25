@@ -11,34 +11,35 @@ Static::Static(const unsigned& T, const double& P)
 
 int Static::analyze()
 {
-    auto& tmp_workroom = get_workroom();
-    auto& tmp_domain = get_domain();
-    auto& tmp_solver = get_solver();
-    auto& tmp_integrator = get_integrator();
+    auto& W = get_workroom();
+    auto& D = get_domain();
+    auto& S = get_solver();
+    auto& G = get_integrator();
 
     // FORM INITIAL TAGENT STIFFNESS AND RESISTANCE FOR ELEMENTS
-    tmp_domain->update_trial_status();
+    D->update_trial_status();
 
     auto time_left = get_time_period();
     auto step = ini_step_size;
 
     unsigned num_increment = 0;
 
-    while(time_left > 0. && num_increment++ < max_increment) {
-        tmp_workroom->update_incre_time(step);
-        auto code = tmp_solver->analyze(get_tag());
+    while(time_left > 0. && ++num_increment <= max_increment) {
+        W->update_incre_time(step);
+        auto code = S->analyze(get_tag());
         if(code == 0) {
-            tmp_integrator->commit_status();
-            tmp_domain->commit_status();
-            tmp_domain->record();
+            G->commit_status();
+            D->commit_status();
+            D->record();
             time_left -= step;
         } else if(code == -1) {
-            tmp_domain->reset_status();
+            D->reset_status();
             if(step <= min_step_size) {
-                suanpan_error("analyze() reaches minimum step size.\n");
+                suanpan_error(
+                    "analyze() reaches minimum step size %.3E.\n", min_step_size);
                 return -1;
             }
-            step /= 2.;
+            if(!fixed_size) step /= 2.;
         } else {
             suanpan_error(
                 "analyze() recieves error code %u from lapack subroutine.\n", code);
@@ -46,8 +47,11 @@ int Static::analyze()
         }
     }
 
-    if(num_increment > max_increment)
-        suanpan_warning("analyze() reaches maximum iteration number.\n");
+    if(num_increment > max_increment) {
+        suanpan_warning(
+            "analyze() reaches maximum iteration number %u.\n", max_increment);
+        return -1;
+    }
 
     return 0;
 }

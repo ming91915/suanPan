@@ -7,30 +7,28 @@ SymmMat<eT>::SymmMat()
 }
 
 template <typename eT>
-SymmMat<eT>::SymmMat(const uword in_rows, const uword in_cols)
+SymmMat<eT>::SymmMat(const uword& in_size)
     : Mat<eT>()
 {
-    access::rw(Mat<eT>::n_rows) = in_rows;
-    access::rw(Mat<eT>::n_cols) = in_cols;
-    access::rw(Mat<eT>::n_elem) = (in_rows + 1) * in_cols / 2;
+    access::rw(Mat<eT>::n_rows) = in_size;
+    access::rw(Mat<eT>::n_cols) = in_size;
+    access::rw(Mat<eT>::n_elem) = (in_size + 1) * in_size / 2;
     init_cold();
 }
 
 template <typename eT>
 template <typename fill_type>
-SymmMat<eT>::SymmMat(const uword in_rows,
-    const uword in_cols,
-    const fill::fill_class<fill_type>& f)
+SymmMat<eT>::SymmMat(const uword& in_size, const fill::fill_class<fill_type>& f)
     : Mat<eT>()
 {
-    access::rw(Mat<eT>::n_rows) = in_rows;
-    access::rw(Mat<eT>::n_cols) = in_cols;
-    access::rw(Mat<eT>::n_elem) = (in_rows + 1) * in_cols / 2;
+    access::rw(Mat<eT>::n_rows) = in_size;
+    access::rw(Mat<eT>::n_cols) = in_size;
+    access::rw(Mat<eT>::n_elem) = (in_size + 1) * in_size / 2;
     init_cold();
     (*this).fill(f);
 }
 
-template <typename eT> eT& SymmMat<eT>::at(const uword in_row, const uword in_col)
+template <typename eT> eT& SymmMat<eT>::at(const uword& in_row, const uword& in_col)
 {
     if(in_row > in_col)
         return access::rw(Mat<eT>::mem[in_col * Mat<eT>::n_rows -
@@ -41,7 +39,7 @@ template <typename eT> eT& SymmMat<eT>::at(const uword in_row, const uword in_co
 }
 
 template <typename eT>
-const eT& SymmMat<eT>::at(const uword in_row, const uword in_col) const
+const eT& SymmMat<eT>::at(const uword& in_row, const uword& in_col) const
 {
     if(in_row > in_col)
         return Mat<eT>::mem[in_col * Mat<eT>::n_rows - (in_col + in_col * in_col) / 2 +
@@ -51,7 +49,8 @@ const eT& SymmMat<eT>::at(const uword in_row, const uword in_col) const
         in_col];
 }
 
-template <typename eT> eT& SymmMat<eT>::operator()(const uword in_row, const uword in_col)
+template <typename eT>
+eT& SymmMat<eT>::operator()(const uword& in_row, const uword& in_col)
 {
     arma_debug_check(((in_row >= Mat<eT>::n_rows) || (in_col >= Mat<eT>::n_cols)),
         "Mat::operator(): index out of bounds");
@@ -59,7 +58,7 @@ template <typename eT> eT& SymmMat<eT>::operator()(const uword in_row, const uwo
 }
 
 template <typename eT>
-const eT& SymmMat<eT>::operator()(const uword in_row, const uword in_col) const
+const eT& SymmMat<eT>::operator()(const uword& in_row, const uword& in_col) const
 {
     arma_debug_check(((in_row >= Mat<eT>::n_rows) || (in_col >= Mat<eT>::n_cols)),
         "Mat::operator(): index out of bounds");
@@ -79,9 +78,7 @@ template <typename eT> void SymmMat<eT>::init_cold()
 #endif
 
     arma_debug_check(
-        Mat<eT>::n_rows > ARMA_MAX_UHWORD || Mat<eT>::n_cols > ARMA_MAX_UHWORD ?
-            double(Mat<eT>::n_elem) > double(ARMA_MAX_UWORD) :
-            false,
+        Mat<eT>::n_rows > ARMA_MAX_UHWORD ? Mat<eT>::n_elem > ARMA_MAX_UWORD : false,
         error_message);
 
     if(Mat<eT>::n_elem <= arma_config::mat_prealloc)
@@ -97,12 +94,12 @@ template <typename eT> void SymmMat<eT>::init_cold()
     }
 }
 
-template <typename eT> void SymmMat<eT>::init_warm(uword in_n_rows, uword in_n_cols)
+template <typename eT> void SymmMat<eT>::init_warm(const uword& in_size)
 {
     arma_extra_debug_sigprint(
-        arma_str::format("in_n_rows = %d, in_n_cols = %d") % in_n_rows % in_n_cols);
+        arma_str::format("in_n_rows = %d, in_n_cols = %d") % in_size % in_size);
 
-    if((Mat<eT>::n_rows == in_n_rows) && (Mat<eT>::n_cols == in_n_cols)) return;
+    if(Mat<eT>::n_rows == in_size) return;
 
     auto err_state = false;
     char* err_msg = nullptr;
@@ -120,20 +117,16 @@ template <typename eT> void SymmMat<eT>::init_warm(uword in_n_rows, uword in_n_c
 #endif
 
     arma_debug_set_error(err_state, err_msg,
-        in_n_rows > ARMA_MAX_UHWORD || in_n_cols > ARMA_MAX_UHWORD ?
-            .5 * (double(in_n_rows) + 1.) * double(in_n_cols) > double(ARMA_MAX_UWORD) :
-            false,
+        in_size > ARMA_MAX_UHWORD ? (in_size + 1) * in_size / 2 > ARMA_MAX_UWORD : false,
         error_message);
 
     arma_debug_check(err_state, err_msg);
 
     const auto old_n_elem = Mat<eT>::n_elem;
-    const auto new_n_elem = (in_n_rows + 1) * in_n_cols / 2;
+    const auto new_n_elem = (in_size + 1) * in_size / 2;
 
     if(old_n_elem == new_n_elem) {
         arma_extra_debug_print("Mat::init(): reusing memory");
-        access::rw(Mat<eT>::n_rows) = in_n_rows;
-        access::rw(Mat<eT>::n_cols) = in_n_cols;
     } else // condition: old_n_elem != new_n_elem
     {
         arma_debug_check(t_mem_state == 2,
@@ -174,8 +167,8 @@ template <typename eT> void SymmMat<eT>::init_warm(uword in_n_rows, uword in_n_c
             access::rw(Mat<eT>::mem_state) = 0;
         }
 
-        access::rw(Mat<eT>::n_rows) = in_n_rows;
-        access::rw(Mat<eT>::n_cols) = in_n_cols;
+        access::rw(Mat<eT>::n_rows) = in_size;
+        access::rw(Mat<eT>::n_cols) = in_size;
         access::rw(Mat<eT>::n_elem) = new_n_elem;
     }
 }

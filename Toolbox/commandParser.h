@@ -20,6 +20,7 @@ int create_new_solver(const shared_ptr<Bead>&, istringstream&);
 int create_new_bc(const shared_ptr<Bead>&, istringstream&);
 int create_new_cload(const shared_ptr<Bead>&, istringstream&);
 
+int enable_object(const shared_ptr<Bead>&, istringstream&);
 int disable_object(const shared_ptr<Bead>&, istringstream&);
 int erase_object(const shared_ptr<Bead>&, istringstream&);
 

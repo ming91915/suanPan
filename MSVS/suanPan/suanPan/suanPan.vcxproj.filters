@@ -266,9 +266,6 @@
     <ClInclude Include="..\..\..\Step\Analysis.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -279,9 +276,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Node.h">
@@ -400,6 +394,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Converger\AbsResidual.h">
       <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

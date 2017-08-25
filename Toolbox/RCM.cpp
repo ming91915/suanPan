@@ -22,7 +22,7 @@ uvec RCM(const vector<uvec>& A, const uvec& E)
             R(IDXC--) = G(IDXA);
             M(G(IDXA++)) = 1;
         }
-        for(const auto& IDX : A.at(R(IDXB--)))
+        for(const auto& IDX : A[R(IDXB--)])
             if(M(IDX) != 1) {
                 R(IDXC--) = IDX;
                 M(IDX) = 1;
@@ -61,7 +61,7 @@ template <typename T> uvec RCM(const T& MEAT)
         unsigned J = 0;
         uvec IDX(E(K));
         for(auto L = MEAT.begin_col(K); L != MEAT.end_col(K); ++L) IDX(J++) = L.row();
-        A.at(K) = IDX(sort_index(E(IDX)));
+        A[K] = IDX(sort_index(E(IDX)));
     }
 
     //! Get the indices array in increasing order of degree.
@@ -104,7 +104,7 @@ template <typename T> uvec RCM(const T& MEAT)
         //! graph, push in all children into the vector. As they are already sorted, we
         //! can simply push in. When the loop is finished, move IDXB to next position,
         //! which may have another root or the children of current root.
-        for(const auto& IDX : A.at(R(IDXB--)))
+        for(const auto& IDX : A[R(IDXB--)])
             if(M(IDX) != 1) {
                 R(IDXC--) = IDX;
                 M(IDX) = 1;
