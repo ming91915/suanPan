@@ -190,7 +190,6 @@
     <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\Newmark.cpp" />
-    <ClCompile Include="..\..\..\Solver\Integrator\PlainIntegrator.cpp" />
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp" />
     <ClCompile Include="..\..\..\Solver\Newton.cpp" />
     <ClCompile Include="..\..\..\Solver\ODE.cpp" />
@@ -250,9 +249,8 @@
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h" />
-    <ClInclude Include="..\..\..\Solver\Integrator\Intergrator.h" />
+    <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h" />
-    <ClInclude Include="..\..\..\Solver\Integrator\PlainIntegrator.h" />
     <ClInclude Include="..\..\..\Solver\lapack_wrapper.h" />
     <ClInclude Include="..\..\..\Solver\Newton.h" />
     <ClInclude Include="..\..\..\Solver\ODE.h" />

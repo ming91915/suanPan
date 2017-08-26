@@ -133,12 +133,16 @@ public:
     bool find_node(const unsigned&) const;
     bool find_recorder(const unsigned&) const;
 
+    friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>&);
+
     void update_resistance() const;
     void update_mass() const;
     void update_initial_stiffness() const;
     void update_stiffness() const;
     void update_damping() const;
 
+    void update_trial_time(const double&) const;
+    void update_incre_time(const double&) const;
     void update_trial_status() const;
     void update_incre_status() const;
 

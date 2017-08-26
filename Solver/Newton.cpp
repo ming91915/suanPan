@@ -6,16 +6,15 @@
 #include <Solver/Integrator/Integrator.h>
 
 Newton::Newton(const unsigned& T,
-    const shared_ptr<Domain>& D,
     const shared_ptr<Converger>& C,
     const shared_ptr<Integrator>& G)
-    : Solver(T, CT_NEWTON, D, C, G)
+    : Solver(T, CT_NEWTON, C, G)
 {
 }
 
 int Newton::update_status()
 {
-    auto& W = get_domain()->get_workroom();
+    auto& W = get_integrator()->get_domain()->get_workroom();
 
     if(W->is_symm() && W->is_band())
         return pb_solve(get_ninja(W), get_stiffness(W),
@@ -42,18 +41,18 @@ int Newton::update_status()
 int Newton::analyze(const unsigned& ST)
 {
     auto& C = get_converger();
-    auto& D = get_domain();
-    auto& W = D->get_workroom();
     auto& G = get_integrator();
+    auto& W = G->get_domain()->get_workroom();
 
     unsigned counter = 0;
 
     while(true) {
-        G->update_status();
+        G->update_resistance();
+        G->update_stiffness();
         // PROCESS BC AND LOAD
-        D->process(ST);
+        G->process(ST);
         // CALL SOLVER
-        auto flag = update_status();
+        const auto flag = update_status();
         if(flag != 0) {
             suanpan_error("analyze() recieves error code %u from base driver.\n", flag);
             return flag;
@@ -61,7 +60,7 @@ int Newton::analyze(const unsigned& ST)
         // UPDATE TRIAL STATUS FOR WORKROOM
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED
-        D->update_trial_status();
+        G->update_trial_status();
 
         if(C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;

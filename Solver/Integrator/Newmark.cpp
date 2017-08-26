@@ -27,7 +27,7 @@ Newmark::~Newmark() {}
 
 int Newmark::initialize()
 {
-    auto code = Integrator::initialize();
+    const auto code = Integrator::initialize();
 
     if(code == 0) {
         auto& W = get_domain()->get_workroom();
@@ -42,10 +42,51 @@ int Newmark::initialize()
     return code;
 }
 
-int Newmark::update_status()
+void Newmark::update_resistance()
+{
+    update_parameter();
+
+    auto& D = get_domain();
+    auto& W = D->get_workroom();
+
+    D->update_resistance();
+
+    get_trial_resistance(W) -= W->get_mass() *
+            (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() +
+                C3 * W->get_current_acceleration()) -
+        W->get_damping() *
+            (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() +
+                C5 * W->get_current_acceleration());
+}
+
+void Newmark::update_stiffness()
+{
+    update_parameter();
+
+    auto& D = get_domain();
+    auto& W = D->get_workroom();
+
+    D->update_stiffness();
+
+    get_stiffness(W) += C0 * W->get_mass() + C1 * W->get_damping();
+}
+
+void Newmark::commit_status() const
 {
     auto& D = get_domain();
     auto& W = D->get_workroom();
+
+    W->update_trial_acceleration(C0 * W->get_incre_displacement() -
+        C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
+    W->update_trial_velocity(W->get_current_velocity() +
+        C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
+
+    D->commit_status();
+}
+
+void Newmark::update_parameter()
+{
+    auto& W = get_domain()->get_workroom();
 
     if(DT != W->get_incre_time()) {
         DT = W->get_incre_time();
@@ -58,31 +99,6 @@ int Newmark::update_status()
         C7 = DT * beta;
         C6 = DT - C7;
     }
-
-    D->update_stiffness();
-
-    get_stiffness(W) += C0 * W->get_mass() + C1 * W->get_damping();
-
-    D->update_resistance();
-
-    get_trial_resistance(W) -= W->get_mass() *
-            (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() +
-                C3 * W->get_current_acceleration()) -
-        W->get_damping() *
-            (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() +
-                C5 * W->get_current_acceleration());
-
-    return 0;
-}
-
-void Newmark::commit_status()
-{
-    auto& W = get_domain()->get_workroom();
-
-    W->update_trial_acceleration(C0 * W->get_incre_displacement() -
-        C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
-    W->update_trial_velocity(W->get_current_velocity() +
-        C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
 }
 
 void Newmark::print() { suanpan_info("A Newmark solver.\n"); }

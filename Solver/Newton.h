@@ -2,9 +2,10 @@
  * @class Newton
  * @brief A Newton class defines a solver using Newton--Raphson iteration.
  * @author T
- * @date 25/08/2017
- * @version 0.1.1
+ * @date 27/08/2017
+ * @version 0.1.2
  * @file Newton.h
+ * @addtogroup Solver
  * @{
  */
 
@@ -17,7 +18,6 @@ class Newton : public Solver
 {
 public:
     explicit Newton(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
         const shared_ptr<Converger>& = nullptr,
         const shared_ptr<Integrator>& = nullptr);
 

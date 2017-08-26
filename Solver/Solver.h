@@ -38,6 +38,7 @@
  * @date 27/07/2017
  * @version 0.2.1
  * @file Solver.h
+ * @addtogroup Solver
  * @{
  */
 
@@ -46,7 +47,6 @@
 
 #include <Domain/Tag.h>
 
-class Domain;
 class Converger;
 class Integrator;
 
@@ -54,14 +54,12 @@ class Solver : public Tag
 {
     bool initialized = false;
 
-    shared_ptr<Domain> database = nullptr;
     shared_ptr<Converger> converger = nullptr;
     shared_ptr<Integrator> modifier = nullptr;
 
 public:
     explicit Solver(const unsigned& = 0,
         const unsigned& = CT_SOLVER,
-        const shared_ptr<Domain>& = nullptr,
         const shared_ptr<Converger>& = nullptr,
         const shared_ptr<Integrator>& = nullptr);
     virtual ~Solver();
@@ -73,9 +71,6 @@ public:
     virtual int update_status() = 0;
 
     virtual int analyze(const unsigned& = 0) = 0;
-
-    void set_domain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& get_domain() const;
 
     void set_converger(const shared_ptr<Converger>&);
     const shared_ptr<Converger>& get_converger() const;

@@ -1,6 +1,5 @@
 #include "ODE_Solver.h"
 #include <Converger/Converger.h>
-#include <Domain/Domain.h>
 #include <Domain/Workroom.h>
 #include <Solver/ODE.h>
 
@@ -9,7 +8,7 @@ ODE_Solver::ODE_Solver(const unsigned& T,
     const shared_ptr<ODE>& E,
     const shared_ptr<Converger>& C,
     const shared_ptr<Workroom>& W)
-    : Solver(T, CT, nullptr, C, nullptr)
+    : Solver(T, CT, C, nullptr)
     , ode_system(E)
     , factory(W)
 {

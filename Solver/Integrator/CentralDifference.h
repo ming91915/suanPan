@@ -32,15 +32,18 @@ class CentralDifference : public Integrator
 
     double C0 = 0., C1 = 0., C2 = 0., C3 = 0.;
 
+    void update_parameter();
+
 public:
     explicit CentralDifference(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
     explicit CentralDifference(const shared_ptr<Domain>&);
 
     int initialize() override;
 
-    int update_status() override;
+    void update_stiffness() override;
+    void update_resistance() override;
 
-    void commit_status() override;
+    void commit_status() const override;
 };
 
 #endif

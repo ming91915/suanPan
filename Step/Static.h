@@ -9,6 +9,8 @@
  * @date 26/08/2017
  * @version 0.1.1
  * @file Static.h
+ * @addtogroup Step
+ * @{
  */
 
 #ifndef STATIC_H
@@ -34,3 +36,5 @@ public:
 };
 
 #endif
+
+//! @}

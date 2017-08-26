@@ -502,6 +502,10 @@ void Domain::update_damping() const
         factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
+void Domain::update_trial_time(const double& T) const { factory->update_trial_time(T); }
+
+void Domain::update_incre_time(const double& T) const { factory->update_incre_time(T); }
+
 void Domain::update_trial_status() const
 {
     auto& trial_dsp = factory->get_trial_displacement();
@@ -694,4 +698,9 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T)
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T)
 {
     return D->recorder_pool[T];
+}
+
+const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D)
+{
+    return D->tmp_node_pool;
 }

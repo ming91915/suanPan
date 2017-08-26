@@ -95,12 +95,6 @@ public:
     void set_symm(const bool&);
     void set_band(const bool&);
 
-    void enable_symm();
-    void disable_symm();
-
-    void enable_band();
-    void disable_band();
-
     void set_dof_number(const unsigned&);
     const unsigned& get_dof_number() const;
 

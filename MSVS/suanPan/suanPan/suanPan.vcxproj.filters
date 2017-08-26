@@ -171,9 +171,6 @@
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Integrator\PlainIntegrator.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
@@ -359,12 +356,6 @@
     <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Integrator\PlainIntegrator.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Integrator\Intergrator.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h">
       <Filter>Solver</Filter>
     </ClInclude>
@@ -400,6 +391,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
       <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
+      <Filter>Solver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

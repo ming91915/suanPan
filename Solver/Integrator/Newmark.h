@@ -33,6 +33,9 @@ class Newmark final : public Integrator
 
     double C0 = 0., C1 = 0., C2 = 0., C3 = 0., C4 = 0., C5 = 0., C6 = 0.,
            C7 = 0.; /**< parameters */
+
+    void update_parameter();
+
 public:
     explicit Newmark(const unsigned& = 0,
         const shared_ptr<Domain>& = nullptr,
@@ -43,9 +46,10 @@ public:
 
     int initialize() override;
 
-    int update_status() override;
+    void update_resistance() override;
+    void update_stiffness() override;
 
-    void commit_status() override;
+    void commit_status() const override;
 
     void print() override;
 };

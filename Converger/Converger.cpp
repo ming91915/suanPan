@@ -39,11 +39,7 @@ int Converger::initialize()
         return -1;
     }
 
-    auto code = 0;
-
-    if(!database->is_initialized()) code += database->initialize();
-
-    return code;
+    return 0;
 }
 
 /**

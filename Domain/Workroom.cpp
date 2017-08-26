@@ -14,14 +14,6 @@ void Workroom::set_symm(const bool& B) { symm_mat = B; }
 
 void Workroom::set_band(const bool& B) { band_mat = B; }
 
-void Workroom::enable_symm() { symm_mat = true; }
-
-void Workroom::disable_symm() { symm_mat = false; }
-
-void Workroom::enable_band() { band_mat = true; }
-
-void Workroom::disable_band() { band_mat = false; }
-
 void Workroom::set_dof_number(const unsigned& D) { dof_number = D; }
 
 const unsigned& Workroom::get_dof_number() const { return dof_number; }
@@ -370,10 +362,12 @@ void Workroom::commit_status()
         break;
     case AnalysisType::STATICS:
         commit_load();
+        commit_resistance();
         commit_displacement();
         break;
     case AnalysisType::DYNAMICS:
         commit_load();
+        commit_resistance();
         commit_displacement();
         commit_velocity();
         commit_acceleration();

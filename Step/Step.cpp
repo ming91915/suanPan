@@ -1,15 +1,14 @@
 #include "Step.h"
+#include "Converger/Converger.h"
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
-#include <Solver/Integrator/PlainIntegrator.h>
+#include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 
 Step::Step(const unsigned& T, const unsigned& CT, const double& P)
     : Tag(T, CT)
     , time_period(P)
 {
-    enable_band();
-    enable_symm();
     suanpan_debug("Step %u ctor() called.\n", T);
 }
 
@@ -19,10 +18,6 @@ const bool& Step::is_initialized() const { return initialized; }
 
 int Step::initialize()
 {
-    if(!initialized) initialized = true;
-
-    if(factory == nullptr) factory = make_shared<Workroom>();
-
     if(database == nullptr) {
         suanpan_error("initialize() needs a valid Domain.\n");
         return -1;
@@ -38,21 +33,26 @@ int Step::initialize()
         return -1;
     }
 
-    auto code = 0;
+    if(factory == nullptr) factory = make_shared<Workroom>();
+
+    factory->set_symm(symm_mat);
+    factory->set_band(band_mat);
 
     database->set_workroom(factory);
-    if(!database->is_initialized()) code += database->initialize();
+    database->initialize();
 
     switch(get_class_tag()) {
     case CT_STATIC:
-        if(modifier == nullptr) modifier = make_shared<PlainIntegrator>();
         factory->set_analysis_type(AnalysisType::STATICS);
+        if(modifier == nullptr) modifier = make_shared<Integrator>();
+        modifier->set_domain(database);
         break;
     case CT_DYNAMIC:
         if(modifier == nullptr) {
             suanpan_error("initialize() needs a valid Integrator.\n");
             return -1;
         }
+        modifier->set_domain(database);
         factory->set_analysis_type(AnalysisType::DYNAMICS);
         break;
     case CT_FREQUENCE:
@@ -63,18 +63,13 @@ int Step::initialize()
         return -1;
     }
 
-    factory->set_symm(is_symm());
-    factory->set_band(is_band());
+    factory->initialize();
 
-    code += factory->initialize();
-
-    solver->set_domain(database);
+    tester->set_domain(database);
     solver->set_converger(tester);
     solver->set_integrator(modifier);
 
-    if(!solver->is_initialized()) code += solver->initialize();
-
-    return code;
+    return 0;
 }
 
 int Step::analyze() { return -1; }
@@ -107,10 +102,6 @@ const bool& Step::is_symm() const { return symm_mat; }
 
 const bool& Step::is_band() const { return band_mat; }
 
-void Step::enable_band() { band_mat = true; }
+void Step::set_symm(const bool& B) { symm_mat = B; }
 
-void Step::disable_band() { band_mat = false; }
-
-void Step::enable_symm() { symm_mat = true; }
-
-void Step::disable_symm() { symm_mat = false; }
+void Step::set_band(const bool& B) { band_mat = B; }

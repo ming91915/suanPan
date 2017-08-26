@@ -2,9 +2,11 @@
 * @class Step
 * @brief A Step class.
 * @author T
-* @date 25/08/2017
-* @version 0.2.0
+* @date 27/08/2017
+* @version 0.2.1
 * @file Step.h
+* @addtogroup Step
+* @{
 */
 
 #ifndef STEP_H
@@ -22,8 +24,8 @@ class Step : public Tag
 {
     bool initialized = false;
 
-    bool symm_mat = false;
-    bool band_mat = false;
+    bool symm_mat = true;
+    bool band_mat = true;
 
     double time_period = 1.0; /**< time period */
 
@@ -64,11 +66,10 @@ public:
     const bool& is_symm() const;
     const bool& is_band() const;
 
-    void enable_symm();
-    void disable_symm();
-
-    void enable_band();
-    void disable_band();
+    void set_symm(const bool&);
+    void set_band(const bool&);
 };
 
 #endif
+
+//! @}
