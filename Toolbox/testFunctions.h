@@ -64,8 +64,8 @@ void example_Newmark()
     B->update_mass(M);
     mat K = { { 2, -1, 0 }, { -1, 4, -2 }, { 0, -2, 2 } };
     B->update_stiffness(K);
-    B->update_current_acceleration({ 0, 0, 6 });
-    B->update_trial_load({ 0, 0, 6 });
+    B->update_current_acceleration({ nullptr, 0, true });
+    B->update_trial_load({ nullptr, 0, true });
     auto W = make_shared<Domain>();
     W->set_workroom(B);
     Newmark C(W);

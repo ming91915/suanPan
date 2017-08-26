@@ -14,38 +14,33 @@ Element::Element(const unsigned& T,
     , material_tag(MT)
     , nlgeom(F)
 {
+    suanpan_debug("Element %u ctor() called.\n", T);
 }
 
-Element::~Element() { suanpan_debug("Element %u dtor() Called.\n", get_tag()); }
+Element::~Element() { suanpan_debug("Element %u dtor() called.\n", get_tag()); }
 
 void Element::initialize(const shared_ptr<Domain>& D)
 {
-    auto total_dof = num_node * num_dof;
+    const auto total_dof = num_node * num_dof;
 
-    if(total_dof != 0) {
-        dof_encoding.zeros(total_dof);
-        resistance.zeros(total_dof);
-        mass.zeros(total_dof, total_dof);
-        damping.zeros(total_dof, total_dof);
-        stiffness.zeros(total_dof, total_dof);
-        initial_stiffness.zeros(total_dof, total_dof);
-    }
+    if(total_dof == 0) return;
+
+    dof_encoding.zeros(total_dof);
+    resistance.zeros(total_dof);
+    mass.zeros(total_dof, total_dof);
+    damping.zeros(total_dof, total_dof);
+    stiffness.zeros(total_dof, total_dof);
+    initial_stiffness.zeros(total_dof, total_dof);
 
     node_ptr.clear();
-    dof_encoding.zeros();
-
-    // CHECK NODE VALIDITY
-    for(const auto& I : node_encoding)
-        if(!D->get_node(static_cast<unsigned>(I))->is_active()) {
-            printf("Element %u finds a disabled Node %u, now disable it.\n", get_tag(),
-                static_cast<unsigned>(I));
+    for(const auto& tmp_tag : node_encoding) {
+        const auto& tmp_node = get_node(D, static_cast<unsigned>(tmp_tag));
+        if(tmp_node == nullptr || !tmp_node->is_active()) {
+            suanpan_debug("Element %u finds an invalid Node %u, noew diable it.\n",
+                get_tag(), tmp_tag);
             D->disable_element(get_tag());
             return;
         }
-
-    // ADJUST DOF NUMBER
-    for(const auto& I : node_encoding) {
-        auto& tmp_node = D->get_node(static_cast<unsigned>(I));
         if(tmp_node->get_dof_number() < num_dof) tmp_node->set_dof_number(num_dof);
         node_ptr.push_back(tmp_node);
     }
@@ -53,12 +48,10 @@ void Element::initialize(const shared_ptr<Domain>& D)
 
 void Element::update_dof_encoding()
 {
-    auto I = 0;
-    for(const auto& J : node_ptr) {
-        auto K = J.lock();
-        auto node_dof = K->get_reordered_dof();
-        if(node_dof.is_empty()) node_dof = K->get_original_dof();
-        for(unsigned L = 0; L < num_dof; ++L) dof_encoding(I++) = node_dof(L);
+    auto idx = 0;
+    for(const auto& tmp_ptr : node_ptr) {
+        auto& node_dof = tmp_ptr.lock()->get_reordered_dof();
+        for(unsigned i = 0; i < num_dof; ++i) dof_encoding(idx++) = node_dof(i);
     }
 }
 

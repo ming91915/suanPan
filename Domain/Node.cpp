@@ -65,63 +65,30 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
  */
 void Node::initialize()
 {
-    if(is_active()) {
-        if(num_dof != 0) {
-            original_dof.zeros(num_dof);
-            original_dof.fill(-1);
+    if(!is_active()) return;
 
-            reordered_dof.reset();
+    if(num_dof != 0) {
+        original_dof.zeros(num_dof);
+        original_dof.fill(-1);
 
-            if(current_displacement.is_empty())
-                current_displacement.zeros(num_dof);
-            else
-                current_displacement.resize(num_dof);
+        reordered_dof.reset();
 
-            if(current_velocity.is_empty())
-                current_velocity.zeros(num_dof);
-            else
-                current_velocity.resize(num_dof);
+        current_displacement.resize(num_dof);
+        current_velocity.resize(num_dof);
+        current_acceleration.resize(num_dof);
 
-            if(current_acceleration.is_empty())
-                current_acceleration.zeros(num_dof);
-            else
-                current_acceleration.resize(num_dof);
+        incre_displacement.resize(num_dof);
+        incre_velocity.resize(num_dof);
+        incre_acceleration.resize(num_dof);
 
-            if(incre_displacement.is_empty())
-                incre_displacement.zeros(num_dof);
-            else
-                incre_displacement.resize(num_dof);
+        trial_displacement.resize(num_dof);
+        trial_velocity.resize(num_dof);
+        trial_acceleration.resize(num_dof);
 
-            if(incre_velocity.is_empty())
-                incre_velocity.zeros(num_dof);
-            else
-                incre_velocity.resize(num_dof);
-
-            if(incre_acceleration.is_empty())
-                incre_acceleration.zeros(num_dof);
-            else
-                incre_acceleration.resize(num_dof);
-
-            if(trial_displacement.is_empty())
-                trial_displacement.zeros(num_dof);
-            else
-                trial_displacement.resize(num_dof);
-
-            if(trial_velocity.is_empty())
-                trial_velocity.zeros(num_dof);
-            else
-                trial_velocity.resize(num_dof);
-
-            if(trial_acceleration.is_empty())
-                trial_acceleration.zeros(num_dof);
-            else
-                trial_acceleration.resize(num_dof);
-
-            // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
-        } else {
-            printf("Node %u is not used in the problem, now disable it.\n", get_tag());
-            disable();
-        }
+        // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
+    } else {
+        suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
+        disable();
     }
 }
 
@@ -141,7 +108,11 @@ const uvec& Node::get_original_dof() const { return original_dof; }
  * \brief Method to return `reordered_dof`.
  * \return `reordered_dof`
  */
-const uvec& Node::get_reordered_dof() const { return reordered_dof; }
+const uvec& Node::get_reordered_dof() const
+{
+    if(reordered_dof.is_empty()) return original_dof;
+    return reordered_dof;
+}
 
 /**
  * \brief Method to return `coordinate`.
@@ -215,9 +186,9 @@ void Node::set_dof_number(const unsigned& D) { num_dof = D; }
  */
 void Node::set_original_dof(unsigned& F)
 {
-    if(is_active())
-        if(original_dof.n_elem == num_dof)
-            for(unsigned I = 0; I < num_dof; ++I) original_dof(I) = F++;
+    if(!is_active()) return;
+
+    for(unsigned i = 0; i < num_dof; ++i) original_dof(i) = F++;
 }
 
 /**

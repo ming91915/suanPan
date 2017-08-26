@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     T.tic();
 #endif
 
-    // argumentParser(argc, argv);
+    // argument_parser(argc, argv);
 
     example_symm_mat();
 
@@ -31,12 +31,12 @@ void example_symm_mat()
     auto C = A.memptr();
     auto idx = N * (N + 1) / 2;
     auto idx2 = idx;
-    for(auto I = 0; I < idx2; ++I) C[I] = idx--;
+    for(auto i = 0; i < idx2; ++i) C[i] = idx--;
     A += 10;
-    for(auto I = 0; I < N; I++) {
-        for(auto J = 0; J < N; J++) {
-            cout << A(I, J) << "\t";
-            B(I, J) = A(I, J);
+    for(auto i = 0; i < N; i++) {
+        for(auto j = 0; j < N; j++) {
+            cout << A(i, j) << "\t";
+            B(i, j) = A(i, j);
         }
         cout << endl;
     }
@@ -52,4 +52,8 @@ void example_symm_mat()
     vec HH = A * D;
 
     HH.print();
+
+    vec K;
+    K.resize(3);
+    K.print();
 }

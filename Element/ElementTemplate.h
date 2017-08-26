@@ -165,8 +165,8 @@
 * A vivid example will be exhibited in this template class.
 *
 * @author T
-* @date 06/08/2017
-* @version 0.1.0
+* @date 27/08/2017
+* @version 0.1.1
 * @file ElementTemplate.h
 * @addtogroup Element
 * @{

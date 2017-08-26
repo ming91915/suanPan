@@ -30,7 +30,7 @@ ElementTemplate::ElementTemplate(const unsigned& T,
     const uvec& NT,
     const unsigned& MT,
     const double& TH)
-    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, { MT }, false)
+    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec({ MT }), false)
     , thickness(TH)
 {
 }
@@ -68,9 +68,9 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
     //! is another version of implementation. Please refer to FEM textbooks for theories.
     //! This will be used for the computation of the shape function.
     mat ele_coor(m_node, m_node, fill::ones);
-    for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->get_coordinate();
-        for(auto J = 0; J < 2; ++J) ele_coor(I, J + 1) = tmp_coor(J);
+    for(auto i = 0; i < m_node; ++i) {
+        auto& tmp_coor = node_ptr.at(i).lock()->get_coordinate();
+        for(auto j = 0; j < 2; ++j) ele_coor(i, j + 1) = tmp_coor(j);
     }
 
     //! The area is half of the determinant of the above matrix.
@@ -79,14 +79,14 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D)
     mat inv_coor = inv(ele_coor);
 
     strain_mat.zeros(3, m_node * m_dof);
-    for(auto I = 0; I < 3; ++I) {
-        strain_mat(0, 2 * I) = inv_coor(1, I);
-        strain_mat(1, 2 * I + 1) = inv_coor(2, I);
-        strain_mat(2, 2 * I) = inv_coor(2, I);
-        strain_mat(2, 2 * I + 1) = inv_coor(1, I);
+    for(auto i = 0; i < 3; ++i) {
+        strain_mat(0, 2 * i) = inv_coor(1, i);
+        strain_mat(1, 2 * i + 1) = inv_coor(2, i);
+        strain_mat(2, 2 * i) = inv_coor(2, i);
+        strain_mat(2, 2 * i + 1) = inv_coor(1, i);
     }
 
-    auto tmp_density = m_material->get_parameter();
+    const auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         vec n = mean(ele_coor) * inv_coor;
         mass = n * n.t() * tmp_density * area * thickness;
@@ -103,15 +103,15 @@ int ElementTemplate::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
-    for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_disp = node_ptr.at(I).lock()->get_trial_displacement();
-        for(const auto& J : tmp_disp) trial_disp(idx++) = J;
+    for(auto i = 0; i < m_node; ++i) {
+        auto& tmp_disp = node_ptr.at(i).lock()->get_trial_displacement();
+        for(const auto& j : tmp_disp) trial_disp(idx++) = j;
     }
     m_material->update_trial_status(strain_mat * trial_disp);
 
-    stiffness =
-        strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
-    resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
+    const mat tmp_mat = strain_mat.t() * area * thickness;
+    stiffness = tmp_mat * m_material->get_stiffness() * strain_mat;
+    resistance = tmp_mat * m_material->get_stress();
 
     return 0;
 }

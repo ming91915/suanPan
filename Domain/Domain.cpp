@@ -14,7 +14,7 @@ Domain::Domain(const unsigned& T)
     suanpan_debug("Domain %u ctor() called.\n", T);
 }
 
-Domain::~Domain() { suanpan_debug("Domain %u dtor() Called.\n", get_tag()); }
+Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
 
 const bool& Domain::is_updated() const { return updated; }
 
@@ -24,94 +24,97 @@ int Domain::initialize()
 {
     if(!initialized) initialized = true;
 
-    if(!is_updated()) {
-        updated = true;
+    if(is_updated()) return;
 
-        // RESET STATUS
-        for(const auto& I : node_pool) I.second->set_dof_number(0);
+    updated = true;
 
-        // SET DOF NUMBER FOR ACTIVE NODES
-        for(const auto& I : element_pool)
-            if(I.second->is_active()) I.second->Element::initialize(shared_from_this());
+    // RESET STATUS
+    for(const auto& tmp_node : node_pool) tmp_node.second->set_dof_number(0);
 
-        // ASSIGN DOF LABEL FOR ACTIVE DOF
-        unsigned dof_idx = 0;
-        for(const auto& I : node_pool) {
-            I.second->initialize();
-            I.second->set_original_dof(dof_idx);
-        }
+    // SET DOF NUMBER FOR ACTIVE NODES
+    for(const auto& tmp_element : element_pool)
+        if(tmp_element.second->is_active())
+            tmp_element.second->Element::initialize(shared_from_this());
 
-        // PUSH IN ALL VALID ACTIVE CONSTRAINTS
-        tmp_constraint_pool.clear();
-        for(const auto& I : constraint_pool)
-            if(I.second->is_active()) tmp_constraint_pool.push_back(I.second);
-
-        // PUSH IN ALL VALID ACTIVE ELEMENTS
-        tmp_element_pool.clear();
-        for(const auto& I : element_pool)
-            if(I.second->is_active()) tmp_element_pool.push_back(I.second);
-
-        // PUSH IN ALL VALID ACTIVE LOADS
-        tmp_load_pool.clear();
-        for(const auto& I : load_pool)
-            if(I.second->is_active()) tmp_load_pool.push_back(I.second);
-
-        // PUSH IN ALL VALID ACTIVE NODES
-        tmp_node_pool.clear();
-        for(const auto& I : node_pool)
-            if(I.second->is_active()) tmp_node_pool.push_back(I.second);
-
-        // RCM OPTIMIZATION
-        vector<unordered_set<uword>> adjacency(dof_idx);
-        for(const auto& I : tmp_element_pool) {
-            I->update_dof_encoding();
-            auto& J = I->get_dof_encoding();
-            for(const auto& K : J)
-                for(const auto& L : J) adjacency[K].insert(L);
-        }
-
-        uvec num_degree(dof_idx);
-        for(unsigned I = 0; I < dof_idx; ++I) num_degree(I) = adjacency[I].size();
-
-        vector<uvec> adjacency_sorted(dof_idx);
-        for(unsigned I = 0; I < dof_idx; ++I) {
-            uvec J(num_degree(I));
-            unsigned K = 0;
-            for(const auto& L : adjacency[I]) J(K++) = L;
-            adjacency_sorted[I] = J(sort_index(num_degree(J)));
-        }
-
-        auto idx_rcm = RCM(adjacency_sorted, num_degree);
-        uvec idx_sorted = sort_index(idx_rcm);
-
-        auto L = 1, U = 1;
-        for(unsigned I = 0; I < dof_idx; ++I) {
-            for(const auto& J : adjacency[idx_rcm(I)]) {
-                int K = static_cast<int>(idx_sorted(J)) - I;
-                if(K > L)
-                    L = K;
-                else if(K < U)
-                    U = K;
-            }
-        }
-
-        // ASSIGN NEW LABELS TO ACTIVE NODES
-        for(const auto& I : tmp_node_pool)
-            I->set_reordered_dof(idx_sorted(I->get_original_dof()));
-
-        // INITIALIZE DERIVED ELEMENTS
-        for(const auto& I : tmp_element_pool) {
-            I->initialize(shared_from_this());
-            I->update_dof_encoding();
-        }
-
-        if(factory == nullptr)
-            factory = make_shared<Workroom>(dof_idx);
-        else
-            factory->set_dof_number(dof_idx);
-
-        factory->set_bandwidth(L, -U);
+    // ASSIGN DOF LABEL FOR ACTIVE DOF
+    unsigned dof_counter = 0;
+    for(const auto& tmp_node : node_pool) {
+        tmp_node.second->initialize();
+        tmp_node.second->set_original_dof(dof_counter);
     }
+
+    // PUSH IN ALL VALID ACTIVE CONSTRAINTS
+    tmp_constraint_pool.clear();
+    for(const auto& tmp_constraint : constraint_pool)
+        if(tmp_constraint.second->is_active())
+            tmp_constraint_pool.push_back(tmp_constraint.second);
+
+    // PUSH IN ALL VALID ACTIVE ELEMENTS
+    tmp_element_pool.clear();
+    for(const auto& tmp_element : element_pool)
+        if(tmp_element.second->is_active())
+            tmp_element_pool.push_back(tmp_element.second);
+
+    // PUSH IN ALL VALID ACTIVE LOADS
+    tmp_load_pool.clear();
+    for(const auto& I : load_pool)
+        if(I.second->is_active()) tmp_load_pool.push_back(I.second);
+
+    // PUSH IN ALL VALID ACTIVE NODES
+    tmp_node_pool.clear();
+    for(const auto& tmp_node : node_pool)
+        if(tmp_node.second->is_active()) tmp_node_pool.push_back(tmp_node.second);
+
+    // RCM OPTIMIZATION
+    vector<unordered_set<uword>> adjacency(dof_counter);
+    for(const auto& tmp_element : tmp_element_pool) {
+        tmp_element->update_dof_encoding();
+        auto& tmp_encoding = tmp_element->get_dof_encoding();
+        for(const auto& i : tmp_encoding)
+            for(const auto& j : tmp_encoding) adjacency[i].insert(j);
+    }
+
+    uvec num_degree(dof_counter);
+    for(unsigned i = 0; i < dof_counter; ++i) num_degree(i) = adjacency[i].size();
+
+    vector<uvec> adjacency_sorted(dof_counter);
+    for(unsigned i = 0; i < dof_counter; ++i) {
+        uvec tmp_vec(num_degree(i));
+        unsigned j = 0;
+        for(const auto& k : adjacency[i]) tmp_vec(j++) = k;
+        adjacency_sorted[i] = tmp_vec(sort_index(num_degree(tmp_vec)));
+    }
+
+    auto idx_rcm = RCM(adjacency_sorted, num_degree);
+    uvec idx_sorted = sort_index(idx_rcm);
+
+    auto low_bandwidth = 1, up_bandwidth = 1;
+    for(unsigned i = 0; i < dof_counter; ++i) {
+        for(const auto& j : adjacency[idx_rcm(i)]) {
+            const int tmp_bandwidth = static_cast<int>(idx_sorted(j)) - i;
+            if(tmp_bandwidth > low_bandwidth)
+                low_bandwidth = tmp_bandwidth;
+            else if(tmp_bandwidth < up_bandwidth)
+                up_bandwidth = tmp_bandwidth;
+        }
+    }
+
+    // ASSIGN NEW LABELS TO ACTIVE NODES
+    for(const auto& tmp_node : tmp_node_pool)
+        tmp_node->set_reordered_dof(idx_sorted(tmp_node->get_original_dof()));
+
+    // INITIALIZE DERIVED ELEMENTS
+    for(const auto& tmp_element : tmp_element_pool) {
+        tmp_element->initialize(shared_from_this());
+        tmp_element->update_dof_encoding();
+    }
+
+    if(factory == nullptr)
+        factory = make_shared<Workroom>(dof_counter);
+    else
+        factory->set_dof_number(dof_counter);
+
+    factory->set_bandwidth(low_bandwidth, -up_bandwidth);
 
     return 0;
 }

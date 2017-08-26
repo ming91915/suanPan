@@ -1,5 +1,6 @@
 #pragma once
 #include "Integrator.h"
+
 class PlainIntegrator : public Integrator
 {
 public:

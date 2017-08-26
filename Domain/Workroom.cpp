@@ -10,6 +10,10 @@ const bool& Workroom::is_symm() const { return symm_mat; }
 
 const bool& Workroom::is_band() const { return band_mat; }
 
+void Workroom::set_symm(const bool& B) { symm_mat = B; }
+
+void Workroom::set_band(const bool& B) { band_mat = B; }
+
 void Workroom::enable_symm() { symm_mat = true; }
 
 void Workroom::disable_symm() { symm_mat = false; }
@@ -64,7 +68,6 @@ int Workroom::initialize()
             initialize_load(dof_number);
             initialize_resistance(dof_number);
             initialize_displacement(dof_number);
-            initialize_mass(dof_number);
             initialize_stiffness(dof_number);
             break;
         case AnalysisType::DYNAMICS:
@@ -611,11 +614,10 @@ void Workroom::assemble_mass(const mat& EM, const uvec& EI)
     else if(!is_symm() && !is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J) global_mass(EI(J), EI(I)) += EM(J, I);
-    else if(!is_symm() && is_band()) {
+    else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_mass(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EM(J, I);
-    }
 }
 
 void Workroom::assemble_damping(const mat& EC, const uvec& EI)
@@ -638,11 +640,10 @@ void Workroom::assemble_damping(const mat& EC, const uvec& EI)
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_damping(EI(J), EI(I)) += EC(J, I);
-    else if(!is_symm() && is_band()) {
+    else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_damping(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EC(J, I);
-    }
 }
 
 void Workroom::assemble_stiffness(const mat& EK, const uvec& EI)
@@ -665,11 +666,10 @@ void Workroom::assemble_stiffness(const mat& EK, const uvec& EI)
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_stiffness(EI(J), EI(I)) += EK(J, I);
-    else if(!is_symm() && is_band()) {
+    else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(unsigned J = 0; J < EI.n_elem; ++J)
                 global_stiffness(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EK(J, I);
-    }
 }
 
 vec& get_ninja(const shared_ptr<Workroom>& W) { return W->ninja; }

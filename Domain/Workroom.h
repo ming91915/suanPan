@@ -92,6 +92,9 @@ public:
     const bool& is_symm() const;
     const bool& is_band() const;
 
+    void set_symm(const bool&);
+    void set_band(const bool&);
+
     void enable_symm();
     void disable_symm();
 

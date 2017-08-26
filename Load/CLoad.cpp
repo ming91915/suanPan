@@ -60,7 +60,8 @@ int CLoad::process(const shared_ptr<Domain>& D)
 {
     auto& tmp_workroom = D->get_workroom();
 
-    auto final_load = pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());
+    const auto final_load =
+        pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());
 
     auto tmp_load = tmp_workroom->get_trial_load();
 

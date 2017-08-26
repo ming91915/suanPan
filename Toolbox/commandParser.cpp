@@ -27,7 +27,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     //   string command_id;
     // if (!get_input(command, command_id))return 0;
 
-    auto command_id = get_input<string>(command);
+    const auto command_id = get_input<string>(command);
     if(command.fail()) return 0;
 
     if(command_id == "exit") return SUANPAN_EXIT;
@@ -297,7 +297,7 @@ int create_new_bc(const shared_ptr<Bead>& model, istringstream& command)
     const auto& domain = model->get_current_domain();
     const auto& step_tag = model->get_current_step()->get_tag();
 
-    auto bc_type = tolower(dof_id[0]);
+    const auto bc_type = tolower(dof_id[0]);
     if(bc_type == 'p')
         domain->insert(make_shared<BC>(bc_id, step_tag, uvec(node_tag), "PINNED"));
     else if(bc_type == 'e')

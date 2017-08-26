@@ -45,34 +45,28 @@ int Step::initialize()
 
     switch(get_class_tag()) {
     case CT_STATIC:
-        factory->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<PlainIntegrator>();
+        factory->set_analysis_type(AnalysisType::STATICS);
         break;
     case CT_DYNAMIC:
-        factory->set_analysis_type(AnalysisType::DYNAMICS);
         if(modifier == nullptr) {
             suanpan_error("initialize() needs a valid Integrator.\n");
             return -1;
         }
+        factory->set_analysis_type(AnalysisType::DYNAMICS);
         break;
     case CT_FREQUENCE:
         factory->set_analysis_type(AnalysisType::EIGEN);
         break;
     default:
-        break;
+        suanpan_error("initialize() needs a valid Step.\n");
+        return -1;
     }
 
-    if(is_symm())
-        factory->enable_symm();
-    else
-        factory->disable_symm();
+    factory->set_symm(is_symm());
+    factory->set_band(is_band());
 
-    if(is_band())
-        factory->enable_band();
-    else
-        factory->disable_band();
-
-    if(!factory->is_initialized()) code += factory->initialize();
+    code += factory->initialize();
 
     solver->set_domain(database);
     solver->set_converger(tester);

@@ -4,7 +4,7 @@
 using std::vector;
 
 SUANPAN_EXPORT void new_materialexample_(unique_ptr<Material>& return_obj,
-    std::istringstream& command)
+    istringstream& command)
 {
     unsigned tag;
     if((command >> tag).fail()) {

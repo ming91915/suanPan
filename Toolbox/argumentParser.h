@@ -13,7 +13,7 @@
 #include <Step/Bead.h>
 
 //! A simple parser.
-void argumentParser(int, char**);
+void argument_parser(int, char**);
 
 void print_header();
 void print_version();

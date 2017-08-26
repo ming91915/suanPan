@@ -6,25 +6,25 @@
 using std::string;
 using std::ofstream;
 
-void argumentParser(int argc, char** argv)
+void argument_parser(int argc, char** argv)
 {
     string input_file_name = "";
     string output_file_name = "";
     ofstream output_file;
-    auto buffer_backup = cout.rdbuf();
+    const auto buffer_backup = cout.rdbuf();
 
     print_header();
 
     if(argc > 1) {
-        for(auto I = 0; I < argc; ++I) {
-            if(_strcmpi(argv[I], "-v") == 0 || _strcmpi(argv[I], "--version") == 0)
+        for(auto i = 0; i < argc; ++i) {
+            if(_strcmpi(argv[i], "-v") == 0 || _strcmpi(argv[i], "--version") == 0)
                 print_version();
-            else if(_strcmpi(argv[I], "-h") == 0 || _strcmpi(argv[I], "--help") == 0)
+            else if(_strcmpi(argv[i], "-h") == 0 || _strcmpi(argv[i], "--help") == 0)
                 print_helper();
-            else if(_strcmpi(argv[I], "-f") == 0 || _strcmpi(argv[I], "--file") == 0)
-                input_file_name = argv[++I];
-            else if(_strcmpi(argv[I], "-o") == 0 || _strcmpi(argv[I], "--output") == 0)
-                output_file_name = argv[++I];
+            else if(_strcmpi(argv[i], "-f") == 0 || _strcmpi(argv[i], "--file") == 0)
+                input_file_name = argv[++i];
+            else if(_strcmpi(argv[i], "-o") == 0 || _strcmpi(argv[i], "--output") == 0)
+                output_file_name = argv[++i];
         }
 
         if(output_file_name != "") {
@@ -36,13 +36,13 @@ void argumentParser(int argc, char** argv)
         }
 
         if(input_file_name != "") {
-            auto model = make_shared<Bead>();
+            const auto model = make_shared<Bead>();
             if(process_file(model, input_file_name.c_str()) == SUANPAN_EXIT) return;
             cout.rdbuf(buffer_backup);
             cli_mode(model);
         }
     } else {
-        auto model = make_shared<Bead>();
+        const auto model = make_shared<Bead>();
         cli_mode(model);
     }
 }
