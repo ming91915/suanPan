@@ -26,7 +26,7 @@ Bilinear3D::Bilinear3D(const unsigned& T,
 {
     density = R;
 
-    auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
+    const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
 
@@ -73,21 +73,21 @@ int Bilinear3D::update_trial_status(const vec& t_strain)
     trial_plastic_strain = current_plastic_strain;
     trial_stiffness = initial_stiffness;
 
-    vec shifted_stress = dev(trial_stress) - current_back_stress;
+    const vec shifted_stress = dev(trial_stress) - current_back_stress;
 
-    auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
+    const auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
 
-    auto yield_func = norm_shifted_stress -
+    const auto yield_func = norm_shifted_stress -
         root_two_third *
             (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
 
     if(yield_func > tolerance) {
-        auto tmp_a = double_shear + factor;
-        auto gamma = yield_func / tmp_a;
-        vec unit_norm = shifted_stress / norm_shifted_stress;
-        vec tmp_b = gamma * unit_norm;
-        auto tmp_c = square_double_shear / tmp_a;
-        auto tmp_d = square_double_shear * gamma / norm_shifted_stress;
+        const auto tmp_a = double_shear + factor;
+        const auto gamma = yield_func / tmp_a;
+        const vec unit_norm = shifted_stress / norm_shifted_stress;
+        const vec tmp_b = gamma * unit_norm;
+        const auto tmp_c = square_double_shear / tmp_a;
+        const auto tmp_d = square_double_shear * gamma / norm_shifted_stress;
 
         trial_stress -= double_shear * tmp_b;
         trial_back_stress += factor * beta * tmp_b;

@@ -19,6 +19,9 @@
 
 class Truss2D final : public Element
 {
+    static const unsigned t_node;
+    static const unsigned t_dof;
+
     double length = 0.;   /**< length of the element */
     double area = 0.;     /**< area of the cross section */
     vec direction_cosine; /**< direction cosine */

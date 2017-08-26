@@ -126,6 +126,13 @@ public:
     unsigned get_node() const;
     unsigned get_recorder() const;
 
+    bool find_constraint(const unsigned&) const;
+    bool find_element(const unsigned&) const;
+    bool find_load(const unsigned&) const;
+    bool find_material(const unsigned&) const;
+    bool find_node(const unsigned&) const;
+    bool find_recorder(const unsigned&) const;
+
     void update_resistance() const;
     void update_mass() const;
     void update_initial_stiffness() const;

@@ -94,16 +94,18 @@ int GQ12::update_status()
     auto code = 0, idx = 0;
 
     vec trial_disp(m_node * m_dof);
-    for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
+    for(const auto& I : node_ptr) {
+        auto& tmp_disp = I.lock()->get_trial_displacement();
+        for(auto J = 0; J < m_dof; ++J) trial_disp(idx++) = tmp_disp(J);
+    }
 
     stiffness.zeros();
     resistance.zeros();
     for(const auto& I : int_pt) {
         code += I->m_material->update_trial_status(I->strain_mat * trial_disp);
-        const mat tmp_factor = I->strain_mat.t() * I->jacob_det * I->weight * thickness;
-        stiffness += tmp_factor * I->m_material->get_stiffness() * I->strain_mat;
-        resistance += tmp_factor * I->m_material->get_stress();
+        const mat tmp_mat = I->strain_mat.t() * I->jacob_det * I->weight * thickness;
+        stiffness += tmp_mat * I->m_material->get_stiffness() * I->strain_mat;
+        resistance += tmp_mat * I->m_material->get_stress();
     }
 
     return code;

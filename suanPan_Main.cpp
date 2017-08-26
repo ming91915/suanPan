@@ -12,9 +12,9 @@ int main(int argc, char** argv)
     T.tic();
 #endif
 
-    // argument_parser(argc, argv);
+    argument_parser(argc, argv);
 
-    example_symm_mat();
+// example_symm_mat();
 
 #ifdef SUANPAN_DEBUG
     cout << T.toc() << "\n";
@@ -25,12 +25,12 @@ int main(int argc, char** argv)
 
 void example_symm_mat()
 {
-    auto N = 10;
+    const auto N = 10;
     symm_mat A(N, fill::zeros);
     mat B(10, 10);
-    auto C = A.memptr();
+    const auto C = A.memptr();
     auto idx = N * (N + 1) / 2;
-    auto idx2 = idx;
+    const auto idx2 = idx;
     for(auto i = 0; i < idx2; ++i) C[i] = idx--;
     A += 10;
     for(auto i = 0; i < N; i++) {
@@ -41,19 +41,11 @@ void example_symm_mat()
         cout << endl;
     }
 
-    vec D(10, fill::randn);
+    const vec D(10, fill::randn);
 
-    vec E = B * D;
-
-    E.print();
+    (B * D).print();
 
     cout << endl;
 
-    vec HH = A * D;
-
-    HH.print();
-
-    vec K;
-    K.resize(3);
-    K.print();
+    (A * D).print();
 }

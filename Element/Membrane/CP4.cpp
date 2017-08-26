@@ -83,14 +83,14 @@ int CP4::update_status()
     stiffness.zeros();
     resistance.zeros();
     for(const auto& I : int_pt) {
-        auto& NX1 = I->pn_pxy(0, 0);
-        auto& NY1 = I->pn_pxy(1, 0);
-        auto& NX2 = I->pn_pxy(0, 1);
-        auto& NY2 = I->pn_pxy(1, 1);
-        auto& NX3 = I->pn_pxy(0, 2);
-        auto& NY3 = I->pn_pxy(1, 2);
-        auto& NX4 = I->pn_pxy(0, 3);
-        auto& NY4 = I->pn_pxy(1, 3);
+        const auto& NX1 = I->pn_pxy(0, 0);
+        const auto& NY1 = I->pn_pxy(1, 0);
+        const auto& NX2 = I->pn_pxy(0, 1);
+        const auto& NY2 = I->pn_pxy(1, 1);
+        const auto& NX3 = I->pn_pxy(0, 2);
+        const auto& NY3 = I->pn_pxy(1, 2);
+        const auto& NX4 = I->pn_pxy(0, 3);
+        const auto& NY4 = I->pn_pxy(1, 3);
 
         tmp_strain(0) = NX1 * TD0(0) + NX2 * TD1(0) + NX3 * TD2(0) + NX4 * TD3(0);
         tmp_strain(1) = NY1 * TD0(1) + NY2 * TD1(1) + NY3 * TD2(1) + NY4 * TD3(1);
@@ -228,4 +228,4 @@ int CP4::reset_status()
     return code;
 }
 
-void CP4::print() { printf("This is a CP4 element.\n"); }
+void CP4::print() { suanpan_info("This is a CP4 element.\n"); }

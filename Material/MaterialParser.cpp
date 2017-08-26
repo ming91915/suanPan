@@ -1,4 +1,5 @@
 #include "MaterialParser.h"
+#include "Toolbox/utility.h"
 #include <Material/Material>
 
 using std::vector;
@@ -6,15 +7,24 @@ using std::vector;
 void new_elastic1d_(unique_ptr<Material>& return_obj, istringstream& command)
 {
     unsigned tag;
-    command >> tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_elastic1d_() requires a valid tag.\n");
+        return;
+    }
 
     double elastic_modulus;
-    command >> elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_elastic1d_() requires a valid elastic modulus.\n");
+        return;
+    }
 
     auto density = 0.;
-    if(command.good())
-        command >> density;
-    else
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_elastic1d_() requires a valid density.\n");
+            return;
+        }
+    } else
         suanpan_debug("new_elastic1d_() assumes zero density.\n");
 
     return_obj = make_unique<Elastic1D>(tag, elastic_modulus, density);
@@ -23,24 +33,40 @@ void new_elastic1d_(unique_ptr<Material>& return_obj, istringstream& command)
 void new_elastic2d_(unique_ptr<Material>& return_obj, istringstream& command)
 {
     unsigned tag;
-    command >> tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_elastic2d_() requires a valid tag.\n");
+        return;
+    }
 
     double elastic_modulus;
-    command >> elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_elastic2d_() requires a valid elastic modulus.\n");
+        return;
+    }
 
     double poissons_ratio;
-    command >> poissons_ratio;
+    if(!get_input(command, poissons_ratio)) {
+        suanpan_error("new_elastic2d_() requires a valid poissons ratio.\n");
+        return;
+    }
 
     auto density = 0.;
-    auto material_type = 0;
-    if(command.good()) {
-        command >> density;
-        if(command.good())
-            command >> material_type;
-        else
-            suanpan_debug("new_elastic2d_() assumes plane stress.\n");
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_elastic2d_() requires a valid density.\n");
+            return;
+        }
     } else
         suanpan_debug("new_elastic2d_() assumes zero density.\n");
+
+    auto material_type = 0;
+    if(!command.eof()) {
+        if(!get_input(command, material_type)) {
+            suanpan_error("new_elastic2d_() requires a valid material type.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_elastic2d_() assumes plane stress.\n");
 
     return_obj = make_unique<Elastic2D>(
         tag, elastic_modulus, poissons_ratio, density, material_type);
@@ -49,18 +75,30 @@ void new_elastic2d_(unique_ptr<Material>& return_obj, istringstream& command)
 void new_elastic3d_(unique_ptr<Material>& return_obj, istringstream& command)
 {
     unsigned tag;
-    command >> tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_elastic3d_() requires a valid tag.\n");
+        return;
+    }
 
     double elastic_modulus;
-    command >> elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_elastic3d_() requires a valid elastic modulus.\n");
+        return;
+    }
 
     double poissons_ratio;
-    command >> poissons_ratio;
+    if(!get_input(command, poissons_ratio)) {
+        suanpan_error("new_elastic3d_() requires a valid poissons ratio.\n");
+        return;
+    }
 
     auto density = 0.;
-    if(command.good())
-        command >> density;
-    else
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_elastic3d_() requires a valid density.\n");
+            return;
+        }
+    } else
         suanpan_debug("new_elastic3d_() assumes zero density.\n");
 
     return_obj = make_unique<Elastic3D>(tag, elastic_modulus, poissons_ratio, density);
@@ -69,24 +107,48 @@ void new_elastic3d_(unique_ptr<Material>& return_obj, istringstream& command)
 void new_bilinear1d_(unique_ptr<Material>& return_obj, istringstream& command)
 {
     unsigned tag;
-    command >> tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_bilinear1d_() requires a valid tag.\n");
+        return;
+    }
 
     double elastic_modulus;
-    command >> elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_bilinear1d_() requires a valid elastic modulus.\n");
+        return;
+    }
 
     double yield_stress;
-    command >> yield_stress;
+    if(!get_input(command, yield_stress)) {
+        suanpan_error("new_bilinear1d_() requires a valid yield stress.\n");
+        return;
+    }
 
-    double hardening_ratio;
-    command >> hardening_ratio;
+    auto hardening_ratio = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, hardening_ratio)) {
+            suanpan_error("new_bilinear1d_() requires a valid hardening ratio.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_bilinear1d_() assumes zero hardening ratio.\n");
 
-    double beta;
-    command >> beta;
+    auto beta = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, beta)) {
+            suanpan_error("new_bilinear1d_() requires a valid beta.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_bilinear1d_() assumes isotropic hardening.\n");
 
     auto density = 0.;
-    if(command.good())
-        command >> density;
-    else
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_bilinear1d_() requires a valid density.\n");
+            return;
+        }
+    } else
         suanpan_debug("new_bilinear1d_() assumes zero density.\n");
 
     return_obj = make_unique<Bilinear1D>(

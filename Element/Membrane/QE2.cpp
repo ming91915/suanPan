@@ -46,9 +46,9 @@ void QE2::initialize(const shared_ptr<Domain>& D)
 
     // ELEMENT COORDINATES
     ele_coor.zeros(m_node, m_dof);
-    for(unsigned I = 0; I < m_node; ++I) {
+    for(auto I = 0; I < m_node; ++I) {
         auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
-        for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+        for(auto J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
     const mat tmp_const = trans(mapping * ele_coor);
@@ -145,8 +145,11 @@ int QE2::update_status()
     current_disp = trial_disp;
 
     auto idx = 0;
-    for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
+    for(const auto& tmp_ptr : node_ptr) {
+        auto& tmp_disp = tmp_ptr.lock()->get_trial_displacement();
+        for(auto pos = 0; pos < m_dof; ++pos) trial_disp(idx++) = tmp_disp(pos);
+    }
+
     if(norm(trial_disp) < 1E-20) return 0; // quick return
 
     const vec incre_disp = trial_disp - current_disp;                 // eq. 46
@@ -162,13 +165,14 @@ int QE2::update_status()
     HT.zeros();
     FI.zeros();
     auto code = 0;
-    for(const auto& I : int_pt) {
-        code += I->m_material->update_trial_status(I->A * trial_alpha);
-        const auto tmp_factor = I->jacob_det * I->weight * thickness;
-        const vec tmp_vector = I->P * trial_beta * tmp_factor;
-        HT += I->A.t() * I->m_material->get_stiffness() * I->A * tmp_factor; // eq. 56
-        FI += I->BI.t() * tmp_vector;                                        // eq. 54
-        resistance += I->B.t() * tmp_vector;                                 // eq. 54
+    for(const auto& tmp_pt : int_pt) {
+        code += tmp_pt->m_material->update_trial_status(tmp_pt->A * trial_alpha);
+        const auto tmp_factor = tmp_pt->jacob_det * tmp_pt->weight * thickness;
+        const vec tmp_vector = tmp_pt->P * trial_beta * tmp_factor;
+        HT += tmp_pt->A.t() * tmp_pt->m_material->get_stiffness() * tmp_pt->A *
+            tmp_factor;                           // eq. 56
+        FI += tmp_pt->BI.t() * tmp_vector;        // eq. 54
+        resistance += tmp_pt->B.t() * tmp_vector; // eq. 54
     }
 
     QT = HILI.t() * HT * HILI;                             // eq. 60

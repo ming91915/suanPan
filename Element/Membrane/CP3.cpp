@@ -4,15 +4,14 @@ const unsigned CP3::m_node = 3;
 const unsigned CP3::m_dof = 2;
 
 CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
-    : Element(T, ET_CP3, m_node, m_dof, NT, { MT }, false)
+    : Element(T, ET_CP3, m_node, m_dof, NT, uvec({ MT }), false)
     , thickness(TH)
 {
 }
 
 void CP3::initialize(const shared_ptr<Domain>& D)
 {
-    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
-    m_material = material_proto->get_copy();
+    m_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
@@ -76,8 +75,10 @@ int CP3::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
-    for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
+    for(const auto& I : node_ptr) {
+        auto& tmp_disp = I.lock()->get_trial_displacement();
+        for(auto J = 0; J < m_dof; ++J) trial_disp(idx++) = tmp_disp(J);
+    }
 
     m_material->update_trial_status(strain_mat * trial_disp);
 

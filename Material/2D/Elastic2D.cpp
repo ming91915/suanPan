@@ -12,11 +12,12 @@ Elastic2D::Elastic2D(const unsigned& T,
 {
     density = R;
 
-    auto EE = material_type == 0 ?
+    const auto EE = material_type == 0 ?
         elastic_modulus :
         elastic_modulus / (1 - poissons_ratio * poissons_ratio);
 
-    auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
+    const auto VV =
+        material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
 
     initial_stiffness.zeros(3, 3);
     initial_stiffness(0, 0) = 1;
@@ -40,11 +41,12 @@ Elastic2D::Elastic2D(const double& E,
 {
     density = R;
 
-    auto EE = material_type == 0 ?
+    const auto EE = material_type == 0 ?
         elastic_modulus :
         elastic_modulus / (1 - poissons_ratio * poissons_ratio);
 
-    auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
+    const auto VV =
+        material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
 
     initial_stiffness.zeros(3, 3);
     initial_stiffness(0, 0) = 1;

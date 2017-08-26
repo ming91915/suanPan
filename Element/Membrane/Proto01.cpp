@@ -32,7 +32,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
     // INTEGRATION POINTS INITIALIZATION
-    integrationPlan plan(2, 2, 1);
+    const integrationPlan plan(2, 2, 1);
     int_pt.clear();
     for(unsigned I = 0; I < 4; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
@@ -49,7 +49,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mat tmp_const = trans(mapping * ele_coor);
+    const mat tmp_const = trans(mapping * ele_coor);
 
     vec disp_mode(4, fill::zeros);
 
@@ -71,7 +71,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
         disp_mode(3) = I->coor(0) * I->coor(1);
 
         I->P = shapeStress11(tmp_const * disp_mode);
-        mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
+        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
         solve(I->A, ini_stiffness, I->P);
         H += tmp_mat * I->A;

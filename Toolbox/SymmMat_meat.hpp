@@ -127,13 +127,11 @@ template <typename eT> void SymmMat<eT>::init_warm(const uword& in_size)
 
     if(old_n_elem == new_n_elem) {
         arma_extra_debug_print("Mat::init(): reusing memory");
-    } else // condition: old_n_elem != new_n_elem
-    {
+    } else {
         arma_debug_check(t_mem_state == 2,
             "Mat::init(): mismatch between size of auxiliary memory and requested size");
 
-        if(new_n_elem < old_n_elem) // reuse existing memory if possible
-        {
+        if(new_n_elem < old_n_elem) {
             if(t_mem_state == 0 && new_n_elem <= arma_config::mat_prealloc) {
                 if(old_n_elem > arma_config::mat_prealloc) {
                     arma_extra_debug_print("Mat::init(): releasing memory");
@@ -149,8 +147,7 @@ template <typename eT> void SymmMat<eT>::init_warm(const uword& in_size)
             } else {
                 arma_extra_debug_print("Mat::init(): reusing memory");
             }
-        } else // condition: new_n_elem > old_n_elem
-        {
+        } else {
             if(t_mem_state == 0 && old_n_elem > arma_config::mat_prealloc) {
                 arma_extra_debug_print("Mat::init(): releasing memory");
                 memory::release(access::rw(Mat<eT>::mem));

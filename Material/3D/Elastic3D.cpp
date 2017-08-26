@@ -29,8 +29,8 @@ void Elastic3D::initialize()
     // incre_strain.zeros(6);
     // incre_stress.zeros(6);
 
-    auto shear_modulus = elastic_modulus / (2. + 2. * poissons_ratio);
-    auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
+    const auto shear_modulus = elastic_modulus / (2. + 2. * poissons_ratio);
+    const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
 
@@ -83,4 +83,4 @@ int Elastic3D::reset_status()
     return 0;
 }
 
-void Elastic3D::print() { printf("Isotropic Elastic Material.\n"); }
+void Elastic3D::print() { suanpan_info("Isotropic Elastic Material.\n"); }

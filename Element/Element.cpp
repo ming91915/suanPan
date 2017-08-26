@@ -32,11 +32,12 @@ void Element::initialize(const shared_ptr<Domain>& D)
     stiffness.zeros(total_dof, total_dof);
     initial_stiffness.zeros(total_dof, total_dof);
 
+    // CHECK NODE VALIDITY
     node_ptr.clear();
     for(const auto& tmp_tag : node_encoding) {
         const auto& tmp_node = get_node(D, static_cast<unsigned>(tmp_tag));
         if(tmp_node == nullptr || !tmp_node->is_active()) {
-            suanpan_debug("Element %u finds an invalid Node %u, noew diable it.\n",
+            suanpan_debug("Element %u finds an invalid Node %u, now diable it.\n",
                 get_tag(), tmp_tag);
             D->disable_element(get_tag());
             return;
@@ -44,6 +45,15 @@ void Element::initialize(const shared_ptr<Domain>& D)
         if(tmp_node->get_dof_number() < num_dof) tmp_node->set_dof_number(num_dof);
         node_ptr.push_back(tmp_node);
     }
+
+    // CHECK MATERIAL PROTOTYPE VALIDITY
+    for(const auto& tmp_materail : material_tag)
+        if(!D->find_material(unsigned(tmp_materail))) {
+            suanpan_debug("Element %u cannot find valid Material %u, now diable it.\n",
+                get_tag(), unsigned(tmp_materail));
+            D->disable_element(get_tag());
+            return;
+        }
 }
 
 void Element::update_dof_encoding()

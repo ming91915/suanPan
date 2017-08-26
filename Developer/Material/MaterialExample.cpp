@@ -7,44 +7,49 @@ SUANPAN_EXPORT void new_materialexample_(unique_ptr<Material>& return_obj,
     istringstream& command)
 {
     unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_error("new_materialexample_() needs a tag.\n");
+    if(!get_input(command, tag)) {
+        suanpan_error("new_materialexample_() requires a valid tag.\n");
         return;
     }
 
     double elastic_modulus;
-    if((command >> elastic_modulus).fail()) {
-        suanpan_error("new_materialexample_() needs elastic modulus.\n");
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_materialexample_() requires a valid elastic modulus.\n");
         return;
     }
 
     double yield_stress;
-    if((command >> yield_stress).fail()) {
-        suanpan_error("new_materialexample_() needs yield stress.\n");
+    if(!get_input(command, yield_stress)) {
+        suanpan_error("new_materialexample_() requires a valid yield stress.\n");
         return;
     }
 
-    double hardening_ratio;
-    if((command >> hardening_ratio).fail()) {
-        suanpan_error("new_materialexample_() needs hardening ratio.\n");
-        return;
-    }
+    auto hardening_ratio = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, hardening_ratio)) {
+            suanpan_error("new_materialexample_() requires a valid hardening ratio.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_materialexample_() assumes zero hardening ratio.\n");
 
-    double beta = 0.;
-    if(command.eof())
-        suanpan_info("new_materialexample_() assumes zero beta.\n");
-    else if((command >> beta).fail()) {
-        suanpan_error("ElementExample needs a valid beta.\n");
-        return;
-    }
+    auto beta = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, beta)) {
+            suanpan_error("new_materialexample_() requires a valid beta.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_materialexample_() assumes isotropic hardening.\n");
 
-    double density = 0.;
-    if(command.eof())
-        suanpan_info("new_materialexample_() assumes zero density.\n");
-    else if((command >> density).fail()) {
-        suanpan_error("ElementExample needs a valid density.\n");
-        return;
-    }
+    auto density = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_materialexample_() requires a valid density.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_materialexample_() assumes zero density.\n");
 
     return_obj = make_unique<MaterialExample>(
         tag, elastic_modulus, yield_stress, hardening_ratio, beta, density);
@@ -109,13 +114,14 @@ int MaterialExample::update_trial_status(const vec& t_strain)
 
     trial_stress = current_stress + elastic_modulus * incre_strain;
 
-    auto shifted_stress = trial_stress(0) - current_back_stress;
+    const auto shifted_stress = trial_stress(0) - current_back_stress;
 
-    auto yield_func = abs(shifted_stress) - yield_stress -
+    const auto yield_func = abs(shifted_stress) - yield_stress -
         (1. - beta) * plastic_modulus * current_plastic_strain;
 
     if(yield_func > tolerance) {
-        auto incre_plastic_strain = yield_func / (elastic_modulus + plastic_modulus);
+        const auto incre_plastic_strain =
+            yield_func / (elastic_modulus + plastic_modulus);
         trial_stress -= sign(shifted_stress) * elastic_modulus * incre_plastic_strain;
         trial_stiffness *= hardening_ratio;
         trial_back_stress +=

@@ -51,12 +51,14 @@ int Gap01::update_trial_status(const vec& t_strain)
 
     trial_load_flag = sign(incre_strain(0));
 
+    // LOAD FROM SILENT
     if(current_load_flag > 0. && current_load_flag == trial_load_flag &&
         current_stress(0) == 0) {
         incre_strain = trial_strain - gap_strain - trial_reverse_strain;
         if(incre_strain(0) < 0) incre_strain(0) = 0.;
     }
 
+    // UNLOAD
     if(current_load_flag < 0. && current_load_flag != trial_load_flag) {
         trial_reverse_strain = current_strain(0);
         if(current_stress(0) == 0) {
@@ -65,6 +67,7 @@ int Gap01::update_trial_status(const vec& t_strain)
         }
     }
 
+    // UPDATE AND BOUND STRESS AND STIFFNESS
     trial_stress = current_stress + elastic_modulus * incre_strain;
     trial_stiffness = initial_stiffness;
     if(trial_stress(0) < 0.) {

@@ -1,7 +1,7 @@
 #include "Domain.h"
-#include "Node.h"
-#include "Workroom.h"
 #include <Constraint/BC/BC.h>
+#include <Domain/Node.h>
+#include <Domain/Workroom.h>
 #include <Element/Element.h>
 #include <Load/Load.h>
 #include <Material/Material.h>
@@ -24,7 +24,7 @@ int Domain::initialize()
 {
     if(!initialized) initialized = true;
 
-    if(is_updated()) return;
+    if(is_updated()) return 0;
 
     updated = true;
 
@@ -435,6 +435,36 @@ unsigned Domain::get_node() const { return static_cast<unsigned>(node_pool.size(
 unsigned Domain::get_recorder() const
 {
     return static_cast<unsigned>(recorder_pool.size());
+}
+
+bool Domain::find_constraint(const unsigned& T) const
+{
+    return constraint_pool.find(T) != constraint_pool.end();
+}
+
+bool Domain::find_element(const unsigned& T) const
+{
+    return element_pool.find(T) != element_pool.end();
+}
+
+bool Domain::find_load(const unsigned& T) const
+{
+    return load_pool.find(T) != load_pool.end();
+}
+
+bool Domain::find_material(const unsigned& T) const
+{
+    return material_pool.find(T) != material_pool.end();
+}
+
+bool Domain::find_node(const unsigned& T) const
+{
+    return node_pool.find(T) != node_pool.end();
+}
+
+bool Domain::find_recorder(const unsigned& T) const
+{
+    return recorder_pool.find(T) != recorder_pool.end();
 }
 
 void Domain::update_resistance() const

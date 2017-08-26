@@ -56,7 +56,7 @@ int RambergOsgood::update_trial_status(const vec& t_strain)
     auto reverse_stress = current_history(1);
     auto load_sign = current_history(2);
 
-    auto trial_load_sign = sign(incre_strain(0));
+    const auto trial_load_sign = sign(incre_strain(0));
     if(trial_load_sign != load_sign) {
         reverse_strain = current_strain(0);
         reverse_stress = current_stress(0);
@@ -65,11 +65,12 @@ int RambergOsgood::update_trial_status(const vec& t_strain)
 
     auto norm_stress = abs(current_stress(0) - reverse_stress);
 
-    auto elastic_predictor = elastic_modulus * abs(trial_strain(0) - reverse_strain);
+    const auto elastic_predictor =
+        elastic_modulus * abs(trial_strain(0) - reverse_strain);
 
     auto incre_norm_stress = yield_stress;
     while(abs(incre_norm_stress) > tolerance) {
-        auto tmp_a = offset * pow(norm_stress / yield_stress, nm);
+        const auto tmp_a = offset * pow(norm_stress / yield_stress, nm);
         trial_stiffness(0) = 1. + tmp_a * n;
         incre_norm_stress =
             (elastic_predictor - norm_stress * (1. + tmp_a)) / trial_stiffness(0);

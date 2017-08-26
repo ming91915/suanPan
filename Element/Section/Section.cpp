@@ -1,3 +1,3 @@
 #include "Section.h"
 
-void Section::print() { printf("This is a Section base class.\n"); }
+void Section::print() { suanpan_info("This is a Section base class.\n"); }

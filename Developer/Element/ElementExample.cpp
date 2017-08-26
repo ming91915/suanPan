@@ -76,9 +76,9 @@ void ElementExample::initialize(const shared_ptr<Domain>& D)
         strain_mat(2, 2 * I + 1) = inv_coor(1, I);
     }
 
-    auto tmp_density = m_material->get_parameter();
+    const auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
-        vec n = mean(ele_coor) * inv_coor;
+        const vec n = mean(ele_coor) * inv_coor;
         mass = n * n.t() * tmp_density * area * thickness;
     }
 }
@@ -87,8 +87,10 @@ int ElementExample::update_status()
 {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
-    for(const auto& I : node_ptr)
-        for(const auto& J : I.lock()->get_trial_displacement()) trial_disp(idx++) = J;
+    for(const auto& I : node_ptr) {
+        auto& tmp_disp = I.lock()->get_trial_displacement();
+        for(auto J = 0; J < m_dof; ++J) trial_disp(idx++) = tmp_disp(J);
+    }
 
     m_material->update_trial_status(strain_mat * trial_disp);
 

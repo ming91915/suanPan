@@ -14,9 +14,9 @@ Bilinear2D::Bilinear2D(const unsigned& T,
 {
     density = D;
 
-    auto EE = material_type == 0 ? E : E / (1 - V * V);
+    const auto EE = material_type == 0 ? E : E / (1 - V * V);
 
-    auto VV = material_type == 0 ? V : V / (1 - V);
+    const auto VV = material_type == 0 ? V : V / (1 - V);
 
     initial_stiffness.zeros(3, 3);
     initial_stiffness(0, 0) = 1;
@@ -93,9 +93,9 @@ int Bilinear2D::update_trial_status(const vec& t_strain)
 
     if(material_type == 0) {
         if(tmp_stiffness(2, 2) != 0.) {
-            auto tmp_a = tmp_stiffness(2, 0) / tmp_stiffness(2, 2);
-            auto tmp_b = tmp_stiffness(2, 1) / tmp_stiffness(2, 2);
-            auto tmp_c = tmp_stiffness(2, 3) / tmp_stiffness(2, 2);
+            const auto tmp_a = tmp_stiffness(2, 0) / tmp_stiffness(2, 2);
+            const auto tmp_b = tmp_stiffness(2, 1) / tmp_stiffness(2, 2);
+            const auto tmp_c = tmp_stiffness(2, 3) / tmp_stiffness(2, 2);
             trial_stiffness(0, 0) -= tmp_stiffness(0, 2) * tmp_a;
             trial_stiffness(0, 1) -= tmp_stiffness(0, 2) * tmp_b;
             trial_stiffness(0, 2) -= tmp_stiffness(0, 2) * tmp_c;

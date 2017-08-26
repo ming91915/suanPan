@@ -3,9 +3,10 @@
 Material::Material(const unsigned& T, const unsigned& CT)
     : Tag(T, CT)
 {
+    suanpan_debug("Material %u ctor() called.\n", T);
 }
 
-Material::~Material() { suanpan_debug("Material %u dtor() Called.\n", get_tag()); }
+Material::~Material() { suanpan_debug("Material %u dtor() called.\n", get_tag()); }
 
 void Material::initialize() {}
 
