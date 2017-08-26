@@ -1,5 +1,5 @@
 #include "BFGS.h"
-#include "Integrator/PlainIntegrator.h"
+#include "Integrator/Integrator.h"
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>

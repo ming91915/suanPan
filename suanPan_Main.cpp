@@ -11,8 +11,9 @@ int main(int argc, char** argv)
     wall_clock T;
     T.tic();
 #endif
+    example_Newmark();
 
-    argument_parser(argc, argv);
+// argument_parser(argc, argv);
 
 // example_symm_mat();
 
