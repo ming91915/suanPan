@@ -3,10 +3,6 @@
 
 using namespace H5;
 
-using symm_mat = SymmMat<double>;
-
-vec spmv(symm_mat&, vec&);
-
 void example_symm_mat();
 
 int main(int argc, char** argv)
@@ -47,27 +43,13 @@ void example_symm_mat()
 
     vec D(10, fill::randn);
 
-    (B * D).print();
+    vec E = B * D;
+
+    E.print();
 
     cout << endl;
 
-    auto E = spmv(A, D);
+    vec HH = A * D;
 
-    E.print();
-}
-
-vec spmv(symm_mat& A, vec& X)
-{
-    auto Y = X;
-
-    auto UPLO = 'L';
-    auto N = static_cast<int>(A.n_cols);
-    auto ALPHA = 1.;
-    auto INC = 1;
-    auto BETA = 0.;
-
-    suanPan::dspmv_(
-        &UPLO, &N, &ALPHA, A.memptr(), X.memptr(), &INC, &BETA, Y.memptr(), &INC);
-
-    return Y;
+    HH.print();
 }

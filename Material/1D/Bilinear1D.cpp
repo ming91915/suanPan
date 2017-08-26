@@ -50,7 +50,7 @@ void Bilinear1D::initialize()
     trial_back_stress = 0.;
     trial_plastic_strain = 0.;
 
-    initial_stiffness = { elastic_modulus };
+    initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 }

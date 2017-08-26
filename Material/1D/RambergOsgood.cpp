@@ -30,7 +30,7 @@ void RambergOsgood::initialize()
     current_history.zeros(3);
     trial_history.zeros(3);
 
-    initial_stiffness = { elastic_modulus };
+    initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 }

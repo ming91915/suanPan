@@ -25,7 +25,7 @@ void Elastic1D::initialize()
     // incre_strain.zeros(1);
     // incre_stress.zeros(1);
 
-    initial_stiffness = { elastic_modulus };
+    initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 }

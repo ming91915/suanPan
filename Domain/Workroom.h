@@ -23,7 +23,7 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 
 #include <suanPan.h>
 
-using T2 = mat; /**< alias */
+using T2 = mat;
 
 class Workroom final
 {

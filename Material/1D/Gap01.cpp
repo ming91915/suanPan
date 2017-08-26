@@ -23,7 +23,7 @@ void Gap01::initialize()
     current_stress.zeros(1);
     trial_stress.zeros(1);
 
-    initial_stiffness = { elastic_modulus };
+    initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
