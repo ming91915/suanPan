@@ -6,6 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 14)
 
 option(BUILD_DLL_EXAMPLE "BUILD DYNAMIC LIBRARY EXAMPLE" ON)
+option(USE_HDF5 "USE HDF5 LIBRARY" ON)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     option(USE_NETLIB "USE NETLIB LAPCK" OFF)
@@ -13,7 +14,6 @@ endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
-    option(USE_HDF5 "USE HDF5 LIBRARY" ON)
     option(USE_OPENBLAS "USE OPENBLAS" ON)
     option(USE_OPENMP "USE OPENMP" OFF)
 
@@ -51,6 +51,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     if(USE_HDF5)
         include_directories(/usr/local/HDF5/include)
         link_directories(/usr/local/HDF5/lib)
+        link_libraries(hdf5_cpp-static hdf5-static)
     else()
         add_definitions(-DARMA_DONT_USE_HDF5)
     endif()
@@ -58,7 +59,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     add_definitions(-DARMA_DONT_USE_ARPACK)
     add_definitions(-DARMA_DONT_USE_SUPERLU)
     link_directories(${ROOT}/Libs/linux)
-    link_libraries("-ldl -lhdf5_cpp-static -lhdf5-static")
+    link_libraries(dl)
 
     set(CMAKE_CXX_FLAGS "-O3 -fexceptions -fopenmp")
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -fopenmp")
