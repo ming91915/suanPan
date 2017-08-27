@@ -1,5 +1,5 @@
 #include "BFGS.h"
-#include "Integrator/Integrator.h"
+#include <Solver/Integrator/Integrator.h>
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
@@ -61,7 +61,7 @@ int BFGS::analyze(const unsigned& ST)
             const_eye = eye(tmp_size, tmp_size);
         } else {
             const auto factor = dot(tmp_residual, tmp_ninja);
-            mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
+            const mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
             tmp_residual = W->get_trial_load() - W->get_trial_resistance();
