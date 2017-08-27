@@ -1,5 +1,4 @@
 #include "commandParser.h"
-#include "Recorder/NodeRecorder.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Converger/Converger>
@@ -10,7 +9,8 @@
 #include <Element/ElementParser.h>
 #include <Load/CLoad.h>
 #include <Material/MaterialParser.h>
-#include <Solver/Newton.h>
+#include <Recorder/NodeRecorder.h>
+#include <Solver/Solver>
 #include <Step/Bead.h>
 #include <Step/Dynamic.h>
 #include <Step/Static.h>
@@ -23,9 +23,6 @@ using std::vector;
 int process_command(const shared_ptr<Bead>& model, istringstream& command)
 {
     if(model == nullptr) return 0;
-
-    //   string command_id;
-    // if (!get_input(command, command_id))return 0;
 
     const auto command_id = get_input<string>(command);
     if(command.fail()) return 0;
@@ -59,6 +56,8 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command)
     if(command_id == "delete") return erase_object(model, command);
 
     if(command_id == "remove") return erase_object(model, command);
+
+    if(command_id == "set") return set_property(model, command);
 
     const auto& domain = get_current_domain(model);
     if(domain == nullptr) return 0;
@@ -210,7 +209,7 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    auto max_iteration = 7;
+    auto max_iteration = 10;
     if(!command.eof() && (command >> max_iteration).fail()) {
         suanpan_info("create_new_converger() reads wrong max iteration.\n");
         return 0;
@@ -222,13 +221,25 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command)
         return 0;
     }
 
-    if(_strcmpi(converger_id.c_str(), "AbsResidual") == 0) {
+    if(if_equal(converger_id, "AbsResidual")) {
         if(model->insert(make_shared<AbsResidual>(
                tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(_strcmpi(converger_id.c_str(), "AbsIncreDisp") == 0) {
+    } else if(if_equal(converger_id, "RelResidual")) {
+        if(model->insert(make_shared<RelResidual>(
+               tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
+    } else if(if_equal(converger_id, "RelIncreDisp")) {
+        if(model->insert(make_shared<RelIncreDisp>(
+               tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
+    } else if(if_equal(converger_id, "AbsIncreDisp")) {
         if(model->insert(make_shared<AbsIncreDisp>(
                tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
@@ -266,7 +277,7 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command)
         else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
     } else if(_strcmpi(solver_type.c_str(), "BFGS") == 0) {
-        if(model->insert(make_shared<Newton>(tag)))
+        if(model->insert(make_shared<BFGS>(tag)))
             tmp_step->set_solver(model->get_solver(tag));
         else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
@@ -358,6 +369,62 @@ int create_new_cload(const shared_ptr<Bead>& model, istringstream& command)
     return 0;
 }
 
+int set_property(const shared_ptr<Bead>& model, istringstream& command)
+{
+    const auto& tmp_step = get_current_step(model);
+    if(tmp_step == nullptr) return 0;
+
+    string property_id;
+    if(!get_input(command, property_id)) {
+        suanpan_info("set_property() need a property type.\n");
+        return 0;
+    }
+
+    string value;
+    if(if_equal(property_id, "fixed_step_size"))
+        if(get_input(command, value))
+            tmp_step->set_fixed_step_size(if_true(value));
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    else if(if_equal(property_id, "symm_mat"))
+        if(get_input(command, value))
+            tmp_step->set_symm(if_true(value));
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    else if(if_equal(property_id, "band_mat"))
+        if(get_input(command, value))
+            tmp_step->set_band(if_true(value));
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    else if(if_equal(property_id, "ini_step_size")) {
+        double step_time;
+        if(get_input(command, step_time))
+            tmp_step->set_ini_step_size(step_time);
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    } else if(if_equal(property_id, "min_step_size")) {
+        double step_time;
+        if(get_input(command, step_time))
+            tmp_step->set_min_step_size(step_time);
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    } else if(if_equal(property_id, "max_step_size")) {
+        double step_time;
+        if(get_input(command, step_time))
+            tmp_step->set_max_step_size(step_time);
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    } else if(if_equal(property_id, "max_iteration")) {
+        unsigned max_number;
+        if(get_input(command, max_number))
+            tmp_step->set_max_iteration(max_number);
+        else
+            suanpan_info("set_property() need a valid value.\n");
+    }
+
+    return 0;
+}
+
 int create_new_node(const shared_ptr<Domain>& domain, istringstream& command)
 {
     unsigned node_id;
@@ -386,8 +453,18 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
 
     unique_ptr<Material> new_material = nullptr;
 
-    if(_strcmpi(material_id.c_str(), "Elastic2D") == 0)
-        new_elastic2d_(new_material, command);
+    if(if_equal(material_id, "Elastic1D"))
+        new_elastic1d(new_material, command);
+    else if(if_equal(material_id, "Elastic2D"))
+        new_elastic2d(new_material, command);
+    else if(if_equal(material_id, "Elastic3D"))
+        new_elastic3d(new_material, command);
+    else if(if_equal(material_id, "Bilinear1D"))
+        new_bilinear1d(new_material, command);
+    else if(if_equal(material_id, "Bilinear2D"))
+        new_bilinear2d(new_material, command);
+    else if(if_equal(material_id, "Bilinear3D"))
+        new_bilinear3d(new_material, command);
     else {
         ExternalModule ext_library(material_id);
         if(ext_library.locate_module()) ext_library.new_object(new_material, command);
@@ -410,13 +487,15 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
     unique_ptr<Element> new_element = nullptr;
 
     if(_strcmpi(element_id.c_str(), "CP4") == 0)
-        new_cp4_(new_element, command);
+        new_cp4(new_element, command);
     else if(_strcmpi(element_id.c_str(), "PS") == 0)
-        new_ps_(new_element, command);
+        new_ps(new_element, command);
     else if(_strcmpi(element_id.c_str(), "QE2") == 0)
-        new_qe2_(new_element, command);
+        new_qe2(new_element, command);
     else if(_strcmpi(element_id.c_str(), "GQ12") == 0)
-        new_gq12_(new_element, command);
+        new_gq12(new_element, command);
+    else if(_strcmpi(element_id.c_str(), "Truss2D") == 0)
+        new_truss2d(new_element, command);
     else {
         ExternalModule ext_library(element_id);
         if(ext_library.locate_module()) ext_library.new_object(new_element, command);
@@ -639,5 +718,54 @@ void print_command_usage(istringstream& command)
         suanpan_info("\t$type --- step type\n");
         suanpan_info("\t$tag --- step tag\n");
         suanpan_info("\t$time_period --- step time period -> 1.0\n\n");
+    } else if(_strcmpi(command_id.c_str(), "Truss2D") == 0) {
+        suanpan_info("\nelement Truss2D $tag {$node_tag...} $material_tag $area "
+                     "[$nonlinear_switch] [$constant_area_switch] "
+                     "[$log_strain_switch]\n");
+        suanpan_info("\t$tag --- element tag\n");
+        suanpan_info("\t$node_tag --- node tag (2)\n");
+        suanpan_info("\t$material_tag --- material tag\n");
+        suanpan_info("\t$area --- cross section area\n");
+        suanpan_info(
+            "\t$nonlinear_switch --- if to use corotational formulation -> false\n");
+        suanpan_info("\t$constant_area_switch --- if to update area based on constant "
+                     "volume assumption -> false\n");
+        suanpan_info("\t$log_strain_switch --- if to use log strain or engineering "
+                     "strain -> false\n\n");
+    } else if(_strcmpi(command_id.c_str(), "Elastic1D") == 0) {
+        suanpan_info("\nmaterial Elastic1D $tag $elastic_modulus [$density]\n");
+        suanpan_info("\t$tag --- material tag\n");
+        suanpan_info("\t$elastic_modulus --- elastic modulus\n");
+        suanpan_info("\t$density --- density -> 0.0\n\n");
+    } else if(_strcmpi(command_id.c_str(), "Bilinear1D") == 0) {
+        suanpan_info("\nmaterial Bilinear1D $tag $elastic_modulus $yield_stress "
+                     "[$hardening_ratio] [$beta] [$density]\n");
+        suanpan_info("\t$tag --- material tag\n");
+        suanpan_info("\t$elastic_modulus --- elastic modulus\n");
+        suanpan_info("\t$yield_stress --- yield stress\n");
+        suanpan_info("\t$hardening_ratio --- hardening ratio -> 0.0\n");
+        suanpan_info("\t$beta --- mixed hardening 0.0 for isotropic hardening 1.0 for "
+                     "kinematic hardening -> 0.0\n");
+        suanpan_info("\t$density --- density -> 0.0\n\n");
     }
+}
+
+bool if_equal(const string& A, const char* B) { return _strcmpi(A.c_str(), B) == 0; }
+
+bool if_equal(const char* A, const char* B) { return _strcmpi(A, B) == 0; }
+
+bool if_true(const string& S) { return if_true(S.c_str()); }
+
+bool if_false(const string& S) { return if_false(S.c_str()); }
+
+bool if_true(const char* S)
+{
+    return if_equal(S, "On") || if_equal(S, "True") || if_equal(S, "1") ||
+        if_equal(S, "Yes");
+}
+
+bool if_false(const char* S)
+{
+    return if_equal(S, "Off") || if_equal(S, "False") || if_equal(S, "0") ||
+        if_equal(S, "No");
 }

@@ -3,53 +3,53 @@
 
 using std::vector;
 
-SUANPAN_EXPORT void new_materialexample_(unique_ptr<Material>& return_obj,
+SUANPAN_EXPORT void new_materialexample(unique_ptr<Material>& return_obj,
     istringstream& command)
 {
     unsigned tag;
     if(!get_input(command, tag)) {
-        suanpan_error("new_materialexample_() requires a valid tag.\n");
+        suanpan_error("new_materialexample() requires a valid tag.\n");
         return;
     }
 
     double elastic_modulus;
     if(!get_input(command, elastic_modulus)) {
-        suanpan_error("new_materialexample_() requires a valid elastic modulus.\n");
+        suanpan_error("new_materialexample() requires a valid elastic modulus.\n");
         return;
     }
 
     double yield_stress;
     if(!get_input(command, yield_stress)) {
-        suanpan_error("new_materialexample_() requires a valid yield stress.\n");
+        suanpan_error("new_materialexample() requires a valid yield stress.\n");
         return;
     }
 
     auto hardening_ratio = 0.;
     if(!command.eof()) {
         if(!get_input(command, hardening_ratio)) {
-            suanpan_error("new_materialexample_() requires a valid hardening ratio.\n");
+            suanpan_error("new_materialexample() requires a valid hardening ratio.\n");
             return;
         }
     } else
-        suanpan_debug("new_materialexample_() assumes zero hardening ratio.\n");
+        suanpan_debug("new_materialexample() assumes zero hardening ratio.\n");
 
     auto beta = 0.;
     if(!command.eof()) {
         if(!get_input(command, beta)) {
-            suanpan_error("new_materialexample_() requires a valid beta.\n");
+            suanpan_error("new_materialexample() requires a valid beta.\n");
             return;
         }
     } else
-        suanpan_debug("new_materialexample_() assumes isotropic hardening.\n");
+        suanpan_debug("new_materialexample() assumes isotropic hardening.\n");
 
     auto density = 0.;
     if(!command.eof()) {
         if(!get_input(command, density)) {
-            suanpan_error("new_materialexample_() requires a valid density.\n");
+            suanpan_error("new_materialexample() requires a valid density.\n");
             return;
         }
     } else
-        suanpan_debug("new_materialexample_() assumes zero density.\n");
+        suanpan_debug("new_materialexample() assumes zero density.\n");
 
     return_obj = make_unique<MaterialExample>(
         tag, elastic_modulus, yield_stress, hardening_ratio, beta, density);

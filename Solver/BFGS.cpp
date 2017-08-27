@@ -46,35 +46,31 @@ int BFGS::analyze(const unsigned& ST)
 
     auto& tmp_ninja = get_ninja(W);
 
-    G->update_stiffness();
-    G->update_resistance();
-    G->process(ST);
-
-    vec tmp_residual = W->get_trial_load() - W->get_trial_resistance();
+    vec tmp_residual;
 
     mat inv_stiffness;
 
-    if(!inv(inv_stiffness, W->get_stiffness())) return -1;
-
-    tmp_ninja = inv_stiffness * tmp_residual;
-
-    W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-    G->update_trial_status();
-
     while(true) {
-        if(C->if_converged()) return 0;
-        if(++counter > C->get_max_iteration()) return -1;
-        const auto factor = dot(tmp_residual, tmp_ninja);
-        mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
-        inv_stiffness =
-            tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
         G->update_resistance();
-        tmp_residual = W->get_trial_load() - W->get_trial_resistance();
-
+        if(counter == 0) {
+            G->update_stiffness();
+            G->process(ST);
+            tmp_residual = W->get_trial_load() - W->get_trial_resistance();
+            if(!inv_sympd(inv_stiffness, W->get_stiffness())) return 1;
+            auto& tmp_size = W->get_dof_number();
+            const_eye = eye(tmp_size, tmp_size);
+        } else {
+            const auto factor = dot(tmp_residual, tmp_ninja);
+            mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
+            inv_stiffness =
+                tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
+            tmp_residual = W->get_trial_load() - W->get_trial_resistance();
+        }
         tmp_ninja = inv_stiffness * tmp_residual;
-
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         G->update_trial_status();
+        if(C->if_converged()) return 0;
+        if(++counter > C->get_max_iteration()) return -1;
     }
 }
 

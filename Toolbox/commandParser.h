@@ -4,6 +4,7 @@
 #include <suanPan.h>
 
 using std::istringstream;
+using std::string;
 
 class Bead;
 class Domain;
@@ -20,6 +21,8 @@ int create_new_solver(const shared_ptr<Bead>&, istringstream&);
 int create_new_bc(const shared_ptr<Bead>&, istringstream&);
 int create_new_cload(const shared_ptr<Bead>&, istringstream&);
 
+int set_property(const shared_ptr<Bead>&, istringstream&);
+
 int enable_object(const shared_ptr<Bead>&, istringstream&);
 int disable_object(const shared_ptr<Bead>&, istringstream&);
 int erase_object(const shared_ptr<Bead>&, istringstream&);
@@ -32,5 +35,13 @@ int create_new_recorder(const shared_ptr<Domain>&, istringstream&);
 int print_info(const shared_ptr<Domain>&, istringstream&);
 
 void print_command_usage(istringstream&);
+
+bool if_equal(const string&, const char*);
+bool if_equal(const char*, const char*);
+
+bool if_true(const string&);
+bool if_false(const string&);
+bool if_true(const char*);
+bool if_false(const char*);
 
 #endif

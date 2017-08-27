@@ -7,3 +7,4 @@
 #include "RelDisp.h"
 #include "RelError.h"
 #include "RelIncreDisp.h"
+#include "RelResidual.h"

@@ -169,6 +169,7 @@
     <ClCompile Include="..\..\..\Converger\RelDisp.cpp" />
     <ClCompile Include="..\..\..\Converger\RelError.cpp" />
     <ClCompile Include="..\..\..\Converger\RelIncreDisp.cpp" />
+    <ClCompile Include="..\..\..\Converger\RelResidual.cpp" />
     <ClCompile Include="..\..\..\Database\Database.cpp" />
     <ClCompile Include="..\..\..\Database\HDF.cpp" />
     <ClCompile Include="..\..\..\Database\SQL.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="..\..\..\Converger\RelDisp.h" />
     <ClInclude Include="..\..\..\Converger\RelError.h" />
     <ClInclude Include="..\..\..\Converger\RelIncreDisp.h" />
+    <ClInclude Include="..\..\..\Converger\RelResidual.h" />
     <ClInclude Include="..\..\..\Database\Database.h" />
     <ClInclude Include="..\..\..\Database\HDF.h" />
     <ClInclude Include="..\..\..\Database\SQL.h" />

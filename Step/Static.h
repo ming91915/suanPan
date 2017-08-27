@@ -20,14 +20,6 @@
 
 class Static : public Step
 {
-    bool fixed_size = false; /**< auto-stepping */
-
-    double ini_step_size = 1; /**< initial step size */
-
-    double min_step_size = 1E-8; /**< minimum step size */
-    double max_step_size = 1;    /**< maximum step size */
-
-    unsigned max_increment = 1000000; /**< maximum increment number */
 public:
     explicit Static(const unsigned& = 0, // tag
         const double& = 1.);             // step time period

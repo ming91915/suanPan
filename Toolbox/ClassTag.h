@@ -133,5 +133,8 @@
 #ifndef CT_PLAININTERGRATOR
 #define CT_PLAININTERGRATOR 44
 #endif
+#ifndef CT_RELRESIDUAL
+#define CT_RELRESIDUAL 45
+#endif
 
 #endif

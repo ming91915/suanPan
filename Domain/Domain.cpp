@@ -139,7 +139,11 @@ void Domain::record()
         if(I.second->is_active()) I.second->record(shared_from_this());
 }
 
-void Domain::set_workroom(const shared_ptr<Workroom>& W) { factory = W; }
+void Domain::set_workroom(const shared_ptr<Workroom>& W)
+{
+    factory = W;
+    updated = false;
+}
 
 const shared_ptr<Workroom>& Domain::get_workroom() const { return factory; }
 
@@ -326,6 +330,8 @@ void Domain::enable_all()
     for(const auto& I : disabled_material) material_pool[I]->enable();
     for(const auto& I : disabled_node) node_pool[I]->enable();
     for(const auto& I : disabled_recorder) recorder_pool[I]->enable();
+
+    for(const auto& I : node_pool) I.second->enable();
 
     disabled_constraint.clear();
     disabled_element.clear();

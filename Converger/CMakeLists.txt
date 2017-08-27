@@ -6,4 +6,5 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Converger/AbsResidual.cpp"
         "Converger/RelDisp.cpp"
         "Converger/RelError.cpp"
-        "Converger/RelIncreDisp.cpp")
+        "Converger/RelIncreDisp.cpp"
+        "Converger/RelResidual.cpp")

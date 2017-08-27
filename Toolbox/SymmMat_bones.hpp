@@ -45,6 +45,9 @@ inline vec spmv(const symm_mat& A, const vec& X)
 
 inline vec operator*(const symm_mat& A, const vec& X) { return spmv(A, X); }
 
+namespace arma
+{
 template <typename eT> struct is_Mat<SymmMat<eT>> {
     static const bool value = false;
 };
+}

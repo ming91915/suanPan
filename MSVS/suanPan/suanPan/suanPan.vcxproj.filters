@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\..\Converger\AbsResidual.cpp">
       <Filter>Converger</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Converger\RelResidual.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
       <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\RelResidual.h">
+      <Filter>Converger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
 #include "ElementExample.h"
 
-SUANPAN_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
+SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj,
     std::istringstream& command)
 {
     unsigned tag;
     if((command >> tag).fail()) {
-        suanpan_error("new_elementexample_() needs a tag.\n");
+        suanpan_error("new_elementexample() needs a tag.\n");
         return;
     }
 
@@ -13,7 +13,7 @@ SUANPAN_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
     vector<uword> node_tag;
     for(auto I = 0; I < 3; ++I) {
         if((command >> node).fail()) {
-            suanpan_error("new_elementexample_() needs 3 nodes.\n");
+            suanpan_error("new_elementexample() needs 3 nodes.\n");
             return;
         }
         node_tag.push_back(node);
@@ -21,15 +21,15 @@ SUANPAN_EXPORT void new_elementexample_(unique_ptr<Element>& return_obj,
 
     unsigned material_tag;
     if((command >> material_tag).fail()) {
-        suanpan_error("new_elementexample_() needs a material tag.\n");
+        suanpan_error("new_elementexample() needs a material tag.\n");
         return;
     }
 
     auto thickness = 1.;
     if(command.eof())
-        suanpan_info("new_elementexample_() assumes a unit thickness.\n");
+        suanpan_info("new_elementexample() assumes a unit thickness.\n");
     else if((command >> thickness).fail()) {
-        suanpan_error("new_elementexample_() needs a valid thickness.\n");
+        suanpan_error("new_elementexample() needs a valid thickness.\n");
         return;
     }
 

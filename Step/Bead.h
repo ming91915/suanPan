@@ -2,7 +2,7 @@
 * @class Bead
 * @brief A Bead class is a top level container.
 * @author T
-* @date 23/08/2017
+* @date 27/08/2017
 * @version 0.2.1
 * @file Bead.h
 */

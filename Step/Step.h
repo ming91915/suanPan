@@ -22,12 +22,21 @@ class Integrator;
 
 class Step : public Tag
 {
-    bool initialized = false;
+    bool updated = false;
 
     bool symm_mat = true;
     bool band_mat = true;
 
     double time_period = 1.0; /**< time period */
+
+    double max_step_size = time_period; /**< maximum step size */
+    double min_step_size = 1E-8;        /**< minimum step size */
+
+    double ini_step_size = time_period; /**< initial step size */
+
+    unsigned max_increment = 100; /**< maximum increment number */
+
+    bool fixed_step_size = false; /**< auto-stepping */
 
     shared_ptr<Workroom> factory = nullptr;
     shared_ptr<Domain> database = nullptr;
@@ -39,7 +48,7 @@ public:
     explicit Step(const unsigned& = 0, const unsigned& = CT_STEP, const double& = 1.);
     virtual ~Step();
 
-    const bool& is_initialized() const;
+    const bool& is_updated() const;
 
     virtual int initialize();
 
@@ -63,9 +72,21 @@ public:
     void set_time_perid(const double&);
     const double& get_time_period() const;
 
+    void set_ini_step_size(const double&);
+    void set_min_step_size(const double&);
+    void set_max_step_size(const double&);
+    void set_max_iteration(const unsigned&);
+
+    const double& get_ini_step_size() const;
+    const double& get_min_step_size() const;
+    const double& get_max_step_size() const;
+    const unsigned& get_max_iteration() const;
+
+    const bool& is_fixed_step_size() const;
+    void set_fixed_step_size(const bool&);
+
     const bool& is_symm() const;
     const bool& is_band() const;
-
     void set_symm(const bool&);
     void set_band(const bool&);
 };

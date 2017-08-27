@@ -16,11 +16,11 @@ int Static::analyze()
     G->update_trial_status();
 
     auto time_left = get_time_period();
-    auto step = ini_step_size;
+    auto step = get_ini_step_size();
 
     unsigned num_increment = 0;
 
-    while(time_left > 0. && ++num_increment <= max_increment) {
+    while(time_left > 0. && ++num_increment <= get_max_iteration()) {
         G->update_incre_time(step);
         const auto code = S->analyze(get_tag());
         if(code == 0) { // SUCCEEDED STEP
@@ -29,12 +29,12 @@ int Static::analyze()
             time_left -= step;
         } else if(code == -1) { // FAILED UNCONVERGED
             G->reset_status();
-            if(step <= min_step_size) {
+            if(step <= get_min_step_size()) {
                 suanpan_error(
-                    "analyze() reaches minimum step size %.3E.\n", min_step_size);
+                    "analyze() reaches minimum step size %.3E.\n", get_min_step_size());
                 return -1;
             }
-            if(!fixed_size) step /= 2.;
+            if(!is_fixed_step_size()) step /= 2.;
         } else { // FAILED SOLVER
             suanpan_error(
                 "analyze() recieves error code %u from lapack subroutine.\n", code);
@@ -42,9 +42,9 @@ int Static::analyze()
         }
     }
 
-    if(num_increment > max_increment) {
+    if(num_increment > get_max_iteration()) {
         suanpan_warning(
-            "analyze() reaches maximum iteration number %u.\n", max_increment);
+            "analyze() reaches maximum iteration number %u.\n", get_max_iteration());
         return -1;
     }
 

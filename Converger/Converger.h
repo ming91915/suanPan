@@ -46,7 +46,7 @@ public:
         const unsigned& = CT_CONVERGER,
         const shared_ptr<Domain>& = nullptr,
         const double& = 1E-8,
-        const unsigned& = 7,
+        const unsigned& = 10,
         const bool& = false);
     virtual ~Converger();
 
