@@ -17,6 +17,8 @@ add_library(${PROJECT_NAME} SHARED
     "${ROOT}/Toolbox/debug.cpp"
     )
 
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+
 target_link_libraries(${PROJECT_NAME} arpack superlu)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -25,4 +27,8 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_link_libraries(${PROJECT_NAME} lapack)
+endif()
+
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(${PROJECT_NAME} openblas gfortran quadmath)
 endif()
