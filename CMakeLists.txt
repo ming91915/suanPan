@@ -38,39 +38,3 @@ if(BUILD_DLL_EXAMPLE)
 endif()
 
 target_link_libraries(${PROJECT_NAME} Element Material)
-
-target_link_libraries(${PROJECT_NAME} arpack superlu)
-
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-
-        if(USE_OPENBLAS)
-            target_link_libraries(${PROJECT_NAME} openblas)
-        elseif(USE_NETLIB)
-            target_link_libraries(${PROJECT_NAME} openblas)
-        else()
-            message("Please check either USE_OPENBLAS or USE_NETLIB.")
-        endif()
-
-        target_link_libraries(${PROJECT_NAME} gfortran quadmath)
-
-        if(USE_HDF5)
-            target_link_libraries(${PROJECT_NAME} hdf5_cpp-static hdf5-static)
-        endif()
-
-    endif()
-    
-    if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-
-        target_link_libraries(${PROJECT_NAME} lapack)
-
-        if(USE_HDF5)
-        target_link_libraries(${PROJECT_NAME} libhdf5_cpp libhdf5)
-        endif()
-
-    endif()
-
-elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(${PROJECT_NAME} openblas gfortran quadmath)
-endif()

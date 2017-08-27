@@ -14,6 +14,8 @@ endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 
+    link_libraries(arpack superlu)
+
     option(USE_OPENBLAS "USE OPENBLAS" ON)
     option(USE_OPENMP "USE OPENMP" OFF)
 
@@ -24,8 +26,20 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     endif()
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+
+        if(USE_OPENBLAS)
+            link_libraries(openblas)
+        elseif(USE_NETLIB)
+            link_libraries(openblas)
+        else()
+            message("Please check either USE_OPENBLAS or USE_NETLIB.")
+        endif()
+
+        link_libraries(gfortran quadmath)
+
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-gcc)
+        	link_libraries(hdf5_cpp-static hdf5-static)
         endif()
         link_directories(${ROOT}/Libs/gcc)
 
@@ -39,8 +53,10 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     endif()
 
     if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+        link_libraries(lapack)
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-msvc)
+        	link_libraries(libhdf5_cpp libhdf5)
         endif()
         link_directories(${ROOT}/Libs/msvc)
         set(CMAKE_CXX_FLAGS "/MP /EHsc /arch:AVX")
@@ -48,6 +64,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     endif()
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    link_libraries(openblas gfortran quadmath)
     if(USE_HDF5)
         include_directories(/usr/local/HDF5/include)
         link_directories(/usr/local/HDF5/lib)
