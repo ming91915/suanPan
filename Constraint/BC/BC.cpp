@@ -142,7 +142,7 @@ int BC::process(const shared_ptr<Domain>& D)
                             if(t_matrix(t_idx, t_idx) == 0) {
                                 auto& t_set = D->get_restrained_dof();
                                 if(t_set.size() == 1)
-                                    t_matrix(t_idx, t_idx) = 1E8 * t_matrix.max();
+                                    t_matrix(t_idx, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)
                                     t_matrix(t_idx, t_idx) =
                                         t_matrix(*++t_set.cbegin(), *++t_set.cbegin());
@@ -150,7 +150,7 @@ int BC::process(const shared_ptr<Domain>& D)
                                     t_matrix(t_idx, t_idx) =
                                         t_matrix(*t_set.cbegin(), *t_set.cbegin());
                             } else
-                                t_matrix(t_idx, t_idx) *= 1E8;
+                                t_matrix(t_idx, t_idx) *= 1E6;
                         }
                     }
             }
@@ -173,7 +173,7 @@ int BC::process(const shared_ptr<Domain>& D)
                             if(t_matrix(t_zero, t_idx) == 0) {
                                 auto& t_set = D->get_restrained_dof();
                                 if(t_set.size() == 1)
-                                    t_matrix(t_zero, t_idx) = 1E8 * t_matrix.max();
+                                    t_matrix(t_zero, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)
                                     t_matrix(t_zero, t_idx) =
                                         t_matrix(t_zero, *++t_set.cbegin());
@@ -181,7 +181,7 @@ int BC::process(const shared_ptr<Domain>& D)
                                     t_matrix(t_zero, t_idx) =
                                         t_matrix(t_zero, *t_set.cbegin());
                             } else
-                                t_matrix(t_zero, t_idx) *= 1E8;
+                                t_matrix(t_zero, t_idx) *= 1E6;
                         }
                     }
             }

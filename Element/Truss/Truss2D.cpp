@@ -152,24 +152,14 @@ int Truss2D::reset_status() { return t_material->reset_status(); }
 void Truss2D::print()
 {
     suanpan_info("2-D truss element with ");
-    if(nlgeom) {
-        suanpan_info("corotational formulation, assuming constant ");
-        if(update_area)
-            suanpan_info("volume ");
-        else
-            suanpan_info("area ");
-        suanpan_info("and ");
-        if(log_strain)
-            suanpan_info("logarithmic ");
-        else
-            suanpan_info("engineering ");
-        suanpan_info("strain. ");
-    } else {
+    if(nlgeom)
+        suanpan_info("corotational formulation, assuming constant %s and %s strain. ",
+            update_area ? "volume" : "area", log_strain ? "logarithmic" : "engineering");
+    else
         suanpan_info("linear formulation. ");
-    }
     suanpan_info("The nodes connected are\n");
     node_encoding.t().print();
     suanpan_info("The area is %.4E. The initial element length is %.4E.\n", area, length);
-    suanpan_info("Material Model:\n\n");
+    suanpan_info("Material Model: ");
     t_material->print();
 }

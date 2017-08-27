@@ -1,8 +1,8 @@
 #include "BFGS.h"
-#include <Solver/Integrator/Integrator.h>
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Workroom.h>
+#include <Solver/Integrator/Integrator.h>
 
 BFGS::BFGS(const unsigned& T,
     const shared_ptr<Converger>& C,
@@ -55,7 +55,6 @@ int BFGS::analyze(const unsigned& ST)
         if(counter == 0) {
             G->update_stiffness();
             G->process(ST);
-            tmp_residual = W->get_trial_load() - W->get_trial_resistance();
             if(!inv_sympd(inv_stiffness, W->get_stiffness())) return 1;
             auto& tmp_size = W->get_dof_number();
             const_eye = eye(tmp_size, tmp_size);
@@ -64,8 +63,8 @@ int BFGS::analyze(const unsigned& ST)
             const mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
-            tmp_residual = W->get_trial_load() - W->get_trial_resistance();
         }
+        tmp_residual = W->get_trial_load() - W->get_trial_resistance();
         tmp_ninja = inv_stiffness * tmp_residual;
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         G->update_trial_status();

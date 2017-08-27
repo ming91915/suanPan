@@ -71,6 +71,6 @@ int Elastic1D::reset_status()
 
 void Elastic1D::print()
 {
-    suanpan_info("A 1-D Elastic Material %u.\n", get_tag());
-    suanpan_info("Young's Modulus:\t%.4E.\n\n", elastic_modulus);
+    suanpan_info("1-D Elastic Material %u.\n", get_tag());
+    suanpan_info("Young's Modulus:\t%.4E.\n", elastic_modulus);
 }
