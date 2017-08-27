@@ -64,19 +64,18 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
     endif()
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    link_libraries(openblas gfortran quadmath)
+
+    link_directories(${ROOT}/Libs/linux)
+    link_libraries(arpack superlu openblas gfortran quadmath dl)
+    
     if(USE_HDF5)
-        include_directories(/usr/local/HDF5/include)
-        link_directories(/usr/local/HDF5/lib)
+        set(HDF5_PATH /usr/local/HDF5 CACHE PATH "Please make sure the HDF5 library is installed under /usr/local/HDF5 or specify another location.")
+        include_directories(${HDF5_PATH}/include)
+        link_directories(${HDF5_PATH}/lib)
         link_libraries(hdf5_cpp-static hdf5-static)
     else()
         add_definitions(-DARMA_DONT_USE_HDF5)
     endif()
-
-    add_definitions(-DARMA_DONT_USE_ARPACK)
-    add_definitions(-DARMA_DONT_USE_SUPERLU)
-    link_directories(${ROOT}/Libs/linux)
-    link_libraries(dl)
 
     set(CMAKE_CXX_FLAGS "-O3 -fexceptions -fopenmp")
     set(CMAKE_CXX_FLAGS_DEBUG "-DDEBUG -fopenmp")
