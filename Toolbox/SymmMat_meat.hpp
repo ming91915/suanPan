@@ -197,6 +197,34 @@ template <typename eT> SymmMat<eT>& SymmMat<eT>::operator/=(const SymmMat& m)
     return *this;
 }
 
+template <typename eT>
+template <typename T1, typename op_type>
+SymmMat<eT>::SymmMat(const Op<T1, op_type>& X)
+    : n_size(0)
+    , n_elem(0)
+    , mem_state(0)
+    , mem()
+{
+    arma_extra_debug_sigprint_this(this);
+
+    arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
+
+    op_type::apply(*this, X);
+}
+
+template <typename eT>
+template <typename T1, typename op_type>
+SymmMat<eT>& SymmMat<eT>::operator=(const Op<T1, op_type>& X)
+{
+    arma_extra_debug_sigprint();
+
+    arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
+
+    op_type::apply(*this, X);
+
+    return *this;
+}
+
 template <typename eT> eT& SymmMat<eT>::at(const uword& in_row, const uword& in_col)
 {
     const auto tmp_loc = in_row > in_col ?
@@ -412,9 +440,9 @@ template <typename eT> const SymmMat<eT>& SymmMat<eT>::eye(const uword in_size)
     return (*this).eye();
 }
 
-template <typename eT> vec SymmMat<eT>::operator*(const vec& X)
+template <typename eT> void SymmMat<eT>::reset()
 {
-    return sp_mv(*this, X);
-}
+    arma_extra_debug_sigprint();
 
-template <typename eT> bool SymmMat<eT>::i() { return sp_inv(*this) == 0; }
+    init_warm(0);
+}

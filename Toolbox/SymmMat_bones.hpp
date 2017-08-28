@@ -6,6 +6,9 @@ public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
 
+    static const bool is_row = false;
+    static const bool is_col = false;
+
     const uword n_size;
     const uword n_elem;
     const uhword mem_state;
@@ -25,7 +28,7 @@ public:
     template <typename fill_type>
     SymmMat(const SizeMat& s, const fill::fill_class<fill_type>& f);
 
-    explicit SymmMat(const Mat<eT>& in_mat);
+    SymmMat(const Mat<eT>& in_mat);
 
     SymmMat& operator=(const eT& val);
     SymmMat& operator+=(const eT& val);
@@ -41,6 +44,10 @@ public:
     SymmMat& operator%=(const SymmMat& m);
     SymmMat& operator/=(const SymmMat& m);
 
+    template <typename T1, typename op_type> SymmMat(const Op<T1, op_type>& X);
+
+    template <typename T1, typename op_type> SymmMat& operator=(const Op<T1, op_type>& X);
+
     eT& at(const uword& in_row, const uword& in_col);
     const eT& at(const uword& in_row, const uword& in_col) const;
     eT& operator()(const uword& in_row, const uword& in_col);
@@ -53,7 +60,7 @@ public:
 
     arma_hot const SymmMat& fill(const eT val);
     template <typename fill_type>
-    arma_hot const SymmMat& fill(const fill::fill_class<fill_type>& f);
+    arma_hot const SymmMat& fill(const fill::fill_class<fill_type>&);
 
     const SymmMat& zeros();
     const SymmMat& zeros(const uword in_size);
@@ -64,13 +71,61 @@ public:
     const SymmMat& eye();
     const SymmMat& eye(const uword in_size);
 
+    void reset();
+
     void init_cold();
     void init_warm(const uword& in_size);
-
-    vec operator*(const vec& X);
-
-    bool i();
 };
+
+namespace arma
+{
+template <typename T> struct is_SymmMat {
+    static const bool value = false;
+};
+template <typename eT> struct is_SymmMat<SymmMat<eT>> {
+    static const bool value = true;
+};
+template <typename eT> struct is_Mat<SymmMat<eT>> {
+    static const bool value = false;
+};
+}
+
+class op_inv_sp
+{
+public:
+    template <typename T1>
+    static void apply(SymmMat<typename T1::elem_type>& out, const Op<T1, op_inv_sp>& in)
+    {
+        arma_extra_debug_sigprint();
+
+        out = in.m;
+
+        if(sp_inv(out) != 0) {
+            out.reset();
+            arma_stop_runtime_error("sp_inv(): matrix seems singular");
+        }
+    }
+};
+
+template <typename T1>
+arma_warn_unused
+    typename enable_if2<is_SymmMat<T1>::value, const Op<T1, op_inv_sp>>::result
+    inv_sp(const Base<typename T1::elem_type, T1>& X)
+{
+    arma_extra_debug_sigprint();
+
+    return Op<T1, op_inv_sp>(X.get_ref());
+}
+
+template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
+{
+    return A *= X;
+}
+
+template <typename eT> Col<eT> operator*(const SymmMat<eT>& A, const Col<eT>& X)
+{
+    return sp_mv(A, X);
+}
 
 template <typename eT1, typename eT2>
 arma_hot void
@@ -139,14 +194,4 @@ template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B
     delete[] IPIV;
 
     return INFO;
-}
-
-namespace arma
-{
-template <typename eT> struct is_SymmMat {
-    static const bool value = false;
-};
-template <typename eT> struct is_SymmMat<SymmMat<eT>> {
-    static const bool value = true;
-};
 }
