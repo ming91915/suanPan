@@ -1,7 +1,7 @@
 #ifndef LAPACK_WRAPPER_H
 #define LAPACK_WRAPPER_H
 
-namespace suanPan
+namespace suanpan
 {
 // BLAS
 extern "C" void dgbmv_(char* TRANS,
@@ -54,6 +54,11 @@ extern "C" void dspmv_(char* UPLO,
 // LAPACK SOLVER
 extern "C" void
 dgesv_(int* N, int* NRHS, double* A, int* LDA, int* IPIV, double* B, int* LDB, int* INFO);
+
+extern "C" void dgetrf_(int* M, int* N, double* A, int* LDA, int* IPIV, int* INFO);
+
+extern "C" void
+dgetri_(int* N, double* A, int* LDA, int* IPIV, double* WORK, int* LWORK, int* INFO);
 
 extern "C" void dgbsv_(int* N,
     int* KL,
@@ -121,6 +126,7 @@ extern "C" void dsygvx_(int* ITYPE,
     int* IFAIL,
     int* INFO);
 
+// symmetric matrix stored in packed format
 extern "C" void dspsv_(char* UPLO,
     int* N,
     int* NRHS,
@@ -129,6 +135,9 @@ extern "C" void dspsv_(char* UPLO,
     double* B,
     int* LDB,
     int* INFO);
+extern "C" void dsptrf_(char* UPLO, int* N, double* AP, int* IPIV, int* INFO);
+extern "C" void
+dsptri_(char* UPLO, int* N, double* AP, int* IPIV, double* WORK, int* INFO);
 }
 
 #include <armadillo>

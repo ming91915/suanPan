@@ -4,6 +4,8 @@
  * @author T
  * @date 03/07/2017
  * @file Frequence.h
+ * @addtogroup Step
+ * @{
  */
 
 #ifndef FREQUENCE_H
@@ -13,13 +15,19 @@
 
 class Frequence : public Step
 {
-public:
-    explicit Frequence(const unsigned& T = 0)
-        : Step(T, CT_FREQUENCE)
-    {
-    }
+    unsigned eigen_number;
 
-    virtual ~Frequence() {}
+public:
+    explicit Frequence(const unsigned& = 0, const unsigned& = 4);
+
+    int initialize() override;
+
+    int analyze() override;
+
+    void set_eigen_number(const unsigned&);
+    const unsigned& get_eigen_number() const;
 };
 
 #endif
+
+//! @}

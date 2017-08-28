@@ -165,9 +165,6 @@
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
@@ -203,6 +200,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Converger\RelResidual.cpp">
       <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\arpack_wrapper.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
+      <Filter>Solver</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -356,9 +359,6 @@
     <ClInclude Include="..\..\..\Toolbox\RCM.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h">
       <Filter>Solver</Filter>
     </ClInclude>
@@ -400,6 +400,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Converger\RelResidual.h">
       <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\arpack_wrapper.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
+      <Filter>Solver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

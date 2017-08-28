@@ -187,6 +187,7 @@
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
+    <ClCompile Include="..\..\..\Solver\arpack_wrapper.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp" />
@@ -249,6 +250,7 @@
     <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
     <ClInclude Include="..\..\..\Recorder\OutputList.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
+    <ClInclude Include="..\..\..\Solver\arpack_wrapper.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h" />

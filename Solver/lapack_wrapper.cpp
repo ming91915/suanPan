@@ -11,7 +11,7 @@ int ge_solve(vec& X, mat& A, const vec& B)
     auto IPIV = new int[N];
     auto INFO = 0;
 
-    dgesv_(&N, &NRHS, A.memptr(), &LDA, IPIV, X.memptr(), &LDB, &INFO);
+    suanpan::dgesv_(&N, &NRHS, A.memptr(), &LDA, IPIV, X.memptr(), &LDB, &INFO);
 
     delete[] IPIV;
 
@@ -31,7 +31,7 @@ int gb_solve(vec& X, mat& A, const vec& B, const unsigned& L, const unsigned& U)
     auto IPIV = new int[N];
     auto INFO = 0;
 
-    suanPan::dgbsv_(
+    suanpan::dgbsv_(
         &N, &KL, &KU, &NRHS, A.memptr(), &LDAB, IPIV, X.memptr(), &LDB, &INFO);
 
     delete[] IPIV;
@@ -48,13 +48,13 @@ int sy_solve(vec& X, mat& A, const vec& B)
     auto NRHS = 1;
     auto LDA = N;
     auto LDB = N;
-    auto IPIV = new int[N];
+    const auto IPIV = new int[N];
     auto INFO = 0;
 
     auto LWORK = 4 * N;
-    auto WORK = new double[LWORK];
+    const auto WORK = new double[LWORK];
 
-    suanPan::dsysv_(
+    suanpan::dsysv_(
         &UPLO, &N, &NRHS, A.memptr(), &LDA, IPIV, X.memptr(), &LDB, WORK, &LWORK, &INFO);
 
     delete[] IPIV;
@@ -74,7 +74,7 @@ int po_solve(vec& X, mat& A, const vec& B)
     auto LDB = N;
     auto INFO = 0;
 
-    suanPan::dposv_(&UPLO, &N, &NRHS, A.memptr(), &LDA, X.memptr(), &LDB, &INFO);
+    suanpan::dposv_(&UPLO, &N, &NRHS, A.memptr(), &LDA, X.memptr(), &LDB, &INFO);
 
     return INFO;
 }
@@ -91,7 +91,7 @@ int pb_solve(vec& X, mat& A, const vec& B)
     auto LDB = N;
     auto INFO = 0;
 
-    suanPan::dpbsv_(&UPLO, &N, &KD, &NRHS, A.memptr(), &LDAB, X.memptr(), &LDB, &INFO);
+    suanpan::dpbsv_(&UPLO, &N, &KD, &NRHS, A.memptr(), &LDAB, X.memptr(), &LDB, &INFO);
 
     return INFO;
 }

@@ -25,7 +25,8 @@
 
 class Domain;
 
-class RelResidual : public Converger {
+class RelResidual : public Converger
+{
 public:
     explicit RelResidual(const unsigned& = 0,
         const shared_ptr<Domain>& = nullptr,
