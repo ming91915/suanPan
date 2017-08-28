@@ -9,3 +9,4 @@
 #include "BFGS.h"
 #include "Ramm.h"
 #include "lapack_wrapper.h"
+#include "arpack_wrapper.h"

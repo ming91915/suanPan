@@ -6,6 +6,7 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Solver/Ramm.cpp"
         "Solver/User_Function.cpp"
         "Solver/lapack_wrapper.cpp"
+        "Solver/arpack_wrapper.cpp"
         )
 
 add_subdirectory(ODE_Solver)
