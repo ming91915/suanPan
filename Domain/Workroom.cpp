@@ -434,6 +434,8 @@ void Workroom::commit_pre_temperature() { pre_temperature = current_temperature;
 
 void Workroom::clear_status()
 {
+    if(!initialized) return;
+
     clear_time();
     clear_load();
     clear_resistance();

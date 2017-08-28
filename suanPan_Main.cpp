@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 #endif
 
     argument_parser(argc, argv);
-	// example_symm_mat();
+// example_symm_mat();
 
 #ifdef SUANPAN_DEBUG
     cout << T.toc() << "\n";

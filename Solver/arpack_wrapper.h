@@ -20,7 +20,7 @@ extern "C" void dsaupd_(int* IDO,
     double* WORKL,
     int* LWORKL,
     int* INFO);
-//extern "C" void dseupd_(bool* RVEC,
+// extern "C" void dseupd_(bool* RVEC,
 //    char* HOWMNY,
 //    bool* SELECT,
 //    double* D,
