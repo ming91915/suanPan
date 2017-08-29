@@ -175,6 +175,7 @@
     <ClCompile Include="..\..\..\Database\SQL.cpp" />
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp" />
+    <ClCompile Include="..\..\..\Domain\Factory.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
     <ClCompile Include="..\..\..\Domain\Storage.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="..\..\..\Database\SQL.h" />
     <ClInclude Include="..\..\..\Domain\Domain.h" />
     <ClInclude Include="..\..\..\Domain\ExternalModule.h" />
+    <ClInclude Include="..\..\..\Domain\Factory.h" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
     <ClInclude Include="..\..\..\Domain\Storage.h" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />

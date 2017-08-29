@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Solver">
       <UniqueIdentifier>{038d868d-f52f-415f-8ecd-4b018ba46aed}</UniqueIdentifier>
     </Filter>
@@ -25,79 +21,83 @@
     <Filter Include="Armadillo-Ext">
       <UniqueIdentifier>{0b4a335f-a2b9-4109-9d4d-5bba6edcd69d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SRC">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\BC\BC.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\MPC.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Constraint\Tie.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Domain.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Node.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Storage.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Workroom.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\CLoad.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Load.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Analysis.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Dynamic.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Frequence.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Static.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Step.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Solver\ODE_Solver\RK45.cpp">
       <Filter>Solver</Filter>
@@ -133,13 +133,13 @@
       <Filter>Solver</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Bead.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp">
       <Filter>Parser</Filter>
@@ -148,25 +148,25 @@
       <Filter>Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Database\Database.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Database\SQL.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Database\HDF.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\utility.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp">
       <Filter>Solver</Filter>
@@ -210,6 +210,9 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Domain\Factory.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -219,7 +222,7 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Recorder\Recorder.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\BFGS.h">
       <Filter>Solver</Filter>
@@ -258,79 +261,79 @@
       <Filter>Solver</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Dynamic.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Frequence.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Static.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Step.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Analysis.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\testFunctions.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Node.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Storage.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Tag.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Workroom.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Domain.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Amplitude\Ramp.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Amplitude\Tabular.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Load.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\CLoad.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\MPC.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\Tie.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\Constraint.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\BC\BC.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\ExternalModule.h">
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\debug.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Bead.h">
       <Filter>Header</Filter>
@@ -360,7 +363,7 @@
       <Filter>Header</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\RCM.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h">
       <Filter>Solver</Filter>
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\BdOp_meat.hpp">
       <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory.h">
+      <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

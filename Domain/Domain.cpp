@@ -45,25 +45,36 @@ int Domain::initialize()
 
     // PUSH IN ALL VALID ACTIVE CONSTRAINTS
     tmp_constraint_pool.clear();
+    tmp_constraint_pool.reserve(constraint_pool.size());
+    auto idx = 0;
     for(const auto& tmp_constraint : constraint_pool)
         if(tmp_constraint.second->is_active())
-            tmp_constraint_pool.push_back(tmp_constraint.second);
+            tmp_constraint_pool[idx++] = tmp_constraint.second;
+    // tmp_constraint_pool.shrink_to_fit();
 
     // PUSH IN ALL VALID ACTIVE ELEMENTS
     tmp_element_pool.clear();
+    tmp_element_pool.reserve(tmp_element_pool.size());
+    idx = 0;
     for(const auto& tmp_element : element_pool)
-        if(tmp_element.second->is_active())
-            tmp_element_pool.push_back(tmp_element.second);
+        if(tmp_element.second->is_active()) tmp_element_pool[idx++] = tmp_element.second;
+    // tmp_element_pool.shrink_to_fit();
 
     // PUSH IN ALL VALID ACTIVE LOADS
     tmp_load_pool.clear();
-    for(const auto& I : load_pool)
-        if(I.second->is_active()) tmp_load_pool.push_back(I.second);
+    tmp_load_pool.reserve(tmp_load_pool.size());
+    idx = 0;
+    for(const auto& tmp_load : load_pool)
+        if(tmp_load.second->is_active()) tmp_load_pool[idx++] = tmp_load.second;
+    // tmp_load_pool.shrink_to_fit();
 
     // PUSH IN ALL VALID ACTIVE NODES
     tmp_node_pool.clear();
+    tmp_node_pool.reserve(tmp_node_pool.size());
+    idx = 0;
     for(const auto& tmp_node : node_pool)
-        if(tmp_node.second->is_active()) tmp_node_pool.push_back(tmp_node.second);
+        if(tmp_node.second->is_active()) tmp_node_pool[idx++] = tmp_node.second;
+    // tmp_node_pool.shrink_to_fit();
 
     // RCM OPTIMIZATION
     vector<unordered_set<uword>> adjacency(dof_counter);

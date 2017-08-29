@@ -23,8 +23,6 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 
 #include <suanPan.h>
 
-using T2 = mat;
-
 class Workroom final
 {
     // friend class Solver;
@@ -79,9 +77,9 @@ class Workroom final
     vec pre_acceleration; /**< global previous acceleration vector */
     vec pre_temperature;  /**< global previous temperature vector */
 
-    T2 global_mass;      /**< global mass matrix */
-    T2 global_damping;   /**< global damping matrix */
-    T2 global_stiffness; /**< global stiffness matrix */
+    mat global_mass;      /**< global mass matrix */
+    mat global_damping;   /**< global damping matrix */
+    mat global_stiffness; /**< global stiffness matrix */
 
     vec eigenvalue; /**< eigenvalues */
 
@@ -157,9 +155,9 @@ public:
     void update_pre_acceleration(const vec&);
     void update_pre_temperature(const vec&);
 
-    void update_mass(const T2&);
-    void update_damping(const T2&);
-    void update_stiffness(const T2&);
+    void update_mass(const mat&);
+    void update_damping(const mat&);
+    void update_stiffness(const mat&);
 
     const vec& get_ninja() const;
 
@@ -195,9 +193,9 @@ public:
     const vec& get_pre_acceleration() const;
     const vec& get_pre_temperature() const;
 
-    const T2& get_mass() const;
-    const T2& get_damping() const;
-    const T2& get_stiffness() const;
+    const mat& get_mass() const;
+    const mat& get_damping() const;
+    const mat& get_stiffness() const;
 
     const vec& get_eigenvalue() const;
     const mat& get_eigenvector() const;
@@ -236,9 +234,9 @@ public:
     friend vec& get_pre_acceleration(const shared_ptr<Workroom>&);
     friend vec& get_pre_temperature(const shared_ptr<Workroom>&);
 
-    friend T2& get_mass(const shared_ptr<Workroom>&);
-    friend T2& get_damping(const shared_ptr<Workroom>&);
-    friend T2& get_stiffness(const shared_ptr<Workroom>&);
+    friend mat& get_mass(const shared_ptr<Workroom>&);
+    friend mat& get_damping(const shared_ptr<Workroom>&);
+    friend mat& get_stiffness(const shared_ptr<Workroom>&);
 
     friend vec& get_eigenvalue(const shared_ptr<Workroom>&);
     friend mat& get_eigenvector(const shared_ptr<Workroom>&);

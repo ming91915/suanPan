@@ -276,11 +276,11 @@ void Workroom::update_pre_acceleration(const vec& A) { pre_acceleration = A; }
 
 void Workroom::update_pre_temperature(const vec& T) { pre_temperature = T; }
 
-void Workroom::update_mass(const T2& M) { global_mass = M; }
+void Workroom::update_mass(const mat& M) { global_mass = M; }
 
-void Workroom::update_damping(const T2& D) { global_damping = D; }
+void Workroom::update_damping(const mat& D) { global_damping = D; }
 
-void Workroom::update_stiffness(const T2& K) { global_stiffness = K; }
+void Workroom::update_stiffness(const mat& K) { global_stiffness = K; }
 
 const vec& Workroom::get_ninja() const { return ninja; }
 
@@ -340,11 +340,11 @@ const vec& Workroom::get_pre_acceleration() const { return pre_acceleration; }
 
 const vec& Workroom::get_pre_temperature() const { return pre_temperature; }
 
-const T2& Workroom::get_mass() const { return global_mass; }
+const mat& Workroom::get_mass() const { return global_mass; }
 
-const T2& Workroom::get_damping() const { return global_damping; }
+const mat& Workroom::get_damping() const { return global_damping; }
 
-const T2& Workroom::get_stiffness() const { return global_stiffness; }
+const mat& Workroom::get_stiffness() const { return global_stiffness; }
 
 const vec& Workroom::get_eigenvalue() const { return eigenvalue; }
 
@@ -750,11 +750,11 @@ vec& get_pre_acceleration(const shared_ptr<Workroom>& W) { return W->pre_acceler
 
 vec& get_pre_temperature(const shared_ptr<Workroom>& W) { return W->pre_temperature; }
 
-T2& get_mass(const shared_ptr<Workroom>& W) { return W->global_mass; }
+mat& get_mass(const shared_ptr<Workroom>& W) { return W->global_mass; }
 
-T2& get_damping(const shared_ptr<Workroom>& W) { return W->global_damping; }
+mat& get_damping(const shared_ptr<Workroom>& W) { return W->global_damping; }
 
-T2& get_stiffness(const shared_ptr<Workroom>& W) { return W->global_stiffness; }
+mat& get_stiffness(const shared_ptr<Workroom>& W) { return W->global_stiffness; }
 
 vec& get_eigenvalue(const shared_ptr<Workroom>& W) { return W->eigenvalue; }
 
