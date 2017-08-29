@@ -199,46 +199,46 @@ public:
     const Col<eT>& get_eigenvalue() const;
     const Mat<eT>& get_eigenvector() const;
 
-    friend Col<eT>& get_ninja(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_ninja(const shared_ptr<Factory>&);
 
-    friend eT& get_trial_time(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_load(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_resistance(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_displacement(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_velocity(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_acceleration(const shared_ptr<Factory>&);
-    friend Col<eT>& get_trial_temperature(const shared_ptr<Factory>&);
+    template <eT, T> friend eT& get_trial_time(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_load(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_resistance(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_displacement(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_velocity(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_acceleration(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_trial_temperature(const shared_ptr<Factory>&);
 
-    friend eT& get_incre_time(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_load(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_resistance(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_displacement(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_velocity(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_acceleration(const shared_ptr<Factory>&);
-    friend Col<eT>& get_incre_temperature(const shared_ptr<Factory>&);
+    template <eT, T> friend eT& get_incre_time(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_load(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_resistance(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_displacement(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_velocity(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_acceleration(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_incre_temperature(const shared_ptr<Factory>&);
 
-    friend eT& get_current_time(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_load(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_resistance(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_displacement(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_velocity(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_acceleration(const shared_ptr<Factory>&);
-    friend Col<eT>& get_current_temperature(const shared_ptr<Factory>&);
+    template <eT, T> friend eT& get_current_time(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_load(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_resistance(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_displacement(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_velocity(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_acceleration(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_current_temperature(const shared_ptr<Factory>&);
 
-    friend eT& get_pre_time(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_load(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_resistance(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_displacement(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_velocity(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_acceleration(const shared_ptr<Factory>&);
-    friend Col<eT>& get_pre_temperature(const shared_ptr<Factory>&);
+    template <eT, T> friend eT& get_pre_time(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_load(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_resistance(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_displacement(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_velocity(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_acceleration(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_pre_temperature(const shared_ptr<Factory>&);
 
-    friend T& get_mass(const shared_ptr<Factory>&);
-    friend T& get_damping(const shared_ptr<Factory>&);
-    friend T& get_stiffness(const shared_ptr<Factory>&);
+    template <eT, T> friend T& get_mass(const shared_ptr<Factory>&);
+    template <eT, T> friend T& get_damping(const shared_ptr<Factory>&);
+    template <eT, T> friend T& get_stiffness(const shared_ptr<Factory>&);
 
-    friend Col<eT>& get_eigenvalue(const shared_ptr<Factory>&);
-    friend Mat<eT>& get_eigenvector(const shared_ptr<Factory>&);
+    template <eT, T> friend Col<eT>& get_eigenvalue(const shared_ptr<Factory>&);
+    template <eT, T> friend Mat<eT>& get_eigenvector(const shared_ptr<Factory>&);
 
     void commit_status();
     void commit_time();
