@@ -353,6 +353,29 @@ template <typename eT> void SymmMat<eT>::init_warm(const uword& in_size)
     }
 }
 
+template <typename eT> void SymmMat<eT>::print() const
+{
+    auto& o = std::cout;
+
+    const auto save_flags = o.flags();
+    const auto save_precision = o.precision();
+
+    o.unsetf(ios::scientific);
+    o.setf(ios::fixed);
+    o.precision(4);
+
+    for(auto i = 0; i < n_size; i++) {
+        for(auto j = 0; j < n_size; j++) {
+            o.width(8);
+            o << at(i, j) << " ";
+        }
+        o << endl;
+    }
+
+    o.flags(save_flags);
+    o.precision(save_precision);
+}
+
 template <typename eT> eT* SymmMat<eT>::memptr() { return const_cast<eT*>(mem); }
 
 template <typename eT> const eT* SymmMat<eT>::memptr() const { return mem; }

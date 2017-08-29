@@ -25,33 +25,14 @@ int main(int argc, char** argv)
 void example_symm_mat()
 {
     const auto N = 10;
-    SymmMat<double> A(N, fill::zeros);
-    Mat<double> B(10, 10);
-    const auto C = A.memptr();
-    auto idx = N * (N + 1) / 2;
-    const auto idx2 = idx;
-    for(auto i = 0; i < idx2; ++i) C[i] = idx--;
-    A += 10;
-    for(auto i = 0; i < N; i++) {
-        for(auto j = 0; j < N; j++) {
-            cout << A(i, j) << "\t";
-            B(i, j) = A(i, j);
-        }
-        cout << endl;
-    }
+    mat A(N, N, fill::randn);
+    A = A + A.t();
+    SymmMat<double> B(A);
 
-    B.print();
-
-    const vec D(10, fill::randn);
+    A.i().print();
 
     cout << endl;
 
-    SymmMat<double> E = inv(A);
-
-    for(auto i = 0; i < N; i++) {
-        for(auto j = 0; j < N; j++) cout << E(i, j) << "\t";
-        cout << endl;
-    }
-
+    SymmMat<double> E = inv(B);
     E.print();
 }
