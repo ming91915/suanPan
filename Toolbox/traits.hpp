@@ -1,5 +1,6 @@
 #pragma once
-#include "Toolbox"
+
+template <typename eT> class SymmMat;
 
 template <typename T> struct is_SymmMat {
     static const bool value = false;

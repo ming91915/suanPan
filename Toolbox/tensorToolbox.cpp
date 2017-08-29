@@ -44,9 +44,9 @@ mat shapeStress(const double& X, const double& Y, const unsigned& S)
             N(2, 5) = -X;
             N(2, 6) = -Y;
             if(S >= 9) {
-                auto X2 = X * X;
-                auto Y2 = Y * Y;
-                auto XY = X * Y;
+                const auto X2 = X * X;
+                const auto Y2 = Y * Y;
+                const auto XY = X * Y;
                 N(0, 8) = 2. * XY;
                 N(1, 7) = N(0, 8);
                 N(2, 7) = -X2;
@@ -110,9 +110,9 @@ mat shapeStrain(const double& X, const double& Y, const double& V, const unsigne
             N(2, 5) = -2. * X * (1. + V);
             N(2, 6) = -2. * Y * (1. + V);
             if(S >= 9) {
-                auto X2 = X * X;
-                auto Y2 = Y * Y;
-                auto XY = X * Y;
+                const auto X2 = X * X;
+                const auto Y2 = Y * Y;
+                const auto XY = X * Y;
 
                 N(0, 8) = XY;
                 N(0, 7) = -V * N(0, 8);

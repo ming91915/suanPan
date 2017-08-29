@@ -12,8 +12,8 @@ int main(int argc, char** argv)
     T.tic();
 #endif
 
-    argument_parser(argc, argv);
-// example_symm_mat();
+    // argument_parser(argc, argv);
+    example_symm_mat();
 
 #ifdef SUANPAN_DEBUG
     cout << T.toc() << "\n";
@@ -40,9 +40,18 @@ void example_symm_mat()
         cout << endl;
     }
 
+    B.print();
+
     const vec D(10, fill::randn);
 
     cout << endl;
 
     SymmMat<double> E = inv(A);
+
+    for(auto i = 0; i < N; i++) {
+        for(auto j = 0; j < N; j++) cout << E(i, j) << "\t";
+        cout << endl;
+    }
+
+    E.print();
 }

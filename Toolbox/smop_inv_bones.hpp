@@ -1,5 +1,6 @@
 #pragma once
-#include "Toolbox"
+
+template <typename eT> class SymmMat;
 
 class smop_inv
 {

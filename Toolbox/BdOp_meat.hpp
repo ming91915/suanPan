@@ -1,5 +1,4 @@
 #pragma once
-#include "Toolbox"
 
 template <typename T1, typename bdop_type>
 BdOp<T1, bdop_type>::BdOp(const T1& in_m)
