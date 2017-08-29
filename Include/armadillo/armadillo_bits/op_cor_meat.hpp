@@ -44,8 +44,8 @@ inline void op_cor::direct_cor(Mat<eT>& out, const Mat<eT>& A, const uword norm_
 }
 
 template <typename T>
-inline void op_cor::direct_cor(Mat<std::complex<T> >& out,
-    const Mat<std::complex<T> >& A,
+inline void op_cor::direct_cor(Mat<std::complex<T>>& out,
+    const Mat<std::complex<T>>& A,
     const uword norm_type)
 {
     arma_extra_debug_sigprint();
@@ -72,7 +72,7 @@ inline void op_cor::direct_cor(Mat<std::complex<T> >& out,
         out /= norm_val;
 
         // out = out / (trans(sd) * sd);
-        out /= conv_to<Mat<eT> >::from(trans(sd) * sd);
+        out /= conv_to<Mat<eT>>::from(trans(sd) * sd);
     }
 }
 

@@ -17,7 +17,7 @@
 //! @{
 
 //! Class for storing data required to extract and set the diagonals of a matrix
-template <typename eT> class diagview : public Base<eT, diagview<eT> >
+template <typename eT> class diagview : public Base<eT, diagview<eT>>
 {
 public:
     typedef eT elem_type;

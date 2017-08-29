@@ -46,8 +46,8 @@ inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>
 //! different types of input matrices
 //! A -> complex, B -> basic element type
 template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T> >& out,
-    const Mat<std::complex<T> >& A,
+inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
+    const Mat<std::complex<T>>& A,
     const Mat<T>& B)
 {
     arma_extra_debug_sigprint();
@@ -65,7 +65,7 @@ inline void glue_kron::direct_kron(Mat<std::complex<T> >& out,
         return;
     }
 
-    Mat<eT> tmp_B = conv_to<Mat<eT> >::from(B);
+    Mat<eT> tmp_B = conv_to<Mat<eT>>::from(B);
 
     for(uword j = 0; j < A_cols; j++) {
         for(uword i = 0; i < A_rows; i++) {
@@ -79,9 +79,9 @@ inline void glue_kron::direct_kron(Mat<std::complex<T> >& out,
 //! different types of input matrices
 //! A -> basic element type, B -> complex
 template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T> >& out,
+inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
     const Mat<T>& A,
-    const Mat<std::complex<T> >& B)
+    const Mat<std::complex<T>>& B)
 {
     arma_extra_debug_sigprint();
 

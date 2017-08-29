@@ -60,7 +60,7 @@ template <typename eT> struct arma_sort_index_helper_descend {
     }
 };
 
-template <typename T> struct arma_sort_index_helper_ascend<std::complex<T> > {
+template <typename T> struct arma_sort_index_helper_ascend<std::complex<T>> {
     typedef typename std::complex<T> eT;
 
     inline bool operator()(const arma_sort_index_packet<eT>& A,
@@ -82,7 +82,7 @@ template <typename T> struct arma_sort_index_helper_ascend<std::complex<T> > {
     //   }
 };
 
-template <typename T> struct arma_sort_index_helper_descend<std::complex<T> > {
+template <typename T> struct arma_sort_index_helper_descend<std::complex<T>> {
     typedef typename std::complex<T> eT;
 
     inline bool operator()(const arma_sort_index_packet<eT>& A,

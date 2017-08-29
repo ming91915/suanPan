@@ -735,7 +735,7 @@ inline bool diskio::save_csv_ascii(const Mat<eT>& x, std::ostream& f)
 //! Save a matrix in CSV text format (human readable); complex numbers stored in "a+bi"
 //! format
 template <typename T>
-inline bool diskio::save_csv_ascii(const Mat<std::complex<T> >& x, std::ostream& f)
+inline bool diskio::save_csv_ascii(const Mat<std::complex<T>>& x, std::ostream& f)
 {
     arma_extra_debug_sigprint();
 
@@ -882,7 +882,7 @@ inline bool diskio::save_pgm_binary(const Mat<eT>& x, std::ostream& f)
 
 //! Save a matrix as a PGM greyscale image
 template <typename T>
-inline bool diskio::save_pgm_binary(const Mat<std::complex<T> >& x,
+inline bool diskio::save_pgm_binary(const Mat<std::complex<T>>& x,
     const std::string& final_name)
 {
     arma_extra_debug_sigprint();
@@ -894,7 +894,7 @@ inline bool diskio::save_pgm_binary(const Mat<std::complex<T> >& x,
 
 //! Save a matrix as a PGM greyscale image
 template <typename T>
-inline bool diskio::save_pgm_binary(const Mat<std::complex<T> >& x, std::ostream& f)
+inline bool diskio::save_pgm_binary(const Mat<std::complex<T>>& x, std::ostream& f)
 {
     arma_extra_debug_sigprint();
 
@@ -1231,7 +1231,7 @@ inline bool diskio::load_arma_ascii(Mat<eT>& x, std::istream& f, std::string& er
             load_okay = diskio::load_arma_ascii(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Mat<eT> >::from(tmp);
+                x = conv_to<Mat<eT>>::from(tmp);
             }
         } else if((sizeof(eT) == 8) && is_same_type<sword, eT>::yes) {
             Mat<s32> tmp;
@@ -1243,7 +1243,7 @@ inline bool diskio::load_arma_ascii(Mat<eT>& x, std::istream& f, std::string& er
             load_okay = diskio::load_arma_ascii(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Mat<eT> >::from(tmp);
+                x = conv_to<Mat<eT>>::from(tmp);
             }
         }
     }
@@ -1372,8 +1372,7 @@ inline bool diskio::load_csv_ascii(Mat<eT>& x, std::istream& f, std::string&)
 //! Load a matrix in CSV text format (human readable); complex numbers stored in "a+bi"
 //! format
 template <typename T>
-inline bool
-diskio::load_csv_ascii(Mat<std::complex<T> >& x, std::istream& f, std::string&)
+inline bool diskio::load_csv_ascii(Mat<std::complex<T>>& x, std::istream& f, std::string&)
 {
     arma_extra_debug_sigprint();
 
@@ -1647,7 +1646,7 @@ inline bool diskio::load_arma_binary(Mat<eT>& x, std::istream& f, std::string& e
             load_okay = diskio::load_arma_binary(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Mat<eT> >::from(tmp);
+                x = conv_to<Mat<eT>>::from(tmp);
             }
         } else if((sizeof(eT) == 8) && is_same_type<sword, eT>::yes) {
             Mat<s32> tmp;
@@ -1659,7 +1658,7 @@ inline bool diskio::load_arma_binary(Mat<eT>& x, std::istream& f, std::string& e
             load_okay = diskio::load_arma_binary(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Mat<eT> >::from(tmp);
+                x = conv_to<Mat<eT>>::from(tmp);
             }
         }
     }
@@ -1783,7 +1782,7 @@ inline bool diskio::load_pgm_binary(Mat<eT>& x, std::istream& f, std::string& er
 
 //! Load a PGM greyscale image as a matrix
 template <typename T>
-inline bool diskio::load_pgm_binary(Mat<std::complex<T> >& x,
+inline bool diskio::load_pgm_binary(Mat<std::complex<T>>& x,
     const std::string& name,
     std::string& err_msg)
 {
@@ -1792,7 +1791,7 @@ inline bool diskio::load_pgm_binary(Mat<std::complex<T> >& x,
     uchar_mat tmp;
     const bool load_okay = diskio::load_pgm_binary(tmp, name, err_msg);
 
-    x = conv_to<Mat<std::complex<T> > >::from(tmp);
+    x = conv_to<Mat<std::complex<T>>>::from(tmp);
 
     return load_okay;
 }
@@ -1800,14 +1799,14 @@ inline bool diskio::load_pgm_binary(Mat<std::complex<T> >& x,
 //! Load a PGM greyscale image as a matrix
 template <typename T>
 inline bool
-diskio::load_pgm_binary(Mat<std::complex<T> >& x, std::istream& is, std::string& err_msg)
+diskio::load_pgm_binary(Mat<std::complex<T>>& x, std::istream& is, std::string& err_msg)
 {
     arma_extra_debug_sigprint();
 
     uchar_mat tmp;
     const bool load_okay = diskio::load_pgm_binary(tmp, is, err_msg);
 
-    x = conv_to<Mat<std::complex<T> > >::from(tmp);
+    x = conv_to<Mat<std::complex<T>>>::from(tmp);
 
     return load_okay;
 }
@@ -2105,7 +2104,7 @@ inline bool diskio::save_coord_ascii(const SpMat<eT>& x, std::ostream& f)
 
 //! Save a matrix in ASCII coord format (complex numbers)
 template <typename T>
-inline bool diskio::save_coord_ascii(const SpMat<std::complex<T> >& x, std::ostream& f)
+inline bool diskio::save_coord_ascii(const SpMat<std::complex<T>>& x, std::ostream& f)
 {
     arma_extra_debug_sigprint();
 
@@ -2406,9 +2405,8 @@ inline bool diskio::load_coord_ascii(SpMat<eT>& x, std::istream& f, std::string&
 }
 
 template <typename T>
-inline bool diskio::load_coord_ascii(SpMat<std::complex<T> >& x,
-    std::istream& f,
-    std::string& err_msg)
+inline bool
+diskio::load_coord_ascii(SpMat<std::complex<T>>& x, std::istream& f, std::string& err_msg)
 {
     arma_extra_debug_sigprint();
     arma_ignore(err_msg);
@@ -3239,7 +3237,7 @@ inline bool diskio::load_arma_ascii(Cube<eT>& x, std::istream& f, std::string& e
             load_okay = diskio::load_arma_ascii(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Cube<eT> >::from(tmp);
+                x = conv_to<Cube<eT>>::from(tmp);
             }
         } else if((sizeof(eT) == 8) && is_same_type<sword, eT>::yes) {
             Cube<s32> tmp;
@@ -3251,7 +3249,7 @@ inline bool diskio::load_arma_ascii(Cube<eT>& x, std::istream& f, std::string& e
             load_okay = diskio::load_arma_ascii(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Cube<eT> >::from(tmp);
+                x = conv_to<Cube<eT>>::from(tmp);
             }
         }
     }
@@ -3327,7 +3325,7 @@ inline bool diskio::load_arma_binary(Cube<eT>& x, std::istream& f, std::string& 
             load_okay = diskio::load_arma_binary(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Cube<eT> >::from(tmp);
+                x = conv_to<Cube<eT>>::from(tmp);
             }
         } else if((sizeof(eT) == 8) && is_same_type<sword, eT>::yes) {
             Cube<s32> tmp;
@@ -3339,7 +3337,7 @@ inline bool diskio::load_arma_binary(Cube<eT>& x, std::istream& f, std::string& 
             load_okay = diskio::load_arma_binary(tmp, f, junk);
 
             if(load_okay) {
-                x = conv_to<Cube<eT> >::from(tmp);
+                x = conv_to<Cube<eT>>::from(tmp);
             }
         }
     }

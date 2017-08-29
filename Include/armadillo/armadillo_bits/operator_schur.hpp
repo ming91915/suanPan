@@ -23,7 +23,7 @@
 template <typename T1, typename T2>
 arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
-    const eGlue<T1, T2, eglue_schur> >::result
+    const eGlue<T1, T2, eglue_schur>>::result
 operator%(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -41,7 +41,7 @@ inline typename enable_if2<
         typename promote_type<typename T1::elem_type, typename T2::elem_type>::result,
         T1,
         T2,
-        glue_mixed_schur> >::result
+        glue_mixed_schur>>::result
 operator%(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -61,7 +61,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    SpMat<typename T1::elem_type> >::result
+    SpMat<typename T1::elem_type>>::result
 operator%(const SpBase<typename T1::elem_type, T1>& x,
     const SpBase<typename T2::elem_type, T2>& y)
 {
@@ -134,7 +134,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_sparse_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    SpMat<typename T1::elem_type> >::result
+    SpMat<typename T1::elem_type>>::result
 operator%(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();
@@ -199,7 +199,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_sparse_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    SpMat<typename T1::elem_type> >::result
+    SpMat<typename T1::elem_type>>::result
 operator%(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();

@@ -36,12 +36,4 @@ int print_info(const shared_ptr<Domain>&, istringstream&);
 
 void print_command_usage(istringstream&);
 
-bool if_equal(const string&, const char*);
-bool if_equal(const char*, const char*);
-
-bool if_true(const string&);
-bool if_false(const string&);
-bool if_true(const char*);
-bool if_false(const char*);
-
 #endif

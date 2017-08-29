@@ -30,7 +30,7 @@ public:
 
     template <typename T, typename T1, typename T2>
     inline static void
-    apply(Mat<std::complex<T> >& out, const Proxy<T1>& PA, const Proxy<T2>& PB);
+    apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB);
 
     // cubes
 
@@ -44,7 +44,7 @@ public:
 
     template <typename T, typename T1, typename T2>
     inline static void
-    apply(Cube<std::complex<T> >& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
+    apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
 };
 
 //! @}

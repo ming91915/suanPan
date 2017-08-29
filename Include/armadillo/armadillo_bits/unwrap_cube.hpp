@@ -30,7 +30,7 @@ public:
     const Cube<eT> M;
 };
 
-template <typename eT> class unwrap_cube<Cube<eT> >
+template <typename eT> class unwrap_cube<Cube<eT>>
 {
 public:
     inline unwrap_cube(const Cube<eT>& A)
@@ -62,7 +62,7 @@ public:
     const Cube<eT> M;
 };
 
-template <typename eT> class unwrap_cube_check<Cube<eT> >
+template <typename eT> class unwrap_cube_check<Cube<eT>>
 {
 public:
     inline unwrap_cube_check(const Cube<eT>& A, const Cube<eT>& B)

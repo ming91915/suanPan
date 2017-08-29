@@ -37,7 +37,7 @@ public:
         const Op<T1, op_median>& in);
 
     template <typename T, typename T1>
-    inline static void apply(Mat<std::complex<T> >& out, const Op<T1, op_median>& in);
+    inline static void apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in);
 
     //
     //
@@ -58,7 +58,7 @@ public:
     template <typename T>
     inline static void direct_cx_median_index(uword& out_index1,
         uword& out_index2,
-        std::vector<arma_cx_median_packet<T> >& X);
+        std::vector<arma_cx_median_packet<T>>& X);
 };
 
 //! @}

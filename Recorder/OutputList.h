@@ -1,8 +1,6 @@
 #ifndef OUTPUTLIST_H
 #define OUTPUTLIST_H
 
-#include <suanPan.h>
-
 enum class OutputList {
     S,
     S11,

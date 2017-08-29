@@ -30,7 +30,7 @@ template <typename T1> struct unwrap_spmat {
     const SpMat<eT> M;
 };
 
-template <typename eT> struct unwrap_spmat<SpMat<eT> > {
+template <typename eT> struct unwrap_spmat<SpMat<eT>> {
     typedef SpMat<eT> stored_type;
 
     inline unwrap_spmat(const SpMat<eT>& A)
@@ -42,7 +42,7 @@ template <typename eT> struct unwrap_spmat<SpMat<eT> > {
     const SpMat<eT>& M;
 };
 
-template <typename eT> struct unwrap_spmat<SpRow<eT> > {
+template <typename eT> struct unwrap_spmat<SpRow<eT>> {
     typedef SpRow<eT> stored_type;
 
     inline unwrap_spmat(const SpRow<eT>& A)
@@ -54,7 +54,7 @@ template <typename eT> struct unwrap_spmat<SpRow<eT> > {
     const SpRow<eT>& M;
 };
 
-template <typename eT> struct unwrap_spmat<SpCol<eT> > {
+template <typename eT> struct unwrap_spmat<SpCol<eT>> {
     typedef SpCol<eT> stored_type;
 
     inline unwrap_spmat(const SpCol<eT>& A)
@@ -66,7 +66,7 @@ template <typename eT> struct unwrap_spmat<SpCol<eT> > {
     const SpCol<eT>& M;
 };
 
-template <typename T1, typename spop_type> struct unwrap_spmat<SpOp<T1, spop_type> > {
+template <typename T1, typename spop_type> struct unwrap_spmat<SpOp<T1, spop_type>> {
     typedef typename T1::elem_type eT;
 
     typedef SpMat<eT> stored_type;
@@ -81,7 +81,7 @@ template <typename T1, typename spop_type> struct unwrap_spmat<SpOp<T1, spop_typ
 };
 
 template <typename T1, typename T2, typename spglue_type>
-struct unwrap_spmat<SpGlue<T1, T2, spglue_type> > {
+struct unwrap_spmat<SpGlue<T1, T2, spglue_type>> {
     typedef typename T1::elem_type eT;
 
     typedef SpMat<eT> stored_type;
@@ -96,7 +96,7 @@ struct unwrap_spmat<SpGlue<T1, T2, spglue_type> > {
 };
 
 template <typename out_eT, typename T1, typename spop_type>
-struct unwrap_spmat<mtSpOp<out_eT, T1, spop_type> > {
+struct unwrap_spmat<mtSpOp<out_eT, T1, spop_type>> {
     typedef SpMat<out_eT> stored_type;
 
     inline unwrap_spmat(const mtSpOp<out_eT, T1, spop_type>& A)

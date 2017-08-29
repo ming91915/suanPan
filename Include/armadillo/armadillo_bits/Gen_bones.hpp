@@ -18,7 +18,7 @@
 
 //! support class for generator functions (eg. zeros, randu, randn, ...)
 template <typename T1, typename gen_type>
-class Gen : public Base<typename T1::elem_type, Gen<T1, gen_type> >,
+class Gen : public Base<typename T1::elem_type, Gen<T1, gen_type>>,
             public GenSpecialiser<typename T1::elem_type,
                 is_same_type<gen_type, gen_zeros>::yes,
                 is_same_type<gen_type, gen_ones>::yes,

@@ -20,7 +20,7 @@
 // op_fft_real
 
 template <typename T1>
-inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type> >& out,
+inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
     const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in)
 {
     arma_extra_debug_sigprint();

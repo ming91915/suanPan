@@ -1124,8 +1124,8 @@ inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, const Base<eT, T1>& X)
 
 //! eigen decomposition of general square matrix (real)
 template <typename T1>
-inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
-    Mat<std::complex<typename T1::pod_type> >& vecs,
+inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals,
+    Mat<std::complex<typename T1::pod_type>>& vecs,
     const bool vecs_on,
     const Base<typename T1::pod_type, T1>& expr)
 {
@@ -1230,8 +1230,8 @@ inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
 
 //! eigen decomposition of general square matrix (complex)
 template <typename T1>
-inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
-    Mat<std::complex<typename T1::pod_type> >& vecs,
+inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals,
+    Mat<std::complex<typename T1::pod_type>>& vecs,
     const bool vecs_on,
     const Base<std::complex<typename T1::pod_type>, T1>& expr)
 {
@@ -1301,8 +1301,8 @@ inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
 
 //! eigendecomposition of general square real matrix pair (real)
 template <typename T1, typename T2>
-inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type> >& vals,
-    Mat<std::complex<typename T1::pod_type> >& vecs,
+inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals,
+    Mat<std::complex<typename T1::pod_type>>& vecs,
     const bool vecs_on,
     const Base<typename T1::pod_type, T1>& A_expr,
     const Base<typename T1::pod_type, T2>& B_expr)
@@ -1439,8 +1439,8 @@ inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type> >& vals,
 
 //! eigendecomposition of general square real matrix pair (complex)
 template <typename T1, typename T2>
-inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type> >& vals,
-    Mat<std::complex<typename T1::pod_type> >& vecs,
+inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals,
+    Mat<std::complex<typename T1::pod_type>>& vecs,
     const bool vecs_on,
     const Base<std::complex<typename T1::pod_type>, T1>& A_expr,
     const Base<std::complex<typename T1::pod_type>, T2>& B_expr)
@@ -1704,7 +1704,7 @@ inline bool auxlib::eig_sym(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>
 //! eigenvalues and eigenvectors of a hermitian complex matrix
 template <typename T, typename T1>
 inline bool auxlib::eig_sym(Col<T>& eigval,
-    Mat<std::complex<T> >& eigvec,
+    Mat<std::complex<T>>& eigvec,
     const Base<std::complex<T>, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -1810,7 +1810,7 @@ inline bool auxlib::eig_sym_dc(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, 
 //! algorithm)
 template <typename T, typename T1>
 inline bool auxlib::eig_sym_dc(Col<T>& eigval,
-    Mat<std::complex<T> >& eigvec,
+    Mat<std::complex<T>>& eigvec,
     const Base<std::complex<T>, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -1950,8 +1950,7 @@ inline bool auxlib::qr(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X)
         blas_int m = static_cast<blas_int>(R_n_rows);
         blas_int n = static_cast<blas_int>(R_n_cols);
         blas_int lwork = 0;
-        blas_int lwork_min = (std::max)(
-            blas_int(1),
+        blas_int lwork_min = (std::max)(blas_int(1),
             (std::max)(
                 m, n)); // take into account requirements of geqrf() _and_ orgqr()/ungqr()
         blas_int k = (std::min)(m, n);
@@ -2056,8 +2055,7 @@ inline bool auxlib::qr_econ(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X)
         blas_int m = static_cast<blas_int>(Q_n_rows);
         blas_int n = static_cast<blas_int>(Q_n_cols);
         blas_int lwork = 0;
-        blas_int lwork_min = (std::max)(
-            blas_int(1),
+        blas_int lwork_min = (std::max)(blas_int(1),
             (std::max)(
                 m, n)); // take into account requirements of geqrf() _and_ orgqr()/ungqr()
         blas_int k = (std::min)(m, n);
@@ -2383,9 +2381,9 @@ inline bool auxlib::svd(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& 
 }
 
 template <typename T, typename T1>
-inline bool auxlib::svd(Mat<std::complex<T> >& U,
+inline bool auxlib::svd(Mat<std::complex<T>>& U,
     Col<T>& S,
-    Mat<std::complex<T> >& V,
+    Mat<std::complex<T>>& V,
     const Base<std::complex<T>, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -2588,9 +2586,9 @@ inline bool auxlib::svd_econ(Mat<eT>& U,
 }
 
 template <typename T, typename T1>
-inline bool auxlib::svd_econ(Mat<std::complex<T> >& U,
+inline bool auxlib::svd_econ(Mat<std::complex<T>>& U,
     Col<T>& S,
-    Mat<std::complex<T> >& V,
+    Mat<std::complex<T>>& V,
     const Base<std::complex<T>, T1>& X,
     const char mode)
 {
@@ -2925,9 +2923,9 @@ inline bool auxlib::svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1
 }
 
 template <typename T, typename T1>
-inline bool auxlib::svd_dc(Mat<std::complex<T> >& U,
+inline bool auxlib::svd_dc(Mat<std::complex<T>>& U,
     Col<T>& S,
-    Mat<std::complex<T> >& V,
+    Mat<std::complex<T>>& V,
     const Base<std::complex<T>, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -3074,9 +3072,9 @@ inline bool auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<e
 }
 
 template <typename T, typename T1>
-inline bool auxlib::svd_dc_econ(Mat<std::complex<T> >& U,
+inline bool auxlib::svd_dc_econ(Mat<std::complex<T>>& U,
     Col<T>& S,
-    Mat<std::complex<T> >& V,
+    Mat<std::complex<T>>& V,
     const Base<std::complex<T>, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -3339,9 +3337,9 @@ inline bool auxlib::solve_square_refine(Mat<typename T1::pod_type>& out,
 //! solve a system of linear equations via LU decomposition with refinement (complex
 //! matrices)
 template <typename T1>
-inline bool auxlib::solve_square_refine(Mat<std::complex<typename T1::pod_type> >& out,
+inline bool auxlib::solve_square_refine(Mat<std::complex<typename T1::pod_type>>& out,
     typename T1::pod_type& out_rcond,
-    Mat<std::complex<typename T1::pod_type> >& A,
+    Mat<std::complex<typename T1::pod_type>>& A,
     const Base<std::complex<typename T1::pod_type>, T1>& B_expr,
     const bool equilibrate)
 {
@@ -3615,8 +3613,8 @@ inline bool auxlib::solve_approx_svd(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline bool auxlib::solve_approx_svd(Mat<std::complex<typename T1::pod_type> >& out,
-    Mat<std::complex<typename T1::pod_type> >& A,
+inline bool auxlib::solve_approx_svd(Mat<std::complex<typename T1::pod_type>>& out,
+    Mat<std::complex<typename T1::pod_type>>& A,
     const Base<std::complex<typename T1::pod_type>, T1>& B_expr)
 {
     arma_extra_debug_sigprint();
@@ -3866,8 +3864,8 @@ auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT, T1>& X, const bool calc_U)
 }
 
 template <typename T, typename T1>
-inline bool auxlib::schur(Mat<std::complex<T> >& U,
-    Mat<std::complex<T> >& S,
+inline bool auxlib::schur(Mat<std::complex<T>>& U,
+    Mat<std::complex<T>>& S,
     const Base<std::complex<T>, T1>& X,
     const bool calc_U)
 {
@@ -3883,7 +3881,7 @@ inline bool auxlib::schur(Mat<std::complex<T> >& U,
 
 template <typename T>
 inline bool
-auxlib::schur(Mat<std::complex<T> >& U, Mat<std::complex<T> >& S, const bool calc_U)
+auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const bool calc_U)
 {
     arma_extra_debug_sigprint();
 
@@ -4117,10 +4115,10 @@ inline bool auxlib::qz(Mat<T>& A,
 // QZ decomposition of general square complex matrix pair
 
 template <typename T, typename T1, typename T2>
-inline bool auxlib::qz(Mat<std::complex<T> >& A,
-    Mat<std::complex<T> >& B,
-    Mat<std::complex<T> >& vsl,
-    Mat<std::complex<T> >& vsr,
+inline bool auxlib::qz(Mat<std::complex<T>>& A,
+    Mat<std::complex<T>>& B,
+    Mat<std::complex<T>>& vsl,
+    Mat<std::complex<T>>& vsr,
     const Base<std::complex<T>, T1>& X_expr,
     const Base<std::complex<T>, T2>& Y_expr,
     const char mode)

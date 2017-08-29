@@ -74,7 +74,7 @@ inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& 
 
 template <typename T, typename T1, typename T2>
 inline void
-glue_max::apply(Mat<std::complex<T> >& out, const Proxy<T1>& PA, const Proxy<T2>& PB)
+glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB)
 {
     arma_extra_debug_sigprint();
 
@@ -175,7 +175,7 @@ glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB)
 }
 
 template <typename T, typename T1, typename T2>
-inline void glue_max::apply(Cube<std::complex<T> >& out,
+inline void glue_max::apply(Cube<std::complex<T>>& out,
     const ProxyCube<T1>& PA,
     const ProxyCube<T2>& PB)
 {

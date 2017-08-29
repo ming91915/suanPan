@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_flipud> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_flipud>>::result
     flipud(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -28,7 +28,7 @@ arma_warn_unused arma_inline
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_fliplr> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_fliplr>>::result
     fliplr(const T1& X)
 {
     arma_extra_debug_sigprint();

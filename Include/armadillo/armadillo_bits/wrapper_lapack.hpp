@@ -478,7 +478,7 @@ inline void cx_gesvd(char* jobu,
     blas_int* info)
 {
     arma_type_check((is_supported_blas_type<T>::value == false));
-    arma_type_check((is_supported_blas_type<std::complex<T> >::value == false));
+    arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
     if(is_float<T>::value) {
         typedef float bT;
@@ -540,7 +540,7 @@ inline void cx_gesdd(char* jobz,
     blas_int* info)
 {
     arma_type_check((is_supported_blas_type<T>::value == false));
-    arma_type_check((is_supported_blas_type<std::complex<T> >::value == false));
+    arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
     if(is_float<T>::value) {
         typedef float bT;
@@ -840,7 +840,7 @@ inline void cx_gees(char* jobvs,
     blas_int* info)
 {
     arma_type_check((is_supported_blas_type<T>::value == false));
-    arma_type_check((is_supported_blas_type<std::complex<T> >::value == false));
+    arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
     if(is_float<T>::value) {
         typedef float bT;

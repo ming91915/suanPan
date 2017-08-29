@@ -16,7 +16,7 @@
 //! \addtogroup SpSubview
 //! @{
 
-template <typename eT> class SpSubview : public SpBase<eT, SpSubview<eT> >
+template <typename eT> class SpSubview : public SpBase<eT, SpSubview<eT>>
 {
 public:
     const SpMat<eT>& m;
@@ -35,7 +35,7 @@ public:
     const uword n_nonzero;
 
     // So that SpValProxy can call add_element() and delete_element().
-    friend class SpValProxy<SpSubview<eT> >;
+    friend class SpValProxy<SpSubview<eT>>;
 
 protected:
     arma_inline SpSubview(const SpMat<eT>& in_m,
@@ -92,20 +92,20 @@ public:
     inline void ones();
     inline void eye();
 
-    arma_hot inline SpValProxy<SpSubview<eT> > operator[](const uword i);
+    arma_hot inline SpValProxy<SpSubview<eT>> operator[](const uword i);
     arma_hot inline eT operator[](const uword i) const;
 
-    arma_hot inline SpValProxy<SpSubview<eT> > operator()(const uword i);
+    arma_hot inline SpValProxy<SpSubview<eT>> operator()(const uword i);
     arma_hot inline eT operator()(const uword i) const;
 
-    arma_hot inline SpValProxy<SpSubview<eT> > operator()(const uword in_row,
+    arma_hot inline SpValProxy<SpSubview<eT>> operator()(const uword in_row,
         const uword in_col);
     arma_hot inline eT operator()(const uword in_row, const uword in_col) const;
 
-    arma_hot inline SpValProxy<SpSubview<eT> > at(const uword i);
+    arma_hot inline SpValProxy<SpSubview<eT>> at(const uword i);
     arma_hot inline eT at(const uword i) const;
 
-    arma_hot inline SpValProxy<SpSubview<eT> > at(const uword in_row, const uword in_col);
+    arma_hot inline SpValProxy<SpSubview<eT>> at(const uword in_row, const uword in_col);
     arma_hot inline eT at(const uword in_row, const uword in_col) const;
 
     inline bool check_overlap(const SpSubview& x) const;
@@ -244,7 +244,7 @@ public:
         {
         }
 
-        inline SpValProxy<SpSubview<eT> > operator*();
+        inline SpValProxy<SpSubview<eT>> operator*();
 
         // overloads needed for return type correctness
         inline iterator& operator++();
@@ -254,9 +254,9 @@ public:
         inline iterator operator--(int);
 
         // This has a different value_type than iterator_base.
-        typedef SpValProxy<SpSubview<eT> > value_type;
-        typedef const SpValProxy<SpSubview<eT> >* pointer;
-        typedef const SpValProxy<SpSubview<eT> >& reference;
+        typedef SpValProxy<SpSubview<eT>> value_type;
+        typedef const SpValProxy<SpSubview<eT>>* pointer;
+        typedef const SpValProxy<SpSubview<eT>>& reference;
     };
 
     class const_row_iterator : public iterator_base
@@ -309,7 +309,7 @@ public:
         {
         }
 
-        inline SpValProxy<SpSubview<eT> > operator*();
+        inline SpValProxy<SpSubview<eT>> operator*();
 
         // overloads needed for return type correctness
         inline row_iterator& operator++();
@@ -319,9 +319,9 @@ public:
         inline row_iterator operator--(int);
 
         // This has a different value_type than iterator_base.
-        typedef SpValProxy<SpSubview<eT> > value_type;
-        typedef const SpValProxy<SpSubview<eT> >* pointer;
-        typedef const SpValProxy<SpSubview<eT> >& reference;
+        typedef SpValProxy<SpSubview<eT>> value_type;
+        typedef const SpValProxy<SpSubview<eT>>* pointer;
+        typedef const SpValProxy<SpSubview<eT>>& reference;
     };
 
     inline iterator begin();

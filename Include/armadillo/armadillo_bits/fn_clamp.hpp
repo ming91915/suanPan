@@ -19,7 +19,7 @@
 template <typename T1>
 arma_warn_unused inline
     typename enable_if2<is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no,
-        const mtOp<typename T1::elem_type, T1, op_clamp> >::result
+        const mtOp<typename T1::elem_type, T1, op_clamp>>::result
     clamp(const T1& X,
         const typename T1::elem_type min_val,
         const typename T1::elem_type max_val)

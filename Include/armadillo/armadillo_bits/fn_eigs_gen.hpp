@@ -18,7 +18,7 @@
 
 //! eigenvalues of general sparse matrix X
 template <typename T1>
-arma_warn_unused inline Col<std::complex<typename T1::pod_type> > eigs_gen(
+arma_warn_unused inline Col<std::complex<typename T1::pod_type>> eigs_gen(
     const SpBase<typename T1::elem_type, T1>& X,
     const uword n_eigvals,
     const char* form = "lm",
@@ -30,8 +30,8 @@ arma_warn_unused inline Col<std::complex<typename T1::pod_type> > eigs_gen(
 
     typedef typename T1::pod_type T;
 
-    Mat<std::complex<T> > eigvec;
-    Col<std::complex<T> > eigval;
+    Mat<std::complex<T>> eigvec;
+    Col<std::complex<T>> eigval;
 
     const bool status = sp_auxlib::eigs_gen(eigval, eigvec, X, n_eigvals, form, tol);
 
@@ -45,7 +45,7 @@ arma_warn_unused inline Col<std::complex<typename T1::pod_type> > eigs_gen(
 
 //! eigenvalues of general sparse matrix X
 template <typename T1>
-inline bool eigs_gen(Col<std::complex<typename T1::pod_type> >& eigval,
+inline bool eigs_gen(Col<std::complex<typename T1::pod_type>>& eigval,
     const SpBase<typename T1::elem_type, T1>& X,
     const uword n_eigvals,
     const char* form = "lm",
@@ -57,7 +57,7 @@ inline bool eigs_gen(Col<std::complex<typename T1::pod_type> >& eigval,
 
     typedef typename T1::pod_type T;
 
-    Mat<std::complex<T> > eigvec;
+    Mat<std::complex<T>> eigvec;
 
     const bool status = sp_auxlib::eigs_gen(eigval, eigvec, X, n_eigvals, form, tol);
 
@@ -71,8 +71,8 @@ inline bool eigs_gen(Col<std::complex<typename T1::pod_type> >& eigval,
 
 //! eigenvalues and eigenvectors of general real sparse matrix X
 template <typename T1>
-inline bool eigs_gen(Col<std::complex<typename T1::pod_type> >& eigval,
-    Mat<std::complex<typename T1::pod_type> >& eigvec,
+inline bool eigs_gen(Col<std::complex<typename T1::pod_type>>& eigval,
+    Mat<std::complex<typename T1::pod_type>>& eigvec,
     const SpBase<typename T1::elem_type, T1>& X,
     const uword n_eigvals,
     const char* form = "lm",

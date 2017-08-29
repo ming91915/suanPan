@@ -198,8 +198,8 @@ template <typename eT> SymmMat<eT>& SymmMat<eT>::operator/=(const SymmMat& m)
 }
 
 template <typename eT>
-template <typename T1, typename op_type>
-SymmMat<eT>::SymmMat(const Op<T1, op_type>& X)
+template <typename T1, typename smop_type>
+SymmMat<eT>::SymmMat(const SmOp<T1, smop_type>& X)
     : n_size(0)
     , n_elem(0)
     , mem_state(0)
@@ -209,18 +209,18 @@ SymmMat<eT>::SymmMat(const Op<T1, op_type>& X)
 
     arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
 
-    op_type::apply(*this, X);
+    smop_type::apply(*this, X);
 }
 
 template <typename eT>
-template <typename T1, typename op_type>
-SymmMat<eT>& SymmMat<eT>::operator=(const Op<T1, op_type>& X)
+template <typename T1, typename smop_type>
+SymmMat<eT>& SymmMat<eT>::operator=(const SmOp<T1, smop_type>& X)
 {
     arma_extra_debug_sigprint();
 
     arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
 
-    op_type::apply(*this, X);
+    smop_type::apply(*this, X);
 
     return *this;
 }

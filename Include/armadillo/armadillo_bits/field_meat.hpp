@@ -236,7 +236,7 @@ inline field<oT>& field<oT>::operator=(const std::initializer_list<oT>& list)
 }
 
 template <typename oT>
-inline field<oT>::field(const std::initializer_list<std::initializer_list<oT> >& list)
+inline field<oT>::field(const std::initializer_list<std::initializer_list<oT>>& list)
     : n_rows(0)
     , n_cols(0)
     , n_slices(0)
@@ -249,7 +249,7 @@ inline field<oT>::field(const std::initializer_list<std::initializer_list<oT> >&
 
 template <typename oT>
 inline field<oT>& field<oT>::operator=(
-    const std::initializer_list<std::initializer_list<oT> >& list)
+    const std::initializer_list<std::initializer_list<oT>>& list)
 {
     arma_extra_debug_sigprint();
 
@@ -465,15 +465,15 @@ field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) cons
 }
 
 template <typename oT>
-inline field_injector<field<oT> > field<oT>::operator<<(const oT& val)
+inline field_injector<field<oT>> field<oT>::operator<<(const oT& val)
 {
-    return field_injector<field<oT> >(*this, val);
+    return field_injector<field<oT>>(*this, val);
 }
 
 template <typename oT>
-inline field_injector<field<oT> > field<oT>::operator<<(const injector_end_of_row<>& x)
+inline field_injector<field<oT>> field<oT>::operator<<(const injector_end_of_row<>& x)
 {
-    return field_injector<field<oT> >(*this, x);
+    return field_injector<field<oT>>(*this, x);
 }
 
 //! creation of subview_field (row of a field)
@@ -1740,7 +1740,7 @@ template <typename oT> inline void field_aux::reset_objects(field<oT>& x)
     x.create_objects();
 }
 
-template <typename eT> inline void field_aux::reset_objects(field<Mat<eT> >& x)
+template <typename eT> inline void field_aux::reset_objects(field<Mat<eT>>& x)
 {
     arma_extra_debug_sigprint();
 
@@ -1749,7 +1749,7 @@ template <typename eT> inline void field_aux::reset_objects(field<Mat<eT> >& x)
     }
 }
 
-template <typename eT> inline void field_aux::reset_objects(field<Col<eT> >& x)
+template <typename eT> inline void field_aux::reset_objects(field<Col<eT>>& x)
 {
     arma_extra_debug_sigprint();
 
@@ -1758,7 +1758,7 @@ template <typename eT> inline void field_aux::reset_objects(field<Col<eT> >& x)
     }
 }
 
-template <typename eT> inline void field_aux::reset_objects(field<Row<eT> >& x)
+template <typename eT> inline void field_aux::reset_objects(field<Row<eT>>& x)
 {
     arma_extra_debug_sigprint();
 
@@ -1767,7 +1767,7 @@ template <typename eT> inline void field_aux::reset_objects(field<Row<eT> >& x)
     }
 }
 
-template <typename eT> inline void field_aux::reset_objects(field<Cube<eT> >& x)
+template <typename eT> inline void field_aux::reset_objects(field<Cube<eT>>& x)
 {
     arma_extra_debug_sigprint();
 
@@ -1840,7 +1840,7 @@ field_aux::load(field<oT>&, std::istream&, const file_type, std::string& err_msg
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Mat<eT> >& x,
+inline bool field_aux::save(const field<Mat<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -1863,7 +1863,7 @@ inline bool field_aux::save(const field<Mat<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Mat<eT> >& x,
+inline bool field_aux::save(const field<Mat<eT>>& x,
     std::ostream& os,
     const file_type type,
     std::string& err_msg)
@@ -1886,7 +1886,7 @@ inline bool field_aux::save(const field<Mat<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Mat<eT> >& x,
+inline bool field_aux::load(field<Mat<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -1913,7 +1913,7 @@ inline bool field_aux::load(field<Mat<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Mat<eT> >& x,
+inline bool field_aux::load(field<Mat<eT>>& x,
     std::istream& is,
     const file_type type,
     std::string& err_msg)
@@ -1940,7 +1940,7 @@ inline bool field_aux::load(field<Mat<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Col<eT> >& x,
+inline bool field_aux::save(const field<Col<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -1963,7 +1963,7 @@ inline bool field_aux::save(const field<Col<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Col<eT> >& x,
+inline bool field_aux::save(const field<Col<eT>>& x,
     std::ostream& os,
     const file_type type,
     std::string& err_msg)
@@ -1986,7 +1986,7 @@ inline bool field_aux::save(const field<Col<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Col<eT> >& x,
+inline bool field_aux::load(field<Col<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -2013,7 +2013,7 @@ inline bool field_aux::load(field<Col<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Col<eT> >& x,
+inline bool field_aux::load(field<Col<eT>>& x,
     std::istream& is,
     const file_type type,
     std::string& err_msg)
@@ -2040,7 +2040,7 @@ inline bool field_aux::load(field<Col<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Row<eT> >& x,
+inline bool field_aux::save(const field<Row<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -2063,7 +2063,7 @@ inline bool field_aux::save(const field<Row<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Row<eT> >& x,
+inline bool field_aux::save(const field<Row<eT>>& x,
     std::ostream& os,
     const file_type type,
     std::string& err_msg)
@@ -2086,7 +2086,7 @@ inline bool field_aux::save(const field<Row<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Row<eT> >& x,
+inline bool field_aux::load(field<Row<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -2113,7 +2113,7 @@ inline bool field_aux::load(field<Row<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Row<eT> >& x,
+inline bool field_aux::load(field<Row<eT>>& x,
     std::istream& is,
     const file_type type,
     std::string& err_msg)
@@ -2140,7 +2140,7 @@ inline bool field_aux::load(field<Row<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Cube<eT> >& x,
+inline bool field_aux::save(const field<Cube<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -2159,7 +2159,7 @@ inline bool field_aux::save(const field<Cube<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::save(const field<Cube<eT> >& x,
+inline bool field_aux::save(const field<Cube<eT>>& x,
     std::ostream& os,
     const file_type type,
     std::string& err_msg)
@@ -2178,7 +2178,7 @@ inline bool field_aux::save(const field<Cube<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Cube<eT> >& x,
+inline bool field_aux::load(field<Cube<eT>>& x,
     const std::string& name,
     const file_type type,
     std::string& err_msg)
@@ -2198,7 +2198,7 @@ inline bool field_aux::load(field<Cube<eT> >& x,
 }
 
 template <typename eT>
-inline bool field_aux::load(field<Cube<eT> >& x,
+inline bool field_aux::load(field<Cube<eT>>& x,
     std::istream& is,
     const file_type type,
     std::string& err_msg)

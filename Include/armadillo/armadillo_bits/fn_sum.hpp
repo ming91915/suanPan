@@ -102,7 +102,7 @@ sum(const T1& x)
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) &&
         (resolves_to_sparse_vector<T1>::value == false),
-    const SpOp<T1, spop_sum> >::result
+    const SpOp<T1, spop_sum>>::result
 sum(const T1& x, const uword dim = 0)
 {
     arma_extra_debug_sigprint();

@@ -282,7 +282,8 @@ public:
 
                     arma_extra_debug_print("atlas::cblas_gemm()");
 
-                    atlas::cblas_gemm<eT>(atlas::CblasColMajor, (do_trans_A) ?
+                    atlas::cblas_gemm<eT>(atlas::CblasColMajor,
+                        (do_trans_A) ?
                             (is_cx<eT>::yes ? CblasConjTrans : atlas::CblasTrans) :
                             atlas::CblasNoTrans,
                         atlas::CblasNoTrans, (do_trans_A) ? A.n_cols : A.n_rows, 1,
@@ -292,7 +293,8 @@ public:
                 } else {
                     arma_extra_debug_print("atlas::cblas_gemv()");
 
-                    atlas::cblas_gemv<eT>(atlas::CblasColMajor, (do_trans_A) ?
+                    atlas::cblas_gemv<eT>(atlas::CblasColMajor,
+                        (do_trans_A) ?
                             (is_cx<eT>::yes ? CblasConjTrans : atlas::CblasTrans) :
                             atlas::CblasNoTrans,
                         A.n_rows, A.n_cols, (use_alpha) ? alpha : eT(1), A.mem, A.n_rows,

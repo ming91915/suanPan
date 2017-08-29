@@ -122,7 +122,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out,
 
 //! Implementation for complex numbers
 template <typename T, typename T1>
-inline void op_median::apply(Mat<std::complex<T> >& out, const Op<T1, op_median>& in)
+inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in)
 {
     arma_extra_debug_sigprint();
 
@@ -146,7 +146,7 @@ inline void op_median::apply(Mat<std::complex<T> >& out, const Op<T1, op_median>
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
         if(X_n_rows > 0) {
-            std::vector<arma_cx_median_packet<T> > tmp_vec(X_n_rows);
+            std::vector<arma_cx_median_packet<T>> tmp_vec(X_n_rows);
 
             for(uword col = 0; col < X_n_cols; ++col) {
                 const eT* colmem = X.colptr(col);
@@ -170,7 +170,7 @@ inline void op_median::apply(Mat<std::complex<T> >& out, const Op<T1, op_median>
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
         if(X_n_cols > 0) {
-            std::vector<arma_cx_median_packet<T> > tmp_vec(X_n_cols);
+            std::vector<arma_cx_median_packet<T>> tmp_vec(X_n_cols);
 
             for(uword row = 0; row < X_n_rows; ++row) {
                 for(uword col = 0; col < X_n_cols; ++col) {
@@ -267,7 +267,7 @@ inline typename T1::elem_type op_median::median_vec(const T1& X,
         return Datum<eT>::nan;
     }
 
-    std::vector<arma_cx_median_packet<T> > tmp_vec(n_elem);
+    std::vector<arma_cx_median_packet<T>> tmp_vec(n_elem);
 
     if(Proxy<T1>::use_at == false) {
         typedef typename Proxy<T1>::ea_type ea_type;
@@ -350,7 +350,7 @@ template <typename eT> inline eT op_median::direct_median(std::vector<eT>& X)
 template <typename T>
 inline void op_median::direct_cx_median_index(uword& out_index1,
     uword& out_index2,
-    std::vector<arma_cx_median_packet<T> >& X)
+    std::vector<arma_cx_median_packet<T>>& X)
 {
     arma_extra_debug_sigprint();
 

@@ -335,7 +335,7 @@ public:
     }
 
     template <typename TA, typename TB>
-    arma_inline static void apply(Mat<std::complex<float> >& C,
+    arma_inline static void apply(Mat<std::complex<float>>& C,
         const TA& A,
         const TB& B,
         const std::complex<float> alpha = std::complex<float>(1),
@@ -346,7 +346,7 @@ public:
     }
 
     template <typename TA, typename TB>
-    arma_inline static void apply(Mat<std::complex<double> >& C,
+    arma_inline static void apply(Mat<std::complex<double>>& C,
         const TA& A,
         const TB& B,
         const std::complex<double> alpha = std::complex<double>(1),

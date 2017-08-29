@@ -227,8 +227,8 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair()
 
     UpperHessenbergEigen<eT> decomp(fac_H);
 
-    Col<std::complex<eT> > evals = decomp.eigenvalues();
-    Mat<std::complex<eT> > evecs = decomp.eigenvectors();
+    Col<std::complex<eT>> evals = decomp.eigenvalues();
+    Mat<std::complex<eT>> evecs = decomp.eigenvectors();
 
     SortEigenvalue<std::complex<eT>, SelectionRule> sorting(evals.memptr(), evals.n_elem);
     std::vector<uword> ind = sorting.index();
@@ -256,8 +256,8 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair()
 
     std::vector<uword> ind = sorting.index();
 
-    Col<std::complex<eT> > new_ritz_val(ncv);
-    Mat<std::complex<eT> > new_ritz_vec(ncv, nev);
+    Col<std::complex<eT>> new_ritz_val(ncv);
+    Mat<std::complex<eT>> new_ritz_vec(ncv, nev);
     std::vector<bool> new_ritz_conv(nev);
 
     for(uword i = 0; i < nev; i++) {
@@ -368,12 +368,12 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT t
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline Col<std::complex<eT> > GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues()
+inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues()
 {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);
-    Col<std::complex<eT> > res(nconv);
+    Col<std::complex<eT>> res(nconv);
 
     if(nconv > 0) {
         uword j = 0;
@@ -389,17 +389,17 @@ inline Col<std::complex<eT> > GenEigsSolver<eT, SelectionRule, OpType>::eigenval
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline Mat<std::complex<eT> > GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(
+inline Mat<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(
     uword nvec)
 {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);
     nvec = std::min(nvec, nconv);
-    Mat<std::complex<eT> > res(dim_n, nvec);
+    Mat<std::complex<eT>> res(dim_n, nvec);
 
     if(nvec > 0) {
-        Mat<std::complex<eT> > ritz_vec_conv(ncv, nvec);
+        Mat<std::complex<eT>> ritz_vec_conv(ncv, nvec);
         uword j = 0;
         for(uword i = 0; (i < nev) && (j < nvec); i++) {
             if(ritz_conv[i]) {

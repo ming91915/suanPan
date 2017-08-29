@@ -41,7 +41,7 @@ inline void op_reshape::apply_unwrap(Mat<eT>& out,
                 // the matrix remains the same
             }
         } else {
-            unwrap_check<Mat<eT> > B_tmp(A, is_alias);
+            unwrap_check<Mat<eT>> B_tmp(A, is_alias);
             const Mat<eT>& B = B_tmp.M;
 
             out.set_size(in_n_rows, in_n_cols);
@@ -70,7 +70,7 @@ inline void op_reshape::apply_unwrap(Mat<eT>& out,
             }
         }
     } else {
-        const unwrap_check<Mat<eT> > B_tmp(A, is_alias);
+        const unwrap_check<Mat<eT>> B_tmp(A, is_alias);
         const Mat<eT>& B = B_tmp.M;
 
         const uword n_elem_to_copy = (std::min)(B.n_elem, in_n_elem);
@@ -264,7 +264,7 @@ inline void op_reshape_ext::apply(Cube<typename T1::elem_type>& out,
                 // the cube remains the same
             }
         } else {
-            unwrap_cube_check<Cube<eT> > B_tmp(A, out);
+            unwrap_cube_check<Cube<eT>> B_tmp(A, out);
             const Cube<eT>& B = B_tmp.M;
 
             out.set_size(in_n_rows, in_n_cols, in_n_slices);
@@ -283,7 +283,7 @@ inline void op_reshape_ext::apply(Cube<typename T1::elem_type>& out,
                     }
         }
     } else {
-        const unwrap_cube_check<Cube<eT> > B_tmp(A, out);
+        const unwrap_cube_check<Cube<eT>> B_tmp(A, out);
         const Cube<eT>& B = B_tmp.M;
 
         const uword n_elem_to_copy = (std::min)(B.n_elem, in_n_elem);

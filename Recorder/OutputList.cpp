@@ -1,5 +1,5 @@
 ﻿#include "OutputList.h"
-#include <string.h>
+#include <Toolbox/utility.h>
 
 const char* to_char(const OutputList& L)
 {
@@ -154,80 +154,80 @@ const char* to_char(const OutputList& L)
 
 OutputList to_list(const char* L)
 {
-    if(_strcmpi(L, "S") == 0) return OutputList::S;
-    if(_strcmpi(L, "S11") == 0) return OutputList::S11;
-    if(_strcmpi(L, "S22") == 0) return OutputList::S22;
-    if(_strcmpi(L, "S33") == 0) return OutputList::S33;
-    if(_strcmpi(L, "S12") == 0) return OutputList::S12;
-    if(_strcmpi(L, "S23") == 0) return OutputList::S23;
-    if(_strcmpi(L, "S13") == 0) return OutputList::S13;
-    if(_strcmpi(L, "E") == 0) return OutputList::E;
-    if(_strcmpi(L, "E11") == 0) return OutputList::E11;
-    if(_strcmpi(L, "E22") == 0) return OutputList::E22;
-    if(_strcmpi(L, "E33") == 0) return OutputList::E33;
-    if(_strcmpi(L, "E12") == 0) return OutputList::E12;
-    if(_strcmpi(L, "E23") == 0) return OutputList::E23;
-    if(_strcmpi(L, "E13") == 0) return OutputList::E13;
-    if(_strcmpi(L, "SP") == 0) return OutputList::SP;
-    if(_strcmpi(L, "SP1") == 0) return OutputList::SP1;
-    if(_strcmpi(L, "SP2") == 0) return OutputList::SP2;
-    if(_strcmpi(L, "SP3") == 0) return OutputList::SP3;
-    if(_strcmpi(L, "EP") == 0) return OutputList::EP;
-    if(_strcmpi(L, "EP1") == 0) return OutputList::EP1;
-    if(_strcmpi(L, "EP2") == 0) return OutputList::EP2;
-    if(_strcmpi(L, "EP3") == 0) return OutputList::EP3;
-    if(_strcmpi(L, "SINV") == 0) return OutputList::SINV;
-    if(_strcmpi(L, "MISES") == 0) return OutputList::MISES;
-    if(_strcmpi(L, "TRESC") == 0) return OutputList::TRESC;
+    if(if_equal(L, "S")) return OutputList::S;
+    if(if_equal(L, "S11")) return OutputList::S11;
+    if(if_equal(L, "S22")) return OutputList::S22;
+    if(if_equal(L, "S33")) return OutputList::S33;
+    if(if_equal(L, "S12")) return OutputList::S12;
+    if(if_equal(L, "S23")) return OutputList::S23;
+    if(if_equal(L, "S13")) return OutputList::S13;
+    if(if_equal(L, "E")) return OutputList::E;
+    if(if_equal(L, "E11")) return OutputList::E11;
+    if(if_equal(L, "E22")) return OutputList::E22;
+    if(if_equal(L, "E33")) return OutputList::E33;
+    if(if_equal(L, "E12")) return OutputList::E12;
+    if(if_equal(L, "E23")) return OutputList::E23;
+    if(if_equal(L, "E13")) return OutputList::E13;
+    if(if_equal(L, "SP")) return OutputList::SP;
+    if(if_equal(L, "SP1")) return OutputList::SP1;
+    if(if_equal(L, "SP2")) return OutputList::SP2;
+    if(if_equal(L, "SP3")) return OutputList::SP3;
+    if(if_equal(L, "EP")) return OutputList::EP;
+    if(if_equal(L, "EP1")) return OutputList::EP1;
+    if(if_equal(L, "EP2")) return OutputList::EP2;
+    if(if_equal(L, "EP3")) return OutputList::EP3;
+    if(if_equal(L, "SINV")) return OutputList::SINV;
+    if(if_equal(L, "MISES")) return OutputList::MISES;
+    if(if_equal(L, "TRESC")) return OutputList::TRESC;
 
-    if(_strcmpi(L, "PE") == 0) return OutputList::PE;
-    if(_strcmpi(L, "PE11") == 0) return OutputList::PE11;
-    if(_strcmpi(L, "PE22") == 0) return OutputList::PE22;
-    if(_strcmpi(L, "PE33") == 0) return OutputList::PE33;
-    if(_strcmpi(L, "PE12") == 0) return OutputList::PE12;
-    if(_strcmpi(L, "PE23") == 0) return OutputList::PE23;
-    if(_strcmpi(L, "PE13") == 0) return OutputList::PE13;
-    if(_strcmpi(L, "PEEQ") == 0) return OutputList::PEEQ;
+    if(if_equal(L, "PE")) return OutputList::PE;
+    if(if_equal(L, "PE11")) return OutputList::PE11;
+    if(if_equal(L, "PE22")) return OutputList::PE22;
+    if(if_equal(L, "PE33")) return OutputList::PE33;
+    if(if_equal(L, "PE12")) return OutputList::PE12;
+    if(if_equal(L, "PE23")) return OutputList::PE23;
+    if(if_equal(L, "PE13")) return OutputList::PE13;
+    if(if_equal(L, "PEEQ")) return OutputList::PEEQ;
 
-    if(_strcmpi(L, "U") == 0) return OutputList::U;
-    if(_strcmpi(L, "UT") == 0) return OutputList::UT;
-    if(_strcmpi(L, "UR") == 0) return OutputList::UR;
-    if(_strcmpi(L, "U1") == 0) return OutputList::U1;
-    if(_strcmpi(L, "U2") == 0) return OutputList::U2;
-    if(_strcmpi(L, "U3") == 0) return OutputList::U3;
-    if(_strcmpi(L, "UR1") == 0) return OutputList::UR1;
-    if(_strcmpi(L, "UR2") == 0) return OutputList::UR2;
-    if(_strcmpi(L, "UR3") == 0) return OutputList::UR3;
-    if(_strcmpi(L, "V") == 0) return OutputList::V;
-    if(_strcmpi(L, "VT") == 0) return OutputList::VT;
-    if(_strcmpi(L, "VR") == 0) return OutputList::VR;
-    if(_strcmpi(L, "V1") == 0) return OutputList::V1;
-    if(_strcmpi(L, "V2") == 0) return OutputList::V2;
-    if(_strcmpi(L, "V3") == 0) return OutputList::V3;
-    if(_strcmpi(L, "VR1") == 0) return OutputList::VR1;
-    if(_strcmpi(L, "VR2") == 0) return OutputList::VR2;
-    if(_strcmpi(L, "VR3") == 0) return OutputList::VR3;
-    if(_strcmpi(L, "A") == 0) return OutputList::A;
-    if(_strcmpi(L, "AT") == 0) return OutputList::AT;
-    if(_strcmpi(L, "AR") == 0) return OutputList::AR;
-    if(_strcmpi(L, "A1") == 0) return OutputList::A1;
-    if(_strcmpi(L, "A2") == 0) return OutputList::A2;
-    if(_strcmpi(L, "A3") == 0) return OutputList::A3;
-    if(_strcmpi(L, "AR1") == 0) return OutputList::AR1;
-    if(_strcmpi(L, "AR2") == 0) return OutputList::AR2;
-    if(_strcmpi(L, "AR3") == 0) return OutputList::AR3;
+    if(if_equal(L, "U")) return OutputList::U;
+    if(if_equal(L, "UT")) return OutputList::UT;
+    if(if_equal(L, "UR")) return OutputList::UR;
+    if(if_equal(L, "U1")) return OutputList::U1;
+    if(if_equal(L, "U2")) return OutputList::U2;
+    if(if_equal(L, "U3")) return OutputList::U3;
+    if(if_equal(L, "UR1")) return OutputList::UR1;
+    if(if_equal(L, "UR2")) return OutputList::UR2;
+    if(if_equal(L, "UR3")) return OutputList::UR3;
+    if(if_equal(L, "V")) return OutputList::V;
+    if(if_equal(L, "VT")) return OutputList::VT;
+    if(if_equal(L, "VR")) return OutputList::VR;
+    if(if_equal(L, "V1")) return OutputList::V1;
+    if(if_equal(L, "V2")) return OutputList::V2;
+    if(if_equal(L, "V3")) return OutputList::V3;
+    if(if_equal(L, "VR1")) return OutputList::VR1;
+    if(if_equal(L, "VR2")) return OutputList::VR2;
+    if(if_equal(L, "VR3")) return OutputList::VR3;
+    if(if_equal(L, "A")) return OutputList::A;
+    if(if_equal(L, "AT")) return OutputList::AT;
+    if(if_equal(L, "AR")) return OutputList::AR;
+    if(if_equal(L, "A1")) return OutputList::A1;
+    if(if_equal(L, "A2")) return OutputList::A2;
+    if(if_equal(L, "A3")) return OutputList::A3;
+    if(if_equal(L, "AR1")) return OutputList::AR1;
+    if(if_equal(L, "AR2")) return OutputList::AR2;
+    if(if_equal(L, "AR3")) return OutputList::AR3;
 
-    if(_strcmpi(L, "RF") == 0) return OutputList::RF;
-    if(_strcmpi(L, "RF1") == 0) return OutputList::RF1;
-    if(_strcmpi(L, "RF2") == 0) return OutputList::RF2;
-    if(_strcmpi(L, "RF3") == 0) return OutputList::RF3;
-    if(_strcmpi(L, "RM") == 0) return OutputList::RM;
-    if(_strcmpi(L, "RM1") == 0) return OutputList::RM1;
-    if(_strcmpi(L, "RM2") == 0) return OutputList::RM2;
-    if(_strcmpi(L, "RM3") == 0) return OutputList::RM3;
-    if(_strcmpi(L, "RT") == 0) return OutputList::RT;
+    if(if_equal(L, "RF")) return OutputList::RF;
+    if(if_equal(L, "RF1")) return OutputList::RF1;
+    if(if_equal(L, "RF2")) return OutputList::RF2;
+    if(if_equal(L, "RF3")) return OutputList::RF3;
+    if(if_equal(L, "RM")) return OutputList::RM;
+    if(if_equal(L, "RM1")) return OutputList::RM1;
+    if(if_equal(L, "RM2")) return OutputList::RM2;
+    if(if_equal(L, "RM3")) return OutputList::RM3;
+    if(if_equal(L, "RT")) return OutputList::RT;
 
-    if(_strcmpi(L, "NL") == 0) return OutputList::NL;
+    if(if_equal(L, "NL")) return OutputList::NL;
 
     return OutputList::NL;
 }

@@ -22,13 +22,13 @@ public:
     template <typename eT>
     inline static void direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B);
     template <typename T>
-    inline static void direct_kron(Mat<std::complex<T> >& out,
-        const Mat<std::complex<T> >& A,
+    inline static void direct_kron(Mat<std::complex<T>>& out,
+        const Mat<std::complex<T>>& A,
         const Mat<T>& B);
     template <typename T>
-    inline static void direct_kron(Mat<std::complex<T> >& out,
+    inline static void direct_kron(Mat<std::complex<T>>& out,
         const Mat<T>& A,
-        const Mat<std::complex<T> >& B);
+        const Mat<std::complex<T>>& B);
 
     template <typename T1, typename T2>
     inline static void apply(Mat<typename T1::elem_type>& out,

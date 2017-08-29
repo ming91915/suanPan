@@ -17,7 +17,7 @@
 //! @{
 
 template <typename out_eT, typename T1, typename T2, typename glue_type>
-class mtGlue : public Base<out_eT, mtGlue<out_eT, T1, T2, glue_type> >
+class mtGlue : public Base<out_eT, mtGlue<out_eT, T1, T2, glue_type>>
 {
 public:
     typedef out_eT elem_type;

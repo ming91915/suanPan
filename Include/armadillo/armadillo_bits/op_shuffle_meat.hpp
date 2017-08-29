@@ -30,7 +30,7 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
 
     // see op_sort_index_bones.hpp for the definition of arma_sort_index_packet
     // and the associated comparison functor
-    std::vector<arma_sort_index_packet<int> > packet_vec(N);
+    std::vector<arma_sort_index_packet<int>> packet_vec(N);
 
     for(uword i = 0; i < N; ++i) {
         packet_vec[i].val = int(arma_rng::randi<int>());

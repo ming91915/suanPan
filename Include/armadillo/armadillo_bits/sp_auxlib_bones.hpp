@@ -65,32 +65,32 @@ public:
     // eigs_gen()
 
     template <typename T, typename T1>
-    inline static bool eigs_gen(Col<std::complex<T> >& eigval,
-        Mat<std::complex<T> >& eigvec,
+    inline static bool eigs_gen(Col<std::complex<T>>& eigval,
+        Mat<std::complex<T>>& eigvec,
         const SpBase<T, T1>& X,
         const uword n_eigvals,
         const char* form_str,
         const T default_tol);
 
     template <typename T, typename T1>
-    inline static bool eigs_gen_newarp(Col<std::complex<T> >& eigval,
-        Mat<std::complex<T> >& eigvec,
+    inline static bool eigs_gen_newarp(Col<std::complex<T>>& eigval,
+        Mat<std::complex<T>>& eigvec,
         const SpBase<T, T1>& X,
         const uword n_eigvals,
         const char* form_str,
         const T default_tol);
 
     template <typename T, typename T1>
-    inline static bool eigs_gen_arpack(Col<std::complex<T> >& eigval,
-        Mat<std::complex<T> >& eigvec,
+    inline static bool eigs_gen_arpack(Col<std::complex<T>>& eigval,
+        Mat<std::complex<T>>& eigvec,
         const SpBase<T, T1>& X,
         const uword n_eigvals,
         const char* form_str,
         const T default_tol);
 
     template <typename T, typename T1>
-    inline static bool eigs_gen(Col<std::complex<T> >& eigval,
-        Mat<std::complex<T> >& eigvec,
+    inline static bool eigs_gen(Col<std::complex<T>>& eigval,
+        Mat<std::complex<T>>& eigvec,
         const SpBase<std::complex<T>, T1>& X,
         const uword n_eigvals,
         const char* form_str,

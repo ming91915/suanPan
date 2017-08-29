@@ -124,14 +124,14 @@ arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(
         glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
             partial_unwrap<T3>::do_trans,
             (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                              partial_unwrap<T3>::do_times)>(out, A, B, C, alpha);
+                partial_unwrap<T3>::do_times)>(out, A, B, C, alpha);
     } else {
         Mat<eT> tmp;
 
         glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
             partial_unwrap<T3>::do_trans,
             (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                              partial_unwrap<T3>::do_times)>(tmp, A, B, C, alpha);
+                partial_unwrap<T3>::do_times)>(tmp, A, B, C, alpha);
 
         out.steal_mem(tmp);
     }
@@ -322,16 +322,16 @@ arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& 
         glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
             partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans,
             (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                              partial_unwrap<T3>::do_times ||
-                              partial_unwrap<T4>::do_times)>(out, A, B, C, D, alpha);
+                partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(
+            out, A, B, C, D, alpha);
     } else {
         Mat<eT> tmp;
 
         glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
             partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans,
             (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                              partial_unwrap<T3>::do_times ||
-                              partial_unwrap<T4>::do_times)>(tmp, A, B, C, D, alpha);
+                partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(
+            tmp, A, B, C, D, alpha);
 
         out.steal_mem(tmp);
     }
@@ -343,7 +343,7 @@ arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out,
 {
     arma_extra_debug_sigprint();
 
-    const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times> >::num;
+    const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times>>::num;
 
     arma_extra_debug_print(arma_str::format("N_mat = %d") % N_mat);
 

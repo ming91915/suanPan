@@ -64,8 +64,8 @@ arma_inline uword eGlueCube<T1, T2, eglue_type>::get_n_elem() const
 }
 
 template <typename T1, typename T2, typename eglue_type>
-arma_inline typename T1::elem_type eGlueCube<T1, T2, eglue_type>::operator[](
-    const uword i) const
+arma_inline
+    typename T1::elem_type eGlueCube<T1, T2, eglue_type>::operator[](const uword i) const
 {
     // the optimiser will keep only one return statement
 

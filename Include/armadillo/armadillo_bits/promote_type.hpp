@@ -33,7 +33,7 @@ template <typename T> struct is_promotable<std::complex<T>, T> : public is_promo
 };
 
 template <>
-struct is_promotable<std::complex<double>, std::complex<float> >
+struct is_promotable<std::complex<double>, std::complex<float>>
     : public is_promotable_ok {
     typedef std::complex<double> result;
 };
@@ -251,65 +251,64 @@ template <> struct is_promotable<s8, u8> : public is_promotable_ok {
 //
 // mirrored versions
 
-template <typename T>
-struct is_promotable<T, std::complex<T> > : public is_promotable_ok {
+template <typename T> struct is_promotable<T, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 
 template <>
-struct is_promotable<std::complex<float>, std::complex<double> >
+struct is_promotable<std::complex<float>, std::complex<double>>
     : public is_promotable_ok {
     typedef std::complex<double> result;
 };
-template <> struct is_promotable<float, std::complex<double> > : public is_promotable_ok {
+template <> struct is_promotable<float, std::complex<double>> : public is_promotable_ok {
     typedef std::complex<double> result;
 };
-template <> struct is_promotable<double, std::complex<float> > : public is_promotable_ok {
+template <> struct is_promotable<double, std::complex<float>> : public is_promotable_ok {
     typedef std::complex<double> result;
 };
 
 #if defined(ARMA_USE_U64S64)
 template <typename T>
-struct is_promotable<s64, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<s64, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<u64, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<u64, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 #endif
 #if defined(ARMA_ALLOW_LONG)
 template <typename T>
-struct is_promotable<slng_t, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<slng_t, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<ulng_t, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<ulng_t, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 #endif
 template <typename T>
-struct is_promotable<s32, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<s32, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<u32, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<u32, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<s16, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<s16, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<u16, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<u16, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<s8, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<s8, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 template <typename T>
-struct is_promotable<u8, std::complex<T> > : public is_promotable_ok {
+struct is_promotable<u8, std::complex<T>> : public is_promotable_ok {
     typedef std::complex<T> result;
 };
 

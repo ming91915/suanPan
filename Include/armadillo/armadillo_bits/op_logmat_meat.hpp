@@ -24,7 +24,7 @@
 // ISBN 978-0-89871-646-7
 
 template <typename T1>
-inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type> >& out,
+inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type>>& out,
     const mtOp<std::complex<typename T1::elem_type>, T1, op_logmat>& in)
 {
     arma_extra_debug_sigprint();
@@ -38,7 +38,7 @@ inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type> >& out,
 }
 
 template <typename T1>
-inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
     const Op<T1, op_diagmat>& expr,
     const uword)
 {
@@ -69,7 +69,7 @@ inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type> >& 
 }
 
 template <typename T1>
-inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
     const Base<typename T1::elem_type, T1>& expr,
     const uword n_iters)
 {
@@ -195,8 +195,8 @@ inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T>
-inline bool op_logmat_cx::apply_common(Mat<std::complex<T> >& out,
-    Mat<std::complex<T> >& S,
+inline bool op_logmat_cx::apply_common(Mat<std::complex<T>>& out,
+    Mat<std::complex<T>>& S,
     const uword n_iters)
 {
     arma_extra_debug_sigprint();
@@ -226,7 +226,7 @@ inline bool op_logmat_cx::apply_common(Mat<std::complex<T> >& out,
     uword iter = 0;
 
     while(iter < n_iters) {
-        const T tau = norm((S - eye<Mat<eT> >(N, N)), 1);
+        const T tau = norm((S - eye<Mat<eT>>(N, N)), 1);
 
         if(tau <= theta[6]) {
             p++;
@@ -327,7 +327,7 @@ template <typename eT> inline bool op_logmat_cx::helper(Mat<eT>& A, const uword 
 
         // const bool solve_ok = solve( X, (nodes(i)*A + eye< Mat<eT> >(N,N)), A,
         // solve_opts::fast );
-        const bool solve_ok = solve(X, trimatu(nodes(i) * A + eye<Mat<eT> >(N, N)), A);
+        const bool solve_ok = solve(X, trimatu(nodes(i) * A + eye<Mat<eT>>(N, N)), A);
 
         if(solve_ok == false) {
             arma_extra_debug_print("logmat(): solve() failed");

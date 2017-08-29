@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result
     reshape(const T1& X, const uword in_n_rows, const uword in_n_cols)
 {
     arma_extra_debug_sigprint();
@@ -28,7 +28,7 @@ arma_warn_unused inline
 
 template <typename T1>
 arma_warn_unused inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result
     reshape(const T1& X, const SizeMat& s)
 {
     arma_extra_debug_sigprint();

@@ -22,6 +22,9 @@
     <Filter Include="Converger">
       <UniqueIdentifier>{2e459f7e-dd55-4cd7-849b-d01cf9fd6550}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Armadillo-Ext">
+      <UniqueIdentifier>{0b4a335f-a2b9-4109-9d4d-5bba6edcd69d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
@@ -389,12 +392,6 @@
     <ClInclude Include="..\..\..\Converger\AbsResidual.h">
       <Filter>Converger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp">
-      <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
-      <Filter>Header</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
       <Filter>Solver</Filter>
     </ClInclude>
@@ -406,6 +403,48 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
       <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\PropertyType.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SymmMat_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SmOp_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\smop_inv_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\smop_inv_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\SmOp_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\BandMat_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\BandMat_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\fn_inv.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\debug.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\traits.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\BdOp_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\BdOp_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@
 //! Op< Glue< Mat, Mat, glue_times >, op_htrans >
 
 template <typename T1, typename op_type>
-class Op : public Base<typename T1::elem_type, Op<T1, op_type> >
+class Op : public Base<typename T1::elem_type, Op<T1, op_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -73,12 +73,11 @@ public:
                               is_same_type<op_type, op_htrans>::yes ||
                               is_same_type<op_type, op_htrans2>::yes));
 
-    static const bool is_col =
-        (
-            // operations which always result in a column vector
-            is_same_type<op_type, op_diagvec>::yes ||
-            is_same_type<op_type, op_vectorise_col>::yes ||
-            is_same_type<op_type, op_nonzeros>::yes) ||
+    static const bool is_col = (
+                                   // operations which always result in a column vector
+                                   is_same_type<op_type, op_diagvec>::yes ||
+                                   is_same_type<op_type, op_vectorise_col>::yes ||
+                                   is_same_type<op_type, op_nonzeros>::yes) ||
         (
             // operations which result in a column vector if the input is a column vector
             T1::is_col && (is_same_type<op_type, op_sort_default>::yes ||

@@ -79,9 +79,9 @@ inline void glue_cor::direct_cor(Mat<eT>& out,
 }
 
 template <typename T>
-inline void glue_cor::direct_cor(Mat<std::complex<T> >& out,
-    const Mat<std::complex<T> >& A,
-    const Mat<std::complex<T> >& B,
+inline void glue_cor::direct_cor(Mat<std::complex<T>>& out,
+    const Mat<std::complex<T>>& A,
+    const Mat<std::complex<T>>& B,
     const uword norm_type)
 {
     arma_extra_debug_sigprint();
@@ -128,7 +128,7 @@ inline void glue_cor::direct_cor(Mat<std::complex<T> >& out,
         const Mat<T> stddev_B =
             (B.n_rows == 1) ? Mat<T>(stddev(trans(B))) : Mat<T>(stddev(B));
 
-        out /= conv_to<Mat<eT> >::from(stddev_A * stddev_B);
+        out /= conv_to<Mat<eT>>::from(stddev_A * stddev_B);
     } else {
         arma_debug_assert_mul_size(A, B, true, false, "cor()");
 
@@ -139,7 +139,7 @@ inline void glue_cor::direct_cor(Mat<std::complex<T> >& out,
         out -= (trans(sum(A)) * sum(B)) /
             eT(N); // out -= (strans(conj(sum(A))) * sum(B))/eT(N);
         out /= norm_val;
-        out /= conv_to<Mat<eT> >::from(trans(stddev(A)) * stddev(B));
+        out /= conv_to<Mat<eT>>::from(trans(stddev(A)) * stddev(B));
     }
 }
 

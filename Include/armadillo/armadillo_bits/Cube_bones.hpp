@@ -23,7 +23,7 @@ struct Cube_prealloc {
 
 //! Dense cube class
 
-template <typename eT> class Cube : public BaseCube<eT, Cube<eT> >
+template <typename eT> class Cube : public BaseCube<eT, Cube<eT>>
 {
 public:
     typedef eT elem_type; //!< the type of elements stored in the cube
@@ -563,16 +563,16 @@ class Cube_aux
 {
 public:
     template <typename eT> arma_inline static void prefix_pp(Cube<eT>& x);
-    template <typename T> arma_inline static void prefix_pp(Cube<std::complex<T> >& x);
+    template <typename T> arma_inline static void prefix_pp(Cube<std::complex<T>>& x);
 
     template <typename eT> arma_inline static void postfix_pp(Cube<eT>& x);
-    template <typename T> arma_inline static void postfix_pp(Cube<std::complex<T> >& x);
+    template <typename T> arma_inline static void postfix_pp(Cube<std::complex<T>>& x);
 
     template <typename eT> arma_inline static void prefix_mm(Cube<eT>& x);
-    template <typename T> arma_inline static void prefix_mm(Cube<std::complex<T> >& x);
+    template <typename T> arma_inline static void prefix_mm(Cube<std::complex<T>>& x);
 
     template <typename eT> arma_inline static void postfix_mm(Cube<eT>& x);
-    template <typename T> arma_inline static void postfix_mm(Cube<std::complex<T> >& x);
+    template <typename T> arma_inline static void postfix_mm(Cube<std::complex<T>>& x);
 
     template <typename eT, typename T1>
     inline static void set_real(Cube<eT>& out, const BaseCube<eT, T1>& X);
@@ -580,9 +580,9 @@ public:
     inline static void set_imag(Cube<eT>& out, const BaseCube<eT, T1>& X);
 
     template <typename T, typename T1>
-    inline static void set_real(Cube<std::complex<T> >& out, const BaseCube<T, T1>& X);
+    inline static void set_real(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
     template <typename T, typename T1>
-    inline static void set_imag(Cube<std::complex<T> >& out, const BaseCube<T, T1>& X);
+    inline static void set_imag(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
 };
 
 //! @}

@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::no,
-    const Op<T1, op_symmat> >::result
+    const Op<T1, op_symmat>>::result
 symmatu(const Base<typename T1::elem_type, T1>& X, const bool do_conj = false)
 {
     arma_extra_debug_sigprint();
@@ -29,7 +29,7 @@ symmatu(const Base<typename T1::elem_type, T1>& X, const bool do_conj = false)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::no,
-    const Op<T1, op_symmat> >::result
+    const Op<T1, op_symmat>>::result
 symmatl(const Base<typename T1::elem_type, T1>& X, const bool do_conj = false)
 {
     arma_extra_debug_sigprint();
@@ -40,7 +40,7 @@ symmatl(const Base<typename T1::elem_type, T1>& X, const bool do_conj = false)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::yes,
-    const Op<T1, op_symmat_cx> >::result
+    const Op<T1, op_symmat_cx>>::result
 symmatu(const Base<typename T1::elem_type, T1>& X, const bool do_conj = true)
 {
     arma_extra_debug_sigprint();
@@ -50,7 +50,7 @@ symmatu(const Base<typename T1::elem_type, T1>& X, const bool do_conj = true)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::yes,
-    const Op<T1, op_symmat_cx> >::result
+    const Op<T1, op_symmat_cx>>::result
 symmatl(const Base<typename T1::elem_type, T1>& X, const bool do_conj = true)
 {
     arma_extra_debug_sigprint();
@@ -62,7 +62,7 @@ symmatl(const Base<typename T1::elem_type, T1>& X, const bool do_conj = true)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::no,
-    const SpOp<T1, spop_symmat> >::result
+    const SpOp<T1, spop_symmat>>::result
 symmatu(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = false)
 {
     arma_extra_debug_sigprint();
@@ -73,7 +73,7 @@ symmatu(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = false)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::no,
-    const SpOp<T1, spop_symmat> >::result
+    const SpOp<T1, spop_symmat>>::result
 symmatl(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = false)
 {
     arma_extra_debug_sigprint();
@@ -84,7 +84,7 @@ symmatl(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = false)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::yes,
-    const SpOp<T1, spop_symmat_cx> >::result
+    const SpOp<T1, spop_symmat_cx>>::result
 symmatu(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = true)
 {
     arma_extra_debug_sigprint();
@@ -94,7 +94,7 @@ symmatu(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = true)
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<is_cx<typename T1::elem_type>::yes,
-    const SpOp<T1, spop_symmat_cx> >::result
+    const SpOp<T1, spop_symmat_cx>>::result
 symmatl(const SpBase<typename T1::elem_type, T1>& X, const bool do_conj = true)
 {
     arma_extra_debug_sigprint();

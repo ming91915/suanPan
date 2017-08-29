@@ -20,15 +20,15 @@ class op_sqrtmat
 {
 public:
     template <typename T1>
-    inline static void apply(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static void apply(Mat<std::complex<typename T1::elem_type>>& out,
         const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
         const Op<T1, op_diagmat>& expr);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
         const Base<typename T1::elem_type, T1>& expr);
 };
 
@@ -51,7 +51,7 @@ public:
     inline static bool apply_direct(Mat<typename T1::elem_type>& out,
         const Base<typename T1::elem_type, T1>& expr);
 
-    template <typename T> inline static bool helper(Mat<std::complex<T> >& S);
+    template <typename T> inline static bool helper(Mat<std::complex<T>>& S);
 };
 
 class op_sqrtmat_sympd

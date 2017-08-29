@@ -71,10 +71,8 @@ class herk_vec
 {
 public:
     template <typename T, typename TA>
-    arma_hot inline static void apply(Mat<std::complex<T> >& C,
-        const TA& A,
-        const T alpha = T(1),
-        const T beta = T(0))
+    arma_hot inline static void
+    apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0))
     {
         arma_extra_debug_sigprint();
 
@@ -197,10 +195,8 @@ class herk_emul
 {
 public:
     template <typename T, typename TA>
-    arma_hot inline static void apply(Mat<std::complex<T> >& C,
-        const TA& A,
-        const T alpha = T(1),
-        const T beta = T(0))
+    arma_hot inline static void
+    apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0))
     {
         arma_extra_debug_sigprint();
 
@@ -265,7 +261,7 @@ class herk
 {
 public:
     template <typename T, typename TA>
-    inline static void apply_blas_type(Mat<std::complex<T> >& C,
+    inline static void apply_blas_type(Mat<std::complex<T>>& C,
         const TA& A,
         const T alpha = T(1),
         const T beta = T(0))
@@ -381,7 +377,7 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float> >& C,
+    arma_inline static void apply(Mat<std::complex<float>>& C,
         const TA& A,
         const float alpha = float(1),
         const float beta = float(0))
@@ -390,7 +386,7 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double> >& C,
+    arma_inline static void apply(Mat<std::complex<double>>& C,
         const TA& A,
         const double alpha = double(1),
         const double beta = double(0))

@@ -25,7 +25,7 @@
 //! http://www.maths.manchester.ac.uk/~higham/narep/narep336.ps.gz
 
 template <typename T1>
-inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type> >& out,
+inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out,
     const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in)
 {
     arma_extra_debug_sigprint();
@@ -39,7 +39,7 @@ inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type> >& out,
 }
 
 template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
     const Op<T1, op_diagmat>& expr)
 {
     arma_extra_debug_sigprint();
@@ -73,7 +73,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type> >&
 }
 
 template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
     const Base<typename T1::elem_type, T1>& expr)
 {
     arma_extra_debug_sigprint();
@@ -230,7 +230,7 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
     return status;
 }
 
-template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T> >& S)
+template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S)
 {
     typedef typename std::complex<T> eT;
 

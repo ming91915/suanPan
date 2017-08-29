@@ -264,7 +264,7 @@ arma_warn_unused arma_inline typename T1::elem_type as_scalar(
     arma_ignore(junk);
 
     if(is_glue_times_diag<T1>::value == false) {
-        const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times> >::num;
+        const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times>>::num;
 
         arma_extra_debug_print(arma_str::format("N_mat = %d") % N_mat);
 

@@ -66,9 +66,9 @@ inline void glue_cov::direct_cov(Mat<eT>& out,
 }
 
 template <typename T>
-inline void glue_cov::direct_cov(Mat<std::complex<T> >& out,
-    const Mat<std::complex<T> >& A,
-    const Mat<std::complex<T> >& B,
+inline void glue_cov::direct_cov(Mat<std::complex<T>>& out,
+    const Mat<std::complex<T>>& A,
+    const Mat<std::complex<T>>& B,
     const uword norm_type)
 {
     arma_extra_debug_sigprint();

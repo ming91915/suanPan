@@ -81,7 +81,7 @@ template <typename T1, typename T2>
 arma_warn_unused arma_inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_max> >::result
+    const Glue<T1, T2, glue_max>>::result
 max(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -122,7 +122,7 @@ max(const T1& x)
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) &&
         (resolves_to_sparse_vector<T1>::value == false),
-    const SpOp<T1, spop_max> >::result
+    const SpOp<T1, spop_max>>::result
 max(const T1& X, const uword dim = 0)
 {
     arma_extra_debug_sigprint();

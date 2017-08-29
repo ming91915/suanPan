@@ -18,7 +18,7 @@
 
 //! Dense matrix class
 
-template <typename eT> class Mat : public Base<eT, Mat<eT> >
+template <typename eT> class Mat : public Base<eT, Mat<eT>>
 {
 public:
     typedef eT elem_type; //!< the type of elements stored in the matrix
@@ -75,8 +75,8 @@ public:
     inline Mat(const std::initializer_list<eT>& list);
     inline Mat& operator=(const std::initializer_list<eT>& list);
 
-    inline Mat(const std::initializer_list<std::initializer_list<eT> >& list);
-    inline Mat& operator=(const std::initializer_list<std::initializer_list<eT> >& list);
+    inline Mat(const std::initializer_list<std::initializer_list<eT>>& list);
+    inline Mat& operator=(const std::initializer_list<std::initializer_list<eT>>& list);
 
     inline Mat(Mat&& m);
     inline Mat& operator=(Mat&& m);
@@ -787,7 +787,7 @@ protected:
 
 #if defined(ARMA_USE_CXX11)
     inline void init(const std::initializer_list<eT>& list);
-    inline void init(const std::initializer_list<std::initializer_list<eT> >& list);
+    inline void init(const std::initializer_list<std::initializer_list<eT>>& list);
 #endif
 
     template <typename T1, typename T2>
@@ -869,8 +869,8 @@ public:
     inline fixed(const std::initializer_list<eT>& list);
     inline Mat& operator=(const std::initializer_list<eT>& list);
 
-    inline fixed(const std::initializer_list<std::initializer_list<eT> >& list);
-    inline Mat& operator=(const std::initializer_list<std::initializer_list<eT> >& list);
+    inline fixed(const std::initializer_list<std::initializer_list<eT>>& list);
+    inline Mat& operator=(const std::initializer_list<std::initializer_list<eT>>& list);
 #endif
 
     arma_inline Mat& operator=(const fixed<fixed_n_rows, fixed_n_cols>& X);
@@ -919,26 +919,26 @@ class Mat_aux
 {
 public:
     template <typename eT> inline static void prefix_pp(Mat<eT>& x);
-    template <typename T> inline static void prefix_pp(Mat<std::complex<T> >& x);
+    template <typename T> inline static void prefix_pp(Mat<std::complex<T>>& x);
 
     template <typename eT> inline static void postfix_pp(Mat<eT>& x);
-    template <typename T> inline static void postfix_pp(Mat<std::complex<T> >& x);
+    template <typename T> inline static void postfix_pp(Mat<std::complex<T>>& x);
 
     template <typename eT> inline static void prefix_mm(Mat<eT>& x);
-    template <typename T> inline static void prefix_mm(Mat<std::complex<T> >& x);
+    template <typename T> inline static void prefix_mm(Mat<std::complex<T>>& x);
 
     template <typename eT> inline static void postfix_mm(Mat<eT>& x);
-    template <typename T> inline static void postfix_mm(Mat<std::complex<T> >& x);
+    template <typename T> inline static void postfix_mm(Mat<std::complex<T>>& x);
 
     template <typename eT, typename T1>
     inline static void set_real(Mat<eT>& out, const Base<eT, T1>& X);
     template <typename T, typename T1>
-    inline static void set_real(Mat<std::complex<T> >& out, const Base<T, T1>& X);
+    inline static void set_real(Mat<std::complex<T>>& out, const Base<T, T1>& X);
 
     template <typename eT, typename T1>
     inline static void set_imag(Mat<eT>& out, const Base<eT, T1>& X);
     template <typename T, typename T1>
-    inline static void set_imag(Mat<std::complex<T> >& out, const Base<T, T1>& X);
+    inline static void set_imag(Mat<std::complex<T>>& out, const Base<T, T1>& X);
 };
 
 //! @}

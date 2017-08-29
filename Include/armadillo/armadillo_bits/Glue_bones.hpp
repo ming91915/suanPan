@@ -28,7 +28,7 @@
 //! Another example is: Glue< Op<Mat, op_htrans>, Op<Mat, op_inv>, glue_times >
 
 template <typename T1, typename T2, typename glue_type>
-class Glue : public Base<typename T1::elem_type, Glue<T1, T2, glue_type> >
+class Glue : public Base<typename T1::elem_type, Glue<T1, T2, glue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;

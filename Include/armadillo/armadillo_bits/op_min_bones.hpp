@@ -98,11 +98,11 @@ public:
         uword& index_of_min_val);
 
     template <typename T>
-    inline static std::complex<T> direct_min(const Mat<std::complex<T> >& X,
+    inline static std::complex<T> direct_min(const Mat<std::complex<T>>& X,
         const uword row);
 
     template <typename T>
-    inline static std::complex<T> min(const subview<std::complex<T> >& X);
+    inline static std::complex<T> min(const subview<std::complex<T>>& X);
 
     template <typename T1>
     inline static typename arma_cx_only<typename T1::elem_type>::result min(

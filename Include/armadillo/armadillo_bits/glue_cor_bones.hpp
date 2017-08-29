@@ -23,9 +23,9 @@ public:
     inline static void
     direct_cor(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type);
     template <typename T>
-    inline static void direct_cor(Mat<std::complex<T> >& out,
-        const Mat<std::complex<T> >& A,
-        const Mat<std::complex<T> >& B,
+    inline static void direct_cor(Mat<std::complex<T>>& out,
+        const Mat<std::complex<T>>& A,
+        const Mat<std::complex<T>>& B,
         const uword norm_type);
 
     template <typename T1, typename T2>

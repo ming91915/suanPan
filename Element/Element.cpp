@@ -85,6 +85,9 @@ const mat& Element::get_stiffness() const { return stiffness; }
 
 const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
+/**
+ * \brief Method to update status.
+ */
 int Element::update_status() { return -1; }
 
 int Element::commit_status() { return -1; }

@@ -66,7 +66,7 @@ index_min(const T1& x)
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) &&
         (resolves_to_sparse_vector<T1>::value == false),
-    Mat<uword> >::result
+    Mat<uword>>::result
 index_min(const T1& X, const uword dim = 0)
 {
     arma_extra_debug_sigprint();

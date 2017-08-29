@@ -1273,7 +1273,7 @@ inline eT gmm_diag<eT>::internal_avg_log_p(const T1& X) const
 
         const uword n_threads = boundaries.n_cols;
 
-        field<running_mean_scalar<eT> > t_running_means(n_threads);
+        field<running_mean_scalar<eT>> t_running_means(n_threads);
 
 #pragma omp parallel for schedule(static)
         for(uword t = 0; t < n_threads; ++t) {
@@ -1335,7 +1335,7 @@ inline eT gmm_diag<eT>::internal_avg_log_p(const T1& X, const uword gaus_id) con
 
         const uword n_threads = boundaries.n_cols;
 
-        field<running_mean_scalar<eT> > t_running_means(n_threads);
+        field<running_mean_scalar<eT>> t_running_means(n_threads);
 
 #pragma omp parallel for schedule(static)
         for(uword t = 0; t < n_threads; ++t) {
@@ -1826,9 +1826,9 @@ inline void gmm_diag<eT>::generate_initial_params(const Mat<eT>& X, const eT var
 
         const uword n_threads = boundaries.n_cols;
 
-        field<Mat<eT> > t_acc_means(n_threads);
-        field<Mat<eT> > t_acc_dcovs(n_threads);
-        field<Row<uword> > t_acc_hefts(n_threads);
+        field<Mat<eT>> t_acc_means(n_threads);
+        field<Mat<eT>> t_acc_dcovs(n_threads);
+        field<Row<uword>> t_acc_hefts(n_threads);
 
         for(uword t = 0; t < n_threads; ++t) {
             t_acc_means(t).zeros(N_dims, N_gaus);
@@ -1985,9 +1985,9 @@ inline bool gmm_diag<eT>::km_iterate(const Mat<eT>& X,
     const umat boundaries = internal_gen_boundaries(X_n_cols);
     const uword n_threads = boundaries.n_cols;
 
-    field<Mat<eT> > t_acc_means(n_threads);
-    field<Row<uword> > t_acc_hefts(n_threads);
-    field<Row<uword> > t_last_indx(n_threads);
+    field<Mat<eT>> t_acc_means(n_threads);
+    field<Row<uword>> t_acc_hefts(n_threads);
+    field<Row<uword>> t_last_indx(n_threads);
 #else
     const uword n_threads = 1;
 #endif
@@ -2222,11 +2222,11 @@ inline bool gmm_diag<eT>::em_iterate(const Mat<eT>& X,
 
     const uword n_threads = boundaries.n_cols;
 
-    field<Mat<eT> > t_acc_means(n_threads);
-    field<Mat<eT> > t_acc_dcovs(n_threads);
+    field<Mat<eT>> t_acc_means(n_threads);
+    field<Mat<eT>> t_acc_dcovs(n_threads);
 
-    field<Col<eT> > t_acc_norm_lhoods(n_threads);
-    field<Col<eT> > t_gaus_log_lhoods(n_threads);
+    field<Col<eT>> t_acc_norm_lhoods(n_threads);
+    field<Col<eT>> t_gaus_log_lhoods(n_threads);
 
     Col<eT> t_progress_log_lhood(n_threads);
 
@@ -2298,10 +2298,10 @@ inline bool gmm_diag<eT>::em_iterate(const Mat<eT>& X,
 template <typename eT>
 inline void gmm_diag<eT>::em_update_params(const Mat<eT>& X,
     const umat& boundaries,
-    field<Mat<eT> >& t_acc_means,
-    field<Mat<eT> >& t_acc_dcovs,
-    field<Col<eT> >& t_acc_norm_lhoods,
-    field<Col<eT> >& t_gaus_log_lhoods,
+    field<Mat<eT>>& t_acc_means,
+    field<Mat<eT>>& t_acc_dcovs,
+    field<Col<eT>>& t_acc_norm_lhoods,
+    field<Col<eT>>& t_gaus_log_lhoods,
     Col<eT>& t_progress_log_lhood)
 {
     arma_extra_debug_sigprint();

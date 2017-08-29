@@ -19,7 +19,7 @@
 //! Class for storing data required to construct or apply operations to a submatrix
 //! (i.e. where the submatrix starts and ends as well as a reference/pointer to the
 //! original matrix),
-template <typename eT> class subview : public Base<eT, subview<eT> >
+template <typename eT> class subview : public Base<eT, subview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -353,7 +353,7 @@ private:
     subview_row();
 };
 
-template <typename eT> class subview_row_strans : public Base<eT, subview_row_strans<eT> >
+template <typename eT> class subview_row_strans : public Base<eT, subview_row_strans<eT>>
 {
 public:
     typedef eT elem_type;
@@ -381,7 +381,7 @@ public:
     inline eT at(const uword in_row, const uword in_col) const;
 };
 
-template <typename eT> class subview_row_htrans : public Base<eT, subview_row_htrans<eT> >
+template <typename eT> class subview_row_htrans : public Base<eT, subview_row_htrans<eT>>
 {
 public:
     typedef eT elem_type;

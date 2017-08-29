@@ -573,7 +573,7 @@ template <typename eT> inline eT spdiagview<eT>::at_alt(const uword i) const
 }
 
 template <typename eT>
-inline SpValProxy<SpMat<eT> > spdiagview<eT>::operator[](const uword i)
+inline SpValProxy<SpMat<eT>> spdiagview<eT>::operator[](const uword i)
 {
     return (const_cast<SpMat<eT>&>(m)).at(i + row_offset, i + col_offset);
 }
@@ -583,7 +583,7 @@ template <typename eT> inline eT spdiagview<eT>::operator[](const uword i) const
     return m.at(i + row_offset, i + col_offset);
 }
 
-template <typename eT> inline SpValProxy<SpMat<eT> > spdiagview<eT>::at(const uword i)
+template <typename eT> inline SpValProxy<SpMat<eT>> spdiagview<eT>::at(const uword i)
 {
     return (const_cast<SpMat<eT>&>(m)).at(i + row_offset, i + col_offset);
 }
@@ -594,7 +594,7 @@ template <typename eT> inline eT spdiagview<eT>::at(const uword i) const
 }
 
 template <typename eT>
-inline SpValProxy<SpMat<eT> > spdiagview<eT>::operator()(const uword i)
+inline SpValProxy<SpMat<eT>> spdiagview<eT>::operator()(const uword i)
 {
     arma_debug_check((i >= n_elem), "spdiagview::operator(): out of bounds");
 
@@ -609,7 +609,7 @@ template <typename eT> inline eT spdiagview<eT>::operator()(const uword i) const
 }
 
 template <typename eT>
-inline SpValProxy<SpMat<eT> > spdiagview<eT>::at(const uword row, const uword)
+inline SpValProxy<SpMat<eT>> spdiagview<eT>::at(const uword row, const uword)
 {
     return (const_cast<SpMat<eT>&>(m)).at(row + row_offset, row + col_offset);
 }
@@ -620,7 +620,7 @@ template <typename eT> inline eT spdiagview<eT>::at(const uword row, const uword
 }
 
 template <typename eT>
-inline SpValProxy<SpMat<eT> > spdiagview<eT>::operator()(const uword row, const uword col)
+inline SpValProxy<SpMat<eT>> spdiagview<eT>::operator()(const uword row, const uword col)
 {
     arma_debug_check(
         ((row >= n_elem) || (col > 0)), "spdiagview::operator(): out of bounds");

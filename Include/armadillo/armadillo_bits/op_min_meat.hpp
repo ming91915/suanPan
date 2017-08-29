@@ -819,7 +819,7 @@ inline std::complex<T> op_min::direct_min(const std::complex<T>* const X,
 }
 
 template <typename T>
-inline std::complex<T> op_min::direct_min(const Mat<std::complex<T> >& X, const uword row)
+inline std::complex<T> op_min::direct_min(const Mat<std::complex<T>>& X, const uword row)
 {
     arma_extra_debug_sigprint();
 
@@ -841,7 +841,7 @@ inline std::complex<T> op_min::direct_min(const Mat<std::complex<T> >& X, const 
 }
 
 template <typename T>
-inline std::complex<T> op_min::min(const subview<std::complex<T> >& X)
+inline std::complex<T> op_min::min(const subview<std::complex<T>>& X)
 {
     arma_extra_debug_sigprint();
 

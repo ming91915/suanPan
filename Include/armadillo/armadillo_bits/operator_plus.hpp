@@ -29,7 +29,7 @@ arma_inline typename enable_if2<is_arma_type<T1>::value, const T1&>::result oper
 //! Base + scalar
 template <typename T1>
 arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_plus> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_plus>>::result
     operator+(const T1& X, const typename T1::elem_type k)
 {
     arma_extra_debug_sigprint();
@@ -40,7 +40,7 @@ arma_inline
 //! scalar + Base
 template <typename T1>
 arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_plus> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_plus>>::result
     operator+(const typename T1::elem_type k, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -50,11 +50,11 @@ arma_inline
 
 //! non-complex Base + complex scalar
 template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value &&
-                                    is_cx<typename T1::elem_type>::no),
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus> >::
-    result
-    operator+(const T1& X, const std::complex<typename T1::pod_type>& k)
+arma_inline
+    typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no),
+        const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>>::
+        result
+        operator+(const T1& X, const std::complex<typename T1::pod_type>& k)
 {
     arma_extra_debug_sigprint();
 
@@ -64,11 +64,11 @@ arma_inline typename enable_if2<(is_arma_type<T1>::value &&
 
 //! complex scalar + non-complex Base
 template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value &&
-                                    is_cx<typename T1::elem_type>::no),
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus> >::
-    result
-    operator+(const std::complex<typename T1::pod_type>& k, const T1& X)
+arma_inline
+    typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no),
+        const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>>::
+        result
+        operator+(const std::complex<typename T1::pod_type>& k, const T1& X)
 {
     arma_extra_debug_sigprint();
 
@@ -80,7 +80,7 @@ arma_inline typename enable_if2<(is_arma_type<T1>::value &&
 template <typename T1, typename T2>
 arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
-    const eGlue<T1, T2, eglue_plus> >::result
+    const eGlue<T1, T2, eglue_plus>>::result
 operator+(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -97,7 +97,7 @@ inline typename enable_if2<
         typename promote_type<typename T1::elem_type, typename T2::elem_type>::result,
         T1,
         T2,
-        glue_mixed_plus> >::result
+        glue_mixed_plus>>::result
 operator+(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -117,7 +117,7 @@ template <typename T1, typename T2>
 inline arma_hot typename enable_if2<
     (is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    SpGlue<T1, T2, spglue_plus> >::result
+    SpGlue<T1, T2, spglue_plus>>::result
 operator+(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();
@@ -130,7 +130,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_sparse_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    Mat<typename T1::elem_type> >::result
+    Mat<typename T1::elem_type>>::result
 operator+(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();
@@ -158,7 +158,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_sparse_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    Mat<typename T1::elem_type> >::result
+    Mat<typename T1::elem_type>>::result
 operator+(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();

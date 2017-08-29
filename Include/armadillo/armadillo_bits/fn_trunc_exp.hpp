@@ -41,7 +41,7 @@ arma_warn_unused inline static std::complex<T> trunc_exp(const std::complex<T>& 
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_trunc_exp> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_trunc_exp>>::result
     trunc_exp(const T1& A)
 {
     arma_extra_debug_sigprint();

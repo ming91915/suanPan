@@ -20,16 +20,16 @@ class op_logmat
 {
 public:
     template <typename T1>
-    inline static void apply(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static void apply(Mat<std::complex<typename T1::elem_type>>& out,
         const mtOp<std::complex<typename T1::elem_type>, T1, op_logmat>& in);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
         const Op<T1, op_diagmat>& expr,
         const uword);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type> >& out,
+    inline static bool apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
         const Base<typename T1::elem_type, T1>& expr,
         const uword n_iters);
 };
@@ -56,9 +56,8 @@ public:
         const uword n_iters);
 
     template <typename T>
-    inline static bool apply_common(Mat<std::complex<T> >& out,
-        Mat<std::complex<T> >& S,
-        const uword n_iters);
+    inline static bool
+    apply_common(Mat<std::complex<T>>& out, Mat<std::complex<T>>& S, const uword n_iters);
 
     template <typename eT> inline static bool helper(Mat<eT>& S, const uword m);
 };

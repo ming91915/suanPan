@@ -17,9 +17,9 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<(is_arma_type<T1>::value),
-    const Op<T1, op_shift_default> >::result
-shift(const T1& X, const sword N)
+arma_warn_unused arma_inline
+    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_shift_default>>::result
+    shift(const T1& X, const sword N)
 {
     arma_extra_debug_sigprint();
 
@@ -31,7 +31,7 @@ shift(const T1& X, const sword N)
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_shift> >::result
+    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_shift>>::result
     shift(const T1& X, const sword N, const uword dim)
 {
     arma_extra_debug_sigprint();

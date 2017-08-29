@@ -94,7 +94,7 @@ inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj)
 }
 
 template <typename eT>
-inline Col<std::complex<eT> > UpperHessenbergEigen<eT>::eigenvalues()
+inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues()
 {
     arma_extra_debug_sigprint();
 
@@ -105,7 +105,7 @@ inline Col<std::complex<eT> > UpperHessenbergEigen<eT>::eigenvalues()
 }
 
 template <typename eT>
-inline Mat<std::complex<eT> > UpperHessenbergEigen<eT>::eigenvectors()
+inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors()
 {
     arma_extra_debug_sigprint();
 
@@ -113,7 +113,7 @@ inline Mat<std::complex<eT> > UpperHessenbergEigen<eT>::eigenvectors()
         "newarp::UpperHessenbergEigen::eigenvectors(): need to call compute() first");
 
     // Lapack will set the imaginary parts of real eigenvalues to be exact zero
-    Mat<std::complex<eT> > evecs(n, n);
+    Mat<std::complex<eT>> evecs(n, n);
 
     std::complex<eT>* col_ptr = evecs.memptr();
 

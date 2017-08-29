@@ -17,7 +17,7 @@
 //! @{
 
 template <typename eT, bool do_conj>
-class xtrans_mat : public Base<eT, xtrans_mat<eT, do_conj> >
+class xtrans_mat : public Base<eT, xtrans_mat<eT, do_conj>>
 {
 public:
     typedef eT elem_type;

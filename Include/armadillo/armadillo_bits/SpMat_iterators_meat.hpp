@@ -122,8 +122,8 @@ inline SpMat<eT>::const_iterator::const_iterator(
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::
-operator++()
+inline arma_hot
+    typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator++()
 {
     ++iterator_base::internal_pos;
 
@@ -142,8 +142,8 @@ operator++()
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(
-    int)
+inline arma_hot
+    typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(int)
 {
     typename SpMat<eT>::const_iterator tmp(*this);
 
@@ -153,8 +153,8 @@ inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::op
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::
-operator--()
+inline arma_hot
+    typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator--()
 {
     // iterator_base::M.print("M");
 
@@ -179,8 +179,8 @@ operator--()
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(
-    int)
+inline arma_hot
+    typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(int)
 {
     typename SpMat<eT>::const_iterator tmp(*this);
 
@@ -250,9 +250,9 @@ inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT> > SpMat<eT>::iterator::operator*()
+inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::iterator::operator*()
 {
-    return SpValProxy<SpMat<eT> >(
+    return SpValProxy<SpMat<eT>>(
         iterator_base::M->row_indices[iterator_base::internal_pos],
         iterator_base::internal_col, access::rw(*iterator_base::M),
         &access::rw(iterator_base::M->values[iterator_base::internal_pos]));
@@ -418,8 +418,8 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(
  * Increment the row_iterator.
  */
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::
-operator++()
+inline arma_hot
+    typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator++()
 {
     // We just need to find the next nonzero element.
     iterator_base::internal_pos++;
@@ -467,8 +467,8 @@ operator++()
  * Increment the row_iterator (but do not return anything.
  */
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::
-operator++(int)
+inline arma_hot
+    typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator++(int)
 {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
@@ -481,8 +481,8 @@ operator++(int)
  * Decrement the row_iterator.
  */
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::
-operator--()
+inline arma_hot
+    typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator--()
 {
     iterator_base::internal_pos--;
 
@@ -522,8 +522,8 @@ operator--()
  * Decrement the row_iterator.
  */
 template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::
-operator--(int)
+inline arma_hot
+    typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator--(int)
 {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
@@ -593,9 +593,9 @@ inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT> > SpMat<eT>::row_iterator::operator*()
+inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::row_iterator::operator*()
 {
-    return SpValProxy<SpMat<eT> >(const_row_iterator::internal_row,
+    return SpValProxy<SpMat<eT>>(const_row_iterator::internal_row,
         iterator_base::internal_col, access::rw(*iterator_base::M),
         &access::rw(iterator_base::M->values[const_row_iterator::actual_pos]));
 }

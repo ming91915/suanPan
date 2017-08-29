@@ -28,7 +28,7 @@ arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_typ
 
     out.set_size(n_elem, 1);
 
-    std::vector<arma_sort_index_packet<eT> > packet_vec(n_elem);
+    std::vector<arma_sort_index_packet<eT>> packet_vec(n_elem);
 
     if(Proxy<T1>::use_at == false) {
         for(uword i = 0; i < n_elem; ++i) {

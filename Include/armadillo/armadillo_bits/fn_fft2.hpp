@@ -20,7 +20,7 @@
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    Mat<std::complex<typename T1::pod_type> > >::result
+    Mat<std::complex<typename T1::pod_type>>>::result
 fft2(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -29,7 +29,7 @@ fft2(const T1& A)
 
     typedef typename T1::pod_type T;
 
-    Mat<std::complex<T> > B = fft(A);
+    Mat<std::complex<T>> B = fft(A);
 
     // for square matrices, strans() will work out that an inplace transpose can be done,
     // hence we can potentially avoid creating a temporary matrix
@@ -41,7 +41,7 @@ fft2(const T1& A)
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    Mat<std::complex<typename T1::pod_type> > >::result
+    Mat<std::complex<typename T1::pod_type>>>::result
 fft2(const T1& A, const uword n_rows, const uword n_cols)
 {
     arma_extra_debug_sigprint();
@@ -60,7 +60,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        Mat<std::complex<typename T1::pod_type> > >::result
+        Mat<std::complex<typename T1::pod_type>>>::result
     ifft2(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -69,7 +69,7 @@ arma_warn_unused inline
 
     typedef typename T1::pod_type T;
 
-    Mat<std::complex<T> > B = ifft(A);
+    Mat<std::complex<T>> B = ifft(A);
 
     // for square matrices, strans() will work out that an inplace transpose can be done,
     // hence we can potentially avoid creating a temporary matrix
@@ -83,7 +83,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        Mat<std::complex<typename T1::pod_type> > >::result
+        Mat<std::complex<typename T1::pod_type>>>::result
     ifft2(const T1& A, const uword n_rows, const uword n_cols)
 {
     arma_extra_debug_sigprint();

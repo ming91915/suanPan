@@ -213,7 +213,7 @@ inline void op_rel_lt_pre::apply(Mat<uword>& out, const mtOp<uword, T1, op_rel_l
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_pre(< );
+    arma_applier_mat_pre(<);
 }
 
 template <typename T1>
@@ -221,7 +221,7 @@ inline void op_rel_gt_pre::apply(Mat<uword>& out, const mtOp<uword, T1, op_rel_g
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_pre(> );
+    arma_applier_mat_pre(>);
 }
 
 template <typename T1>
@@ -230,7 +230,7 @@ inline void op_rel_lteq_pre::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_pre(<= );
+    arma_applier_mat_pre(<=);
 }
 
 template <typename T1>
@@ -239,7 +239,7 @@ inline void op_rel_gteq_pre::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_pre(>= );
+    arma_applier_mat_pre(>=);
 }
 
 template <typename T1>
@@ -248,7 +248,7 @@ inline void op_rel_lt_post::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(< );
+    arma_applier_mat_post(<);
 }
 
 template <typename T1>
@@ -257,7 +257,7 @@ inline void op_rel_gt_post::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(> );
+    arma_applier_mat_post(>);
 }
 
 template <typename T1>
@@ -266,7 +266,7 @@ inline void op_rel_lteq_post::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(<= );
+    arma_applier_mat_post(<=);
 }
 
 template <typename T1>
@@ -275,7 +275,7 @@ inline void op_rel_gteq_post::apply(Mat<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(>= );
+    arma_applier_mat_post(>=);
 }
 
 template <typename T1>
@@ -283,7 +283,7 @@ inline void op_rel_eq::apply(Mat<uword>& out, const mtOp<uword, T1, op_rel_eq>& 
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(== );
+    arma_applier_mat_post(==);
 }
 
 template <typename T1>
@@ -291,7 +291,7 @@ inline void op_rel_noteq::apply(Mat<uword>& out, const mtOp<uword, T1, op_rel_no
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_mat_post(!= );
+    arma_applier_mat_post(!=);
 }
 
 //
@@ -304,7 +304,7 @@ inline void op_rel_lt_pre::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_pre(< );
+    arma_applier_cube_pre(<);
 }
 
 template <typename T1>
@@ -313,7 +313,7 @@ inline void op_rel_gt_pre::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_pre(> );
+    arma_applier_cube_pre(>);
 }
 
 template <typename T1>
@@ -322,7 +322,7 @@ inline void op_rel_lteq_pre::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_pre(<= );
+    arma_applier_cube_pre(<=);
 }
 
 template <typename T1>
@@ -331,7 +331,7 @@ inline void op_rel_gteq_pre::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_pre(>= );
+    arma_applier_cube_pre(>=);
 }
 
 template <typename T1>
@@ -340,7 +340,7 @@ inline void op_rel_lt_post::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(< );
+    arma_applier_cube_post(<);
 }
 
 template <typename T1>
@@ -349,7 +349,7 @@ inline void op_rel_gt_post::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(> );
+    arma_applier_cube_post(>);
 }
 
 template <typename T1>
@@ -358,7 +358,7 @@ inline void op_rel_lteq_post::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(<= );
+    arma_applier_cube_post(<=);
 }
 
 template <typename T1>
@@ -367,7 +367,7 @@ inline void op_rel_gteq_post::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(>= );
+    arma_applier_cube_post(>=);
 }
 
 template <typename T1>
@@ -375,7 +375,7 @@ inline void op_rel_eq::apply(Cube<uword>& out, const mtOpCube<uword, T1, op_rel_
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(== );
+    arma_applier_cube_post(==);
 }
 
 template <typename T1>
@@ -384,7 +384,7 @@ inline void op_rel_noteq::apply(Cube<uword>& out,
 {
     arma_extra_debug_sigprint();
 
-    arma_applier_cube_post(!= );
+    arma_applier_cube_post(!=);
 }
 
 #undef arma_applier_mat_pre

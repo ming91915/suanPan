@@ -17,7 +17,7 @@
 //! @{
 
 //! Sparse matrix class, with data stored in compressed sparse column (CSC) format
-template <typename eT> class SpMat : public SpBase<eT, SpMat<eT> >
+template <typename eT> class SpMat : public SpBase<eT, SpMat<eT>>
 {
 public:
     typedef eT elem_type; //!< the type of elements stored in the matrix
@@ -34,7 +34,7 @@ public:
     const uword vec_state; //!< 0: matrix; 1: column vector; 2: row vector
 
     // so that SpValProxy can call add_element() and delete_element()
-    friend class SpValProxy<SpMat<eT> >;
+    friend class SpValProxy<SpMat<eT>>;
     friend class SpSubview<eT>;
 
     /**
@@ -273,19 +273,19 @@ public:
     inline void shed_cols(const uword in_col1, const uword in_col2);
 
     // access the i-th element; if there is nothing at element i, 0 is returned
-    arma_inline arma_warn_unused SpValProxy<SpMat<eT> > operator[](const uword i);
+    arma_inline arma_warn_unused SpValProxy<SpMat<eT>> operator[](const uword i);
     arma_inline arma_warn_unused eT operator[](const uword i) const;
-    arma_inline arma_warn_unused SpValProxy<SpMat<eT> > at(const uword i);
+    arma_inline arma_warn_unused SpValProxy<SpMat<eT>> at(const uword i);
     arma_inline arma_warn_unused eT at(const uword i) const;
-    arma_inline arma_warn_unused SpValProxy<SpMat<eT> > operator()(const uword i);
+    arma_inline arma_warn_unused SpValProxy<SpMat<eT>> operator()(const uword i);
     arma_inline arma_warn_unused eT operator()(const uword i) const;
 
     // access the element at the given row and column; if there is nothing at that
     // position, 0 is returned
-    arma_inline arma_warn_unused SpValProxy<SpMat<eT> > at(const uword in_row,
+    arma_inline arma_warn_unused SpValProxy<SpMat<eT>> at(const uword in_row,
         const uword in_col);
     arma_inline arma_warn_unused eT at(const uword in_row, const uword in_col) const;
-    arma_inline arma_warn_unused SpValProxy<SpMat<eT> > operator()(const uword in_row,
+    arma_inline arma_warn_unused SpValProxy<SpMat<eT>> operator()(const uword in_row,
         const uword in_col);
     arma_inline arma_warn_unused eT operator()(const uword in_row,
         const uword in_col) const;
@@ -505,7 +505,7 @@ public:
         {
         }
 
-        inline arma_hot SpValProxy<SpMat<eT> > operator*();
+        inline arma_hot SpValProxy<SpMat<eT>> operator*();
 
         // overloads needed for return type correctness
         inline arma_hot iterator& operator++();
@@ -515,9 +515,9 @@ public:
         inline arma_hot iterator operator--(int);
 
         // this has a different value_type than iterator_base
-        typedef SpValProxy<SpMat<eT> > value_type;
-        typedef const SpValProxy<SpMat<eT> >* pointer;
-        typedef const SpValProxy<SpMat<eT> >& reference;
+        typedef SpValProxy<SpMat<eT>> value_type;
+        typedef const SpValProxy<SpMat<eT>>* pointer;
+        typedef const SpValProxy<SpMat<eT>>& reference;
     };
 
     class const_row_iterator : public iterator_base
@@ -582,7 +582,7 @@ public:
         {
         }
 
-        inline arma_hot SpValProxy<SpMat<eT> > operator*();
+        inline arma_hot SpValProxy<SpMat<eT>> operator*();
 
         // overloads required for return type correctness
         inline arma_hot row_iterator& operator++();
@@ -592,9 +592,9 @@ public:
         inline arma_hot row_iterator operator--(int);
 
         // this has a different value_type than iterator_base
-        typedef SpValProxy<SpMat<eT> > value_type;
-        typedef const SpValProxy<SpMat<eT> >* pointer;
-        typedef const SpValProxy<SpMat<eT> >& reference;
+        typedef SpValProxy<SpMat<eT>> value_type;
+        typedef const SpValProxy<SpMat<eT>>* pointer;
+        typedef const SpValProxy<SpMat<eT>>& reference;
     };
 
     typedef iterator row_col_iterator;
@@ -665,10 +665,10 @@ protected:
         const bool sort_locations);
 
 private:
-    inline arma_hot arma_warn_unused SpValProxy<SpMat<eT> > get_value(const uword i);
+    inline arma_hot arma_warn_unused SpValProxy<SpMat<eT>> get_value(const uword i);
     inline arma_hot arma_warn_unused eT get_value(const uword i) const;
 
-    inline arma_hot arma_warn_unused SpValProxy<SpMat<eT> > get_value(const uword in_row,
+    inline arma_hot arma_warn_unused SpValProxy<SpMat<eT>> get_value(const uword in_row,
         const uword in_col);
     inline arma_hot arma_warn_unused eT get_value(const uword in_row,
         const uword in_col) const;
@@ -699,12 +699,12 @@ public:
     template <typename eT, typename T1>
     inline static void set_real(SpMat<eT>& out, const SpBase<eT, T1>& X);
     template <typename T, typename T1>
-    inline static void set_real(SpMat<std::complex<T> >& out, const SpBase<T, T1>& X);
+    inline static void set_real(SpMat<std::complex<T>>& out, const SpBase<T, T1>& X);
 
     template <typename eT, typename T1>
     inline static void set_imag(SpMat<eT>& out, const SpBase<eT, T1>& X);
     template <typename T, typename T1>
-    inline static void set_imag(SpMat<std::complex<T> >& out, const SpBase<T, T1>& X);
+    inline static void set_imag(SpMat<std::complex<T>>& out, const SpBase<T, T1>& X);
 };
 
 #define ARMA_HAS_SPMAT

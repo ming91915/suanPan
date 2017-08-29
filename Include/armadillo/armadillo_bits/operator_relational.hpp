@@ -29,7 +29,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_lt> >::result
+    const mtGlue<uword, T1, T2, glue_rel_lt>>::result
 operator<(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -41,7 +41,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_gt> >::result
+    const mtGlue<uword, T1, T2, glue_rel_gt>>::result
 operator>(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -53,7 +53,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_lteq> >::result
+    const mtGlue<uword, T1, T2, glue_rel_lteq>>::result
 operator<=(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -65,7 +65,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_gteq> >::result
+    const mtGlue<uword, T1, T2, glue_rel_gteq>>::result
 operator>=(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -75,7 +75,7 @@ operator>=(const T1& X, const T2& Y)
 
 template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value),
-    const mtGlue<uword, T1, T2, glue_rel_eq> >::result
+    const mtGlue<uword, T1, T2, glue_rel_eq>>::result
 operator==(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -85,7 +85,7 @@ operator==(const T1& X, const T2& Y)
 
 template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value),
-    const mtGlue<uword, T1, T2, glue_rel_noteq> >::result
+    const mtGlue<uword, T1, T2, glue_rel_noteq>>::result
 operator!=(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -97,7 +97,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_and> >::result
+    const mtGlue<uword, T1, T2, glue_rel_and>>::result
 operator&&(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -109,7 +109,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &&
                                (is_cx<typename T1::elem_type>::no) &&
                                (is_cx<typename T2::elem_type>::no)),
-    const mtGlue<uword, T1, T2, glue_rel_or> >::result
+    const mtGlue<uword, T1, T2, glue_rel_or>>::result
 operator||(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -124,7 +124,7 @@ operator||(const T1& X, const T2& Y)
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_lt_pre> >::result
+        const mtOp<uword, T1, op_rel_lt_pre>>::result
     operator<(const typename T1::elem_type val, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -135,7 +135,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_lt_post> >::result
+        const mtOp<uword, T1, op_rel_lt_post>>::result
     operator<(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();
@@ -146,7 +146,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_gt_pre> >::result
+        const mtOp<uword, T1, op_rel_gt_pre>>::result
     operator>(const typename T1::elem_type val, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -157,7 +157,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_gt_post> >::result
+        const mtOp<uword, T1, op_rel_gt_post>>::result
     operator>(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();
@@ -168,7 +168,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_lteq_pre> >::result
+        const mtOp<uword, T1, op_rel_lteq_pre>>::result
     operator<=(const typename T1::elem_type val, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -179,7 +179,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_lteq_post> >::result
+        const mtOp<uword, T1, op_rel_lteq_post>>::result
     operator<=(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();
@@ -190,7 +190,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_gteq_pre> >::result
+        const mtOp<uword, T1, op_rel_gteq_pre>>::result
     operator>=(const typename T1::elem_type val, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -201,7 +201,7 @@ inline
 template <typename T1>
 inline
     typename enable_if2<(is_arma_type<T1>::value && (is_cx<typename T1::elem_type>::no)),
-        const mtOp<uword, T1, op_rel_gteq_post> >::result
+        const mtOp<uword, T1, op_rel_gteq_post>>::result
     operator>=(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();
@@ -210,9 +210,19 @@ inline
 }
 
 template <typename T1>
-inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_rel_eq> >::result
-operator==(const typename T1::elem_type val, const T1& X)
+inline
+    typename enable_if2<is_arma_type<T1>::value, const mtOp<uword, T1, op_rel_eq>>::result
+    operator==(const typename T1::elem_type val, const T1& X)
+{
+    arma_extra_debug_sigprint();
+
+    return mtOp<uword, T1, op_rel_eq>(X, val);
+}
+
+template <typename T1>
+inline
+    typename enable_if2<is_arma_type<T1>::value, const mtOp<uword, T1, op_rel_eq>>::result
+    operator==(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();
 
@@ -221,17 +231,7 @@ operator==(const typename T1::elem_type val, const T1& X)
 
 template <typename T1>
 inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_rel_eq> >::result
-operator==(const T1& X, const typename T1::elem_type val)
-{
-    arma_extra_debug_sigprint();
-
-    return mtOp<uword, T1, op_rel_eq>(X, val);
-}
-
-template <typename T1>
-inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_rel_noteq> >::result
+    const mtOp<uword, T1, op_rel_noteq>>::result
 operator!=(const typename T1::elem_type val, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -241,7 +241,7 @@ operator!=(const typename T1::elem_type val, const T1& X)
 
 template <typename T1>
 inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_rel_noteq> >::result
+    const mtOp<uword, T1, op_rel_noteq>>::result
 operator!=(const T1& X, const typename T1::elem_type val)
 {
     arma_extra_debug_sigprint();

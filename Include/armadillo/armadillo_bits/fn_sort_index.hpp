@@ -44,7 +44,7 @@ sort_index(const Base<typename T1::elem_type, T1>& X, const uword sort_type)
 template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<((is_arma_type<T1>::value == true) &&
                                                 (is_same_type<T2, char>::value == true)),
-    const mtOp<uword, T1, op_sort_index> >::result
+    const mtOp<uword, T1, op_sort_index>>::result
 sort_index(const T1& X, const T2* sort_direction)
 {
     arma_extra_debug_sigprint();
@@ -88,7 +88,7 @@ stable_sort_index(const Base<typename T1::elem_type, T1>& X, const uword sort_ty
 template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<((is_arma_type<T1>::value == true) &&
                                                 (is_same_type<T2, char>::value == true)),
-    const mtOp<uword, T1, op_stable_sort_index> >::result
+    const mtOp<uword, T1, op_stable_sort_index>>::result
 stable_sort_index(const T1& X, const T2* sort_direction)
 {
     arma_extra_debug_sigprint();

@@ -357,9 +357,9 @@ template <typename eT> inline Row<eT>& Row<eT>::operator=(const subview_cube<eT>
     return *this;
 }
 
-template <typename eT> inline mat_injector<Row<eT> > Row<eT>::operator<<(const eT val)
+template <typename eT> inline mat_injector<Row<eT>> Row<eT>::operator<<(const eT val)
 {
-    return mat_injector<Row<eT> >(*this, val);
+    return mat_injector<Row<eT>>(*this, val);
 }
 
 template <typename eT> arma_inline const Op<Row<eT>, op_htrans> Row<eT>::t() const

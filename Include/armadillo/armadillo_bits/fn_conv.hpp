@@ -23,7 +23,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_conv> >::result
+    const Glue<T1, T2, glue_conv>>::result
 conv(const T1& A, const T2& B, const char* shape = "full")
 {
     arma_extra_debug_sigprint();
@@ -42,7 +42,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_conv2> >::result
+    const Glue<T1, T2, glue_conv2>>::result
 conv2(const T1& A, const T2& B, const char* shape = "full")
 {
     arma_extra_debug_sigprint();

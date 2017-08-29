@@ -53,31 +53,31 @@ public:
 
     template <typename T1>
     inline static bool direct_princomp(
-        Mat<std::complex<typename T1::pod_type> >& coeff_out,
+        Mat<std::complex<typename T1::pod_type>>& coeff_out,
         const Base<std::complex<typename T1::pod_type>, T1>& X,
         const typename arma_cx_only<typename T1::elem_type>::result* junk = 0);
 
     template <typename T1>
     inline static bool direct_princomp(
-        Mat<std::complex<typename T1::pod_type> >& coeff_out,
-        Mat<std::complex<typename T1::pod_type> >& score_out,
+        Mat<std::complex<typename T1::pod_type>>& coeff_out,
+        Mat<std::complex<typename T1::pod_type>>& score_out,
         const Base<std::complex<typename T1::pod_type>, T1>& X,
         const typename arma_cx_only<typename T1::elem_type>::result* junk = 0);
 
     template <typename T1>
     inline static bool direct_princomp(
-        Mat<std::complex<typename T1::pod_type> >& coeff_out,
-        Mat<std::complex<typename T1::pod_type> >& score_out,
+        Mat<std::complex<typename T1::pod_type>>& coeff_out,
+        Mat<std::complex<typename T1::pod_type>>& score_out,
         Col<typename T1::pod_type>& latent_out,
         const Base<std::complex<typename T1::pod_type>, T1>& X,
         const typename arma_cx_only<typename T1::elem_type>::result* junk = 0);
 
     template <typename T1>
     inline static bool direct_princomp(
-        Mat<std::complex<typename T1::pod_type> >& coeff_out,
-        Mat<std::complex<typename T1::pod_type> >& score_out,
+        Mat<std::complex<typename T1::pod_type>>& coeff_out,
+        Mat<std::complex<typename T1::pod_type>>& score_out,
         Col<typename T1::pod_type>& latent_out,
-        Col<std::complex<typename T1::pod_type> >& tsquared_out,
+        Col<std::complex<typename T1::pod_type>>& tsquared_out,
         const Base<std::complex<typename T1::pod_type>, T1>& X,
         const typename arma_cx_only<typename T1::elem_type>::result* junk = 0);
 

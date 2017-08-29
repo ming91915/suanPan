@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_find_unique> >::result
+    const mtOp<uword, T1, op_find_unique>>::result
 find_unique(const T1& X, const bool ascending_indices = true)
 {
     arma_extra_debug_sigprint();

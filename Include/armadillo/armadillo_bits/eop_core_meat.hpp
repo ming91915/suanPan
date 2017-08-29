@@ -239,7 +239,7 @@ arma_hot inline void eop_core<eop_type>::apply(outT& out, const eOp<T1, eop_type
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(= );
+            arma_applier_1_mp(=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -247,16 +247,16 @@ arma_hot inline void eop_core<eop_type>::apply(outT& out, const eOp<T1, eop_type
                 if(x.P.is_aligned()) {
                     typename Proxy<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(= );
+                    arma_applier_1a(=);
                 } else {
                     typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(= );
+                    arma_applier_1u(=);
                 }
             } else {
                 typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(= );
+                arma_applier_1u(=);
             }
         }
     } else {
@@ -266,9 +266,9 @@ arma_hot inline void eop_core<eop_type>::apply(outT& out, const eOp<T1, eop_type
         const Proxy<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_2_mp(= );
+            arma_applier_2_mp(=);
         } else {
-            arma_applier_2(= );
+            arma_applier_2(=);
         }
     }
 }
@@ -301,7 +301,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_plus(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(+= );
+            arma_applier_1_mp(+=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -309,25 +309,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_plus(
                 if(x.P.is_aligned()) {
                     typename Proxy<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(+= );
+                    arma_applier_1a(+=);
                 } else {
                     typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(+= );
+                    arma_applier_1u(+=);
                 }
             } else {
                 typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(+= );
+                arma_applier_1u(+=);
             }
         }
     } else {
         const Proxy<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_2_mp(+= );
+            arma_applier_2_mp(+=);
         } else {
-            arma_applier_2(+= );
+            arma_applier_2(+=);
         }
     }
 }
@@ -360,7 +360,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_minus(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(-= );
+            arma_applier_1_mp(-=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -368,25 +368,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_minus(
                 if(x.P.is_aligned()) {
                     typename Proxy<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(-= );
+                    arma_applier_1a(-=);
                 } else {
                     typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(-= );
+                    arma_applier_1u(-=);
                 }
             } else {
                 typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(-= );
+                arma_applier_1u(-=);
             }
         }
     } else {
         const Proxy<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_2_mp(-= );
+            arma_applier_2_mp(-=);
         } else {
-            arma_applier_2(-= );
+            arma_applier_2(-=);
         }
     }
 }
@@ -420,7 +420,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_schur(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(*= );
+            arma_applier_1_mp(*=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -428,25 +428,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_schur(
                 if(x.P.is_aligned()) {
                     typename Proxy<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(*= );
+                    arma_applier_1a(*=);
                 } else {
                     typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(*= );
+                    arma_applier_1u(*=);
                 }
             } else {
                 typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(*= );
+                arma_applier_1u(*=);
             }
         }
     } else {
         const Proxy<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_2_mp(*= );
+            arma_applier_2_mp(*=);
         } else {
-            arma_applier_2(*= );
+            arma_applier_2(*=);
         }
     }
 }
@@ -480,7 +480,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_div(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(/= );
+            arma_applier_1_mp(/=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -488,25 +488,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_div(
                 if(x.P.is_aligned()) {
                     typename Proxy<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(/= );
+                    arma_applier_1a(/=);
                 } else {
                     typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(/= );
+                    arma_applier_1u(/=);
                 }
             } else {
                 typename Proxy<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(/= );
+                arma_applier_1u(/=);
             }
         }
     } else {
         const Proxy<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_2_mp(/= );
+            arma_applier_2_mp(/=);
         } else {
-            arma_applier_2(/= );
+            arma_applier_2(/=);
         }
     }
 }
@@ -540,7 +540,7 @@ arma_hot inline void eop_core<eop_type>::apply(Cube<typename T1::elem_type>& out
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(= );
+            arma_applier_1_mp(=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -548,16 +548,16 @@ arma_hot inline void eop_core<eop_type>::apply(Cube<typename T1::elem_type>& out
                 if(x.P.is_aligned()) {
                     typename ProxyCube<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(= );
+                    arma_applier_1a(=);
                 } else {
                     typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(= );
+                    arma_applier_1u(=);
                 }
             } else {
                 typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(= );
+                arma_applier_1u(=);
             }
         }
     } else {
@@ -568,9 +568,9 @@ arma_hot inline void eop_core<eop_type>::apply(Cube<typename T1::elem_type>& out
         const ProxyCube<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_3_mp(= );
+            arma_applier_3_mp(=);
         } else {
-            arma_applier_3(= );
+            arma_applier_3(=);
         }
     }
 }
@@ -605,7 +605,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_plus(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(+= );
+            arma_applier_1_mp(+=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -613,25 +613,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_plus(
                 if(x.P.is_aligned()) {
                     typename ProxyCube<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(+= );
+                    arma_applier_1a(+=);
                 } else {
                     typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(+= );
+                    arma_applier_1u(+=);
                 }
             } else {
                 typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(+= );
+                arma_applier_1u(+=);
             }
         }
     } else {
         const ProxyCube<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_3_mp(+= );
+            arma_applier_3_mp(+=);
         } else {
-            arma_applier_3(+= );
+            arma_applier_3(+=);
         }
     }
 }
@@ -666,7 +666,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_minus(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(-= );
+            arma_applier_1_mp(-=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -674,25 +674,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_minus(
                 if(x.P.is_aligned()) {
                     typename ProxyCube<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(-= );
+                    arma_applier_1a(-=);
                 } else {
                     typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(-= );
+                    arma_applier_1u(-=);
                 }
             } else {
                 typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(-= );
+                arma_applier_1u(-=);
             }
         }
     } else {
         const ProxyCube<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_3_mp(-= );
+            arma_applier_3_mp(-=);
         } else {
-            arma_applier_3(-= );
+            arma_applier_3(-=);
         }
     }
 }
@@ -727,7 +727,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_schur(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(*= );
+            arma_applier_1_mp(*=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -735,25 +735,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_schur(
                 if(x.P.is_aligned()) {
                     typename ProxyCube<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(*= );
+                    arma_applier_1a(*=);
                 } else {
                     typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(*= );
+                    arma_applier_1u(*=);
                 }
             } else {
                 typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(*= );
+                arma_applier_1u(*=);
             }
         }
     } else {
         const ProxyCube<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_3_mp(*= );
+            arma_applier_3_mp(*=);
         } else {
-            arma_applier_3(*= );
+            arma_applier_3(*=);
         }
     }
 }
@@ -788,7 +788,7 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_div(
         if(use_mp && mp_gate<eT>::eval(n_elem)) {
             typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-            arma_applier_1_mp(/= );
+            arma_applier_1_mp(/=);
         } else {
             if(memory::is_aligned(out_mem)) {
                 memory::mark_as_aligned(out_mem);
@@ -796,25 +796,25 @@ arma_hot inline void eop_core<eop_type>::apply_inplace_div(
                 if(x.P.is_aligned()) {
                     typename ProxyCube<T1>::aligned_ea_type P = x.P.get_aligned_ea();
 
-                    arma_applier_1a(/= );
+                    arma_applier_1a(/=);
                 } else {
                     typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                    arma_applier_1u(/= );
+                    arma_applier_1u(/=);
                 }
             } else {
                 typename ProxyCube<T1>::ea_type P = x.P.get_ea();
 
-                arma_applier_1u(/= );
+                arma_applier_1u(/=);
             }
         }
     } else {
         const ProxyCube<T1>& P = x.P;
 
         if(use_mp && mp_gate<eT>::eval(x.get_n_elem())) {
-            arma_applier_3_mp(/= );
+            arma_applier_3_mp(/=);
         } else {
-            arma_applier_3(/= );
+            arma_applier_3(/=);
         }
     }
 }

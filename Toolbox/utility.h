@@ -16,3 +16,11 @@ template <typename T> T get_input(istringstream& I)
     I >> O;
     return O;
 }
+
+bool if_equal(const string&, const char*);
+bool if_equal(const char*, const char*);
+
+bool if_true(const string&);
+bool if_false(const string&);
+bool if_true(const char*);
+bool if_false(const char*);

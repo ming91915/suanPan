@@ -96,7 +96,7 @@ arma_hot inline void running_stat_vec<obj_type>::operator()(
 
     const quasi_unwrap<T1> tmp(X.get_ref());
 
-    const Mat<std::complex<T> >& sample = tmp.M;
+    const Mat<std::complex<T>>& sample = tmp.M;
 
     if(sample.is_empty()) {
         return;
@@ -366,7 +366,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 //! sample)
 template <typename obj_type>
 inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
-    const Mat<std::complex<typename running_stat_vec<obj_type>::T> >& sample,
+    const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample,
     const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk)
 {
     arma_extra_debug_sigprint();
@@ -374,7 +374,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 
     typedef typename running_stat_vec<obj_type>::eT eT;
 
-    running_stat_vec_aux::update_stats(x, conv_to<Mat<eT> >::from(sample));
+    running_stat_vec_aux::update_stats(x, conv_to<Mat<eT>>::from(sample));
 }
 
 //! update statistics to reflect new sample (version for complex numbers, non-complex
@@ -389,7 +389,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 
     typedef typename running_stat_vec<obj_type>::eT eT;
 
-    running_stat_vec_aux::update_stats(x, conv_to<Mat<eT> >::from(sample));
+    running_stat_vec_aux::update_stats(x, conv_to<Mat<eT>>::from(sample));
 }
 
 //! alter statistics to reflect new sample (version for complex numbers, complex sample)

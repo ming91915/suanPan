@@ -40,8 +40,8 @@ inline void op_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const uword norm_
 }
 
 template <typename T>
-inline void op_cov::direct_cov(Mat<std::complex<T> >& out,
-    const Mat<std::complex<T> >& A,
+inline void op_cov::direct_cov(Mat<std::complex<T>>& out,
+    const Mat<std::complex<T>>& A,
     const uword norm_type)
 {
     arma_extra_debug_sigprint();

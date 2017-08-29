@@ -21,7 +21,7 @@
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value &&
                                                 is_real<typename T1::elem_type>::value),
-    const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real> >::result
+    const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>>::result
 fft(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -33,7 +33,7 @@ fft(const T1& A)
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value &&
                                                 is_real<typename T1::elem_type>::value),
-    const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real> >::result
+    const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>>::result
 fft(const T1& A, const uword N)
 {
     arma_extra_debug_sigprint();
@@ -45,7 +45,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        const Op<T1, op_fft_cx> >::result
+        const Op<T1, op_fft_cx>>::result
     fft(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -57,7 +57,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        const Op<T1, op_fft_cx> >::result
+        const Op<T1, op_fft_cx>>::result
     fft(const T1& A, const uword N)
 {
     arma_extra_debug_sigprint();
@@ -69,7 +69,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        const Op<T1, op_ifft_cx> >::result
+        const Op<T1, op_ifft_cx>>::result
     ifft(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -81,7 +81,7 @@ template <typename T1>
 arma_warn_unused inline
     typename enable_if2<(is_arma_type<T1>::value &&
                             is_complex_strict<typename T1::elem_type>::value),
-        const Op<T1, op_ifft_cx> >::result
+        const Op<T1, op_ifft_cx>>::result
     ifft(const T1& A, const uword N)
 {
     arma_extra_debug_sigprint();

@@ -41,7 +41,7 @@ arma_warn_unused arma_inline const Op<T1, op_htrans> htrans(const T1& X,
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpOp<T1, spop_strans> >::result
+    const SpOp<T1, spop_strans>>::result
 trans(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0)
 {
     arma_extra_debug_sigprint();
@@ -52,7 +52,7 @@ trans(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* j
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpOp<T1, spop_htrans> >::result
+    const SpOp<T1, spop_htrans>>::result
 trans(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0)
 {
     arma_extra_debug_sigprint();
@@ -63,7 +63,7 @@ trans(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* 
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpOp<T1, spop_strans> >::result
+    const SpOp<T1, spop_strans>>::result
 htrans(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0)
 {
     arma_extra_debug_sigprint();
@@ -74,7 +74,7 @@ htrans(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* 
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpOp<T1, spop_htrans> >::result
+    const SpOp<T1, spop_htrans>>::result
 htrans(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0)
 {
     arma_extra_debug_sigprint();

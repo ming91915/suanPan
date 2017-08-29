@@ -19,7 +19,7 @@
 template <typename T1>
 arma_warn_unused inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_chol> >::result
+        const Op<T1, op_chol>>::result
     chol(const Base<typename T1::elem_type, T1>& X, const char* layout = "upper")
 {
     arma_extra_debug_sigprint();

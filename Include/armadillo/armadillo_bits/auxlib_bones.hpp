@@ -92,14 +92,14 @@ public:
     // eig_gen
 
     template <typename T1>
-    inline static bool eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
-        Mat<std::complex<typename T1::pod_type> >& vecs,
+    inline static bool eig_gen(Mat<std::complex<typename T1::pod_type>>& vals,
+        Mat<std::complex<typename T1::pod_type>>& vecs,
         const bool vecs_on,
         const Base<typename T1::pod_type, T1>& expr);
 
     template <typename T1>
-    inline static bool eig_gen(Mat<std::complex<typename T1::pod_type> >& vals,
-        Mat<std::complex<typename T1::pod_type> >& vecs,
+    inline static bool eig_gen(Mat<std::complex<typename T1::pod_type>>& vals,
+        Mat<std::complex<typename T1::pod_type>>& vecs,
         const bool vecs_on,
         const Base<std::complex<typename T1::pod_type>, T1>& expr);
 
@@ -107,15 +107,15 @@ public:
     // eig_pair
 
     template <typename T1, typename T2>
-    inline static bool eig_pair(Mat<std::complex<typename T1::pod_type> >& vals,
-        Mat<std::complex<typename T1::pod_type> >& vecs,
+    inline static bool eig_pair(Mat<std::complex<typename T1::pod_type>>& vals,
+        Mat<std::complex<typename T1::pod_type>>& vecs,
         const bool vecs_on,
         const Base<typename T1::pod_type, T1>& A_expr,
         const Base<typename T1::pod_type, T2>& B_expr);
 
     template <typename T1, typename T2>
-    inline static bool eig_pair(Mat<std::complex<typename T1::pod_type> >& vals,
-        Mat<std::complex<typename T1::pod_type> >& vecs,
+    inline static bool eig_pair(Mat<std::complex<typename T1::pod_type>>& vals,
+        Mat<std::complex<typename T1::pod_type>>& vecs,
         const bool vecs_on,
         const Base<std::complex<typename T1::pod_type>, T1>& A_expr,
         const Base<std::complex<typename T1::pod_type>, T2>& B_expr);
@@ -134,7 +134,7 @@ public:
 
     template <typename T, typename T1>
     inline static bool eig_sym(Col<T>& eigval,
-        Mat<std::complex<T> >& eigvec,
+        Mat<std::complex<T>>& eigvec,
         const Base<std::complex<T>, T1>& X);
 
     template <typename eT, typename T1>
@@ -143,7 +143,7 @@ public:
 
     template <typename T, typename T1>
     inline static bool eig_sym_dc(Col<T>& eigval,
-        Mat<std::complex<T> >& eigvec,
+        Mat<std::complex<T>>& eigvec,
         const Base<std::complex<T>, T1>& X);
 
     //
@@ -182,9 +182,9 @@ public:
     inline static bool svd(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X);
 
     template <typename T, typename T1>
-    inline static bool svd(Mat<std::complex<T> >& U,
+    inline static bool svd(Mat<std::complex<T>>& U,
         Col<T>& S,
-        Mat<std::complex<T> >& V,
+        Mat<std::complex<T>>& V,
         const Base<std::complex<T>, T1>& X);
 
     template <typename eT, typename T1>
@@ -192,9 +192,9 @@ public:
     svd_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X, const char mode);
 
     template <typename T, typename T1>
-    inline static bool svd_econ(Mat<std::complex<T> >& U,
+    inline static bool svd_econ(Mat<std::complex<T>>& U,
         Col<T>& S,
-        Mat<std::complex<T> >& V,
+        Mat<std::complex<T>>& V,
         const Base<std::complex<T>, T1>& X,
         const char mode);
 
@@ -216,9 +216,9 @@ public:
     inline static bool svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X);
 
     template <typename T, typename T1>
-    inline static bool svd_dc(Mat<std::complex<T> >& U,
+    inline static bool svd_dc(Mat<std::complex<T>>& U,
         Col<T>& S,
-        Mat<std::complex<T> >& V,
+        Mat<std::complex<T>>& V,
         const Base<std::complex<T>, T1>& X);
 
     template <typename eT, typename T1>
@@ -226,9 +226,9 @@ public:
     svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X);
 
     template <typename T, typename T1>
-    inline static bool svd_dc_econ(Mat<std::complex<T> >& U,
+    inline static bool svd_dc_econ(Mat<std::complex<T>>& U,
         Col<T>& S,
-        Mat<std::complex<T> >& V,
+        Mat<std::complex<T>>& V,
         const Base<std::complex<T>, T1>& X);
 
     //
@@ -247,9 +247,9 @@ public:
         const bool equilibrate);
 
     template <typename T1>
-    inline static bool solve_square_refine(Mat<std::complex<typename T1::pod_type> >& out,
+    inline static bool solve_square_refine(Mat<std::complex<typename T1::pod_type>>& out,
         typename T1::pod_type& out_rcond,
-        Mat<std::complex<typename T1::pod_type> >& A,
+        Mat<std::complex<typename T1::pod_type>>& A,
         const Base<std::complex<typename T1::pod_type>, T1>& B_expr,
         const bool equilibrate);
 
@@ -264,8 +264,8 @@ public:
         const Base<typename T1::pod_type, T1>& B_expr);
 
     template <typename T1>
-    inline static bool solve_approx_svd(Mat<std::complex<typename T1::pod_type> >& out,
-        Mat<std::complex<typename T1::pod_type> >& A,
+    inline static bool solve_approx_svd(Mat<std::complex<typename T1::pod_type>>& out,
+        Mat<std::complex<typename T1::pod_type>>& A,
         const Base<std::complex<typename T1::pod_type>, T1>& B_expr);
 
     template <typename T1>
@@ -282,14 +282,14 @@ public:
     schur(Mat<eT>& U, Mat<eT>& S, const Base<eT, T1>& X, const bool calc_U = true);
 
     template <typename T, typename T1>
-    inline static bool schur(Mat<std::complex<T> >& U,
-        Mat<std::complex<T> >& S,
+    inline static bool schur(Mat<std::complex<T>>& U,
+        Mat<std::complex<T>>& S,
         const Base<std::complex<T>, T1>& X,
         const bool calc_U = true);
 
     template <typename T>
     inline static bool
-    schur(Mat<std::complex<T> >& U, Mat<std::complex<T> >& S, const bool calc_U = true);
+    schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const bool calc_U = true);
 
     //
     // syl (solution of the Sylvester equation AX + XB = C)
@@ -311,10 +311,10 @@ public:
         const char mode);
 
     template <typename T, typename T1, typename T2>
-    inline static bool qz(Mat<std::complex<T> >& A,
-        Mat<std::complex<T> >& B,
-        Mat<std::complex<T> >& vsl,
-        Mat<std::complex<T> >& vsr,
+    inline static bool qz(Mat<std::complex<T>>& A,
+        Mat<std::complex<T>>& B,
+        Mat<std::complex<T>>& vsl,
+        Mat<std::complex<T>>& vsr,
         const Base<std::complex<T>, T1>& X_expr,
         const Base<std::complex<T>, T2>& Y_expr,
         const char mode);

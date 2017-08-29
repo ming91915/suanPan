@@ -18,8 +18,9 @@
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv> >::result
+    typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value &&
+            is_Mat<T1>::value,
+        const Op<T1, op_inv>>::result
     inv(const Base<typename T1::elem_type, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -31,7 +32,7 @@ arma_warn_unused arma_inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv> >::result
+        const Op<T1, op_inv>>::result
     inv(const Base<typename T1::elem_type, T1>& X,
         const bool // argument kept only for compatibility with old user code
         )
@@ -47,7 +48,7 @@ arma_deprecated inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv> >::result
+        const Op<T1, op_inv>>::result
     inv(const Base<typename T1::elem_type, T1>& X,
         const char* // argument kept only for compatibility with old user code
         )
@@ -63,7 +64,7 @@ arma_deprecated inline
 template <typename T1>
 arma_warn_unused arma_inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_tr> >::result
+        const Op<T1, op_inv_tr>>::result
     inv(const Op<T1, op_trimat>& X)
 {
     arma_extra_debug_sigprint();
@@ -75,7 +76,7 @@ arma_warn_unused arma_inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_tr> >::result
+        const Op<T1, op_inv_tr>>::result
     inv(const Op<T1, op_trimat>& X,
         const bool // argument kept only for compatibility with old user code
         )
@@ -91,7 +92,7 @@ arma_deprecated inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_tr> >::result
+        const Op<T1, op_inv_tr>>::result
     inv(const Op<T1, op_trimat>& X,
         const char* // argument kept only for compatibility with old user code
         )
@@ -159,7 +160,7 @@ arma_deprecated inline
 template <typename T1>
 arma_warn_unused arma_inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_sympd> >::result
+        const Op<T1, op_inv_sympd>>::result
     inv_sympd(const Base<typename T1::elem_type, T1>& X)
 {
     arma_extra_debug_sigprint();
@@ -171,7 +172,7 @@ arma_warn_unused arma_inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_sympd> >::result
+        const Op<T1, op_inv_sympd>>::result
     inv_sympd(const Base<typename T1::elem_type, T1>& X,
         const bool // argument kept only for compatibility with old user code
         )
@@ -188,7 +189,7 @@ arma_deprecated inline
 template <typename T1>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Op<T1, op_inv_sympd> >::result
+        const Op<T1, op_inv_sympd>>::result
     inv_sympd(const Base<typename T1::elem_type, T1>& X,
         const char* // argument kept only for compatibility with old user code
         )

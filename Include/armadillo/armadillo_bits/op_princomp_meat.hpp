@@ -155,7 +155,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
         {
             score_out.cols(n_rows - 1, n_cols - 1).zeros();
 
-            Col<eT> s_tmp = zeros<Col<eT> >(n_cols);
+            Col<eT> s_tmp = zeros<Col<eT>>(n_cols);
             s_tmp.rows(0, n_rows - 2) = s.rows(0, n_rows - 2);
             s = s_tmp;
         }
@@ -225,7 +225,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
         {
             score_out.cols(n_rows - 1, n_cols - 1).zeros();
 
-            Col<eT> s_tmp = zeros<Col<eT> >(n_cols);
+            Col<eT> s_tmp = zeros<Col<eT>>(n_cols);
             s_tmp.rows(0, n_rows - 2) = s.rows(0, n_rows - 2);
             s = s_tmp;
         }
@@ -285,10 +285,10 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
 //! tsquared_out -> Hotelling's T^2 statistic
 template <typename T1>
 inline bool op_princomp::direct_princomp(
-    Mat<std::complex<typename T1::pod_type> >& coeff_out,
-    Mat<std::complex<typename T1::pod_type> >& score_out,
+    Mat<std::complex<typename T1::pod_type>>& coeff_out,
+    Mat<std::complex<typename T1::pod_type>>& score_out,
     Col<typename T1::pod_type>& latent_out,
-    Col<std::complex<typename T1::pod_type> >& tsquared_out,
+    Col<std::complex<typename T1::pod_type>>& tsquared_out,
     const Base<std::complex<typename T1::pod_type>, T1>& X,
     const typename arma_cx_only<typename T1::elem_type>::result* junk)
 {
@@ -330,7 +330,7 @@ inline bool op_princomp::direct_princomp(
         {
             score_out.cols(n_rows - 1, n_cols - 1).zeros();
 
-            Col<T> s_tmp = zeros<Col<T> >(n_cols);
+            Col<T> s_tmp = zeros<Col<T>>(n_cols);
             s_tmp.rows(0, n_rows - 2) = s.rows(0, n_rows - 2);
             s = s_tmp;
 
@@ -372,8 +372,8 @@ inline bool op_princomp::direct_princomp(
 //! latent_out   -> eigenvalues of principal vectors
 template <typename T1>
 inline bool op_princomp::direct_princomp(
-    Mat<std::complex<typename T1::pod_type> >& coeff_out,
-    Mat<std::complex<typename T1::pod_type> >& score_out,
+    Mat<std::complex<typename T1::pod_type>>& coeff_out,
+    Mat<std::complex<typename T1::pod_type>>& score_out,
     Col<typename T1::pod_type>& latent_out,
     const Base<std::complex<typename T1::pod_type>, T1>& X,
     const typename arma_cx_only<typename T1::elem_type>::result* junk)
@@ -416,7 +416,7 @@ inline bool op_princomp::direct_princomp(
         {
             score_out.cols(n_rows - 1, n_cols - 1).zeros();
 
-            Col<T> s_tmp = zeros<Col<T> >(n_cols);
+            Col<T> s_tmp = zeros<Col<T>>(n_cols);
             s_tmp.rows(0, n_rows - 2) = s.rows(0, n_rows - 2);
             s = s_tmp;
         }
@@ -444,8 +444,8 @@ inline bool op_princomp::direct_princomp(
 //! score_out    -> projected samples
 template <typename T1>
 inline bool op_princomp::direct_princomp(
-    Mat<std::complex<typename T1::pod_type> >& coeff_out,
-    Mat<std::complex<typename T1::pod_type> >& score_out,
+    Mat<std::complex<typename T1::pod_type>>& coeff_out,
+    Mat<std::complex<typename T1::pod_type>>& score_out,
     const Base<std::complex<typename T1::pod_type>, T1>& X,
     const typename arma_cx_only<typename T1::elem_type>::result* junk)
 {
@@ -505,7 +505,7 @@ inline bool op_princomp::direct_princomp(
 //! coeff_out    -> principal component coefficients
 template <typename T1>
 inline bool op_princomp::direct_princomp(
-    Mat<std::complex<typename T1::pod_type> >& coeff_out,
+    Mat<std::complex<typename T1::pod_type>>& coeff_out,
     const Base<std::complex<typename T1::pod_type>, T1>& X,
     const typename arma_cx_only<typename T1::elem_type>::result* junk)
 {

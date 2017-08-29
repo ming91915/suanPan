@@ -101,7 +101,7 @@ template <typename eT> struct hdf5_complex_t {
     eT imag;
 };
 
-template <> inline hid_t get_hdf5_type<std::complex<float> >()
+template <> inline hid_t get_hdf5_type<std::complex<float>>()
 {
     hid_t type = arma_H5Tcreate(H5T_COMPOUND, sizeof(hdf5_complex_t<float>));
 
@@ -113,7 +113,7 @@ template <> inline hid_t get_hdf5_type<std::complex<float> >()
     return type;
 }
 
-template <> inline hid_t get_hdf5_type<std::complex<double> >()
+template <> inline hid_t get_hdf5_type<std::complex<double>>()
 {
     hid_t type = arma_H5Tcreate(H5T_COMPOUND, sizeof(hdf5_complex_t<double>));
 
@@ -141,7 +141,7 @@ inline bool is_supported_arma_hdf5_type(hid_t datatype)
         return true;
     }
 
-    search_type = get_hdf5_type<std::complex<double> >();
+    search_type = get_hdf5_type<std::complex<double>>();
     is_equal = (arma_H5Tequal(datatype, search_type) > 0);
     arma_H5Tclose(search_type);
     if(is_equal) {
@@ -155,7 +155,7 @@ inline bool is_supported_arma_hdf5_type(hid_t datatype)
         return true;
     }
 
-    search_type = get_hdf5_type<std::complex<float> >();
+    search_type = get_hdf5_type<std::complex<float>>();
     is_equal = (arma_H5Tequal(datatype, search_type) > 0);
     arma_H5Tclose(search_type);
     if(is_equal) {
@@ -599,7 +599,7 @@ inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uwor
     }
 
     // complex float
-    search_type = get_hdf5_type<std::complex<float> >();
+    search_type = get_hdf5_type<std::complex<float>>();
     is_equal = (arma_H5Tequal(datatype, search_type) > 0);
     arma_H5Tclose(search_type);
 
@@ -608,7 +608,7 @@ inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uwor
             return -1; // can't read complex data into non-complex matrix/cube
         }
 
-        Col<std::complex<float> > v(n_elem);
+        Col<std::complex<float>> v(n_elem);
         hid_t status = arma_H5Dread(
             dataset, datatype, H5S_ALL, H5S_ALL, H5P_DEFAULT, void_ptr(v.memptr()));
         arrayops::convert_cx(dest, v.memptr(), n_elem);
@@ -617,7 +617,7 @@ inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uwor
     }
 
     // complex double
-    search_type = get_hdf5_type<std::complex<double> >();
+    search_type = get_hdf5_type<std::complex<double>>();
     is_equal = (arma_H5Tequal(datatype, search_type) > 0);
     arma_H5Tclose(search_type);
 
@@ -626,7 +626,7 @@ inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uwor
             return -1; // can't read complex data into non-complex matrix/cube
         }
 
-        Col<std::complex<double> > v(n_elem);
+        Col<std::complex<double>> v(n_elem);
         hid_t status = arma_H5Dread(
             dataset, datatype, H5S_ALL, H5S_ALL, H5P_DEFAULT, void_ptr(v.memptr()));
         arrayops::convert_cx(dest, v.memptr(), n_elem);

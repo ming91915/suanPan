@@ -16,7 +16,7 @@
 //! \addtogroup SpProxy
 //! @{
 
-template <typename eT> class SpProxy<SpMat<eT> >
+template <typename eT> class SpProxy<SpMat<eT>>
 {
 public:
     typedef eT elem_type;
@@ -78,7 +78,7 @@ public:
     }
 };
 
-template <typename eT> class SpProxy<SpCol<eT> >
+template <typename eT> class SpProxy<SpCol<eT>>
 {
 public:
     typedef eT elem_type;
@@ -137,7 +137,7 @@ public:
     }
 };
 
-template <typename eT> class SpProxy<SpRow<eT> >
+template <typename eT> class SpProxy<SpRow<eT>>
 {
 public:
     typedef eT elem_type;
@@ -199,7 +199,7 @@ public:
     }
 };
 
-template <typename eT> class SpProxy<SpSubview<eT> >
+template <typename eT> class SpProxy<SpSubview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -261,7 +261,7 @@ public:
     }
 };
 
-template <typename T1, typename spop_type> class SpProxy<SpOp<T1, spop_type> >
+template <typename T1, typename spop_type> class SpProxy<SpOp<T1, spop_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -325,7 +325,7 @@ public:
 };
 
 template <typename T1, typename T2, typename spglue_type>
-class SpProxy<SpGlue<T1, T2, spglue_type> >
+class SpProxy<SpGlue<T1, T2, spglue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -389,7 +389,7 @@ public:
 };
 
 template <typename out_eT, typename T1, typename spop_type>
-class SpProxy<mtSpOp<out_eT, T1, spop_type> >
+class SpProxy<mtSpOp<out_eT, T1, spop_type>>
 {
 public:
     typedef out_eT elem_type;

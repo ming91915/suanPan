@@ -60,7 +60,7 @@ template <typename T, typename T2> struct upgrade_val<std::complex<T>, T2> {
 };
 
 // template<>
-template <typename T1, typename T> struct upgrade_val<T1, std::complex<T> > {
+template <typename T1, typename T> struct upgrade_val<T1, std::complex<T>> {
     typedef T T1_result;
     typedef std::complex<T> T2_result;
 
@@ -84,7 +84,7 @@ template <> struct upgrade_val<std::complex<float>, double> {
     arma_inline static double apply(const double x) { return x; }
 };
 
-template <> struct upgrade_val<double, std::complex<float> > {
+template <> struct upgrade_val<double, std::complex<float>> {
     typedef double T1_result;
     typedef std::complex<float> T2_result;
 
@@ -97,7 +97,7 @@ template <> struct upgrade_val<double, std::complex<float> > {
 
 //! ensure we don't lose precision when multiplying complex numbers with different
 //! underlying types
-template <> struct upgrade_val<std::complex<float>, std::complex<double> > {
+template <> struct upgrade_val<std::complex<float>, std::complex<double>> {
     typedef std::complex<double> T1_result;
     typedef std::complex<double> T2_result;
 
@@ -111,7 +111,7 @@ template <> struct upgrade_val<std::complex<float>, std::complex<double> > {
     }
 };
 
-template <> struct upgrade_val<std::complex<double>, std::complex<float> > {
+template <> struct upgrade_val<std::complex<double>, std::complex<float>> {
     typedef std::complex<double> T1_result;
     typedef std::complex<double> T2_result;
 
@@ -137,7 +137,7 @@ template <> struct upgrade_val<std::complex<double>, float> {
     arma_inline static double apply(const float x) { return double(x); }
 };
 
-template <> struct upgrade_val<float, std::complex<double> > {
+template <> struct upgrade_val<float, std::complex<double>> {
     typedef double T1_result;
     typedef std::complex<double> T2_result;
 

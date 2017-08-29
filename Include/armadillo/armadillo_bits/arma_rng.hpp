@@ -251,7 +251,7 @@ template <typename eT> struct arma_rng::randu {
     }
 };
 
-template <typename T> struct arma_rng::randu<std::complex<T> > {
+template <typename T> struct arma_rng::randu<std::complex<T>> {
     arma_inline operator std::complex<T>()
     {
         const T a = T(arma_rng::randu<T>());
@@ -333,7 +333,7 @@ template <typename eT> struct arma_rng::randn {
             const uword n_threads = uword(mp_thread_limit::get());
 
             std::vector<std::mt19937_64> engine(n_threads);
-            std::vector<std::normal_distribution<double> > distr(n_threads);
+            std::vector<std::normal_distribution<double>> distr(n_threads);
 
             for(uword t = 0; t < n_threads; ++t) {
                 std::mt19937_64& t_engine = engine[t];
@@ -371,7 +371,7 @@ template <typename eT> struct arma_rng::randn {
     }
 };
 
-template <typename T> struct arma_rng::randn<std::complex<T> > {
+template <typename T> struct arma_rng::randn<std::complex<T>> {
     inline operator std::complex<T>() const
     {
         T a, b;
@@ -384,7 +384,7 @@ template <typename T> struct arma_rng::randn<std::complex<T> > {
     inline static void fill_simple(std::complex<T>* mem, const uword N)
     {
         for(uword i = 0; i < N; ++i) {
-            mem[i] = std::complex<T>(arma_rng::randn<std::complex<T> >());
+            mem[i] = std::complex<T>(arma_rng::randn<std::complex<T>>());
         }
     }
 
@@ -393,7 +393,7 @@ template <typename T> struct arma_rng::randn<std::complex<T> > {
 #if defined(ARMA_USE_CXX11) && defined(ARMA_USE_OPENMP)
         {
             if((N < 512) || omp_in_parallel()) {
-                arma_rng::randn<std::complex<T> >::fill_simple(mem, N);
+                arma_rng::randn<std::complex<T>>::fill_simple(mem, N);
                 return;
             }
 
@@ -402,7 +402,7 @@ template <typename T> struct arma_rng::randn<std::complex<T> > {
             const uword n_threads = uword(mp_thread_limit::get());
 
             std::vector<std::mt19937_64> engine(n_threads);
-            std::vector<std::normal_distribution<double> > distr(n_threads);
+            std::vector<std::normal_distribution<double>> distr(n_threads);
 
             for(uword t = 0; t < n_threads; ++t) {
                 std::mt19937_64& t_engine = engine[t];
@@ -440,7 +440,7 @@ template <typename T> struct arma_rng::randn<std::complex<T> > {
         }
 #else
         {
-            arma_rng::randn<std::complex<T> >::fill_simple(mem, N);
+            arma_rng::randn<std::complex<T>>::fill_simple(mem, N);
         }
 #endif
     }

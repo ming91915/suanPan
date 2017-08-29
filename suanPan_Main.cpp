@@ -44,5 +44,5 @@ void example_symm_mat()
 
     cout << endl;
 
-    SymmMat<double> E = inv_sp(A);
+    SymmMat<double> E = inv(A);
 }

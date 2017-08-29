@@ -17,7 +17,7 @@
 //! @{
 
 template <typename eT, typename T1, typename T2>
-class subview_elem2 : public Base<eT, subview_elem2<eT, T1, T2> >
+class subview_elem2 : public Base<eT, subview_elem2<eT, T1, T2>>
 {
 public:
     typedef eT elem_type;

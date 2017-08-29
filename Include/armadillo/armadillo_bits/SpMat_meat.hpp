@@ -2047,7 +2047,7 @@ inline void SpMat<eT>::shed_cols(const uword in_col1, const uword in_col2)
  */
 
 template <typename eT>
-arma_inline arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::operator[](const uword i)
+arma_inline arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::operator[](const uword i)
 {
     return get_value(i);
 }
@@ -2059,7 +2059,7 @@ arma_inline arma_warn_unused eT SpMat<eT>::operator[](const uword i) const
 }
 
 template <typename eT>
-arma_inline arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::at(const uword i)
+arma_inline arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::at(const uword i)
 {
     return get_value(i);
 }
@@ -2070,7 +2070,7 @@ template <typename eT> arma_inline arma_warn_unused eT SpMat<eT>::at(const uword
 }
 
 template <typename eT>
-arma_inline arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::operator()(const uword i)
+arma_inline arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::operator()(const uword i)
 {
     arma_debug_check((i >= n_elem), "SpMat::operator(): out of bounds");
     return get_value(i);
@@ -2089,7 +2089,7 @@ arma_inline arma_warn_unused eT SpMat<eT>::operator()(const uword i) const
  */
 
 template <typename eT>
-arma_inline arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::at(const uword in_row,
+arma_inline arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::at(const uword in_row,
     const uword in_col)
 {
     return get_value(in_row, in_col);
@@ -2103,7 +2103,7 @@ arma_inline arma_warn_unused eT SpMat<eT>::at(const uword in_row,
 }
 
 template <typename eT>
-arma_inline arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::
+arma_inline arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::
 operator()(const uword in_row, const uword in_col)
 {
     arma_debug_check(
@@ -3910,8 +3910,7 @@ template <typename eT> inline bool SpMat<eT>::empty() const { return (n_elem == 
 template <typename eT> inline uword SpMat<eT>::size() const { return n_elem; }
 
 template <typename eT>
-inline arma_hot arma_warn_unused SpValProxy<SpMat<eT> > SpMat<eT>::get_value(
-    const uword i)
+inline arma_hot arma_warn_unused SpValProxy<SpMat<eT>> SpMat<eT>::get_value(const uword i)
 {
     // First convert to the actual location.
     uword lcol = i / n_rows; // Integer division.
@@ -3931,7 +3930,7 @@ inline arma_hot arma_warn_unused eT SpMat<eT>::get_value(const uword i) const
 }
 
 template <typename eT>
-inline arma_hot arma_warn_unused SpValProxy<SpMat<eT> >
+inline arma_hot arma_warn_unused SpValProxy<SpMat<eT>>
 SpMat<eT>::get_value(const uword in_row, const uword in_col)
 {
     const uword colptr = col_ptrs[in_col];
@@ -3944,19 +3943,19 @@ SpMat<eT>::get_value(const uword in_row, const uword in_col)
         // First check that we have not stepped past it.
         if(in_row < row_index) // If we have, then it doesn't exist: return 0.
         {
-            return SpValProxy<SpMat<eT> >(
+            return SpValProxy<SpMat<eT>>(
                 in_row, in_col, *this); // Proxy for a zero value.
         }
 
         // Now check if we are at the correct place.
         if(in_row == row_index) // If we are, return a reference to the value.
         {
-            return SpValProxy<SpMat<eT> >(in_row, in_col, *this, &access::rw(values[i]));
+            return SpValProxy<SpMat<eT>>(in_row, in_col, *this, &access::rw(values[i]));
         }
     }
 
     // We did not find it, so it does not exist: return 0.
-    return SpValProxy<SpMat<eT> >(in_row, in_col, *this);
+    return SpValProxy<SpMat<eT>>(in_row, in_col, *this);
 }
 
 template <typename eT>
@@ -4221,7 +4220,7 @@ inline void SpMat_aux::set_imag(SpMat<eT>&, const SpBase<eT, T1>&)
 }
 
 template <typename T, typename T1>
-inline void SpMat_aux::set_real(SpMat<std::complex<T> >& out, const SpBase<T, T1>& X)
+inline void SpMat_aux::set_real(SpMat<std::complex<T>>& out, const SpBase<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 
@@ -4239,7 +4238,7 @@ inline void SpMat_aux::set_real(SpMat<std::complex<T> >& out, const SpBase<T, T1
 }
 
 template <typename T, typename T1>
-inline void SpMat_aux::set_imag(SpMat<std::complex<T> >& out, const SpBase<T, T1>& X)
+inline void SpMat_aux::set_imag(SpMat<std::complex<T>>& out, const SpBase<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 

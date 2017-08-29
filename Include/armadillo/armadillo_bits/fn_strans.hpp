@@ -48,7 +48,7 @@ arma_warn_unused arma_inline const Op<T1, op_htrans> strans(const T1& X,
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpOp<T1, spop_strans> >::result
+    const SpOp<T1, spop_strans>>::result
 strans(const T1& x)
 {
     arma_extra_debug_sigprint();

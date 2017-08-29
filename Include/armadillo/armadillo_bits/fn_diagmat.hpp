@@ -20,7 +20,7 @@
 //! zero)
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat>>::result
     diagmat(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -31,7 +31,7 @@ arma_warn_unused arma_inline
 //! create a matrix with the k-th diagonal set to the given vector
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat2> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat2>>::result
     diagmat(const T1& X, const sword k)
 {
     arma_extra_debug_sigprint();

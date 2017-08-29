@@ -131,7 +131,7 @@ public:
     }
 };
 
-template <typename eT> class diagmat_proxy<Mat<eT> >
+template <typename eT> class diagmat_proxy<Mat<eT>>
 {
 public:
     typedef eT elem_type;
@@ -166,7 +166,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy<Row<eT> >
+template <typename eT> class diagmat_proxy<Row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -198,7 +198,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy<Col<eT> >
+template <typename eT> class diagmat_proxy<Col<eT>>
 {
 public:
     typedef eT elem_type;
@@ -230,7 +230,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy<subview_row<eT> >
+template <typename eT> class diagmat_proxy<subview_row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -262,7 +262,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy<subview_col<eT> >
+template <typename eT> class diagmat_proxy<subview_col<eT>>
 {
 public:
     typedef eT elem_type;
@@ -380,7 +380,7 @@ public:
     }
 };
 
-template <typename eT> class diagmat_proxy_check<Mat<eT> >
+template <typename eT> class diagmat_proxy_check<Mat<eT>>
 {
 public:
     typedef eT elem_type;
@@ -419,7 +419,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy_check<Row<eT> >
+template <typename eT> class diagmat_proxy_check<Row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -455,7 +455,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy_check<Col<eT> >
+template <typename eT> class diagmat_proxy_check<Col<eT>>
 {
 public:
     typedef eT elem_type;
@@ -491,7 +491,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy_check<subview_row<eT> >
+template <typename eT> class diagmat_proxy_check<subview_row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -518,7 +518,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT> class diagmat_proxy_check<subview_col<eT> >
+template <typename eT> class diagmat_proxy_check<subview_col<eT>>
 {
 public:
     typedef eT elem_type;

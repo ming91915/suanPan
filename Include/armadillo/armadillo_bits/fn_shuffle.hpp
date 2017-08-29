@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused arma_inline typename enable_if2<(is_arma_type<T1>::value),
-    const Op<T1, op_shuffle_default> >::result
+    const Op<T1, op_shuffle_default>>::result
 shuffle(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -28,7 +28,7 @@ shuffle(const T1& X)
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_shuffle> >::result
+    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_shuffle>>::result
     shuffle(const T1& X, const uword dim)
 {
     arma_extra_debug_sigprint();

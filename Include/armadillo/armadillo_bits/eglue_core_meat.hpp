@@ -259,7 +259,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(=, / );
+                arma_applier_1_mp(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(=, *);
             }
@@ -276,7 +276,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(=, / );
+                        arma_applier_1a(=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(=, *);
                     }
@@ -289,7 +289,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(=, / );
+                        arma_applier_1u(=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(=, *);
                     }
@@ -303,7 +303,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(=, / );
+                    arma_applier_1u(=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(=, *);
                 }
@@ -323,7 +323,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2_mp(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2_mp(=, / );
+                arma_applier_2_mp(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2_mp(=, *);
             }
@@ -333,7 +333,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out,
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2(=, / );
+                arma_applier_2(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2(=, *);
             }
@@ -375,7 +375,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(+=, / );
+                arma_applier_1_mp(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(+=, *);
             }
@@ -392,7 +392,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(+=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(+=, / );
+                        arma_applier_1a(+=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(+=, *);
                     }
@@ -405,7 +405,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(+=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(+=, / );
+                        arma_applier_1u(+=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(+=, *);
                     }
@@ -419,7 +419,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(+=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(+=, / );
+                    arma_applier_1u(+=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(+=, *);
                 }
@@ -436,7 +436,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2_mp(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2_mp(+=, / );
+                arma_applier_2_mp(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2_mp(+=, *);
             }
@@ -446,7 +446,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2(+=, / );
+                arma_applier_2(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2(+=, *);
             }
@@ -488,7 +488,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(-=, / );
+                arma_applier_1_mp(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(-=, *);
             }
@@ -505,7 +505,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(-=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(-=, / );
+                        arma_applier_1a(-=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(-=, *);
                     }
@@ -518,7 +518,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(-=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(-=, / );
+                        arma_applier_1u(-=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(-=, *);
                     }
@@ -532,7 +532,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(-=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(-=, / );
+                    arma_applier_1u(-=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(-=, *);
                 }
@@ -549,7 +549,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2_mp(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2_mp(-=, / );
+                arma_applier_2_mp(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2_mp(-=, *);
             }
@@ -559,7 +559,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2(-=, / );
+                arma_applier_2(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2(-=, *);
             }
@@ -602,7 +602,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(*=, / );
+                arma_applier_1_mp(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(*=, *);
             }
@@ -619,7 +619,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(*=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(*=, / );
+                        arma_applier_1a(*=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(*=, *);
                     }
@@ -632,7 +632,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(*=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(*=, / );
+                        arma_applier_1u(*=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(*=, *);
                     }
@@ -646,7 +646,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(*=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(*=, / );
+                    arma_applier_1u(*=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(*=, *);
                 }
@@ -663,7 +663,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2_mp(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2_mp(*=, / );
+                arma_applier_2_mp(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2_mp(*=, *);
             }
@@ -673,7 +673,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2(*=, / );
+                arma_applier_2(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2(*=, *);
             }
@@ -716,7 +716,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(/=, / );
+                arma_applier_1_mp(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(/=, *);
             }
@@ -733,7 +733,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(/=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(/=, / );
+                        arma_applier_1a(/=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(/=, *);
                     }
@@ -746,7 +746,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(/=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(/=, / );
+                        arma_applier_1u(/=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(/=, *);
                     }
@@ -760,7 +760,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(/=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(/=, / );
+                    arma_applier_1u(/=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(/=, *);
                 }
@@ -777,7 +777,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2_mp(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2_mp(/=, / );
+                arma_applier_2_mp(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2_mp(/=, *);
             }
@@ -787,7 +787,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_2(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_2(/=, / );
+                arma_applier_2(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_2(/=, *);
             }
@@ -831,7 +831,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(=, / );
+                arma_applier_1_mp(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(=, *);
             }
@@ -848,7 +848,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(=, / );
+                        arma_applier_1a(=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(=, *);
                     }
@@ -861,7 +861,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(=, / );
+                        arma_applier_1u(=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(=, *);
                     }
@@ -875,7 +875,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(=, / );
+                    arma_applier_1u(=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(=, *);
                 }
@@ -896,7 +896,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3_mp(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3_mp(=, / );
+                arma_applier_3_mp(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3_mp(=, *);
             }
@@ -906,7 +906,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3(=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3(=, / );
+                arma_applier_3(=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3(=, *);
             }
@@ -950,7 +950,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(+=, / );
+                arma_applier_1_mp(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(+=, *);
             }
@@ -967,7 +967,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(+=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(+=, / );
+                        arma_applier_1a(+=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(+=, *);
                     }
@@ -980,7 +980,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(+=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(+=, / );
+                        arma_applier_1u(+=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(+=, *);
                     }
@@ -994,7 +994,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(+=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(+=, / );
+                    arma_applier_1u(+=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(+=, *);
                 }
@@ -1011,7 +1011,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3_mp(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3_mp(+=, / );
+                arma_applier_3_mp(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3_mp(+=, *);
             }
@@ -1021,7 +1021,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3(+=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3(+=, / );
+                arma_applier_3(+=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3(+=, *);
             }
@@ -1065,7 +1065,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(-=, / );
+                arma_applier_1_mp(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(-=, *);
             }
@@ -1082,7 +1082,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(-=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(-=, / );
+                        arma_applier_1a(-=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(-=, *);
                     }
@@ -1095,7 +1095,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(-=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(-=, / );
+                        arma_applier_1u(-=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(-=, *);
                     }
@@ -1109,7 +1109,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(-=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(-=, / );
+                    arma_applier_1u(-=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(-=, *);
                 }
@@ -1126,7 +1126,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3_mp(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3_mp(-=, / );
+                arma_applier_3_mp(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3_mp(-=, *);
             }
@@ -1136,7 +1136,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3(-=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3(-=, / );
+                arma_applier_3(-=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3(-=, *);
             }
@@ -1180,7 +1180,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(*=, / );
+                arma_applier_1_mp(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(*=, *);
             }
@@ -1197,7 +1197,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(*=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(*=, / );
+                        arma_applier_1a(*=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(*=, *);
                     }
@@ -1210,7 +1210,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(*=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(*=, / );
+                        arma_applier_1u(*=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(*=, *);
                     }
@@ -1224,7 +1224,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(*=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(*=, / );
+                    arma_applier_1u(*=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(*=, *);
                 }
@@ -1241,7 +1241,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3_mp(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3_mp(*=, / );
+                arma_applier_3_mp(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3_mp(*=, *);
             }
@@ -1251,7 +1251,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3(*=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3(*=, / );
+                arma_applier_3(*=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3(*=, *);
             }
@@ -1295,7 +1295,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_1_mp(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_1_mp(/=, / );
+                arma_applier_1_mp(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_1_mp(/=, *);
             }
@@ -1312,7 +1312,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1a(/=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1a(/=, / );
+                        arma_applier_1a(/=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1a(/=, *);
                     }
@@ -1325,7 +1325,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                     } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                         arma_applier_1u(/=, -);
                     } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                        arma_applier_1u(/=, / );
+                        arma_applier_1u(/=, /);
                     } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                         arma_applier_1u(/=, *);
                     }
@@ -1339,7 +1339,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
                 } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                     arma_applier_1u(/=, -);
                 } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                    arma_applier_1u(/=, / );
+                    arma_applier_1u(/=, /);
                 } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                     arma_applier_1u(/=, *);
                 }
@@ -1356,7 +1356,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3_mp(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3_mp(/=, / );
+                arma_applier_3_mp(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3_mp(/=, *);
             }
@@ -1366,7 +1366,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(
             } else if(is_same_type<eglue_type, eglue_minus>::yes) {
                 arma_applier_3(/=, -);
             } else if(is_same_type<eglue_type, eglue_div>::yes) {
-                arma_applier_3(/=, / );
+                arma_applier_3(/=, /);
             } else if(is_same_type<eglue_type, eglue_schur>::yes) {
                 arma_applier_3(/=, *);
             }

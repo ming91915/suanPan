@@ -816,8 +816,7 @@ inline void subview<eT>::operator/=(const SpBase<eT, T1>& x)
 template <typename eT>
 template <typename T1, typename gen_type>
 inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result
-    subview<eT>::
-    operator=(const Gen<T1, gen_type>& in)
+subview<eT>::operator=(const Gen<T1, gen_type>& in)
 {
     arma_extra_debug_sigprint();
 
@@ -2181,8 +2180,7 @@ inline void subview_col<eT>::operator=(const Base<eT, T1>& X)
 template <typename eT>
 template <typename T1, typename gen_type>
 inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result
-    subview_col<eT>::
-    operator=(const Gen<T1, gen_type>& in)
+subview_col<eT>::operator=(const Gen<T1, gen_type>& in)
 {
     arma_extra_debug_sigprint();
 
@@ -2587,8 +2585,7 @@ inline void subview_row<eT>::operator=(const Base<eT, T1>& X)
 template <typename eT>
 template <typename T1, typename gen_type>
 inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result
-    subview_row<eT>::
-    operator=(const Gen<T1, gen_type>& in)
+subview_row<eT>::operator=(const Gen<T1, gen_type>& in)
 {
     arma_extra_debug_sigprint();
 
@@ -2848,7 +2845,7 @@ inline const subview_row<eT> subview_row<eT>::tail(const uword N) const
 
 template <typename eT> inline arma_warn_unused uword subview_row<eT>::index_min() const
 {
-    const Proxy<subview_row<eT> > P(*this);
+    const Proxy<subview_row<eT>> P(*this);
 
     uword index = 0;
 
@@ -2863,7 +2860,7 @@ template <typename eT> inline arma_warn_unused uword subview_row<eT>::index_min(
 
 template <typename eT> inline arma_warn_unused uword subview_row<eT>::index_max() const
 {
-    const Proxy<subview_row<eT> > P(*this);
+    const Proxy<subview_row<eT>> P(*this);
 
     uword index = 0;
 

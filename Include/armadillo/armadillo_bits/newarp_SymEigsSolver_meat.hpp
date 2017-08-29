@@ -117,7 +117,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::restart(uword k)
     }
 
     TridiagQR<eT> decomp;
-    Mat<eT> Q = eye<Mat<eT> >(ncv, ncv);
+    Mat<eT> Q = eye<Mat<eT>>(ncv, ncv);
 
     for(uword i = k; i < ncv; i++) {
         // QR decomposition of H-mu*I, mu is the shift

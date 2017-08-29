@@ -28,7 +28,7 @@ public:
 // ea_type is the "element accessor" type,
 // which can provide access to elements via operator[]
 
-template <typename eT> class ProxyCube<Cube<eT> >
+template <typename eT> class ProxyCube<Cube<eT>>
 {
 public:
     typedef eT elem_type;
@@ -73,7 +73,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT, typename gen_type> class ProxyCube<GenCube<eT, gen_type> >
+template <typename eT, typename gen_type> class ProxyCube<GenCube<eT, gen_type>>
 {
 public:
     typedef eT elem_type;
@@ -118,7 +118,7 @@ public:
     arma_inline bool is_aligned() const { return GenCube<eT, gen_type>::is_simple; }
 };
 
-template <typename eT> class ProxyCube<GenCube<eT, gen_randu> >
+template <typename eT> class ProxyCube<GenCube<eT, gen_randu>>
 {
 public:
     typedef eT elem_type;
@@ -163,7 +163,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class ProxyCube<GenCube<eT, gen_randn> >
+template <typename eT> class ProxyCube<GenCube<eT, gen_randn>>
 {
 public:
     typedef eT elem_type;
@@ -208,7 +208,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename T1, typename op_type> class ProxyCube<OpCube<T1, op_type> >
+template <typename T1, typename op_type> class ProxyCube<OpCube<T1, op_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -254,7 +254,7 @@ public:
 };
 
 template <typename T1, typename T2, typename glue_type>
-class ProxyCube<GlueCube<T1, T2, glue_type> >
+class ProxyCube<GlueCube<T1, T2, glue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -299,7 +299,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class ProxyCube<subview_cube<eT> >
+template <typename eT> class ProxyCube<subview_cube<eT>>
 {
 public:
     typedef eT elem_type;
@@ -344,7 +344,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T1, typename eop_type> class ProxyCube<eOpCube<T1, eop_type> >
+template <typename T1, typename eop_type> class ProxyCube<eOpCube<T1, eop_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -390,7 +390,7 @@ public:
 };
 
 template <typename T1, typename T2, typename eglue_type>
-class ProxyCube<eGlueCube<T1, T2, eglue_type> >
+class ProxyCube<eGlueCube<T1, T2, eglue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -436,7 +436,7 @@ public:
 };
 
 template <typename out_eT, typename T1, typename op_type>
-class ProxyCube<mtOpCube<out_eT, T1, op_type> >
+class ProxyCube<mtOpCube<out_eT, T1, op_type>>
 {
 public:
     typedef out_eT elem_type;
@@ -482,7 +482,7 @@ public:
 };
 
 template <typename out_eT, typename T1, typename T2, typename glue_type>
-class ProxyCube<mtGlueCube<out_eT, T1, T2, glue_type> >
+class ProxyCube<mtGlueCube<out_eT, T1, T2, glue_type>>
 {
 public:
     typedef out_eT elem_type;

@@ -150,7 +150,7 @@ inline arma_warn_unused
         // create a fake dense vector to allow reuse of code for dense vectors
         Col<eT> fake_vector(access::rwp(A.values), A.n_nonzero, false);
 
-        const Proxy<Col<eT> > P_fake_vector(fake_vector);
+        const Proxy<Col<eT>> P_fake_vector(fake_vector);
 
         switch(k) {
         case 1:
@@ -209,7 +209,7 @@ inline arma_warn_unused
     // create a fake dense vector to allow reuse of code for dense vectors
     Col<eT> fake_vector(access::rwp(A.values), A.n_nonzero, false);
 
-    const Proxy<Col<eT> > P_fake_vector(fake_vector);
+    const Proxy<Col<eT>> P_fake_vector(fake_vector);
 
     const char sig = (method != NULL) ? method[0] : char(0);
     const bool is_vec = (P.get_n_rows() == 1) ||

@@ -20,7 +20,7 @@ class op_fft_real
 {
 public:
     template <typename T1>
-    inline static void apply(Mat<std::complex<typename T1::pod_type> >& out,
+    inline static void apply(Mat<std::complex<typename T1::pod_type>>& out,
         const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in);
 };
 

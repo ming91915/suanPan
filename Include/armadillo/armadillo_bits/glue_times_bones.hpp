@@ -28,7 +28,7 @@ template <typename glue_type, typename T1> struct depth_lhs {
 };
 
 template <typename glue_type, typename T1, typename T2>
-struct depth_lhs<glue_type, Glue<T1, T2, glue_type> > {
+struct depth_lhs<glue_type, Glue<T1, T2, glue_type>> {
     static const uword num = 1 + depth_lhs<glue_type, T1>::num;
 };
 

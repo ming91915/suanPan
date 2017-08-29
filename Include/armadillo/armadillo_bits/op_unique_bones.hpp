@@ -31,7 +31,7 @@ template <typename eT> struct arma_unique_comparator {
     arma_inline bool operator()(const eT a, const eT b) const { return (a < b); }
 };
 
-template <typename T> struct arma_unique_comparator<std::complex<T> > {
+template <typename T> struct arma_unique_comparator<std::complex<T>> {
     arma_inline bool operator()(const std::complex<T>& a, const std::complex<T>& b) const
     {
         const T a_real = a.real();

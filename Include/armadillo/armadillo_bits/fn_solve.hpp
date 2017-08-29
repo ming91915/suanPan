@@ -22,7 +22,7 @@
 template <typename T1, typename T2>
 arma_warn_unused inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_gen> >::result
+        const Glue<T1, T2, glue_solve_gen>>::result
     solve(const Base<typename T1::elem_type, T1>& A,
         const Base<typename T1::elem_type, T2>& B,
         const solve_opts::opts& opts = solve_opts::none)
@@ -36,7 +36,7 @@ arma_warn_unused inline
 template <typename T1, typename T2>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_gen> >::result
+        const Glue<T1, T2, glue_solve_gen>>::result
     solve(const Base<typename T1::elem_type, T1>& A,
         const Base<typename T1::elem_type, T2>& B,
         const bool // argument kept only for compatibility with old user code
@@ -54,7 +54,7 @@ arma_deprecated inline
 template <typename T1, typename T2>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_gen> >::result
+        const Glue<T1, T2, glue_solve_gen>>::result
     solve(const Base<typename T1::elem_type, T1>& A,
         const Base<typename T1::elem_type, T2>& B,
         const char* // argument kept only for compatibility with old user code
@@ -125,7 +125,7 @@ arma_deprecated inline
 template <typename T1, typename T2>
 arma_warn_unused inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_tri> >::result
+        const Glue<T1, T2, glue_solve_tri>>::result
     solve(const Op<T1, op_trimat>& A,
         const Base<typename T1::elem_type, T2>& B,
         const solve_opts::opts& opts = solve_opts::none)
@@ -148,7 +148,7 @@ arma_warn_unused inline
 template <typename T1, typename T2>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_tri> >::result
+        const Glue<T1, T2, glue_solve_tri>>::result
     solve(const Op<T1, op_trimat>& A,
         const Base<typename T1::elem_type, T2>& B,
         const bool // argument kept only for compatibility with old user code
@@ -175,7 +175,7 @@ arma_deprecated inline
 template <typename T1, typename T2>
 arma_deprecated inline
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-        const Glue<T1, T2, glue_solve_tri> >::result
+        const Glue<T1, T2, glue_solve_tri>>::result
     solve(const Op<T1, op_trimat>& A,
         const Base<typename T1::elem_type, T2>& B,
         const char* // argument kept only for compatibility with old user code

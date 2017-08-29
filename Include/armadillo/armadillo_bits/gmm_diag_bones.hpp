@@ -195,10 +195,10 @@ protected:
 
     inline void em_update_params(const Mat<eT>& X,
         const umat& boundaries,
-        field<Mat<eT> >& t_acc_means,
-        field<Mat<eT> >& t_acc_dcovs,
-        field<Col<eT> >& t_acc_norm_lhoods,
-        field<Col<eT> >& t_gaus_log_lhoods,
+        field<Mat<eT>>& t_acc_means,
+        field<Mat<eT>>& t_acc_dcovs,
+        field<Col<eT>>& t_acc_norm_lhoods,
+        field<Col<eT>>& t_gaus_log_lhoods,
         Col<eT>& t_progress_log_lhoods);
 
     inline void em_generate_acc(const Mat<eT>& X,

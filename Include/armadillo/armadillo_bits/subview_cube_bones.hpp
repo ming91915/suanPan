@@ -19,7 +19,7 @@
 //! Class for storing data required to construct or apply operations to a subcube
 //! (i.e. where the subcube starts and ends as well as a reference/pointer to the original
 //! cube),
-template <typename eT> class subview_cube : public BaseCube<eT, subview_cube<eT> >
+template <typename eT> class subview_cube : public BaseCube<eT, subview_cube<eT>>
 {
 public:
     typedef eT elem_type;

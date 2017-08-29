@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_find_simple> >::result
+    const mtOp<uword, T1, op_find_simple>>::result
 find(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -117,7 +117,7 @@ arma_warn_unused inline uvec find(const mtGlueCube<uword, T1, T2, glue_rel_type>
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_find_finite> >::result
+    const mtOp<uword, T1, op_find_finite>>::result
 find_finite(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -127,7 +127,7 @@ find_finite(const T1& X)
 
 template <typename T1>
 arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    const mtOp<uword, T1, op_find_nonfinite> >::result
+    const mtOp<uword, T1, op_find_nonfinite>>::result
 find_nonfinite(const T1& X)
 {
     arma_extra_debug_sigprint();

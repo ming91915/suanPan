@@ -40,19 +40,20 @@ template <typename obj_type> struct rsv_get_return_type1_worker<obj_type, true> 
 };
 
 template <typename obj_type> struct rsv_get_return_type1 {
-    typedef typename rsv_get_return_type1_worker<obj_type,
-        is_Mat<obj_type>::value>::result return_type1;
+    typedef
+        typename rsv_get_return_type1_worker<obj_type, is_Mat<obj_type>::value>::result
+            return_type1;
 };
 
 template <typename return_type1> struct rsv_get_return_type2 {
 };
-template <typename eT> struct rsv_get_return_type2<Mat<eT> > {
+template <typename eT> struct rsv_get_return_type2<Mat<eT>> {
     typedef Mat<typename get_pod_type<eT>::result> return_type2;
 };
-template <typename eT> struct rsv_get_return_type2<Row<eT> > {
+template <typename eT> struct rsv_get_return_type2<Row<eT>> {
     typedef Row<typename get_pod_type<eT>::result> return_type2;
 };
-template <typename eT> struct rsv_get_return_type2<Col<eT> > {
+template <typename eT> struct rsv_get_return_type2<Col<eT>> {
     typedef Col<typename get_pod_type<eT>::result> return_type2;
 };
 
@@ -136,7 +137,7 @@ public:
 
     template <typename obj_type>
     inline static void update_stats(running_stat_vec<obj_type>& x,
-        const Mat<std::complex<typename running_stat_vec<obj_type>::T> >& sample,
+        const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample,
         const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result*
             junk = 0);
 

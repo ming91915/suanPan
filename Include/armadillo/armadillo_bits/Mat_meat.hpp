@@ -239,8 +239,7 @@ template <typename eT> inline void Mat<eT>::init_warm(uword in_n_rows, uword in_
                                 "compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
-    arma_debug_set_error(
-        err_state, err_msg,
+    arma_debug_set_error(err_state, err_msg,
         (((in_n_rows > ARMA_MAX_UHWORD) || (in_n_cols > ARMA_MAX_UHWORD)) ?
                 ((double(in_n_rows) * double(in_n_cols)) > double(ARMA_MAX_UWORD)) :
                 false),
@@ -512,7 +511,7 @@ inline Mat<eT>& Mat<eT>::operator=(const std::initializer_list<eT>& list)
 }
 
 template <typename eT>
-inline Mat<eT>::Mat(const std::initializer_list<std::initializer_list<eT> >& list)
+inline Mat<eT>::Mat(const std::initializer_list<std::initializer_list<eT>>& list)
     : n_rows(0)
     , n_cols(0)
     , n_elem(0)
@@ -527,7 +526,7 @@ inline Mat<eT>::Mat(const std::initializer_list<std::initializer_list<eT> >& lis
 
 template <typename eT>
 inline Mat<eT>& Mat<eT>::operator=(
-    const std::initializer_list<std::initializer_list<eT> >& list)
+    const std::initializer_list<std::initializer_list<eT>>& list)
 {
     arma_extra_debug_sigprint();
 
@@ -687,7 +686,7 @@ template <typename eT> inline void Mat<eT>::init(const std::initializer_list<eT>
 }
 
 template <typename eT>
-inline void Mat<eT>::init(const std::initializer_list<std::initializer_list<eT> >& list)
+inline void Mat<eT>::init(const std::initializer_list<std::initializer_list<eT>>& list)
 {
     arma_extra_debug_sigprint();
 
@@ -2249,15 +2248,15 @@ inline Mat<eT>& Mat<eT>::operator/=(const SpBase<eT, T1>& m)
     return *this;
 }
 
-template <typename eT> inline mat_injector<Mat<eT> > Mat<eT>::operator<<(const eT val)
+template <typename eT> inline mat_injector<Mat<eT>> Mat<eT>::operator<<(const eT val)
 {
-    return mat_injector<Mat<eT> >(*this, val);
+    return mat_injector<Mat<eT>>(*this, val);
 }
 
 template <typename eT>
-inline mat_injector<Mat<eT> > Mat<eT>::operator<<(const injector_end_of_row<>& x)
+inline mat_injector<Mat<eT>> Mat<eT>::operator<<(const injector_end_of_row<>& x)
 {
-    return mat_injector<Mat<eT> >(*this, x);
+    return mat_injector<Mat<eT>>(*this, x);
 }
 
 //! creation of subview (row vector)
@@ -3390,7 +3389,7 @@ inline void Mat<eT>::insert_rows(const uword row_num, const Base<eT, T1>& X)
 
     arma_debug_set_error(err_state, err_msg,
         ((C_n_cols != t_n_cols) && ((t_n_rows > 0) || (t_n_cols > 0)) &&
-                             ((C_n_rows > 0) || (C_n_cols > 0))),
+            ((C_n_rows > 0) || (C_n_cols > 0))),
         "Mat::insert_rows(): given object has an incompatible number of columns");
 
     arma_debug_check(err_state, err_msg);
@@ -3447,7 +3446,7 @@ inline void Mat<eT>::insert_cols(const uword col_num, const Base<eT, T1>& X)
 
     arma_debug_set_error(err_state, err_msg,
         ((C_n_rows != t_n_rows) && ((t_n_rows > 0) || (t_n_cols > 0)) &&
-                             ((C_n_rows > 0) || (C_n_cols > 0))),
+            ((C_n_rows > 0) || (C_n_cols > 0))),
         "Mat::insert_cols(): given object has an incompatible number of rows");
 
     arma_debug_check(err_state, err_msg);
@@ -5911,8 +5910,9 @@ operator++()
 }
 
 template <typename eT>
-inline typename Mat<eT>::const_row_col_iterator Mat<eT>::const_row_col_iterator::
-operator++(int)
+inline
+    typename Mat<eT>::const_row_col_iterator Mat<eT>::const_row_col_iterator::operator++(
+        int)
 {
     typename Mat<eT>::const_row_col_iterator temp(*this);
 
@@ -5938,8 +5938,9 @@ operator--()
 }
 
 template <typename eT>
-inline typename Mat<eT>::const_row_col_iterator Mat<eT>::const_row_col_iterator::
-operator--(int)
+inline
+    typename Mat<eT>::const_row_col_iterator Mat<eT>::const_row_col_iterator::operator--(
+        int)
 {
     typename Mat<eT>::const_row_col_iterator temp(*this);
 
@@ -6304,7 +6305,7 @@ inline Mat<eT>& Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::operator=(
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols>
 inline Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::fixed(
-    const std::initializer_list<std::initializer_list<eT> >& list)
+    const std::initializer_list<std::initializer_list<eT>>& list)
     : Mat<eT>(arma_fixed_indicator(),
           fixed_n_rows,
           fixed_n_cols,
@@ -6319,7 +6320,7 @@ inline Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::fixed(
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols>
 inline Mat<eT>& Mat<eT>::fixed<fixed_n_rows, fixed_n_cols>::operator=(
-    const std::initializer_list<std::initializer_list<eT> >& list)
+    const std::initializer_list<std::initializer_list<eT>>& list)
 {
     arma_extra_debug_sigprint();
 
@@ -6666,7 +6667,7 @@ template <typename eT> inline void Mat_aux::prefix_pp(Mat<eT>& x)
 }
 
 //! prefix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> inline void Mat_aux::prefix_pp(Mat<std::complex<T> >& x)
+template <typename T> inline void Mat_aux::prefix_pp(Mat<std::complex<T>>& x)
 {
     x += T(1);
 }
@@ -6690,7 +6691,7 @@ template <typename eT> inline void Mat_aux::postfix_pp(Mat<eT>& x)
 }
 
 //! postfix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> inline void Mat_aux::postfix_pp(Mat<std::complex<T> >& x)
+template <typename T> inline void Mat_aux::postfix_pp(Mat<std::complex<T>>& x)
 {
     x += T(1);
 }
@@ -6714,7 +6715,7 @@ template <typename eT> inline void Mat_aux::prefix_mm(Mat<eT>& x)
 }
 
 //! prefix -- for complex numbers (work around for limitations of the std::complex class)
-template <typename T> inline void Mat_aux::prefix_mm(Mat<std::complex<T> >& x)
+template <typename T> inline void Mat_aux::prefix_mm(Mat<std::complex<T>>& x)
 {
     x -= T(1);
 }
@@ -6738,7 +6739,7 @@ template <typename eT> inline void Mat_aux::postfix_mm(Mat<eT>& x)
 }
 
 //! postfix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> inline void Mat_aux::postfix_mm(Mat<std::complex<T> >& x)
+template <typename T> inline void Mat_aux::postfix_mm(Mat<std::complex<T>>& x)
 {
     x -= T(1);
 }
@@ -6763,7 +6764,7 @@ inline void Mat_aux::set_imag(Mat<eT>&, const Base<eT, T1>&)
 }
 
 template <typename T, typename T1>
-inline void Mat_aux::set_real(Mat<std::complex<T> >& out, const Base<T, T1>& X)
+inline void Mat_aux::set_real(Mat<std::complex<T>>& out, const Base<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 
@@ -6799,7 +6800,7 @@ inline void Mat_aux::set_real(Mat<std::complex<T> >& out, const Base<T, T1>& X)
 }
 
 template <typename T, typename T1>
-inline void Mat_aux::set_imag(Mat<std::complex<T> >& out, const Base<T, T1>& X)
+inline void Mat_aux::set_imag(Mat<std::complex<T>>& out, const Base<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 

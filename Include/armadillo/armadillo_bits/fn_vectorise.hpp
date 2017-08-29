@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_vectorise_col> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_vectorise_col>>::result
     vectorise(const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -28,7 +28,7 @@ arma_warn_unused inline
 
 template <typename T1>
 arma_warn_unused inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_vectorise_all> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_vectorise_all>>::result
     vectorise(const T1& X, const uword dim)
 {
     arma_extra_debug_sigprint();

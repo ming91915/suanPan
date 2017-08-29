@@ -198,7 +198,7 @@ inline const SpSubview<eT>& SpSubview<eT>::operator=(const Base<eT, T1>& in)
 
     // this is a modified version of SpSubview::operator_equ_common(const SpBase)
 
-    const SpProxy<SpMat<eT> > pa((*this).m);
+    const SpProxy<SpMat<eT>> pa((*this).m);
 
     const unwrap<T1> b_tmp(in.get_ref());
     const Mat<eT>& b = b_tmp.M;
@@ -230,8 +230,8 @@ inline const SpSubview<eT>& SpSubview<eT>::operator=(const Base<eT, T1>& in)
     // Resize memory to correct size.
     out.mem_resize(alt_count);
 
-    typename SpProxy<SpMat<eT> >::const_iterator_type x_it = pa.begin();
-    typename SpProxy<SpMat<eT> >::const_iterator_type x_end = pa.end();
+    typename SpProxy<SpMat<eT>>::const_iterator_type x_it = pa.begin();
+    typename SpProxy<SpMat<eT>>::const_iterator_type x_end = pa.end();
 
     uword b_row = 0;
     uword b_col = 0;
@@ -477,7 +477,7 @@ inline const SpSubview<eT>& SpSubview<eT>::operator_equ_common(const SpBase<eT, 
     // as well as providing fake zero elements.
     // in effect there is a proxy for a proxy.
 
-    const SpProxy<SpMat<eT> > pa((*this).m);
+    const SpProxy<SpMat<eT>> pa((*this).m);
     const SpProxy<T1> pb(in.get_ref());
 
     arma_debug_assert_same_size(n_rows, n_cols, pb.get_n_rows(), pb.get_n_cols(),
@@ -498,8 +498,8 @@ inline const SpSubview<eT>& SpSubview<eT>::operator_equ_common(const SpBase<eT, 
     // Resize memory to correct size.
     out.mem_resize(alt_count);
 
-    typename SpProxy<SpMat<eT> >::const_iterator_type x_it = pa.begin();
-    typename SpProxy<SpMat<eT> >::const_iterator_type x_end = pa.end();
+    typename SpProxy<SpMat<eT>>::const_iterator_type x_it = pa.begin();
+    typename SpProxy<SpMat<eT>>::const_iterator_type x_end = pa.end();
 
     typename SpProxy<T1>::const_iterator_type y_it = pb.begin();
     typename SpProxy<T1>::const_iterator_type y_end = pb.end();
@@ -813,7 +813,7 @@ template <typename eT> inline void SpSubview<eT>::eye()
 }
 
 template <typename eT>
-arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::operator[](const uword i)
+arma_hot inline SpValProxy<SpSubview<eT>> SpSubview<eT>::operator[](const uword i)
 {
     const uword lrow = i % n_rows;
     const uword lcol = i / n_rows;
@@ -830,7 +830,7 @@ template <typename eT> arma_hot inline eT SpSubview<eT>::operator[](const uword 
 }
 
 template <typename eT>
-arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::operator()(const uword i)
+arma_hot inline SpValProxy<SpSubview<eT>> SpSubview<eT>::operator()(const uword i)
 {
     arma_debug_check((i >= n_elem), "SpSubview::operator(): index out of bounds");
 
@@ -851,7 +851,7 @@ template <typename eT> arma_hot inline eT SpSubview<eT>::operator()(const uword 
 }
 
 template <typename eT>
-arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::operator()(const uword in_row,
+arma_hot inline SpValProxy<SpSubview<eT>> SpSubview<eT>::operator()(const uword in_row,
     const uword in_col)
 {
     arma_debug_check((in_row >= n_rows) || (in_col >= n_cols),
@@ -870,7 +870,7 @@ arma_hot inline eT SpSubview<eT>::operator()(const uword in_row, const uword in_
 }
 
 template <typename eT>
-arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::at(const uword i)
+arma_hot inline SpValProxy<SpSubview<eT>> SpSubview<eT>::at(const uword i)
 {
     const uword lrow = i % n_rows;
     const uword lcol = i / n_cols;
@@ -887,7 +887,7 @@ template <typename eT> arma_hot inline eT SpSubview<eT>::at(const uword i) const
 }
 
 template <typename eT>
-arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::at(const uword in_row,
+arma_hot inline SpValProxy<SpSubview<eT>> SpSubview<eT>::at(const uword in_row,
     const uword in_col)
 {
     const uword colptr = m.col_ptrs[in_col + aux_col1];
@@ -897,7 +897,7 @@ arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::at(const uword in_row,
     for(uword i = colptr; i < next_colptr; ++i) {
         // First check that we have not stepped past it.
         if((in_row + aux_row1) < m.row_indices[i]) {
-            return SpValProxy<SpSubview<eT> >(
+            return SpValProxy<SpSubview<eT>>(
                 in_row, in_col, *this); // Proxy for a zero value.
         }
 
@@ -905,13 +905,13 @@ arma_hot inline SpValProxy<SpSubview<eT> > SpSubview<eT>::at(const uword in_row,
         if((in_row + aux_row1) ==
             m.row_indices[i]) // If we are, return a reference to the value.
         {
-            return SpValProxy<SpSubview<eT> >(
+            return SpValProxy<SpSubview<eT>>(
                 in_row, in_col, *this, &access::rw(m.values[i]));
         }
     }
 
     // We did not find it, so it does not exist.
-    return SpValProxy<SpSubview<eT> >(in_row, in_col, *this);
+    return SpValProxy<SpSubview<eT>>(in_row, in_col, *this);
 }
 
 template <typename eT>

@@ -64,7 +64,7 @@ template <> struct arma_scalar_only<slng_t> {
 };
 #endif
 
-template <typename T> struct arma_scalar_only<std::complex<T> > {
+template <typename T> struct arma_scalar_only<std::complex<T>> {
     typedef std::complex<T> result;
 };
 
@@ -181,7 +181,7 @@ template <> struct arma_signed_only<slng_t> {
 };
 #endif
 
-template <typename T> struct arma_signed_only<std::complex<T> > {
+template <typename T> struct arma_signed_only<std::complex<T>> {
     typedef std::complex<T> result;
 };
 
@@ -204,27 +204,27 @@ template <> struct arma_real_or_cx_only<float> {
 template <> struct arma_real_or_cx_only<double> {
     typedef double result;
 };
-template <> struct arma_real_or_cx_only<std::complex<float> > {
+template <> struct arma_real_or_cx_only<std::complex<float>> {
     typedef std::complex<float> result;
 };
-template <> struct arma_real_or_cx_only<std::complex<double> > {
+template <> struct arma_real_or_cx_only<std::complex<double>> {
     typedef std::complex<double> result;
 };
 
 template <typename T> struct arma_cx_only {
 };
 
-template <> struct arma_cx_only<std::complex<float> > {
+template <> struct arma_cx_only<std::complex<float>> {
     typedef std::complex<float> result;
 };
-template <> struct arma_cx_only<std::complex<double> > {
+template <> struct arma_cx_only<std::complex<double>> {
     typedef std::complex<double> result;
 };
 
 template <typename T> struct arma_not_cx {
     typedef T result;
 };
-template <typename T> struct arma_not_cx<std::complex<T> > {
+template <typename T> struct arma_not_cx<std::complex<T>> {
 };
 
 template <typename T> struct arma_blas_type_only {
@@ -236,10 +236,10 @@ template <> struct arma_blas_type_only<float> {
 template <> struct arma_blas_type_only<double> {
     typedef double result;
 };
-template <> struct arma_blas_type_only<std::complex<float> > {
+template <> struct arma_blas_type_only<std::complex<float>> {
     typedef std::complex<float> result;
 };
-template <> struct arma_blas_type_only<std::complex<double> > {
+template <> struct arma_blas_type_only<std::complex<double>> {
     typedef std::complex<double> result;
 };
 
@@ -251,9 +251,9 @@ template <> struct arma_not_blas_type<float> {
 };
 template <> struct arma_not_blas_type<double> {
 };
-template <> struct arma_not_blas_type<std::complex<float> > {
+template <> struct arma_not_blas_type<std::complex<float>> {
 };
-template <> struct arma_not_blas_type<std::complex<double> > {
+template <> struct arma_not_blas_type<std::complex<double>> {
 };
 
 template <typename T> struct arma_op_rel_only {
@@ -346,32 +346,32 @@ template <> struct arma_glue_rel_only<glue_rel_or> {
 template <typename T> struct arma_Mat_Col_Row_only {
 };
 
-template <typename eT> struct arma_Mat_Col_Row_only<Mat<eT> > {
+template <typename eT> struct arma_Mat_Col_Row_only<Mat<eT>> {
     typedef Mat<eT> result;
 };
-template <typename eT> struct arma_Mat_Col_Row_only<Col<eT> > {
+template <typename eT> struct arma_Mat_Col_Row_only<Col<eT>> {
     typedef Col<eT> result;
 };
-template <typename eT> struct arma_Mat_Col_Row_only<Row<eT> > {
+template <typename eT> struct arma_Mat_Col_Row_only<Row<eT>> {
     typedef Row<eT> result;
 };
 
 template <typename T> struct arma_Cube_only {
 };
-template <typename eT> struct arma_Cube_only<Cube<eT> > {
+template <typename eT> struct arma_Cube_only<Cube<eT>> {
     typedef Cube<eT> result;
 };
 
 template <typename T> struct arma_SpMat_SpCol_SpRow_only {
 };
 
-template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpMat<eT> > {
+template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpMat<eT>> {
     typedef SpMat<eT> result;
 };
-template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpCol<eT> > {
+template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpCol<eT>> {
     typedef SpCol<eT> result;
 };
-template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpRow<eT> > {
+template <typename eT> struct arma_SpMat_SpCol_SpRow_only<SpRow<eT>> {
     typedef SpRow<eT> result;
 };
 

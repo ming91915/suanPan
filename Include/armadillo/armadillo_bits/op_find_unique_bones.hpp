@@ -40,9 +40,9 @@ template <typename eT> struct arma_find_unique_comparator {
     }
 };
 
-template <typename T> struct arma_find_unique_comparator<std::complex<T> > {
-    arma_inline bool operator()(const arma_find_unique_packet<std::complex<T> >& A,
-        const arma_find_unique_packet<std::complex<T> >& B) const
+template <typename T> struct arma_find_unique_comparator<std::complex<T>> {
+    arma_inline bool operator()(const arma_find_unique_packet<std::complex<T>>& A,
+        const arma_find_unique_packet<std::complex<T>>& B) const
     {
         const T A_real = A.val.real();
         const T B_real = B.val.real();

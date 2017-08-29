@@ -18,7 +18,7 @@
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff_default> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff_default>>::result
     diff(const T1& X, const uword k = 1)
 {
     arma_extra_debug_sigprint();
@@ -28,7 +28,7 @@ arma_warn_unused arma_inline
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff> >::result
+    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff>>::result
     diff(const T1& X, const uword k, const uword dim)
 {
     arma_extra_debug_sigprint();

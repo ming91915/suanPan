@@ -24,7 +24,7 @@ inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out,
 
     typedef typename T1::elem_type eT;
 
-    if(is_same_type<T1, subview<eT> >::yes) {
+    if(is_same_type<T1, subview<eT>>::yes) {
         op_vectorise_col::apply_subview(out, reinterpret_cast<const subview<eT>&>(in.m));
     } else {
         const Proxy<T1> P(in.m);
@@ -220,7 +220,7 @@ inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out,
 
     typedef typename T1::elem_type eT;
 
-    if(is_same_type<T1, subview_cube<eT> >::yes) {
+    if(is_same_type<T1, subview_cube<eT>>::yes) {
         op_vectorise_cube_col::apply_subview(
             out, reinterpret_cast<const subview_cube<eT>&>(in.get_ref()));
     } else {

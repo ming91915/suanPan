@@ -20,7 +20,7 @@ struct mtOp_dual_aux_indicator {
 };
 
 template <typename out_eT, typename T1, typename op_type>
-class mtOp : public Base<out_eT, mtOp<out_eT, T1, op_type> >
+class mtOp : public Base<out_eT, mtOp<out_eT, T1, op_type>>
 {
 public:
     typedef out_eT elem_type;

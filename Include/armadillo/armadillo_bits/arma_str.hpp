@@ -348,7 +348,7 @@ template <typename T1> struct format_metaprog {
 };
 
 // template<>
-template <typename T1, typename T2> struct format_metaprog<basic_format<T1, T2> > {
+template <typename T1, typename T2> struct format_metaprog<basic_format<T1, T2>> {
     static const uword depth = 1 + format_metaprog<T1>::depth;
 
     inline static const std::string& get_fmt(const T1& X)
@@ -359,7 +359,7 @@ template <typename T1, typename T2> struct format_metaprog<basic_format<T1, T2> 
 
 template <typename T1, typename T2> inline std::string str(const basic_format<T1, T2>& X)
 {
-    return format_metaprog<basic_format<T1, T2> >::get_fmt(X.A);
+    return format_metaprog<basic_format<T1, T2>>::get_fmt(X.A);
 }
 
 template <typename T1, typename T2>
@@ -384,7 +384,7 @@ template <> struct char_only<char> {
 template <typename T> struct basic_format_only {
 };
 
-template <typename T1, typename T2> struct basic_format_only<basic_format<T1, T2> > {
+template <typename T1, typename T2> struct basic_format_only<basic_format<T1, T2>> {
     typedef basic_format<T1, T2> result;
 };
 

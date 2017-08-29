@@ -22,30 +22,30 @@ template <typename eT, int SelectionRule, typename OpType> class GenEigsSolver
 protected:
     const OpType& op; // object to conduct matrix operation, e.g. matrix-vector product
     const uword nev;  // number of eigenvalues requested
-    Col<std::complex<eT> > ritz_val; // ritz values
+    Col<std::complex<eT>> ritz_val; // ritz values
 
     // Sort the first nev Ritz pairs in decreasing magnitude order
     // This is used to return the final results
     virtual void sort_ritzpair();
 
 private:
-    const uword dim_n;               // dimension of matrix A
-    const uword ncv;                 // number of ritz values
-    uword nmatop;                    // number of matrix operations called
-    uword niter;                     // number of restarting iterations
-    Mat<eT> fac_V;                   // V matrix in the Arnoldi factorisation
-    Mat<eT> fac_H;                   // H matrix in the Arnoldi factorisation
-    Col<eT> fac_f;                   // residual in the Arnoldi factorisation
-    Mat<std::complex<eT> > ritz_vec; // ritz vectors
-    Col<std::complex<eT> > ritz_est; // last row of ritz_vec
-    std::vector<bool> ritz_conv;     // indicator of the convergence of ritz values
-    const eT eps;                    // the machine precision
-                                     // e.g. ~= 1e-16 for double type
-    const eT approx0;                // a number that is approximately zero
-                                     // approx0 = eps^(2/3)
-                                     // used to test the orthogonality of vectors,
-                                     // and in convergence test, tol*approx0 is
-                                     // the absolute tolerance
+    const uword dim_n;              // dimension of matrix A
+    const uword ncv;                // number of ritz values
+    uword nmatop;                   // number of matrix operations called
+    uword niter;                    // number of restarting iterations
+    Mat<eT> fac_V;                  // V matrix in the Arnoldi factorisation
+    Mat<eT> fac_H;                  // H matrix in the Arnoldi factorisation
+    Col<eT> fac_f;                  // residual in the Arnoldi factorisation
+    Mat<std::complex<eT>> ritz_vec; // ritz vectors
+    Col<std::complex<eT>> ritz_est; // last row of ritz_vec
+    std::vector<bool> ritz_conv;    // indicator of the convergence of ritz values
+    const eT eps;                   // the machine precision
+                                    // e.g. ~= 1e-16 for double type
+    const eT approx0;               // a number that is approximately zero
+                                    // approx0 = eps^(2/3)
+                                    // used to test the orthogonality of vectors,
+                                    // and in convergence test, tol*approx0 is
+                                    // the absolute tolerance
 
     // Arnoldi factorisation starting from step-k
     inline void factorise_from(uword from_k, uword to_m, const Col<eT>& fk);
@@ -82,13 +82,13 @@ public:
     inline int num_operations() { return nmatop; }
 
     //! Returning the converged eigenvalues.
-    inline Col<std::complex<eT> > eigenvalues();
+    inline Col<std::complex<eT>> eigenvalues();
 
     //! Returning the eigenvectors associated with the converged eigenvalues.
-    inline Mat<std::complex<eT> > eigenvectors(uword nvec);
+    inline Mat<std::complex<eT>> eigenvectors(uword nvec);
 
     //! Returning all converged eigenvectors.
-    inline Mat<std::complex<eT> > eigenvectors() { return eigenvectors(nev); }
+    inline Mat<std::complex<eT>> eigenvectors() { return eigenvectors(nev); }
 };
 
 } // namespace newarp

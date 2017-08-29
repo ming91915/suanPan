@@ -25,7 +25,7 @@ private:
     Mat<eT> mat_Z; // In the first stage, H = ZTZ', Z is an orthogonal matrix
                    // In the second stage, Z will be overwritten by the eigenvectors of H
     Mat<eT> mat_T; // H = ZTZ', T is a Schur form matrix
-    Col<std::complex<eT> > evals; // eigenvalues of H
+    Col<std::complex<eT>> evals; // eigenvalues of H
     bool computed;
 
 public:
@@ -41,10 +41,10 @@ public:
     inline void compute(const Mat<eT>& mat_obj);
 
     //! Retrieve the eigenvalues.
-    inline Col<std::complex<eT> > eigenvalues();
+    inline Col<std::complex<eT>> eigenvalues();
 
     //! Retrieve the eigenvectors.
-    inline Mat<std::complex<eT> > eigenvectors();
+    inline Mat<std::complex<eT>> eigenvectors();
 };
 
 } // namespace newarp

@@ -235,9 +235,9 @@ Cube<eT>::init_warm(const uword in_n_rows, const uword in_n_cols, const uword in
 
     arma_debug_set_error(err_state, err_msg,
         (((in_n_rows > 0x0FFF) || (in_n_cols > 0x0FFF) || (in_n_slices > 0xFF)) ?
-                                 ((double(in_n_rows) * double(in_n_cols) *
-                                      double(in_n_slices)) > double(ARMA_MAX_UWORD)) :
-                                 false),
+                ((double(in_n_rows) * double(in_n_cols) * double(in_n_slices)) >
+                    double(ARMA_MAX_UWORD)) :
+                false),
         error_message);
 
     arma_debug_check(err_state, err_msg);
@@ -3451,8 +3451,7 @@ inline Cube<eT>& Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::op
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator[](const uword i)
+    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::operator[](const uword i)
 {
     return (use_extra) ? mem_local_extra[i] : mem_local[i];
 }
@@ -3460,8 +3459,8 @@ arma_inline arma_warn_unused eT&
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused const eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator[](const uword i) const
+    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::operator[](
+        const uword i) const
 {
     return (use_extra) ? mem_local_extra[i] : mem_local[i];
 }
@@ -3485,8 +3484,7 @@ Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::at(const uword i) c
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator()(const uword i)
+Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::operator()(const uword i)
 {
     arma_debug_check((i >= fixed_n_elem), "Cube::operator(): index out of bounds");
 
@@ -3496,8 +3494,8 @@ arma_inline arma_warn_unused eT&
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused const eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator()(const uword i) const
+Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::operator()(
+    const uword i) const
 {
     arma_debug_check((i >= fixed_n_elem), "Cube::operator(): index out of bounds");
 
@@ -3531,8 +3529,8 @@ Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::at(const uword in_r
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator()(const uword in_row, const uword in_col, const uword in_slice)
+Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
+operator()(const uword in_row, const uword in_col, const uword in_slice)
 {
     arma_debug_check((in_row >= fixed_n_rows) || (in_col >= fixed_n_cols) ||
             (in_slice >= fixed_n_slices),
@@ -3546,8 +3544,8 @@ arma_inline arma_warn_unused eT&
 template <typename eT>
 template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
 arma_inline arma_warn_unused const eT&
-    Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
-    operator()(const uword in_row, const uword in_col, const uword in_slice) const
+Cube<eT>::fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>::
+operator()(const uword in_row, const uword in_col, const uword in_slice) const
 {
     arma_debug_check((in_row >= fixed_n_rows) || (in_col >= fixed_n_cols) ||
             (in_slice >= fixed_n_slices),
@@ -3580,7 +3578,7 @@ template <typename eT> arma_inline void Cube_aux::prefix_pp(Cube<eT>& x)
 }
 
 //! prefix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> arma_inline void Cube_aux::prefix_pp(Cube<std::complex<T> >& x)
+template <typename T> arma_inline void Cube_aux::prefix_pp(Cube<std::complex<T>>& x)
 {
     x += T(1);
 }
@@ -3604,7 +3602,7 @@ template <typename eT> arma_inline void Cube_aux::postfix_pp(Cube<eT>& x)
 }
 
 //! postfix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> arma_inline void Cube_aux::postfix_pp(Cube<std::complex<T> >& x)
+template <typename T> arma_inline void Cube_aux::postfix_pp(Cube<std::complex<T>>& x)
 {
     x += T(1);
 }
@@ -3628,7 +3626,7 @@ template <typename eT> arma_inline void Cube_aux::prefix_mm(Cube<eT>& x)
 }
 
 //! prefix -- for complex numbers (work around for limitations of the std::complex class)
-template <typename T> arma_inline void Cube_aux::prefix_mm(Cube<std::complex<T> >& x)
+template <typename T> arma_inline void Cube_aux::prefix_mm(Cube<std::complex<T>>& x)
 {
     x -= T(1);
 }
@@ -3652,7 +3650,7 @@ template <typename eT> arma_inline void Cube_aux::postfix_mm(Cube<eT>& x)
 }
 
 //! postfix ++ for complex numbers (work around for limitations of the std::complex class)
-template <typename T> arma_inline void Cube_aux::postfix_mm(Cube<std::complex<T> >& x)
+template <typename T> arma_inline void Cube_aux::postfix_mm(Cube<std::complex<T>>& x)
 {
     x -= T(1);
 }
@@ -3677,7 +3675,7 @@ inline void Cube_aux::set_imag(Cube<eT>&, const BaseCube<eT, T1>&)
 }
 
 template <typename T, typename T1>
-inline void Cube_aux::set_real(Cube<std::complex<T> >& out, const BaseCube<T, T1>& X)
+inline void Cube_aux::set_real(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 
@@ -3717,7 +3715,7 @@ inline void Cube_aux::set_real(Cube<std::complex<T> >& out, const BaseCube<T, T1
 }
 
 template <typename T, typename T1>
-inline void Cube_aux::set_imag(Cube<std::complex<T> >& out, const BaseCube<T, T1>& X)
+inline void Cube_aux::set_imag(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X)
 {
     arma_extra_debug_sigprint();
 

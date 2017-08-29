@@ -261,7 +261,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
         // Did we move any columns?
         while((cur_col < ln_cols) &&
             ((lskip_pos + cur_pos) >=
-                  iterator_base::M.m.col_ptrs[cur_col + aux_col + 1])) {
+                iterator_base::M.m.col_ptrs[cur_col + aux_col + 1])) {
             ++cur_col;
         }
 
@@ -290,8 +290,8 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator++(
-    int)
+inline
+    typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator++(int)
 {
     typename SpSubview<eT>::const_iterator tmp(*this);
 
@@ -347,8 +347,8 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator--(
-    int)
+inline
+    typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator--(int)
 {
     typename SpSubview<eT>::const_iterator tmp(*this);
 
@@ -414,9 +414,9 @@ inline bool SpSubview<eT>::const_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpValProxy<SpSubview<eT> > SpSubview<eT>::iterator::operator*()
+inline SpValProxy<SpSubview<eT>> SpSubview<eT>::iterator::operator*()
 {
-    return SpValProxy<SpSubview<eT> >(iterator_base::row(), iterator_base::col(),
+    return SpValProxy<SpSubview<eT>>(iterator_base::row(), iterator_base::col(),
         access::rw(iterator_base::M),
         &(access::rw(iterator_base::M.m.values[iterator_base::internal_pos +
             iterator_base::skip_pos])));
@@ -757,9 +757,9 @@ inline bool SpSubview<eT>::const_row_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpValProxy<SpSubview<eT> > SpSubview<eT>::row_iterator::operator*()
+inline SpValProxy<SpSubview<eT>> SpSubview<eT>::row_iterator::operator*()
 {
-    return SpValProxy<SpSubview<eT> >(const_row_iterator::internal_row,
+    return SpValProxy<SpSubview<eT>>(const_row_iterator::internal_row,
         iterator_base::internal_col, access::rw(iterator_base::M),
         &access::rw(iterator_base::M.m.values[const_row_iterator::actual_pos]));
 }

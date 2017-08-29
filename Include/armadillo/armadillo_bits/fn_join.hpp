@@ -20,7 +20,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_join_cols> >::result
+    const Glue<T1, T2, glue_join_cols>>::result
 join_cols(const T1& A, const T2& B)
 {
     arma_extra_debug_sigprint();
@@ -32,7 +32,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_join_cols> >::result
+    const Glue<T1, T2, glue_join_cols>>::result
 join_vert(const T1& A, const T2& B)
 {
     arma_extra_debug_sigprint();
@@ -44,7 +44,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_join_rows> >::result
+    const Glue<T1, T2, glue_join_rows>>::result
 join_rows(const T1& A, const T2& B)
 {
     arma_extra_debug_sigprint();
@@ -56,7 +56,7 @@ template <typename T1, typename T2>
 arma_warn_unused inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_join_rows> >::result
+    const Glue<T1, T2, glue_join_rows>>::result
 join_horiz(const T1& A, const T2& B)
 {
     arma_extra_debug_sigprint();

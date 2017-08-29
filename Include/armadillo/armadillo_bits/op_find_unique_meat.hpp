@@ -39,7 +39,7 @@ inline bool op_find_unique::apply_helper(Mat<uword>& out,
 
     uvec indices(n_elem);
 
-    std::vector<arma_find_unique_packet<eT> > packet_vec(n_elem);
+    std::vector<arma_find_unique_packet<eT>> packet_vec(n_elem);
 
     if(Proxy<T1>::use_at == false) {
         typename Proxy<T1>::ea_type Pea = P.get_ea();

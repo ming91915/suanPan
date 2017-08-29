@@ -19,7 +19,7 @@
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value &&
                                                 (resolves_to_vector<T1>::value == true)),
-    const Op<T1, op_normalise_vec> >::result
+    const Op<T1, op_normalise_vec>>::result
 normalise(const T1& X,
     const uword p = uword(2),
     const arma_empty_class junk1 = arma_empty_class(),
@@ -35,7 +35,7 @@ normalise(const T1& X,
 template <typename T1>
 arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value &&
                                                 (resolves_to_vector<T1>::value == false)),
-    const Op<T1, op_normalise_mat> >::result
+    const Op<T1, op_normalise_mat>>::result
 normalise(const T1& X,
     const uword p = uword(2),
     const uword dim = 0,

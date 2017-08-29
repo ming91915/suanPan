@@ -56,7 +56,7 @@ public:
     template <typename eT>
     inline static bool save_pgm_binary(const Mat<eT>& x, const std::string& final_name);
     template <typename T>
-    inline static bool save_pgm_binary(const Mat<std::complex<T> >& x,
+    inline static bool save_pgm_binary(const Mat<std::complex<T>>& x,
         const std::string& final_name);
     template <typename eT>
     inline static bool save_hdf5_binary(const Mat<eT>& x, const std::string& final_name);
@@ -70,13 +70,13 @@ public:
     template <typename eT>
     inline static bool save_csv_ascii(const Mat<eT>& x, std::ostream& f);
     template <typename T>
-    inline static bool save_csv_ascii(const Mat<std::complex<T> >& x, std::ostream& f);
+    inline static bool save_csv_ascii(const Mat<std::complex<T>>& x, std::ostream& f);
     template <typename eT>
     inline static bool save_arma_binary(const Mat<eT>& x, std::ostream& f);
     template <typename eT>
     inline static bool save_pgm_binary(const Mat<eT>& x, std::ostream& f);
     template <typename T>
-    inline static bool save_pgm_binary(const Mat<std::complex<T> >& x, std::ostream& f);
+    inline static bool save_pgm_binary(const Mat<std::complex<T>>& x, std::ostream& f);
 
     //
     // matrix loading
@@ -100,7 +100,7 @@ public:
     inline static bool
     load_pgm_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename T>
-    inline static bool load_pgm_binary(Mat<std::complex<T> >& x,
+    inline static bool load_pgm_binary(Mat<std::complex<T>>& x,
         const std::string& name,
         std::string& err_msg);
     template <typename eT>
@@ -120,7 +120,7 @@ public:
     inline static bool load_csv_ascii(Mat<eT>& x, std::istream& f, std::string& err_msg);
     template <typename T>
     inline static bool
-    load_csv_ascii(Mat<std::complex<T> >& x, std::istream& f, std::string& err_msg);
+    load_csv_ascii(Mat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
     inline static bool
     load_arma_binary(Mat<eT>& x, std::istream& f, std::string& err_msg);
@@ -129,7 +129,7 @@ public:
     load_pgm_binary(Mat<eT>& x, std::istream& is, std::string& err_msg);
     template <typename T>
     inline static bool
-    load_pgm_binary(Mat<std::complex<T> >& x, std::istream& is, std::string& err_msg);
+    load_pgm_binary(Mat<std::complex<T>>& x, std::istream& is, std::string& err_msg);
     template <typename eT>
     inline static bool
     load_auto_detect(Mat<eT>& x, std::istream& f, std::string& err_msg);
@@ -149,8 +149,7 @@ public:
     template <typename eT>
     inline static bool save_coord_ascii(const SpMat<eT>& x, std::ostream& f);
     template <typename T>
-    inline static bool save_coord_ascii(const SpMat<std::complex<T> >& x,
-        std::ostream& f);
+    inline static bool save_coord_ascii(const SpMat<std::complex<T>>& x, std::ostream& f);
     template <typename eT>
     inline static bool save_arma_binary(const SpMat<eT>& x, std::ostream& f);
 
@@ -169,7 +168,7 @@ public:
     load_coord_ascii(SpMat<eT>& x, std::istream& f, std::string& err_msg);
     template <typename T>
     inline static bool
-    load_coord_ascii(SpMat<std::complex<T> >& x, std::istream& f, std::string& err_msg);
+    load_coord_ascii(SpMat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
     inline static bool
     load_arma_binary(SpMat<eT>& x, std::istream& f, std::string& err_msg);

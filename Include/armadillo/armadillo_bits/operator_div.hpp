@@ -19,7 +19,7 @@
 //! Base / scalar
 template <typename T1>
 arma_inline typename enable_if2<is_arma_type<T1>::value,
-    const eOp<T1, eop_scalar_div_post> >::result
+    const eOp<T1, eop_scalar_div_post>>::result
 operator/(const T1& X, const typename T1::elem_type k)
 {
     arma_extra_debug_sigprint();
@@ -30,7 +30,7 @@ operator/(const T1& X, const typename T1::elem_type k)
 //! scalar / Base
 template <typename T1>
 arma_inline typename enable_if2<is_arma_type<T1>::value,
-    const eOp<T1, eop_scalar_div_pre> >::result
+    const eOp<T1, eop_scalar_div_pre>>::result
 operator/(const typename T1::elem_type k, const T1& X)
 {
     arma_extra_debug_sigprint();
@@ -42,7 +42,7 @@ operator/(const typename T1::elem_type k, const T1& X)
 template <typename T1>
 arma_inline typename enable_if2<(is_arma_type<T1>::value &&
                                     is_cx<typename T1::elem_type>::no),
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre> >::
+    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>>::
     result
     operator/(const std::complex<typename T1::pod_type>& k, const T1& X)
 {
@@ -54,11 +54,10 @@ arma_inline typename enable_if2<(is_arma_type<T1>::value &&
 
 //! non-complex Base / complex scalar
 template <typename T1>
-arma_inline
-    typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no),
-        const mtOp<typename std::complex<typename T1::pod_type>,
-                            T1,
-                            op_cx_scalar_div_post> >::result
+arma_inline typename enable_if2<(is_arma_type<T1>::value &&
+                                    is_cx<typename T1::elem_type>::no),
+    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>>::
+    result
     operator/(const T1& X, const std::complex<typename T1::pod_type>& k)
 {
     arma_extra_debug_sigprint();
@@ -72,7 +71,7 @@ template <typename T1, typename T2>
 arma_inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const eGlue<T1, T2, eglue_div> >::result
+    const eGlue<T1, T2, eglue_div>>::result
 operator/(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -89,7 +88,7 @@ inline typename enable_if2<
         typename promote_type<typename T1::elem_type, typename T2::elem_type>::result,
         T1,
         T2,
-        glue_mixed_div> >::result
+        glue_mixed_div>>::result
 operator/(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -107,7 +106,7 @@ operator/(const T1& X, const T2& Y)
 //! element-wise division of sparse matrix by scalar
 template <typename T1>
 inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    SpMat<typename T1::elem_type> >::result
+    SpMat<typename T1::elem_type>>::result
 operator/(const T1& X, const typename T1::elem_type y)
 {
     arma_extra_debug_sigprint();
@@ -124,7 +123,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_sparse_type<T1>::value && is_arma_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    SpMat<typename T1::elem_type> >::result
+    SpMat<typename T1::elem_type>>::result
 operator/(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();
@@ -182,7 +181,7 @@ template <typename T1, typename T2>
 inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_sparse_type<T2>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    Mat<typename T1::elem_type> >::result
+    Mat<typename T1::elem_type>>::result
 operator/(const T1& x, const T2& y)
 {
     arma_extra_debug_sigprint();

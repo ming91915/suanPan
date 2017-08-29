@@ -347,7 +347,7 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float> >& C,
+    arma_inline static void apply(Mat<std::complex<float>>& C,
         const TA& A,
         const std::complex<float> alpha = std::complex<float>(1),
         const std::complex<float> beta = std::complex<float>(0))
@@ -362,7 +362,7 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double> >& C,
+    arma_inline static void apply(Mat<std::complex<double>>& C,
         const TA& A,
         const std::complex<double> alpha = std::complex<double>(1),
         const std::complex<double> beta = std::complex<double>(0))

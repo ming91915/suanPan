@@ -559,11 +559,11 @@ template <> struct arma_arg<double> {
     }
 };
 
-template <> struct arma_arg<std::complex<float> > {
+template <> struct arma_arg<std::complex<float>> {
     static arma_inline float eval(const std::complex<float>& x) { return std::arg(x); }
 };
 
-template <> struct arma_arg<std::complex<double> > {
+template <> struct arma_arg<std::complex<double>> {
     static arma_inline double eval(const std::complex<double>& x) { return std::arg(x); }
 };
 

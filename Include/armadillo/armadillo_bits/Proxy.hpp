@@ -99,7 +99,7 @@ public:
     }
 };
 
-template <typename eT> class Proxy<Mat<eT> >
+template <typename eT> class Proxy<Mat<eT>>
 {
 public:
     typedef eT elem_type;
@@ -146,7 +146,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class Proxy<Col<eT> >
+template <typename eT> class Proxy<Col<eT>>
 {
 public:
     typedef eT elem_type;
@@ -190,7 +190,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class Proxy<Row<eT> >
+template <typename eT> class Proxy<Row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -234,7 +234,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename T1, typename gen_type> class Proxy<Gen<T1, gen_type> >
+template <typename T1, typename gen_type> class Proxy<Gen<T1, gen_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -284,7 +284,7 @@ public:
     arma_inline bool is_aligned() const { return Gen<T1, gen_type>::is_simple; }
 };
 
-template <typename T1> class Proxy<Gen<T1, gen_randu> >
+template <typename T1> class Proxy<Gen<T1, gen_randu>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -334,7 +334,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename T1> class Proxy<Gen<T1, gen_randn> >
+template <typename T1> class Proxy<Gen<T1, gen_randn>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -384,7 +384,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename T1, typename eop_type> class Proxy<eOp<T1, eop_type> >
+template <typename T1, typename eop_type> class Proxy<eOp<T1, eop_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -432,7 +432,7 @@ public:
 };
 
 template <typename T1, typename T2, typename eglue_type>
-class Proxy<eGlue<T1, T2, eglue_type> >
+class Proxy<eGlue<T1, T2, eglue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -482,7 +482,7 @@ public:
     }
 };
 
-template <typename T1, typename op_type> class Proxy<Op<T1, op_type> >
+template <typename T1, typename op_type> class Proxy<Op<T1, op_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -530,7 +530,7 @@ public:
 };
 
 template <typename T1, typename T2, typename glue_type>
-class Proxy<Glue<T1, T2, glue_type> >
+class Proxy<Glue<T1, T2, glue_type>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -578,7 +578,7 @@ public:
 };
 
 template <typename out_eT, typename T1, typename op_type>
-class Proxy<mtOp<out_eT, T1, op_type> >
+class Proxy<mtOp<out_eT, T1, op_type>>
 {
 public:
     typedef out_eT elem_type;
@@ -626,7 +626,7 @@ public:
 };
 
 template <typename out_eT, typename T1, typename T2, typename glue_type>
-class Proxy<mtGlue<out_eT, T1, T2, glue_type> >
+class Proxy<mtGlue<out_eT, T1, T2, glue_type>>
 {
 public:
     typedef out_eT elem_type;
@@ -673,7 +673,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class Proxy<subview<eT> >
+template <typename eT> class Proxy<subview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -720,7 +720,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT> class Proxy<subview_col<eT> >
+template <typename eT> class Proxy<subview_col<eT>>
 {
 public:
     typedef eT elem_type;
@@ -764,7 +764,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.colmem); }
 };
 
-template <typename eT> class Proxy<subview_row<eT> >
+template <typename eT> class Proxy<subview_row<eT>>
 {
 public:
     typedef eT elem_type;
@@ -808,14 +808,14 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT, typename T1> class Proxy<subview_elem1<eT, T1> >
+template <typename eT, typename T1> class Proxy<subview_elem1<eT, T1>>
 {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
     typedef subview_elem1<eT, T1> stored_type;
-    typedef const Proxy<subview_elem1<eT, T1> >& ea_type;
-    typedef const Proxy<subview_elem1<eT, T1> >& aligned_ea_type;
+    typedef const Proxy<subview_elem1<eT, T1>>& ea_type;
+    typedef const Proxy<subview_elem1<eT, T1>>& aligned_ea_type;
 
     static const bool use_at = false;
     static const bool use_mp = false;
@@ -875,7 +875,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT, typename T1, typename T2> class Proxy<subview_elem2<eT, T1, T2> >
+template <typename eT, typename T1, typename T2> class Proxy<subview_elem2<eT, T1, T2>>
 {
 public:
     typedef eT elem_type;
@@ -922,7 +922,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class Proxy<diagview<eT> >
+template <typename eT> class Proxy<diagview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -966,7 +966,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT> class Proxy<spdiagview<eT> >
+template <typename eT> class Proxy<spdiagview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -1015,7 +1015,7 @@ template <typename T1> class Proxy_diagvec_mat
     inline Proxy_diagvec_mat(const T1&) {}
 };
 
-template <typename T1> class Proxy_diagvec_mat<Op<T1, op_diagvec> >
+template <typename T1> class Proxy_diagvec_mat<Op<T1, op_diagvec>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -1066,7 +1066,7 @@ template <typename T1> class Proxy_diagvec_expr
     inline Proxy_diagvec_expr(const T1&) {}
 };
 
-template <typename T1> class Proxy_diagvec_expr<Op<T1, op_diagvec> >
+template <typename T1> class Proxy_diagvec_expr<Op<T1, op_diagvec>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -1114,15 +1114,15 @@ template <typename T1, bool condition> struct Proxy_diagvec_redirect {
 };
 
 template <typename T1> struct Proxy_diagvec_redirect<Op<T1, op_diagvec>, true> {
-    typedef Proxy_diagvec_mat<Op<T1, op_diagvec> > result;
+    typedef Proxy_diagvec_mat<Op<T1, op_diagvec>> result;
 };
 
 template <typename T1> struct Proxy_diagvec_redirect<Op<T1, op_diagvec>, false> {
-    typedef Proxy_diagvec_expr<Op<T1, op_diagvec> > result;
+    typedef Proxy_diagvec_expr<Op<T1, op_diagvec>> result;
 };
 
 template <typename T1>
-class Proxy<Op<T1, op_diagvec> >
+class Proxy<Op<T1, op_diagvec>>
     : public Proxy_diagvec_redirect<Op<T1, op_diagvec>, is_Mat<T1>::value>::result
 {
 public:
@@ -1140,7 +1140,7 @@ template <typename T1> struct Proxy_xtrans_default {
     inline Proxy_xtrans_default(const T1&) {}
 };
 
-template <typename T1> struct Proxy_xtrans_default<Op<T1, op_htrans> > {
+template <typename T1> struct Proxy_xtrans_default<Op<T1, op_htrans>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -1177,7 +1177,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T1> struct Proxy_xtrans_default<Op<T1, op_strans> > {
+template <typename T1> struct Proxy_xtrans_default<Op<T1, op_strans>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -1218,7 +1218,7 @@ template <typename T1> struct Proxy_xtrans_vector {
     inline Proxy_xtrans_vector(const T1&) {}
 };
 
-template <typename T1> struct Proxy_xtrans_vector<Op<T1, op_htrans> > {
+template <typename T1> struct Proxy_xtrans_vector<Op<T1, op_htrans>> {
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
     typedef Mat<elem_type> stored_type;
@@ -1256,7 +1256,7 @@ template <typename T1> struct Proxy_xtrans_vector<Op<T1, op_htrans> > {
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename T1> struct Proxy_xtrans_vector<Op<T1, op_strans> > {
+template <typename T1> struct Proxy_xtrans_vector<Op<T1, op_strans>> {
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
     typedef Mat<elem_type> stored_type;
@@ -1306,17 +1306,16 @@ template <typename T1> struct Proxy_xtrans_redirect<T1, true> {
 };
 
 template <typename T1>
-class Proxy<Op<T1, op_htrans> >
+class Proxy<Op<T1, op_htrans>>
     : public Proxy_xtrans_redirect<Op<T1, op_htrans>,
           ((is_complex<typename T1::elem_type>::value == false) &&
-                                       ((Op<T1, op_htrans>::is_row) ||
-                                           (Op<T1, op_htrans>::is_col)))>::result
+              ((Op<T1, op_htrans>::is_row) || (Op<T1, op_htrans>::is_col)))>::result
 {
 public:
     typedef typename Proxy_xtrans_redirect<Op<T1, op_htrans>,
-        ((is_complex<typename T1::elem_type>::value ==
-             false) && ((Op<T1, op_htrans>::is_row) ||
-                           (Op<T1, op_htrans>::is_col)))>::result Proxy_xtrans;
+        ((is_complex<typename T1::elem_type>::value == false) &&
+            ((Op<T1, op_htrans>::is_row) || (Op<T1, op_htrans>::is_col)))>::result
+        Proxy_xtrans;
 
     typedef typename Proxy_xtrans::elem_type elem_type;
     typedef typename Proxy_xtrans::pod_type pod_type;
@@ -1366,7 +1365,7 @@ public:
 };
 
 template <typename T1>
-class Proxy<Op<T1, op_strans> >
+class Proxy<Op<T1, op_strans>>
     : public Proxy_xtrans_redirect<Op<T1, op_strans>,
           ((Op<T1, op_strans>::is_row) || (Op<T1, op_strans>::is_col))>::result
 {
@@ -1493,7 +1492,7 @@ template <typename eT> struct Proxy_subview_row_htrans_redirect<eT, false> {
 };
 
 template <typename eT>
-class Proxy<Op<subview_row<eT>, op_htrans> >
+class Proxy<Op<subview_row<eT>, op_htrans>>
     : public Proxy_subview_row_htrans_redirect<eT, is_complex<eT>::value>::result
 {
 public:
@@ -1541,7 +1540,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT> class Proxy<Op<subview_row<eT>, op_strans> >
+template <typename eT> class Proxy<Op<subview_row<eT>, op_strans>>
 {
 public:
     typedef eT elem_type;
@@ -1585,7 +1584,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T> class Proxy<Op<Row<std::complex<T> >, op_htrans> >
+template <typename T> class Proxy<Op<Row<std::complex<T>>, op_htrans>>
 {
 public:
     typedef typename std::complex<T> eT;
@@ -1607,7 +1606,7 @@ public:
     const xvec_htrans<eT> Q;
     const Row<eT>& src;
 
-    inline explicit Proxy(const Op<Row<std::complex<T> >, op_htrans>& A)
+    inline explicit Proxy(const Op<Row<std::complex<T>>, op_htrans>& A)
         : Q(A.m.memptr(), A.m.n_rows, A.m.n_cols)
         , src(A.m)
     {
@@ -1633,7 +1632,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T> class Proxy<Op<Col<std::complex<T> >, op_htrans> >
+template <typename T> class Proxy<Op<Col<std::complex<T>>, op_htrans>>
 {
 public:
     typedef typename std::complex<T> eT;
@@ -1655,7 +1654,7 @@ public:
     const xvec_htrans<eT> Q;
     const Col<eT>& src;
 
-    inline explicit Proxy(const Op<Col<std::complex<T> >, op_htrans>& A)
+    inline explicit Proxy(const Op<Col<std::complex<T>>, op_htrans>& A)
         : Q(A.m.memptr(), A.m.n_rows, A.m.n_cols)
         , src(A.m)
     {
@@ -1681,7 +1680,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T> class Proxy<Op<subview_col<std::complex<T> >, op_htrans> >
+template <typename T> class Proxy<Op<subview_col<std::complex<T>>, op_htrans>>
 {
 public:
     typedef typename std::complex<T> eT;
@@ -1703,7 +1702,7 @@ public:
     const xvec_htrans<eT> Q;
     const subview_col<eT>& src;
 
-    inline explicit Proxy(const Op<subview_col<std::complex<T> >, op_htrans>& A)
+    inline explicit Proxy(const Op<subview_col<std::complex<T>>, op_htrans>& A)
         : Q(A.m.colptr(0), A.m.n_rows, A.m.n_cols)
         , src(A.m)
     {
@@ -1729,7 +1728,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename T1> class Proxy<Op<T1, op_htrans2> >
+template <typename T1> class Proxy<Op<T1, op_htrans2>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -1779,7 +1778,7 @@ public:
     arma_inline bool is_aligned() const { return Q.P.is_aligned(); }
 };
 
-template <typename eT> class Proxy<subview_row_strans<eT> >
+template <typename eT> class Proxy<subview_row_strans<eT>>
 {
 public:
     typedef eT elem_type;
@@ -1823,7 +1822,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT> class Proxy<subview_row_htrans<eT> >
+template <typename eT> class Proxy<subview_row_htrans<eT>>
 {
 public:
     typedef eT elem_type;
@@ -1867,7 +1866,7 @@ public:
     arma_inline bool is_aligned() const { return false; }
 };
 
-template <typename eT, bool do_conj> class Proxy<xtrans_mat<eT, do_conj> >
+template <typename eT, bool do_conj> class Proxy<xtrans_mat<eT, do_conj>>
 {
 public:
     typedef eT elem_type;
@@ -1914,7 +1913,7 @@ public:
     arma_inline bool is_aligned() const { return memory::is_aligned(Q.memptr()); }
 };
 
-template <typename eT> class Proxy<xvec_htrans<eT> >
+template <typename eT> class Proxy<xvec_htrans<eT>>
 {
 public:
     typedef eT elem_type;
@@ -1966,7 +1965,7 @@ template <typename T1> class Proxy_vectorise_col_mat
     inline Proxy_vectorise_col_mat(const T1&) {}
 };
 
-template <typename T1> class Proxy_vectorise_col_mat<Op<T1, op_vectorise_col> >
+template <typename T1> class Proxy_vectorise_col_mat<Op<T1, op_vectorise_col>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -2017,7 +2016,7 @@ template <typename T1> class Proxy_vectorise_col_expr
     inline Proxy_vectorise_col_expr(const T1&) {}
 };
 
-template <typename T1> class Proxy_vectorise_col_expr<Op<T1, op_vectorise_col> >
+template <typename T1> class Proxy_vectorise_col_expr<Op<T1, op_vectorise_col>>
 {
 public:
     typedef typename T1::elem_type elem_type;
@@ -2068,16 +2067,16 @@ template <typename T1, bool condition> struct Proxy_vectorise_col_redirect {
 
 template <typename T1>
 struct Proxy_vectorise_col_redirect<Op<T1, op_vectorise_col>, true> {
-    typedef Proxy_vectorise_col_mat<Op<T1, op_vectorise_col> > result;
+    typedef Proxy_vectorise_col_mat<Op<T1, op_vectorise_col>> result;
 };
 
 template <typename T1>
 struct Proxy_vectorise_col_redirect<Op<T1, op_vectorise_col>, false> {
-    typedef Proxy_vectorise_col_expr<Op<T1, op_vectorise_col> > result;
+    typedef Proxy_vectorise_col_expr<Op<T1, op_vectorise_col>> result;
 };
 
 template <typename T1>
-class Proxy<Op<T1, op_vectorise_col> >
+class Proxy<Op<T1, op_vectorise_col>>
     : public Proxy_vectorise_col_redirect<Op<T1, op_vectorise_col>,
           (Proxy<T1>::use_at)>::result
 {

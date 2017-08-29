@@ -41,7 +41,7 @@ operator%(const BaseCube<typename force_different_type<typename T1::elem_type,
               T1>& X,
     const BaseCube<typename force_different_type<typename T1::elem_type,
                        typename T2::elem_type>::T2_result,
-              T2>& Y)
+        T2>& Y)
 {
     arma_extra_debug_sigprint();
 

@@ -157,28 +157,32 @@ inline bool sp_auxlib::eigs_sym_newarp(Col<eT>& eigval,
         try {
             if(form_val == form_lm) {
                 newarp::SymEigsSolver<eT, newarp::EigsSelect::LARGEST_MAGN,
-                    newarp::SparseGenMatProd<eT> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<eT>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_sm) {
                 newarp::SymEigsSolver<eT, newarp::EigsSelect::SMALLEST_MAGN,
-                    newarp::SparseGenMatProd<eT> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<eT>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_la) {
                 newarp::SymEigsSolver<eT, newarp::EigsSelect::LARGEST_ALGE,
-                    newarp::SparseGenMatProd<eT> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<eT>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_sa) {
                 newarp::SymEigsSolver<eT, newarp::EigsSelect::SMALLEST_ALGE,
-                    newarp::SparseGenMatProd<eT> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<eT>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
@@ -331,8 +335,8 @@ inline bool sp_auxlib::eigs_sym_arpack(Col<eT>& eigval,
 
 //! immediate eigendecomposition of non-symmetric real sparse object
 template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen(Col<std::complex<T> >& eigval,
-    Mat<std::complex<T> >& eigvec,
+inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval,
+    Mat<std::complex<T>>& eigvec,
     const SpBase<T, T1>& X,
     const uword n_eigvals,
     const char* form_str,
@@ -366,8 +370,8 @@ inline bool sp_auxlib::eigs_gen(Col<std::complex<T> >& eigval,
 }
 
 template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T> >& eigval,
-    Mat<std::complex<T> >& eigvec,
+inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T>>& eigval,
+    Mat<std::complex<T>>& eigvec,
     const SpBase<T, T1>& X,
     const uword n_eigvals,
     const char* form_str,
@@ -420,42 +424,48 @@ inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T> >& eigval,
         try {
             if(form_val == form_lm) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::LARGEST_MAGN,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_sm) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::SMALLEST_MAGN,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_lr) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::LARGEST_REAL,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_sr) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::SMALLEST_REAL,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_li) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::LARGEST_IMAG,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
                 eigvec = eigs.eigenvectors();
             } else if(form_val == form_si) {
                 newarp::GenEigsSolver<T, newarp::EigsSelect::SMALLEST_IMAG,
-                    newarp::SparseGenMatProd<T> > eigs(op, n_eigvals, ncv);
+                    newarp::SparseGenMatProd<T>>
+                    eigs(op, n_eigvals, ncv);
                 eigs.init();
                 nconv = eigs.compute(1000, tol);
                 eigval = eigs.eigenvalues();
@@ -488,8 +498,8 @@ inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T> >& eigval,
 }
 
 template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T> >& eigval,
-    Mat<std::complex<T> >& eigvec,
+inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T>>& eigval,
+    Mat<std::complex<T>>& eigvec,
     const SpBase<T, T1>& X,
     const uword n_eigvals,
     const char* form_str,
@@ -651,8 +661,8 @@ inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T> >& eigval,
 
 //! immediate eigendecomposition of non-symmetric complex sparse object
 template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen(Col<std::complex<T> >& eigval,
-    Mat<std::complex<T> >& eigvec,
+inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval,
+    Mat<std::complex<T>>& eigvec,
     const SpBase<std::complex<T>, T1>& X,
     const uword n_eigvals,
     const char* form_str,
@@ -722,7 +732,7 @@ inline bool sp_auxlib::eigs_gen(Col<std::complex<T> >& eigval,
         // Set up variables that get used for neupd().
         blas_int n, ncv, ldv, lworkl, info;
         T tol = default_tol;
-        podarray<std::complex<T> > resid, v, workd, workl;
+        podarray<std::complex<T>> resid, v, workd, workl;
         podarray<blas_int> iparam, ipntr;
         podarray<T> rwork;
 
@@ -741,11 +751,11 @@ inline bool sp_auxlib::eigs_gen(Col<std::complex<T> >& eigval,
         char howmny = 'A';
         char bmat = 'I'; // We are considering the standard eigenvalue problem.
 
-        podarray<blas_int> select(ncv);        // Logical array of dimension NCV.
-        podarray<std::complex<T> > d(nev + 1); // Real array of dimension NEV + 1.
-        podarray<std::complex<T> > z(n * nev); // Real N by NEV array if HOWMNY = 'A'.
+        podarray<blas_int> select(ncv);       // Logical array of dimension NCV.
+        podarray<std::complex<T>> d(nev + 1); // Real array of dimension NEV + 1.
+        podarray<std::complex<T>> z(n * nev); // Real N by NEV array if HOWMNY = 'A'.
         blas_int ldz = n;
-        podarray<std::complex<T> > workev(2 * ncv);
+        podarray<std::complex<T>> workev(2 * ncv);
 
         // Prepare the outputs; neupd() will write directly to them.
         eigval.zeros(n_eigvals);

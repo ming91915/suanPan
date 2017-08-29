@@ -758,7 +758,7 @@ inline void subview_elem1<eT, T1>::mat_inplace_op(Mat<eT>& out, const subview_el
     const uword* aa_mem = aa.memptr();
     const uword aa_n_elem = aa.n_elem;
 
-    const unwrap_check<Mat<eT> > tmp2(in.m, out);
+    const unwrap_check<Mat<eT>> tmp2(in.m, out);
     const Mat<eT>& m_local = tmp2.M;
 
     const eT* m_mem = m_local.memptr();

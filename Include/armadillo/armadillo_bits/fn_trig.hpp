@@ -31,7 +31,7 @@
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_cos> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_cos>>::result
     cos(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -53,7 +53,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_cos> cos(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_acos> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_acos>>::result
     acos(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -75,7 +75,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_acos> acos(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_cosh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_cosh>>::result
     cosh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -97,7 +97,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_cosh> cosh(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_acosh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_acosh>>::result
     acosh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -119,7 +119,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_acosh> acosh(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_sin> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_sin>>::result
     sin(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -141,7 +141,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_sin> sin(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_asin> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_asin>>::result
     asin(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -163,7 +163,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_asin> asin(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_sinh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_sinh>>::result
     sinh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -185,7 +185,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_sinh> sinh(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_asinh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_asinh>>::result
     asinh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -207,7 +207,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_asinh> asinh(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_tan> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_tan>>::result
     tan(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -229,7 +229,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_tan> tan(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_atan> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_atan>>::result
     atan(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -251,7 +251,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_atan> atan(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_tanh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_tanh>>::result
     tanh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -273,7 +273,7 @@ arma_warn_unused arma_inline const eOpCube<T1, eop_tanh> tanh(
 
 template <typename T1>
 arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_atanh> >::result
+    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_atanh>>::result
     atanh(const T1& A)
 {
     arma_extra_debug_sigprint();
@@ -298,7 +298,7 @@ arma_warn_unused arma_inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_real<typename T1::elem_type>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_atan2> >::result
+    const Glue<T1, T2, glue_atan2>>::result
 atan2(const T1& Y, const T2& X)
 {
     arma_extra_debug_sigprint();
@@ -308,7 +308,7 @@ atan2(const T1& Y, const T2& X)
 
 template <typename T1, typename T2>
 arma_warn_unused arma_inline typename enable_if2<is_real<typename T1::elem_type>::value,
-    const GlueCube<T1, T2, glue_atan2> >::result
+    const GlueCube<T1, T2, glue_atan2>>::result
 atan2(const BaseCube<typename T1::elem_type, T1>& Y,
     const BaseCube<typename T1::elem_type, T2>& X)
 {
@@ -325,7 +325,7 @@ arma_warn_unused arma_inline typename enable_if2<
     (is_arma_type<T1>::value && is_arma_type<T2>::value &&
         is_real<typename T1::elem_type>::value &&
         is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const Glue<T1, T2, glue_hypot> >::result
+    const Glue<T1, T2, glue_hypot>>::result
 hypot(const T1& X, const T2& Y)
 {
     arma_extra_debug_sigprint();
@@ -335,7 +335,7 @@ hypot(const T1& X, const T2& Y)
 
 template <typename T1, typename T2>
 arma_warn_unused arma_inline typename enable_if2<is_real<typename T1::elem_type>::value,
-    const GlueCube<T1, T2, glue_hypot> >::result
+    const GlueCube<T1, T2, glue_hypot>>::result
 hypot(const BaseCube<typename T1::elem_type, T1>& X,
     const BaseCube<typename T1::elem_type, T2>& Y)
 {
