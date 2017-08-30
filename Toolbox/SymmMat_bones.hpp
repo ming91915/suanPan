@@ -77,8 +77,6 @@ public:
     void print() const;
 };
 
-using symm_mat = SymmMat<double>;
-
 template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
 {
     return A *= X;
@@ -102,7 +100,10 @@ template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
     const auto APTR = const_cast<eT*>(A.memptr());
     const auto XPTR = const_cast<eT*>(X.memptr());
 
-    suanpan::dspmv_(&UPLO, &N, &ALPHA, APTR, XPTR, &INC, &BETA, Y.memptr(), &INC);
+    if(is_float<eT>::value)
+        suanpan::sspmv_(&UPLO, &N, &ALPHA, APTR, XPTR, &INC, &BETA, Y.memptr(), &INC);
+    else if(is_double<eT>::value)
+        suanpan::dspmv_(&UPLO, &N, &ALPHA, APTR, XPTR, &INC, &BETA, Y.memptr(), &INC);
 
     return Y;
 }
@@ -114,13 +115,19 @@ template <typename eT> int sp_inv(SymmMat<eT>& A)
     const auto IPIV = new int[N];
     auto INFO = 0;
 
-    suanpan::dsptrf_(&UPLO, &N, A.memptr(), IPIV, &INFO);
+    if(is_float<eT>::value)
+        suanpan::ssptrf_(&UPLO, &N, A.memptr(), IPIV, &INFO);
+    else if(is_double<eT>::value)
+        suanpan::dsptrf_(&UPLO, &N, A.memptr(), IPIV, &INFO);
 
     if(INFO != 0) return INFO;
 
-    const auto WORK = new double[N];
+    const auto WORK = new eT[N];
 
-    suanpan::dsptri_(&UPLO, &N, A.memptr(), IPIV, WORK, &INFO);
+    if(is_float<eT>::value)
+        suanpan::ssptri_(&UPLO, &N, A.memptr(), IPIV, WORK, &INFO);
+    else if(is_double<eT>::value)
+        suanpan::dsptri_(&UPLO, &N, A.memptr(), IPIV, WORK, &INFO);
 
     delete[] WORK;
     delete[] IPIV;
@@ -139,7 +146,10 @@ template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B
     auto LDB = N;
     auto INFO = 0;
 
-    suanpan::dspsv_(&UPLO, &N, &NRHS, A.memptr(), IPIV, X.memptr(), &LDB, &INFO);
+    if(is_float<eT>::value)
+        suanpan::sspsv_(&UPLO, &N, &NRHS, A.memptr(), IPIV, X.memptr(), &LDB, &INFO);
+    else if(is_double<eT>::value)
+        suanpan::dspsv_(&UPLO, &N, &NRHS, A.memptr(), IPIV, X.memptr(), &LDB, &INFO);
 
     delete[] IPIV;
 

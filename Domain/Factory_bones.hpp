@@ -1,23 +1,4 @@
-/**
- * @class Factory
- * @brief A Factory class that holds global variables.
- *
- * The class is basically a container that contains global variables such as time, load,
- * resistance, displacement, velocity and acceleration. All the member variables are
- * exposed to outside of the class so users can directly access those variables. The class
- * provides several common methods to manipulate the status. The updateTrial*() and
- * updateIncre*() methods update the trial variables and incre variables simultaneously.
- * If one wants to update any specific variable, please consider to access the variable
- * directly instead of using a mutable method.
- *
- * @author T
- * @date 30/08/2017
- * @version 0.1.3
- * @file Factory.h
- */
-
-#ifndef FACTORY_H
-#define FACTORY_H
+#pragma once
 
 #include "Workshop.h"
 #include <suanPan.h>
@@ -288,5 +269,3 @@ public:
     void assemble_damping(const Mat<eT>&, const uvec&);
     void assemble_stiffness(const Mat<eT>&, const uvec&);
 };
-
-#endif

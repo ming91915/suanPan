@@ -3,6 +3,22 @@
 
 using namespace H5;
 
+using symm_mat = SymmMat<double>;
+using symm_fmat = SymmMat<float>;
+
+using band_mat = BandMat<double>;
+using band_fmat = BandMat<float>;
+
+using factory = Factory<double, Mat<double>>;
+using symm_factory = Factory<double, SymmMat<double>>;
+using band_factory = Factory<double, BandMat<double>>;
+using symm_band_factory = Factory<double, BandMat<double>>;
+
+using ffactory = Factory<float, Mat<float>>;
+using symm_ffactory = Factory<float, SymmMat<float>>;
+using band_ffactory = Factory<float, BandMat<float>>;
+using symm_band_ffactory = Factory<float, BandMat<float>>;
+
 void example_symm_mat();
 
 int main(int argc, char** argv)

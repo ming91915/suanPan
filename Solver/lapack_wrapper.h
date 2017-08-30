@@ -41,6 +41,15 @@ extern "C" void dsbmv_(char* UPLO,
     double* Y,
     int* INCY);
 
+extern "C" void sspmv_(char* UPLO,
+    int* N,
+    float* ALPHA,
+    float* AP,
+    float* X,
+    int* INCX,
+    float* BETA,
+    float* Y,
+    int* INCY);
 extern "C" void dspmv_(char* UPLO,
     int* N,
     double* ALPHA,
@@ -127,6 +136,14 @@ extern "C" void dsygvx_(int* ITYPE,
     int* INFO);
 
 // symmetric matrix stored in packed format
+extern "C" void sspsv_(char* UPLO,
+    int* N,
+    int* NRHS,
+    float* AP,
+    int* IPIV,
+    float* B,
+    int* LDB,
+    int* INFO);
 extern "C" void dspsv_(char* UPLO,
     int* N,
     int* NRHS,
@@ -135,7 +152,9 @@ extern "C" void dspsv_(char* UPLO,
     double* B,
     int* LDB,
     int* INFO);
+extern "C" void ssptrf_(char* UPLO, int* N, float* AP, int* IPIV, int* INFO);
 extern "C" void dsptrf_(char* UPLO, int* N, double* AP, int* IPIV, int* INFO);
+extern "C" void ssptri_(char* UPLO, int* N, float* AP, int* IPIV, float* WORK, int* INFO);
 extern "C" void
 dsptri_(char* UPLO, int* N, double* AP, int* IPIV, double* WORK, int* INFO);
 }
