@@ -1,4 +1,4 @@
-#include "Factory.h"
+#pragma once
 
 template <typename eT, typename T>
 Factory<eT, T>::Factory(const unsigned& D, const AnalysisType& AT)
@@ -879,9 +879,9 @@ template <typename eT, typename T> void Factory<eT, T>::clear_stiffness()
     global_stiffness.zeros();
 }
 
-template <typename eT, typename T> void Factory<eT, T>::print()
+template <typename eT, typename T> void Factory<eT, T>::print() const
 {
-    suanpan_info("This is a Factory object.\n");
+    suanpan_info("This is a Factory object with size of %u.\n", dof_number);
 }
 
 template <typename eT, typename T>

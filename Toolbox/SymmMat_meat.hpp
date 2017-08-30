@@ -29,7 +29,7 @@ SymmMat<eT>::SymmMat(const SizeMat& s)
     , mem_state(0)
     , mem()
 {
-    arma_debug_check(s.n_rows == s.n_cols, "SymmMat() only accepts sqaure matrix.");
+    arma_debug_check(s.n_rows != s.n_cols, "SymmMat() only accepts sqaure matrix.");
 
     init_cold();
 }
@@ -59,7 +59,7 @@ SymmMat<eT>::SymmMat(const SizeMat& s, const fill::fill_class<fill_type>& f)
 {
     arma_extra_debug_sigprint_this(this);
 
-    arma_debug_check(s.n_rows == s.n_cols, "SymmMat() only accepts sqaure matrix.");
+    arma_debug_check(s.n_rows != s.n_cols, "SymmMat() only accepts sqaure matrix.");
 
     init_cold();
 
@@ -74,7 +74,7 @@ SymmMat<eT>::SymmMat(const Mat<eT>& in_mat)
     , mem()
 {
     arma_debug_check(
-        in_mat.n_rows == in_mat.n_cols, "SymmMat() only accepts sqaure matrix.");
+        in_mat.n_rows != in_mat.n_cols, "SymmMat() only accepts sqaure matrix.");
 
     init_cold();
 

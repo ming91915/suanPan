@@ -207,9 +207,6 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Factory.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\Workshop.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -446,11 +443,14 @@
     <ClInclude Include="..\..\..\Toolbox\BdOp_meat.hpp">
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Domain\Workshop.h">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

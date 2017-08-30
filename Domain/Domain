@@ -1,7 +1,8 @@
 #include "Domain.h"
 
 #include "ExternalModule.h"
-#include "Factory.h"
+#include "Factory_bones.hpp"
+#include "Factory_meat.hpp"
 #include "Node.h"
 #include "Storage.h"
 #include "Tag.h"

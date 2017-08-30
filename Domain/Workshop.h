@@ -282,7 +282,7 @@ public:
     void clear_damping();
     void clear_stiffness();
 
-    static void print();
+    void print() const;
 
     void assemble_resistance(const mat&, const uvec&);
     void assemble_mass(const mat&, const uvec&);

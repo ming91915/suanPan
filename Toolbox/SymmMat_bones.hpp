@@ -77,6 +77,8 @@ public:
     void print() const;
 };
 
+using symm_mat = SymmMat<double>;
+
 template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
 {
     return A *= X;

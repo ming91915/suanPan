@@ -584,7 +584,10 @@ void Workshop::clear_damping() { global_damping.zeros(); }
 
 void Workshop::clear_stiffness() { global_stiffness.zeros(); }
 
-void Workshop::print() { suanpan_info("This is a Workshop object.\n"); }
+void Workshop::print() const
+{
+    suanpan_info("This is a Workshop object with size of %u.\n", dof_number);
+}
 
 void Workshop::assemble_resistance(const mat& ER, const uvec& EI)
 {
