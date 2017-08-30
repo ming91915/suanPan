@@ -452,5 +452,17 @@
     <ClInclude Include="..\..\..\Domain\Factory_bones.hpp">
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\fn_solve.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\glue_solve_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\glue_solve_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\typedef_mat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

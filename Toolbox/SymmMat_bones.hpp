@@ -6,6 +6,9 @@ public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
 
+    static const bool is_row = false;
+    static const bool is_col = false;
+
     const uword n_size;
     const uword n_elem;
     const uhword mem_state;
@@ -79,7 +82,8 @@ public:
 
 template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
 {
-    return A *= X;
+    A *= X;
+    return A;
 }
 
 template <typename eT> Col<eT> operator*(const SymmMat<eT>& A, const Col<eT>& X)
@@ -93,17 +97,22 @@ template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
 
     auto UPLO = 'L';
     auto N = static_cast<int>(A.n_size);
-    auto ALPHA = 1.;
+    eT ALPHA = 1.;
     auto INC = 1;
-    auto BETA = 0.;
+    eT BETA = 0.;
 
     const auto APTR = const_cast<eT*>(A.memptr());
     const auto XPTR = const_cast<eT*>(X.memptr());
 
-    if(is_float<eT>::value)
-        suanpan::sspmv_(&UPLO, &N, &ALPHA, APTR, XPTR, &INC, &BETA, Y.memptr(), &INC);
-    else if(is_double<eT>::value)
-        suanpan::dspmv_(&UPLO, &N, &ALPHA, APTR, XPTR, &INC, &BETA, Y.memptr(), &INC);
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::sspmv_(&UPLO, &N, (T*)&ALPHA, (T*)APTR, (T*)XPTR, &INC, (T*)&BETA,
+            (T*)Y.memptr(), &INC);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dspmv_(&UPLO, &N, (T*)&ALPHA, (T*)APTR, (T*)XPTR, &INC, (T*)&BETA,
+            (T*)Y.memptr(), &INC);
+    }
 
     return Y;
 }
@@ -115,19 +124,25 @@ template <typename eT> int sp_inv(SymmMat<eT>& A)
     const auto IPIV = new int[N];
     auto INFO = 0;
 
-    if(is_float<eT>::value)
-        suanpan::ssptrf_(&UPLO, &N, A.memptr(), IPIV, &INFO);
-    else if(is_double<eT>::value)
-        suanpan::dsptrf_(&UPLO, &N, A.memptr(), IPIV, &INFO);
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::ssptrf_(&UPLO, &N, (T*)A.memptr(), IPIV, &INFO);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dsptrf_(&UPLO, &N, (T*)A.memptr(), IPIV, &INFO);
+    }
 
     if(INFO != 0) return INFO;
 
     const auto WORK = new eT[N];
 
-    if(is_float<eT>::value)
-        suanpan::ssptri_(&UPLO, &N, A.memptr(), IPIV, WORK, &INFO);
-    else if(is_double<eT>::value)
-        suanpan::dsptri_(&UPLO, &N, A.memptr(), IPIV, WORK, &INFO);
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::ssptri_(&UPLO, &N, (T*)A.memptr(), IPIV, (T*)WORK, &INFO);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dsptri_(&UPLO, &N, (T*)A.memptr(), IPIV, (T*)WORK, &INFO);
+    }
 
     delete[] WORK;
     delete[] IPIV;
@@ -146,10 +161,15 @@ template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B
     auto LDB = N;
     auto INFO = 0;
 
-    if(is_float<eT>::value)
-        suanpan::sspsv_(&UPLO, &N, &NRHS, A.memptr(), IPIV, X.memptr(), &LDB, &INFO);
-    else if(is_double<eT>::value)
-        suanpan::dspsv_(&UPLO, &N, &NRHS, A.memptr(), IPIV, X.memptr(), &LDB, &INFO);
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::sspsv_(
+            &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dspsv_(
+            &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
+    }
 
     delete[] IPIV;
 

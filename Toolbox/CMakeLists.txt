@@ -8,6 +8,9 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Toolbox/debug.cpp"
         "Toolbox/debug.hpp"
         "Toolbox/fn_inv.hpp"
+        "Toolbox/fn_solve.hpp"
+        "Toolbox/glue_solve_bones.hpp"
+        "Toolbox/glue_solve_meat.hpp"
         "Toolbox/integrationPlan.cpp"
         "Toolbox/RCM.cpp"
         "Toolbox/shapeFunctionQuad.cpp"
@@ -19,5 +22,6 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Toolbox/SymmMat_meat.hpp"
         "Toolbox/tensorToolbox.cpp"
         "Toolbox/traits.hpp"
+        "Toolbox/typedef_mat.hpp"
         "Toolbox/utility.cpp"
         )

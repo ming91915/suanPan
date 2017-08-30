@@ -286,6 +286,9 @@
     <ClInclude Include="..\..\..\Toolbox\debug.h" />
     <ClInclude Include="..\..\..\Toolbox\debug.hpp" />
     <ClInclude Include="..\..\..\Toolbox\fn_inv.hpp" />
+    <ClInclude Include="..\..\..\Toolbox\fn_solve.hpp" />
+    <ClInclude Include="..\..\..\Toolbox\glue_solve_bones.hpp" />
+    <ClInclude Include="..\..\..\Toolbox\glue_solve_meat.hpp" />
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h" />
     <ClInclude Include="..\..\..\Toolbox\RCM.h" />
@@ -299,6 +302,7 @@
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h" />
     <ClInclude Include="..\..\..\Toolbox\testFunctions.h" />
     <ClInclude Include="..\..\..\Toolbox\traits.hpp" />
+    <ClInclude Include="..\..\..\Toolbox\typedef_mat.hpp" />
     <ClInclude Include="..\..\..\Toolbox\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

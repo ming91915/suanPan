@@ -3,22 +3,6 @@
 
 using namespace H5;
 
-using symm_mat = SymmMat<double>;
-using symm_fmat = SymmMat<float>;
-
-using band_mat = BandMat<double>;
-using band_fmat = BandMat<float>;
-
-using factory = Factory<double, Mat<double>>;
-using symm_factory = Factory<double, SymmMat<double>>;
-using band_factory = Factory<double, BandMat<double>>;
-using symm_band_factory = Factory<double, BandMat<double>>;
-
-using ffactory = Factory<float, Mat<float>>;
-using symm_ffactory = Factory<float, SymmMat<float>>;
-using band_ffactory = Factory<float, BandMat<float>>;
-using symm_band_ffactory = Factory<float, BandMat<float>>;
-
 void example_symm_mat();
 
 int main(int argc, char** argv)
@@ -30,10 +14,8 @@ int main(int argc, char** argv)
 
     // argument_parser(argc, argv);
     example_symm_mat();
-    Factory<uword, Mat<uword>> A(3, AnalysisType::DISP);
+    factory A(3, AnalysisType::DISP);
     A.initialize();
-
-    A.get_trial_displacement().print();
 
     A.print();
 
@@ -47,20 +29,30 @@ int main(int argc, char** argv)
 void example_symm_mat()
 {
     const auto N = 10;
-    mat A(N, N, fill::randn);
+    fmat A(N, N, fill::randn);
     A = A + A.t();
-    const symm_mat B(A);
+    const symm_fmat B(A);
 
     A.i().print();
-
     cout << endl;
 
-    symm_mat C = inv(B);
+    symm_fmat C = inv(B);
     C.print();
+    cout << endl;
 
-    const vec D(10, fill::randn);
+    const fvec D(10, fill::randn);
 
     (A * D).print();
-
+    cout << endl;
     (B * D).print();
+    cout << endl;
+
+    auto E = solve_sm(B, D);
+
+    fvec F;
+    glue_solve_symm::apply(F, E);
+
+    F.print();
+	cout << endl;
+    solve(A, D).print();
 }
