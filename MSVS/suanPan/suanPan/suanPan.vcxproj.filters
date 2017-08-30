@@ -54,9 +54,6 @@
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Workroom.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -213,6 +210,9 @@
     <ClCompile Include="..\..\..\Domain\Factory.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Domain\Workshop.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -294,9 +294,6 @@
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Tag.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Workroom.h">
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Domain.h">
@@ -450,6 +447,9 @@
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Factory.h">
+      <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Workshop.h">
       <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>

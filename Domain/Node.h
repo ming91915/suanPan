@@ -5,8 +5,8 @@
  *
  * The current/committed, incremental and trial status of displacement, velocity and
  * acceleration are stored. These variables will be the communication bridge(s) between
- * Domain, Workroom and Element objects. That is, Element objects do not directly get
- * information from the Workroom. Instead, Workroom passes information to Node objects
+ * Domain, Workshop and Element objects. That is, Element objects do not directly get
+ * information from the Workshop. Instead, Workshop passes information to Node objects
  * through the Domain, Element objects acquire new status from associated Node objects
  * only. In this manner, the relationship between those modules remains simple.
  *

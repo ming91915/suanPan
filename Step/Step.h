@@ -14,7 +14,7 @@
 
 #include <Domain/Tag.h>
 
-class Workroom;
+class Workshop;
 class Domain;
 class Solver;
 class Converger;
@@ -38,7 +38,7 @@ class Step : public Tag
 
     bool fixed_step_size = false; /**< auto-stepping */
 
-    shared_ptr<Workroom> factory = nullptr;
+    shared_ptr<Workshop> factory = nullptr;
     shared_ptr<Domain> database = nullptr;
     shared_ptr<Solver> solver = nullptr;
     shared_ptr<Converger> tester = nullptr;
@@ -54,8 +54,8 @@ public:
 
     virtual int analyze() = 0;
 
-    void set_workroom(const shared_ptr<Workroom>&);
-    const shared_ptr<Workroom>& get_workroom() const;
+    void set_workshop(const shared_ptr<Workshop>&);
+    const shared_ptr<Workshop>& get_workshop() const;
 
     void set_domain(const shared_ptr<Domain>&);
     const shared_ptr<Domain>& get_domain() const;

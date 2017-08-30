@@ -1,6 +1,6 @@
 #include "AbsResidual.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 AbsResidual::AbsResidual(const unsigned& T,
     const shared_ptr<Domain>& D,
@@ -28,7 +28,7 @@ const bool& AbsResidual::if_converged()
 {
     auto& tmp_domain = get_domain();
 
-    auto& tmp_workroom = tmp_domain->get_workroom();
+    auto& tmp_workroom = tmp_domain->get_workshop();
 
     vec tmp_residual =
         tmp_workroom->get_trial_load() - tmp_workroom->get_trial_resistance();

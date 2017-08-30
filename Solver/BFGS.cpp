@@ -1,7 +1,7 @@
 #include "BFGS.h"
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/Integrator/Integrator.h>
 
 BFGS::BFGS(const unsigned& T,
@@ -20,7 +20,7 @@ int BFGS::initialize()
 {
     if(Solver::initialize() != 0) return -1;
 
-    auto& W = get_converger()->get_domain()->get_workroom();
+    auto& W = get_converger()->get_domain()->get_workshop();
 
     if(W->is_band() || W->is_symm()) {
         suanpan_fatal("analyze() currently does not suppoort band matrix.\n");
@@ -40,7 +40,7 @@ int BFGS::analyze(const unsigned& ST)
 {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& W = C->get_domain()->get_workroom();
+    auto& W = C->get_domain()->get_workshop();
 
     unsigned counter = 0;
 

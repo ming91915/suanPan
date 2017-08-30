@@ -5,5 +5,5 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Domain/Node.cpp"
         "Domain/Storage.cpp"
         "Domain/Tag.cpp"
-        "Domain/Workroom.cpp"
+        "Domain/Workshop.cpp"
         )

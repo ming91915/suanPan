@@ -1,18 +1,18 @@
 #include "RK23.h"
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 
 RK23::RK23(const unsigned& T,
     const shared_ptr<ODE>& D,
     const shared_ptr<Converger>& C,
-    const shared_ptr<Workroom>& W)
+    const shared_ptr<Workshop>& W)
     : ODE_Solver(T, CT_RK23, D, C, W)
 {
 }
 
 RK23::RK23(const shared_ptr<ODE>& D,
     const shared_ptr<Converger>& C,
-    const shared_ptr<Workroom>& W)
+    const shared_ptr<Workshop>& W)
     : ODE_Solver(0, CT_RK23, D, C, W)
 {
 }

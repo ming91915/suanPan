@@ -1,6 +1,6 @@
 /**
- * @class Workroom
- * @brief A Workroom class that holds global variables.
+ * @class Workshop
+ * @brief A Workshop class that holds global variables.
  *
  * The class is basically a container that contains global variables such as time, load,
  * resistance, displacement, velocity and acceleration. All the member variables are
@@ -11,19 +11,19 @@
  * directly instead of using a mutable method.
  *
  * @author T
- * @date 27/07/2017
- * @version 0.1.3
- * @file Workroom.h
+ * @date 31/08/2017
+ * @version 0.2.0
+ * @file Workshop.h
  */
 
-#ifndef WORKROOM_H
-#define WORKROOM_H
+#ifndef WORKSHOP_H
+#define WORKSHOP_H
 
 enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 
 #include <suanPan.h>
 
-class Workroom final
+class Workshop final
 {
     // friend class Solver;
 
@@ -85,7 +85,7 @@ class Workroom final
 
     mat eigenvector; /**< eigenvectors */
 public:
-    explicit Workroom(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE);
+    explicit Workshop(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE);
 
     const bool& is_symm() const;
     const bool& is_band() const;
@@ -200,46 +200,46 @@ public:
     const vec& get_eigenvalue() const;
     const mat& get_eigenvector() const;
 
-    friend vec& get_ninja(const shared_ptr<Workroom>&);
+    friend vec& get_ninja(const shared_ptr<Workshop>&);
 
-    friend double& get_trial_time(const shared_ptr<Workroom>&);
-    friend vec& get_trial_load(const shared_ptr<Workroom>&);
-    friend vec& get_trial_resistance(const shared_ptr<Workroom>&);
-    friend vec& get_trial_displacement(const shared_ptr<Workroom>&);
-    friend vec& get_trial_velocity(const shared_ptr<Workroom>&);
-    friend vec& get_trial_acceleration(const shared_ptr<Workroom>&);
-    friend vec& get_trial_temperature(const shared_ptr<Workroom>&);
+    friend double& get_trial_time(const shared_ptr<Workshop>&);
+    friend vec& get_trial_load(const shared_ptr<Workshop>&);
+    friend vec& get_trial_resistance(const shared_ptr<Workshop>&);
+    friend vec& get_trial_displacement(const shared_ptr<Workshop>&);
+    friend vec& get_trial_velocity(const shared_ptr<Workshop>&);
+    friend vec& get_trial_acceleration(const shared_ptr<Workshop>&);
+    friend vec& get_trial_temperature(const shared_ptr<Workshop>&);
 
-    friend double& get_incre_time(const shared_ptr<Workroom>&);
-    friend vec& get_incre_load(const shared_ptr<Workroom>&);
-    friend vec& get_incre_resistance(const shared_ptr<Workroom>&);
-    friend vec& get_incre_displacement(const shared_ptr<Workroom>&);
-    friend vec& get_incre_velocity(const shared_ptr<Workroom>&);
-    friend vec& get_incre_acceleration(const shared_ptr<Workroom>&);
-    friend vec& get_incre_temperature(const shared_ptr<Workroom>&);
+    friend double& get_incre_time(const shared_ptr<Workshop>&);
+    friend vec& get_incre_load(const shared_ptr<Workshop>&);
+    friend vec& get_incre_resistance(const shared_ptr<Workshop>&);
+    friend vec& get_incre_displacement(const shared_ptr<Workshop>&);
+    friend vec& get_incre_velocity(const shared_ptr<Workshop>&);
+    friend vec& get_incre_acceleration(const shared_ptr<Workshop>&);
+    friend vec& get_incre_temperature(const shared_ptr<Workshop>&);
 
-    friend double& get_current_time(const shared_ptr<Workroom>&);
-    friend vec& get_current_load(const shared_ptr<Workroom>&);
-    friend vec& get_current_resistance(const shared_ptr<Workroom>&);
-    friend vec& get_current_displacement(const shared_ptr<Workroom>&);
-    friend vec& get_current_velocity(const shared_ptr<Workroom>&);
-    friend vec& get_current_acceleration(const shared_ptr<Workroom>&);
-    friend vec& get_current_temperature(const shared_ptr<Workroom>&);
+    friend double& get_current_time(const shared_ptr<Workshop>&);
+    friend vec& get_current_load(const shared_ptr<Workshop>&);
+    friend vec& get_current_resistance(const shared_ptr<Workshop>&);
+    friend vec& get_current_displacement(const shared_ptr<Workshop>&);
+    friend vec& get_current_velocity(const shared_ptr<Workshop>&);
+    friend vec& get_current_acceleration(const shared_ptr<Workshop>&);
+    friend vec& get_current_temperature(const shared_ptr<Workshop>&);
 
-    friend double& get_pre_time(const shared_ptr<Workroom>&);
-    friend vec& get_pre_load(const shared_ptr<Workroom>&);
-    friend vec& get_pre_resistance(const shared_ptr<Workroom>&);
-    friend vec& get_pre_displacement(const shared_ptr<Workroom>&);
-    friend vec& get_pre_velocity(const shared_ptr<Workroom>&);
-    friend vec& get_pre_acceleration(const shared_ptr<Workroom>&);
-    friend vec& get_pre_temperature(const shared_ptr<Workroom>&);
+    friend double& get_pre_time(const shared_ptr<Workshop>&);
+    friend vec& get_pre_load(const shared_ptr<Workshop>&);
+    friend vec& get_pre_resistance(const shared_ptr<Workshop>&);
+    friend vec& get_pre_displacement(const shared_ptr<Workshop>&);
+    friend vec& get_pre_velocity(const shared_ptr<Workshop>&);
+    friend vec& get_pre_acceleration(const shared_ptr<Workshop>&);
+    friend vec& get_pre_temperature(const shared_ptr<Workshop>&);
 
-    friend mat& get_mass(const shared_ptr<Workroom>&);
-    friend mat& get_damping(const shared_ptr<Workroom>&);
-    friend mat& get_stiffness(const shared_ptr<Workroom>&);
+    friend mat& get_mass(const shared_ptr<Workshop>&);
+    friend mat& get_damping(const shared_ptr<Workshop>&);
+    friend mat& get_stiffness(const shared_ptr<Workshop>&);
 
-    friend vec& get_eigenvalue(const shared_ptr<Workroom>&);
-    friend mat& get_eigenvector(const shared_ptr<Workroom>&);
+    friend vec& get_eigenvalue(const shared_ptr<Workshop>&);
+    friend mat& get_eigenvector(const shared_ptr<Workshop>&);
 
     void commit_status();
     void commit_time();

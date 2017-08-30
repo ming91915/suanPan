@@ -1,7 +1,7 @@
 #include "BC.h"
 #include <Domain/Domain.h>
 #include <Domain/Node.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 /**
  * \brief The default constructor.
@@ -127,7 +127,7 @@ const uvec& BC::get_dof() const { return dofs; }
  */
 int BC::process(const shared_ptr<Domain>& D)
 {
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
     auto& t_matrix = get_stiffness(W);
 
     if(!W->is_band()) {

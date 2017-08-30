@@ -2,7 +2,7 @@
 #include "Amplitude/Amplitude.h"
 #include <Domain/Domain.h>
 #include <Domain/Node.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 CLoad::CLoad(const unsigned& T,
     const unsigned& S,
@@ -58,7 +58,7 @@ CLoad::~CLoad() {}
 
 int CLoad::process(const shared_ptr<Domain>& D)
 {
-    auto& tmp_workroom = D->get_workroom();
+    auto& tmp_workroom = D->get_workshop();
 
     const auto final_load =
         pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());

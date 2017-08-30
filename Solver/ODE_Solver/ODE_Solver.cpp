@@ -1,13 +1,13 @@
 #include "ODE_Solver.h"
 #include <Converger/Converger.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 
 ODE_Solver::ODE_Solver(const unsigned& T,
     const unsigned& CT,
     const shared_ptr<ODE>& E,
     const shared_ptr<Converger>& C,
-    const shared_ptr<Workroom>& W)
+    const shared_ptr<Workshop>& W)
     : Solver(T, CT, C, nullptr)
     , ode_system(E)
     , factory(W)
@@ -26,7 +26,7 @@ int ODE_Solver::initialize()
     auto& ode_size = ode_system->getDimension();
 
     if(factory == nullptr)
-        factory = make_shared<Workroom>(ode_size, AnalysisType::DISP);
+        factory = make_shared<Workshop>(ode_size, AnalysisType::DISP);
     else if(ode_size != factory->get_dof_number())
         factory->set_analysis_type(AnalysisType::DISP);
 
@@ -82,6 +82,6 @@ void ODE_Solver::set_ode(const shared_ptr<ODE>& E) { ode_system = E; }
 
 const shared_ptr<ODE>& ODE_Solver::get_ode() const { return ode_system; }
 
-void ODE_Solver::set_workroom(const shared_ptr<Workroom>& W) { factory = W; }
+void ODE_Solver::set_workroom(const shared_ptr<Workshop>& W) { factory = W; }
 
-const shared_ptr<Workroom>& ODE_Solver::get_workroom() const { return factory; }
+const shared_ptr<Workshop>& ODE_Solver::get_workroom() const { return factory; }

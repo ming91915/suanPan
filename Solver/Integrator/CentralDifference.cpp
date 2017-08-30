@@ -1,7 +1,7 @@
 #include "CentralDifference.h"
 #include "Domain/Node.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<Domain>& D)
     : Integrator(T, CT_CENTRALDIFFERENCE, D)
@@ -18,7 +18,7 @@ int CentralDifference::initialize()
     const auto code = Integrator::initialize();
 
     if(code == 0) {
-        auto& W = get_domain()->get_workroom();
+        auto& W = get_domain()->get_workshop();
 
         if(W->is_band() || W->is_symm()) {
             suanpan_error(
@@ -36,7 +36,7 @@ int CentralDifference::initialize()
 
 void CentralDifference::update_parameter()
 {
-    auto& W = get_domain()->get_workroom();
+    auto& W = get_domain()->get_workshop();
 
     if(DT != W->get_incre_time() || W->get_pre_displacement().is_empty()) {
         DT = W->get_incre_time();
@@ -57,7 +57,7 @@ void CentralDifference::update_stiffness()
 {
     update_parameter();
 
-    auto& W = get_domain()->get_workroom();
+    auto& W = get_domain()->get_workshop();
 
     get_stiffness(W) = C0 * W->get_mass() + C1 * W->get_damping();
 }
@@ -67,7 +67,7 @@ void CentralDifference::update_resistance()
     update_parameter();
 
     auto& D = get_domain();
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
 
     D->update_resistance();
 
@@ -79,7 +79,7 @@ void CentralDifference::update_resistance()
 void CentralDifference::commit_status() const
 {
     auto& D = get_domain();
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
 
     W->update_current_velocity(
         C1 * (W->get_trial_displacement() - W->get_pre_displacement()));

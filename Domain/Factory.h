@@ -19,7 +19,7 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
-#include "Workroom.h"
+#include "Workshop.h"
 #include <suanPan.h>
 
 template <typename eT, typename T> class Factory final

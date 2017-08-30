@@ -30,10 +30,10 @@ public:
     explicit BS23(const unsigned& = 0,
         const shared_ptr<ODE>& = nullptr,
         const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workroom>& = nullptr);
+        const shared_ptr<Workshop>& = nullptr);
     explicit BS23(const shared_ptr<ODE>&,
         const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workroom>& = nullptr);
+        const shared_ptr<Workshop>& = nullptr);
     ~BS23();
 
     int update_status() override;

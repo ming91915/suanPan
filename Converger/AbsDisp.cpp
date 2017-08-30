@@ -1,6 +1,6 @@
 #include "AbsDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 /**
 * \brief The complete constructor.
@@ -40,7 +40,7 @@ AbsDisp::AbsDisp(const shared_ptr<Domain>& D,
  */
 const bool& AbsDisp::if_converged()
 {
-    set_error(norm(get_domain()->get_workroom()->get_incre_displacement()));
+    set_error(norm(get_domain()->get_workshop()->get_incre_displacement()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("Absolute Displacement Error: %.5E.\n", get_error());

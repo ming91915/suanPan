@@ -1,6 +1,6 @@
 #include "AbsIncreDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 /**
 * \brief The default constructor.
@@ -40,7 +40,7 @@ AbsIncreDisp::AbsIncreDisp(const shared_ptr<Domain>& D,
 */
 const bool& AbsIncreDisp::if_converged()
 {
-    set_error(norm(get_domain()->get_workroom()->get_ninja()));
+    set_error(norm(get_domain()->get_workshop()->get_ninja()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print())

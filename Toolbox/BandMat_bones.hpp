@@ -11,13 +11,17 @@ public:
     static const bool is_row = false;
     static const bool is_col = false;
 
-    const uword n_size;
-    const uword l;
-    const uword u;
-    const uword s = l + u;
-    const uword n_rows = 2 * l + u + 1;
-    const uword n_a = n_rows - l;
+    const uword n_cols;
+    const uword n_l;
+    const uword n_u;
+    const uword n_rows = 2 * n_l + n_u + 1;
+
+private:
+    const uword n_s = n_l + n_u;
+    const uword n_a = n_rows - n_l;
     const uword n_b = n_rows - 1;
+
+public:
     const uword n_elem;
     const uhword mem_state;
 

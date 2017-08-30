@@ -1,6 +1,6 @@
 #include "RelDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 RelDisp::RelDisp(const unsigned& T,
     const shared_ptr<Domain>& D,
@@ -21,7 +21,7 @@ RelDisp::RelDisp(const shared_ptr<Domain>& D,
 
 const bool& RelDisp::if_converged()
 {
-    auto& tmp_workroom = get_domain()->get_workroom();
+    auto& tmp_workroom = get_domain()->get_workshop();
 
     set_error(norm(
         tmp_workroom->get_incre_displacement() / tmp_workroom->get_trial_displacement()));

@@ -1,18 +1,18 @@
 #include "DP45.h"
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 
 DP45::DP45(const unsigned& T,
     const shared_ptr<ODE>& D,
     const shared_ptr<Converger>& C,
-    const shared_ptr<Workroom>& W)
+    const shared_ptr<Workshop>& W)
     : ODE_Solver(T, CT_DP45, D, C, W)
 {
 }
 
 DP45::DP45(const shared_ptr<ODE>& D,
     const shared_ptr<Converger>& C,
-    const shared_ptr<Workroom>& W)
+    const shared_ptr<Workshop>& W)
     : ODE_Solver(0, CT_DP45, D, C, W)
 {
 }

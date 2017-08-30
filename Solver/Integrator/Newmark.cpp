@@ -1,6 +1,6 @@
 #include "Newmark.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 Newmark::Newmark(const unsigned& T,
     const shared_ptr<Domain>& D,
@@ -30,7 +30,7 @@ int Newmark::initialize()
     const auto code = Integrator::initialize();
 
     if(code == 0) {
-        auto& W = get_domain()->get_workroom();
+        auto& W = get_domain()->get_workshop();
 
         if(W->is_band() || W->is_symm()) {
             suanpan_error(
@@ -47,7 +47,7 @@ void Newmark::update_resistance()
     update_parameter();
 
     auto& D = get_domain();
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
 
     D->update_resistance();
 
@@ -64,7 +64,7 @@ void Newmark::update_stiffness()
     update_parameter();
 
     auto& D = get_domain();
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
 
     D->update_stiffness();
 
@@ -74,7 +74,7 @@ void Newmark::update_stiffness()
 void Newmark::commit_status() const
 {
     auto& D = get_domain();
-    auto& W = D->get_workroom();
+    auto& W = D->get_workshop();
 
     W->update_trial_acceleration(C0 * W->get_incre_displacement() -
         C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
@@ -86,7 +86,7 @@ void Newmark::commit_status() const
 
 void Newmark::update_parameter()
 {
-    auto& W = get_domain()->get_workroom();
+    auto& W = get_domain()->get_workshop();
 
     if(DT != W->get_incre_time()) {
         DT = W->get_incre_time();

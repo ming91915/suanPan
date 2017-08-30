@@ -1,6 +1,6 @@
 #include "RelResidual.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 RelResidual::RelResidual(const unsigned& T,
     const shared_ptr<Domain>& D,
@@ -28,7 +28,7 @@ const bool& RelResidual::if_converged()
 {
     auto& tmp_domain = get_domain();
 
-    auto& tmp_workroom = tmp_domain->get_workroom();
+    auto& tmp_workroom = tmp_domain->get_workshop();
 
     auto tmp_load = tmp_workroom->get_trial_load();
 

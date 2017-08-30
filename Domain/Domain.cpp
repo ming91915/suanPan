@@ -1,7 +1,7 @@
 #include "Domain.h"
 #include <Constraint/BC/BC.h>
 #include <Domain/Node.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Element/Element.h>
 #include <Load/Load.h>
 #include <Material/Material.h>
@@ -120,12 +120,12 @@ int Domain::initialize()
         tmp_element->update_dof_encoding();
     }
 
-    if(factory == nullptr)
-        factory = make_shared<Workroom>(dof_counter);
+    if(workroom == nullptr)
+        workroom = make_shared<Workshop>(dof_counter);
     else
-        factory->set_dof_number(dof_counter);
+        workroom->set_dof_number(dof_counter);
 
-    factory->set_bandwidth(low_bandwidth, -up_bandwidth);
+    workroom->set_bandwidth(low_bandwidth, -up_bandwidth);
 
     return 0;
 }
@@ -136,7 +136,7 @@ void Domain::process(const unsigned& ST)
     restrained_dofs.clear();
     constrained_dofs.clear();
 
-    get_trial_load(factory).zeros();
+    get_trial_load(workroom).zeros();
 
     for(const auto& I : tmp_load_pool)
         if(I->get_step_tag() <= ST) I->process(shared_from_this());
@@ -150,13 +150,13 @@ void Domain::record()
         if(I.second->is_active()) I.second->record(shared_from_this());
 }
 
-void Domain::set_workroom(const shared_ptr<Workroom>& W)
+void Domain::set_workshop(const shared_ptr<Workshop>& W)
 {
-    factory = W;
+    workroom = W;
     updated = false;
 }
 
-const shared_ptr<Workroom>& Domain::get_workroom() const { return factory; }
+const shared_ptr<Workshop>& Domain::get_workshop() const { return workroom; }
 
 bool Domain::insert(const shared_ptr<Constraint>& C)
 {
@@ -486,48 +486,48 @@ bool Domain::find_recorder(const unsigned& T) const
 
 void Domain::update_resistance() const
 {
-    factory->clear_resistance();
+    workroom->clear_resistance();
     for(const auto& I : tmp_element_pool)
-        factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+        workroom->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::update_mass() const
 {
-    factory->clear_mass();
+    workroom->clear_mass();
     for(const auto& I : tmp_element_pool)
-        factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
+        workroom->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::update_initial_stiffness() const
 {
-    factory->clear_stiffness();
+    workroom->clear_stiffness();
     for(const auto& I : tmp_element_pool)
-        factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
+        workroom->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_stiffness() const
 {
-    factory->clear_stiffness();
+    workroom->clear_stiffness();
     for(const auto& I : tmp_element_pool)
-        factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
+        workroom->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_damping() const
 {
-    factory->clear_damping();
+    workroom->clear_damping();
     for(const auto& I : tmp_element_pool)
-        factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
+        workroom->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
-void Domain::update_trial_time(const double& T) const { factory->update_trial_time(T); }
+void Domain::update_trial_time(const double& T) const { workroom->update_trial_time(T); }
 
-void Domain::update_incre_time(const double& T) const { factory->update_incre_time(T); }
+void Domain::update_incre_time(const double& T) const { workroom->update_incre_time(T); }
 
 void Domain::update_trial_status() const
 {
-    auto& trial_dsp = factory->get_trial_displacement();
-    auto& trial_vel = factory->get_trial_velocity();
-    auto& trial_acc = factory->get_trial_acceleration();
+    auto& trial_dsp = workroom->get_trial_displacement();
+    auto& trial_vel = workroom->get_trial_velocity();
+    auto& trial_acc = workroom->get_trial_acceleration();
 
     if(!trial_dsp.is_empty()) {
         if(!trial_acc.is_empty() && !trial_vel.is_empty()) {
@@ -559,9 +559,9 @@ void Domain::update_trial_status() const
 
 void Domain::update_incre_status() const
 {
-    auto& incre_dsp = factory->get_incre_displacement();
-    auto& incre_vel = factory->get_incre_velocity();
-    auto& incre_acc = factory->get_incre_acceleration();
+    auto& incre_dsp = workroom->get_incre_displacement();
+    auto& incre_vel = workroom->get_incre_velocity();
+    auto& incre_acc = workroom->get_incre_acceleration();
 
     if(!incre_dsp.is_empty()) {
         if(!incre_acc.is_empty() && !incre_vel.is_empty()) {
@@ -593,7 +593,7 @@ void Domain::update_incre_status() const
 
 void Domain::commit_status()
 {
-    factory->commit_status();
+    workroom->commit_status();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
@@ -609,7 +609,7 @@ void Domain::commit_status()
 
 void Domain::clear_status()
 {
-    factory->clear_status();
+    workroom->clear_status();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for
@@ -630,7 +630,7 @@ void Domain::clear_status()
 
 void Domain::reset_status()
 {
-    factory->reset_status();
+    workroom->reset_status();
 
 #ifdef SUANPAN_OPENMP
 #pragma omp parallel for

@@ -6,7 +6,7 @@
  * `solve()` (calls LAPACK) and `spsolve()` (calls SuperLU) depending on different matrix
  * types and Solver configurations, provided by `Armadillo`.
  *
- * By default, Workroom uses sparse matrix for storing data. Correspondingly, Solver uses
+ * By default, Workshop uses sparse matrix for storing data. Correspondingly, Solver uses
  * `spsolve()` for solving the system. The `spsolve()` provides two type flags, which can
  * convert the sparse matrix to dense matrix then call LAPACK subroutines to compute the
  * inverse. This can be controlled by the flag `dense_mat`.

@@ -57,7 +57,7 @@ void example_ODE()
 
 void example_Newmark()
 {
-    auto B = make_shared<Workroom>(3, AnalysisType::DYNAMICS);
+    auto B = make_shared<Workshop>(3, AnalysisType::DYNAMICS);
     B->initialize();
     mat M = eye(3, 3);
     M(1, 1) = 3;
@@ -67,7 +67,7 @@ void example_Newmark()
     B->update_current_acceleration({ 0, 0, 6 });
     B->update_trial_load({ 0, 0, 6 });
     auto W = make_shared<Domain>();
-    W->set_workroom(B);
+    W->set_workshop(B);
     Newmark C(W);
     for(auto i = 0; i < 10; ++i) {
         B->update_incre_time(0.363);

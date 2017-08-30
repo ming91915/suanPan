@@ -21,9 +21,6 @@
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Workroom.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\Domain.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Depend</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
+      <Filter>Depend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Domain\Workshop.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
   </ItemGroup>

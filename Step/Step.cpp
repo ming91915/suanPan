@@ -1,7 +1,7 @@
 #include "Step.h"
 #include "Converger/Converger.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 
@@ -35,12 +35,12 @@ int Step::initialize()
         return -1;
     }
 
-    if(factory == nullptr) factory = make_shared<Workroom>();
+    if(factory == nullptr) factory = make_shared<Workshop>();
 
     factory->set_symm(symm_mat);
     factory->set_band(band_mat);
 
-    database->set_workroom(factory);
+    database->set_workshop(factory);
     database->initialize();
 
     switch(get_class_tag()) {
@@ -76,13 +76,13 @@ int Step::initialize()
 
 int Step::analyze() { return -1; }
 
-void Step::set_workroom(const shared_ptr<Workroom>& F)
+void Step::set_workshop(const shared_ptr<Workshop>& F)
 {
     factory = F;
     updated = false;
 }
 
-const shared_ptr<Workroom>& Step::get_workroom() const { return factory; }
+const shared_ptr<Workshop>& Step::get_workshop() const { return factory; }
 
 void Step::set_domain(const shared_ptr<Domain>& D)
 {

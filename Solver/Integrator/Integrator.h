@@ -3,12 +3,12 @@
 * @brief The Integrator class is basically a warpper of the Domain class with regard to
 * some status changing methods.
 *
-* By default, the Step object calls Domain(Workroom) object to update
+* By default, the Step object calls Domain(Workshop) object to update
 * displacement/resistance/stiffness independently. When it comes to dynamic analysis (time
 * integration is invoved), it is necessary to compute the equivalent load/stiffness by
 * combining several quantities.
 *
-* The Integrator object is acting like an agent between Workroom and Step, that can modify
+* The Integrator object is acting like an agent between Workshop and Step, that can modify
 * corresponding quantities to account for dynamic effect.
 *
 * @author T

@@ -2,7 +2,7 @@
 #include "lapack_wrapper.h"
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 #include <Solver/Integrator/Integrator.h>
 
 Newton::Newton(const unsigned& T,
@@ -14,7 +14,7 @@ Newton::Newton(const unsigned& T,
 
 int Newton::update_status()
 {
-    auto& W = get_integrator()->get_domain()->get_workroom();
+    auto& W = get_integrator()->get_domain()->get_workshop();
 
     if(W->is_symm() && W->is_band())
         return pb_solve(get_ninja(W), get_stiffness(W),
@@ -42,7 +42,7 @@ int Newton::analyze(const unsigned& ST)
 {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& W = G->get_domain()->get_workroom();
+    auto& W = G->get_domain()->get_workshop();
 
     unsigned counter = 0;
 
@@ -57,7 +57,7 @@ int Newton::analyze(const unsigned& ST)
             suanpan_error("analyze() recieves error code %u from base driver.\n", flag);
             return flag;
         }
-        // UPDATE TRIAL STATUS FOR WORKROOM
+        // UPDATE TRIAL STATUS FOR WORKSHOP
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED
         G->update_trial_status();

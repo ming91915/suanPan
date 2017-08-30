@@ -4,9 +4,9 @@ template <typename eT> BandMat<eT>::~BandMat() {}
 
 template <typename eT>
 BandMat<eT>::BandMat()
-    : n_size(0)
-    , l(0)
-    , u(0)
+    : n_cols(0)
+    , n_l(0)
+    , n_u(0)
     , n_elem(0)
     , mem_state(0)
     , mem()
@@ -15,9 +15,9 @@ BandMat<eT>::BandMat()
 
 template <typename eT>
 BandMat<eT>::BandMat(const uword& in_size, const uword& in_l, const uword& in_u)
-    : n_size(in_size)
-    , l(in_l)
-    , u(in_u)
+    : n_cols(in_size)
+    , n_l(in_l)
+    , n_u(in_u)
     , n_elem((in_u + 2 * in_l + 1) * in_size)
     , mem_state(0)
     , mem()
@@ -32,9 +32,9 @@ BandMat<eT>::BandMat(const uword& in_size,
     const uword& in_l,
     const uword& in_u,
     const fill::fill_class<fill_type>& f)
-    : n_size(in_size)
-    , l(in_l)
-    , u(in_u)
+    : n_cols(in_size)
+    , n_l(in_l)
+    , n_u(in_u)
     , n_elem((in_u + 2 * in_l + 1) * in_size)
     , mem_state(0)
     , mem()
@@ -91,7 +91,7 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator/=(const eT& val)
 
 template <typename eT>
 BandMat<eT>::BandMat(const BandMat& m)
-    : n_size(m.n_size)
+    : n_cols(m.n_cols)
     , n_elem(m.n_elem)
     , mem_state(0)
     , mem()
@@ -108,7 +108,7 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator=(const BandMat& m)
     arma_extra_debug_sigprint(arma_str::format("this = %x   in_mat = %x") % this % &m);
 
     if(this != &m) {
-        init_warm(m.n_size, m.l, m.u);
+        init_warm(m.n_cols, m.n_l, m.n_u);
 
         arrayops::copy(memptr(), m.mem, m.n_elem);
     }
@@ -163,9 +163,9 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator/=(const BandMat& m)
 template <typename eT>
 template <typename T1, typename bdop_type>
 BandMat<eT>::BandMat(const BdOp<T1, bdop_type>& X)
-    : n_size(0)
-    , l(0)
-    , u(0)
+    : n_cols(0)
+    , n_l(0)
+    , n_u(0)
     , n_elem(0)
     , mem_state(0)
     , mem()
@@ -205,7 +205,7 @@ template <typename eT>
 eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col)
 {
     arma_debug_check(
-        in_row >= n_size || in_col >= n_size, "BandMat::operator(): index out of bounds");
+        in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
     return at(in_row, in_col);
 }
 
@@ -213,13 +213,13 @@ template <typename eT>
 const eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col) const
 {
     arma_debug_check(
-        in_row >= n_size || in_col >= n_size, "BandMat::operator(): index out of bounds");
+        in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
     return at(in_row, in_col);
 }
 
 template <typename eT> void BandMat<eT>::init_cold()
 {
-    arma_extra_debug_sigprint(arma_str::format("n_size = %d") % n_size);
+    arma_extra_debug_sigprint(arma_str::format("n_size = %d") % n_cols);
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     auto error_message = "BandMat::init(): requested size is too large";
@@ -230,7 +230,7 @@ template <typename eT> void BandMat<eT>::init_cold()
 #endif
 
     arma_debug_check(
-        n_size > ARMA_MAX_UHWORD ? n_elem > ARMA_MAX_UWORD : false, error_message);
+        n_cols > ARMA_MAX_UHWORD ? n_elem > ARMA_MAX_UWORD : false, error_message);
 
     if(n_elem <= arma_config::mat_prealloc)
         if(n_elem == 0)
@@ -250,7 +250,7 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
 {
     arma_extra_debug_sigprint(arma_str::format("in_n_size = %d") % in_size);
 
-    if(n_size == in_size && l == in_l && u == in_u) return;
+    if(n_cols == in_size && n_l == in_l && n_u == in_u) return;
 
     auto err_state = false;
     char* err_msg = nullptr;
@@ -307,12 +307,12 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
             access::rw(mem_state) = 0;
         }
 
-        access::rw(n_size) = in_size;
-        access::rw(l) = in_l;
-        access::rw(u) = in_u;
-        access::rw(s) = l + u;
-        access::rw(n_rows) = 2 * l + u + 1;
-        access::rw(n_a) = n_rows - l;
+        access::rw(n_cols) = in_size;
+        access::rw(n_l) = in_l;
+        access::rw(n_u) = in_u;
+        access::rw(n_s) = n_l + n_u;
+        access::rw(n_rows) = 2 * n_l + n_u + 1;
+        access::rw(n_a) = n_rows - n_l;
         access::rw(n_b) = n_rows - 1;
         access::rw(n_elem) = new_n_elem;
     }
@@ -396,7 +396,7 @@ template <typename eT> const BandMat<eT>& BandMat<eT>::eye()
 
     (*this).zeros();
 
-    for(uword ii = 0; ii < n_size; ++ii) at(ii, ii) = eT(1);
+    for(uword ii = 0; ii < n_cols; ++ii) at(ii, ii) = eT(1);
 
     return *this;
 }

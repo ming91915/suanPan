@@ -1,6 +1,6 @@
 #include "Frequence.h"
 #include "Domain/Domain.h"
-#include "Domain/Workroom.h"
+#include "Domain/Workshop.h"
 
 Frequence::Frequence(const unsigned& T, const unsigned& N)
     : Step(T, CT_FREQUENCE, 0.)
@@ -19,14 +19,14 @@ int Frequence::initialize()
         return -1;
     }
 
-    if(get_workroom() == nullptr) set_workroom(make_shared<Workroom>());
+    if(get_workshop() == nullptr) set_workshop(make_shared<Workshop>());
 
-    auto& tmp_workroom = get_workroom();
+    auto& tmp_workroom = get_workshop();
 
     tmp_workroom->set_symm(is_symm());
     tmp_workroom->set_band(is_band());
 
-    tmp_domain->set_workroom(tmp_workroom);
+    tmp_domain->set_workshop(tmp_workroom);
     tmp_domain->initialize();
 
     tmp_workroom->set_analysis_type(AnalysisType::EIGEN);

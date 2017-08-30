@@ -15,7 +15,8 @@
 #include <unordered_set>
 #include <vector>
 
-class Workroom;
+// template <typename eT, typename T> class Factory;
+class Workshop;
 class Constraint;
 class Element;
 class Load;
@@ -34,14 +35,14 @@ class Domain : public Tag, public enable_shared_from_this<Domain>
     bool updated = false;
     bool initialized = false;
 
-    shared_ptr<Workroom> factory; /**< working room */
+    shared_ptr<Workshop> workroom; /**< working room */
 
     unordered_map<unsigned, shared_ptr<Constraint>> constraint_pool; /**< data storage */
     unordered_map<unsigned, shared_ptr<Element>> element_pool;       /**< data storage */
     unordered_map<unsigned, shared_ptr<Load>> load_pool;             /**< data storage */
     unordered_map<unsigned, shared_ptr<Material>> material_pool;     /**< data storage */
     unordered_map<unsigned, shared_ptr<Node>> node_pool;             /**< data storage */
-    unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;
+    unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;     /**< data storage */
 
     vector<shared_ptr<Constraint>> tmp_constraint_pool;
     vector<shared_ptr<Element>> tmp_element_pool;
@@ -71,8 +72,8 @@ public:
 
     void record();
 
-    void set_workroom(const shared_ptr<Workroom>&);
-    const shared_ptr<Workroom>& get_workroom() const;
+    void set_workshop(const shared_ptr<Workshop>&);
+    const shared_ptr<Workshop>& get_workshop() const;
 
     bool insert(const shared_ptr<Constraint>&);
     bool insert(const shared_ptr<Element>&);

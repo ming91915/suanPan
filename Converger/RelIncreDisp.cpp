@@ -1,6 +1,6 @@
 #include "RelIncreDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workroom.h>
+#include <Domain/Workshop.h>
 
 RelIncreDisp::RelIncreDisp(const unsigned& T,
     const shared_ptr<Domain>& D,
@@ -21,7 +21,7 @@ RelIncreDisp::RelIncreDisp(const shared_ptr<Domain>& D,
 
 const bool& RelIncreDisp::if_converged()
 {
-    auto& tmp_workroom = get_domain()->get_workroom();
+    auto& tmp_workroom = get_domain()->get_workshop();
 
     set_error(
         norm(tmp_workroom->get_ninja()) / norm(tmp_workroom->get_trial_displacement()));

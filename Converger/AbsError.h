@@ -7,7 +7,7 @@
 * \f{gather}{
 * e<E,
 * \f}
-* where \f$E\f$ is the tolerance and \f$e\f$ is the error provided by the Workroom.
+* where \f$E\f$ is the tolerance and \f$e\f$ is the error provided by the Workshop.
 *
 * @author T
 * @date 08/08/2017

@@ -18,19 +18,19 @@
 #include <Solver/Solver.h>
 
 class ODE;
-class Workroom;
+class Workshop;
 
 class ODE_Solver : public Solver
 {
     shared_ptr<ODE> ode_system = nullptr;
-    shared_ptr<Workroom> factory = nullptr;
+    shared_ptr<Workshop> factory = nullptr;
 
 public:
     explicit ODE_Solver(const unsigned& = 0,
         const unsigned& = CT_ODESOLVER,
         const shared_ptr<ODE>& = nullptr,
         const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workroom>& = nullptr);
+        const shared_ptr<Workshop>& = nullptr);
     virtual ~ODE_Solver();
 
     int initialize() override;
@@ -42,8 +42,8 @@ public:
     void set_ode(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& get_ode() const;
 
-    void set_workroom(const shared_ptr<Workroom>&);
-    const shared_ptr<Workroom>& get_workroom() const;
+    void set_workroom(const shared_ptr<Workshop>&);
+    const shared_ptr<Workshop>& get_workroom() const;
 };
 
 #endif

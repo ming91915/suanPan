@@ -3,9 +3,9 @@
 * @brief The Converger class handles converger test to indicate if the iteration
 * converges according to various rules.
 *
-* The class stores a pointer `factory` pointed to the Workroom and get information from
+* The class stores a pointer `factory` pointed to the Workshop and get information from
 * this Workroom. The `tolerance` and `error` are stored independently so that the
-* Workroom will not be modified.
+* Workshop will not be modified.
 *
 * The class further provides a `print_flag` to indicate if the test information should be
 * printed out.
