@@ -5115,7 +5115,7 @@ cload 2 .01 2 51 2601
 
 # recorder 1 node U 6
 
-set ini_step_size 0.01
+set ini_step_size 0.1
 
 analyze
 

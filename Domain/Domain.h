@@ -15,7 +15,6 @@
 #include <unordered_set>
 #include <vector>
 
-// template <typename eT, typename T> class Factory;
 class Workshop;
 class Constraint;
 class Element;
