@@ -10,8 +10,6 @@ option(USE_HDF5 "USE HDF5 LIBRARY" ON)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     option(USE_NETLIB "USE NETLIB LAPCK" OFF)
-    set(CMAKE_CXX_FLAGS "-O3 -fexceptions")
-    set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
 endif()
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
@@ -83,6 +81,6 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    set(CMAKE_CXX_FLAGS "-Wno-non-template-friend")
-    set(CMAKE_CXX_FLAGS_DEBUG "-Wno-non-template-friend")
+    set(CMAKE_CXX_FLAGS "-O3 -fexceptions -Wno-non-template-friend")
+    set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG -Wno-non-template-friend")
 endif()
