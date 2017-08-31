@@ -1,12 +1,9 @@
 #pragma once
 
-template <typename eT> class SymmMat;
-
 class smop_inv
 {
 public:
-    template <typename T1>
-    static void apply(SymmMat<typename T1::elem_type>& out, const SmOp<T1, smop_inv>& in)
+    template <typename T1> static void apply(T1& out, const SmOp<T1, smop_inv>& in)
     {
         arma_extra_debug_sigprint();
 

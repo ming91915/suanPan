@@ -17,6 +17,6 @@ public:
 
     arma_aligned const T1& m;   //!< storage of reference to the operand (eg. a matrix)
     arma_aligned elem_type aux; //!< storage of auxiliary data, user defined format
-    arma_aligned uword aux_uword_a; //!< storage of auxiliary data, uword format
-    arma_aligned uword aux_uword_b; //!< storage of auxiliary data, uword format
+    arma_aligned uword aux_uword_a = 0; //!< storage of auxiliary data, uword format
+    arma_aligned uword aux_uword_b = 0; //!< storage of auxiliary data, uword format
 };

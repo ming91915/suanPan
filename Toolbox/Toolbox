@@ -11,6 +11,8 @@
 #include "fn_solve.hpp"
 #include "glue_solve_bones.hpp"
 #include "glue_solve_meat.hpp"
+#include "glue_times_bones.hpp"
+#include "glue_times_meat.hpp"
 #include "integrationPlan.h"
 #include "PropertyType.h"
 #include "RCM.h"

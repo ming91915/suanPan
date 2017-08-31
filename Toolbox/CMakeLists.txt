@@ -11,6 +11,8 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Toolbox/fn_solve.hpp"
         "Toolbox/glue_solve_bones.hpp"
         "Toolbox/glue_solve_meat.hpp"
+        "Toolbox/glue_times_bones.hpp"
+        "Toolbox/glue_times_meat.hpp"
         "Toolbox/integrationPlan.cpp"
         "Toolbox/RCM.cpp"
         "Toolbox/shapeFunctionQuad.cpp"

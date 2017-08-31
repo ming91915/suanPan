@@ -464,5 +464,11 @@
     <ClInclude Include="..\..\..\Toolbox\typedef_mat.hpp">
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\glue_times_meat.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\glue_times_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

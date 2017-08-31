@@ -80,16 +80,45 @@ public:
     void print() const;
 };
 
-template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
+template <typename T1>
+typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
+operator*(const T1& X, const typename T1::elem_type k)
 {
-    A *= X;
-    return A;
+    arma_extra_debug_sigprint();
+
+    return eOp<T1, eop_scalar_times>(X, k);
 }
 
-template <typename eT> Col<eT> operator*(const SymmMat<eT>& A, const Col<eT>& X)
+template <typename T1>
+typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
+operator*(const typename T1::elem_type k, const T1& X)
 {
-    return sp_mv(A, X);
+    arma_extra_debug_sigprint();
+
+    return eOp<T1, eop_scalar_times>(X, k);
 }
+
+template <typename T1, typename T2>
+typename enable_if2<is_SymmMat<T1>::value && is_Col<T2>::value &&
+        is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
+    const Glue<T1, T2, glue_times_symm>>::result
+operator*(const T1& X, const T2& Y)
+{
+    arma_extra_debug_sigprint();
+
+    return Glue<T1, T2, glue_times_symm>(X, Y);
+}
+
+// template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
+//{
+//    A *= X;
+//    return A;
+//}
+//
+// template <typename eT> Col<eT> operator*(const SymmMat<eT>& A, const Col<eT>& X)
+//{
+//    return sp_mv(A, X);
+//}
 
 template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
 {
@@ -101,17 +130,14 @@ template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
     auto INC = 1;
     eT BETA = 0.;
 
-    const auto APTR = const_cast<eT*>(A.memptr());
-    const auto XPTR = const_cast<eT*>(X.memptr());
-
     if(is_float<eT>::value) {
         using T = float;
-        suanpan::sspmv_(&UPLO, &N, (T*)&ALPHA, (T*)APTR, (T*)XPTR, &INC, (T*)&BETA,
-            (T*)Y.memptr(), &INC);
+        suanpan::sspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
+            (T*)&BETA, (T*)Y.memptr(), &INC);
     } else if(is_double<eT>::value) {
         using T = double;
-        suanpan::dspmv_(&UPLO, &N, (T*)&ALPHA, (T*)APTR, (T*)XPTR, &INC, (T*)&BETA,
-            (T*)Y.memptr(), &INC);
+        suanpan::dspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
+            (T*)&BETA, (T*)Y.memptr(), &INC);
     }
 
     return Y;
