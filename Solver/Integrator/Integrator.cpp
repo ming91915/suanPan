@@ -8,7 +8,7 @@ Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<D
     suanpan_debug("Integrator %u ctor() called.\n", T);
 }
 
-Integrator::~Integrator() { suanpan_debug("Integrator %u dtor() called.\n"); }
+Integrator::~Integrator() { suanpan_debug("Integrator %u dtor() called.\n", get_tag()); }
 
 const bool& Integrator::is_initialized() const { return initialized; }
 

@@ -29,8 +29,6 @@
 
 class BFGS : public Solver
 {
-    mat const_eye;
-
 public:
     explicit BFGS(const unsigned& = 0,
         const shared_ptr<Converger>& = nullptr,

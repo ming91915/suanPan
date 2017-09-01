@@ -27,10 +27,6 @@ int BFGS::initialize()
         return -1;
     }
 
-    auto& tmp_size = W->get_dof_number();
-    if(const_eye.is_empty() || const_eye.n_cols != tmp_size)
-        const_eye = eye(tmp_size, tmp_size);
-
     return 0;
 }
 
@@ -56,11 +52,10 @@ int BFGS::analyze(const unsigned& ST)
             G->update_stiffness();
             G->process(ST);
             if(!inv_sympd(inv_stiffness, W->get_stiffness())) return 1;
-            auto& tmp_size = W->get_dof_number();
-            const_eye = eye(tmp_size, tmp_size);
         } else {
             const auto factor = dot(tmp_residual, tmp_ninja);
-            const mat tmp_a = const_eye - tmp_ninja * tmp_residual.t() / factor;
+            mat tmp_a = tmp_ninja * tmp_residual.t() / factor;
+            for(auto I = 0; I < tmp_a.n_rows; ++I) tmp_a(I, I) -= 1.;
             inv_stiffness =
                 tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
         }
