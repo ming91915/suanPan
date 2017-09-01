@@ -12,7 +12,9 @@ int main(int argc, char** argv)
     T.tic();
 #endif
 
-    argument_parser(argc, argv);
+    // argument_parser(argc, argv);
+
+    Storage<Constraint> A;
 
 // example_symm_mat();
 // factory A(3, AnalysisType::DISP);

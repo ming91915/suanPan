@@ -183,6 +183,7 @@ public:
     const Mat<eT>& get_eigenvector() const;
 
     template <eT, T> friend Col<eT>& get_ninja(const shared_ptr<Factory<eT, T>>&);
+
     template <eT, T> friend eT& get_trial_time(const shared_ptr<Factory<eT, T>>&);
     template <eT, T> friend Col<eT>& get_trial_load(const shared_ptr<Factory<eT, T>>&);
     template <eT, T>
