@@ -17,7 +17,7 @@
 //! @{
 
 //! Class for storing data required to extract and set the diagonals of a sparse matrix
-template <typename eT> class spdiagview : public Base<eT, spdiagview<eT>>
+template <typename eT> class spdiagview : public SpBase<eT, spdiagview<eT>>
 {
 public:
     typedef eT elem_type;
@@ -64,21 +64,19 @@ public:
     template <typename T1> inline void operator%=(const SpBase<eT, T1>& x);
     template <typename T1> inline void operator/=(const SpBase<eT, T1>& x);
 
-    inline eT at_alt(const uword ii) const;
-
-    inline SpValProxy<SpMat<eT>> operator[](const uword ii);
+    inline MapMat_elem<eT> operator[](const uword ii);
     inline eT operator[](const uword ii) const;
 
-    inline SpValProxy<SpMat<eT>> at(const uword ii);
+    inline MapMat_elem<eT> at(const uword ii);
     inline eT at(const uword ii) const;
 
-    inline SpValProxy<SpMat<eT>> operator()(const uword ii);
+    inline MapMat_elem<eT> operator()(const uword ii);
     inline eT operator()(const uword ii) const;
 
-    inline SpValProxy<SpMat<eT>> at(const uword in_n_row, const uword);
+    inline MapMat_elem<eT> at(const uword in_n_row, const uword);
     inline eT at(const uword in_n_row, const uword) const;
 
-    inline SpValProxy<SpMat<eT>> operator()(const uword in_n_row, const uword in_n_col);
+    inline MapMat_elem<eT> operator()(const uword in_n_row, const uword in_n_col);
     inline eT operator()(const uword in_n_row, const uword in_n_col) const;
 
     inline void fill(const eT val);
@@ -87,6 +85,7 @@ public:
     inline void randu();
     inline void randn();
 
+    inline static void extract(SpMat<eT>& out, const spdiagview& in);
     inline static void extract(Mat<eT>& out, const spdiagview& in);
 
 private:

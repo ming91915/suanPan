@@ -81,7 +81,7 @@ arma_hot inline void glue_times_redirect2_helper<true>::apply(
         const bool status = auxlib::solve_square_fast(out, A, B);
 
         if(status == false) {
-            out.reset();
+            out.soft_reset();
             arma_stop_runtime_error("matrix multiplication: inverse of singular matrix; "
                                     "suggest to use solve() instead");
         }
@@ -179,7 +179,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
         const bool status = auxlib::solve_square_fast(out, A, BC);
 
         if(status == false) {
-            out.reset();
+            out.soft_reset();
             arma_stop_runtime_error("matrix multiplication: inverse of singular matrix; "
                                     "suggest to use solve() instead");
         }
@@ -209,7 +209,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
         const bool status = auxlib::solve_square_fast(solve_result, B, C);
 
         if(status == false) {
-            out.reset();
+            out.soft_reset();
             arma_stop_runtime_error("matrix multiplication: inverse of singular matrix; "
                                     "suggest to use solve() instead");
             return;

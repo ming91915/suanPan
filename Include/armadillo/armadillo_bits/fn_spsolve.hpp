@@ -94,7 +94,7 @@ inline bool spsolve_helper(Mat<typename T1::elem_type>& out,
             arma_debug_warn("spsolve(): system seems singular");
         }
 
-        out.reset();
+        out.soft_reset();
     }
 
     return status;

@@ -31,7 +31,7 @@ inline void op_expmat::apply(Mat<typename T1::elem_type>& out,
     const bool status = op_expmat::apply_direct(out, expr.m);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("expmat(): given matrix appears ill-conditioned");
     }
 }
@@ -130,7 +130,7 @@ inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out,
     const bool status = op_expmat_sym::apply_direct(out, in.m);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("expmat_sym(): transformation failed");
     }
 }

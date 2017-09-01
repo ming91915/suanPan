@@ -32,8 +32,8 @@ inline bool lu(Mat<typename T1::elem_type>& L,
     const bool status = auxlib::lu(L, U, X);
 
     if(status == false) {
-        L.reset();
-        U.reset();
+        L.soft_reset();
+        U.soft_reset();
         arma_debug_warn("lu(): decomposition failed");
     }
 
@@ -57,9 +57,9 @@ inline bool lu(Mat<typename T1::elem_type>& L,
     const bool status = auxlib::lu(L, U, P, X);
 
     if(status == false) {
-        L.reset();
-        U.reset();
-        P.reset();
+        L.soft_reset();
+        U.soft_reset();
+        P.soft_reset();
         arma_debug_warn("lu(): decomposition failed");
     }
 

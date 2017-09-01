@@ -169,8 +169,6 @@ private:
 
     arma_align_mem eT mem_local_extra[(use_extra) ? fixed_n_elem : 1];
 
-    arma_inline void change_to_row();
-
 public:
     typedef fixed<fixed_n_elem> Col_fixed_type;
 

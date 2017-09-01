@@ -183,6 +183,8 @@ inline void SpCol<eT>::shed_rows(const uword in_row1, const uword in_row2)
     arma_debug_check((in_row1 > in_row2) || (in_row2 >= SpMat<eT>::n_rows),
         "SpCol::shed_rows(): indices out of bounds or incorrectly used");
 
+    SpMat<eT>::sync_csc();
+
     const uword diff = (in_row2 - in_row1 + 1);
 
     // This is easy because everything is in one column.
@@ -243,6 +245,8 @@ inline void SpCol<eT>::shed_rows(const uword in_row1, const uword in_row2)
 
     access::rw(SpMat<eT>::n_rows) -= diff;
     access::rw(SpMat<eT>::n_elem) -= diff;
+
+    SpMat<eT>::invalidate_cache();
 }
 
 // //! insert N rows at the specified row position,
@@ -280,6 +284,8 @@ inline typename SpCol<eT>::row_iterator SpCol<eT>::begin_row(const uword row_num
     arma_debug_check(
         (row_num >= SpMat<eT>::n_rows), "SpCol::begin_row(): index out of bounds");
 
+    SpMat<eT>::sync_csc();
+
     return row_iterator(*this, row_num, 0);
 }
 
@@ -292,6 +298,8 @@ inline typename SpCol<eT>::const_row_iterator SpCol<eT>::begin_row(
     arma_debug_check(
         (row_num >= SpMat<eT>::n_rows), "SpCol::begin_row(): index out of bounds");
 
+    SpMat<eT>::sync_csc();
+
     return const_row_iterator(*this, row_num, 0);
 }
 
@@ -302,6 +310,8 @@ inline typename SpCol<eT>::row_iterator SpCol<eT>::end_row(const uword row_num)
 
     arma_debug_check(
         (row_num >= SpMat<eT>::n_rows), "SpCol::end_row(): index out of bounds");
+
+    SpMat<eT>::sync_csc();
 
     return row_iterator(*this, row_num + 1, 0);
 }
@@ -314,6 +324,8 @@ inline typename SpCol<eT>::const_row_iterator SpCol<eT>::end_row(
 
     arma_debug_check(
         (row_num >= SpMat<eT>::n_rows), "SpCol::end_row(): index out of bounds");
+
+    SpMat<eT>::sync_csc();
 
     return const_row_iterator(*this, row_num + 1, 0);
 }

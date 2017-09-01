@@ -21,7 +21,8 @@
 
 template <typename T1, typename T2>
 arma_warn_unused inline
-    typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
+    typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value &&
+            is_Mat<T1>::value,
         const Glue<T1, T2, glue_solve_gen>>::result
     solve(const Base<typename T1::elem_type, T1>& A,
         const Base<typename T1::elem_type, T2>& B,

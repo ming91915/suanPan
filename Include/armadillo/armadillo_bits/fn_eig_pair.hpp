@@ -34,7 +34,7 @@ arma_warn_unused inline
         auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
-        eigvals.reset();
+        eigvals.soft_reset();
         arma_stop_runtime_error("eig_pair(): decomposition failed");
     }
 
@@ -58,7 +58,7 @@ eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals,
         auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
-        eigvals.reset();
+        eigvals.soft_reset();
         arma_debug_warn("eig_pair(): decomposition failed");
     }
 
@@ -82,8 +82,8 @@ eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals,
         auxlib::eig_pair(eigvals, eigvecs, true, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
-        eigvals.reset();
-        eigvecs.reset();
+        eigvals.soft_reset();
+        eigvecs.soft_reset();
         arma_debug_warn("eig_pair(): decomposition failed");
     }
 

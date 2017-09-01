@@ -49,7 +49,7 @@ chol(Mat<typename T1::elem_type>& out,
     const bool status = auxlib::chol(out, X.get_ref(), ((sig == 'u') ? 0 : 1));
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_debug_warn("chol(): decomposition failed");
     }
 

@@ -37,10 +37,10 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
         op_princomp::direct_princomp(coeff_out, score_out, latent_out, tsquared_out, X);
 
     if(status == false) {
-        coeff_out.reset();
-        score_out.reset();
-        latent_out.reset();
-        tsquared_out.reset();
+        coeff_out.soft_reset();
+        score_out.soft_reset();
+        latent_out.soft_reset();
+        tsquared_out.soft_reset();
 
         arma_debug_warn("princomp(): decomposition failed");
     }
@@ -66,9 +66,9 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
     const bool status = op_princomp::direct_princomp(coeff_out, score_out, latent_out, X);
 
     if(status == false) {
-        coeff_out.reset();
-        score_out.reset();
-        latent_out.reset();
+        coeff_out.soft_reset();
+        score_out.soft_reset();
+        latent_out.soft_reset();
 
         arma_debug_warn("princomp(): decomposition failed");
     }
@@ -92,8 +92,8 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
     const bool status = op_princomp::direct_princomp(coeff_out, score_out, X);
 
     if(status == false) {
-        coeff_out.reset();
-        score_out.reset();
+        coeff_out.soft_reset();
+        score_out.soft_reset();
 
         arma_debug_warn("princomp(): decomposition failed");
     }
@@ -115,7 +115,7 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
     const bool status = op_princomp::direct_princomp(coeff_out, X);
 
     if(status == false) {
-        coeff_out.reset();
+        coeff_out.soft_reset();
 
         arma_debug_warn("princomp(): decomposition failed");
     }

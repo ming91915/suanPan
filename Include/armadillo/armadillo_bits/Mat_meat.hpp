@@ -24,8 +24,8 @@ template <typename eT> inline Mat<eT>::~Mat()
         memory::release(access::rw(mem));
     }
 
-    if(arma_config::debug == true) {
-        // try to expose buggy user code that accesses deleted objects
+    // try to expose buggy user code that accesses deleted objects
+    if(arma_config::debug) {
         access::rw(mem) = 0;
     }
 
@@ -1839,88 +1839,6 @@ template <typename eT> inline Mat<eT>& Mat<eT>::operator/=(const diagview<eT>& X
 }
 
 template <typename eT>
-inline Mat<eT>::Mat(const spdiagview<eT>& X)
-    : n_rows(X.n_rows)
-    , n_cols(X.n_cols)
-    , n_elem(X.n_elem)
-    , vec_state(0)
-    , mem_state(0)
-    , mem()
-{
-    arma_extra_debug_sigprint_this(this);
-
-    init_cold();
-
-    spdiagview<eT>::extract(*this, X);
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    init_warm(X.n_rows, X.n_cols);
-
-    spdiagview<eT>::extract(*this, X);
-
-    return *this;
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator+=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    const Mat<eT> tmp(X);
-
-    (*this).operator+=(tmp);
-
-    return *this;
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator-=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    const Mat<eT> tmp(X);
-
-    (*this).operator-=(tmp);
-
-    return *this;
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator*=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    const Mat<eT> tmp(X);
-
-    (*this).operator*=(tmp);
-
-    return *this;
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator%=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    const Mat<eT> tmp(X);
-
-    (*this).operator%=(tmp);
-
-    return *this;
-}
-
-template <typename eT> inline Mat<eT>& Mat<eT>::operator/=(const spdiagview<eT>& X)
-{
-    arma_extra_debug_sigprint();
-
-    const Mat<eT> tmp(X);
-
-    (*this).operator/=(tmp);
-
-    return *this;
-}
-
-template <typename eT>
 template <typename T1>
 inline Mat<eT>::Mat(const subview_elem1<eT, T1>& X)
     : n_rows(0)
@@ -2244,6 +2162,88 @@ inline Mat<eT>& Mat<eT>::operator/=(const SpBase<eT, T1>& m)
         for(uword r = 0; r < n_rows; ++r) {
             at(r, c) /= p.at(r, c);
         }
+
+    return *this;
+}
+
+template <typename eT>
+inline Mat<eT>::Mat(const spdiagview<eT>& X)
+    : n_rows(X.n_rows)
+    , n_cols(X.n_cols)
+    , n_elem(X.n_elem)
+    , vec_state(0)
+    , mem_state(0)
+    , mem()
+{
+    arma_extra_debug_sigprint_this(this);
+
+    init_cold();
+
+    spdiagview<eT>::extract(*this, X);
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    init_warm(X.n_rows, X.n_cols);
+
+    spdiagview<eT>::extract(*this, X);
+
+    return *this;
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator+=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    const Mat<eT> tmp(X);
+
+    (*this).operator+=(tmp);
+
+    return *this;
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator-=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    const Mat<eT> tmp(X);
+
+    (*this).operator-=(tmp);
+
+    return *this;
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator*=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    const Mat<eT> tmp(X);
+
+    (*this).operator*=(tmp);
+
+    return *this;
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator%=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    const Mat<eT> tmp(X);
+
+    (*this).operator%=(tmp);
+
+    return *this;
+}
+
+template <typename eT> inline Mat<eT>& Mat<eT>::operator/=(const spdiagview<eT>& X)
+{
+    arma_extra_debug_sigprint();
+
+    const Mat<eT> tmp(X);
+
+    (*this).operator/=(tmp);
 
     return *this;
 }
@@ -4660,14 +4660,14 @@ inline void Mat<eT>::impl_print(const std::string& extra_text) const
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
-        const std::streamsize orig_width = ARMA_DEFAULT_OSTREAM.width();
+        const std::streamsize orig_width = get_cout_stream().width();
 
-        ARMA_DEFAULT_OSTREAM << extra_text << '\n';
+        get_cout_stream() << extra_text << '\n';
 
-        ARMA_DEFAULT_OSTREAM.width(orig_width);
+        get_cout_stream().width(orig_width);
     }
 
-    arma_ostream::print(ARMA_DEFAULT_OSTREAM, *this, true);
+    arma_ostream::print(get_cout_stream(), *this, true);
 }
 
 //! print contents of the matrix to a user specified stream,
@@ -4701,14 +4701,14 @@ inline void Mat<eT>::impl_raw_print(const std::string& extra_text) const
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
-        const std::streamsize orig_width = ARMA_DEFAULT_OSTREAM.width();
+        const std::streamsize orig_width = get_cout_stream().width();
 
-        ARMA_DEFAULT_OSTREAM << extra_text << '\n';
+        get_cout_stream() << extra_text << '\n';
 
-        ARMA_DEFAULT_OSTREAM.width(orig_width);
+        get_cout_stream().width(orig_width);
     }
 
-    arma_ostream::print(ARMA_DEFAULT_OSTREAM, *this, false);
+    arma_ostream::print(get_cout_stream(), *this, false);
 }
 
 //! print contents of the matrix to a user specified stream,
@@ -5177,6 +5177,18 @@ template <typename eT> inline void Mat<eT>::reset()
     }
 }
 
+template <typename eT> inline void Mat<eT>::soft_reset()
+{
+    arma_extra_debug_sigprint();
+
+    // don't change the size if the matrix has a fixed size or is a cube slice
+    if(mem_state <= 1) {
+        reset();
+    } else {
+        fill(Datum<eT>::nan);
+    }
+}
+
 template <typename eT>
 template <typename T1>
 inline void Mat<eT>::set_real(const Base<typename Mat<eT>::pod_type, T1>& X)
@@ -5334,7 +5346,7 @@ Mat<eT>::save(const std::string name, const file_type type, const bool print_sta
         break;
 
     case hdf5_binary:
-        save_okay = diskio::save_hdf5_binary(*this, name);
+        save_okay = diskio::save_hdf5_binary(*this, hdf5_name(name));
         break;
 
     case hdf5_binary_trans: {
@@ -5342,7 +5354,7 @@ Mat<eT>::save(const std::string name, const file_type type, const bool print_sta
 
         op_strans::apply_mat_noalias(tmp, *this);
 
-        save_okay = diskio::save_hdf5_binary(tmp, name);
+        save_okay = diskio::save_hdf5_binary(tmp, hdf5_name(name));
     } break;
 
     default:
@@ -5354,6 +5366,41 @@ Mat<eT>::save(const std::string name, const file_type type, const bool print_sta
 
     if(print_status && (save_okay == false)) {
         arma_debug_warn("Mat::save(): couldn't write to ", name);
+    }
+
+    return save_okay;
+}
+
+template <typename eT>
+inline bool
+Mat<eT>::save(const hdf5_name& spec, const file_type type, const bool print_status) const
+{
+    arma_extra_debug_sigprint();
+
+    bool save_okay;
+
+    switch(type) {
+    case hdf5_binary:
+        save_okay = diskio::save_hdf5_binary(*this, spec);
+        break;
+
+    case hdf5_binary_trans: {
+        Mat<eT> tmp;
+
+        op_strans::apply_mat_noalias(tmp, *this);
+
+        save_okay = diskio::save_hdf5_binary(tmp, spec);
+    } break;
+
+    default:
+        if(print_status) {
+            arma_debug_warn("Mat::save(): unsupported file type");
+        }
+        save_okay = false;
+    }
+
+    if(print_status && (save_okay == false)) {
+        arma_debug_warn("Mat::save(): couldn't write to ", spec.filename);
     }
 
     return save_okay;
@@ -5447,13 +5494,13 @@ Mat<eT>::load(const std::string name, const file_type type, const bool print_sta
         break;
 
     case hdf5_binary:
-        load_okay = diskio::load_hdf5_binary(*this, name, err_msg);
+        load_okay = diskio::load_hdf5_binary(*this, hdf5_name(name), err_msg);
         break;
 
     case hdf5_binary_trans: {
         Mat<eT> tmp;
 
-        load_okay = diskio::load_hdf5_binary(tmp, name, err_msg);
+        load_okay = diskio::load_hdf5_binary(tmp, hdf5_name(name), err_msg);
 
         if(load_okay) {
             op_strans::apply_mat_noalias(*this, tmp);
@@ -5476,7 +5523,53 @@ Mat<eT>::load(const std::string name, const file_type type, const bool print_sta
     }
 
     if(load_okay == false) {
-        (*this).reset();
+        (*this).soft_reset();
+    }
+
+    return load_okay;
+}
+
+template <typename eT>
+inline bool
+Mat<eT>::load(const hdf5_name& spec, const file_type type, const bool print_status)
+{
+    arma_extra_debug_sigprint();
+
+    bool load_okay;
+    std::string err_msg;
+
+    switch(type) {
+    case hdf5_binary:
+        load_okay = diskio::load_hdf5_binary(*this, spec, err_msg);
+        break;
+
+    case hdf5_binary_trans: {
+        Mat<eT> tmp;
+
+        load_okay = diskio::load_hdf5_binary(tmp, spec, err_msg);
+
+        if(load_okay) {
+            op_strans::apply_mat_noalias(*this, tmp);
+        }
+    } break;
+
+    default:
+        if(print_status) {
+            arma_debug_warn("Mat::load(): unsupported file type");
+        }
+        load_okay = false;
+    }
+
+    if((print_status == true) && (load_okay == false)) {
+        if(err_msg.length() > 0) {
+            arma_debug_warn("Mat::load(): ", err_msg, spec.filename);
+        } else {
+            arma_debug_warn("Mat::load(): couldn't read ", spec.filename);
+        }
+    }
+
+    if(load_okay == false) {
+        (*this).soft_reset();
     }
 
     return load_okay;
@@ -5536,7 +5629,7 @@ inline bool Mat<eT>::load(std::istream& is, const file_type type, const bool pri
     }
 
     if(load_okay == false) {
-        (*this).reset();
+        (*this).soft_reset();
     }
 
     return load_okay;
@@ -5549,6 +5642,14 @@ inline bool Mat<eT>::quiet_save(const std::string name, const file_type type) co
     arma_extra_debug_sigprint();
 
     return (*this).save(name, type, false);
+}
+
+template <typename eT>
+inline bool Mat<eT>::quiet_save(const hdf5_name& spec, const file_type type) const
+{
+    arma_extra_debug_sigprint();
+
+    return (*this).save(spec, type, false);
 }
 
 //! save the matrix to a stream, without printing any error messages
@@ -5567,6 +5668,14 @@ inline bool Mat<eT>::quiet_load(const std::string name, const file_type type)
     arma_extra_debug_sigprint();
 
     return (*this).load(name, type, false);
+}
+
+template <typename eT>
+inline bool Mat<eT>::quiet_load(const hdf5_name& spec, const file_type type)
+{
+    arma_extra_debug_sigprint();
+
+    return (*this).load(spec, type, false);
 }
 
 //! load a matrix from a stream, without printing any error messages

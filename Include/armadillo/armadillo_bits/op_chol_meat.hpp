@@ -24,7 +24,7 @@ inline void op_chol::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cho
     const bool status = auxlib::chol(out, X.m, X.aux_uword_a);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("chol(): decomposition failed");
     }
 }

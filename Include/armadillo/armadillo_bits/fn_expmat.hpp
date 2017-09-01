@@ -36,7 +36,7 @@ expmat(Mat<typename T1::elem_type>& B, const Base<typename T1::elem_type, T1>& A
 
     if(status == false) {
         arma_debug_warn("expmat(): given matrix appears ill-conditioned");
-        B.reset();
+        B.soft_reset();
         return false;
     }
 
@@ -66,7 +66,7 @@ expmat_sym(Mat<typename T1::elem_type>& Y, const Base<typename T1::elem_type, T1
     const bool status = op_expmat_sym::apply_direct(Y, X.get_ref());
 
     if(status == false) {
-        Y.reset();
+        Y.soft_reset();
         arma_debug_warn("expmat_sym(): transformation failed");
     }
 

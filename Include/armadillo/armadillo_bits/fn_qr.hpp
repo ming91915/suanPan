@@ -31,8 +31,8 @@ inline bool qr(Mat<typename T1::elem_type>& Q,
     const bool status = auxlib::qr(Q, R, X);
 
     if(status == false) {
-        Q.reset();
-        R.reset();
+        Q.soft_reset();
+        R.soft_reset();
         arma_debug_warn("qr(): decomposition failed");
     }
 
@@ -54,8 +54,8 @@ inline bool qr_econ(Mat<typename T1::elem_type>& Q,
     const bool status = auxlib::qr_econ(Q, R, X);
 
     if(status == false) {
-        Q.reset();
-        R.reset();
+        Q.soft_reset();
+        R.soft_reset();
         arma_debug_warn("qr_econ(): decomposition failed");
     }
 

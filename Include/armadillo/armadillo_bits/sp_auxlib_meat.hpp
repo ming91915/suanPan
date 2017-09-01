@@ -816,12 +816,12 @@ inline bool sp_auxlib::spsolve_simple(Mat<typename T1::elem_type>& X,
         if(A.n_rows > A.n_cols) {
             arma_stop_logic_error(
                 "spsolve(): solving over-determined systems currently not supported");
-            X.reset();
+            X.soft_reset();
             return false;
         } else if(A.n_rows < A.n_cols) {
             arma_stop_logic_error(
                 "spsolve(): solving under-determined systems currently not supported");
-            X.reset();
+            X.soft_reset();
             return false;
         }
 
@@ -862,7 +862,7 @@ inline bool sp_auxlib::spsolve_simple(Mat<typename T1::elem_type>& X,
         if((status_x == false) || (status_a == false)) {
             destroy_supermatrix(a);
             destroy_supermatrix(x);
-            X.reset();
+            X.soft_reset();
             return false;
         }
 
@@ -965,12 +965,12 @@ inline bool sp_auxlib::spsolve_refine(Mat<typename T1::elem_type>& X,
         if(A.n_rows > A.n_cols) {
             arma_stop_logic_error(
                 "spsolve(): solving over-determined systems currently not supported");
-            X.reset();
+            X.soft_reset();
             return false;
         } else if(A.n_rows < A.n_cols) {
             arma_stop_logic_error(
                 "spsolve(): solving under-determined systems currently not supported");
-            X.reset();
+            X.soft_reset();
             return false;
         }
 
@@ -1022,7 +1022,7 @@ inline bool sp_auxlib::spsolve_refine(Mat<typename T1::elem_type>& X,
             destroy_supermatrix(x);
             destroy_supermatrix(a);
             destroy_supermatrix(b);
-            X.reset();
+            X.soft_reset();
             return false;
         }
 

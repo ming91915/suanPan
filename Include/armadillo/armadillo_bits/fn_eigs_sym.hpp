@@ -34,7 +34,7 @@ arma_warn_unused inline Col<typename T1::pod_type> eigs_sym(
     const bool status = sp_auxlib::eigs_sym(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
+        eigval.soft_reset();
         arma_stop_runtime_error("eigs_sym(): decomposition failed");
     }
 
@@ -58,7 +58,7 @@ inline bool eigs_sym(Col<typename T1::pod_type>& eigval,
     const bool status = sp_auxlib::eigs_sym(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
+        eigval.soft_reset();
         arma_debug_warn("eigs_sym(): decomposition failed");
     }
 
@@ -84,7 +84,8 @@ inline bool eigs_sym(Col<typename T1::pod_type>& eigval,
     const bool status = sp_auxlib::eigs_sym(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
+        eigval.soft_reset();
+        eigvec.soft_reset();
         arma_debug_warn("eigs_sym(): decomposition failed");
     }
 

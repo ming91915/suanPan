@@ -28,7 +28,7 @@ template <typename eT> inline void op_inv::apply(Mat<eT>& out, const Mat<eT>& A)
     bool status = auxlib::inv(out, A);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("inv(): matrix seems singular");
     }
 }
@@ -50,7 +50,7 @@ inline void op_inv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv>
     }
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("inv(): matrix seems singular");
     }
 }
@@ -110,7 +110,7 @@ inline void op_inv_tr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_i
     const bool status = auxlib::inv_tr(out, X.m, X.aux_uword_a);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("inv(): matrix seems singular");
     }
 }
@@ -125,7 +125,7 @@ inline void op_inv_sympd::apply(Mat<typename T1::elem_type>& out,
     const bool status = auxlib::inv_sympd(out, X.m);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error(
             "inv_sympd(): matrix is singular or not positive definite");
     }

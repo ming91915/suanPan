@@ -31,7 +31,7 @@ inline bool schur(Mat<typename T1::elem_type>& S,
     const bool status = auxlib::schur(U, S, X.get_ref(), false);
 
     if(status == false) {
-        S.reset();
+        S.soft_reset();
         arma_debug_warn("schur(): decomposition failed");
     }
 
@@ -54,7 +54,7 @@ arma_warn_unused inline Mat<typename T1::elem_type> schur(
     const bool status = auxlib::schur(U, S, X.get_ref(), false);
 
     if(status == false) {
-        S.reset();
+        S.soft_reset();
         arma_stop_runtime_error("schur(): decomposition failed");
     }
 
@@ -75,8 +75,8 @@ inline bool schur(Mat<typename T1::elem_type>& U,
     const bool status = auxlib::schur(U, S, X.get_ref(), true);
 
     if(status == false) {
-        U.reset();
-        S.reset();
+        U.soft_reset();
+        S.soft_reset();
         arma_debug_warn("schur(): decomposition failed");
     }
 

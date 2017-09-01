@@ -727,8 +727,8 @@ inline bool gmm_full<eT>::learn(const Base<eT, T1>& data,
         reset(X.n_rows, N_gaus);
 
         if(print_mode) {
-            get_stream_err2() << "gmm_full::learn(): generating initial means\n";
-            get_stream_err2().flush();
+            get_cout_stream() << "gmm_full::learn(): generating initial means\n";
+            get_cout_stream().flush();
         }
 
         if(dist_mode == eucl_dist) {
@@ -741,7 +741,7 @@ inline bool gmm_full<eT>::learn(const Base<eT, T1>& data,
     // k-means
 
     if(km_iter > 0) {
-        const arma_ostream_state stream_state(get_stream_err2());
+        const arma_ostream_state stream_state(get_cout_stream());
 
         bool status = false;
 
@@ -751,7 +751,7 @@ inline bool gmm_full<eT>::learn(const Base<eT, T1>& data,
             status = km_iterate<2>(X, km_iter, print_mode);
         }
 
-        stream_state.restore(get_stream_err2());
+        stream_state.restore(get_cout_stream());
 
         if(status == false) {
             arma_debug_warn("gmm_full::learn(): k-means algorithm failed; not enough "
@@ -768,8 +768,8 @@ inline bool gmm_full<eT>::learn(const Base<eT, T1>& data,
 
     if(seed_mode != keep_existing) {
         if(print_mode) {
-            get_stream_err2() << "gmm_full::learn(): generating initial covariances\n";
-            get_stream_err2().flush();
+            get_cout_stream() << "gmm_full::learn(): generating initial covariances\n";
+            get_cout_stream().flush();
         }
 
         if(dist_mode == eucl_dist) {
@@ -782,11 +782,11 @@ inline bool gmm_full<eT>::learn(const Base<eT, T1>& data,
     // EM algorithm
 
     if(em_iter > 0) {
-        const arma_ostream_state stream_state(get_stream_err2());
+        const arma_ostream_state stream_state(get_cout_stream());
 
         const bool status = em_iterate(X, em_iter, var_floor_actual, print_mode);
 
-        stream_state.restore(get_stream_err2());
+        stream_state.restore(get_cout_stream());
 
         if(status == false) {
             arma_debug_warn("gmm_full::learn(): EM algorithm failed");
@@ -967,7 +967,7 @@ inline umat gmm_full<eT>::internal_gen_boundaries(const uword N) const
     static const uword n_threads = 1;
 #endif
 
-    // get_stream_err2() << "gmm_full::internal_gen_boundaries(): n_threads: " <<
+    // get_cout_stream() << "gmm_full::internal_gen_boundaries(): n_threads: " <<
     // n_threads << '\n';
 
     umat boundaries(2, n_threads);
@@ -990,7 +990,7 @@ inline umat gmm_full<eT>::internal_gen_boundaries(const uword N) const
         boundaries.zeros();
     }
 
-    // get_stream_err2() << "gmm_full::internal_gen_boundaries(): boundaries: " << '\n' <<
+    // get_cout_stream() << "gmm_full::internal_gen_boundaries(): boundaries: " << '\n' <<
     // boundaries << '\n';
 
     return boundaries;
@@ -1791,7 +1791,7 @@ inline void gmm_full<eT>::generate_initial_means(const Mat<eT>& X,
         }
     }
 
-    // get_stream_err2() << "generate_initial_means():" << '\n';
+    // get_cout_stream() << "generate_initial_means():" << '\n';
     // means.print();
 }
 
@@ -1956,13 +1956,13 @@ gmm_full<eT>::km_iterate(const Mat<eT>& X, const uword max_iter, const bool verb
     arma_extra_debug_sigprint();
 
     if(verbose) {
-        get_stream_err2().unsetf(ios::showbase);
-        get_stream_err2().unsetf(ios::uppercase);
-        get_stream_err2().unsetf(ios::showpos);
-        get_stream_err2().unsetf(ios::scientific);
+        get_cout_stream().unsetf(ios::showbase);
+        get_cout_stream().unsetf(ios::uppercase);
+        get_cout_stream().unsetf(ios::showpos);
+        get_cout_stream().unsetf(ios::scientific);
 
-        get_stream_err2().setf(ios::right);
-        get_stream_err2().setf(ios::fixed);
+        get_cout_stream().setf(ios::right);
+        get_cout_stream().setf(ios::fixed);
     }
 
     const uword X_n_cols = X.n_cols;
@@ -1997,9 +1997,9 @@ gmm_full<eT>::km_iterate(const Mat<eT>& X, const uword max_iter, const bool verb
 #endif
 
     if(verbose) {
-        get_stream_err2() << "gmm_full::learn(): k-means: n_threads: " << n_threads
+        get_cout_stream() << "gmm_full::learn(): k-means: n_threads: " << n_threads
                           << '\n';
-        get_stream_err2().flush();
+        get_cout_stream().flush();
     }
 
     for(uword iter = 1; iter <= max_iter; ++iter) {
@@ -2118,9 +2118,9 @@ gmm_full<eT>::km_iterate(const Mat<eT>& X, const uword max_iter, const bool verb
 
         if(dead_gs.n_elem > 0) {
             if(verbose) {
-                get_stream_err2()
+                get_cout_stream()
                     << "gmm_full::learn(): k-means: recovering from dead means\n";
-                get_stream_err2().flush();
+                get_cout_stream().flush();
             }
 
             uword* last_indx_mem = last_indx.memptr();
@@ -2170,16 +2170,16 @@ gmm_full<eT>::km_iterate(const Mat<eT>& X, const uword max_iter, const bool verb
         }
 
         if(verbose) {
-            get_stream_err2() << "gmm_full::learn(): k-means: iteration: ";
-            get_stream_err2().unsetf(ios::scientific);
-            get_stream_err2().setf(ios::fixed);
-            get_stream_err2().width(std::streamsize(4));
-            get_stream_err2() << iter;
-            get_stream_err2() << "   delta: ";
-            get_stream_err2().unsetf(ios::fixed);
-            // get_stream_err2().setf(ios::scientific);
-            get_stream_err2() << rs_delta.mean() << '\n';
-            get_stream_err2().flush();
+            get_cout_stream() << "gmm_full::learn(): k-means: iteration: ";
+            get_cout_stream().unsetf(ios::scientific);
+            get_cout_stream().setf(ios::fixed);
+            get_cout_stream().width(std::streamsize(4));
+            get_cout_stream() << iter;
+            get_cout_stream() << "   delta: ";
+            get_cout_stream().unsetf(ios::fixed);
+            // get_cout_stream().setf(ios::scientific);
+            get_cout_stream() << rs_delta.mean() << '\n';
+            get_cout_stream().flush();
         }
 
         arma::swap(old_means, new_means);
@@ -2211,13 +2211,13 @@ inline bool gmm_full<eT>::em_iterate(const Mat<eT>& X,
     const uword N_gaus = means.n_cols;
 
     if(verbose) {
-        get_stream_err2().unsetf(ios::showbase);
-        get_stream_err2().unsetf(ios::uppercase);
-        get_stream_err2().unsetf(ios::showpos);
-        get_stream_err2().unsetf(ios::scientific);
+        get_cout_stream().unsetf(ios::showbase);
+        get_cout_stream().unsetf(ios::uppercase);
+        get_cout_stream().unsetf(ios::showpos);
+        get_cout_stream().unsetf(ios::scientific);
 
-        get_stream_err2().setf(ios::right);
-        get_stream_err2().setf(ios::fixed);
+        get_cout_stream().setf(ios::right);
+        get_cout_stream().setf(ios::fixed);
     }
 
     const umat boundaries = internal_gen_boundaries(X.n_cols);
@@ -2241,7 +2241,7 @@ inline bool gmm_full<eT>::em_iterate(const Mat<eT>& X,
     }
 
     if(verbose) {
-        get_stream_err2() << "gmm_full::learn(): EM: n_threads: " << n_threads << '\n';
+        get_cout_stream() << "gmm_full::learn(): EM: n_threads: " << n_threads << '\n';
     }
 
     eT old_avg_log_p = -Datum<eT>::inf;
@@ -2260,16 +2260,16 @@ inline bool gmm_full<eT>::em_iterate(const Mat<eT>& X,
             accu(t_progress_log_lhood) / eT(t_progress_log_lhood.n_elem);
 
         if(verbose) {
-            get_stream_err2() << "gmm_full::learn(): EM: iteration: ";
-            get_stream_err2().unsetf(ios::scientific);
-            get_stream_err2().setf(ios::fixed);
-            get_stream_err2().width(std::streamsize(4));
-            get_stream_err2() << iter;
-            get_stream_err2() << "   avg_log_p: ";
-            get_stream_err2().unsetf(ios::fixed);
-            // get_stream_err2().setf(ios::scientific);
-            get_stream_err2() << new_avg_log_p << '\n';
-            get_stream_err2().flush();
+            get_cout_stream() << "gmm_full::learn(): EM: iteration: ";
+            get_cout_stream().unsetf(ios::scientific);
+            get_cout_stream().setf(ios::fixed);
+            get_cout_stream().width(std::streamsize(4));
+            get_cout_stream() << iter;
+            get_cout_stream() << "   avg_log_p: ";
+            get_cout_stream().unsetf(ios::fixed);
+            // get_cout_stream().setf(ios::scientific);
+            get_cout_stream() << new_avg_log_p << '\n';
+            get_cout_stream().flush();
         }
 
         if(arma_isfinite(new_avg_log_p) == false) {

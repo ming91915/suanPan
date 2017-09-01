@@ -35,7 +35,7 @@ arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_typ
             const eT val = P[i];
 
             if(arma_isnan(val)) {
-                out.reset();
+                out.soft_reset();
                 return false;
             }
 
@@ -53,7 +53,7 @@ arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_typ
                 const eT val = P.at(row, col);
 
                 if(arma_isnan(val)) {
-                    out.reset();
+                    out.soft_reset();
                     return false;
                 }
 

@@ -74,9 +74,9 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
             sp_auxlib::eigs_sym(eigval, eigvec, C, kk, "la", (tol / Datum<T>::sqrt2));
 
         if(status == false) {
-            U.reset();
-            S.reset();
-            V.reset();
+            U.soft_reset();
+            S.soft_reset();
+            V.soft_reset();
 
             return false;
         }
@@ -190,9 +190,9 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
             sp_auxlib::eigs_gen(eigval_tmp, eigvec, C, kk, "lr", (tol / Datum<T>::sqrt2));
 
         if(status == false) {
-            U.reset();
-            S.reset();
-            V.reset();
+            U.soft_reset();
+            S.soft_reset();
+            V.soft_reset();
 
             return false;
         }

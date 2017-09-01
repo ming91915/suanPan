@@ -40,7 +40,7 @@ inline bool syl(Mat<typename T1::elem_type>& out,
     const bool status = auxlib::syl(out, A, B, C);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_debug_warn("syl(): solution not found");
     }
 
@@ -72,7 +72,7 @@ arma_warn_unused inline Mat<typename T1::elem_type> syl(
     const bool status = auxlib::syl(out, A, B, C);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("syl(): solution not found");
     }
 

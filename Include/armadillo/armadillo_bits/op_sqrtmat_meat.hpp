@@ -108,7 +108,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
 
     if(schur_ok == false) {
         arma_extra_debug_print("sqrtmat(): schur decomposition failed");
-        out.reset();
+        out.soft_reset();
         return false;
     }
 
@@ -215,7 +215,7 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
 
     if(schur_ok == false) {
         arma_extra_debug_print("sqrtmat(): schur decomposition failed");
-        out.reset();
+        out.soft_reset();
         return false;
     }
 
@@ -283,7 +283,7 @@ inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out,
     const bool status = op_sqrtmat_sympd::apply_direct(out, in.m);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("sqrtmat_sympd(): transformation failed");
     }
 }

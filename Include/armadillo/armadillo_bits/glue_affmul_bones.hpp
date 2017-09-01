@@ -13,34 +13,19 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-//! \addtogroup fn_kmeans
+//! \addtogroup glue_affmul
 //! @{
 
-template <typename T1>
-inline typename enable_if2<is_real<typename T1::elem_type>::value, bool>::result kmeans(
-    Mat<typename T1::elem_type>& means,
-    const Base<typename T1::elem_type, T1>& data,
-    const uword k,
-    const gmm_seed_mode& seed_mode,
-    const uword n_iter,
-    const bool print_mode)
+class glue_affmul
 {
-    arma_extra_debug_sigprint();
+public:
+    template <typename T1, typename T2>
+    inline static void apply(Mat<typename T1::elem_type>& out,
+        const Glue<T1, T2, glue_affmul>& X);
 
-    typedef typename T1::elem_type eT;
-
-    gmm_priv::gmm_diag<eT> model;
-
-    const bool status =
-        model.kmeans_wrapper(means, data.get_ref(), k, seed_mode, n_iter, print_mode);
-
-    if(status == true) {
-        means = model.means;
-    } else {
-        means.soft_reset();
-    }
-
-    return status;
-}
+    template <typename T1, typename T2>
+    inline static void
+    apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const T2& B);
+};
 
 //! @}

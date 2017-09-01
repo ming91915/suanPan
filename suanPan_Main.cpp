@@ -48,7 +48,7 @@ void example_symm_mat()
     (B * D).print();
     cout << endl;
 
-    const auto E = solve_sm(B, D);
+    const auto E = solve(B, D);
 
     vec F;
     glue_solve_symm::apply(F, E);

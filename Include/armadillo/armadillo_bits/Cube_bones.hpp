@@ -418,6 +418,7 @@ public:
     inline const Cube& randn(const SizeCube& s);
 
     inline void reset();
+    inline void soft_reset();
 
     template <typename T1> inline void set_real(const BaseCube<pod_type, T1>& X);
     template <typename T1> inline void set_imag(const BaseCube<pod_type, T1>& X);
@@ -436,6 +437,9 @@ public:
     inline bool save(const std::string name,
         const file_type type = arma_binary,
         const bool print_status = true) const;
+    inline bool save(const hdf5_name& spec,
+        const file_type type = hdf5_binary,
+        const bool print_status = true) const;
     inline bool save(std::ostream& os,
         const file_type type = arma_binary,
         const bool print_status = true) const;
@@ -443,15 +447,21 @@ public:
     inline bool load(const std::string name,
         const file_type type = auto_detect,
         const bool print_status = true);
+    inline bool load(const hdf5_name& spec,
+        const file_type type = hdf5_binary,
+        const bool print_status = true);
     inline bool load(std::istream& is,
         const file_type type = auto_detect,
         const bool print_status = true);
 
     inline bool quiet_save(const std::string name,
         const file_type type = arma_binary) const;
+    inline bool quiet_save(const hdf5_name& spec,
+        const file_type type = hdf5_binary) const;
     inline bool quiet_save(std::ostream& os, const file_type type = arma_binary) const;
 
     inline bool quiet_load(const std::string name, const file_type type = auto_detect);
+    inline bool quiet_load(const hdf5_name& spec, const file_type type = hdf5_binary);
     inline bool quiet_load(std::istream& is, const file_type type = auto_detect);
 
     // iterators

@@ -113,7 +113,7 @@ inline void glue_polyfit::apply(Mat<typename T1::elem_type>& out,
     const bool status = glue_polyfit::apply_direct(out, expr.A, expr.B, expr.aux_uword);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("polyfit(): failed");
     }
 }

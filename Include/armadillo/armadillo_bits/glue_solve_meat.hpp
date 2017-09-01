@@ -124,7 +124,7 @@ inline bool glue_solve_gen::apply(Mat<eT>& out,
     }
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
     }
 
     return status;
@@ -206,7 +206,7 @@ inline bool glue_solve_tri::apply(Mat<eT>& out,
     }
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
     }
 
     return status;

@@ -196,6 +196,12 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>&
             }
         }
     }
+#else
+    {
+        arma_ignore(out);
+        arma_ignore(P);
+        arma_ignore(dim);
+    }
 #endif
 }
 
@@ -441,6 +447,12 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>
                 }
             }
         }
+    }
+#else
+    {
+        arma_ignore(out);
+        arma_ignore(P);
+        arma_ignore(dim);
     }
 #endif
 }

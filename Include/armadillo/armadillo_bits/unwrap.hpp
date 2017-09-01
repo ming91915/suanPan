@@ -158,7 +158,7 @@ template <typename T1> struct quasi_unwrap_fixed {
         arma_extra_debug_sigprint();
     }
 
-    const Mat<eT>& M;
+    const T1& M;
 
     template <typename eT2> arma_inline bool is_alias(const Mat<eT2>& X) const
     {

@@ -43,7 +43,7 @@ inline SpSubview<eT>::iterator_base::iterator_base(const SpSubview<eT>& in_M,
     // Nothing to do.
 }
 
-template <typename eT> inline eT SpSubview<eT>::iterator_base::operator*() const
+template <typename eT> arma_inline eT SpSubview<eT>::iterator_base::operator*() const
 {
     return M.m.values[internal_pos + skip_pos];
 }

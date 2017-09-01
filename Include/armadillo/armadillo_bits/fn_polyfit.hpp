@@ -29,7 +29,7 @@ polyfit(Mat<typename T1::elem_type>& out,
     const bool status = glue_polyfit::apply_direct(out, X.get_ref(), Y.get_ref(), N);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_debug_warn("polyfit(): failed");
     }
 

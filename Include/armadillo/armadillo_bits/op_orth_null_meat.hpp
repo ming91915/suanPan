@@ -56,7 +56,7 @@ inline bool op_orth::apply_direct(Mat<typename T1::elem_type>& out,
     V.reset();
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         return false;
     }
 
@@ -131,7 +131,7 @@ inline bool op_null::apply_direct(Mat<typename T1::elem_type>& out,
     U.reset();
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         return false;
     }
 

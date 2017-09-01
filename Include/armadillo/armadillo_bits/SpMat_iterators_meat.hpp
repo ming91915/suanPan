@@ -49,7 +49,7 @@ inline SpMat<eT>::iterator_base::iterator_base(const SpMat<eT>& in_M,
     // Nothing to do.
 }
 
-template <typename eT> inline arma_hot eT SpMat<eT>::iterator_base::operator*() const
+template <typename eT> arma_inline eT SpMat<eT>::iterator_base::operator*() const
 {
     return M->values[internal_pos];
 }

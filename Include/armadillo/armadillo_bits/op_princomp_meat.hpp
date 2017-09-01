@@ -552,7 +552,7 @@ inline void op_princomp::apply(Mat<typename T1::elem_type>& out,
     const bool status = op_princomp::direct_princomp(out, A);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
 
         arma_stop_runtime_error("princomp(): decomposition failed");
     }

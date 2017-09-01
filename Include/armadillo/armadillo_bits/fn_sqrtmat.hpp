@@ -100,7 +100,7 @@ sqrtmat_sympd(Mat<typename T1::elem_type>& Y, const Base<typename T1::elem_type,
     const bool status = op_sqrtmat_sympd::apply_direct(Y, X.get_ref());
 
     if(status == false) {
-        Y.reset();
+        Y.soft_reset();
         arma_debug_warn("sqrtmat_sympd(): transformation failed");
     }
 

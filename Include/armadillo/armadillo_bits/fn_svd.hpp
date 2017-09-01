@@ -29,7 +29,7 @@ inline bool svd(Col<typename T1::pod_type>& S,
     const bool status = auxlib::svd_dc(S, X);
 
     if(status == false) {
-        S.reset();
+        S.soft_reset();
         arma_debug_warn("svd(): decomposition failed");
     }
 
@@ -49,7 +49,7 @@ arma_warn_unused inline Col<typename T1::pod_type> svd(
     const bool status = auxlib::svd_dc(out, X);
 
     if(status == false) {
-        out.reset();
+        out.soft_reset();
         arma_stop_runtime_error("svd(): decomposition failed");
     }
 
@@ -80,9 +80,9 @@ inline bool svd(Mat<typename T1::elem_type>& U,
         (sig == 'd') ? auxlib::svd_dc(U, S, V, X) : auxlib::svd(U, S, V, X);
 
     if(status == false) {
-        U.reset();
-        S.reset();
-        V.reset();
+        U.soft_reset();
+        S.soft_reset();
+        V.soft_reset();
         arma_debug_warn("svd(): decomposition failed");
     }
 
@@ -118,9 +118,9 @@ inline bool svd_econ(Mat<typename T1::elem_type>& U,
         auxlib::svd_econ(U, S, V, X, mode);
 
     if(status == false) {
-        U.reset();
-        S.reset();
-        V.reset();
+        U.soft_reset();
+        S.soft_reset();
+        V.soft_reset();
         arma_debug_warn("svd(): decomposition failed");
     }
 

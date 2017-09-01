@@ -36,7 +36,7 @@ arma_warn_unused inline Col<std::complex<typename T1::pod_type>> eigs_gen(
     const bool status = sp_auxlib::eigs_gen(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
+        eigval.soft_reset();
         arma_stop_runtime_error("eigs_gen(): decomposition failed");
     }
 
@@ -62,7 +62,7 @@ inline bool eigs_gen(Col<std::complex<typename T1::pod_type>>& eigval,
     const bool status = sp_auxlib::eigs_gen(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
+        eigval.soft_reset();
         arma_debug_warn("eigs_gen(): decomposition failed");
     }
 
@@ -88,8 +88,8 @@ inline bool eigs_gen(Col<std::complex<typename T1::pod_type>>& eigval,
     const bool status = sp_auxlib::eigs_gen(eigval, eigvec, X, n_eigvals, form, tol);
 
     if(status == false) {
-        eigval.reset();
-        eigvec.reset();
+        eigval.soft_reset();
+        eigvec.soft_reset();
         arma_debug_warn("eigs_gen(): decomposition failed");
     }
 

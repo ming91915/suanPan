@@ -53,7 +53,7 @@ inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Prox
             const eT val = Pea[i];
 
             if(arma_isnan(val)) {
-                out.reset();
+                out.soft_reset();
                 return false;
             }
 
@@ -65,7 +65,7 @@ inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Prox
                 const eT val = P.at(row, col);
 
                 if(arma_isnan(val)) {
-                    out.reset();
+                    out.soft_reset();
                     return false;
                 }
 
