@@ -1,5 +1,3 @@
-#pragma once
-
 class glue_solve_symm
 {
 public:
@@ -27,11 +25,11 @@ public:
 
         if(is_float<eT>::value) {
             using T = float;
-            suanpan::sspsv_(
+            arma_fortran(arma_sspsv)(
                 &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
         } else if(is_double<eT>::value) {
             using T = double;
-            suanpan::dspsv_(
+            arma_fortran(arma_dspsv)(
                 &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
         }
 

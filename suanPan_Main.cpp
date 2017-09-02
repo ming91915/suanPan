@@ -50,12 +50,9 @@ void example_symm_mat()
     (B * D).print();
     cout << endl;
 
-    const auto E = solve(B, D);
+    vec E = solve(B, D);
 
-    vec F;
-    glue_solve_symm::apply(F, E);
-
-    F.print();
+    E.print();
     cout << endl;
     solve(A, D).print();
 }

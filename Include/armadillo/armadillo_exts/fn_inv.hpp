@@ -1,10 +1,3 @@
-#pragma once
-#include "SmOp_bones.hpp"
-#include "smop_inv_bones.hpp"
-#include "traits.hpp"
-
-namespace arma
-{
 template <typename T1>
 arma_warn_unused
     typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value &&
@@ -15,5 +8,4 @@ arma_warn_unused
     arma_extra_debug_sigprint();
 
     return SmOp<T1, smop_inv>(X.get_ref());
-}
 }

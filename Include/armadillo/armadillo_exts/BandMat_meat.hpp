@@ -1,5 +1,3 @@
-#pragma once
-
 template <typename eT> BandMat<eT>::~BandMat() {}
 
 template <typename eT>

@@ -1,5 +1,3 @@
-#pragma once
-
 template <typename eT> SymmMat<eT>::~SymmMat() {}
 
 template <typename eT>
@@ -213,6 +211,20 @@ SymmMat<eT>::SymmMat(const SmOp<T1, smop_type>& X)
 }
 
 template <typename eT>
+template <typename T1, typename T2, typename glue_type>
+SymmMat<eT>& SymmMat<eT>::operator=(const Glue<T1, T2, glue_type>& X)
+{
+    arma_extra_debug_sigprint();
+
+    arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
+    arma_type_check((is_same_type<eT, typename T2::elem_type>::no));
+
+    glue_type::apply(*this, X);
+
+    return *this;
+}
+
+template <typename eT>
 template <typename T1, typename smop_type>
 SymmMat<eT>& SymmMat<eT>::operator=(const SmOp<T1, smop_type>& X)
 {
@@ -400,9 +412,12 @@ const SymmMat<eT>& SymmMat<eT>::fill(const fill::fill_class<fill_type>&)
 {
     arma_extra_debug_sigprint();
 
-    if(is_same_type<fill_type, fill::fill_zeros>::yes) (*this).zeros();
-    if(is_same_type<fill_type, fill::fill_ones>::yes) (*this).ones();
-    if(is_same_type<fill_type, fill::fill_eye>::yes) (*this).eye();
+    if(is_same_type<fill_type, fill::fill_zeros>::yes)
+        (*this).zeros();
+    else if(is_same_type<fill_type, fill::fill_ones>::yes)
+        (*this).ones();
+    else if(is_same_type<fill_type, fill::fill_eye>::yes)
+        (*this).eye();
 
     return *this;
 }
@@ -466,4 +481,59 @@ template <typename eT> void SymmMat<eT>::reset()
     arma_extra_debug_sigprint();
 
     init_warm(0);
+}
+
+template <typename T1>
+typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
+operator*(const T1& X, const typename T1::elem_type k)
+{
+    arma_extra_debug_sigprint();
+
+    return eOp<T1, eop_scalar_times>(X, k);
+}
+
+template <typename T1>
+typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
+operator*(const typename T1::elem_type k, const T1& X)
+{
+    arma_extra_debug_sigprint();
+
+    return eOp<T1, eop_scalar_times>(X, k);
+}
+
+template <typename T1, typename T2>
+typename enable_if2<is_SymmMat<T1>::value && is_Col<T2>::value &&
+        is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
+    const Glue<T1, T2, glue_times_symm>>::result
+operator*(const T1& X, const T2& Y)
+{
+    arma_extra_debug_sigprint();
+
+    return Glue<T1, T2, glue_times_symm>(X, Y);
+}
+
+template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B)
+{
+    X = B;
+
+    auto UPLO = 'U';
+    auto N = static_cast<int>(A.n_size);
+    auto NRHS = 1;
+    const auto IPIV = new int[N];
+    auto LDB = N;
+    auto INFO = 0;
+
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::sspsv_(
+            &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dspsv_(
+            &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
+    }
+
+    delete[] IPIV;
+
+    return INFO;
 }

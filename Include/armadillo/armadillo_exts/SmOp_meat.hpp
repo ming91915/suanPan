@@ -1,5 +1,3 @@
-#pragma once
-
 template <typename T1, typename smop_type>
 SmOp<T1, smop_type>::SmOp(const T1& in_m)
     : m(in_m)

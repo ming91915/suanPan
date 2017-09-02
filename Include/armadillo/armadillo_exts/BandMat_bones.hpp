@@ -1,7 +1,3 @@
-#pragma once
-
-template <typename T1, typename bdop_type> class BdOp;
-
 template <typename eT> class BandMat : public Base<eT, BandMat<eT>>
 {
 public:

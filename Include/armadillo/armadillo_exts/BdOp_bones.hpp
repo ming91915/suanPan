@@ -1,5 +1,3 @@
-#pragma once
-
 template <typename T1, typename bdop_type>
 class BdOp : public Base<typename T1::elem_type, BdOp<T1, bdop_type>>
 {

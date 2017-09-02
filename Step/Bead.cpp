@@ -4,11 +4,7 @@
 #include <Solver/Solver.h>
 #include <Step/Step.h>
 
-Bead::Bead()
-{
-    // BY DEFAULT USE DOMAIN ONE
-    insert(make_shared<Domain>(1));
-}
+Bead::Bead() { insert(make_shared<Domain>(1)); }
 
 bool Bead::insert(const shared_ptr<Domain>& D)
 {

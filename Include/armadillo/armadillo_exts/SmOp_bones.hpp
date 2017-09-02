@@ -1,5 +1,3 @@
-#pragma once
-
 template <typename T1, typename smop_type>
 class SmOp : public Base<typename T1::elem_type, SmOp<T1, smop_type>>
 {
