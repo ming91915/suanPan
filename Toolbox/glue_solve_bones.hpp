@@ -16,7 +16,7 @@ public:
     template <typename eT, typename T1, typename T2>
     static bool apply(Mat<eT>& X, const T1& A, const T2& B)
     {
-        auto UPLO = 'L';
+        auto UPLO = 'U';
         auto N = static_cast<int>(A.n_size);
         auto NRHS = static_cast<int>(B.n_cols);
         const auto IPIV = new int[N];

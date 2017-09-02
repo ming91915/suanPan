@@ -1,18 +1,4 @@
-#include "Storage.h"
-
-template <typename T> const char* StorageType() { return "Unknown"; }
-
-template <> const char* StorageType<Constraint>() { return "Constraint"; }
-
-template <> const char* StorageType<Element>() { return "Element"; }
-
-template <> const char* StorageType<Load>() { return "Load"; }
-
-template <> const char* StorageType<Material>() { return "Material"; }
-
-template <> const char* StorageType<Node>() { return "Node"; }
-
-template <> const char* StorageType<Recorder>() { return "Recorder"; }
+#pragma once
 
 template <typename T> Storage<T>::Storage()
 {

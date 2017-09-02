@@ -79,8 +79,8 @@ SymmMat<eT>::SymmMat(const Mat<eT>& in_mat)
     init_cold();
 
     auto tmp_ptr = const_cast<eT*>(mem);
-    for(auto i = 0; i < n_size; ++i)
-        for(auto j = i; j < n_size; ++j) *tmp_ptr++ = in_mat(j, i);
+    for(auto j = 0; j < n_size; ++j)
+        for(auto i = 0; i <= j; ++i) *tmp_ptr++ = in_mat(i, j);
 }
 
 template <typename eT> SymmMat<eT>& SymmMat<eT>::operator=(const eT& val)
@@ -227,9 +227,8 @@ SymmMat<eT>& SymmMat<eT>::operator=(const SmOp<T1, smop_type>& X)
 
 template <typename eT> eT& SymmMat<eT>::at(const uword& in_row, const uword& in_col)
 {
-    const auto tmp_loc = in_row > in_col ?
-        in_col * n_size - (in_col + in_col * in_col) / 2 + in_row :
-        in_row * n_size - (in_row + in_row * in_row) / 2 + in_col;
+    const auto tmp_loc = in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row :
+                                           (in_row * in_row + in_row) / 2 + in_col;
 
     return access::rw(mem[tmp_loc]);
 }
@@ -237,9 +236,8 @@ template <typename eT> eT& SymmMat<eT>::at(const uword& in_row, const uword& in_
 template <typename eT>
 const eT& SymmMat<eT>::at(const uword& in_row, const uword& in_col) const
 {
-    const auto tmp_loc = in_row > in_col ?
-        in_col * n_size - (in_col + in_col * in_col) / 2 + in_row :
-        in_row * n_size - (in_row + in_row * in_row) / 2 + in_col;
+    const auto tmp_loc = in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row :
+                                           (in_row * in_row + in_row) / 2 + in_col;
 
     return mem[tmp_loc];
 }

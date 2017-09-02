@@ -176,7 +176,6 @@
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
-    <ClCompile Include="..\..\..\Domain\Storage.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Domain\Workshop.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
@@ -238,10 +237,11 @@
     <ClInclude Include="..\..\..\Database\SQL.h" />
     <ClInclude Include="..\..\..\Domain\Domain.h" />
     <ClInclude Include="..\..\..\Domain\ExternalModule.h" />
-    <ClInclude Include="..\..\..\Domain\Factory_bones.hpp" />
-    <ClInclude Include="..\..\..\Domain\Factory_meat.hpp" />
+    <ClInclude Include="..\..\..\Domain\Factory_black.hpp" />
+    <ClInclude Include="..\..\..\Domain\Factory_white.hpp" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
-    <ClInclude Include="..\..\..\Domain\Storage.h" />
+    <ClInclude Include="..\..\..\Domain\Storage_black.hpp" />
+    <ClInclude Include="..\..\..\Domain\Storage_white.hpp" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Domain\Workshop.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />

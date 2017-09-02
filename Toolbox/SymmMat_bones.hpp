@@ -109,43 +109,9 @@ operator*(const T1& X, const T2& Y)
     return Glue<T1, T2, glue_times_symm>(X, Y);
 }
 
-// template <typename eT> SymmMat<eT> operator*(const eT& X, const SymmMat<eT>& A)
-//{
-//    A *= X;
-//    return A;
-//}
-//
-// template <typename eT> Col<eT> operator*(const SymmMat<eT>& A, const Col<eT>& X)
-//{
-//    return sp_mv(A, X);
-//}
-
-template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
-{
-    auto Y = X;
-
-    auto UPLO = 'L';
-    auto N = static_cast<int>(A.n_size);
-    eT ALPHA = 1.;
-    auto INC = 1;
-    eT BETA = 0.;
-
-    if(is_float<eT>::value) {
-        using T = float;
-        suanpan::sspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
-            (T*)&BETA, (T*)Y.memptr(), &INC);
-    } else if(is_double<eT>::value) {
-        using T = double;
-        suanpan::dspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
-            (T*)&BETA, (T*)Y.memptr(), &INC);
-    }
-
-    return Y;
-}
-
 template <typename eT> int sp_inv(SymmMat<eT>& A)
 {
-    auto UPLO = 'L';
+    auto UPLO = 'U';
     auto N = static_cast<int>(A.n_size);
     const auto IPIV = new int[N];
     auto INFO = 0;
@@ -176,11 +142,34 @@ template <typename eT> int sp_inv(SymmMat<eT>& A)
     return INFO;
 }
 
+template <typename eT> Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X)
+{
+    auto Y = X;
+
+    auto UPLO = 'U';
+    auto N = static_cast<int>(A.n_size);
+    eT ALPHA = 1.;
+    auto INC = 1;
+    eT BETA = 0.;
+
+    if(is_float<eT>::value) {
+        using T = float;
+        suanpan::sspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
+            (T*)&BETA, (T*)Y.memptr(), &INC);
+    } else if(is_double<eT>::value) {
+        using T = double;
+        suanpan::dspmv_(&UPLO, &N, (T*)&ALPHA, (T*)A.memptr(), (T*)X.memptr(), &INC,
+            (T*)&BETA, (T*)Y.memptr(), &INC);
+    }
+
+    return Y;
+}
+
 template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B)
 {
     X = B;
 
-    auto UPLO = 'L';
+    auto UPLO = 'U';
     auto N = static_cast<int>(A.n_size);
     auto NRHS = 1;
     const auto IPIV = new int[N];

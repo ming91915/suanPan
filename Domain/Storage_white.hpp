@@ -4,7 +4,7 @@
 * @author T
 * @date 02/09/2017
 * @version 0.2.0
-* @file Storage.h
+* @file Storage_white.hpp
 * @{
 */
 
@@ -20,13 +20,19 @@ class Material;
 class Node;
 class Recorder;
 
-template <typename T> const char* StorageType();
-template <> const char* StorageType<Constraint>();
-template <> const char* StorageType<Element>();
-template <> const char* StorageType<Load>();
-template <> const char* StorageType<Material>();
-template <> const char* StorageType<Node>();
-template <> const char* StorageType<Recorder>();
+template <typename T> const char* StorageType() { return "Unknown"; }
+
+template <> inline const char* StorageType<Constraint>() { return "Constraint"; }
+
+template <> inline const char* StorageType<Element>() { return "Element"; }
+
+template <> inline const char* StorageType<Load>() { return "Load"; }
+
+template <> inline const char* StorageType<Material>() { return "Material"; }
+
+template <> inline const char* StorageType<Node>() { return "Node"; }
+
+template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
 
 #include <unordered_map>
 #include <unordered_set>

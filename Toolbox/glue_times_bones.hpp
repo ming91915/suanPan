@@ -13,7 +13,7 @@ public:
 
         out = X;
 
-        auto UPLO = 'L';
+        auto UPLO = 'U';
         auto N = static_cast<int>(A.n_size);
         eT ALPHA = 1.;
         auto INC = 1;

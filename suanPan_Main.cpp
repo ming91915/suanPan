@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 
     Storage<Constraint> A;
 
-// example_symm_mat();
+    example_symm_mat();
 // factory A(3, AnalysisType::DISP);
 // A.initialize();
 

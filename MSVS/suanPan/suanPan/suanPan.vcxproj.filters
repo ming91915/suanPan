@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\..\Domain\Node.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Storage.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -287,9 +284,6 @@
     <ClInclude Include="..\..\..\Domain\Node.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Storage.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Domain\Tag.h">
       <Filter>SRC</Filter>
     </ClInclude>
@@ -446,12 +440,6 @@
     <ClInclude Include="..\..\..\Domain\Workshop.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory_meat.hpp">
-      <Filter>Armadillo-Ext</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory_bones.hpp">
-      <Filter>Armadillo-Ext</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\fn_solve.hpp">
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
@@ -468,6 +456,18 @@
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\glue_times_bones.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Storage_white.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory_black.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory_white.hpp">
+      <Filter>Armadillo-Ext</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Storage_black.hpp">
       <Filter>Armadillo-Ext</Filter>
     </ClInclude>
   </ItemGroup>

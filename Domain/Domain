@@ -1,9 +1,10 @@
 #include "Domain.h"
 
 #include "ExternalModule.h"
-#include "Factory_bones.hpp"
-#include "Factory_meat.hpp"
+#include "Factory_white.hpp"
+#include "Factory_black.hpp"
 #include "Node.h"
-#include "Storage.h"
+#include "Storage_white.hpp"
+#include "Storage_black.hpp"
 #include "Tag.h"
 #include "Workshop.h"
