@@ -8,6 +8,7 @@ addons:
       - george-edison55-precise-backports
     packages:
       - g++-5
+      - gfortran
       - cmake-data
       - cmake
 env:

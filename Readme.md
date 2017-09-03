@@ -1,5 +1,6 @@
 # suanPan
 [![Build status](https://ci.appveyor.com/api/projects/status/s5aobm9l4pijrov1?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan)
+[![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan)
 
 suanPan is a platform for FEM simulation aimed to applications in solid mechanics. The name Suan Pan (算盤) is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). suanPan is written in C++ incorporating with several high performance libraries.
 
