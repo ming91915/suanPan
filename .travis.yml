@@ -16,8 +16,4 @@ env:
 before_install:
   - eval "${MATRIX_EVAL}"
 script:
-  - g++ -v
-  - cmake --version
-  - mkdir cmake-build
-  - cd cmake-build && cmake ../
-  - make
+  - mkdir cmake-build && cd cmake-build && cmake ../ && make
