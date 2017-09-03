@@ -1,7 +1,4 @@
-#include "H5Cpp.h"
 #include <suanPan>
-
-using namespace H5;
 
 void example_symm_mat();
 mat spmm(const SymmMat<double>& A, const Mat<double>& X);
