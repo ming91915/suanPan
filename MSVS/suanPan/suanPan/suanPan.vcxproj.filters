@@ -272,9 +272,6 @@
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\testFunctions.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
       <Filter>SRC</Filter>
     </ClInclude>

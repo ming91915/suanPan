@@ -7,5 +7,4 @@
 #include "RCM.h"
 #include "shapeFunctionQuad.h"
 #include "tensorToolbox.h"
-#include "testFunctions.h"
 #include "utility.h"

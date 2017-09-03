@@ -54,9 +54,9 @@ mat spmm(const SymmMat<double>& A, const Mat<double>& X)
     auto TRAN = 'N';
     auto M = static_cast<int>(A.n_size);
     auto N = static_cast<int>(X.n_cols);
-    double ALPHA = 1.;
+    auto ALPHA = 1.;
     auto LDB = M;
-    double BETA = 0.;
+    auto BETA = 0.;
     auto LDC = M;
 
     arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, const_cast<double*>(A.memptr()),

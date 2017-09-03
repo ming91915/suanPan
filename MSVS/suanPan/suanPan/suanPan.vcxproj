@@ -285,7 +285,6 @@
     <ClInclude Include="..\..\..\Toolbox\RCM.h" />
     <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h" />
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h" />
-    <ClInclude Include="..\..\..\Toolbox\testFunctions.h" />
     <ClInclude Include="..\..\..\Toolbox\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
