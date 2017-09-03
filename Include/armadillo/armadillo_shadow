@@ -26,5 +26,7 @@
 #include "armadillo_exts/debug.hpp"
 #include "armadillo_exts/typedef_mat.hpp"
 
+#include "armadillo_exts/operator_times.hpp"
+
 #include "armadillo_exts/fn_inv.hpp"
 #include "armadillo_exts/fn_solve.hpp"

@@ -4,6 +4,7 @@
 using namespace H5;
 
 void example_symm_mat();
+mat spmm(const SymmMat<double>& A, const Mat<double>& X);
 
 int main(int argc, char** argv)
 {
@@ -36,23 +37,30 @@ void example_symm_mat()
     A = A + A.t();
     const symm_mat B(A);
 
-    A.i().print();
-    cout << endl;
-
-    symm_mat C = inv(B);
-    C.print();
-    cout << endl;
-
-    const vec D(10, fill::randn);
+    const mat D(10, 5, fill::randn);
 
     (A * D).print();
     cout << endl;
-    (B * D).print();
+    spmm(B, D).print();
     cout << endl;
-
-    vec E = solve(B, D);
-
-    E.print();
-    cout << endl;
-    solve(A, D).print();
 }
+
+mat spmm(const SymmMat<double>& A, const Mat<double>& X)
+{
+    auto Y = X;
+
+    auto SIDE = 'R';
+    auto UPLO = 'U';
+    auto TRAN = 'N';
+    auto M = static_cast<int>(A.n_size);
+    auto N = static_cast<int>(X.n_cols);
+    double ALPHA = 1.;
+    auto LDB = M;
+    double BETA = 0.;
+    auto LDC = M;
+
+    arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, const_cast<double*>(A.memptr()),
+        &ALPHA, const_cast<double*>(X.memptr()), &LDB, &BETA, Y.memptr(), &LDC);
+
+    return Y;
+};

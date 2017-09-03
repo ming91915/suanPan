@@ -5,6 +5,7 @@
 #define arma_dsbmv DSBMV
 #define arma_sspmv SSPMV
 #define arma_dspmv DSPMV
+#define arma_dspmm DSPMM
 #define arma_dgesv DGESV
 #define arma_dgetrf DGETRF
 #define arma_dgetri DGETRI
@@ -27,6 +28,7 @@
 #define arma_dsbmv dsbmv
 #define arma_sspmv sspmv
 #define arma_dspmv dspmv
+#define arma_dspmm dspmm
 #define arma_dgesv dgesv
 #define arma_dgetrf dgetrf
 #define arma_dgetri dgetri
@@ -101,6 +103,19 @@ void arma_fortran(arma_dspmv)(char* UPLO,
     double* BETA,
     double* Y,
     int* INCY);
+
+void arma_fortran(arma_dspmm)(char* SIDE,
+    char* UPLO,
+    char* TRAN,
+    int* M,
+    int* N,
+    double* A,
+    double* ALPHA,
+    double* B,
+    int* LDB,
+    double* BETA,
+    double* C,
+    int* LDC);
 
 // LAPACK SOLVER
 void arma_fortran(arma_dgesv)(int* N,

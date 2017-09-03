@@ -19,20 +19,21 @@ void example_uni_material()
     // RambergOsgood A;
     Gap01 A(0, 2E5, 400, 0.001);
     vector<double> B, C;
+    vec S = { 0.0001 };
     for(auto I = 0; I < 30; ++I) {
-        A.update_incre_status({ 0.0001 });
+        A.update_incre_status(S);
         A.commit_status();
         B.push_back(as_scalar(A.get_strain()));
         C.push_back(as_scalar(A.get_stress()));
     }
     for(auto I = 0; I < 50; ++I) {
-        A.update_incre_status({ -0.0001 });
+        A.update_incre_status(-S);
         A.commit_status();
         B.push_back(as_scalar(A.get_strain()));
         C.push_back(as_scalar(A.get_stress()));
     }
     for(auto I = 0; I < 50; ++I) {
-        A.update_incre_status({ 0.0001 });
+        A.update_incre_status(S);
         A.commit_status();
         B.push_back(as_scalar(A.get_strain()));
         C.push_back(as_scalar(A.get_stress()));

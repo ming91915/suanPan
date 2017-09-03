@@ -483,35 +483,6 @@ template <typename eT> void SymmMat<eT>::reset()
     init_warm(0);
 }
 
-template <typename T1>
-typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
-operator*(const T1& X, const typename T1::elem_type k)
-{
-    arma_extra_debug_sigprint();
-
-    return eOp<T1, eop_scalar_times>(X, k);
-}
-
-template <typename T1>
-typename enable_if2<is_SymmMat<T1>::value, const eOp<T1, eop_scalar_times>>::result
-operator*(const typename T1::elem_type k, const T1& X)
-{
-    arma_extra_debug_sigprint();
-
-    return eOp<T1, eop_scalar_times>(X, k);
-}
-
-template <typename T1, typename T2>
-typename enable_if2<is_SymmMat<T1>::value && is_Col<T2>::value &&
-        is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
-    const Glue<T1, T2, glue_times_symm>>::result
-operator*(const T1& X, const T2& Y)
-{
-    arma_extra_debug_sigprint();
-
-    return Glue<T1, T2, glue_times_symm>(X, Y);
-}
-
 template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B)
 {
     X = B;
@@ -525,11 +496,11 @@ template <typename eT> int sp_solve(Col<eT>& X, SymmMat<eT>& A, const Col<eT>& B
 
     if(is_float<eT>::value) {
         using T = float;
-        suanpan::sspsv_(
+        arma_fortran(arma_sspsv)(
             &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
     } else if(is_double<eT>::value) {
         using T = double;
-        suanpan::dspsv_(
+        arma_fortran(arma_dspsv)(
             &UPLO, &N, &NRHS, (T*)A.memptr(), IPIV, (T*)X.memptr(), &LDB, &INFO);
     }
 
