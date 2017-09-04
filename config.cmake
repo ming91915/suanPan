@@ -46,7 +46,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
     link_directories(${ROOT}/Libs/linux)
     link_libraries(arpack superlu)
-    link_libraries(dl)
+    link_libraries(lapack dl)
     #link_libraries(openblas gfortran quadmath dl)
     
     if(USE_HDF5)
