@@ -69,7 +69,7 @@ void Node::initialize()
 
     if(num_dof != 0) {
         original_dof.zeros(num_dof);
-        original_dof.fill(-1);
+        original_dof.fill(static_cast<uword>(-1));
 
         reordered_dof.reset();
 

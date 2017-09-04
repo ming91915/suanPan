@@ -89,13 +89,11 @@ bool ExternalModule::locate_module()
 void ExternalModule::new_object(unique_ptr<Element>& return_obj,
     istringstream& command) const
 {
-    auto concrete_creator = element_creator(ext_creator);
-    concrete_creator(return_obj, command);
+    (element_creator(ext_creator))(return_obj, command);
 }
 
 void ExternalModule::new_object(unique_ptr<Material>& return_obj,
     istringstream& command) const
 {
-    auto concrete_creator = material_creator(ext_creator);
-    concrete_creator(return_obj, command);
+    (material_creator(ext_creator))(return_obj, command);
 }

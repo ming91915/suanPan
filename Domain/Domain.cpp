@@ -97,7 +97,8 @@ int Domain::initialize()
     else
         workroom->set_dof_number(dof_counter);
 
-    workroom->set_bandwidth(low_bandwidth, -up_bandwidth);
+    workroom->set_bandwidth(
+        static_cast<unsigned>(low_bandwidth), static_cast<unsigned>(-up_bandwidth));
 
     return 0;
 }

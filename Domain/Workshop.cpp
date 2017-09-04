@@ -73,7 +73,6 @@ int Workshop::initialize()
             initialize_stiffness(dof_number);
             break;
         case AnalysisType::NONE:
-        default:
             break;
         }
     }

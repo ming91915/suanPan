@@ -69,7 +69,7 @@ public:
     bool insert(const shared_ptr<T>& I)
     {
         auto flag = pool.insert({ I->get_tag(), I });
-        if(flag.second == false)
+        if(!flag.second)
             suanpan_warning("insert() fails to insert %s %u.\n",
                 StorageType<object_type>(), I->get_tag());
         return flag.second;
@@ -131,13 +131,13 @@ typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend(const Stora
 }
 
 template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::iterator begin(const Storage<T>& S)
+typename unordered_map<unsigned, shared_ptr<T>>::iterator begin(Storage<T>& S)
 {
     return S.begin();
 }
 
 template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::iterator end(const Storage<T>& S)
+typename unordered_map<unsigned, shared_ptr<T>>::iterator end(Storage<T>& S)
 {
     return S.end();
 }
