@@ -11,6 +11,7 @@ addons:
 env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-5 && CXX=g++-5"
 script:
+  - sudo apt-get update -qq
   - mkdir cmake-build && cd cmake-build && cmake ../ && make
 before_install:
   - eval "${MATRIX_EVAL}"
