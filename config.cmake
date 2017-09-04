@@ -45,7 +45,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
     link_directories(${ROOT}/Libs/linux)
-    link_libraries(arpack superlu dspmm openblas gfortran quadmath dl)
+    link_libraries(arpack superlu dspmm openblas dl)
     
     if(USE_HDF5)
         set(HDF5_PATH /usr/local/HDF5 CACHE PATH "Please make sure the HDF5 library is installed under /usr/local/HDF5 or specify another location.")
