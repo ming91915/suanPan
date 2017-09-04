@@ -51,7 +51,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     elseif(USE_NETLIB)
         link_libraries(lapack)
     endif()
-    link_libraries(dl)
+    link_libraries(gfortran quadmath dl)
     
     if(USE_HDF5)
         set(HDF5_PATH /usr/local/HDF5 CACHE PATH "Please make sure the HDF5 library is installed under /usr/local/HDF5 or specify another location.")
