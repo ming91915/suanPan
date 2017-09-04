@@ -45,7 +45,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
     link_directories(${ROOT}/Libs/linux)
-    link_libraries(arpack superlu dspmm}
+    link_libraries(arpack superlu dspmm)
     if(USE_OPENBLAS)
         link_libraries(lapack)
     elseif(USE_NETLIB)
