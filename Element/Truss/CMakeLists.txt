@@ -1,2 +1,2 @@
 set(Truss
-	Truss/Truss2D.cpp)
+    Truss/Truss2D.cpp)

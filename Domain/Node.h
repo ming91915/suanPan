@@ -50,6 +50,8 @@ public:
     Node(const unsigned&, const vec&);
     Node(const unsigned&, const unsigned&);
     Node(const unsigned&, const unsigned&, const vec&);
+    Node(const Node&) { suanpan_debug("Node copy ctor() called.\n"); }
+    Node(Node&&) { suanpan_debug("Node move ctor() called.\n"); }
     ~Node();
 
     void initialize();

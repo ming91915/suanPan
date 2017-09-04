@@ -240,8 +240,6 @@
     <ClInclude Include="..\..\..\Domain\Factory_black.hpp" />
     <ClInclude Include="..\..\..\Domain\Factory_white.hpp" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
-    <ClInclude Include="..\..\..\Domain\Storage_black.hpp" />
-    <ClInclude Include="..\..\..\Domain\Storage_white.hpp" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Domain\Workshop.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />

@@ -3,6 +3,17 @@
 void example_symm_mat();
 mat spmm(const SymmMat<double>& A, const Mat<double>& X);
 
+class KT
+{
+public:
+    int I;
+    explicit KT(const unsigned& T)
+        : I(T)
+    {
+    }
+    const int& get_tag() const { return I; }
+};
+
 int main(int argc, char** argv)
 {
 #ifndef SUANPAN_DEBUG
@@ -10,11 +21,9 @@ int main(int argc, char** argv)
     T.tic();
 #endif
 
-    // argument_parser(argc, argv);
+    argument_parser(argc, argv);
 
-    Storage<Constraint> A;
-
-    example_symm_mat();
+// example_symm_mat();
 
 #ifndef SUANPAN_DEBUG
     cout << T.toc() << "\n";

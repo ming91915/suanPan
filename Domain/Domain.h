@@ -11,12 +11,19 @@
 #ifndef DOMAIN_H
 #define DOMAIN_H
 
+#include "Storage.hpp"
 #include "Tag.h"
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
+using std::unordered_map;
+using std::unordered_set;
+using std::vector;
+
 class Workshop;
+
+template <typename T> class Storage;
 class Constraint;
 class Element;
 class Load;
@@ -24,9 +31,19 @@ class Material;
 class Node;
 class Recorder;
 
-using std::unordered_map;
-using std::unordered_set;
-using std::vector;
+using ConstraintStorage = Storage<Constraint>;
+using ElementStorage = Storage<Element>;
+using LoadStorage = Storage<Load>;
+using MaterialStorage = Storage<Material>;
+using NodeStorage = Storage<Node>;
+using RecorderStorage = Storage<Recorder>;
+
+// using ConstraintStorage = unordered_map<unsigned, shared_ptr<Constraint>>;
+// using ElementStorage = unordered_map<unsigned, shared_ptr<Element>>;
+// using LoadStorage = unordered_map<unsigned, shared_ptr<Load>>;
+// using MaterialStorage = unordered_map<unsigned, shared_ptr<Material>>;
+// using NodeStorage = unordered_map<unsigned, shared_ptr<Node>>;
+// using RecorderStorage = unordered_map<unsigned, shared_ptr<Recorder>>;
 
 using std::enable_shared_from_this;
 
@@ -37,24 +54,12 @@ class Domain : public Tag, public enable_shared_from_this<Domain>
 
     shared_ptr<Workshop> workroom; /**< working room */
 
-    unordered_map<unsigned, shared_ptr<Constraint>> constraint_pool; /**< data storage */
-    unordered_map<unsigned, shared_ptr<Element>> element_pool;       /**< data storage */
-    unordered_map<unsigned, shared_ptr<Load>> load_pool;             /**< data storage */
-    unordered_map<unsigned, shared_ptr<Material>> material_pool;     /**< data storage */
-    unordered_map<unsigned, shared_ptr<Node>> node_pool;             /**< data storage */
-    unordered_map<unsigned, shared_ptr<Recorder>> recorder_pool;     /**< data storage */
-
-    vector<shared_ptr<Constraint>> tmp_constraint_pool;
-    vector<shared_ptr<Element>> tmp_element_pool;
-    vector<shared_ptr<Load>> tmp_load_pool;
-    vector<shared_ptr<Node>> tmp_node_pool;
-
-    unordered_set<unsigned> disabled_constraint; /**< data storage */
-    unordered_set<unsigned> disabled_element;    /**< data storage */
-    unordered_set<unsigned> disabled_load;       /**< data storage */
-    unordered_set<unsigned> disabled_material;   /**< data storage */
-    unordered_set<unsigned> disabled_node;       /**< data storage */
-    unordered_set<unsigned> disabled_recorder;   /**< data storage */
+    ConstraintStorage constraint_pond;
+    ElementStorage element_pond;
+    LoadStorage load_pond;
+    MaterialStorage material_pond;
+    NodeStorage node_pond;
+    RecorderStorage recorder_pond;
 
     unordered_set<unsigned> restrained_dofs;  /**< data storage */
     unordered_set<unsigned> constrained_dofs; /**< data storage */
@@ -82,12 +87,12 @@ public:
     bool insert(const shared_ptr<Node>&);
     bool insert(const shared_ptr<Recorder>&);
 
-    void erase_constraint(const unsigned&);
-    void erase_element(const unsigned&);
-    void erase_load(const unsigned&);
-    void erase_material(const unsigned&);
-    void erase_node(const unsigned&);
-    void erase_recorder(const unsigned&);
+    bool erase_constraint(const unsigned&);
+    bool erase_element(const unsigned&);
+    bool erase_load(const unsigned&);
+    bool erase_material(const unsigned&);
+    bool erase_node(const unsigned&);
+    bool erase_recorder(const unsigned&);
 
     void disable_constraint(const unsigned&);
     void disable_element(const unsigned&);
@@ -120,12 +125,12 @@ public:
     friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
 
-    unsigned get_constraint() const;
-    unsigned get_element() const;
-    unsigned get_load() const;
-    unsigned get_material() const;
-    unsigned get_node() const;
-    unsigned get_recorder() const;
+    size_t get_constraint() const;
+    size_t get_element() const;
+    size_t get_load() const;
+    size_t get_material() const;
+    size_t get_node() const;
+    size_t get_recorder() const;
 
     bool find_constraint(const unsigned&) const;
     bool find_element(const unsigned&) const;
@@ -147,9 +152,9 @@ public:
     void update_trial_status() const;
     void update_incre_status() const;
 
-    void commit_status();
-    void clear_status();
-    void reset_status();
+    void commit_status() const;
+    void clear_status() const;
+    void reset_status() const;
 
     bool insert_loaded_dof(const unsigned&);
     bool insert_restrained_dof(const unsigned&);

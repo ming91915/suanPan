@@ -70,15 +70,15 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
     , nodes(N)
 {
     if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
-        dofs = { 1, 5, 6 };
+        dofs = std::initializer_list<uword>({ 1, 5, 6 });
     else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
-        dofs = { 2, 4, 6 };
+        dofs = std::initializer_list<uword>({ 2, 4, 6 });
     else if(_strcmpi(TP, "ZSYMM") == 0 || _strcmpi(TP, "Z") == 0)
-        dofs = { 3, 4, 5 };
+        dofs = std::initializer_list<uword>({ 3, 4, 5 });
     else if(_strcmpi(TP, "ENCASTRE") == 0 || _strcmpi(TP, "E") == 0)
-        dofs = { 1, 2, 3, 4, 5, 6 };
+        dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
     else if(_strcmpi(TP, "PINNED") == 0 || _strcmpi(TP, "P") == 0)
-        dofs = { 1, 2, 3 };
+        dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 
 /**
@@ -92,15 +92,15 @@ BC::BC(const unsigned& ST, const uvec& NT, const char* TP)
     , nodes(NT)
 {
     if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
-        dofs = { 1, 5, 6 };
+        dofs = std::initializer_list<uword>({ 1, 5, 6 });
     else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
-        dofs = { 2, 4, 6 };
+        dofs = std::initializer_list<uword>({ 2, 4, 6 });
     else if(_strcmpi(TP, "ZSYMM") == 0 || _strcmpi(TP, "Z") == 0)
-        dofs = { 3, 4, 5 };
+        dofs = std::initializer_list<uword>({ 3, 4, 5 });
     else if(_strcmpi(TP, "ENCASTRE") == 0 || _strcmpi(TP, "E") == 0)
-        dofs = { 1, 2, 3, 4, 5, 6 };
+        dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
     else if(_strcmpi(TP, "PINNED") == 0 || _strcmpi(TP, "P") == 0)
-        dofs = { 1, 2, 3 };
+        dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 
 /**

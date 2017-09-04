@@ -85,6 +85,8 @@
 #define SUANPAN_EXIT 1
 #endif
 
+// #define SUANPAN_OPENMP
+
 // TWO IMPLEMENTATIONS
 #if defined(SUANPAN_UNIX)
 #define _strcmpi strcasecmp
