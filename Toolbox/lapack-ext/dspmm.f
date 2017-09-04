@@ -409,9 +409,9 @@
 
       IF(PTYPE.EQ.0011)THEN
           DO 600 J=1,DIMB
+              TEMPB=(J-1)*J/2
               DO 590 I=1,DIMA
                   TEMPA=ZERO
-                  TEMPB=(J-1)*J/2
                   Y=1
                   DO 570 X=TEMPB+1,TEMPB+J
                       IF(B(I,Y).NE.ZERO)TEMPA=TEMPA+A(X)*B(I,Y)
@@ -431,9 +431,9 @@
 
       IF(PTYPE.EQ.0001)THEN
           DO 640 J=1,DIMB
+              TEMPB=(J-1)*J/2
               DO 630 I=1,DIMA
                   TEMPA=ZERO
-                  TEMPB=(J-1)*J/2
                   Y=1
                   DO 610 X=TEMPB+1,TEMPB+J
                       IF(B(Y,I).NE.ZERO)TEMPA=TEMPA+A(X)*B(Y,I)
@@ -453,9 +453,9 @@
 
       IF(PTYPE.EQ.0010)THEN
           DO 680 J=1,DIMB
+              TEMPB=(J-1)*J/2
               DO 670 I=1,DIMA
                   TEMPA=ZERO
-                  TEMPB=(J-1)*J/2
                   Y=1
                   DO 650 X=TEMPB+1,TEMPB+J
                       IF(B(I,Y).NE.ZERO)TEMPA=TEMPA+A(X)*B(I,Y)
@@ -475,9 +475,9 @@
 
       IF(PTYPE.EQ.0000)THEN
           DO 720 J=1,DIMB
+              TEMPB=(J-1)*J/2
               DO 710 I=1,DIMA
                   TEMPA=ZERO
-                  TEMPB=(J-1)*J/2
                   Y=1
                   DO 690 X=TEMPB+1,TEMPB+J
                       IF(B(Y,I).NE.ZERO)TEMPA=TEMPA+A(X)*B(Y,I)
