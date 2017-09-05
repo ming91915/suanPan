@@ -10,6 +10,7 @@
 * @date 16/07/2017
 * @version 0.1.0
 * @file ODE_Solver.h
+* @addtogroup ODE_Solver
 * @{
 */
 

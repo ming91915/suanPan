@@ -19,7 +19,9 @@
 #elif defined(SUANPAN_UNIX)
 #include <dlfcn.h>
 #endif
-#include "Element/Element.h"
+
+class Element;
+class Material;
 
 using std::string;
 using std::istringstream;

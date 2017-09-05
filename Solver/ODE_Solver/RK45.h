@@ -17,6 +17,8 @@
 * @date 22/08/2017
 * @version 0.2.1
 * @file RK45.h
+* @addtogroup ODE_Solver
+* @{
 */
 
 #ifndef RK45_H
@@ -37,3 +39,5 @@ public:
 };
 
 #endif
+
+//! @}

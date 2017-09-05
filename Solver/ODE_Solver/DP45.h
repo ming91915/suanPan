@@ -18,6 +18,8 @@
  * @date 27/07/2017
  * @version 0.1.1
  * @file DP45.h
+ * @addtogroup ODE_Solver
+ * @{
  */
 
 #ifndef DP45_H
@@ -39,3 +41,5 @@ public:
 };
 
 #endif
+
+//! @}

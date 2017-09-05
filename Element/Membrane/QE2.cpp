@@ -244,8 +244,17 @@ vector<vec> QE2::record(const OutputList& T) {
 void QE2::print() {
     suanpan_info("Piltner's mixed quad element %u connects nodes:\n", get_tag());
     node_encoding.t().print();
+    suanpan_info("Material model response:\n");
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);
         int_pt[I]->m_material->print();
+    }
+    suanpan_info("Element model response:\n");
+    for(auto I = 0; I < int_pt.size(); ++I) {
+        suanpan_info("Integration Point %u:\n", I + 1);
+        suanpan_info("Strain:\n");
+        (int_pt[I]->A * current_alpha).t().print();
+        suanpan_info("Stress:\n");
+        (int_pt[I]->P * current_beta).t().print();
     }
 }

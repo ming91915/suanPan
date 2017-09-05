@@ -44,8 +44,7 @@ bool ExternalModule::locate_module() {
         ext_library = LoadLibraryA(gnu_name.c_str());
     }
     if(ext_library == nullptr) {
-        suanpan_error("locate_module() cannot find the library with "
-                      "the given name.\n");
+        suanpan_error("locate_module() cannot find the library with the given name.\n");
         return false;
     }
 
@@ -55,23 +54,20 @@ bool ExternalModule::locate_module() {
     ext_creator = reinterpret_cast<void*>(GetProcAddress(HINSTANCE(ext_library), LPCSTR(module_name.c_str())));
 
     if(ext_creator == nullptr) {
-        suanpan_error("locate_module() cannot find the function with "
-                      "the given name.\n");
+        suanpan_error("locate_module() cannot find the function with the given name.\n");
         return false;
     }
 #elif defined(SUANPAN_UNIX)
     library_name = "./" + library_name + ".so";
     ext_library = dlopen(library_name.c_str(), RTLD_NOW);
     if(ext_library == nullptr) {
-        suanpan_error("locate_module() cannot find the library with "
-                      "the given name.\n");
+        suanpan_error("locate_module() cannot find the library with the given name.\n");
         return false;
     }
 
     ext_creator = dlsym(ext_library, module_name.c_str());
     if(ext_creator == nullptr) {
-        suanpan_error("locate_module() cannot find the function with "
-                      "the given name.\n");
+        suanpan_error("locate_module() cannot find the function with the given name.\n");
         return false;
     }
 #endif

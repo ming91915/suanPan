@@ -1,4 +1,5 @@
 #include "utility.h"
+#include <cstring>
 
 bool if_equal(const string& A, const char* B) { return _strcmpi(A.c_str(), B) == 0; }
 

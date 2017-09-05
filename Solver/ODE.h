@@ -54,9 +54,7 @@ public:
     //! Method to set dimension of the problem.
     virtual void set_dimension(const unsigned&);
     virtual void operator()(const unsigned&);
-    //! Method to return dimension of the problem, will be used to
-    //! determine the size of
-    //! input vector.
+    //! Method to return dimension of the problem, will be used to determine the size of input vector.
     virtual const unsigned& get_dimension() const;
     virtual unsigned operator()();
 
