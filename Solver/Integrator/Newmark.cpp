@@ -25,8 +25,7 @@ int Newmark::initialize() {
         auto& W = get_domain()->get_workshop();
 
         if(W->is_band() || W->is_symm()) {
-            suanpan_error("initialize() currently does not suppoort "
-                          "band or symmetric matrix.\n");
+            suanpan_error("initialize() currently does not suppoort band nor symmetric matrix.\n");
             return -1;
         }
     }
@@ -51,7 +50,9 @@ void Newmark::update_stiffness() {
     auto& D = get_domain();
     auto& W = D->get_workshop();
 
+    D->update_mass();
     D->update_stiffness();
+    D->update_damping();
 
     get_stiffness(W) += C0 * W->get_mass() + C1 * W->get_damping();
 }
