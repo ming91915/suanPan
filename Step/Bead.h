@@ -22,8 +22,7 @@ class Step;
 using std::unordered_map;
 using std::map;
 
-class Bead
-{
+class Bead {
     unsigned current_domain = 1;
     unsigned current_solver = 0;
     unsigned current_converger = 0;

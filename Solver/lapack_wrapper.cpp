@@ -1,10 +1,9 @@
 #include "lapack_wrapper.h"
 
-int ge_solve(vec& X, mat& A, const vec& B)
-{
+int ge_solve(vec& X, mat& A, const vec& B) {
     X = B;
 
-    auto N = static_cast<int>(A.n_cols);
+    auto N = static_cast<int>(A.n_rows);
     auto NRHS = 1;
     auto LDA = N;
     auto LDB = N;
@@ -18,8 +17,7 @@ int ge_solve(vec& X, mat& A, const vec& B)
     return INFO;
 }
 
-int gb_solve(vec& X, mat& A, const vec& B, const unsigned& L, const unsigned& U)
-{
+int gb_solve(vec& X, mat& A, const vec& B, const unsigned& L, const unsigned& U) {
     X = B;
 
     auto N = static_cast<int>(A.n_cols);
@@ -31,16 +29,14 @@ int gb_solve(vec& X, mat& A, const vec& B, const unsigned& L, const unsigned& U)
     const auto IPIV = new int[N];
     auto INFO = 0;
 
-    arma_fortran(arma_dgbsv)(
-        &N, &KL, &KU, &NRHS, A.memptr(), &LDAB, IPIV, X.memptr(), &LDB, &INFO);
+    arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, A.memptr(), &LDAB, IPIV, X.memptr(), &LDB, &INFO);
 
     delete[] IPIV;
 
     return INFO;
 }
 
-int sy_solve(vec& X, mat& A, const vec& B)
-{
+int sy_solve(vec& X, mat& A, const vec& B) {
     X = B;
 
     auto UPLO = 'L';
@@ -54,8 +50,7 @@ int sy_solve(vec& X, mat& A, const vec& B)
     auto LWORK = 4 * N;
     const auto WORK = new double[LWORK];
 
-    arma_fortran(arma_dsysv)(
-        &UPLO, &N, &NRHS, A.memptr(), &LDA, IPIV, X.memptr(), &LDB, WORK, &LWORK, &INFO);
+    arma_fortran(arma_dsysv)(&UPLO, &N, &NRHS, A.memptr(), &LDA, IPIV, X.memptr(), &LDB, WORK, &LWORK, &INFO);
 
     delete[] IPIV;
     delete[] WORK;
@@ -63,8 +58,7 @@ int sy_solve(vec& X, mat& A, const vec& B)
     return INFO;
 }
 
-int po_solve(vec& X, mat& A, const vec& B)
-{
+int po_solve(vec& X, mat& A, const vec& B) {
     X = B;
 
     auto UPLO = 'L';
@@ -79,8 +73,7 @@ int po_solve(vec& X, mat& A, const vec& B)
     return INFO;
 }
 
-int pb_solve(vec& X, mat& A, const vec& B)
-{
+int pb_solve(vec& X, mat& A, const vec& B) {
     X = B;
 
     auto UPLO = 'L';
@@ -91,8 +84,7 @@ int pb_solve(vec& X, mat& A, const vec& B)
     auto LDB = N;
     auto INFO = 0;
 
-    arma_fortran(arma_dpbsv)(
-        &UPLO, &N, &KD, &NRHS, A.memptr(), &LDAB, X.memptr(), &LDB, &INFO);
+    arma_fortran(arma_dpbsv)(&UPLO, &N, &KD, &NRHS, A.memptr(), &LDAB, X.memptr(), &LDB, &INFO);
 
     return INFO;
 }

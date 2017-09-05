@@ -15,8 +15,7 @@
 
 #include <Material/Material.h>
 
-class Bilinear1D final : public Material
-{
+class Bilinear1D final : public Material {
     const double elastic_modulus; /**< elastic modulus */
     const double yield_stress;    /**< initial yield stress */
     const double hardening_ratio; /**< hardening ratio */

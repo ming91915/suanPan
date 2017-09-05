@@ -1,18 +1,7 @@
 #include "MPF.h"
 #include <Toolbox/utility.h>
 
-MPF::MPF(const unsigned& T,
-    const double& E,
-    const double& Y,
-    const double& H,
-    const double& R,
-    const double& AA1,
-    const double& AA2,
-    const double& AA3,
-    const double& AA4,
-    const bool& ISO,
-    const bool& CON,
-    const double& D)
+MPF::MPF(const unsigned& T, const double& E, const double& Y, const double& H, const double& R, const double& AA1, const double& AA2, const double& AA3, const double& AA4, const bool& ISO, const bool& CON, const double& D)
     : Material(T, MT_MPF)
     , elastic_modulus(E)
     , yield_stress(Y)
@@ -24,14 +13,12 @@ MPF::MPF(const unsigned& T,
     , A4(AA4)
     , isotropic_hardening(ISO)
     , constant_radius(CON)
-    , yield_strain(Y / E)
-{
+    , yield_strain(Y / E) {
     density = D;
     MPF::initialize();
 }
 
-void MPF::initialize()
-{
+void MPF::initialize() {
     current_strain.zeros(1);
     trial_strain.zeros(1);
 
@@ -51,13 +38,9 @@ void MPF::initialize()
 
 unique_ptr<Material> MPF::get_copy() { return make_unique<MPF>(*this); }
 
-int MPF::update_incre_status(const vec& i_strain)
-{
-    return update_trial_status(current_strain + i_strain);
-}
+int MPF::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
-int MPF::update_trial_status(const vec& t_strain)
-{
+int MPF::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
 
@@ -86,12 +69,9 @@ int MPF::update_trial_status(const vec& t_strain)
         reverse_stress = current_stress(0);
         reverse_strain = current_strain(0);
         pre_inter_strain = inter_strain;
-        inter_strain = yield_strain * hardening_ratio * elastic_modulus - yield_stress -
-            shift_stress;
+        inter_strain = yield_strain * hardening_ratio * elastic_modulus - yield_stress - shift_stress;
         if(trial_load_sign > 0.) inter_strain *= -1.;
-        inter_strain =
-            (inter_strain + elastic_modulus * reverse_strain - reverse_stress) /
-            (1. - hardening_ratio) / elastic_modulus;
+        inter_strain = (inter_strain + elastic_modulus * reverse_strain - reverse_stress) / (1. - hardening_ratio) / elastic_modulus;
         inter_stress = elastic_modulus * (inter_strain - reverse_strain) + reverse_stress;
         load_sign = trial_load_sign;
     }
@@ -103,8 +83,7 @@ int MPF::update_trial_status(const vec& t_strain)
         R -= A1 * XI / (A2 + XI);
     }
 
-    const auto normal_strain =
-        (trial_strain(0) - reverse_strain) / (inter_strain - reverse_strain);
+    const auto normal_strain = (trial_strain(0) - reverse_strain) / (inter_strain - reverse_strain);
     const auto tmp_a = 1. + pow(normal_strain, R);
     const auto tmp_b = (1. - hardening_ratio) / pow(tmp_a, 1. / R);
 
@@ -112,8 +91,7 @@ int MPF::update_trial_status(const vec& t_strain)
 
     trial_stress(0) = normal_stress * (inter_stress - reverse_stress) + reverse_stress;
 
-    trial_stiffness(0) = (inter_stress - reverse_stress) /
-        (inter_strain - reverse_strain) * (hardening_ratio + tmp_b / tmp_a);
+    trial_stiffness(0) = (inter_stress - reverse_stress) / (inter_strain - reverse_strain) * (hardening_ratio + tmp_b / tmp_a);
 
     trial_history(0) = reverse_stress;
     trial_history(1) = reverse_strain;
@@ -126,14 +104,12 @@ int MPF::update_trial_status(const vec& t_strain)
     return 0;
 }
 
-int MPF::clear_status()
-{
+int MPF::clear_status() {
     initialize();
     return 0;
 }
 
-int MPF::commit_status()
-{
+int MPF::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
@@ -141,8 +117,7 @@ int MPF::commit_status()
     return 0;
 }
 
-int MPF::reset_status()
-{
+int MPF::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;

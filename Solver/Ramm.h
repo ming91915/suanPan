@@ -12,8 +12,7 @@
 
 #include "Solver.h"
 
-class Ramm : public Solver
-{
+class Ramm : public Solver {
 public:
     Ramm() {}
 

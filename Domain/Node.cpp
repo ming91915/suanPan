@@ -1,38 +1,38 @@
 #include "Node.h"
+#include <Domain/Domain.h>
 
 /**
  * \brief Empty constructor.
  * \param T `unique_tag`
  */
 Node::Node(const unsigned& T)
-    : Tag(T, CT_NODE)
-{
+    : Tag(T, CT_NODE) {
     suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
- * \brief Initialize `coordinate` and set `num_dof` to the size of `coordinate`.
+ * \brief Initialize `coordinate` and set `num_dof` to the size of
+ * `coordinate`.
  * \param T `unique_tag`
  * \param C `coordinate`
  */
 Node::Node(const unsigned& T, const vec& C)
     : Tag(T, CT_NODE)
     , num_dof(static_cast<unsigned>(C.n_elem))
-    , coordinate(C)
-{
+    , coordinate(C) {
     suanpan_debug("Node %u ctor() called.\n", T);
 }
 
 /**
- * \brief Initialize `num_dof` and set the size of `coordinate` to `num_dof`.
+ * \brief Initialize `num_dof` and set the size of `coordinate` to
+ * `num_dof`.
  * \param T `unique_tag`
  * \param D `num_dof`
  */
 Node::Node(const unsigned& T, const unsigned& D)
     : Tag(T, CT_NODE)
     , num_dof(D)
-    , coordinate(num_dof)
-{
+    , coordinate(num_dof) {
     suanpan_debug("Node %u ctor() called.\n", T);
 }
 
@@ -45,8 +45,7 @@ Node::Node(const unsigned& T, const unsigned& D)
 Node::Node(const unsigned& T, const unsigned& D, const vec& C)
     : Tag(T, CT_NODE)
     , num_dof(D)
-    , coordinate(C)
-{
+    , coordinate(C) {
     suanpan_debug("Node %u ctor() called.\n", T);
 }
 
@@ -56,15 +55,9 @@ Node::Node(const unsigned& T, const unsigned& D, const vec& C)
 Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
 
 /**
- * \brief This method should be called after Element objects are set. Element objects will
- * set the minimum number of DoFs for all related Node objects. This method initialize all
- * member variables with the size of `num_dof` and fill `original_dof` with `-1` to
- * indicated it should be omitted from the system. Finally check if the size of
- * `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be
- * necessary for beam/plate/shell problems which have more DoFs than coordinates.
+ * \brief This method should be called after Element objects are set. Element objects will set the minimum number of DoFs for all related Node objects. This method initialize all member variables with the size of `num_dof` and fill `original_dof` with `-1` to indicated it should be omitted from the system. Finally check if the size of `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be necessary for beam/plate/shell problems which have more DoFs than coordinates.
  */
-void Node::initialize()
-{
+void Node::initialize(const shared_ptr<Domain> D) {
     if(!is_active()) return;
 
     if(num_dof != 0) {
@@ -88,7 +81,7 @@ void Node::initialize()
         // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
     } else {
         suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
-        disable();
+        D->disable_node(get_tag());
     }
 }
 
@@ -108,8 +101,7 @@ const uvec& Node::get_original_dof() const { return original_dof; }
  * \brief Method to return `reordered_dof`.
  * \return `reordered_dof`
  */
-const uvec& Node::get_reordered_dof() const
-{
+const uvec& Node::get_reordered_dof() const {
     if(reordered_dof.is_empty()) return original_dof;
     return reordered_dof;
 }
@@ -184,8 +176,7 @@ void Node::set_dof_number(const unsigned& D) { num_dof = D; }
  * \brief Method to set `original_dof`.
  * \param F Current Index Counter
  */
-void Node::set_original_dof(unsigned& F)
-{
+void Node::set_original_dof(unsigned& F) {
     if(!is_active()) return;
 
     for(unsigned i = 0; i < num_dof; ++i) original_dof(i) = F++;
@@ -266,19 +257,18 @@ void Node::set_trial_acceleration(const vec& A) { trial_acceleration = A; }
 /**
  * \brief Method to commit the status variables.
  */
-void Node::commit_status()
-{
+void Node::commit_status() {
     if(!trial_displacement.is_empty()) current_displacement = trial_displacement;
     if(!trial_velocity.is_empty()) current_velocity = trial_velocity;
     if(!trial_acceleration.is_empty()) current_acceleration = trial_acceleration;
 }
 
 /**
- * \brief Method to reset the status, there is no need to call this method as those
+ * \brief Method to reset the status, there is no need to call this
+ * method as those
  * variables can be directly overwritten.
  */
-void Node::reset_status()
-{
+void Node::reset_status() {
     if(!current_displacement.is_empty()) {
         trial_displacement = current_displacement;
         incre_displacement.zeros();
@@ -294,11 +284,12 @@ void Node::reset_status()
 }
 
 /**
-* \brief The method tests each status variable before filling it by zeros. For any of
-* them, empty means it is not used in analysis, then just keeps it unchanged.
+* \brief The method tests each status variable before filling it by
+* zeros. For any of
+* them, empty means it is not used in analysis, then just keeps it
+* unchanged.
 */
-void Node::clear_status()
-{
+void Node::clear_status() {
     if(!current_displacement.is_empty()) {
         current_displacement.zeros();
         incre_displacement.zeros();
@@ -320,21 +311,20 @@ void Node::clear_status()
  * \brief Method to update displacement.
  * \param D `trial_displacement`
  */
-void Node::update_trial_status(const vec& D)
-{
+void Node::update_trial_status(const vec& D) {
     for(unsigned I = 0; I < num_dof; I++) trial_displacement(I) = D(reordered_dof(I));
     // trial_displacement = D;
     incre_displacement = trial_displacement - current_displacement;
 }
 
 /**
- * \brief Method to update velocity and call previous method to further update
+ * \brief Method to update velocity and call previous method to further
+ * update
  * displacement. This is used in Dynamic analysis.
  * \param D `trial_displacement`
  * \param V `trial_velocity`
  */
-void Node::update_trial_status(const vec& D, const vec& V)
-{
+void Node::update_trial_status(const vec& D, const vec& V) {
     for(unsigned I = 0; I < num_dof; I++) trial_velocity(I) = V(reordered_dof(I));
     // trial_velocity = V;
     incre_velocity = trial_velocity - current_velocity;
@@ -342,14 +332,14 @@ void Node::update_trial_status(const vec& D, const vec& V)
 }
 
 /**
- * \brief Method to update acceleration and call previous method to further update
+ * \brief Method to update acceleration and call previous method to
+ * further update
  * velocity and displacement. This is used in Dynamic analysis.
  * \param D `trial_displacement`
  * \param V `trial_velocity`
  * \param A `trial_acceleration`
  */
-void Node::update_trial_status(const vec& D, const vec& V, const vec& A)
-{
+void Node::update_trial_status(const vec& D, const vec& V, const vec& A) {
     for(unsigned I = 0; I < num_dof; I++) trial_acceleration(I) = A(reordered_dof(I));
     // trial_acceleration = A;
     incre_acceleration = trial_acceleration - current_acceleration;
@@ -360,21 +350,20 @@ void Node::update_trial_status(const vec& D, const vec& V, const vec& A)
  * \brief Method to update displacement.
  * \param D `incre_displacement`
  */
-void Node::update_incre_status(const vec& D)
-{
+void Node::update_incre_status(const vec& D) {
     for(unsigned I = 0; I < num_dof; I++) incre_displacement(I) = D(reordered_dof(I));
     // incre_displacement = D;
     trial_displacement = current_displacement + incre_displacement;
 }
 
 /**
- * \brief Method to update velocity and call previous method to further update
+ * \brief Method to update velocity and call previous method to further
+ * update
  * displacement. This is used in Dynamic analysis.
  * \param D `incre_displacement`
  * \param V `incre_velocity`
  */
-void Node::update_incre_status(const vec& D, const vec& V)
-{
+void Node::update_incre_status(const vec& D, const vec& V) {
     for(unsigned I = 0; I < num_dof; I++) incre_velocity(I) = V(reordered_dof(I));
     // incre_velocity = V;
     trial_velocity = current_velocity + incre_velocity;
@@ -382,22 +371,21 @@ void Node::update_incre_status(const vec& D, const vec& V)
 }
 
 /**
- * \brief Method to update acceleration and call previous method to further update
+ * \brief Method to update acceleration and call previous method to
+ * further update
  * velocity and displacement. This is used in Dynamic analysis.
  * \param D `incre_displacement`
  * \param V `incre_velocity`
  * \param A `incre_acceleration`
  */
-void Node::update_incre_status(const vec& D, const vec& V, const vec& A)
-{
+void Node::update_incre_status(const vec& D, const vec& V, const vec& A) {
     for(unsigned I = 0; I < num_dof; I++) incre_acceleration(I) = A(reordered_dof(I));
     // incre_acceleration = A;
     trial_acceleration = current_acceleration + incre_acceleration;
     update_incre_status(D, V);
 }
 
-vector<vec> Node::record(const OutputList& L) const
-{
+vector<vec> Node::record(const OutputList& L) const {
     vector<vec> data;
 
     switch(L) {
@@ -420,8 +408,7 @@ vector<vec> Node::record(const OutputList& L) const
 /**
  * \brief Method to print basic information.
  */
-void Node::print()
-{
+void Node::print() {
     suanpan_info("Node %u:\n", get_tag());
     coordinate.print();
     suanpan_info("Displacement:\n");

@@ -2,8 +2,7 @@
  * @class DP45
  * \brief A solver using Dormand--Prince 4/5 pair.
  *
- * The Dormand--Prince order 4/order 5 embedded pair. The default solver in `ode45`
- * function in MatLab.
+ * The Dormand--Prince order 4/order 5 embedded pair. The default solver in `ode45` function in MatLab.
  * \f{align}{
  * s_1&=f\left(t_i,w_i\right)\\
  * s_2&=f\left(t_i+\dfrac{1}{5}h,w_i+\dfrac{1}{5}hs_1\right)\\
@@ -26,18 +25,12 @@
 
 #include "ODE_Solver.h"
 
-class DP45 final : public ODE_Solver
-{
+class DP45 final : public ODE_Solver {
     vec S1, S2, S3, S4, S5, S6, S7; /**< intermediate variables */
 
 public:
-    explicit DP45(const unsigned& = 0,
-        const shared_ptr<ODE>& = nullptr,
-        const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workshop>& = nullptr);
-    explicit DP45(const shared_ptr<ODE>&,
-        const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workshop>& = nullptr);
+    explicit DP45(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
+    explicit DP45(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
     ~DP45();
 
     int update_status() override;

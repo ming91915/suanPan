@@ -69,9 +69,6 @@
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Step\Analysis.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Step\Dynamic.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -264,9 +261,6 @@
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Step.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Step\Analysis.h">
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">

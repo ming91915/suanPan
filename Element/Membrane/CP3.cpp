@@ -4,13 +4,10 @@ const unsigned CP3::m_node = 3;
 const unsigned CP3::m_dof = 2;
 
 CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
-    : Element(T, ET_CP3, m_node, m_dof, NT, uvec({ MT }), false)
-    , thickness(TH)
-{
-}
+    : Element(T, ET_CP3, m_node, m_dof, NT, uvec{ MT }, false)
+    , thickness(TH) {}
 
-void CP3::initialize(const shared_ptr<Domain>& D)
-{
+void CP3::initialize(const shared_ptr<Domain>& D) {
     m_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);
@@ -43,7 +40,7 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         tmp_density *= area * thickness;
-        vec n = mean(ele_coor) * inv_coor;
+        const vec n = mean(ele_coor) * inv_coor;
         const auto tmp_a = n(0) * n(0) * tmp_density;
         const auto tmp_b = n(1) * n(1) * tmp_density;
         const auto tmp_c = n(2) * n(2) * tmp_density;
@@ -71,8 +68,7 @@ void CP3::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int CP3::update_status()
-{
+int CP3::update_status() {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(const auto& I : node_ptr) {

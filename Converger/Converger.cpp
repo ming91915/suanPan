@@ -9,19 +9,12 @@
  * \param E `tolerance`
  * \param P `print_flag`
  */
-Converger::Converger(const unsigned& T,
-    const unsigned& CT,
-    const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
+Converger::Converger(const unsigned& T, const unsigned& CT, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
     : Tag(T, CT)
     , database(D)
     , tolerance(E)
     , max_iteration(M)
-    , print_flag(P)
-{
-}
+    , print_flag(P) {}
 
 /**
  * \brief The default destructor.
@@ -30,8 +23,7 @@ Converger::~Converger() {}
 
 const bool& Converger::is_initialized() const { return initialized; }
 
-int Converger::initialize()
-{
+int Converger::initialize() {
     if(!initialized) initialized = true;
 
     if(database == nullptr) {
@@ -104,8 +96,7 @@ const bool& Converger::if_print() const { return print_flag; }
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`
  */
-const bool& Converger::if_converged()
-{
+const bool& Converger::if_converged() {
     conv_flag = false;
     return conv_flag;
 }

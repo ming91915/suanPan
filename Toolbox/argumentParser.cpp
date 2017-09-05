@@ -6,8 +6,7 @@
 using std::string;
 using std::ofstream;
 
-void argument_parser(int argc, char** argv)
-{
+void argument_parser(int argc, char** argv) {
     string input_file_name = "";
     string output_file_name = "";
     ofstream output_file;
@@ -47,12 +46,10 @@ void argument_parser(int argc, char** argv)
     }
 }
 
-void print_header()
-{
+void print_header() {
     suanpan_info("+------------------------------------------------------------+\n");
     suanpan_info("|   __        __            |  suanPan is an open source     |\n");
-    suanpan_info("|  /  \\      |  \\           |        FEM framework (%u-bit)  |\n",
-        SUANPAN_ARCH);
+    suanpan_info("|  /  \\      |  \\           |        FEM framework (%u-bit)  |\n", SUANPAN_ARCH);
     suanpan_info("|  \\__       |__/ __   __   |                 Acrux (0.1.0)  |\n");
     suanpan_info("|     \\ |  | |   |  \\ |  |  |                                |\n");
     suanpan_info("|  \\__/ |__| |   |__X |  |  |             maintained by tlc  |\n");
@@ -60,20 +57,17 @@ void print_header()
     suanpan_info("+------------------------------------------------------------+\n\n");
 }
 
-void print_version()
-{
+void print_version() {
 #ifdef __VERSION__
     string version = SUANPAN_VERSION;
 #elif defined(_MSC_FULL_VER)
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0, date 23/08/2017, compiled with %s %s\n",
-        SUANPAN_COMPILER, version.c_str());
+    suanpan_info("\tversion Acrux 0.1.0, date 23/08/2017, compiled with %s %s\n", SUANPAN_COMPILER, version.c_str());
 }
 
-void print_helper()
-{
+void print_helper() {
     suanpan_info("\n");
     suanpan_info("\t-v,  --version\t\tcheck version information\n");
     suanpan_info("\t-h,  --help\t\tprint this helper\n");
@@ -81,8 +75,7 @@ void print_helper()
     suanpan_info("\t-o,  --output\t\tset output file for logging\n\n");
 }
 
-void cli_mode(const shared_ptr<Bead>& model)
-{
+void cli_mode(const shared_ptr<Bead>& model) {
     string command_line;
     while(true) {
         suanpan_info("suanPan --> ");

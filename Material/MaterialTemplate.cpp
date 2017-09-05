@@ -5,18 +5,13 @@
 #endif
 
 MaterialTemplate::MaterialTemplate(const unsigned& T)
-    : Material(T, MT_MATERIALTEMPLATE)
-{
-}
+    : Material(T, MT_MATERIALTEMPLATE) {}
 
 void MaterialTemplate::initialize() {}
 
 double MaterialTemplate::get_parameter(const unsigned& T) const { return 0.; }
 
-unique_ptr<Material> MaterialTemplate::get_copy()
-{
-    return make_unique<MaterialTemplate>(*this);
-}
+unique_ptr<Material> MaterialTemplate::get_copy() { return make_unique<MaterialTemplate>(*this); }
 
 int MaterialTemplate::update_trial_status(const vec& t_strain) { return 0; }
 

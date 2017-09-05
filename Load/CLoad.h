@@ -14,36 +14,17 @@
 
 #include "Load.h"
 
-class CLoad : public Load
-{
+class CLoad : public Load {
     double pattern = 0.;
 
     uvec nodes;
     uvec dofs;
 
 public:
-    explicit CLoad(const unsigned& = 0,
-        const unsigned& = 0,
-        const double& = 0.,
-        const uvec& = {},
-        const unsigned& = 0,
-        const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&,
-        const double&,
-        const uvec&,
-        const unsigned&,
-        const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&,
-        const unsigned&,
-        const double&,
-        const uvec&,
-        const uvec&,
-        const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&,
-        const double&,
-        const uvec&,
-        const uvec&,
-        const shared_ptr<Amplitude>& = nullptr);
+    explicit CLoad(const unsigned& = 0, const unsigned& = 0, const double& = 0., const uvec& = {}, const unsigned& = 0, const shared_ptr<Amplitude>& = nullptr);
+    CLoad(const unsigned&, const double&, const uvec&, const unsigned&, const shared_ptr<Amplitude>& = nullptr);
+    CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
+    CLoad(const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
     ~CLoad();
 
     int process(const shared_ptr<Domain>&) override;

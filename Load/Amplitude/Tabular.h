@@ -12,8 +12,7 @@
 
 #include "Amplitude.h"
 
-class Tabular : public Amplitude
-{
+class Tabular : public Amplitude {
     vec time;      /**< time */
     vec magnitude; /**< magnitude */
 public:

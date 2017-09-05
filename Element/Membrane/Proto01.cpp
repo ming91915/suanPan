@@ -8,9 +8,8 @@ const unsigned Proto01::m_dof = 2;
 mat Proto01::mapping;
 
 Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_PROTO01, m_node, m_dof, N, { M })
-    , thickness(TH)
-{
+    : Element(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
+    , thickness(TH) {
     // ISOPARAMETRIC MAPPING
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
@@ -24,8 +23,7 @@ Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const doub
     }
 }
 
-void Proto01::initialize(const shared_ptr<Domain>& D)
-{
+void Proto01::initialize(const shared_ptr<Domain>& D) {
     // MATERIAL MODEL PROTOTYPE
     auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     // INITIAL FLEXIBILITY
@@ -60,11 +58,10 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
     mat H(7, 7, fill::zeros);
     mat E(7, m_node * m_dof, fill::zeros);
     for(const auto& I : int_pt) {
-        auto pn = shapeFunctionQuad(I->coor, 1);
+        const auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;
         I->jacob_det = det(I->jacob);
-        if(!solve(I->pn_pxy, I->jacob, pn))
-            suanpan_warning("initialize() finds a badly shaped element.\n");
+        if(!solve(I->pn_pxy, I->jacob, pn)) suanpan_warning("initialize() finds a badly shaped element.\n");
 
         disp_mode(1) = I->coor(0);
         disp_mode(2) = I->coor(1);
@@ -87,22 +84,10 @@ void Proto01::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int Proto01::update_status()
-{
-    throw logic_error("The method or operation is not implemented.");
-}
+int Proto01::update_status() { throw logic_error("The method or operation is not implemented."); }
 
-int Proto01::commit_status()
-{
-    throw logic_error("The method or operation is not implemented.");
-}
+int Proto01::commit_status() { throw logic_error("The method or operation is not implemented."); }
 
-int Proto01::clear_status()
-{
-    throw logic_error("The method or operation is not implemented.");
-}
+int Proto01::clear_status() { throw logic_error("The method or operation is not implemented."); }
 
-int Proto01::reset_status()
-{
-    throw logic_error("The method or operation is not implemented.");
-}
+int Proto01::reset_status() { throw logic_error("The method or operation is not implemented."); }

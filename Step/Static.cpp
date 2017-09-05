@@ -3,12 +3,9 @@
 #include <Solver/Solver.h>
 
 Static::Static(const unsigned& T, const double& P)
-    : Step(T, CT_STATIC, P)
-{
-}
+    : Step(T, CT_STATIC, P) {}
 
-int Static::analyze()
-{
+int Static::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
@@ -30,21 +27,18 @@ int Static::analyze()
         } else if(code == -1) { // FAILED UNCONVERGED
             G->reset_status();
             if(step <= get_min_step_size()) {
-                suanpan_error(
-                    "analyze() reaches minimum step size %.3E.\n", get_min_step_size());
+                suanpan_error("analyze() reaches minimum step size %.3E.\n", get_min_step_size());
                 return -1;
             }
             if(!is_fixed_step_size()) step /= 2.;
         } else { // FAILED SOLVER
-            suanpan_error(
-                "analyze() recieves error code %u from lapack subroutine.\n", code);
+            suanpan_error("analyze() recieves error code %u from lapack subroutine.\n", code);
             return -1;
         }
     }
 
     if(num_increment > get_max_iteration()) {
-        suanpan_warning(
-            "analyze() reaches maximum iteration number %u.\n", get_max_iteration());
+        suanpan_warning("analyze() reaches maximum iteration number %u.\n", get_max_iteration());
         return -1;
     }
 

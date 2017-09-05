@@ -8,13 +8,10 @@ const unsigned QE2::m_dof = 2;
 mat QE2::mapping;
 
 QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_QE2, m_node, m_dof, N, uvec({ M }))
-    , thickness(TH)
-{
-}
+    : Element(T, ET_QE2, m_node, m_dof, N, uvec{ M })
+    , thickness(TH) {}
 
-void QE2::initialize(const shared_ptr<Domain>& D)
-{
+void QE2::initialize(const shared_ptr<Domain>& D) {
     // ISOPARAMETRIC MAPPING
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
@@ -68,8 +65,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         const auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;
         I->jacob_det = det(I->jacob);
-        if(!solve(I->pn_pxy, I->jacob, pn))
-            suanpan_warning("initialize() finds a badly shaped element.\n");
+        if(!solve(I->pn_pxy, I->jacob, pn)) suanpan_warning("initialize() finds a badly shaped element.\n");
 
         disp_mode(1) = I->coor(0);
         disp_mode(2) = I->coor(1);
@@ -78,8 +74,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
         I->P = shapeStress7(tmp_const * disp_mode);
         const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
-        if(!solve(I->A, ini_stiffness, I->P))
-            suanpan_warning("initialize() finds a singular initial stiffness matrix.\n");
+        if(!solve(I->A, ini_stiffness, I->P)) suanpan_warning("initialize() finds a singular initial stiffness matrix.\n");
         H += tmp_mat * I->A;
 
         I->B = zeros(3, 8);
@@ -140,8 +135,7 @@ void QE2::initialize(const shared_ptr<Domain>& D)
     current_beta.zeros(7);
 }
 
-int QE2::update_status()
-{
+int QE2::update_status() {
     current_disp = trial_disp;
 
     auto idx = 0;
@@ -169,10 +163,9 @@ int QE2::update_status()
         code += tmp_pt->m_material->update_trial_status(tmp_pt->A * trial_alpha);
         const auto tmp_factor = tmp_pt->jacob_det * tmp_pt->weight * thickness;
         const vec tmp_vector = tmp_pt->P * trial_beta * tmp_factor;
-        HT += tmp_pt->A.t() * tmp_pt->m_material->get_stiffness() * tmp_pt->A *
-            tmp_factor;                           // eq. 56
-        FI += tmp_pt->BI.t() * tmp_vector;        // eq. 54
-        resistance += tmp_pt->B.t() * tmp_vector; // eq. 54
+        HT += tmp_pt->A.t() * tmp_pt->m_material->get_stiffness() * tmp_pt->A * tmp_factor; // eq. 56
+        FI += tmp_pt->BI.t() * tmp_vector;                                                  // eq. 54
+        resistance += tmp_pt->B.t() * tmp_vector;                                           // eq. 54
     }
 
     QT = HILI.t() * HT * HILI;                             // eq. 60
@@ -185,8 +178,7 @@ int QE2::update_status()
     return code;
 }
 
-int QE2::commit_status()
-{
+int QE2::commit_status() {
     current_lambda = trial_lambda;
     current_alpha = trial_alpha;
     current_beta = trial_beta;
@@ -199,8 +191,7 @@ int QE2::commit_status()
     return code;
 }
 
-int QE2::clear_status()
-{
+int QE2::clear_status() {
     current_lambda.zeros();
     current_alpha.zeros();
     current_beta.zeros();
@@ -222,8 +213,7 @@ int QE2::clear_status()
     return code;
 }
 
-int QE2::reset_status()
-{
+int QE2::reset_status() {
     trial_lambda = current_lambda;
     trial_alpha = current_alpha;
     trial_beta = current_beta;
@@ -236,8 +226,7 @@ int QE2::reset_status()
     return code;
 }
 
-vector<vec> QE2::record(const OutputList& T)
-{
+vector<vec> QE2::record(const OutputList& T) {
     vector<vec> data;
     switch(T) {
     case OutputList::E:
@@ -252,8 +241,7 @@ vector<vec> QE2::record(const OutputList& T)
     return data;
 }
 
-void QE2::print()
-{
+void QE2::print() {
     suanpan_info("Piltner's mixed quad element %u connects nodes:\n", get_tag());
     node_encoding.t().print();
     for(auto I = 0; I < int_pt.size(); ++I) {

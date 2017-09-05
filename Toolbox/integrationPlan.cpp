@@ -2,14 +2,11 @@
 #include <cmath>
 #include <cstdio>
 
-integrationPlan::integrationPlan(const unsigned& intDimension,
-    const unsigned& intOrder,
-    const unsigned& intType)
-{
-    num_row = static_cast<int>(pow(intOrder, intDimension) + .5);
-    num_col = intDimension + 1;
-    auto PTL = new double[intOrder];
-    auto PTW = new double[intOrder];
+integrationPlan::integrationPlan(const unsigned& intDimension, const unsigned& intOrder, const unsigned& intType)
+    : n_row(static_cast<int>(pow(intOrder, intDimension) + .5))
+    , n_col(intDimension + 1) {
+    const auto PTL = new double[intOrder];
+    const auto PTW = new double[intOrder];
     // GAUSS INTEGRATION
     if(intType == 1) {
         switch(intOrder) {
@@ -19,7 +16,7 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 2: {
-            auto TMPA = 1. / sqrt(3.);
+            const auto TMPA = 1. / sqrt(3.);
             PTL[0] = -TMPA;
             PTL[1] = TMPA;
             PTW[0] = 1.;
@@ -27,7 +24,7 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 3: {
-            auto TMPA = sqrt(.6);
+            const auto TMPA = sqrt(.6);
             PTL[0] = -TMPA;
             PTL[1] = 0.;
             PTL[2] = TMPA;
@@ -37,11 +34,11 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 4: {
-            auto TMPA = 3. / 7.;
-            auto TMPB = 2. / 7. * sqrt(1.2);
-            auto TMPC = sqrt(TMPA - TMPB);
-            auto TMPD = sqrt(TMPA + TMPB);
-            auto TMPE = sqrt(30.) / 36.;
+            const auto TMPA = 3. / 7.;
+            const auto TMPB = 2. / 7. * sqrt(1.2);
+            const auto TMPC = sqrt(TMPA - TMPB);
+            const auto TMPD = sqrt(TMPA + TMPB);
+            const auto TMPE = sqrt(30.) / 36.;
             PTL[0] = -TMPD;
             PTL[1] = -TMPC;
             PTL[2] = TMPC;
@@ -53,10 +50,10 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 5: {
-            auto TMPA = 2. * sqrt(10. / 7.);
-            auto TMPB = sqrt(5. - TMPA);
-            auto TMPC = sqrt(5. + TMPA);
-            auto TMPD = 13. * sqrt(70.);
+            const auto TMPA = 2. * sqrt(10. / 7.);
+            const auto TMPB = sqrt(5. - TMPA);
+            const auto TMPC = sqrt(5. + TMPA);
+            const auto TMPD = 13. * sqrt(70.);
             PTL[0] = -TMPC / 3.;
             PTL[1] = -TMPB / 3.;
             PTL[2] = 0.;
@@ -88,7 +85,7 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 4: {
-            auto TMPA = sqrt(.2);
+            const auto TMPA = sqrt(.2);
             PTL[0] = -1.;
             PTL[1] = -TMPA;
             PTL[2] = TMPA;
@@ -113,11 +110,11 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
             break;
         }
         case 6: {
-            auto TMPA = 2. * sqrt(7.);
-            auto TMPB = sqrt((7. - TMPA) / 21.);
-            auto TMPC = sqrt((7. + TMPA) / 21.);
-            auto TMPD = 14. / 30.;
-            auto TMPE = sqrt(7.) / 30.;
+            const auto TMPA = 2. * sqrt(7.);
+            const auto TMPB = sqrt((7. - TMPA) / 21.);
+            const auto TMPC = sqrt((7. + TMPA) / 21.);
+            const auto TMPD = 14. / 30.;
+            const auto TMPE = sqrt(7.) / 30.;
             PTL[0] = -1.;
             PTL[1] = -TMPC;
             PTL[2] = -TMPB;
@@ -139,17 +136,17 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
         }
     }
     auto IDX = 0;
-    int_pts = new double*[num_row];
+    int_pts = new double*[n_row];
     if(intDimension == 1) {
         for(unsigned i = 0; i < intOrder; ++i) {
-            int_pts[IDX] = new double[num_col];
+            int_pts[IDX] = new double[n_col];
             int_pts[IDX][0] = PTL[i];
             int_pts[IDX++][1] = PTW[i];
         }
     } else if(intDimension == 2) {
         for(unsigned i = 0; i < intOrder; ++i) {
             for(unsigned j = 0; j < intOrder; ++j) {
-                int_pts[IDX] = new double[num_col];
+                int_pts[IDX] = new double[n_col];
                 int_pts[IDX][0] = PTL[i];
                 int_pts[IDX][1] = PTL[j];
                 int_pts[IDX++][2] = PTW[i] * PTW[j];
@@ -159,7 +156,7 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
         for(unsigned i = 0; i < intOrder; ++i) {
             for(unsigned j = 0; j < intOrder; ++j) {
                 for(unsigned k = 0; k < intOrder; ++k) {
-                    int_pts[IDX] = new double[num_col];
+                    int_pts[IDX] = new double[n_col];
                     int_pts[IDX][0] = PTL[i];
                     int_pts[IDX][1] = PTL[j];
                     int_pts[IDX][2] = PTL[k];
@@ -175,33 +172,30 @@ integrationPlan::integrationPlan(const unsigned& intDimension,
     delete[] PTW;
 }
 
-integrationPlan::~integrationPlan()
-{
-    for(unsigned i = 0; i < num_row; ++i) delete[] int_pts[i];
+integrationPlan::~integrationPlan() {
+    for(unsigned i = 0; i < n_row; ++i) delete[] int_pts[i];
     delete[] int_pts;
 }
 
-const unsigned& integrationPlan::n_rows() const { return num_row; }
+const unsigned& integrationPlan::n_rows() const { return n_row; }
 
-const unsigned& integrationPlan::n_cols() const { return num_col; }
+const unsigned& integrationPlan::n_cols() const { return n_col; }
 
-unsigned integrationPlan::n_elem() const { return num_col * num_row; }
+unsigned integrationPlan::n_elem() const { return n_col * n_row; }
 
 double** integrationPlan::get_integration_scheme() const { return int_pts; }
 
-double integrationPlan::operator()(const unsigned& i, const unsigned& j) const
-{
-    if(i < num_row && j < num_col && i >= 0 && j >= 0) return int_pts[i][j];
+double integrationPlan::operator()(const unsigned& i, const unsigned& j) const {
+    if(i < n_row && j < n_col && i >= 0 && j >= 0) return int_pts[i][j];
     printf("OUT OF BOUND.\n");
     return 0.;
 }
 
-void integrationPlan::print() const
-{
-    for(unsigned i = 0; i < num_row; ++i) {
+void integrationPlan::print() const {
+    for(unsigned i = 0; i < n_row; ++i) {
         printf("Node %d\t", i + 1);
-        for(unsigned j = 0; j < num_col - 1; ++j) printf("%+.6E\t", int_pts[i][j]);
-        printf("Weight\t%+.6E\n", int_pts[i][num_col - 1]);
+        for(unsigned j = 0; j < n_col - 1; ++j) printf("%+.6E\t", int_pts[i][j]);
+        printf("Weight\t%+.6E\n", int_pts[i][n_col - 1]);
     }
     printf("\n");
 }

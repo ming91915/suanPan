@@ -1,8 +1,7 @@
 #pragma once
 #include <Material/3D/Bilinear3D.h>
 
-class Bilinear2D : public Material
-{
+class Bilinear2D : public Material {
     unsigned material_type;
 
     vec trial_full_strain;

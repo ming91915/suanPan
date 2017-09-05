@@ -1,7 +1,6 @@
 #include "shapeFunctionQuad.h"
 
-mat shapeFunctionQuad(const vec& INTPTS, const unsigned& ORDER, const unsigned& NODENUM)
-{
+mat shapeFunctionQuad(const vec& INTPTS, const unsigned& ORDER, const unsigned& NODENUM) {
     const auto& X = INTPTS(0);
     const auto& Y = INTPTS(1);
 
@@ -12,10 +11,10 @@ mat shapeFunctionQuad(const vec& INTPTS, const unsigned& ORDER, const unsigned& 
         return N;
     }
 
-    auto XP = 1. + X;
-    auto XM = 1. - X;
-    auto YP = 1. + Y;
-    auto YM = 1. - Y;
+    const auto XP = 1. + X;
+    const auto XM = 1. - X;
+    const auto YP = 1. + Y;
+    const auto YM = 1. - Y;
 
     if(NODENUM == 4) {
         switch(ORDER) {
@@ -40,9 +39,9 @@ mat shapeFunctionQuad(const vec& INTPTS, const unsigned& ORDER, const unsigned& 
         }
         N /= 4.;
     } else if(NODENUM == 8) {
-        auto X2 = X * X;
-        auto Y2 = Y * Y;
-        auto XY = X * Y;
+        const auto X2 = X * X;
+        const auto Y2 = Y * Y;
+        const auto XY = X * Y;
         switch(ORDER) {
         case 0:
             N(0, 7) = .5 * XM * (1. - Y2);

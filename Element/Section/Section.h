@@ -12,13 +12,10 @@
 
 #include <Element/Element.h>
 
-class Section : public Element
-{
+class Section : public Element {
 public:
     explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION)
-        : Element(T, CT)
-    {
-    }
+        : Element(T, CT) {}
 
     virtual ~Section() {}
 

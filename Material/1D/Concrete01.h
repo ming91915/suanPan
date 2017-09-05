@@ -3,13 +3,11 @@
 
 #include <Material/Material.h>
 
-class Concrete01 : public Material
-{
+class Concrete01 : public Material {
 public:
     Concrete01(const unsigned& T, const double& E)
-        : Material(T, MT_CONCRETE01)
-    {
-        initial_stiffness = { E };
+        : Material(T, MT_CONCRETE01) {
+        initial_stiffness = E;
         Concrete01::initialize();
     }
 

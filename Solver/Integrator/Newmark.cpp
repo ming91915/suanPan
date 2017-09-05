@@ -2,39 +2,31 @@
 #include <Domain/Domain.h>
 #include <Domain/Workshop.h>
 
-Newmark::Newmark(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const double& A,
-    const double& B)
+Newmark::Newmark(const unsigned& T, const shared_ptr<Domain>& D, const double& A, const double& B)
     : Integrator(T, CT_NEWMARK, D)
     , alpha(A)
-    , beta(B)
-{
-    if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        suanpan_error("Newmark() parameters are not acceptable.\n");
+    , beta(B) {
+    if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta)) suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
 Newmark::Newmark(const shared_ptr<Domain>& D, const double& A, const double& B)
     : Integrator(0, CT_NEWMARK, D)
     , alpha(A)
-    , beta(B)
-{
-    if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta))
-        suanpan_error("Newmark() parameters are not acceptable.\n");
+    , beta(B) {
+    if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta)) suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
 Newmark::~Newmark() {}
 
-int Newmark::initialize()
-{
+int Newmark::initialize() {
     const auto code = Integrator::initialize();
 
     if(code == 0) {
         auto& W = get_domain()->get_workshop();
 
         if(W->is_band() || W->is_symm()) {
-            suanpan_error(
-                "initialize() currently does not suppoort band or symmetric matrix.\n");
+            suanpan_error("initialize() currently does not suppoort "
+                          "band or symmetric matrix.\n");
             return -1;
         }
     }
@@ -42,8 +34,7 @@ int Newmark::initialize()
     return code;
 }
 
-void Newmark::update_resistance()
-{
+void Newmark::update_resistance() {
     update_parameter();
 
     auto& D = get_domain();
@@ -51,16 +42,10 @@ void Newmark::update_resistance()
 
     D->update_resistance();
 
-    get_trial_resistance(W) -= W->get_mass() *
-            (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() +
-                C3 * W->get_current_acceleration()) -
-        W->get_damping() *
-            (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() +
-                C5 * W->get_current_acceleration());
+    get_trial_resistance(W) -= W->get_mass() * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) - W->get_damping() * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
 }
 
-void Newmark::update_stiffness()
-{
+void Newmark::update_stiffness() {
     update_parameter();
 
     auto& D = get_domain();
@@ -71,21 +56,17 @@ void Newmark::update_stiffness()
     get_stiffness(W) += C0 * W->get_mass() + C1 * W->get_damping();
 }
 
-void Newmark::commit_status() const
-{
+void Newmark::commit_status() const {
     auto& D = get_domain();
     auto& W = D->get_workshop();
 
-    W->update_trial_acceleration(C0 * W->get_incre_displacement() -
-        C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
-    W->update_trial_velocity(W->get_current_velocity() +
-        C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
+    W->update_trial_acceleration(C0 * W->get_incre_displacement() - C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
+    W->update_trial_velocity(W->get_current_velocity() + C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
 
     D->commit_status();
 }
 
-void Newmark::update_parameter()
-{
+void Newmark::update_parameter() {
     auto& W = get_domain()->get_workshop();
 
     if(DT != W->get_incre_time()) {

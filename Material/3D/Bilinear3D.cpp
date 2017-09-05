@@ -3,14 +3,9 @@
 
 const vec Bilinear3D::norm_weight = { 1, 1, 1, 2, 2, 2 };
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);
+const mat Bilinear3D::unit_dev_tensor = unitDevTensor4();
 
-Bilinear3D::Bilinear3D(const unsigned& T,
-    const double& E,
-    const double& V,
-    const double& Y,
-    const double& H,
-    const double& B,
-    const double& R)
+Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const double& R)
     : Material(T, MT_BILINEAR3D)
     , elastic_modulus(E)
     , poissons_ratio(V)
@@ -22,8 +17,7 @@ Bilinear3D::Bilinear3D(const unsigned& T,
     , double_shear(2. * shear_modulus)
     , square_double_shear(double_shear * double_shear)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , factor(2. / 3. * plastic_modulus)
-{
+    , factor(2. / 3. * plastic_modulus) {
     density = R;
 
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
@@ -40,8 +34,7 @@ Bilinear3D::Bilinear3D(const unsigned& T,
     Bilinear3D::initialize();
 }
 
-void Bilinear3D::initialize()
-{
+void Bilinear3D::initialize() {
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);
@@ -59,13 +52,9 @@ void Bilinear3D::initialize()
 
 unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
 
-int Bilinear3D::update_incre_status(const vec& i_strain)
-{
-    return update_trial_status(current_strain + i_strain);
-}
+int Bilinear3D::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
-int Bilinear3D::update_trial_status(const vec& t_strain)
-{
+int Bilinear3D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
     trial_stress = current_stress + initial_stiffness * incre_strain;
@@ -77,9 +66,7 @@ int Bilinear3D::update_trial_status(const vec& t_strain)
 
     const auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
 
-    const auto yield_func = norm_shifted_stress -
-        root_two_third *
-            (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
+    const auto yield_func = norm_shifted_stress - root_two_third * (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
 
     if(yield_func > tolerance) {
         const auto tmp_a = double_shear + factor;
@@ -94,19 +81,17 @@ int Bilinear3D::update_trial_status(const vec& t_strain)
         trial_plastic_strain += root_two_third * gamma;
 
         trial_stiffness -= (tmp_c - tmp_d) * unit_norm * unit_norm.t();
-        trial_stiffness -= tmp_d * unitDevTensor4();
+        trial_stiffness -= tmp_d * unit_dev_tensor;
     }
     return 0;
 }
 
-int Bilinear3D::clear_status()
-{
+int Bilinear3D::clear_status() {
     initialize();
     return 0;
 }
 
-int Bilinear3D::commit_status()
-{
+int Bilinear3D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
@@ -116,8 +101,7 @@ int Bilinear3D::commit_status()
     return 0;
 }
 
-int Bilinear3D::reset_status()
-{
+int Bilinear3D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;

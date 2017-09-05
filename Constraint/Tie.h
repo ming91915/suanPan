@@ -8,6 +8,8 @@
  * @date 29/07/2017
  * @version 0.1.0
  * @file Tie.h
+ * @addtogroup Constraint
+ * @{
  */
 
 #ifndef TIE_H
@@ -15,8 +17,7 @@
 
 #include "MPC.h"
 
-class Tie final : public MPC
-{
+class Tie final : public MPC {
     unsigned node_i;
     unsigned dof_i;
     unsigned node_j;
@@ -29,13 +30,11 @@ public:
         const unsigned& DA,  // dof a
         const unsigned& NB,  // node b
         const unsigned& DB); // dof b
-    Tie(const unsigned& S,
-        const unsigned& NA,
-        const unsigned& DA,
-        const unsigned& NB,
-        const unsigned& DB);
+    Tie(const unsigned& S, const unsigned& NA, const unsigned& DA, const unsigned& NB, const unsigned& DB);
 
     int process(const shared_ptr<Domain>&) override;
 };
 
 #endif
+
+//! @}

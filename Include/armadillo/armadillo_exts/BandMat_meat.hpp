@@ -1,4 +1,5 @@
-template <typename eT> BandMat<eT>::~BandMat() {}
+template <typename eT>
+BandMat<eT>::~BandMat() {}
 
 template <typename eT>
 BandMat<eT>::BandMat()
@@ -7,9 +8,7 @@ BandMat<eT>::BandMat()
     , n_u(0)
     , n_elem(0)
     , mem_state(0)
-    , mem()
-{
-}
+    , mem() {}
 
 template <typename eT>
 BandMat<eT>::BandMat(const uword& in_size, const uword& in_l, const uword& in_u)
@@ -18,25 +17,20 @@ BandMat<eT>::BandMat(const uword& in_size, const uword& in_l, const uword& in_u)
     , n_u(in_u)
     , n_elem((in_u + 2 * in_l + 1) * in_size)
     , mem_state(0)
-    , mem()
-{
+    , mem() {
     arma_extra_debug_sigprint_this(this);
     init_cold();
 }
 
 template <typename eT>
 template <typename fill_type>
-BandMat<eT>::BandMat(const uword& in_size,
-    const uword& in_l,
-    const uword& in_u,
-    const fill::fill_class<fill_type>& f)
+BandMat<eT>::BandMat(const uword& in_size, const uword& in_l, const uword& in_u, const fill::fill_class<fill_type>& f)
     : n_cols(in_size)
     , n_l(in_l)
     , n_u(in_u)
     , n_elem((in_u + 2 * in_l + 1) * in_size)
     , mem_state(0)
-    , mem()
-{
+    , mem() {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -44,15 +38,15 @@ BandMat<eT>::BandMat(const uword& in_size,
     (*this).fill(f);
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator=(const eT& val)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator=(const eT& val) {
     init_warm(1, 0, 0);
     access::rw(mem[0]) = val;
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator+=(const eT& val)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator+=(const eT& val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_plus(memptr(), val, n_elem);
@@ -60,8 +54,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator+=(const eT& val)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator-=(const eT& val)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator-=(const eT& val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_minus(memptr(), val, n_elem);
@@ -69,8 +63,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator-=(const eT& val)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator*=(const eT& val)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator*=(const eT& val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_mul(memptr(), val, n_elem);
@@ -78,8 +72,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator*=(const eT& val)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator/=(const eT& val)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator/=(const eT& val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_div(memptr(), val, n_elem);
@@ -92,8 +86,7 @@ BandMat<eT>::BandMat(const BandMat& m)
     : n_cols(m.n_cols)
     , n_elem(m.n_elem)
     , mem_state(0)
-    , mem()
-{
+    , mem() {
     arma_extra_debug_sigprint(arma_str::format("this = %x   in_mat = %x") % this % &m);
 
     init_cold();
@@ -101,8 +94,8 @@ BandMat<eT>::BandMat(const BandMat& m)
     arrayops::copy(memptr(), m.mem, m.n_elem);
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator=(const BandMat& m)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator=(const BandMat& m) {
     arma_extra_debug_sigprint(arma_str::format("this = %x   in_mat = %x") % this % &m);
 
     if(this != &m) {
@@ -114,8 +107,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator=(const BandMat& m)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator+=(const BandMat& m)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator+=(const BandMat& m) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(*this, m, "addition");
@@ -125,8 +118,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator+=(const BandMat& m)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator-=(const BandMat& m)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator-=(const BandMat& m) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(*this, m, "subtraction");
@@ -136,8 +129,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator-=(const BandMat& m)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator%=(const BandMat& m)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator%=(const BandMat& m) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(*this, m, "element-wise multiplication");
@@ -147,8 +140,8 @@ template <typename eT> BandMat<eT>& BandMat<eT>::operator%=(const BandMat& m)
     return *this;
 }
 
-template <typename eT> BandMat<eT>& BandMat<eT>::operator/=(const BandMat& m)
-{
+template <typename eT>
+BandMat<eT>& BandMat<eT>::operator/=(const BandMat& m) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(*this, m, "element-wise division");
@@ -166,8 +159,7 @@ BandMat<eT>::BandMat(const BdOp<T1, bdop_type>& X)
     , n_u(0)
     , n_elem(0)
     , mem_state(0)
-    , mem()
-{
+    , mem() {
     arma_extra_debug_sigprint_this(this);
 
     arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
@@ -177,8 +169,7 @@ BandMat<eT>::BandMat(const BdOp<T1, bdop_type>& X)
 
 template <typename eT>
 template <typename T1, typename bdop_type>
-BandMat<eT>& BandMat<eT>::operator=(const BdOp<T1, bdop_type>& X)
-{
+BandMat<eT>& BandMat<eT>::operator=(const BdOp<T1, bdop_type>& X) {
     arma_extra_debug_sigprint();
 
     arma_type_check((is_same_type<eT, typename T1::elem_type>::no));
@@ -188,47 +179,40 @@ BandMat<eT>& BandMat<eT>::operator=(const BdOp<T1, bdop_type>& X)
     return *this;
 }
 
-template <typename eT> eT& BandMat<eT>::at(const uword& in_row, const uword& in_col)
-{
+template <typename eT>
+eT& BandMat<eT>::at(const uword& in_row, const uword& in_col) {
     return access::rw(mem[n_a + n_b * in_col + in_row]);
 }
 
 template <typename eT>
-const eT& BandMat<eT>::at(const uword& in_row, const uword& in_col) const
-{
+const eT& BandMat<eT>::at(const uword& in_row, const uword& in_col) const {
     return mem[n_a + n_b * in_col + in_row];
 }
 
 template <typename eT>
-eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col)
-{
-    arma_debug_check(
-        in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
+eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col) {
+    arma_debug_check(in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
     return at(in_row, in_col);
 }
 
 template <typename eT>
-const eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col) const
-{
-    arma_debug_check(
-        in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
+const eT& BandMat<eT>::operator()(const uword& in_row, const uword& in_col) const {
+    arma_debug_check(in_row >= n_cols || in_col >= n_cols, "BandMat::operator(): index out of bounds");
     return at(in_row, in_col);
 }
 
-template <typename eT> void BandMat<eT>::init_cold()
-{
+template <typename eT>
+void BandMat<eT>::init_cold() {
     arma_extra_debug_sigprint(arma_str::format("n_size = %d") % n_cols);
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     auto error_message = "BandMat::init(): requested size is too large";
 #else
-    const char* error_message =
-        "BandMat::init(): requested size is too large; suggest to "
-        "compile in C++11 mode or enable ARMA_64BIT_WORD";
+    const char* error_message = "BandMat::init(): requested size is too large; suggest to "
+                                "compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
-    arma_debug_check(
-        n_cols > ARMA_MAX_UHWORD ? n_elem > ARMA_MAX_UWORD : false, error_message);
+    arma_debug_check(n_cols > ARMA_MAX_UHWORD ? n_elem > ARMA_MAX_UWORD : false, error_message);
 
     if(n_elem <= arma_config::mat_prealloc)
         if(n_elem == 0)
@@ -244,8 +228,7 @@ template <typename eT> void BandMat<eT>::init_cold()
 }
 
 template <typename eT>
-void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword& in_u)
-{
+void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword& in_u) {
     arma_extra_debug_sigprint(arma_str::format("in_n_size = %d") % in_size);
 
     if(n_cols == in_size && n_l == in_l && n_u == in_u) return;
@@ -255,8 +238,7 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
 
     const uhword t_mem_state = mem_state;
 
-    arma_debug_set_error(err_state, err_msg, t_mem_state == 3,
-        "BandMat::init(): size is fixed and hence cannot be changed");
+    arma_debug_set_error(err_state, err_msg, t_mem_state == 3, "BandMat::init(): size is fixed and hence cannot be changed");
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     auto error_message = "BandMat::init(): requested size is too large";
@@ -265,10 +247,7 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
                                 "to compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
-    arma_debug_set_error(err_state, err_msg,
-        in_size > ARMA_MAX_UHWORD ? (2 * in_l + in_u + 1) * in_size > ARMA_MAX_UWORD :
-                                    false,
-        error_message);
+    arma_debug_set_error(err_state, err_msg, in_size > ARMA_MAX_UHWORD ? (2 * in_l + in_u + 1) * in_size > ARMA_MAX_UWORD : false, error_message);
 
     arma_debug_check(err_state, err_msg);
 
@@ -298,9 +277,7 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
                 memory::release(access::rw(mem));
             }
 
-            access::rw(mem) = new_n_elem <= arma_config::mat_prealloc ?
-                mem_local :
-                memory::acquire<eT>(new_n_elem);
+            access::rw(mem) = new_n_elem <= arma_config::mat_prealloc ? mem_local : memory::acquire<eT>(new_n_elem);
 
             access::rw(mem_state) = 0;
         }
@@ -316,20 +293,25 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
     }
 }
 
-template <typename eT> eT* BandMat<eT>::memptr() { return const_cast<eT*>(mem); }
-
-template <typename eT> const eT* BandMat<eT>::memptr() const { return mem; }
+template <typename eT>
+eT* BandMat<eT>::memptr() {
+    return const_cast<eT*>(mem);
+}
 
 template <typename eT>
-void BandMat<eT>::set_size(const uword in_size, const uword& in_l, const uword& in_u)
-{
+const eT* BandMat<eT>::memptr() const {
+    return mem;
+}
+
+template <typename eT>
+void BandMat<eT>::set_size(const uword in_size, const uword& in_l, const uword& in_u) {
     arma_extra_debug_sigprint();
 
     init_warm(in_size, in_l, in_u);
 }
 
-template <typename eT> const BandMat<eT>& BandMat<eT>::fill(const eT val)
-{
+template <typename eT>
+const BandMat<eT>& BandMat<eT>::fill(const eT val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_set(memptr(), val, n_elem);
@@ -339,8 +321,7 @@ template <typename eT> const BandMat<eT>& BandMat<eT>::fill(const eT val)
 
 template <typename eT>
 template <typename fill_type>
-const BandMat<eT>& BandMat<eT>::fill(const fill::fill_class<fill_type>&)
-{
+const BandMat<eT>& BandMat<eT>::fill(const fill::fill_class<fill_type>&) {
     arma_extra_debug_sigprint();
 
     if(is_same_type<fill_type, fill::fill_zeros>::yes) (*this).zeros();
@@ -350,8 +331,8 @@ const BandMat<eT>& BandMat<eT>::fill(const fill::fill_class<fill_type>&)
     return *this;
 }
 
-template <typename eT> const BandMat<eT>& BandMat<eT>::zeros()
-{
+template <typename eT>
+const BandMat<eT>& BandMat<eT>::zeros() {
     arma_extra_debug_sigprint();
 
     arrayops::fill_zeros(memptr(), n_elem);
@@ -360,9 +341,7 @@ template <typename eT> const BandMat<eT>& BandMat<eT>::zeros()
 }
 
 template <typename eT>
-const BandMat<eT>&
-BandMat<eT>::zeros(const uword in_size, const uword& in_l, const uword& in_u)
-{
+const BandMat<eT>& BandMat<eT>::zeros(const uword in_size, const uword& in_l, const uword& in_u) {
     arma_extra_debug_sigprint();
 
     set_size(in_size, in_l, in_u);
@@ -370,17 +349,15 @@ BandMat<eT>::zeros(const uword in_size, const uword& in_l, const uword& in_u)
     return (*this).zeros();
 }
 
-template <typename eT> const BandMat<eT>& BandMat<eT>::ones()
-{
+template <typename eT>
+const BandMat<eT>& BandMat<eT>::ones() {
     arma_extra_debug_sigprint();
 
     return fill(eT(1));
 }
 
 template <typename eT>
-const BandMat<eT>&
-BandMat<eT>::ones(const uword in_size, const uword& in_l, const uword& in_u)
-{
+const BandMat<eT>& BandMat<eT>::ones(const uword in_size, const uword& in_l, const uword& in_u) {
     arma_extra_debug_sigprint();
 
     set_size(in_size, in_l, in_u);
@@ -388,8 +365,8 @@ BandMat<eT>::ones(const uword in_size, const uword& in_l, const uword& in_u)
     return fill(eT(1));
 }
 
-template <typename eT> const BandMat<eT>& BandMat<eT>::eye()
-{
+template <typename eT>
+const BandMat<eT>& BandMat<eT>::eye() {
     arma_extra_debug_sigprint();
 
     (*this).zeros();
@@ -400,9 +377,7 @@ template <typename eT> const BandMat<eT>& BandMat<eT>::eye()
 }
 
 template <typename eT>
-const BandMat<eT>&
-BandMat<eT>::eye(const uword in_size, const uword& in_l, const uword& in_u)
-{
+const BandMat<eT>& BandMat<eT>::eye(const uword in_size, const uword& in_l, const uword& in_u) {
     arma_extra_debug_sigprint();
 
     set_size(in_size, in_l, in_u);
@@ -410,8 +385,8 @@ BandMat<eT>::eye(const uword in_size, const uword& in_l, const uword& in_u)
     return (*this).eye();
 }
 
-template <typename eT> void BandMat<eT>::reset()
-{
+template <typename eT>
+void BandMat<eT>::reset() {
     arma_extra_debug_sigprint();
 
     init_warm(0, 0, 0);

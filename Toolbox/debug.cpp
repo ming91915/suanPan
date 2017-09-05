@@ -1,10 +1,12 @@
 #include "debug.h"
 #include <cstdarg>
+#include <iostream>
+#include <vector>
 
 using std::vector;
+using std::cout;
 
-void suanpan_info(const char* M, ...)
-{
+void suanpan_info(const char* M, ...) {
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);
     va_copy(arguments_b, arguments_a);
@@ -15,8 +17,7 @@ void suanpan_info(const char* M, ...)
     cout << buffer.data();
 }
 
-void suanpan_debug(const char* M, ...)
-{
+void suanpan_debug(const char* M, ...) {
 #ifdef SUANPAN_DEBUG
     cout << "debug: ";
     va_list arguments_a, arguments_b;
@@ -30,8 +31,7 @@ void suanpan_debug(const char* M, ...)
 #endif
 }
 
-void suanpan_warning(const char* M, ...)
-{
+void suanpan_warning(const char* M, ...) {
     cout << "warning: ";
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);
@@ -43,8 +43,7 @@ void suanpan_warning(const char* M, ...)
     cout << buffer.data();
 }
 
-void suanpan_error(const char* M, ...)
-{
+void suanpan_error(const char* M, ...) {
     cout << "error: ";
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);
@@ -56,8 +55,7 @@ void suanpan_error(const char* M, ...)
     cout << buffer.data();
 }
 
-void suanpan_fatal(const char* M, ...)
-{
+void suanpan_fatal(const char* M, ...) {
     cout << "fatal: ";
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);

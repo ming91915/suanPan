@@ -1,7 +1,7 @@
 /**
  * @class RK23
  * @brief A solver using Runge--Kutta 2/3 solver.
-
+ *
  * The Runge--Kutta order 2/order 3 embedded pair.
  * \f{align}{
  * s_1&=f\left(t_i,w_i\right)\\
@@ -21,17 +21,11 @@
 
 #include "ODE_Solver.h"
 
-class RK23 final : public ODE_Solver
-{
+class RK23 final : public ODE_Solver {
     vec S1, S2, S3; /**< intermediate variables */
 public:
-    explicit RK23(const unsigned& = 0,
-        const shared_ptr<ODE>& = nullptr,
-        const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workshop>& = nullptr);
-    explicit RK23(const shared_ptr<ODE>&,
-        const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workshop>& = nullptr);
+    explicit RK23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
+    explicit RK23(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
     ~RK23();
 
     int update_status() override;

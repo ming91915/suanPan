@@ -1,17 +1,14 @@
 /**
 * @class GQ12
-* @brief The GQ12 class implements the displacement based four node quadrilateral drilling
-* element proposed by Long and Xu (1994).
+* @brief The GQ12 class implements the displacement based four node quadrilateral drilling element proposed by Long and Xu (1994).
 *
 * https://doi.org/10.1016/0045-7949(94)90356-5
 *
-* The element assumes the displacement field is compatible/conforming on element
-* boundaries in an averaged/weak sense. The element does not pass the patch test rigidly
-* but exhibits a good performance.
+* The element assumes the displacement field is compatible/conforming on element boundaries in an averaged/weak sense. The element does not pass the patch test rigidly but exhibits a good performance.
 *
 * @author T
-* @date 07/08/2017
-* @version 0.1.0
+* @date 05/09/2017
+* @version 0.1.1
 * @file GQ12.h
 * @addtogroup Membrane
 * @ingroup Element
@@ -23,8 +20,7 @@
 
 #include <Element/Element.h>
 
-class GQ12 : public Element
-{
+class GQ12 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
@@ -35,7 +31,7 @@ class GQ12 : public Element
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness;
+    const double thickness;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

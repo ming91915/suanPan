@@ -4,8 +4,7 @@
 
 using std::vector;
 
-void new_elastic1d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_elastic1d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_elastic1d() requires a valid tag.\n");
@@ -30,8 +29,7 @@ void new_elastic1d(unique_ptr<Material>& return_obj, istringstream& command)
     return_obj = make_unique<Elastic1D>(tag, elastic_modulus, density);
 }
 
-void new_elastic2d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_elastic2d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_elastic2d() requires a valid tag.\n");
@@ -68,12 +66,10 @@ void new_elastic2d(unique_ptr<Material>& return_obj, istringstream& command)
     } else
         suanpan_debug("new_elastic2d() assumes plane stress.\n");
 
-    return_obj = make_unique<Elastic2D>(
-        tag, elastic_modulus, poissons_ratio, density, material_type);
+    return_obj = make_unique<Elastic2D>(tag, elastic_modulus, poissons_ratio, density, material_type);
 }
 
-void new_elastic3d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_elastic3d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_elastic3d() requires a valid tag.\n");
@@ -104,8 +100,7 @@ void new_elastic3d(unique_ptr<Material>& return_obj, istringstream& command)
     return_obj = make_unique<Elastic3D>(tag, elastic_modulus, poissons_ratio, density);
 }
 
-void new_bilinear1d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_bilinear1d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_bilinear1d() requires a valid tag.\n");
@@ -151,12 +146,10 @@ void new_bilinear1d(unique_ptr<Material>& return_obj, istringstream& command)
     } else
         suanpan_debug("new_bilinear1d() assumes zero density.\n");
 
-    return_obj = make_unique<Bilinear1D>(
-        tag, elastic_modulus, yield_stress, hardening_ratio, beta, density);
+    return_obj = make_unique<Bilinear1D>(tag, elastic_modulus, yield_stress, hardening_ratio, beta, density);
 }
 
-void new_bilinear2d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_bilinear2d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_bilinear2d() requires a valid tag.\n");
@@ -214,12 +207,10 @@ void new_bilinear2d(unique_ptr<Material>& return_obj, istringstream& command)
     } else
         suanpan_debug("new_bilinear2d() assumes zero density.\n");
 
-    return_obj = make_unique<Bilinear2D>(tag, elastic_modulus, poissons_ratio,
-        yield_stress, hardening_ratio, beta, material_type, density);
+    return_obj = make_unique<Bilinear2D>(tag, elastic_modulus, poissons_ratio, yield_stress, hardening_ratio, beta, material_type, density);
 }
 
-void new_bilinear3d(unique_ptr<Material>& return_obj, istringstream& command)
-{
+void new_bilinear3d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
         suanpan_error("new_bilinear3d() requires a valid tag.\n");
@@ -271,6 +262,5 @@ void new_bilinear3d(unique_ptr<Material>& return_obj, istringstream& command)
     } else
         suanpan_debug("new_bilinear3d() assumes zero density.\n");
 
-    return_obj = make_unique<Bilinear3D>(tag, elastic_modulus, poissons_ratio,
-        yield_stress, hardening_ratio, beta, density);
+    return_obj = make_unique<Bilinear3D>(tag, elastic_modulus, poissons_ratio, yield_stress, hardening_ratio, beta, density);
 }

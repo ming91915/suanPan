@@ -1,6 +1,7 @@
 /**
 * @class CentralDifference
-* @brief A CentralDifference class defines a solver using Newmark algorithm.
+* @brief A CentralDifference class defines a solver using Newmark
+* algorithm.
 *
 * `Newmark` algorithm is unconditionally stable if
 * \f{gather}{\alpha\geq\dfrac{1}{4}\left(\dfrac{1}{2}+\beta\right)^2,\qquad\beta\geq\dfrac{1}{2}\f}.
@@ -24,8 +25,7 @@
 
 #include "Integrator.h"
 
-class CentralDifference : public Integrator
-{
+class CentralDifference : public Integrator {
     double max_dt = 0.;
 
     double DT = 0.;

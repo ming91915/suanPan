@@ -1,7 +1,6 @@
 #include "tensorToolbox.h"
 
-mat unitDevTensor4()
-{
+mat unitDevTensor4() {
     mat T = zeros(6, 6);
 
     for(auto I = 3; I < 6; ++I) T(I, I) = .5;
@@ -12,8 +11,7 @@ mat unitDevTensor4()
     return T;
 }
 
-double tr(const vec& S)
-{
+double tr(const vec& S) {
     auto T = 0.;
     for(auto I = 0; I < 3; ++I) T += S(I);
     return T;
@@ -21,16 +19,14 @@ double tr(const vec& S)
 
 double mean(const vec& S) { return tr(S) / 3.; }
 
-vec dev(const vec& S)
-{
+vec dev(const vec& S) {
     auto D = S;
-    auto M = mean(S);
+    const auto M = mean(S);
     for(auto I = 0; I < 3; ++I) D(I) -= M;
     return D;
 }
 
-mat shapeStress(const double& X, const double& Y, const unsigned& S)
-{
+mat shapeStress(const double& X, const double& Y, const unsigned& S) {
     mat N = zeros(3, S);
 
     for(auto I = 0; I < 3; ++I) N(I, I) = 1;
@@ -85,8 +81,7 @@ mat shapeStress9(const double& X, const double& Y) { return shapeStress(X, Y, 9)
 
 mat shapeStress11(const double& X, const double& Y) { return shapeStress(X, Y, 11); }
 
-mat shapeStrain(const double& X, const double& Y, const double& V, const unsigned& S)
-{
+mat shapeStrain(const double& X, const double& Y, const double& V, const unsigned& S) {
     mat N(3, S, fill::zeros);
 
     for(auto I = 0; I < 3; ++I) N(I, I) = 1;
@@ -138,30 +133,15 @@ mat shapeStrain(const double& X, const double& Y, const double& V, const unsigne
     return N;
 }
 
-mat shapeStrain(const vec& C, const double& V, const unsigned& S)
-{
-    return shapeStrain(C(0), C(1), V, S);
-}
+mat shapeStrain(const vec& C, const double& V, const unsigned& S) { return shapeStrain(C(0), C(1), V, S); }
 
-mat shapeStrain5(const double& X, const double& Y, const double& V)
-{
-    return shapeStrain(X, Y, V, 5);
-}
+mat shapeStrain5(const double& X, const double& Y, const double& V) { return shapeStrain(X, Y, V, 5); }
 
-mat shapeStrain7(const double& X, const double& Y, const double& V)
-{
-    return shapeStrain(X, Y, V, 7);
-}
+mat shapeStrain7(const double& X, const double& Y, const double& V) { return shapeStrain(X, Y, V, 7); }
 
-mat shapeStrain9(const double& X, const double& Y, const double& V)
-{
-    return shapeStrain(X, Y, V, 9);
-}
+mat shapeStrain9(const double& X, const double& Y, const double& V) { return shapeStrain(X, Y, V, 9); }
 
-mat shapeStrain11(const double& X, const double& Y, const double& V)
-{
-    return shapeStrain(X, Y, V, 11);
-}
+mat shapeStrain11(const double& X, const double& Y, const double& V) { return shapeStrain(X, Y, V, 11); }
 
 mat shapeStrain5(const vec& C, const double& V) { return shapeStrain(C, V, 5); }
 

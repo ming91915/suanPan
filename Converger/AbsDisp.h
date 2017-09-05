@@ -1,7 +1,6 @@
 /**
 * @class AbsDisp
-* @brief The AbsDisp class handles converger test to indicate if the iteration
-* converges.
+* @brief The AbsDisp class handles converger test to indicate if the iteration converges.
 *
 * The criterion:
 * \f{gather}{
@@ -22,18 +21,10 @@
 
 #include "Converger.h"
 
-class AbsDisp final : public Converger
-{
+class AbsDisp final : public Converger {
 public:
-    explicit AbsDisp(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
-    explicit AbsDisp(const shared_ptr<Domain>&,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
+    explicit AbsDisp(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit AbsDisp(const shared_ptr<Domain>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

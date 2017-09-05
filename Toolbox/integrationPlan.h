@@ -2,8 +2,7 @@
  * @class integrationPlan
  * @brief An integrationPlan class.
  *
- * This is a simple class provides users the integration points coordinates
- * and corresponding weights.
+ * This is a simple class provides users the integration points coordinates and corresponding weights.
  *
  * Invoke the object with following definition:
  *
@@ -24,7 +23,8 @@
  *     |   1   | X_1 | Y_1 | ... |  WEIGHT_1 |    |
  *     |   2   | X_2 | Y_2 | ... |  WEIGHT_2 |    |
  *     |   3   | X_3 | Y_3 | ... |  WEIGHT_3 |    |
- *     |   .   |  .  |  .  |  .  |     .     |    |---ROWS=intOrder^intDimension
+ *     |   .   |  .  |  .  |  .  |     .     |
+ * |---ROWS=intOrder^intDimension
  *     |   .   |  .  |  .  |  .  |     .     |    |
  *     |   .   |  .  |  .  |  .  |     .     |    |
  *     |   N   | X_N | Y_N | ... |  WEIGHT_N |    |
@@ -35,25 +35,26 @@
  *                   COLS=intDimension+1
  *
  * @author T
- * @date 03/07/2017
+ * @date 05/09/2017
+ * @version 0.1.0
  * @file integrationPlan.h
+ * @addtogroup Utility
+ * @{
  */
 
 #ifndef INTEGRATIONPLAN_H
 #define INTEGRATIONPLAN_H
 
-class integrationPlan final
-{
+class integrationPlan final {
     double** int_pts;
-    unsigned num_row;
-    unsigned num_col;
 
 public:
-    //! Default ctor.
-    explicit integrationPlan(const unsigned& = 2,
-        const unsigned& = 2,
-        const unsigned& = 1);
-    //! Default dtor.
+    const unsigned n_row;
+    const unsigned n_col;
+
+    //! DEFAULT CTOR.
+    explicit integrationPlan(const unsigned& = 2, const unsigned& = 2, const unsigned& = 1);
+    //! DEFAULT DTOR.
     ~integrationPlan();
 
     //! GET NUMBER OF ROWS
@@ -74,3 +75,5 @@ public:
 };
 
 #endif
+
+//! @}

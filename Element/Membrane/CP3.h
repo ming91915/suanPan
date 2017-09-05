@@ -2,8 +2,8 @@
 * @class CP3
 * @brief The CP3 class defines CPS3 CPE3 elements.
 * @author T
-* @date 10/08/2017
-* @version 0.1.0
+* @date 05/09/2017
+* @version 0.1.1
 * @file CP3.h
 * @addtogroup Membrane
 * @ingroup Element
@@ -15,12 +15,11 @@
 
 #include <Element/Element.h>
 
-class CP3 final : public Element
-{
+class CP3 final : public Element {
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness = 1.; /**< thickness */
+    const double thickness; /**< thickness */
 
     double area = 0.; /**< area */
 

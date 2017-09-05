@@ -1,67 +1,39 @@
 #include "CLoad.h"
-#include "Amplitude/Amplitude.h"
 #include <Domain/Domain.h>
 #include <Domain/Node.h>
 #include <Domain/Workshop.h>
+#include <Load/Amplitude/Amplitude.h>
 
-CLoad::CLoad(const unsigned& T,
-    const unsigned& S,
-    const double& L,
-    const uvec& N,
-    const unsigned& D,
-    const shared_ptr<Amplitude>& A)
+CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const unsigned& D, const shared_ptr<Amplitude>& A)
     : Load(T, CT_CLOAD, S, A)
     , pattern(L)
     , nodes(N)
-    , dofs({ D })
-{
-}
+    , dofs({ D }) {}
 
-CLoad::CLoad(const unsigned& S,
-    const double& L,
-    const uvec& N,
-    const unsigned& D,
-    const shared_ptr<Amplitude>& A)
+CLoad::CLoad(const unsigned& S, const double& L, const uvec& N, const unsigned& D, const shared_ptr<Amplitude>& A)
     : Load(0, CT_CLOAD, S, A)
     , pattern(L)
     , nodes(N)
-    , dofs({ D })
-{
-}
+    , dofs({ D }) {}
 
-CLoad::CLoad(const unsigned& T,
-    const unsigned& S,
-    const double& L,
-    const uvec& N,
-    const uvec& D,
-    const shared_ptr<Amplitude>& A)
+CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const uvec& D, const shared_ptr<Amplitude>& A)
     : Load(T, CT_CLOAD, S, A)
     , pattern(L)
     , nodes(N)
-    , dofs(D)
-{
-}
+    , dofs(D) {}
 
-CLoad::CLoad(const unsigned& S,
-    const double& L,
-    const uvec& N,
-    const uvec& D,
-    const shared_ptr<Amplitude>& A)
+CLoad::CLoad(const unsigned& S, const double& L, const uvec& N, const uvec& D, const shared_ptr<Amplitude>& A)
     : Load(0, CT_CLOAD, S, A)
     , pattern(L)
     , nodes(N)
-    , dofs(D)
-{
-}
+    , dofs(D) {}
 
 CLoad::~CLoad() {}
 
-int CLoad::process(const shared_ptr<Domain>& D)
-{
+int CLoad::process(const shared_ptr<Domain>& D) {
     auto& tmp_workroom = D->get_workshop();
 
-    const auto final_load =
-        pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());
+    const auto final_load = pattern * magnitude->get_amplitude(tmp_workroom->get_trial_time());
 
     auto tmp_load = tmp_workroom->get_trial_load();
 

@@ -8,9 +8,7 @@
  */
 Constraint::Constraint(const unsigned& T, const unsigned& CT, const unsigned& ST)
     : Tag(T, CT)
-    , step_tag(ST)
-{
-}
+    , step_tag(ST) {}
 
 /**
  * \brief The default destructor.

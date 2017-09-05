@@ -11,8 +11,7 @@
 
 #include <Domain/Tag.h>
 
-class User_Function : public Tag
-{
+class User_Function : public Tag {
 public:
     explicit User_Function(const unsigned& = 0, const unsigned& = CT_USER_FUNCTION);
     virtual ~User_Function();

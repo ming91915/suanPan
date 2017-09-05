@@ -1,8 +1,7 @@
 #include "Material.h"
 
 Material::Material(const unsigned& T, const unsigned& CT)
-    : Tag(T, CT)
-{
+    : Tag(T, CT) {
     suanpan_debug("Material %u ctor() called.\n", T);
 }
 
@@ -32,8 +31,7 @@ int Material::update_trial_status(const vec&) { return -1; }
 
 int Material::update_trial_status(const vec&, const vec&) { return -1; }
 
-int Material::clear_status()
-{
+int Material::clear_status() {
     if(!current_strain.is_empty()) current_strain.zeros();
     if(!current_strain_rate.is_empty()) current_strain_rate.zeros();
     if(!current_stress.is_empty()) current_stress.zeros();
@@ -54,8 +52,7 @@ int Material::clear_status()
     return 0;
 }
 
-int Material::commit_status()
-{
+int Material::commit_status() {
     current_stiffness = trial_stiffness;
 
     if(!trial_strain.is_empty()) current_strain = trial_strain;
@@ -66,8 +63,7 @@ int Material::commit_status()
     return 0;
 }
 
-int Material::reset_status()
-{
+int Material::reset_status() {
     trial_stiffness = current_stiffness;
 
     if(!trial_strain.is_empty()) {

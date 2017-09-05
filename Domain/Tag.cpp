@@ -7,9 +7,7 @@
  */
 Tag::Tag(const unsigned& T, const unsigned& CT)
     : unique_tag(T)
-    , class_tag(CT)
-{
-}
+    , class_tag(CT) {}
 
 /**
  * \brief Empty destructor.
@@ -59,4 +57,4 @@ const bool& Tag::is_active() const { return alive; }
 /**
  * \brief Method to print basic information.
  */
-void Tag::print() { printf("A Tagged Object.\n"); }
+void Tag::print() { suanpan_info("A Tagged Object.\n"); }

@@ -1,7 +1,9 @@
 /**
 * @class CP4
-* @brief The CP4 class handles CPS4, CPE4, CPS4R and CPE4R elements. It is a four node
-* constant strain membrane element with optional reduced integration for both plane stress
+* @brief The CP4 class handles CPS4, CPE4, CPS4R and CPE4R elements. It
+* is a four node
+* constant strain membrane element with optional reduced integration for
+* both plane stress
 * and plane strain problems.
 * @author T
 * @date 07/08/2017
@@ -17,8 +19,7 @@
 
 #include <Element/Element.h>
 
-class CP4 final : public Element
-{
+class CP4 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
@@ -29,9 +30,9 @@ class CP4 final : public Element
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness;
+    const double thickness;
 
-    bool reduced_scheme;
+    const bool reduced_scheme;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

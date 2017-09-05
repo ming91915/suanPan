@@ -15,8 +15,7 @@
 
 #include <Material/Material.h>
 
-class MPF final : public Material
-{
+class MPF final : public Material {
     const double elastic_modulus;    // elastic modulus
     const double yield_stress;       // yield stress
     const double hardening_ratio;    // hardening ratio

@@ -1,15 +1,12 @@
 #include "Frequence.h"
-#include "Domain/Domain.h"
-#include "Domain/Workshop.h"
+#include <Domain/Domain.h>
+#include <Domain/Workshop.h>
 
 Frequence::Frequence(const unsigned& T, const unsigned& N)
     : Step(T, CT_FREQUENCE, 0.)
-    , eigen_number(N)
-{
-}
+    , eigen_number(N) {}
 
-int Frequence::initialize()
-{
+int Frequence::initialize() {
     if(is_updated()) return 0;
 
     auto& tmp_domain = get_domain();
@@ -36,8 +33,7 @@ int Frequence::initialize()
     return 0;
 }
 
-int Frequence::analyze()
-{
+int Frequence::analyze() {
     auto& tmp_domain = get_domain();
     tmp_domain->update_trial_status();
     tmp_domain->update_mass();

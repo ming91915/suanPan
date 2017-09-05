@@ -1,21 +1,12 @@
 #include "Bilinear2D.h"
 
-Bilinear2D::Bilinear2D(const unsigned& T,
-    const double& E,
-    const double& V,
-    const double& Y,
-    const double& H,
-    const double& B,
-    const unsigned& M,
-    const double& D)
+Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const unsigned& M, const double& D)
     : Material(T, MT_BILINEAR2D)
     , material_type(M)
-    , base(0, E, V, Y, H, B, D)
-{
+    , base(0, E, V, Y, H, B, D) {
     density = D;
 
     const auto EE = material_type == 0 ? E : E / (1 - V * V);
-
     const auto VV = material_type == 0 ? V : V / (1 - V);
 
     initial_stiffness.zeros(3, 3);
@@ -29,8 +20,7 @@ Bilinear2D::Bilinear2D(const unsigned& T,
     Bilinear2D::initialize();
 }
 
-void Bilinear2D::initialize()
-{
+void Bilinear2D::initialize() {
     trial_full_strain.zeros(6);
 
     current_strain.zeros(3);
@@ -42,20 +32,13 @@ void Bilinear2D::initialize()
     trial_stiffness = initial_stiffness;
 }
 
-double Bilinear2D::get_parameter(const unsigned& T) const
-{
-    return base.get_parameter(T);
-}
+double Bilinear2D::get_parameter(const unsigned& T) const { return base.get_parameter(T); }
 
 unique_ptr<Material> Bilinear2D::get_copy() { return make_unique<Bilinear2D>(*this); }
 
-int Bilinear2D::update_incre_status(const vec& i_strain)
-{
-    return update_trial_status(current_strain + i_strain);
-}
+int Bilinear2D::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
-int Bilinear2D::update_trial_status(const vec& t_strain)
-{
+int Bilinear2D::update_trial_status(const vec& t_strain) {
     trial_full_strain(0) = t_strain(0);
     trial_full_strain(1) = t_strain(1);
     trial_full_strain(3) = t_strain(2);
@@ -65,8 +48,7 @@ int Bilinear2D::update_trial_status(const vec& t_strain)
     // PLANE STRESS
     if(material_type == 0)
         while(fabs(base.get_stress().at(2)) > 1E-10) {
-            trial_full_strain(2) -=
-                base.get_stress().at(2) / base.get_stiffness().at(2, 2);
+            trial_full_strain(2) -= base.get_stress().at(2) / base.get_stiffness().at(2, 2);
             base.update_trial_status(trial_full_strain);
         }
 
@@ -112,14 +94,12 @@ int Bilinear2D::update_trial_status(const vec& t_strain)
     return 0;
 }
 
-int Bilinear2D::clear_status()
-{
+int Bilinear2D::clear_status() {
     initialize();
     return base.clear_status();
 }
 
-int Bilinear2D::commit_status()
-{
+int Bilinear2D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
@@ -127,8 +107,7 @@ int Bilinear2D::commit_status()
     return base.commit_status();
 }
 
-int Bilinear2D::reset_status()
-{
+int Bilinear2D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;

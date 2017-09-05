@@ -15,8 +15,7 @@
 
 #include "Amplitude.h"
 
-class Ramp : public Amplitude
-{
+class Ramp : public Amplitude {
 public:
     explicit Ramp(const unsigned& = 0, const unsigned& = CT_RAMP);
     ~Ramp();

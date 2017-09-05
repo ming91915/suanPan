@@ -2,36 +2,21 @@
 #include <Domain/Domain.h>
 #include <Domain/Workshop.h>
 
-AbsResidual::AbsResidual(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(T, CT_ABSRESIDUAL, D, E, M, P)
-{
-}
+AbsResidual::AbsResidual(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_ABSRESIDUAL, D, E, M, P) {}
 
-AbsResidual::AbsResidual(const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(0, CT_ABSRESIDUAL, D, E, M, P)
-{
-}
+AbsResidual::AbsResidual(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(0, CT_ABSRESIDUAL, D, E, M, P) {}
 
 AbsResidual::AbsResidual(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSRESIDUAL, nullptr, E, M, P)
-{
-}
+    : Converger(0, CT_ABSRESIDUAL, nullptr, E, M, P) {}
 
-const bool& AbsResidual::if_converged()
-{
+const bool& AbsResidual::if_converged() {
     auto& tmp_domain = get_domain();
 
     auto& tmp_workroom = tmp_domain->get_workshop();
 
-    vec tmp_residual =
-        tmp_workroom->get_trial_load() - tmp_workroom->get_trial_resistance();
+    vec tmp_residual = tmp_workroom->get_trial_load() - tmp_workroom->get_trial_resistance();
 
     for(const auto& I : tmp_domain->get_restrained_dof()) tmp_residual(I) = 0.;
 

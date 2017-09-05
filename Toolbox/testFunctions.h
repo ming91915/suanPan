@@ -3,8 +3,7 @@
 
 #include <suanPan>
 
-void example_ext_module()
-{
+void example_ext_module() {
     ExternalModule A("ElementExample");
     if(A.locate_module()) {
         unique_ptr<Element> new_elemnt = nullptr;
@@ -14,8 +13,7 @@ void example_ext_module()
     }
 }
 
-void example_uni_material()
-{
+void example_uni_material() {
     // RambergOsgood A;
     Gap01 A(0, 2E5, 400, 0.001);
     vector<double> B, C;
@@ -46,8 +44,7 @@ void example_uni_material()
     D.save("D", raw_ascii);
 }
 
-void example_ODE()
-{
+void example_ODE() {
     DP45 E(make_shared<ODE_INSTANCE>(), make_shared<RelError>());
     E.initialize();
     auto& D = get_current_displacement(E.get_workroom());
@@ -56,8 +53,7 @@ void example_ODE()
     E.get_workroom()->get_trial_displacement().print();
 }
 
-void example_Newmark()
-{
+void example_Newmark() {
     auto B = make_shared<Workshop>(3, AnalysisType::DYNAMICS);
     B->initialize();
     mat M = eye(3, 3);
@@ -80,8 +76,7 @@ void example_Newmark()
     B->get_current_displacement().print();
 }
 
-void example_Truss2D()
-{
+void example_Truss2D() {
     auto D = make_shared<Domain>();
 
     D->insert(make_shared<Bilinear1D>(static_cast<unsigned>(1), 2E5, 1000, .4));
@@ -102,8 +97,7 @@ void example_Truss2D()
     D->get_node(2)->get_current_displacement().print();
 }
 
-void example_CP3()
-{
+void example_CP3() {
     auto D = make_shared<Domain>();
     D->insert(make_shared<Elastic2D>(static_cast<unsigned>(1), 2E5, 0.2, 1234));
     D->insert(make_shared<Node>(1, vec({ 0, 0 })));
@@ -116,8 +110,7 @@ void example_CP3()
     D->get_node(2)->get_current_displacement().print();
 }
 
-void example_GQ12()
-{
+void example_GQ12() {
     auto D = make_shared<Domain>();
     D->insert(make_shared<Elastic2D>(static_cast<unsigned>(1), 3E4, .25));
     D->insert(make_shared<Node>(1, vec({ 0, 0 })));

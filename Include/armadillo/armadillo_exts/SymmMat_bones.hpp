@@ -1,5 +1,5 @@
-template <typename eT> class SymmMat : public Base<eT, SymmMat<eT>>
-{
+template <typename eT>
+class SymmMat : public Base<eT, SymmMat<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -42,7 +42,8 @@ public:
     SymmMat& operator%=(const SymmMat& m);
     SymmMat& operator/=(const SymmMat& m);
 
-    template <typename T1, typename op_type> SymmMat(const SmOp<T1, op_type>& X);
+    template <typename T1, typename op_type>
+    SymmMat(const SmOp<T1, op_type>& X);
 
     template <typename T1, typename T2, typename glue_type>
     SymmMat& operator=(const Glue<T1, T2, glue_type>& X);

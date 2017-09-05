@@ -7,6 +7,8 @@
  * @author T
  * @date 03/07/2017
  * @file Constraint.h
+ * @addtogroup Constraint
+ * @{
  */
 
 #ifndef CONSTRAINT_H
@@ -16,13 +18,10 @@
 
 class Domain;
 
-class Constraint : public Tag
-{
+class Constraint : public Tag {
     unsigned step_tag = 0; /**< step tag */
 public:
-    explicit Constraint(const unsigned& = 0,
-        const unsigned& = CT_CONSTRAINT,
-        const unsigned& = 0);
+    explicit Constraint(const unsigned& = 0, const unsigned& = CT_CONSTRAINT, const unsigned& = 0);
     virtual ~Constraint();
 
     void set_step_tag(const unsigned&);
@@ -32,3 +31,5 @@ public:
 };
 
 #endif
+
+//! @}

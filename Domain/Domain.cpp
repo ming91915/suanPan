@@ -9,8 +9,7 @@
 #include <Toolbox/RCM.h>
 
 Domain::Domain(const unsigned& T)
-    : Tag(T, CT_DOMAIN)
-{
+    : Tag(T, CT_DOMAIN) {
     suanpan_debug("Domain %u ctor() called.\n", T);
 }
 
@@ -20,8 +19,7 @@ const bool& Domain::is_updated() const { return updated; }
 
 const bool& Domain::is_initialized() const { return initialized; }
 
-int Domain::initialize()
-{
+int Domain::initialize() {
     if(!initialized) initialized = true;
 
     if(updated) return 0;
@@ -33,13 +31,12 @@ int Domain::initialize()
 
     // SET DOF NUMBER FOR ACTIVE NODES
     for(const auto& tmp_element : element_pond)
-        if(tmp_element.second->is_active())
-            tmp_element.second->Element::initialize(shared_from_this());
+        if(tmp_element.second->is_active()) tmp_element.second->Element::initialize(shared_from_this());
 
     // ASSIGN DOF LABEL FOR ACTIVE DOF
     unsigned dof_counter = 0;
     for(const auto& tmp_node : node_pond) {
-        tmp_node.second->initialize();
+        tmp_node.second->initialize(shared_from_this());
         tmp_node.second->set_original_dof(dof_counter);
     }
 
@@ -83,8 +80,7 @@ int Domain::initialize()
     }
 
     // ASSIGN NEW LABELS TO ACTIVE NODES
-    for(const auto& tmp_node : node_pond.get())
-        tmp_node->set_reordered_dof(idx_sorted(tmp_node->get_original_dof()));
+    for(const auto& tmp_node : node_pond.get()) tmp_node->set_reordered_dof(idx_sorted(tmp_node->get_original_dof()));
 
     // INITIALIZE DERIVED ELEMENTS
     for(const auto& tmp_element : element_pond.get()) {
@@ -97,14 +93,12 @@ int Domain::initialize()
     else
         workroom->set_dof_number(dof_counter);
 
-    workroom->set_bandwidth(
-        static_cast<unsigned>(low_bandwidth), static_cast<unsigned>(-up_bandwidth));
+    workroom->set_bandwidth(static_cast<unsigned>(low_bandwidth), static_cast<unsigned>(-up_bandwidth));
 
     return 0;
 }
 
-void Domain::process(const unsigned& ST)
-{
+void Domain::process(const unsigned& ST) {
     loaded_dofs.clear();
     restrained_dofs.clear();
     constrained_dofs.clear();
@@ -117,13 +111,11 @@ void Domain::process(const unsigned& ST)
         if(I->get_step_tag() <= ST) I->process(shared_from_this());
 }
 
-void Domain::record()
-{
+void Domain::record() {
     for(const auto& I : recorder_pond.get()) I->record(shared_from_this());
 }
 
-void Domain::set_workshop(const shared_ptr<Workshop>& W)
-{
+void Domain::set_workshop(const shared_ptr<Workshop>& W) {
     workroom = W;
     updated = false;
 }
@@ -166,8 +158,7 @@ void Domain::disable_node(const unsigned& T) { node_pond.disable(T); }
 
 void Domain::disable_recorder(const unsigned& T) { recorder_pond.disable(T); }
 
-void Domain::enable_all()
-{
+void Domain::enable_all() {
     constraint_pond.enable();
     element_pond.enable();
     load_pond.enable();
@@ -188,35 +179,17 @@ void Domain::enable_node(const unsigned& T) { node_pond.enable(T); }
 
 void Domain::enable_recorder(const unsigned& T) { recorder_pond.enable(T); }
 
-const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const
-{
-    return constraint_pond.at(T);
-}
+const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
 
-const shared_ptr<Element>& Domain::get_element(const unsigned& T) const
-{
-    return element_pond.at(T);
-}
+const shared_ptr<Element>& Domain::get_element(const unsigned& T) const { return element_pond.at(T); }
 
-const shared_ptr<Load>& Domain::get_load(const unsigned& T) const
-{
-    return load_pond.at(T);
-}
+const shared_ptr<Load>& Domain::get_load(const unsigned& T) const { return load_pond.at(T); }
 
-const shared_ptr<Material>& Domain::get_material(const unsigned& T) const
-{
-    return material_pond.at(T);
-}
+const shared_ptr<Material>& Domain::get_material(const unsigned& T) const { return material_pond.at(T); }
 
-const shared_ptr<Node>& Domain::get_node(const unsigned& T) const
-{
-    return node_pond.at(T);
-}
+const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_pond.at(T); }
 
-const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const
-{
-    return recorder_pond.at(T);
-}
+const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
 
 size_t Domain::get_constraint() const { return constraint_pond.size(); }
 
@@ -242,47 +215,36 @@ bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
 
 bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
 
-void Domain::update_resistance() const
-{
+void Domain::update_resistance() const {
     workroom->clear_resistance();
-    for(const auto& I : element_pond.get())
-        workroom->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    for(const auto& I : element_pond.get()) workroom->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
-void Domain::update_mass() const
-{
+void Domain::update_mass() const {
     workroom->clear_mass();
-    for(const auto& I : element_pond.get())
-        workroom->assemble_mass(I->get_mass(), I->get_dof_encoding());
+    for(const auto& I : element_pond.get()) workroom->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
-void Domain::update_initial_stiffness() const
-{
+void Domain::update_initial_stiffness() const {
     workroom->clear_stiffness();
-    for(const auto& I : element_pond.get())
-        workroom->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
+    for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::update_stiffness() const
-{
+void Domain::update_stiffness() const {
     workroom->clear_stiffness();
-    for(const auto& I : element_pond.get())
-        workroom->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
+    for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::update_damping() const
-{
+void Domain::update_damping() const {
     workroom->clear_damping();
-    for(const auto& I : element_pond.get())
-        workroom->assemble_damping(I->get_damping(), I->get_dof_encoding());
+    for(const auto& I : element_pond.get()) workroom->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
 void Domain::update_trial_time(const double& T) const { workroom->update_trial_time(T); }
 
 void Domain::update_incre_time(const double& T) const { workroom->update_incre_time(T); }
 
-void Domain::update_trial_status() const
-{
+void Domain::update_trial_status() const {
     auto& trial_dsp = workroom->get_trial_displacement();
     auto& trial_vel = workroom->get_trial_velocity();
     auto& trial_acc = workroom->get_trial_acceleration();
@@ -292,18 +254,15 @@ void Domain::update_trial_status() const
 #ifdef SUANPAN_OPENMP
             auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I)
-                tmp_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
+            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #else
-            for(const auto& I : node_pond.get())
-                I->update_trial_status(trial_dsp, trial_vel, trial_acc);
+            for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #endif
         } else {
 #ifdef SUANPAN_OPENMP
             auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I)
-                tmp_pond[I]->update_trial_status(trial_dsp);
+            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp);
 #else
             for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
 #endif
@@ -318,8 +277,7 @@ void Domain::update_trial_status() const
     }
 }
 
-void Domain::update_incre_status() const
-{
+void Domain::update_incre_status() const {
     auto& incre_dsp = workroom->get_incre_displacement();
     auto& incre_vel = workroom->get_incre_velocity();
     auto& incre_acc = workroom->get_incre_acceleration();
@@ -329,18 +287,15 @@ void Domain::update_incre_status() const
 #ifdef SUANPAN_OPENMP
             auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I)
-                tmp_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
+            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
 #else
-            for(const auto& I : node_pond.get())
-                I->update_incre_status(incre_dsp, incre_vel, incre_acc);
+            for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
 #endif
         } else {
 #ifdef SUANPAN_OPENMP
             auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I)
-                tmp_pond[I]->update_trial_status(incre_dsp);
+            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp);
 #else
             for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
 #endif
@@ -355,8 +310,7 @@ void Domain::update_incre_status() const
     }
 }
 
-void Domain::commit_status() const
-{
+void Domain::commit_status() const {
     workroom->commit_status();
 
 #ifdef SUANPAN_OPENMP
@@ -373,8 +327,7 @@ void Domain::commit_status() const
 #endif
 }
 
-void Domain::clear_status() const
-{
+void Domain::clear_status() const {
     workroom->clear_status();
 
 #ifdef SUANPAN_OPENMP
@@ -397,8 +350,7 @@ void Domain::clear_status() const
 #endif
 }
 
-void Domain::reset_status() const
-{
+void Domain::reset_status() const {
     workroom->reset_status();
 
 #ifdef SUANPAN_OPENMP
@@ -420,75 +372,42 @@ void Domain::reset_status() const
 #endif
 }
 
-bool Domain::insert_loaded_dof(const unsigned& T)
-{
+bool Domain::insert_loaded_dof(const unsigned& T) {
     auto R = loaded_dofs.insert(T);
     return R.second;
 }
 
-bool Domain::insert_restrained_dof(const unsigned& T)
-{
+bool Domain::insert_restrained_dof(const unsigned& T) {
     auto R = restrained_dofs.insert(T);
     return R.second;
 }
 
-bool Domain::insert_constrained_dof(const unsigned& T)
-{
+bool Domain::insert_constrained_dof(const unsigned& T) {
     auto R = constrained_dofs.insert(T);
     return R.second;
 }
 
 const unordered_set<unsigned>& Domain::get_loaded_dof() const { return loaded_dofs; }
 
-const unordered_set<unsigned>& Domain::get_restrained_dof() const
-{
-    return restrained_dofs;
+const unordered_set<unsigned>& Domain::get_restrained_dof() const { return restrained_dofs; }
+
+const unordered_set<unsigned>& Domain::get_constrained_dof() const { return constrained_dofs; }
+
+void Domain::summary() const {
+    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials,\n", get_tag(), get_node(), get_element(), get_material());
+    suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(), get_constraint(), get_recorder());
 }
 
-const unordered_set<unsigned>& Domain::get_constrained_dof() const
-{
-    return constrained_dofs;
-}
+shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T) { return D->constraint_pond[T]; }
 
-void Domain::summary() const
-{
-    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials,\n",
-        get_tag(), get_node(), get_element(), get_material());
-    suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(),
-        get_constraint(), get_recorder());
-}
+shared_ptr<Element>& get_element(const shared_ptr<Domain>& D, const unsigned& T) { return D->element_pond[T]; }
 
-shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->constraint_pond[T];
-}
+shared_ptr<Load>& get_load(const shared_ptr<Domain>& D, const unsigned& T) { return D->load_pond[T]; }
 
-shared_ptr<Element>& get_element(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->element_pond[T];
-}
+shared_ptr<Material>& get_material(const shared_ptr<Domain>& D, const unsigned& T) { return D->material_pond[T]; }
 
-shared_ptr<Load>& get_load(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->load_pond[T];
-}
+shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { return D->node_pond[T]; }
 
-shared_ptr<Material>& get_material(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->material_pond[T];
-}
+shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
-shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->node_pond[T];
-}
-
-shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T)
-{
-    return D->recorder_pond[T];
-}
-
-const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D)
-{
-    return D->node_pond.get();
-}
+const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D) { return D->node_pond.get(); }

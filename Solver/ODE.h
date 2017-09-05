@@ -6,17 +6,13 @@
  * \f{gather}{
  * y'=f\left(t,y\right),
  * \f}
- * where \f$t\f$ is the generalized time which is always a scalar, \f$y\f$ are independent
- * variables and \f$y'\f$ are the corresponding derivatives. There could be only one
- * independent variable, or more often, multiple variables. The key method is
+ * where \f$t\f$ is the generalized time which is always a scalar, \f$y\f$ are independent variables and \f$y'\f$ are the corresponding derivatives. There could be only one independent variable, or more often, multiple variables. The key method is
  *
  *     const vec& eval(const double&T, const vec&Y)
  *
  * which returns the left hand side \f$y'\f$. This method is used in ODE_Solver.
  *
- * \f$y\f$ (const vec& Y) is a vector even if there is only one independent variable. If
- * the ODE system is linear, one could conveniently rewrite it in a matrix form and then
- * define a matrix to calculate the derivatives.
+ * \f$y\f$ (const vec& Y) is a vector even if there is only one independent variable. If the ODE system is linear, one could conveniently rewrite it in a matrix form and then define a matrix to calculate the derivatives.
  *
  * For example, the following ODE system
  * \f{gather}{
@@ -47,8 +43,7 @@
 
 #include "User_Function.h"
 
-class ODE : public User_Function
-{
+class ODE : public User_Function {
     unsigned num_dim; /**< The dimension of the problem. */
 public:
     //! Default ctor.
@@ -57,11 +52,12 @@ public:
     virtual ~ODE();
 
     //! Method to set dimension of the problem.
-    virtual void setDimension(const unsigned&);
+    virtual void set_dimension(const unsigned&);
     virtual void operator()(const unsigned&);
-    //! Method to return dimension of the problem, will be used to determine the size of
+    //! Method to return dimension of the problem, will be used to
+    //! determine the size of
     //! input vector.
-    virtual const unsigned& getDimension() const;
+    virtual const unsigned& get_dimension() const;
     virtual unsigned operator()();
 
     //! Override the base class's print function.

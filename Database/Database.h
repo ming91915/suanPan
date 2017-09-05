@@ -1,8 +1,18 @@
-#pragma once
+/**
+* @class Database
+* @brief A Database class is a top level container.
+* @author T
+* @date 27/08/2017
+* @version 0.2.1
+* @file Database.h
+*/
+
+#ifndef DATABASE_H
+#define DATABASE_H
+
 #include "Domain/Domain.h"
 
-class Database : public Tag
-{
+class Database : public Tag {
     shared_ptr<Domain> domain;
 
 public:
@@ -14,3 +24,5 @@ public:
 
     virtual int save(const char*) = 0;
 };
+
+#endif

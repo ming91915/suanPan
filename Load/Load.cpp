@@ -1,18 +1,14 @@
 #include "Load.h"
-#include "Amplitude/Amplitude.h"
+#include <Load/Amplitude/Amplitude.h>
 
-Load::Load(const unsigned& T,
-    const unsigned& CT,
-    const unsigned& ST,
-    const shared_ptr<Amplitude>& A)
+Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const shared_ptr<Amplitude>& A)
     : Tag(T, CT)
     , step_tag(ST)
-    , magnitude(A)
-{
+    , magnitude(A) {
     if(magnitude == nullptr) magnitude = make_shared<Amplitude>();
 }
 
-Load::~Load() { suanpan_debug("Load %u dtor() Called.\n", get_tag()); }
+Load::~Load() { suanpan_debug("Load %u dtor() called.\n", get_tag()); }
 
 int Load::process(const shared_ptr<Domain>&) { return -1; }
 

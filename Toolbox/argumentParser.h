@@ -12,7 +12,6 @@
 
 #include <Step/Bead.h>
 
-//! A simple parser.
 void argument_parser(int, char**);
 
 void print_header();

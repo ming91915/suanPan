@@ -4,4 +4,3 @@
 #include "Dynamic.h"
 #include "Frequence.h"
 #include "Static.h"
-#include "Analysis.h"

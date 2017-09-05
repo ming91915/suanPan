@@ -18,8 +18,7 @@
 
 #include <Element/Element.h>
 
-class QE2 : public Element
-{
+class QE2 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
@@ -33,7 +32,7 @@ class QE2 : public Element
 
     static mat mapping;
 
-    double thickness = 1.;
+    const double thickness;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

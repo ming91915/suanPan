@@ -2,7 +2,8 @@
  * @fn shapeFunctionQuad
  * @brief An shapeFunctionQuad function.
  *
- * The function is designed to return the shape function for four- and eight-node quad
+ * The function is designed to return the shape function for four- and
+ * eight-node quad
  * elements.
  *
  * @author T

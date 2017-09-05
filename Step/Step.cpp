@@ -7,8 +7,7 @@
 
 Step::Step(const unsigned& T, const unsigned& CT, const double& P)
     : Tag(T, CT)
-    , time_period(P)
-{
+    , time_period(P) {
     suanpan_debug("Step %u ctor() called.\n", T);
 }
 
@@ -16,8 +15,7 @@ Step::~Step() { suanpan_debug("Step %u dtor() called.\n", get_tag()); }
 
 const bool& Step::is_updated() const { return updated; }
 
-int Step::initialize()
-{
+int Step::initialize() {
     if(updated) return 0;
 
     if(database == nullptr) {
@@ -76,40 +74,35 @@ int Step::initialize()
 
 int Step::analyze() { return -1; }
 
-void Step::set_workshop(const shared_ptr<Workshop>& F)
-{
+void Step::set_workshop(const shared_ptr<Workshop>& F) {
     factory = F;
     updated = false;
 }
 
 const shared_ptr<Workshop>& Step::get_workshop() const { return factory; }
 
-void Step::set_domain(const shared_ptr<Domain>& D)
-{
+void Step::set_domain(const shared_ptr<Domain>& D) {
     database = D;
     updated = false;
 }
 
 const shared_ptr<Domain>& Step::get_domain() const { return database; }
 
-void Step::set_solver(const shared_ptr<Solver>& S)
-{
+void Step::set_solver(const shared_ptr<Solver>& S) {
     solver = S;
     updated = false;
 }
 
 const shared_ptr<Solver>& Step::get_solver() const { return solver; }
 
-void Step::set_converger(const shared_ptr<Converger>& C)
-{
+void Step::set_converger(const shared_ptr<Converger>& C) {
     tester = C;
     updated = false;
 }
 
 const shared_ptr<Converger>& Step::get_converger() const { return tester; }
 
-void Step::set_integrator(const shared_ptr<Integrator>& G)
-{
+void Step::set_integrator(const shared_ptr<Integrator>& G) {
     modifier = G;
     updated = false;
 }
@@ -138,8 +131,7 @@ const unsigned& Step::get_max_iteration() const { return max_increment; }
 
 const bool& Step::is_fixed_step_size() const { return fixed_step_size; }
 
-void Step::set_fixed_step_size(const bool& B)
-{
+void Step::set_fixed_step_size(const bool& B) {
     if(fixed_step_size != B) {
         fixed_step_size = B;
         updated = false;
@@ -150,16 +142,14 @@ const bool& Step::is_symm() const { return symm_mat; }
 
 const bool& Step::is_band() const { return band_mat; }
 
-void Step::set_symm(const bool& B)
-{
+void Step::set_symm(const bool& B) {
     if(symm_mat != B) {
         symm_mat = B;
         updated = false;
     }
 }
 
-void Step::set_band(const bool& B)
-{
+void Step::set_band(const bool& B) {
     if(band_mat != B) {
         band_mat = B;
         updated = false;

@@ -1,14 +1,10 @@
 /**
 * @class AbsResidual
-* @brief The Converger class handles converger test to indicate if the iteration
-* converges according to various rules.
+* @brief The Converger class handles converger test to indicate if the iteration converges according to various rules.
 *
-* The class stores a pointer `factory` pointed to the Workshop and get information from
-* this Workroom. The `tolerance` and `error` are stored independently so that the
-* Workshop will not be modified.
+* The class stores a pointer `factory` pointed to the Workshop and get information from this Workroom. The `tolerance` and `error` are stored independently so that the Workshop will not be modified.
 *
-* The class further provides a `print_flag` to indicate if the test information should be
-* printed out.
+* The class further provides a `print_flag` to indicate if the test information should be printed out.
 *
 * @author T
 * @date 08/08/2017
@@ -25,18 +21,10 @@
 
 class Domain;
 
-class AbsResidual : public Converger
-{
+class AbsResidual : public Converger {
 public:
-    explicit AbsResidual(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
-    explicit AbsResidual(const shared_ptr<Domain>&,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
+    explicit AbsResidual(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit AbsResidual(const shared_ptr<Domain>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
     explicit AbsResidual(const double&, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;

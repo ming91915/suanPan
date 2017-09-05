@@ -5,24 +5,15 @@
 const unsigned CP4::m_node = 4;
 const unsigned CP4::m_dof = 2;
 
-CP4::CP4(const unsigned& T,
-    const uvec& N,
-    const unsigned& M,
-    const double& TH,
-    const bool& R,
-    const bool& F)
-    : Element(T, ET_CP4, m_node, m_dof, N, uvec({ M }), F)
+CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
+    : Element(T, ET_CP4, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
-    , reduced_scheme(R)
-{
-}
+    , reduced_scheme(R) {}
 
-void CP4::initialize(const shared_ptr<Domain>& D)
-{
+void CP4::initialize(const shared_ptr<Domain>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
-    unsigned order = 2;
-    if(reduced_scheme) order = 1;
+    const unsigned order = reduced_scheme ? 1 : 2;
     const integrationPlan plan(2, order, 1);
 
     int_pt.clear();
@@ -53,8 +44,7 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         if(tmp_density != 0.) {
             tmp_density *= I->jacob_det * I->weight * thickness;
             for(auto J = 0; J < 4; ++J)
-                for(auto K = J; K < 4; ++K)
-                    mass(2 * J, 2 * K) += tmp_density * n_int(J) * n_int(K);
+                for(auto K = J; K < 4; ++K) mass(2 * J, 2 * K) += tmp_density * n_int(J) * n_int(K);
         }
     }
 
@@ -69,8 +59,7 @@ void CP4::initialize(const shared_ptr<Domain>& D)
         }
 }
 
-int CP4::update_status()
-{
+int CP4::update_status() {
     auto code = 0;
 
     auto& TD0 = node_ptr.at(0).lock()->get_trial_displacement();
@@ -94,23 +83,25 @@ int CP4::update_status()
 
         tmp_strain(0) = NX1 * TD0(0) + NX2 * TD1(0) + NX3 * TD2(0) + NX4 * TD3(0);
         tmp_strain(1) = NY1 * TD0(1) + NY2 * TD1(1) + NY3 * TD2(1) + NY4 * TD3(1);
-        tmp_strain(2) = NX1 * TD0(1) + NX2 * TD1(1) + NX3 * TD2(1) + NX4 * TD3(1) +
-            NY1 * TD0(0) + NY2 * TD1(0) + NY3 * TD2(0) + NY4 * TD3(0);
+        tmp_strain(2) = NX1 * TD0(1) + NX2 * TD1(1) + NX3 * TD2(1) + NX4 * TD3(1) + NY1 * TD0(0) + NY2 * TD1(0) + NY3 * TD2(0) + NY4 * TD3(0);
 
         code += I->m_material->update_trial_status(tmp_strain);
 
         // OPTIMIZED STIFFNESS MATRRIX FORMULATION B'*D*B
         // MATLAB SYMBOLIC COMPUTATION CODE:
-        // syms NX1 NX2 NX3 NX4 NY1 NY2 NY3 NY4 D00 D01 D02 D10 D11 D12 D20 D21 D22 S0 S1
+        // syms NX1 NX2 NX3 NX4 NY1 NY2 NY3 NY4 D00 D01 D02 D10 D11 D12
+        // D20 D21 D22 S0 S1
         // S2 real;
         // N=[NX1,0,NX2,0,NX3,0,NX4,0;0,NY1,0,NY2,0,NY3,0,NY4;NY1,NX1,NY2,NX2,NY3,NX3,NY4,NX4];
         // D=[D00,D01,D02;D01,D11,D12;D02,D12,D22];
         // S=[S0,S1,S2]';
         // K=N'*D*N;
         // R=N'*S;
-        // FOR EACH INTEGRATION POINT DIRECTLY COMPUTING B'*D*B IS OF COMPLEXITY OF
+        // FOR EACH INTEGRATION POINT DIRECTLY COMPUTING B'*D*B IS OF
+        // COMPLEXITY OF
         // 8*3*3*8*3*8=13824
-        // FOLLOWING CODES ONLY HAVE 117 MULTIPLICATIONS AND 95 ADDTIONS AND COPY OF UPPER
+        // FOLLOWING CODES ONLY HAVE 117 MULTIPLICATIONS AND 95 ADDTIONS
+        // AND COPY OF UPPER
         // TRIANGLE TO LOWER PART
         const auto tmp_factor = I->jacob_det * I->weight * thickness;
 
@@ -207,22 +198,19 @@ int CP4::update_status()
     return code;
 }
 
-int CP4::commit_status()
-{
+int CP4::commit_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int CP4::clear_status()
-{
+int CP4::clear_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int CP4::reset_status()
-{
+int CP4::reset_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;

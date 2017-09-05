@@ -24,23 +24,18 @@
 
 #include "Integrator.h"
 
-class Newmark final : public Integrator
-{
-    double alpha = .25; /**< parameter */
-    double beta = .5;   /**< parameter */
+class Newmark final : public Integrator {
+    const double alpha; /**< parameter = .25 */
+    const double beta;  /**< parameter = .5 */
 
     double DT = 0.; /**< previous incremental time */
 
-    double C0 = 0., C1 = 0., C2 = 0., C3 = 0., C4 = 0., C5 = 0., C6 = 0.,
-           C7 = 0.; /**< parameters */
+    double C0 = 0., C1 = 0., C2 = 0., C3 = 0., C4 = 0., C5 = 0., C6 = 0., C7 = 0.; /**< parameters */
 
     void update_parameter();
 
 public:
-    explicit Newmark(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const double& = .25,
-        const double& = .5);
+    explicit Newmark(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = .25, const double& = .5);
     explicit Newmark(const shared_ptr<Domain>&, const double& = .25, const double& = .5);
     ~Newmark();
 

@@ -13,9 +13,7 @@
 BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const unsigned& D)
     : Constraint(T, CT_BC, S)
     , nodes(N)
-    , dofs({ D })
-{
-}
+    , dofs({ D }) {}
 
 /**
  * \brief No Tag version of the default constructor.
@@ -26,9 +24,7 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const unsigned& D)
 BC::BC(const unsigned& S, const uvec& N, const unsigned& D)
     : Constraint(0, CT_BC, S)
     , nodes(N)
-    , dofs({ D })
-{
-}
+    , dofs({ D }) {}
 
 /**
  * \brief The constructor uses DoF vector.
@@ -40,9 +36,7 @@ BC::BC(const unsigned& S, const uvec& N, const unsigned& D)
 BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const uvec& D)
     : Constraint(T, CT_BC, S)
     , nodes(N)
-    , dofs(D)
-{
-}
+    , dofs(D) {}
 
 /**
  * \brief No Tag version.
@@ -53,12 +47,11 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const uvec& D)
 BC::BC(const unsigned& S, const uvec& N, const uvec& D)
     : Constraint(0, CT_BC, S)
     , nodes(N)
-    , dofs(D)
-{
-}
+    , dofs(D) {}
 
 /**
- * \brief The constructor uses predefined TYPE: "XSYMM", "YSYMM", "ZSYMM", "ENCASTRE",
+ * \brief The constructor uses predefined TYPE: "XSYMM", "YSYMM",
+ * "ZSYMM", "ENCASTRE",
  * "PINNED".
  * \param T `unique_tag`
  * \param S `step_tag`
@@ -67,8 +60,7 @@ BC::BC(const unsigned& S, const uvec& N, const uvec& D)
  */
 BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
     : Constraint(T, CT_BC, S)
-    , nodes(N)
-{
+    , nodes(N) {
     if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
     else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
@@ -89,8 +81,7 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
  */
 BC::BC(const unsigned& ST, const uvec& NT, const char* TP)
     : Constraint(0, CT_BC, ST)
-    , nodes(NT)
-{
+    , nodes(NT) {
     if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
     else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
@@ -125,8 +116,7 @@ const uvec& BC::get_dof() const { return dofs; }
  * \param D `Domain`
  * \return 0
  */
-int BC::process(const shared_ptr<Domain>& D)
-{
+int BC::process(const shared_ptr<Domain>& D) {
     auto& W = D->get_workshop();
     auto& t_matrix = get_stiffness(W);
 
@@ -144,11 +134,9 @@ int BC::process(const shared_ptr<Domain>& D)
                                 if(t_set.size() == 1)
                                     t_matrix(t_idx, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)
-                                    t_matrix(t_idx, t_idx) =
-                                        t_matrix(*++t_set.cbegin(), *++t_set.cbegin());
+                                    t_matrix(t_idx, t_idx) = t_matrix(*++t_set.cbegin(), *++t_set.cbegin());
                                 else
-                                    t_matrix(t_idx, t_idx) =
-                                        t_matrix(*t_set.cbegin(), *t_set.cbegin());
+                                    t_matrix(t_idx, t_idx) = t_matrix(*t_set.cbegin(), *t_set.cbegin());
                             } else
                                 t_matrix(t_idx, t_idx) *= 1E6;
                         }
@@ -175,11 +163,9 @@ int BC::process(const shared_ptr<Domain>& D)
                                 if(t_set.size() == 1)
                                     t_matrix(t_zero, t_idx) = 1E6 * t_matrix.max();
                                 else if(*t_set.cbegin() == t_idx)
-                                    t_matrix(t_zero, t_idx) =
-                                        t_matrix(t_zero, *++t_set.cbegin());
+                                    t_matrix(t_zero, t_idx) = t_matrix(t_zero, *++t_set.cbegin());
                                 else
-                                    t_matrix(t_zero, t_idx) =
-                                        t_matrix(t_zero, *t_set.cbegin());
+                                    t_matrix(t_zero, t_idx) = t_matrix(t_zero, *t_set.cbegin());
                             } else
                                 t_matrix(t_zero, t_idx) *= 1E6;
                         }

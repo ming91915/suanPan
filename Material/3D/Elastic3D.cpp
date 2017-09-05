@@ -3,8 +3,7 @@
 Elastic3D::Elastic3D(const unsigned& T, const double& E, const double& P, const double& R)
     : Material(T, MT_ELASTIC3D)
     , elastic_modulus(E)
-    , poissons_ratio(P)
-{
+    , poissons_ratio(P) {
     density = R;
     Elastic3D::initialize();
 }
@@ -12,16 +11,14 @@ Elastic3D::Elastic3D(const unsigned& T, const double& E, const double& P, const 
 Elastic3D::Elastic3D(const double& E, const double& P, const double& R)
     : Material(0, MT_ELASTIC3D)
     , elastic_modulus(E)
-    , poissons_ratio(P)
-{
+    , poissons_ratio(P) {
     density = R;
     Elastic3D::initialize();
 }
 
 Elastic3D::~Elastic3D() {}
 
-void Elastic3D::initialize()
-{
+void Elastic3D::initialize() {
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);
@@ -47,8 +44,7 @@ void Elastic3D::initialize()
 
 unique_ptr<Material> Elastic3D::get_copy() { return make_unique<Elastic3D>(*this); }
 
-int Elastic3D::update_trial_status(const vec& t_strain)
-{
+int Elastic3D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     trial_stress = trial_stiffness * trial_strain;
     // incre_strain = trial_strain - current_strain;
@@ -56,8 +52,7 @@ int Elastic3D::update_trial_status(const vec& t_strain)
     return 0;
 }
 
-int Elastic3D::clear_status()
-{
+int Elastic3D::clear_status() {
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);
@@ -67,16 +62,14 @@ int Elastic3D::clear_status()
     return 0;
 }
 
-int Elastic3D::commit_status()
-{
+int Elastic3D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     // current_stiffness = trial_stiffness;
     return 0;
 }
 
-int Elastic3D::reset_status()
-{
+int Elastic3D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     // trial_stiffness = current_stiffness;

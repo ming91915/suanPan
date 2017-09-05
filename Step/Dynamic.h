@@ -4,6 +4,8 @@
  * @author T
  * @date 03/07/2017
  * @file Dynamic.h
+ * @addtogroup Step
+ * @{
  */
 
 #ifndef DYNAMIC_H
@@ -11,13 +13,10 @@
 
 #include "Step.h"
 
-class Dynamic : public Step
-{
+class Dynamic : public Step {
 public:
     explicit Dynamic(const unsigned& T = 0, const double& P = 1.)
-        : Step(T, CT_DYNAMIC, P)
-    {
-    }
+        : Step(T, CT_DYNAMIC, P) {}
 
     virtual ~Dynamic() {}
 
@@ -25,3 +24,5 @@ public:
 };
 
 #endif
+
+//! @}

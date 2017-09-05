@@ -15,8 +15,7 @@
 
 #include <Element/Element.h>
 
-class C3D8 final : public Element
-{
+class C3D8 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
@@ -27,7 +26,7 @@ class C3D8 final : public Element
     static const unsigned c_node;
     static const unsigned c_dof;
 
-    bool reduced_scheme;
+    const bool reduced_scheme;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

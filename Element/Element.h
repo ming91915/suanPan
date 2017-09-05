@@ -21,8 +21,7 @@ class Domain;
 class Material;
 class Node;
 
-class Element : public Tag
-{
+class Element : public Tag {
     const unsigned num_node; /**< number of nodes */
     const unsigned num_dof;  /**< number of DoFs */
 protected:
@@ -42,13 +41,7 @@ protected:
 
     vector<weak_ptr<Node>> node_ptr; /**< node pointers */
 public:
-    explicit Element(const unsigned& = 0,
-        const unsigned& = CT_ELEMENT,
-        const unsigned& = 0,
-        const unsigned& = 0,
-        const uvec& = {},
-        const uvec& = {},
-        const bool& = false);
+    explicit Element(const unsigned& = 0, const unsigned& = CT_ELEMENT, const unsigned& = 0, const unsigned& = 0, const uvec& = {}, const uvec& = {}, const bool& = false);
     Element(const Element&) = delete;
     Element& operator=(const Element&) = delete;
 

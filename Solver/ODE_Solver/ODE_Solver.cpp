@@ -3,27 +3,20 @@
 #include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 
-ODE_Solver::ODE_Solver(const unsigned& T,
-    const unsigned& CT,
-    const shared_ptr<ODE>& E,
-    const shared_ptr<Converger>& C,
-    const shared_ptr<Workshop>& W)
+ODE_Solver::ODE_Solver(const unsigned& T, const unsigned& CT, const shared_ptr<ODE>& E, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
     : Solver(T, CT, C, nullptr)
     , ode_system(E)
-    , factory(W)
-{
-}
+    , factory(W) {}
 
 ODE_Solver::~ODE_Solver() {}
 
-int ODE_Solver::initialize()
-{
+int ODE_Solver::initialize() {
     if(ode_system == nullptr) {
         suanpan_error("initialize() needs a valid ODE.\n");
         return -1;
     }
 
-    auto& ode_size = ode_system->getDimension();
+    auto& ode_size = ode_system->get_dimension();
 
     if(factory == nullptr)
         factory = make_shared<Workshop>(ode_size, AnalysisType::DISP);
@@ -43,8 +36,7 @@ int ODE_Solver::initialize()
 
 int ODE_Solver::update_status() { return -1; }
 
-int ODE_Solver::analyze(const unsigned& T)
-{
+int ODE_Solver::analyze(const unsigned& T) {
     auto& tmp_converger = get_converger();
 
     auto factor = .2;
@@ -70,8 +62,7 @@ int ODE_Solver::analyze(const unsigned& T)
             factory->commit_status();
             time_left -= step;
         }
-        step *=
-            .8 * pow(tmp_converger->get_tolerance() / tmp_converger->get_error(), factor);
+        step *= .8 * pow(tmp_converger->get_tolerance() / tmp_converger->get_error(), factor);
         if(step > time_left) step = time_left;
     }
 

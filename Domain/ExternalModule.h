@@ -1,8 +1,6 @@
 /**
 * @class ExternalModule
-* @brief A ExternalModule class handles communication between the main program and
-* external library.
-*
+* @brief A ExternalModule class handles communication between the main program and external library.
 *
 * @author T
 * @date 14/08/2017
@@ -26,8 +24,7 @@
 using std::string;
 using std::istringstream;
 
-class ExternalModule
-{
+class ExternalModule {
     string library_name;
     string module_name;
 

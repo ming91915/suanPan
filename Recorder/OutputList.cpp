@@ -1,8 +1,7 @@
 ﻿#include "OutputList.h"
 #include <Toolbox/utility.h>
 
-const char* to_char(const OutputList& L)
-{
+const char* to_char(const OutputList& L) {
     switch(L) {
     case OutputList::S:
         return "S";
@@ -152,8 +151,7 @@ const char* to_char(const OutputList& L)
     }
 }
 
-OutputList to_list(const char* L)
-{
+OutputList to_list(const char* L) {
     if(if_equal(L, "S")) return OutputList::S;
     if(if_equal(L, "S11")) return OutputList::S11;
     if(if_equal(L, "S22")) return OutputList::S22;

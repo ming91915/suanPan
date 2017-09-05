@@ -1,17 +1,23 @@
-#pragma once
+#ifndef UTILITY_H
+#define UTILITY_H
 
-#include <Toolbox/debug.h>
-#include <sstream>
+#include <string>
 
-template <typename T> T sign(const T& I) { return (I > 0.) - (I < 0.); }
+template <typename T>
+T sign(const T& I) {
+    return (I > 0.) - (I < 0.);
+}
 
 using std::string;
 using std::istringstream;
 
-template <typename T> bool get_input(istringstream& I, T& O) { return !(I >> O).fail(); }
+template <typename T>
+bool get_input(istringstream& I, T& O) {
+    return !(I >> O).fail();
+}
 
-template <typename T> T get_input(istringstream& I)
-{
+template <typename T>
+T get_input(istringstream& I) {
     T O;
     I >> O;
     return O;
@@ -24,3 +30,5 @@ bool if_true(const string&);
 bool if_false(const string&);
 bool if_true(const char*);
 bool if_false(const char*);
+
+#endif

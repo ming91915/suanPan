@@ -2,9 +2,7 @@
 
 Workshop::Workshop(const unsigned& D, const AnalysisType& T)
     : dof_number(D)
-    , analysis_type(T)
-{
-}
+    , analysis_type(T) {}
 
 const bool& Workshop::is_symm() const { return symm_mat; }
 
@@ -22,15 +20,13 @@ void Workshop::set_analysis_type(const AnalysisType& T) { analysis_type = T; }
 
 const AnalysisType& Workshop::get_analysis_type() const { return analysis_type; }
 
-void Workshop::set_bandwidth(const unsigned& L, const unsigned& U)
-{
+void Workshop::set_bandwidth(const unsigned& L, const unsigned& U) {
     low_bandwidth = L;
     up_bandwidth = U;
     shifted_bandwidth = L + U;
 }
 
-void Workshop::get_bandwidth(unsigned& L, unsigned& U) const
-{
+void Workshop::get_bandwidth(unsigned& L, unsigned& U) const {
     L = low_bandwidth;
     U = up_bandwidth;
 }
@@ -41,8 +37,7 @@ const double& Workshop::get_error() const { return error; }
 
 const bool& Workshop::is_initialized() const { return initialized; }
 
-int Workshop::initialize()
-{
+int Workshop::initialize() {
     if(!initialized) initialized = true;
 
     if(dof_number != 0) {
@@ -80,56 +75,48 @@ int Workshop::initialize()
     return 0;
 }
 
-void Workshop::initialize_load(const unsigned& D)
-{
+void Workshop::initialize_load(const unsigned& D) {
     trial_load.zeros(D);
     incre_load.zeros(D);
     current_load.zeros(D);
 }
 
-void Workshop::initialize_resistance(const unsigned& D)
-{
+void Workshop::initialize_resistance(const unsigned& D) {
     trial_resistance.zeros(D);
     incre_resistance.zeros(D);
     current_resistance.zeros(D);
 }
 
-void Workshop::initialize_displacement(const unsigned& D)
-{
+void Workshop::initialize_displacement(const unsigned& D) {
     trial_displacement.zeros(D);
     incre_displacement.zeros(D);
     current_displacement.zeros(D);
 }
 
-void Workshop::initialize_velocity(const unsigned& D)
-{
+void Workshop::initialize_velocity(const unsigned& D) {
     trial_velocity.zeros(D);
     incre_velocity.zeros(D);
     current_velocity.zeros(D);
 }
 
-void Workshop::initialize_acceleration(const unsigned& D)
-{
+void Workshop::initialize_acceleration(const unsigned& D) {
     trial_acceleration.zeros(D);
     incre_acceleration.zeros(D);
     current_acceleration.zeros(D);
 }
 
-void Workshop::initialize_temperature(const unsigned& D)
-{
+void Workshop::initialize_temperature(const unsigned& D) {
     trial_temperature.zeros(D);
     incre_temperature.zeros(D);
     current_temperature.zeros(D);
 }
 
-void Workshop::initialize_eigen(const unsigned& D)
-{
+void Workshop::initialize_eigen(const unsigned& D) {
     eigenvalue.zeros(D);
     eigenvector.zeros(D, D);
 }
 
-void Workshop::initialize_mass(const unsigned& D)
-{
+void Workshop::initialize_mass(const unsigned& D) {
     if(is_band())
         if(is_symm())
             global_mass.zeros(low_bandwidth + 1, D);
@@ -139,8 +126,7 @@ void Workshop::initialize_mass(const unsigned& D)
         global_mass.zeros(D, D);
 }
 
-void Workshop::initialize_damping(const unsigned& D)
-{
+void Workshop::initialize_damping(const unsigned& D) {
     if(is_band())
         if(is_symm())
             global_damping.zeros(low_bandwidth + 1, D);
@@ -150,8 +136,7 @@ void Workshop::initialize_damping(const unsigned& D)
         global_damping.zeros(D, D);
 }
 
-void Workshop::initialize_stiffness(const unsigned& D)
-{
+void Workshop::initialize_stiffness(const unsigned& D) {
     if(is_band())
         if(is_symm())
             global_stiffness.zeros(low_bandwidth + 1, D);
@@ -163,86 +148,72 @@ void Workshop::initialize_stiffness(const unsigned& D)
 
 void Workshop::update_ninja(const vec& N) { ninja = N; }
 
-void Workshop::update_trial_time(const double& T)
-{
+void Workshop::update_trial_time(const double& T) {
     trial_time = T;
     incre_time = trial_time - current_time;
 }
 
-void Workshop::update_trial_load(const vec& L)
-{
+void Workshop::update_trial_load(const vec& L) {
     trial_load = L;
     incre_load = trial_load - current_load;
 }
 
-void Workshop::update_trial_resistance(const vec& R)
-{
+void Workshop::update_trial_resistance(const vec& R) {
     trial_resistance = R;
     incre_resistance = trial_resistance - current_resistance;
 }
 
-void Workshop::update_trial_displacement(const vec& D)
-{
+void Workshop::update_trial_displacement(const vec& D) {
     trial_displacement = D;
     incre_displacement = trial_displacement - current_displacement;
 }
 
-void Workshop::update_trial_velocity(const vec& V)
-{
+void Workshop::update_trial_velocity(const vec& V) {
     trial_velocity = V;
     incre_velocity = trial_velocity - current_velocity;
 }
 
-void Workshop::update_trial_acceleration(const vec& A)
-{
+void Workshop::update_trial_acceleration(const vec& A) {
     trial_acceleration = A;
     incre_acceleration = trial_acceleration - current_acceleration;
 }
 
-void Workshop::update_trial_temperature(const vec& T)
-{
+void Workshop::update_trial_temperature(const vec& T) {
     trial_temperature = T;
     incre_temperature = trial_temperature - current_temperature;
 }
 
-void Workshop::update_incre_time(const double& T)
-{
+void Workshop::update_incre_time(const double& T) {
     incre_time = T;
     trial_time = current_time + incre_time;
 }
 
-void Workshop::update_incre_load(const vec& L)
-{
+void Workshop::update_incre_load(const vec& L) {
     incre_load = L;
     trial_load = current_load + incre_load;
 }
 
-void Workshop::update_incre_resistance(const vec& R)
-{
+void Workshop::update_incre_resistance(const vec& R) {
     incre_resistance = R;
     trial_resistance = current_resistance + incre_resistance;
 }
 
-void Workshop::update_incre_displacement(const vec& D)
-{
+void Workshop::update_incre_displacement(const vec& D) {
     incre_displacement = D;
     trial_displacement = current_displacement + incre_displacement;
 }
 
-void Workshop::update_incre_velocity(const vec& V)
-{
+void Workshop::update_incre_velocity(const vec& V) {
     incre_velocity = V;
     trial_velocity = current_velocity + incre_velocity;
 }
 
-void Workshop::update_incre_acceleration(const vec& A)
-{
+void Workshop::update_incre_acceleration(const vec& A) {
     incre_acceleration = A;
     trial_acceleration = current_acceleration + incre_acceleration;
 }
 
-void Workshop::update_incre_temperature(const vec& T)
-{
+void Workshop::update_incre_temperature(const vec& T) {
     incre_temperature = T;
     trial_temperature = current_temperature + incre_temperature;
 }
@@ -349,8 +320,7 @@ const vec& Workshop::get_eigenvalue() const { return eigenvalue; }
 
 const mat& Workshop::get_eigenvector() const { return eigenvector; }
 
-void Workshop::commit_status()
-{
+void Workshop::commit_status() {
     commit_time();
 
     switch(analysis_type) {
@@ -371,7 +341,7 @@ void Workshop::commit_status()
         commit_velocity();
         commit_acceleration();
         break;
-    default:
+    case AnalysisType::NONE:
         break;
     }
     // commit_temperature();
@@ -391,8 +361,7 @@ void Workshop::commit_acceleration() { current_acceleration = trial_acceleration
 
 void Workshop::commit_temperature() { current_temperature = trial_temperature; }
 
-void Workshop::commit_pre_status()
-{
+void Workshop::commit_pre_status() {
     commit_pre_time();
 
     switch(analysis_type) {
@@ -431,8 +400,7 @@ void Workshop::commit_pre_acceleration() { pre_acceleration = current_accelerati
 
 void Workshop::commit_pre_temperature() { pre_temperature = current_temperature; }
 
-void Workshop::clear_status()
-{
+void Workshop::clear_status() {
     if(!initialized) return;
 
     clear_time();
@@ -449,63 +417,55 @@ void Workshop::clear_status()
     clear_stiffness();
 }
 
-void Workshop::clear_time()
-{
+void Workshop::clear_time() {
     trial_time = 0.;
     incre_time = 0.;
     current_time = 0.;
 }
 
-void Workshop::clear_load()
-{
+void Workshop::clear_load() {
     if(!pre_load.is_empty()) pre_load.zeros();
     if(!trial_load.is_empty()) trial_load.zeros();
     if(!incre_load.is_empty()) incre_load.zeros();
     if(!current_load.is_empty()) current_load.zeros();
 }
 
-void Workshop::clear_resistance()
-{
+void Workshop::clear_resistance() {
     if(!pre_resistance.is_empty()) pre_resistance.zeros();
     if(!trial_resistance.is_empty()) trial_resistance.zeros();
     if(!incre_resistance.is_empty()) incre_resistance.zeros();
     if(!current_resistance.is_empty()) current_resistance.zeros();
 }
 
-void Workshop::clear_displacement()
-{
+void Workshop::clear_displacement() {
     if(!pre_displacement.is_empty()) pre_displacement.zeros();
     if(!trial_displacement.is_empty()) trial_displacement.zeros();
     if(!incre_displacement.is_empty()) incre_displacement.zeros();
     if(!current_displacement.is_empty()) current_displacement.zeros();
 }
 
-void Workshop::clear_velocity()
-{
+void Workshop::clear_velocity() {
     if(!pre_velocity.is_empty()) pre_velocity.zeros();
     if(!trial_velocity.is_empty()) trial_velocity.zeros();
     if(!incre_velocity.is_empty()) incre_velocity.zeros();
     if(!current_velocity.is_empty()) current_velocity.zeros();
 }
 
-void Workshop::clear_acceleration()
-{
+void Workshop::clear_acceleration() {
     if(!pre_acceleration.is_empty()) pre_acceleration.zeros();
     if(!trial_acceleration.is_empty()) trial_acceleration.zeros();
     if(!incre_acceleration.is_empty()) incre_acceleration.zeros();
     if(!current_acceleration.is_empty()) current_acceleration.zeros();
 }
 
-void Workshop::clear_temperature()
-{
+void Workshop::clear_temperature() {
     if(!pre_temperature.is_empty()) pre_temperature.zeros();
     if(!trial_temperature.is_empty()) trial_temperature.zeros();
     if(!incre_temperature.is_empty()) incre_temperature.zeros();
     if(!current_temperature.is_empty()) current_temperature.zeros();
 }
 
-void Workshop::reset_status()
-{
+void Workshop::reset_status() {
     ninja.zeros();
 
     reset_time();
@@ -517,62 +477,54 @@ void Workshop::reset_status()
     reset_temperature();
 }
 
-void Workshop::reset_time()
-{
+void Workshop::reset_time() {
     trial_time = current_time;
     incre_time = 0.;
 }
 
-void Workshop::reset_load()
-{
+void Workshop::reset_load() {
     if(!trial_load.is_empty()) {
         trial_load = current_load;
         incre_load.zeros();
     }
 }
 
-void Workshop::reset_resistance()
-{
+void Workshop::reset_resistance() {
     if(!trial_resistance.is_empty()) {
         trial_resistance = current_resistance;
         incre_resistance.zeros();
     }
 }
 
-void Workshop::reset_displacement()
-{
+void Workshop::reset_displacement() {
     if(!trial_displacement.is_empty()) {
         trial_displacement = current_displacement;
         incre_displacement.zeros();
     }
 }
 
-void Workshop::reset_velocity()
-{
+void Workshop::reset_velocity() {
     if(!trial_velocity.is_empty()) {
         trial_velocity = current_velocity;
         incre_velocity.zeros();
     }
 }
 
-void Workshop::reset_acceleration()
-{
+void Workshop::reset_acceleration() {
     if(!trial_acceleration.is_empty()) {
         trial_acceleration = current_acceleration;
         incre_acceleration.zeros();
     }
 }
 
-void Workshop::reset_temperature()
-{
+void Workshop::reset_temperature() {
     if(!trial_temperature.is_empty()) {
         trial_temperature = current_temperature;
         incre_temperature.zeros();
     }
 }
 
-void Workshop::clear_eigen()
-{
+void Workshop::clear_eigen() {
     eigenvalue.zeros();
     eigenvector.zeros();
 }
@@ -583,18 +535,13 @@ void Workshop::clear_damping() { global_damping.zeros(); }
 
 void Workshop::clear_stiffness() { global_stiffness.zeros(); }
 
-void Workshop::print() const
-{
-    suanpan_info("This is a Workshop object with size of %u.\n", dof_number);
-}
+void Workshop::print() const { suanpan_info("This is a Workshop object with size of %u.\n", dof_number); }
 
-void Workshop::assemble_resistance(const mat& ER, const uvec& EI)
-{
+void Workshop::assemble_resistance(const mat& ER, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I) trial_resistance(EI(I)) += ER(I);
 }
 
-void Workshop::assemble_mass(const mat& EM, const uvec& EI)
-{
+void Workshop::assemble_mass(const mat& EM, const uvec& EI) {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(auto J = I; J < EI.n_elem; ++J)
@@ -614,12 +561,10 @@ void Workshop::assemble_mass(const mat& EM, const uvec& EI)
             for(unsigned J = 0; J < EI.n_elem; ++J) global_mass(EI(J), EI(I)) += EM(J, I);
     else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
-            for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_mass(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EM(J, I);
+            for(unsigned J = 0; J < EI.n_elem; ++J) global_mass(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EM(J, I);
 }
 
-void Workshop::assemble_damping(const mat& EC, const uvec& EI)
-{
+void Workshop::assemble_damping(const mat& EC, const uvec& EI) {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(auto J = I; J < EI.n_elem; ++J)
@@ -636,16 +581,13 @@ void Workshop::assemble_damping(const mat& EC, const uvec& EI)
                     global_damping(EI(I), EI(J)) += EC(J, I);
     else if(!is_symm() && !is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
-            for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_damping(EI(J), EI(I)) += EC(J, I);
+            for(unsigned J = 0; J < EI.n_elem; ++J) global_damping(EI(J), EI(I)) += EC(J, I);
     else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
-            for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_damping(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EC(J, I);
+            for(unsigned J = 0; J < EI.n_elem; ++J) global_damping(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EC(J, I);
 }
 
-void Workshop::assemble_stiffness(const mat& EK, const uvec& EI)
-{
+void Workshop::assemble_stiffness(const mat& EK, const uvec& EI) {
     if(is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
             for(auto J = I; J < EI.n_elem; ++J)
@@ -662,12 +604,10 @@ void Workshop::assemble_stiffness(const mat& EK, const uvec& EI)
                     global_stiffness(EI(I), EI(J)) += EK(J, I);
     else if(!is_symm() && !is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
-            for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_stiffness(EI(J), EI(I)) += EK(J, I);
+            for(unsigned J = 0; J < EI.n_elem; ++J) global_stiffness(EI(J), EI(I)) += EK(J, I);
     else if(!is_symm() && is_band())
         for(unsigned I = 0; I < EI.n_elem; ++I)
-            for(unsigned J = 0; J < EI.n_elem; ++J)
-                global_stiffness(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EK(J, I);
+            for(unsigned J = 0; J < EI.n_elem; ++J) global_stiffness(EI(J) - EI(I) + shifted_bandwidth, EI(I)) += EK(J, I);
 }
 
 vec& get_ninja(const shared_ptr<Workshop>& W) { return W->ninja; }
@@ -678,17 +618,11 @@ vec& get_trial_load(const shared_ptr<Workshop>& W) { return W->trial_load; }
 
 vec& get_trial_resistance(const shared_ptr<Workshop>& W) { return W->trial_resistance; }
 
-vec& get_trial_displacement(const shared_ptr<Workshop>& W)
-{
-    return W->trial_displacement;
-}
+vec& get_trial_displacement(const shared_ptr<Workshop>& W) { return W->trial_displacement; }
 
 vec& get_trial_velocity(const shared_ptr<Workshop>& W) { return W->trial_velocity; }
 
-vec& get_trial_acceleration(const shared_ptr<Workshop>& W)
-{
-    return W->trial_acceleration;
-}
+vec& get_trial_acceleration(const shared_ptr<Workshop>& W) { return W->trial_acceleration; }
 
 vec& get_trial_temperature(const shared_ptr<Workshop>& W) { return W->trial_temperature; }
 
@@ -698,17 +632,11 @@ vec& get_incre_load(const shared_ptr<Workshop>& W) { return W->incre_load; }
 
 vec& get_incre_resistance(const shared_ptr<Workshop>& W) { return W->incre_resistance; }
 
-vec& get_incre_displacement(const shared_ptr<Workshop>& W)
-{
-    return W->incre_displacement;
-}
+vec& get_incre_displacement(const shared_ptr<Workshop>& W) { return W->incre_displacement; }
 
 vec& get_incre_velocity(const shared_ptr<Workshop>& W) { return W->incre_velocity; }
 
-vec& get_incre_acceleration(const shared_ptr<Workshop>& W)
-{
-    return W->incre_acceleration;
-}
+vec& get_incre_acceleration(const shared_ptr<Workshop>& W) { return W->incre_acceleration; }
 
 vec& get_incre_temperature(const shared_ptr<Workshop>& W) { return W->incre_temperature; }
 
@@ -716,27 +644,15 @@ double& get_current_time(const shared_ptr<Workshop>& W) { return W->current_time
 
 vec& get_current_load(const shared_ptr<Workshop>& W) { return W->current_load; }
 
-vec& get_current_resistance(const shared_ptr<Workshop>& W)
-{
-    return W->current_resistance;
-}
+vec& get_current_resistance(const shared_ptr<Workshop>& W) { return W->current_resistance; }
 
-vec& get_current_displacement(const shared_ptr<Workshop>& W)
-{
-    return W->current_displacement;
-}
+vec& get_current_displacement(const shared_ptr<Workshop>& W) { return W->current_displacement; }
 
 vec& get_current_velocity(const shared_ptr<Workshop>& W) { return W->current_velocity; }
 
-vec& get_current_acceleration(const shared_ptr<Workshop>& W)
-{
-    return W->current_acceleration;
-}
+vec& get_current_acceleration(const shared_ptr<Workshop>& W) { return W->current_acceleration; }
 
-vec& get_current_temperature(const shared_ptr<Workshop>& W)
-{
-    return W->current_temperature;
-}
+vec& get_current_temperature(const shared_ptr<Workshop>& W) { return W->current_temperature; }
 
 double& get_pre_time(const shared_ptr<Workshop>& W) { return W->pre_time; }
 

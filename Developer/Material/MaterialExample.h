@@ -15,8 +15,7 @@
 
 #include <Material/Material.h>
 
-class MaterialExample final : public Material
-{
+class MaterialExample final : public Material {
     const double elastic_modulus; /**< elastic modulus */
     const double yield_stress;    /**< initial yield stress */
     const double hardening_ratio; /**< hardening ratio */
@@ -35,8 +34,8 @@ public:
         const double& = 2E5,                      /**< elastic modulus */
         const double& = 400.,                     /**< initial yield stress */
         const double& = .05,                      /**< hardening ratio */
-        const double& = 0.,  /**< isotropic/kinematic hardening factor */
-        const double& = 0.); /**< density */
+        const double& = 0.,                       /**< isotropic/kinematic hardening factor */
+        const double& = 0.);                      /**< density */
 
     void initialize() override;
 

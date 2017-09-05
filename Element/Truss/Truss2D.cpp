@@ -5,26 +5,17 @@ const unsigned Truss2D::t_dof = 2;
 
 Truss2D::Truss2D(const unsigned& T)
     : Element(T, ET_TRUSS2D)
-{
-}
+    , update_area(false)
+    , log_strain(false) {}
 
-Truss2D::Truss2D(const unsigned& T,
-    const uvec& N,
-    const unsigned& M,
-    const double& A,
-    const bool& F,
-    const bool& UA,
-    const bool& LS)
-    : Element(T, ET_TRUSS2D, t_node, t_dof, N, uvec({ M }), F)
+Truss2D::Truss2D(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
+    : Element(T, ET_TRUSS2D, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , direction_cosine(2)
     , update_area(UA)
-    , log_strain(LS)
-{
-}
+    , log_strain(LS) {}
 
-void Truss2D::initialize(const shared_ptr<Domain>& D)
-{
+void Truss2D::initialize(const shared_ptr<Domain>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
     auto& coord_j = node_ptr.at(1).lock()->get_coordinate();
 
@@ -67,8 +58,7 @@ void Truss2D::initialize(const shared_ptr<Domain>& D)
     initial_stiffness(3, 3) = tmp_b;
 }
 
-int Truss2D::update_status()
-{
+int Truss2D::update_status() {
     const auto node_i = node_ptr.at(0).lock();
     const auto node_j = node_ptr.at(1).lock();
 
@@ -94,16 +84,13 @@ int Truss2D::update_status()
 
         direction_cosine = disp_diff / new_length;
 
-        if(update_area) new_area = area * length / new_length;
+        if(update_area) new_area *= length / new_length;
 
-        if(log_strain)
-            trial_strain = log(new_length / length);
-        else
-            trial_strain = new_length / length - 1.;
+        trial_strain = log_strain ? log(new_length / length) : new_length / length - 1.;
     } else
-        trial_strain = dot(disp_diff, direction_cosine) / length;
+        trial_strain = dot(disp_diff, direction_cosine) / new_length;
 
-    t_material->update_trial_status(vec({ trial_strain }));
+    t_material->update_trial_status(vec{ trial_strain });
 
     const auto tmp_d = new_area / new_length * as_scalar(t_material->get_stiffness());
     const auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);
@@ -149,12 +136,10 @@ int Truss2D::clear_status() { return t_material->clear_status(); }
 
 int Truss2D::reset_status() { return t_material->reset_status(); }
 
-void Truss2D::print()
-{
+void Truss2D::print() {
     suanpan_info("2-D truss element with ");
     if(nlgeom)
-        suanpan_info("corotational formulation, assuming constant %s and %s strain. ",
-            update_area ? "volume" : "area", log_strain ? "logarithmic" : "engineering");
+        suanpan_info("corotational formulation, assuming constant %s and %s strain. ", update_area ? "volume" : "area", log_strain ? "logarithmic" : "engineering");
     else
         suanpan_info("linear formulation. ");
     suanpan_info("The nodes connected are\n");

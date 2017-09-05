@@ -1,15 +1,11 @@
 #include "Solver.h"
-#include "Integrator/Integrator.h"
 #include <Converger/Converger.h>
+#include <Solver/Integrator/Integrator.h>
 
-Solver::Solver(const unsigned& T,
-    const unsigned& CT,
-    const shared_ptr<Converger>& C,
-    const shared_ptr<Integrator>& G)
+Solver::Solver(const unsigned& T, const unsigned& CT, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Tag(T, CT)
     , converger(C)
-    , modifier(G)
-{
+    , modifier(G) {
     suanpan_debug("Solver %u ctor() called.\n", get_tag());
 }
 
@@ -17,8 +13,7 @@ Solver::~Solver() { suanpan_debug("Solver %u dtor() called.\n", get_tag()); }
 
 const bool& Solver::is_initialized() const { return initialized; }
 
-int Solver::initialize()
-{
+int Solver::initialize() {
     if(!initialized) initialized = true;
 
     if(converger == nullptr) {

@@ -1,6 +1,7 @@
 /**
 * @class Truss2D
-* @brief The Truss2D class handles both linear and nonlinear problems by using a
+* @brief The Truss2D class handles both linear and nonlinear problems by
+* using a
 * corotational
 * transformation.
 * @author T
@@ -17,8 +18,7 @@
 
 #include <Element/Element.h>
 
-class Truss2D final : public Element
-{
+class Truss2D final : public Element {
     static const unsigned t_node;
     static const unsigned t_dof;
 
@@ -28,8 +28,8 @@ class Truss2D final : public Element
 
     unique_ptr<Material> t_material; /**< material model */
 
-    bool update_area = true; /**<  */
-    bool log_strain = true;  /**<  */
+    const bool update_area; /**<  */
+    const bool log_strain;  /**<  */
 public:
     explicit Truss2D(const unsigned& T = 0);
     Truss2D(const unsigned&, // tag

@@ -11,8 +11,8 @@
 #ifndef DOMAIN_H
 #define DOMAIN_H
 
-#include "Storage.hpp"
-#include "Tag.h"
+#include <Domain/Storage.hpp>
+#include <Domain/Tag.h>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -23,7 +23,8 @@ using std::vector;
 
 class Workshop;
 
-template <typename T> class Storage;
+template <typename T>
+class Storage;
 class Constraint;
 class Element;
 class Load;
@@ -38,17 +39,9 @@ using MaterialStorage = Storage<Material>;
 using NodeStorage = Storage<Node>;
 using RecorderStorage = Storage<Recorder>;
 
-// using ConstraintStorage = unordered_map<unsigned, shared_ptr<Constraint>>;
-// using ElementStorage = unordered_map<unsigned, shared_ptr<Element>>;
-// using LoadStorage = unordered_map<unsigned, shared_ptr<Load>>;
-// using MaterialStorage = unordered_map<unsigned, shared_ptr<Material>>;
-// using NodeStorage = unordered_map<unsigned, shared_ptr<Node>>;
-// using RecorderStorage = unordered_map<unsigned, shared_ptr<Recorder>>;
-
 using std::enable_shared_from_this;
 
-class Domain : public Tag, public enable_shared_from_this<Domain>
-{
+class Domain : public Tag, public enable_shared_from_this<Domain> {
     bool updated = false;
     bool initialized = false;
 
@@ -117,8 +110,7 @@ public:
     const shared_ptr<Node>& get_node(const unsigned&) const;
     const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
 
-    friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&,
-        const unsigned&);
+    friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Element>& get_element(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Load>& get_load(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Material>& get_material(const shared_ptr<Domain>&, const unsigned&);

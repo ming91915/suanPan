@@ -3,12 +3,11 @@
 
 #include <Element/Element.h>
 
-class ElementExample : public Element
-{
+class ElementExample : public Element {
     static const unsigned m_node;
     static const unsigned m_dof;
 
-    double thickness = 0.;
+    const double thickness;
 
     double area = 0.;
 

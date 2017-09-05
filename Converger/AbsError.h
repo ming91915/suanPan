@@ -1,7 +1,6 @@
 /**
 * @class AbsError
-* @brief The AbsError class that handles converger test to indicate if the iteration
-* converges.
+* @brief The AbsError class that handles converger test to indicate if the iteration converges.
 *
 * The criterion:
 * \f{gather}{
@@ -22,18 +21,10 @@
 
 #include "Converger.h"
 
-class AbsError final : public Converger
-{
+class AbsError final : public Converger {
 public:
-    explicit AbsError(const unsigned& = 0,
-        const shared_ptr<Domain>& = nullptr,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
-    explicit AbsError(const shared_ptr<Domain>&,
-        const double& = 1E-8,
-        const unsigned& = 7,
-        const bool& = false);
+    explicit AbsError(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit AbsError(const shared_ptr<Domain>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

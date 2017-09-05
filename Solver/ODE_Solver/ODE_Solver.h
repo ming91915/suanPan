@@ -2,7 +2,8 @@
 * @class ODE_Solver
 * @brief A ODE_Solver class.
 *
-* The ODE_Solver object stores ODE system status and calls an ODE object to get trial
+* The ODE_Solver object stores ODE system status and calls an ODE object
+* to get trial
 * status.
 *
 * @author T
@@ -20,17 +21,12 @@
 class ODE;
 class Workshop;
 
-class ODE_Solver : public Solver
-{
+class ODE_Solver : public Solver {
     shared_ptr<ODE> ode_system = nullptr;
     shared_ptr<Workshop> factory = nullptr;
 
 public:
-    explicit ODE_Solver(const unsigned& = 0,
-        const unsigned& = CT_ODESOLVER,
-        const shared_ptr<ODE>& = nullptr,
-        const shared_ptr<Converger>& = nullptr,
-        const shared_ptr<Workshop>& = nullptr);
+    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
     virtual ~ODE_Solver();
 
     int initialize() override;

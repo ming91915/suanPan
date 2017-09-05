@@ -1,15 +1,10 @@
 /**
 * @class Integrator
-* @brief The Integrator class is basically a warpper of the Domain class with regard to
-* some status changing methods.
+* @brief The Integrator class is basically a warpper of the Domain class with regard to some status changing methods.
 *
-* By default, the Step object calls Domain(Workshop) object to update
-* displacement/resistance/stiffness independently. When it comes to dynamic analysis (time
-* integration is invoved), it is necessary to compute the equivalent load/stiffness by
-* combining several quantities.
+* By default, the Step object calls Domain(Workshop) object to update displacement/resistance/stiffness independently. When it comes to dynamic analysis (time integration is invoved), it is necessary to compute the equivalent load/stiffness by combining several quantities.
 *
-* The Integrator object is acting like an agent between Workshop and Step, that can modify
-* corresponding quantities to account for dynamic effect.
+* The Integrator object is acting like an agent between Workshop and Step, that can modify corresponding quantities to account for dynamic effect.
 *
 * @author T
 * @date 27/08/2017
@@ -26,16 +21,13 @@
 
 class Domain;
 
-class Integrator : public Tag
-{
+class Integrator : public Tag {
     bool initialized = false;
 
     shared_ptr<Domain> database;
 
 public:
-    explicit Integrator(const unsigned& = 0,
-        const unsigned& = CT_INTERGRATOR,
-        const shared_ptr<Domain>& = nullptr);
+    explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR, const shared_ptr<Domain>& = nullptr);
     virtual ~Integrator();
 
     const bool& is_initialized() const;

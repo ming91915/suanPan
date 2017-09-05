@@ -1,7 +1,6 @@
 ﻿#include "Concrete01.h"
 
-void Concrete01::initialize()
-{
+void Concrete01::initialize() {
     current_strain.zeros(1);
     current_stress.zeros(1);
 
@@ -14,8 +13,7 @@ void Concrete01::initialize()
 
 unique_ptr<Material> Concrete01::get_copy() { return make_unique<Concrete01>(*this); }
 
-int Concrete01::update_trial_status(const vec& t_strain)
-{
+int Concrete01::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
     if(incre_strain(0) == 0.) return 0;

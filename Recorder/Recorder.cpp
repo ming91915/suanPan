@@ -1,17 +1,11 @@
 #include "Recorder.h"
 
-Recorder::Recorder(const unsigned& T,
-    const unsigned& CT,
-    const unsigned& B,
-    const OutputList& L,
-    const bool& R)
+Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, const OutputList& L, const bool& R)
     : Tag(T, CT)
     , object_tag(B)
     , variable_type(L)
     , variable_name(to_char(L))
-    , record_time(R)
-{
-}
+    , record_time(R) {}
 
 Recorder::~Recorder() {}
 

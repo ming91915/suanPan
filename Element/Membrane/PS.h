@@ -25,8 +25,7 @@
 
 using std::array;
 
-class PS final : public Element
-{
+class PS final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight;
@@ -46,12 +45,7 @@ class PS final : public Element
     mat ele_coor, inv_stiffness, tmp_a, tmp_c;
 
 public:
-    PS(const unsigned&,
-        const uvec&,
-        const unsigned&,
-        const double& = 1.,
-        const unsigned& = PLANE_STRESS,
-        const bool& = false);
+    PS(const unsigned&, const uvec&, const unsigned&, const double& = 1., const unsigned& = PLANE_STRESS, const bool& = false);
 
     void initialize(const shared_ptr<Domain>&) override;
 

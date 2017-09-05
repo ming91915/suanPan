@@ -10,14 +10,8 @@
 * \param M `max_itertation`
 * \param P `print_flag`
 */
-AbsError::AbsError(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(T, CT_ABSERROR, D, E, M, P)
-{
-}
+AbsError::AbsError(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_ABSERROR, D, E, M, P) {}
 
 /**
 * \brief No tag version.
@@ -26,24 +20,18 @@ AbsError::AbsError(const unsigned& T,
 * \param M `max_itertation`
 * \param P `print_flag`
 */
-AbsError::AbsError(const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(0, CT_ABSERROR, D, E, M, P)
-{
-}
+AbsError::AbsError(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(0, CT_ABSERROR, D, E, M, P) {}
 
 /**
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`
  */
-const bool& AbsError::if_converged()
-{
+const bool& AbsError::if_converged() {
     set_error(get_domain()->get_workshop()->get_error());
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("Absolute Error: %.5E.\n", get_error());
+    if(if_print()) suanpan_info("absolute error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

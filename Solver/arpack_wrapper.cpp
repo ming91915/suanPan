@@ -1,7 +1,6 @@
 #include "arpack_wrapper.h"
 
-int eig_solve(vec& eigval, mat& eigvec, mat& K, mat& M, const unsigned& num, char* form)
-{
+int eig_solve(vec& eigval, mat& eigvec, mat& K, mat& M, const unsigned& num, char* form) {
     int IDO = 0;
     char BMAT = 'G';
     int N = int(K.n_rows);
@@ -23,8 +22,7 @@ int eig_solve(vec& eigval, mat& eigvec, mat& K, mat& M, const unsigned& num, cha
     int INFO = 0;
 
     while(IDO != 99) {
-        suanpan::dsaupd_(&IDO, &BMAT, &N, WHICH, &NEV, &TOL, RESID, &NCV, V, &LDV, IPARAM,
-            IPNTR, WORKD, WORKL, &LWORKL, &INFO);
+        suanpan::dsaupd_(&IDO, &BMAT, &N, WHICH, &NEV, &TOL, RESID, &NCV, V, &LDV, IPARAM, IPNTR, WORKD, WORKL, &LWORKL, &INFO);
         switch(IDO) {
         case -1:
         case 1:

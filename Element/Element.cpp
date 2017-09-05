@@ -1,29 +1,24 @@
 #include "Element.h"
 
-Element::Element(const unsigned& T,
-    const unsigned& CT,
-    const unsigned& NN,
-    const unsigned& ND,
-    const uvec& NT,
-    const uvec& MT,
-    const bool& F)
+Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, const unsigned& ND, const uvec& NT, const uvec& MT, const bool& F)
     : Tag(T, CT)
     , num_node(NN)
     , num_dof(ND)
     , node_encoding(NT)
     , material_tag(MT)
-    , nlgeom(F)
-{
+    , nlgeom(F) {
     suanpan_debug("Element %u ctor() called.\n", T);
 }
 
 Element::~Element() { suanpan_debug("Element %u dtor() called.\n", get_tag()); }
 
-void Element::initialize(const shared_ptr<Domain>& D)
-{
+void Element::initialize(const shared_ptr<Domain>& D) {
     const auto total_dof = num_node * num_dof;
 
-    if(total_dof == 0) return;
+    if(total_dof == 0) {
+        D->disable_element(get_tag());
+        return;
+    }
 
     dof_encoding.zeros(total_dof);
     resistance.zeros(total_dof);
@@ -34,11 +29,11 @@ void Element::initialize(const shared_ptr<Domain>& D)
 
     // CHECK NODE VALIDITY
     node_ptr.clear();
+    node_ptr.reserve(num_node);
     for(const auto& tmp_tag : node_encoding) {
         const auto& tmp_node = get_node(D, static_cast<unsigned>(tmp_tag));
         if(tmp_node == nullptr || !tmp_node->is_active()) {
-            suanpan_debug("Element %u finds an invalid Node %u, now diable it.\n",
-                get_tag(), tmp_tag);
+            suanpan_debug("Element %u finds an invalid Node %u, now disable it.\n", get_tag(), tmp_tag);
             D->disable_element(get_tag());
             return;
         }
@@ -49,15 +44,13 @@ void Element::initialize(const shared_ptr<Domain>& D)
     // CHECK MATERIAL PROTOTYPE VALIDITY
     for(const auto& tmp_materail : material_tag)
         if(!D->find_material(unsigned(tmp_materail))) {
-            suanpan_debug("Element %u cannot find valid Material %u, now diable it.\n",
-                get_tag(), unsigned(tmp_materail));
+            suanpan_debug("Element %u cannot find valid Material %u, now disable it.\n", get_tag(), unsigned(tmp_materail));
             D->disable_element(get_tag());
             return;
         }
 }
 
-void Element::update_dof_encoding()
-{
+void Element::update_dof_encoding() {
     auto idx = 0;
     for(const auto& tmp_ptr : node_ptr) {
         auto& node_dof = tmp_ptr.lock()->get_reordered_dof();

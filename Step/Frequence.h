@@ -3,6 +3,7 @@
  * @brief A Frequence class.
  * @author T
  * @date 03/07/2017
+ * @version 0.1.0
  * @file Frequence.h
  * @addtogroup Step
  * @{
@@ -13,8 +14,7 @@
 
 #include "Step.h"
 
-class Frequence : public Step
-{
+class Frequence : public Step {
     unsigned eigen_number;
 
 public:

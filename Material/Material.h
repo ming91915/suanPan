@@ -14,8 +14,7 @@
 
 #include <Domain/Tag.h>
 
-class Material : public Tag
-{
+class Material : public Tag {
 protected:
     double density = 0.; /**< density */
 

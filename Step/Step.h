@@ -20,8 +20,7 @@ class Solver;
 class Converger;
 class Integrator;
 
-class Step : public Tag
-{
+class Step : public Tag {
     bool updated = false;
 
     bool symm_mat = true;

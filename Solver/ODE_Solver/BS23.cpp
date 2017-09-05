@@ -2,25 +2,15 @@
 #include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 
-BS23::BS23(const unsigned& T,
-    const shared_ptr<ODE>& D,
-    const shared_ptr<Converger>& C,
-    const shared_ptr<Workshop>& W)
-    : ODE_Solver(T, CT_BS23, D, C, W)
-{
-}
+BS23::BS23(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
+    : ODE_Solver(T, CT_BS23, D, C, W) {}
 
-BS23::BS23(const shared_ptr<ODE>& D,
-    const shared_ptr<Converger>& C,
-    const shared_ptr<Workshop>& W)
-    : ODE_Solver(0, CT_BS23, D, C, W)
-{
-}
+BS23::BS23(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
+    : ODE_Solver(0, CT_BS23, D, C, W) {}
 
 BS23::~BS23() {}
 
-int BS23::update_status()
-{
+int BS23::update_status() {
     auto& D = get_ode();
     auto& W = get_workroom();
 

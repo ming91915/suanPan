@@ -2,9 +2,12 @@
  * @class Tag
  * @brief A base Tag class.
  *
- * The `Tag` class is a base class which stores the object's `unique_tag` and `class_tag`.
- * Additionally, the Tag class defines status of an object, which is stored in variable
- * `alive`. By testing its value, the object can be removed or added to the global system.
+ * The `Tag` class is a base class which stores the object's
+ * `unique_tag` and `class_tag`.
+ * Additionally, the Tag class defines status of an object, which is
+ * stored in variable
+ * `alive`. By testing its value, the object can be removed or added to
+ * the global system.
  *
  * @author T
  * @date 27/07/2017
@@ -18,8 +21,7 @@
 //! Will be used in derived classes.
 #include <suanPan.h>
 
-class Tag
-{
+class Tag {
     bool alive = true; /**< Status flag. */
 
     unsigned unique_tag = 0; /**< The unique tag of the object. */

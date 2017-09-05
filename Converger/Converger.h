@@ -1,14 +1,10 @@
 /**
 * @class Converger
-* @brief The Converger class handles converger test to indicate if the iteration
-* converges according to various rules.
+* @brief The Converger class handles converger test to indicate if the iteration converges according to various rules.
 *
-* The class stores a pointer `factory` pointed to the Workshop and get information from
-* this Workshop. The `tolerance` and `error` are stored independently so that the
-* Workshop will not be modified.
+* The class stores a pointer `factory` pointed to the Workshop and get information from this Workshop. The `tolerance` and `error` are stored independently so that the Workshop will not be modified.
 *
-* The class further provides a `print_flag` to indicate if the test information should be
-* printed out.
+* The class further provides a `print_flag` to indicate if the test information should be printed out.
 *
 * @author T
 * @date 25/08/2017
@@ -25,15 +21,14 @@
 
 class Domain;
 
-class Converger : public Tag
-{
+class Converger : public Tag {
     shared_ptr<Domain> database; /**< pointer to Domain */
 
     double tolerance; /**< tolerance */
 
     unsigned max_iteration; /**< max iteration number */
 
-    bool print_flag; /**< print flag */
+    const bool print_flag; /**< print flag */
 
     double error = 0.; /**< current error */
 
@@ -42,12 +37,7 @@ class Converger : public Tag
     bool initialized = false;
 
 public:
-    explicit Converger(const unsigned& = 0,
-        const unsigned& = CT_CONVERGER,
-        const shared_ptr<Domain>& = nullptr,
-        const double& = 1E-8,
-        const unsigned& = 10,
-        const bool& = false);
+    explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 10, const bool& = false);
     virtual ~Converger();
 
     const bool& is_initialized() const;

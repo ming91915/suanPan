@@ -1,8 +1,6 @@
 #include "ElementExample.h"
 
-SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj,
-    std::istringstream& command)
-{
+SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj, std::istringstream& command) {
     unsigned tag;
     if((command >> tag).fail()) {
         suanpan_error("new_elementexample() needs a tag.\n");
@@ -33,8 +31,7 @@ SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj,
         return;
     }
 
-    return_obj =
-        make_unique<ElementExample>(tag, uvec(node_tag), material_tag, thickness);
+    return_obj = make_unique<ElementExample>(tag, uvec(node_tag), material_tag, thickness);
 }
 
 const unsigned ElementExample::m_node = 3;
@@ -44,17 +41,11 @@ const unsigned ElementExample::m_dof = 2;
 #define ET_ELEMENTTEMPLATE 0
 #endif
 
-ElementExample::ElementExample(const unsigned& T,
-    const uvec& NT,
-    const unsigned& MT,
-    const double& TH)
-    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, { MT }, false)
-    , thickness(TH)
-{
-}
+ElementExample::ElementExample(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
+    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, false)
+    , thickness(TH) {}
 
-void ElementExample::initialize(const shared_ptr<Domain>& D)
-{
+void ElementExample::initialize(const shared_ptr<Domain>& D) {
     auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     m_material = material_proto->get_copy();
 
@@ -83,8 +74,7 @@ void ElementExample::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int ElementExample::update_status()
-{
+int ElementExample::update_status() {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(const auto& I : node_ptr) {
@@ -94,8 +84,7 @@ int ElementExample::update_status()
 
     m_material->update_trial_status(strain_mat * trial_disp);
 
-    stiffness =
-        strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
+    stiffness = strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
     resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
 
     return 0;
@@ -107,7 +96,4 @@ int ElementExample::clear_status() { return m_material->clear_status(); }
 
 int ElementExample::reset_status() { return m_material->reset_status(); }
 
-void ElementExample::print()
-{
-    suanpan_info("This is an element example based on CPS3 element.\n");
-}
+void ElementExample::print() { suanpan_info("This is an element example based on CPS3 element.\n"); }

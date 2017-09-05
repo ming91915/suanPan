@@ -2,30 +2,16 @@
 #include <Domain/Domain.h>
 #include <Domain/Workshop.h>
 
-RelResidual::RelResidual(const unsigned& T,
-    const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(T, CT_RELRESIDUAL, D, E, M, P)
-{
-}
+RelResidual::RelResidual(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_RELRESIDUAL, D, E, M, P) {}
 
-RelResidual::RelResidual(const shared_ptr<Domain>& D,
-    const double& E,
-    const unsigned& M,
-    const bool& P)
-    : Converger(0, CT_RELRESIDUAL, D, E, M, P)
-{
-}
+RelResidual::RelResidual(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+    : Converger(0, CT_RELRESIDUAL, D, E, M, P) {}
 
 RelResidual::RelResidual(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELRESIDUAL, nullptr, E, M, P)
-{
-}
+    : Converger(0, CT_RELRESIDUAL, nullptr, E, M, P) {}
 
-const bool& RelResidual::if_converged()
-{
+const bool& RelResidual::if_converged() {
     auto& tmp_domain = get_domain();
 
     auto& tmp_workroom = tmp_domain->get_workshop();

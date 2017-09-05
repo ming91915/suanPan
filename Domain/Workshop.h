@@ -2,18 +2,15 @@
  * @class Workshop
  * @brief A Workshop class that holds global variables.
  *
- * The class is basically a container that contains global variables such as time, load,
- * resistance, displacement, velocity and acceleration. All the member variables are
- * exposed to outside of the class so users can directly access those variables. The class
- * provides several common methods to manipulate the status. The updateTrial*() and
- * updateIncre*() methods update the trial variables and incre variables simultaneously.
- * If one wants to update any specific variable, please consider to access the variable
- * directly instead of using a mutable method.
+ * The class is basically a container that contains global variables such as time, load, resistance, displacement, velocity and acceleration. All the member variables are exposed to outside of the class so users can directly access those variables. The class provides several common methods to manipulate the status. The updateTrial*() and updateIncre*() methods update the trial variables and incre variables simultaneously.
+ *
+ * If one wants to update any specific variable, please consider to access the variable directly instead of using a mutable method.
  *
  * @author T
  * @date 31/08/2017
  * @version 0.2.0
  * @file Workshop.h
+ * @{
  */
 
 #ifndef WORKSHOP_H
@@ -23,8 +20,7 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 
 #include <suanPan.h>
 
-class Workshop final
-{
+class Workshop final {
     // friend class Solver;
 
     bool initialized = false;
@@ -58,9 +54,11 @@ class Workshop final
 
     vec incre_load;         /**< global incremental load vector */
     vec incre_resistance;   /**< global incremental resistance vector */
-    vec incre_displacement; /**< global incremental displacement vector */
+    vec incre_displacement; /**< global incremental displacement vector
+                               */
     vec incre_velocity;     /**< global incremental velocity vector */
-    vec incre_acceleration; /**< global incremental acceleration vector */
+    vec incre_acceleration; /**< global incremental acceleration vector
+                               */
     vec incre_temperature;  /**< global incremental temperature vector */
 
     vec current_load;         /**< global current load vector */
@@ -291,3 +289,5 @@ public:
 };
 
 #endif
+
+//! @}

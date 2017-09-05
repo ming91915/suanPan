@@ -18,8 +18,7 @@ class Domain;
 
 using std::vector;
 
-class Recorder : public Tag
-{
+class Recorder : public Tag {
     unsigned object_tag;
     OutputList variable_type;
     const char* variable_name;
@@ -29,11 +28,7 @@ class Recorder : public Tag
     bool record_time;
 
 public:
-    explicit Recorder(const unsigned& = 0,
-        const unsigned& = CT_RECORDER,
-        const unsigned& = 0,
-        const OutputList& = OutputList::NL,
-        const bool& = true);
+    explicit Recorder(const unsigned& = 0, const unsigned& = CT_RECORDER, const unsigned& = 0, const OutputList& = OutputList::NL, const bool& = true);
     Recorder(const Recorder&) = delete;
     Recorder& operator=(const Recorder&) = delete;
     virtual ~Recorder();

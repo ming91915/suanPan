@@ -3,19 +3,15 @@
 void example_symm_mat();
 mat spmm(const SymmMat<double>& A, const Mat<double>& X);
 
-class KT
-{
+class KT {
 public:
     int I;
     explicit KT(const unsigned& T)
-        : I(T)
-    {
-    }
+        : I(T) {}
     const int& get_tag() const { return I; }
 };
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
 #ifndef SUANPAN_DEBUG
     wall_clock T;
     T.tic();
@@ -32,8 +28,7 @@ int main(int argc, char** argv)
     return 0;
 }
 
-void example_symm_mat()
-{
+void example_symm_mat() {
     const auto N = 10;
     mat A(N, N, fill::randn);
     A = A + A.t();
@@ -47,8 +42,7 @@ void example_symm_mat()
     cout << endl;
 }
 
-mat spmm(const SymmMat<double>& A, const Mat<double>& X)
-{
+mat spmm(const SymmMat<double>& A, const Mat<double>& X) {
     auto Y = X;
 
     auto SIDE = 'R';
@@ -61,8 +55,7 @@ mat spmm(const SymmMat<double>& A, const Mat<double>& X)
     auto BETA = 0.;
     auto LDC = M;
 
-    arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, const_cast<double*>(A.memptr()),
-        &ALPHA, const_cast<double*>(X.memptr()), &LDB, &BETA, Y.memptr(), &LDC);
+    arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, const_cast<double*>(A.memptr()), &ALPHA, const_cast<double*>(X.memptr()), &LDB, &BETA, Y.memptr(), &LDC);
 
     return Y;
 };

@@ -1,9 +1,7 @@
 #include "Database.h"
 
 Database::Database(const unsigned& T, const unsigned& CT)
-    : Tag(T, CT)
-{
-}
+    : Tag(T, CT) {}
 
 Database::~Database() {}
 

@@ -5,22 +5,14 @@
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;
 
-PS::PS(const unsigned& T,
-    const uvec& N,
-    const unsigned& M,
-    const double& TH,
-    const unsigned& TY,
-    const bool& F)
-    : Element(T, ET_PS, m_node, m_dof, N, uvec({ M }), F)
+PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const unsigned& TY, const bool& F)
+    : Element(T, ET_PS, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
     , element_type(TY)
     , tmp_a(5, 5)
-    , tmp_c(5, 8)
-{
-}
+    , tmp_c(5, 8) {}
 
-void PS::initialize(const shared_ptr<Domain>& D)
-{
+void PS::initialize(const shared_ptr<Domain>& D) {
     auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     inv_stiffness = inv(material_proto->get_initial_stiffness());
@@ -67,8 +59,7 @@ void PS::initialize(const shared_ptr<Domain>& D)
         if(tmp_density != 0.) {
             tmp_density *= tmp_factor;
             for(unsigned J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K)
-                    mass(m_dof * J, m_dof * K) += tmp_density * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_density * n_int(J) * n_int(K);
         }
 
         I->strain_mat.zeros(3, m_node * m_dof);
@@ -106,8 +97,7 @@ void PS::initialize(const shared_ptr<Domain>& D)
     stiffness = tmp_c.t() * solve(tmp_a, tmp_c);
 }
 
-int PS::update_status()
-{
+int PS::update_status() {
     vec trial_disp(m_node * m_dof);
 
     auto idx = 0;
@@ -121,22 +111,19 @@ int PS::update_status()
     return 0;
 }
 
-int PS::commit_status()
-{
+int PS::commit_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int PS::clear_status()
-{
+int PS::clear_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int PS::reset_status()
-{
+int PS::reset_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;

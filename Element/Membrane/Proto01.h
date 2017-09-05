@@ -1,8 +1,7 @@
 #pragma once
 #include <Element/Element.h>
 
-class Proto01 : public Element
-{
+class Proto01 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
@@ -16,7 +15,7 @@ class Proto01 : public Element
 
     static mat mapping;
 
-    double thickness;
+    const double thickness;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 

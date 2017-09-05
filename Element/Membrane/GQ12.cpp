@@ -6,13 +6,10 @@ const unsigned GQ12::m_node = 4;
 const unsigned GQ12::m_dof = 3;
 
 GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_GQ12, m_node, m_dof, N, uvec({ M }), false)
-    , thickness(TH)
-{
-}
+    : Element(T, ET_GQ12, m_node, m_dof, N, uvec{ M }, false)
+    , thickness(TH) {}
 
-void GQ12::initialize(const shared_ptr<Domain>& D)
-{
+void GQ12::initialize(const shared_ptr<Domain>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const integrationPlan plan(2, 2, 1);
@@ -89,8 +86,7 @@ void GQ12::initialize(const shared_ptr<Domain>& D)
     }
 }
 
-int GQ12::update_status()
-{
+int GQ12::update_status() {
     auto code = 0, idx = 0;
 
     vec trial_disp(m_node * m_dof);
@@ -111,22 +107,19 @@ int GQ12::update_status()
     return code;
 }
 
-int GQ12::commit_status()
-{
+int GQ12::commit_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->commit_status();
     return code;
 }
 
-int GQ12::clear_status()
-{
+int GQ12::clear_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->clear_status();
     return code;
 }
 
-int GQ12::reset_status()
-{
+int GQ12::reset_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;

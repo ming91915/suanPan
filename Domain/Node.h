@@ -1,14 +1,21 @@
 /**
  * @class Node
- * @brief The Node class holds the number of DoFs, coordinate, displacement, velocity and
+ * @brief The Node class holds the number of DoFs, coordinate,
+ * displacement, velocity and
  * acceleration.
  *
- * The current/committed, incremental and trial status of displacement, velocity and
- * acceleration are stored. These variables will be the communication bridge(s) between
- * Domain, Workshop and Element objects. That is, Element objects do not directly get
- * information from the Workshop. Instead, Workshop passes information to Node objects
- * through the Domain, Element objects acquire new status from associated Node objects
- * only. In this manner, the relationship between those modules remains simple.
+ * The current/committed, incremental and trial status of displacement,
+ * velocity and
+ * acceleration are stored. These variables will be the communication
+ * bridge(s) between
+ * Domain, Workshop and Element objects. That is, Element objects do not
+ * directly get
+ * information from the Workshop. Instead, Workshop passes information
+ * to Node objects
+ * through the Domain, Element objects acquire new status from
+ * associated Node objects
+ * only. In this manner, the relationship between those modules remains
+ * simple.
  *
  * @author T
  * @date 22/07/2017
@@ -24,8 +31,9 @@
 
 using std::vector;
 
-class Node final : public Tag
-{
+class Domain;
+
+class Node final : public Tag {
     unsigned num_dof = 0; /**< number of DoFs */
 
     vec coordinate; /**< coordinates of the node */
@@ -51,10 +59,10 @@ public:
     Node(const unsigned&, const unsigned&);
     Node(const unsigned&, const unsigned&, const vec&);
     Node(const Node&) { suanpan_debug("Node copy ctor() called.\n"); }
-    Node(Node&&) { suanpan_debug("Node move ctor() called.\n"); }
+    Node(Node&&) noexcept { suanpan_debug("Node move ctor() called.\n"); }
     ~Node();
 
-    void initialize();
+    void initialize(const shared_ptr<Domain>);
 
     const unsigned& get_dof_number() const;
 
