@@ -259,8 +259,7 @@ void SymmMat<eT>::init_cold() {
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     auto error_message = "SymmMat::init(): requested size is too large";
 #else
-    const char* error_message = "SymmMat::init(): requested size is too large; suggest to "
-                                "compile in C++11 mode or enable ARMA_64BIT_WORD";
+    const char* error_message = "SymmMat::init(): requested size is too large; suggest to compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
     arma_debug_check(n_size > ARMA_MAX_UHWORD ? n_elem > ARMA_MAX_UWORD : false, error_message);
@@ -294,8 +293,7 @@ void SymmMat<eT>::init_warm(const uword& in_size) {
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     auto error_message = "SymmMat::init(): requested size is too large";
 #else
-    const char* error_message = "SymmMat::init(): requested size is too large; suggest "
-                                "to compile in C++11 mode or enable ARMA_64BIT_WORD";
+    const char* error_message = "SymmMat::init(): requested size is too large; suggest to compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
     arma_debug_set_error(err_state, err_msg, in_size > ARMA_MAX_UHWORD ? (in_size + 1) * in_size / 2 > ARMA_MAX_UWORD : false, error_message);
@@ -308,8 +306,7 @@ void SymmMat<eT>::init_warm(const uword& in_size) {
     if(old_n_elem == new_n_elem) {
         arma_extra_debug_print("SymmMat::init(): reusing memory");
     } else {
-        arma_debug_check(t_mem_state == 2, "SymmMat::init(): mismatch between size of "
-                                           "auxiliary memory and requested size");
+        arma_debug_check(t_mem_state == 2, "SymmMat::init(): mismatch between size of auxiliary memory and requested size");
 
         if(new_n_elem < old_n_elem) {
             if(t_mem_state == 0 && new_n_elem <= arma_config::mat_prealloc) {

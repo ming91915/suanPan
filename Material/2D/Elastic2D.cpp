@@ -7,12 +7,12 @@ Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const 
     , material_type(TP) {
     density = R;
 
-    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1 - poissons_ratio * poissons_ratio);
-    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
+    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
+    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
     initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1;
-    initial_stiffness(1, 1) = 1;
+    initial_stiffness(0, 0) = 1.;
+    initial_stiffness(1, 1) = 1.;
     initial_stiffness(2, 2) = (1. - VV) / 2.;
     initial_stiffness(0, 1) = VV;
     initial_stiffness(1, 0) = VV;
@@ -28,12 +28,12 @@ Elastic2D::Elastic2D(const double& E, const double& P, const double& R, const un
     , material_type(TP) {
     density = R;
 
-    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1 - poissons_ratio * poissons_ratio);
-    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1 - poissons_ratio);
+    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
+    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
     initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1;
-    initial_stiffness(1, 1) = 1;
+    initial_stiffness(0, 0) = 1.;
+    initial_stiffness(1, 1) = 1.;
     initial_stiffness(2, 2) = (1. - VV) / 2.;
     initial_stiffness(0, 1) = VV;
     initial_stiffness(1, 0) = VV;
@@ -86,9 +86,9 @@ int Elastic2D::reset_status() {
 }
 
 void Elastic2D::print() {
-    suanpan_info("Strain:\n");
+    suanpan_info("Strain: ");
     get_strain().t().print();
-    suanpan_info("Stress:\n");
+    suanpan_info("Stress: ");
     get_stress().t().print();
 }
 

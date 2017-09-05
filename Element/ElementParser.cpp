@@ -1,4 +1,5 @@
 #include "ElementParser.h"
+#include "Toolbox/utility.h"
 #include <Element/Element>
 
 using std::vector;
@@ -260,4 +261,36 @@ void new_c3d8(unique_ptr<Element>& return_obj, istringstream& command) {
         suanpan_debug("new_c3d8() assumes linear geometry.\n");
 
     return_obj = make_unique<C3D8>(tag, uvec(node_tag), material_tag, !!reduced_scheme, !!nonlinear);
+}
+
+void new_proto01(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_proto01() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 4; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_proto01() needs four valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned material_tag;
+    if(!get_input(command, material_tag)) {
+        suanpan_debug("new_proto01() needs a valid material tag.\n");
+        return;
+    }
+
+    auto thickness = 1.;
+    if(!command.eof()) {
+        if((command >> thickness).fail()) suanpan_debug("new_proto01() needs a valid thickness.\n");
+    } else
+        suanpan_debug("new_proto01() assumes thickness to be unit.\n");
+
+    return_obj = make_unique<Proto01>(tag, uvec(node_tag), material_tag, thickness);
 }

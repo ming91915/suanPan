@@ -12,7 +12,7 @@
 * @date 15/08/2017
 * @version 0.1.0
 * @file Gap01.h
-* @addtogroup Gap
+* @addtogroup Material-1D
 * @ingroup Material
 * @{
 */

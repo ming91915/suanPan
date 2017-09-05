@@ -478,6 +478,8 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
         new_gq12(new_element, command);
     else if(_strcmpi(element_id.c_str(), "Truss2D") == 0)
         new_truss2d(new_element, command);
+    else if(_strcmpi(element_id.c_str(), "Proto01") == 0)
+        new_proto01(new_element, command);
     else {
         ExternalModule ext_library(element_id);
         if(ext_library.locate_module()) ext_library.new_object(new_element, command);

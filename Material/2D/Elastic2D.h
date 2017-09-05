@@ -30,7 +30,7 @@ class Elastic2D : public Material {
     const double elastic_modulus; // elastic modulus
     const double poissons_ratio;  // poissons ratio
 
-    unsigned material_type = 0;
+    const unsigned material_type;
 
 public:
     explicit Elastic2D(const unsigned& = 0, const double& = 2E5, const double& = .2, const double& = 0, const unsigned& = 0);
