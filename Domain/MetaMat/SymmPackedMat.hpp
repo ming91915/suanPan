@@ -4,6 +4,10 @@
 
 template <typename T>
 class SymmPackedMat : public MetaMat<T> {
+    static const auto SIDE = 'R';
+    static const auto UPLO = 'U';
+    static const auto TRAN = 'N';
+
 public:
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
@@ -47,9 +51,6 @@ template <typename T>
 Mat<T> SymmPackedMat<T>::operator*(const Mat<T>& B) {
     auto Y = B;
 
-    const auto SIDE = 'R';
-    const auto UPLO = 'U';
-    const auto TRAN = 'N';
     int M = n_rows;
     auto N = static_cast<int>(B.n_cols);
     T ALPHA = 1.;
@@ -72,7 +73,6 @@ template <typename T>
 Col<T> SymmPackedMat<T>::operator*(const Col<T>& X) {
     auto Y = X;
 
-    auto UPLO = 'U';
     int N = n_rows;
     T ALPHA = 1.;
     auto INC = 1;
@@ -92,6 +92,7 @@ Col<T> SymmPackedMat<T>::operator*(const Col<T>& X) {
 template <typename T>
 Mat<T> SymmPackedMat<T>::solve(const Mat<T>& B) {
     Mat<T> X;
+
     if(!solve(X, B)) X.reset();
 
     return X;
@@ -101,7 +102,6 @@ template <typename T>
 bool SymmPackedMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
-    auto UPLO = 'U';
     int N = n_rows;
     auto NRHS = static_cast<int>(B.n_cols);
     const auto IPIV = new int[N];

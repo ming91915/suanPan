@@ -70,6 +70,7 @@ public:
     virtual Mat<T> operator*(const Mat<T>& B) {
         auto C = B;
 
+        const auto TRAN = 'N';
         auto M = static_cast<int>(n_rows);
         auto N = static_cast<int>(B.n_cols);
         auto K = static_cast<int>(n_cols);
@@ -81,10 +82,10 @@ public:
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_sgemm)("N", "N", &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+            arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dgemm)("N", "N", &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+            arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
         }
 
         return C;
@@ -92,6 +93,7 @@ public:
     virtual Col<T> operator*(const Col<T>& X) {
         auto Y = X;
 
+        const auto TRAN = 'N';
         int M = n_rows;
         int N = n_cols;
         T ALPHA = 1.;
@@ -102,10 +104,10 @@ public:
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_sgemv)("N", &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
+            arma_fortran(arma_sgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dgemv)("N", &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
+            arma_fortran(arma_dgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
         }
 
         return Y;
