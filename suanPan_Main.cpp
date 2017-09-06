@@ -12,18 +12,38 @@ public:
 };
 
 int main(int argc, char** argv) {
-#ifndef SUANPAN_DEBUG
+
+    // argument_parser(argc, argv);
+
+    // example_symm_mat();
+
+    const auto N = 10;
+    mat A(N, N, fill::randn);
+    A = A + A.t();
+    const symm_mat B(A);
+
+    FullMat<double> G(N);
+    memcpy(G.memptr(), A.memptr(), A.n_elem * sizeof(double));
+
+    SymmPackedMat<double> C(N);
+    memcpy(C.memptr(), B.memptr(), B.n_elem * sizeof(double));
+
+    const mat D(N, N, fill::randn);
+
     wall_clock T;
     T.tic();
-#endif
 
-    argument_parser(argc, argv);
+    mat E = C * D;
+    E.print();
 
-// example_symm_mat();
-
-#ifndef SUANPAN_DEBUG
     cout << T.toc() << "\n";
-#endif
+
+    T.tic();
+
+    mat F = A * D;
+    F.print();
+
+    cout << T.toc() << "\n";
 
     return 0;
 }

@@ -398,5 +398,20 @@
     <ClInclude Include="..\..\..\Domain\Factory_white.hpp">
       <Filter>Template</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackedMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\BandMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\BandSymmMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\FullMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

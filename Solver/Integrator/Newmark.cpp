@@ -41,7 +41,7 @@ void Newmark::update_resistance() {
 
     D->update_resistance();
 
-    get_trial_resistance(W) -= W->get_mass() * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) - W->get_damping() * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
+    get_trial_resistance(W) -= W->get_mass() * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) + W->get_damping() * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
 }
 
 void Newmark::update_stiffness() {

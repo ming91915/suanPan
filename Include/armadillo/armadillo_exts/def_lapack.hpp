@@ -5,6 +5,7 @@
 #define arma_dsbmv DSBMV
 #define arma_sspmv SSPMV
 #define arma_dspmv DSPMV
+#define arma_sspmm SSPMM
 #define arma_dspmm DSPMM
 #define arma_dgesv DGESV
 #define arma_dgetrf DGETRF
@@ -28,6 +29,7 @@
 #define arma_dsbmv dsbmv
 #define arma_sspmv sspmv
 #define arma_dspmv dspmv
+#define arma_sspmm sspmm
 #define arma_dspmm dspmm
 #define arma_dgesv dgesv
 #define arma_dgetrf dgetrf
@@ -53,11 +55,13 @@ void arma_fortran(arma_dsymv)(char* UPLO, int* N, double* ALPHA, double* A, int*
 
 void arma_fortran(arma_dsbmv)(char* UPLO, int* N, int* K, double* ALPHA, double* A, int* LDA, double* X, int* INCX, double* BETA, double* Y, int* INCY);
 
-void arma_fortran(arma_sspmv)(char* UPLO, int* N, float* ALPHA, float* AP, float* X, int* INCX, float* BETA, float* Y, int* INCY);
+void arma_fortran(arma_sspmv)(const char* UPLO, const int* N, const float* ALPHA, const float* AP, const float* X, const int* INCX, const float* BETA, float* Y, const int* INCY);
 
-void arma_fortran(arma_dspmv)(char* UPLO, int* N, double* ALPHA, double* AP, double* X, int* INCX, double* BETA, double* Y, int* INCY);
+void arma_fortran(arma_dspmv)(const char* UPLO, const int* N, const double* ALPHA, const double* AP, const double* X, const int* INCX, const double* BETA, double* Y, const int* INCY);
 
-void arma_fortran(arma_dspmm)(char* SIDE, char* UPLO, char* TRAN, int* M, int* N, double* A, double* ALPHA, double* B, int* LDB, double* BETA, double* C, int* LDC);
+void arma_fortran(arma_sspmm)(const char* SIDE, const char* UPLO, const char* TRAN, const int* M, const int* N, const float* A, const float* ALPHA, const float* B, const int* LDB, const float* BETA, float* C, const int* LDC);
+
+void arma_fortran(arma_dspmm)(const char* SIDE, const char* UPLO, const char* TRAN, const int* M, const int* N, const double* A, const double* ALPHA, const double* B, const int* LDB, const double* BETA, double* C, const int* LDC);
 
 // LAPACK SOLVER
 void arma_fortran(arma_dgesv)(int* N, int* NRHS, double* A, int* LDA, int* IPIV, double* B, int* LDB, int* INFO);
@@ -77,9 +81,9 @@ void arma_fortran(arma_dpbsv)(char* UPLO, int* N, int* KD, int* NRHS, double* AB
 void arma_fortran(arma_dsygvx)(int* ITYPE, char* JOBZ, char* RANGE, char* UPLO, int* N, double* A, int* LDA, double* B, int* LDB, double* VL, double* VU, int* IL, int* IU, double* ABSTOL, int* M, double* W, double* Z, int* LDZ, double* WORK, int* LWORK, int* IWORK, int* IFAIL, int* INFO);
 
 // symmetric matrix stored in packed format
-void arma_fortran(arma_sspsv)(char* UPLO, int* N, int* NRHS, float* AP, int* IPIV, float* B, int* LDB, int* INFO);
+void arma_fortran(arma_sspsv)(const char* UPLO, const int* N, const int* NRHS, float* AP, int* IPIV, float* B, const int* LDB, int* INFO);
 
-void arma_fortran(arma_dspsv)(char* UPLO, int* N, int* NRHS, double* AP, int* IPIV, double* B, int* LDB, int* INFO);
+void arma_fortran(arma_dspsv)(const char* UPLO, const int* N, const int* NRHS, double* AP, int* IPIV, double* B, const int* LDB, int* INFO);
 
 void arma_fortran(arma_ssptrf)(char* UPLO, int* N, float* AP, int* IPIV, int* INFO);
 

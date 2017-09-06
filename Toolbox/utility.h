@@ -4,6 +4,16 @@
 #include <string>
 
 template <typename T>
+T& modifier(const T& I) {
+    return const_cast<T&>(I);
+}
+
+template <typename T>
+T*& modifier(const T* const& I) {
+    return const_cast<T*&>(I);
+}
+
+template <typename T>
 T sign(const T& I) {
     return (I > 0.) - (I < 0.);
 }

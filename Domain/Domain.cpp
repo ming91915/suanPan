@@ -411,3 +411,5 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { ret
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
 const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D) { return D->node_pond.get(); }
+
+const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>& D) { return D->element_pond.get(); }

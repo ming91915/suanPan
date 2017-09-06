@@ -49,20 +49,14 @@ class integrationPlan final {
     double** int_pts;
 
 public:
-    const unsigned n_row;
-    const unsigned n_col;
+    const unsigned n_rows;
+    const unsigned n_cols;
+    const unsigned n_elem;
 
     //! DEFAULT CTOR.
     explicit integrationPlan(const unsigned& = 2, const unsigned& = 2, const unsigned& = 1);
     //! DEFAULT DTOR.
     ~integrationPlan();
-
-    //! GET NUMBER OF ROWS
-    const unsigned& n_rows() const;
-    //! GET NUMBER OF COLS
-    const unsigned& n_cols() const;
-    //! GET NUMBER OF ELEMENTS
-    unsigned n_elem() const;
 
     //! GET POINTER TO THE DATA CHUCK
     double** get_integration_scheme() const;

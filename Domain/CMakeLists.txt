@@ -8,3 +8,5 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Domain/Tag.cpp"
         "Domain/Workshop.cpp"
         )
+
+add_subdirectory(MetaMat)

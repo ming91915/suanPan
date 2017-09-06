@@ -1,3 +1,5 @@
+#include "MetaMat/MetaMat"
+
 #include "Domain.h"
 
 #include "ExternalModule.h"

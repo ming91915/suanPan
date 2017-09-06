@@ -132,6 +132,7 @@ public:
     bool find_recorder(const unsigned&) const;
 
     friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>&);
+    friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>&);
 
     void update_resistance() const;
     void update_mass() const;

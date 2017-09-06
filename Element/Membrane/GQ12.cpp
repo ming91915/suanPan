@@ -15,7 +15,7 @@ void GQ12::initialize(const shared_ptr<Domain>& D) {
     const integrationPlan plan(2, 2, 1);
 
     int_pt.clear();
-    for(unsigned I = 0; I < plan.n_rows(); ++I) {
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
