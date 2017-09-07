@@ -14,17 +14,17 @@
 #define BANDMAT_HPP
 
 template <typename T>
-class BandMat : public MetaMat<T, BandMat<T>> {
+class BandMat : public MetaMat<T> {
     const unsigned low_bw;
     const unsigned up_bw;
     const unsigned shift_bw;
 
 public:
-    using MetaMat<T, BandMat<T>>::TRAN;
-    using MetaMat<T, BandMat<T>>::n_cols;
-    using MetaMat<T, BandMat<T>>::n_rows;
-    using MetaMat<T, BandMat<T>>::n_elem;
-    using MetaMat<T, BandMat<T>>::memory;
+    using MetaMat<T>::TRAN;
+    using MetaMat<T>::n_cols;
+    using MetaMat<T>::n_rows;
+    using MetaMat<T>::n_elem;
+    using MetaMat<T>::memory;
 
     BandMat(const unsigned&, const unsigned&, const unsigned&);
 
@@ -36,7 +36,7 @@ public:
     Mat<T> operator*(const Mat<T>&)override;
 
     Mat<T> solve(const Mat<T>&) override;
-    bool solve(Mat<T>&, const Mat<T>&) override;
+    int solve(Mat<T>&, const Mat<T>&) override;
 };
 
 template <typename T>
@@ -51,7 +51,7 @@ struct is_Band<BandMat<T>> {
 
 template <typename T>
 BandMat<T>::BandMat(const unsigned& in_size, const unsigned& in_l, const unsigned& in_u)
-    : MetaMat<T, BandMat<T>>(2 * in_l + in_u + 1, in_size, (2 * in_l + in_u + 1) * in_size)
+    : MetaMat<T>(2 * in_l + in_u + 1, in_size, (2 * in_l + in_u + 1) * in_size)
     , low_bw(in_l)
     , up_bw(in_u)
     , shift_bw(low_bw + up_bw) {}
@@ -107,12 +107,12 @@ Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
 template <typename T>
 Mat<T> BandMat<T>::solve(const Mat<T>& B) {
     Mat<T> X;
-    if(!solve(X, B)) X.reset();
+    if(solve(X, B) != 0) X.reset();
     return X;
 }
 
 template <typename T>
-bool BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_cols;
@@ -120,21 +120,21 @@ bool BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     int KU = up_bw;
     auto NRHS = static_cast<int>(B.n_cols);
     int LDAB = n_rows;
-    int* IPIV = new int[n_cols];
     auto LDB = static_cast<int>(B.n_rows);
+    const auto IPIV = new int[N];
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        arma_fortran(arma_sgbsv)(&N, &KL, &KU, &NRHS, reinterpret_cast<E*>(this->memptr()), &LDAB, IPIV, reinterpret_cast<E*>(X.memptr()), &LDB, &INFO);
+        arma_fortran(arma_sgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV, (E*)X.memptr(), &LDB, &INFO);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, reinterpret_cast<E*>(this->memptr()), &LDAB, IPIV, reinterpret_cast<E*>(X.memptr()), &LDB, &INFO);
+        arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV, (E*)X.memptr(), &LDB, &INFO);
     }
 
     delete[] IPIV;
 
-    return INFO == 0;
+    return INFO;
 }
 
 #endif

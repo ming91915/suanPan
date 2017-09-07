@@ -6,9 +6,9 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    argument_parser(argc, argv);
+    // argument_parser(argc, argv);
 
-    // example_symm_mat();
+    example_symm_mat();
 
     cout << T.toc() << "\n";
     return 0;
@@ -23,10 +23,11 @@ void example_symm_mat() {
     SymmPackMat<double> C(N);
     memcpy(C.memptr(), B.memptr(), B.n_elem * sizeof(double));
 
-    mat D(N, 5, fill::randn);
+    FullMat<double> E(10);
+    memcpy(E.memptr(), A.memptr(), A.n_elem * sizeof(double));
 
-    (D.t() * A).print();
+    const mat D(N, 5, fill::randn);
+    C.solve(D).print();
     cout << endl;
-    (D.t() * C).print();
-    cout << endl;
+    E.solve(D).print();
 }

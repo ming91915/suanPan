@@ -14,14 +14,10 @@
 #define FULLMAT_HPP
 
 template <typename T>
-class FullMat : public MetaMat<T, FullMat<T>> {
+class FullMat : public MetaMat<T> {
 public:
     explicit FullMat(const unsigned&);
 };
-
-template <typename T>
-FullMat<T>::FullMat(const unsigned& in_size)
-    : MetaMat<T, FullMat<T>>(in_size, in_size, in_size * in_size) {}
 
 template <typename T>
 struct is_Full {
@@ -32,6 +28,10 @@ template <typename T>
 struct is_Full<FullMat<T>> {
     static const bool value = true;
 };
+
+template <typename T>
+FullMat<T>::FullMat(const unsigned& in_size)
+    : MetaMat<T>(in_size, in_size, in_size * in_size) {}
 
 #endif
 

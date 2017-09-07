@@ -14,14 +14,14 @@
 #define BANDSYMMMAT_HPP
 
 template <typename T>
-class BandSymmMat : public MetaMat<T, BandSymmMat<T>> {
+class BandSymmMat : public MetaMat<T> {
     const char UPLO = 'L';
 
 public:
-    using MetaMat<T, BandSymmMat<T>>::n_cols;
-    using MetaMat<T, BandSymmMat<T>>::n_rows;
-    using MetaMat<T, BandSymmMat<T>>::n_elem;
-    using MetaMat<T, BandSymmMat<T>>::memory;
+    using MetaMat<T>::n_cols;
+    using MetaMat<T>::n_rows;
+    using MetaMat<T>::n_elem;
+    using MetaMat<T>::memory;
 
     BandSymmMat(const unsigned&, const unsigned&);
 
@@ -33,7 +33,7 @@ public:
     Mat<T> operator*(const Mat<T>&)override;
 
     Mat<T> solve(const Mat<T>&) override;
-    bool solve(Mat<T>&, const Mat<T>&) override;
+    int solve(Mat<T>&, const Mat<T>&) override;
 };
 
 template <typename T>
@@ -48,7 +48,7 @@ struct is_BandSymm<BandSymmMat<T>> {
 
 template <typename T>
 BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidth)
-    : MetaMat<T, BandSymmMat<T>>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size) {}
+    : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size) {}
 
 template <typename T>
 const T& BandSymmMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) const {
@@ -99,32 +99,31 @@ Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
 template <typename T>
 Mat<T> BandSymmMat<T>::solve(const Mat<T>& B) {
     Mat<T> X;
-
-    if(!solve(X, B)) X.reset();
-
+    if(solve(X, B) != 0) X.reset();
     return X;
 }
 
 template <typename T>
-bool BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
+    auto UPLO = 'L';
     int N = n_cols;
     int KD = n_rows - 1;
     auto NRHS = static_cast<int>(B.n_cols);
-    auto LDAB = n_rows;
+    int LDAB = n_rows;
     auto LDB = static_cast<int>(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        arma_fortran(arma_spbsv)(&UPLO, &N, &KD, &NRHS, reinterpret_cast<E*>(this->memptr()), &LDAB, reinterpret_cast<E*>(X.memptr()), &LDB, &INFO);
+        arma_fortran(arma_spbsv)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        arma_fortran(arma_dpbsv)(&UPLO, &N, &KD, &NRHS, reinterpret_cast<E*>(this->memptr()), &LDAB, reinterpret_cast<E*>(X.memptr()), &LDB, &INFO);
+        arma_fortran(arma_dpbsv)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
     }
 
-    return INFO == 0;
+    return INFO;
 }
 
 #endif

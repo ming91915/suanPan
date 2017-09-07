@@ -38,8 +38,8 @@ int BFGS::analyze(const unsigned& ST) {
     hist_residual.clear();
     hist_factor.clear();
     while(true) {
-        G->update_resistance();
         alpha.clear();
+        G->update_resistance();
         if(counter == 0) {
             G->update_stiffness();
             G->process(ST);
