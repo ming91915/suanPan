@@ -30,7 +30,11 @@ int Static::analyze() {
                 suanpan_error("analyze() reaches minimum step size %.3E.\n", get_min_step_size());
                 return -1;
             }
-            if(!is_fixed_step_size()) step /= 2.;
+            if(is_fixed_step_size()) {
+                suanpan_error("analyze() does not converge for given fixed step size %.3E.\n", step);
+                return -1;
+            }
+            step /= 2.;
         } else { // FAILED SOLVER
             suanpan_error("analyze() recieves error code %u from lapack subroutine.\n", code);
             return -1;

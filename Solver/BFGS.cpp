@@ -32,26 +32,39 @@ int BFGS::analyze(const unsigned& ST) {
 
     unsigned counter = 0;
 
-    auto& tmp_ninja = get_ninja(W);
+    auto& ninja = get_ninja(W);
 
-    vec tmp_residual;
-
-    mat inv_stiffness;
-
+    hist_ninja.clear();
+    hist_residual.clear();
+    hist_factor.clear();
     while(true) {
         G->update_resistance();
+        alpha.clear();
         if(counter == 0) {
             G->update_stiffness();
             G->process(ST);
-            if(!inv_sympd(inv_stiffness, W->get_stiffness())) return 1;
+            hist_residual.push_back(W->get_trial_load() - W->get_trial_resistance());
+            hist_ninja.push_back(solve(W->get_stiffness(), *hist_residual.crbegin()));
+            ninja = *hist_ninja.crbegin(); // for updating status
         } else {
-            const auto factor = dot(tmp_residual, tmp_ninja);
-            mat tmp_a = tmp_ninja * tmp_residual.t() / factor;
-            for(auto I = 0; I < tmp_a.n_rows; ++I) tmp_a(I, I) -= 1.;
-            inv_stiffness = tmp_a * inv_stiffness * tmp_a.t() + tmp_ninja * tmp_ninja.t() / factor;
+            hist_residual.push_back(W->get_trial_load() - W->get_trial_resistance());
+            ninja = *hist_residual.crbegin();
+            const auto S = hist_factor.size() - 1; // intermediate factor
+            for(auto I = 0; I <= S; ++I) {
+                const auto SI = S - I; // intermediate factor
+                alpha.push_back(dot(hist_ninja[SI], ninja) / hist_factor[SI]);
+                ninja -= *alpha.crbegin() * hist_residual[SI];
+            }
+            ninja = solve(W->get_stiffness(), ninja);
+            for(auto I = 0; I <= S; ++I) ninja += (alpha[S - I] - dot(hist_residual[I], ninja) / hist_factor[I]) * hist_ninja[I];
+            hist_ninja.push_back(ninja);
         }
-        tmp_residual = W->get_trial_load() - W->get_trial_resistance();
-        tmp_ninja = inv_stiffness * tmp_residual;
+        hist_factor.push_back(dot(*hist_ninja.crbegin(), *hist_residual.crbegin()));
+        if(counter > max_hist) {
+            hist_ninja.pop_front();
+            hist_residual.pop_front();
+            hist_factor.pop_front();
+        }
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         G->update_trial_status();
         if(C->if_converged()) return 0;
