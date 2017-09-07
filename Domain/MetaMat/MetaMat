@@ -1,5 +1,6 @@
 #include "MetaMat.hpp"
-#include "FullMat.hpp"
 #include "BandMat.hpp"
-#include "SymmPackedMat.hpp"
 #include "BandSymmMat.hpp"
+#include "FullMat.hpp"
+#include "SymmPackMat.hpp"
+#include "operator_times.hpp"

@@ -27,6 +27,8 @@
 * @date 27/07/2017
 * @version 0.1.0
 * @file BFGS.h
+* @addtogroup Solver
+* @{
 */
 
 #ifndef BFGS_H
@@ -49,3 +51,5 @@ public:
 };
 
 #endif
+
+//! @}

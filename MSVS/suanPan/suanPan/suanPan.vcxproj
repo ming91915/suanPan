@@ -242,7 +242,8 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\BandSymmMat.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\FullMat.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp" />
-    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackedMat.hpp" />
+    <ClInclude Include="..\..\..\Domain\MetaMat\operator_times.hpp" />
+    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Domain\Workshop.h" />

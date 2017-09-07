@@ -1,29 +1,45 @@
+/**
+* @class BandSymmMat
+* @brief A BandSymmMat class that holds matrices.
+*
+* @author T
+* @date 06/09/2017
+* @version 0.1.0
+* @file BandSymmMat.hpp
+* @addtogroup MetaMat
+* @{
+*/
 
 #ifndef BANDSYMMMAT_HPP
 #define BANDSYMMMAT_HPP
 
 template <typename T>
-class BandSymmMat : public MetaMat<T> {
-    static const char UPLO = 'L';
+class BandSymmMat : public MetaMat<T, BandSymmMat<T>> {
+    const char UPLO = 'L';
 
 public:
-    using MetaMat<T>::n_cols;
-    using MetaMat<T>::n_rows;
-    using MetaMat<T>::n_elem;
-    using MetaMat<T>::memory;
+    using MetaMat<T, BandSymmMat<T>>::n_cols;
+    using MetaMat<T, BandSymmMat<T>>::n_rows;
+    using MetaMat<T, BandSymmMat<T>>::n_elem;
+    using MetaMat<T, BandSymmMat<T>>::memory;
 
-    BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidth)
-        : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size) {}
+    BandSymmMat(const unsigned&, const unsigned&);
 
-    const T& operator()(const unsigned& in_row, const unsigned& in_col) const override;
-    const T& at(const unsigned& in_row, const unsigned& in_col) const override;
-    T& operator()(const unsigned& in_row, const unsigned& in_col) override;
-    T& at(const unsigned& in_row, const unsigned& in_col) override;
-    Mat<T> operator*(const Mat<T>& B)override;
-    Col<T> operator*(const Col<T>& X)override;
-    Mat<T> solve(const Mat<T>& B) override;
-    bool solve(Mat<T>& X, const Mat<T>& B) override;
+    const T& operator()(const unsigned&, const unsigned&) const override;
+    const T& at(const unsigned&, const unsigned&) const override;
+    T& operator()(const unsigned&, const unsigned&) override;
+    T& at(const unsigned&, const unsigned&) override;
+
+    Mat<T> operator*(const Mat<T>&)override;
+    Col<T> operator*(const Col<T>&)override;
+
+    Mat<T> solve(const Mat<T>&) override;
+    bool solve(Mat<T>&, const Mat<T>&) override;
 };
+
+template <typename T>
+BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidth)
+    : MetaMat<T, BandSymmMat<T>>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size) {}
 
 template <typename T>
 const T& BandSymmMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) const {
@@ -63,9 +79,11 @@ Col<T> BandSymmMat<T>::operator*(const Col<T>& X) {
 
     if(std::is_same<T, float>::value) {
         using E = float;
+        // ReSharper disable once CppCStyleCast
         arma_fortran(arma_ssbmv)(&UPLO, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
     } else if(std::is_same<T, double>::value) {
         using E = double;
+        // ReSharper disable once CppCStyleCast
         arma_fortran(arma_dsbmv)(&UPLO, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
     }
 
@@ -102,4 +120,17 @@ bool BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 
     return INFO == 0;
 }
+
+template <typename T>
+struct is_BandSymm {
+    static const bool value = false;
+};
+
+template <typename T>
+struct is_BandSymm<BandSymmMat<T>> {
+    static const bool value = true;
+};
+
 #endif
+
+//! @}

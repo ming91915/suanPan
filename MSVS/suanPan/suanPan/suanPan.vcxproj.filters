@@ -401,9 +401,6 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackedMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Domain\MetaMat\BandMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
@@ -411,6 +408,12 @@
       <Filter>Template</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\MetaMat\FullMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\operator_times.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
   </ItemGroup>
