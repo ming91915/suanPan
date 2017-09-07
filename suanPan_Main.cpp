@@ -25,8 +25,8 @@ void example_symm_mat() {
 
     mat D(N, 5, fill::randn);
 
-    (A * D).print();
+    (D.t() * A).print();
     cout << endl;
-    (C * D).print();
+    (D.t() * C).print();
     cout << endl;
 }

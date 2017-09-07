@@ -50,7 +50,6 @@ public:
 
     virtual MetaMat& operator*(const T1&);
     virtual Mat<T1> operator*(const Mat<T1>&);
-    virtual Col<T1> operator*(const Col<T1>&);
 
     virtual Mat<T1> solve(const Mat<T1>&);
     virtual bool solve(Mat<T1>&, const Mat<T1>&);
@@ -141,53 +140,46 @@ MetaMat<T1, T2>& MetaMat<T1, T2>::operator*(const T1& value) {
 
 template <typename T1, typename T2>
 Mat<T1> MetaMat<T1, T2>::operator*(const Mat<T1>& B) {
+
     auto C = B;
 
-    auto M = static_cast<int>(n_rows);
-    auto N = static_cast<int>(B.n_cols);
-    auto K = static_cast<int>(n_cols);
-    T1 ALPHA = 1.0;
-    auto LDA = M;
-    auto LDB = K;
-    T1 BETA = 0.;
-    auto LDC = M;
+    if(B.n_cols == 1) {
 
-    if(std::is_same<T1, float>::value) {
-        using E = float;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
-    } else if(std::is_same<T1, double>::value) {
-        using E = double;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        int M = n_rows;
+        int N = n_cols;
+        T1 ALPHA = 1.;
+        auto LDA = M;
+        auto INCX = 1;
+        T1 BETA = 0.;
+        auto INCY = 1;
+
+        if(std::is_same<T1, float>::value) {
+            using E = float;
+            arma_fortran(arma_sgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &INCY);
+        } else if(std::is_same<T1, double>::value) {
+            using E = double;
+            arma_fortran(arma_dgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &INCY);
+        }
+    } else {
+        auto M = static_cast<int>(n_rows);
+        auto N = static_cast<int>(B.n_cols);
+        auto K = static_cast<int>(n_cols);
+        T1 ALPHA = 1.0;
+        auto LDA = M;
+        auto LDB = K;
+        T1 BETA = 0.;
+        auto LDC = M;
+
+        if(std::is_same<T1, float>::value) {
+            using E = float;
+            arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        } else if(std::is_same<T1, double>::value) {
+            using E = double;
+            arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        }
     }
 
     return C;
-}
-
-template <typename T1, typename T2>
-Col<T1> MetaMat<T1, T2>::operator*(const Col<T1>& X) {
-    auto Y = X;
-
-    int M = n_rows;
-    int N = n_cols;
-    T1 ALPHA = 1.;
-    auto LDA = M;
-    auto INCX = 1;
-    T1 BETA = 0.;
-    auto INCY = 1;
-
-    if(std::is_same<T1, float>::value) {
-        using E = float;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_sgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
-    } else if(std::is_same<T1, double>::value) {
-        using E = double;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_dgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)(X.memptr()), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INCY);
-    }
-
-    return Y;
 }
 
 template <typename T1, typename T2>

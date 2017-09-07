@@ -34,10 +34,19 @@ public:
     T& at(const unsigned&, const unsigned&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
-    Col<T> operator*(const Col<T>&)override;
 
     Mat<T> solve(const Mat<T>&) override;
     bool solve(Mat<T>&, const Mat<T>&) override;
+};
+
+template <typename T>
+struct is_Band {
+    static const bool value = false;
+};
+
+template <typename T>
+struct is_Band<BandMat<T>> {
+    static const bool value = true;
 };
 
 template <typename T>
@@ -68,34 +77,31 @@ T& BandMat<T>::at(const unsigned& in_row, const unsigned& in_col) {
 }
 
 template <typename T>
-Mat<T> BandMat<T>::operator*(const Mat<T>& B) {
-    return B;
-}
+Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
+    if(X.is_colvec()) {
+        auto Y = X;
 
-template <typename T>
-Col<T> BandMat<T>::operator*(const Col<T>& X) {
-    auto Y = X;
+        int M = n_cols;
+        int N = n_cols;
+        int KL = low_bw;
+        int KU = up_bw;
+        T ALPHA = 1.;
+        int LDA = n_rows;
+        auto INC = 1;
+        T BETA = 0.;
 
-    int M = n_cols;
-    int N = n_cols;
-    int KL = low_bw;
-    int KU = up_bw;
-    T ALPHA = 1.;
-    int LDA = n_rows;
-    auto INC = 1;
-    T BETA = 0.;
+        if(std::is_same<T, float>::value) {
+            using E = float;
+            arma_fortran(arma_sgbmv)(&TRAN, &M, &N, &KL, &KU, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, &BETA, reinterpret_cast<E*>(Y.memptr()), &INC);
+        } else if(std::is_same<T, double>::value) {
+            using E = double;
+            arma_fortran(arma_dgbmv)(&TRAN, &M, &N, &KL, &KU, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, &BETA, reinterpret_cast<E*>(Y.memptr()), &INC);
+        }
 
-    if(std::is_same<T, float>::value) {
-        using E = float;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_sgbmv)(&TRAN, &M, &N, &KL, &KU, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, &BETA, reinterpret_cast<E*>(Y.memptr()), &INC);
-    } else if(std::is_same<T, double>::value) {
-        using E = double;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_dgbmv)(&TRAN, &M, &N, &KL, &KU, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, &BETA, reinterpret_cast<E*>(Y.memptr()), &INC);
+        return Y;
     }
 
-    return Y;
+    return X;
 }
 
 template <typename T>
@@ -130,16 +136,6 @@ bool BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 
     return INFO == 0;
 }
-
-template <typename T>
-struct is_Band {
-    static const bool value = false;
-};
-
-template <typename T>
-struct is_Band<BandMat<T>> {
-    static const bool value = true;
-};
 
 #endif
 

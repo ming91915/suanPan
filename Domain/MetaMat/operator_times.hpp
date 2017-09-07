@@ -92,3 +92,8 @@ template <typename T1, typename T2>
 std::enable_if_t<is_SymmPack<T2>::value, Mat<T1>> operator*(const Mat<T1>& A, const MetaMat<T1, T2>& B) {
     return spmm<'L', 'N'>(B, A);
 }
+
+template <typename T1, typename T2>
+std::enable_if_t<is_SymmPack<T2>::value, Mat<T1>> operator*(const Op<Mat<T1>, op_htrans>& A, const MetaMat<T1, T2>& B) {
+    return spmm<'L', 'T'>(B, A.m);
+}

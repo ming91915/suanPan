@@ -33,7 +33,6 @@ public:
     T& at(const unsigned&, const unsigned&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
-    Col<T> operator*(const Col<T>&)override;
 
     Mat<T> solve(const Mat<T>&) override;
     bool solve(Mat<T>&, const Mat<T>&) override;
@@ -73,31 +72,31 @@ T& SymmPackMat<T>::at(const unsigned& in_row, const unsigned& in_col) {
     return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]);
 }
 
-template <typename T>
-Mat<T> SymmPackMat<T>::operator*(const Mat<T>& B) {
-    return spmm<'R', 'N'>(*this, B);
-}
+template <const char S, const char T, typename T1, typename T2>
+std::enable_if_t<is_SymmPack<T2>::value, Mat<T1>> spmm(const MetaMat<T1, T2>& A, const Mat<T1>& B);
 
 template <typename T>
-Col<T> SymmPackMat<T>::operator*(const Col<T>& X) {
-    auto Y = X;
+Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
+    if(X.is_colvec()) {
+        auto Y = X;
 
-    int N = n_rows;
-    T ALPHA = 1.;
-    auto INC = 1;
-    T BETA = 0.;
+        int N = n_rows;
+        T ALPHA = 1.;
+        auto INC = 1;
+        T BETA = 0.;
 
-    if(std::is_same<T, float>::value) {
-        using E = float;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_sspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
-    } else if(std::is_same<T, double>::value) {
-        using E = double;
-        // ReSharper disable once CppCStyleCast
-        arma_fortran(arma_dspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+        if(std::is_same<T, float>::value) {
+            using E = float;
+            arma_fortran(arma_sspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+        } else if(std::is_same<T, double>::value) {
+            using E = double;
+            arma_fortran(arma_dspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+        }
+
+        return Y;
     }
 
-    return Y;
+    return spmm<'R', 'N'>(*this, X);
 }
 
 template <typename T>
@@ -121,11 +120,9 @@ bool SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        // ReSharper disable once CppCStyleCast
         arma_fortran(arma_sspsv)(&UPLO, &N, &NRHS, reinterpret_cast<E*>(this->memptr()), IPIV, (E*)X.memptr(), &LDB, &INFO);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        // ReSharper disable once CppCStyleCast
         arma_fortran(arma_dspsv)(&UPLO, &N, &NRHS, reinterpret_cast<E*>(this->memptr()), IPIV, (E*)X.memptr(), &LDB, &INFO);
     }
 
