@@ -1,9 +1,11 @@
 dist: precise
-language: cpp
+language: generic
 compiler: gcc
 os: linux
 addons:
   apt:
+    sources: &sources
+      - ubuntu-toolchain-r-test
     packages:
       - g++-5
       - gfortran
