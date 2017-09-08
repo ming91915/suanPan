@@ -1,15 +1,15 @@
 language: generic
-compiler: gcc
+compiler: gcc-6
 os: linux
 addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-5
-      - gfortran
+      - g++-6
+      - gfortran-6
 env:
-  - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+  - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
 script:
   - mkdir cmake-build && cd cmake-build && cmake ../ && make
 before_install:
