@@ -5,8 +5,11 @@ os: linux
 addons:
   apt:
     sources: &sources
+      - george-edison55-precise-backports
       - ubuntu-toolchain-r-test
     packages:
+      - cmake
+      - cmake-data
       - g++-5
       - gfortran
 env:
