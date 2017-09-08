@@ -1,5 +1,6 @@
 #include "Domain.h"
 #include <Constraint/Constraint.h>
+#include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Domain/Workshop.h>
 #include <Element/Element.h>
@@ -27,17 +28,17 @@ int Domain::initialize() {
     updated = true;
 
     // RESET STATUS
-    for(const auto& tmp_node : node_pond) tmp_node.second->set_dof_number(0);
+    for(const auto& t_node : node_pond) t_node.second->set_dof_number(0);
 
     // SET DOF NUMBER FOR ACTIVE NODES
-    for(const auto& tmp_element : element_pond)
-        if(tmp_element.second->is_active()) tmp_element.second->Element::initialize(shared_from_this());
+    for(const auto& t_element : element_pond)
+        if(t_element.second->is_active()) t_element.second->Element::initialize(shared_from_this());
 
     // ASSIGN DOF LABEL FOR ACTIVE DOF
     unsigned dof_counter = 0;
-    for(const auto& tmp_node : node_pond) {
-        tmp_node.second->initialize(shared_from_this());
-        tmp_node.second->set_original_dof(dof_counter);
+    for(const auto& t_node : node_pond) {
+        t_node.second->initialize(shared_from_this());
+        t_node.second->set_original_dof(dof_counter);
     }
 
     constraint_pond.update();
@@ -47,11 +48,11 @@ int Domain::initialize() {
 
     // RCM OPTIMIZATION
     vector<unordered_set<uword>> adjacency(dof_counter);
-    for(const auto& tmp_element : element_pond.get()) {
-        tmp_element->update_dof_encoding();
-        auto& tmp_encoding = tmp_element->get_dof_encoding();
-        for(const auto& i : tmp_encoding)
-            for(const auto& j : tmp_encoding) adjacency[i].insert(j);
+    for(const auto& t_element : element_pond.get()) {
+        t_element->update_dof_encoding();
+        auto& t_encoding = t_element->get_dof_encoding();
+        for(const auto& i : t_encoding)
+            for(const auto& j : t_encoding) adjacency[i].insert(j);
     }
 
     uvec num_degree(dof_counter);
@@ -59,33 +60,33 @@ int Domain::initialize() {
 
     vector<uvec> adjacency_sorted(dof_counter);
     for(unsigned i = 0; i < dof_counter; ++i) {
-        uvec tmp_vec(num_degree(i));
+        uvec t_vec(num_degree(i));
         unsigned j = 0;
-        for(const auto& k : adjacency[i]) tmp_vec(j++) = k;
-        adjacency_sorted[i] = tmp_vec(sort_index(num_degree(tmp_vec)));
+        for(const auto& k : adjacency[i]) t_vec(j++) = k;
+        adjacency_sorted[i] = t_vec(sort_index(num_degree(t_vec)));
     }
 
     auto idx_rcm = RCM(adjacency_sorted, num_degree);
     uvec idx_sorted = sort_index(idx_rcm);
 
-    auto low_bandwidth = 1, up_bandwidth = 1;
+    auto low_bw = 1, up_bw = 1;
     for(unsigned i = 0; i < dof_counter; ++i) {
         for(const auto& j : adjacency[idx_rcm(i)]) {
-            const int tmp_bandwidth = static_cast<int>(idx_sorted(j)) - i;
-            if(tmp_bandwidth > low_bandwidth)
-                low_bandwidth = tmp_bandwidth;
-            else if(tmp_bandwidth < up_bandwidth)
-                up_bandwidth = tmp_bandwidth;
+            const int t_bw = static_cast<int>(idx_sorted(j)) - i;
+            if(t_bw > low_bw)
+                low_bw = t_bw;
+            else if(t_bw < up_bw)
+                up_bw = t_bw;
         }
     }
 
     // ASSIGN NEW LABELS TO ACTIVE NODES
-    for(const auto& tmp_node : node_pond.get()) tmp_node->set_reordered_dof(idx_sorted(tmp_node->get_original_dof()));
+    for(const auto& t_node : node_pond.get()) t_node->set_reordered_dof(idx_sorted(t_node->get_original_dof()));
 
     // INITIALIZE DERIVED ELEMENTS
-    for(const auto& tmp_element : element_pond.get()) {
-        tmp_element->initialize(shared_from_this());
-        tmp_element->update_dof_encoding();
+    for(const auto& t_element : element_pond.get()) {
+        t_element->initialize(shared_from_this());
+        t_element->update_dof_encoding();
     }
 
     if(workroom == nullptr)
@@ -93,7 +94,14 @@ int Domain::initialize() {
     else
         workroom->set_dof_number(dof_counter);
 
-    workroom->set_bandwidth(static_cast<unsigned>(low_bandwidth), static_cast<unsigned>(-up_bandwidth));
+    workroom->set_bandwidth(static_cast<unsigned>(low_bw), static_cast<unsigned>(-up_bw));
+
+    if(factory == nullptr)
+        factory = make_shared<Factory<double>>(dof_counter);
+    else
+        factory->set_size(dof_counter);
+
+    factory->set_bandwidth(static_cast<unsigned>(low_bw), static_cast<unsigned>(-up_bw));
 
     return 0;
 }
@@ -121,6 +129,13 @@ void Domain::set_workshop(const shared_ptr<Workshop>& W) {
 }
 
 const shared_ptr<Workshop>& Domain::get_workshop() const { return workroom; }
+
+void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
+    factory = F;
+    updated = false;
+}
+
+const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
 
 bool Domain::insert(const shared_ptr<Constraint>& C) { return constraint_pond.insert(C); }
 

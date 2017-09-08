@@ -392,12 +392,6 @@
     <ClInclude Include="..\..\..\Domain\Workshop.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory_black.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory_white.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
@@ -414,6 +408,9 @@
       <Filter>Template</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory.hpp">
       <Filter>Template</Filter>
     </ClInclude>
   </ItemGroup>

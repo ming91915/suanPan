@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Developer\Element\ElementExample.h" />
+    <ClInclude Include="..\..\..\Domain\Factory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp" />

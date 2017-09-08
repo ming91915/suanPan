@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME} SHARED
     "${ROOT}/Domain/Node.cpp"
     "${ROOT}/Domain/Tag.cpp"
     "${ROOT}/Domain/Workshop.cpp"
+    "${ROOT}/Domain/Factory.hpp"
     "${ROOT}/Element/Element.cpp"
     "${ROOT}/Load/Amplitude/Amplitude.cpp"
     "${ROOT}/Load/Load.cpp"

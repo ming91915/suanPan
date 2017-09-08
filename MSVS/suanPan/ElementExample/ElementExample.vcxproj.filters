@@ -13,6 +13,9 @@
     <ClInclude Include="..\..\..\Developer\Element\ElementExample.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory.hpp">
+      <Filter>Depend</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Developer\Element\ElementExample.cpp">

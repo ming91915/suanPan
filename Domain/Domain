@@ -3,8 +3,7 @@
 #include "Domain.h"
 
 #include "ExternalModule.h"
-#include "Factory_white.hpp"
-#include "Factory_black.hpp"
+#include "Factory.hpp"
 #include "Node.h"
 #include "Storage.hpp"
 #include "Tag.h"

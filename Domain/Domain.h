@@ -25,6 +25,8 @@ class Workshop;
 
 template <typename T>
 class Storage;
+template <typename T>
+class Factory;
 class Constraint;
 class Element;
 class Load;
@@ -45,7 +47,8 @@ class Domain : public Tag, public enable_shared_from_this<Domain> {
     bool updated = false;
     bool initialized = false;
 
-    shared_ptr<Workshop> workroom; /**< working room */
+    shared_ptr<Factory<double>> factory; /**< working room */
+    shared_ptr<Workshop> workroom;       /**< working room */
 
     ConstraintStorage constraint_pond;
     ElementStorage element_pond;
@@ -72,6 +75,9 @@ public:
 
     void set_workshop(const shared_ptr<Workshop>&);
     const shared_ptr<Workshop>& get_workshop() const;
+
+    void set_factory(const shared_ptr<Factory<double>>&);
+    const shared_ptr<Factory<double>>& get_factory() const;
 
     bool insert(const shared_ptr<Constraint>&);
     bool insert(const shared_ptr<Element>&);

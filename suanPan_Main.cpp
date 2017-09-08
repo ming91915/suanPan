@@ -6,7 +6,7 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    // argument_parser(argc, argv);
+    argument_parser(argc, argv);
 
     example_symm_mat();
 
@@ -34,10 +34,8 @@ void example_symm_mat() {
     auto F = E;
     const mat D(N, 5, fill::randn);
 
-    auto& K = *C;
     C->solve(D).print();
     cout << endl;
-    cout << K(2, 2) << endl;
     C->solve_trs(D).print();
     cout << endl;
     E.solve(D).print();

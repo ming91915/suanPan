@@ -15,6 +15,9 @@
 
 template <typename T>
 class BandMat : public MetaMat<T> {
+    using MetaMat<T>::i;
+    using MetaMat<T>::inv;
+
     const unsigned low_bw;
     const unsigned up_bw;
     const unsigned shift_bw;
@@ -41,9 +44,6 @@ public:
 
     int solve(Mat<T>&, const Mat<T>&) override;
     int solve_trs(Mat<T>&, const Mat<T>&) override;
-
-    MetaMat<T> i() override;
-    MetaMat<T> inv() override;
 };
 
 template <typename T>
@@ -165,22 +165,6 @@ int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     }
 
     return INFO;
-}
-
-template <typename T>
-MetaMat<T> BandMat<T>::i() {
-    // ReSharper disable once CppStaticAssertFailure
-    static_assert(false, "Inverse is not available for band matrix.");
-    MetaMat<T> X;
-    return X;
-}
-
-template <typename T>
-MetaMat<T> BandMat<T>::inv() {
-    // ReSharper disable once CppStaticAssertFailure
-    static_assert(false, "Inverse is not available for band matrix.");
-    MetaMat<T> X;
-    return X;
 }
 
 #endif

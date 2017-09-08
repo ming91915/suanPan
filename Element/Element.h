@@ -17,15 +17,15 @@
 #include <Domain/Tag.h>
 #include <Material/Material.h> // for derived class
 
-class Domain;
-class Material;
-class Node;
+// class Domain;
+// class Material;
+// class Node;
 
 class Element : public Tag {
     const unsigned num_node; /**< number of nodes */
     const unsigned num_dof;  /**< number of DoFs */
 protected:
-    uvec node_encoding; /**< node encoding vector */
+    uvec node_encoding; /**< node encoding */
     uvec material_tag;  /**< material tags */
 
     bool nlgeom = false; /**< nonlinear geometry switch */
@@ -43,7 +43,9 @@ protected:
 public:
     explicit Element(const unsigned& = 0, const unsigned& = CT_ELEMENT, const unsigned& = 0, const unsigned& = 0, const uvec& = {}, const uvec& = {}, const bool& = false);
     Element(const Element&) = delete;
+    Element(Element&&) = delete;
     Element& operator=(const Element&) = delete;
+    Element& operator=(Element&&) = delete;
 
     virtual ~Element();
 
