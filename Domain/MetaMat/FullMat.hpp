@@ -16,6 +16,7 @@
 template <typename T>
 class FullMat : public MetaMat<T> {
 public:
+    FullMat();
     explicit FullMat(const unsigned&);
 };
 
@@ -28,6 +29,10 @@ template <typename T>
 struct is_Full<FullMat<T>> {
     static const bool value = true;
 };
+
+template <typename T>
+FullMat<T>::FullMat()
+    : MetaMat<T>() {}
 
 template <typename T>
 FullMat<T>::FullMat(const unsigned& in_size)

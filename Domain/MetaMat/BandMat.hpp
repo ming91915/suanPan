@@ -20,12 +20,16 @@ class BandMat : public MetaMat<T> {
     const unsigned shift_bw;
 
 public:
+    using MetaMat<T>::IPIV;
     using MetaMat<T>::TRAN;
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
     using MetaMat<T>::memory;
+    using MetaMat<T>::solve;
+    using MetaMat<T>::solve_trs;
 
+    BandMat();
     BandMat(const unsigned&, const unsigned&, const unsigned&);
 
     const T& operator()(const unsigned&, const unsigned&) const override;
@@ -35,8 +39,11 @@ public:
 
     Mat<T> operator*(const Mat<T>&)override;
 
-    Mat<T> solve(const Mat<T>&) override;
     int solve(Mat<T>&, const Mat<T>&) override;
+    int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> i() override;
+    MetaMat<T> inv() override;
 };
 
 template <typename T>
@@ -48,6 +55,13 @@ template <typename T>
 struct is_Band<BandMat<T>> {
     static const bool value = true;
 };
+
+template <typename T>
+BandMat<T>::BandMat()
+    : MetaMat<T>()
+    , low_bw(0)
+    , up_bw(0)
+    , shift_bw(0) {}
 
 template <typename T>
 BandMat<T>::BandMat(const unsigned& in_size, const unsigned& in_l, const unsigned& in_u)
@@ -105,13 +119,6 @@ Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T>
-Mat<T> BandMat<T>::solve(const Mat<T>& B) {
-    Mat<T> X;
-    if(solve(X, B) != 0) X.reset();
-    return X;
-}
-
-template <typename T>
 int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
@@ -121,20 +128,59 @@ int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     auto NRHS = static_cast<int>(B.n_cols);
     int LDAB = n_rows;
     auto LDB = static_cast<int>(B.n_rows);
-    const auto IPIV = new int[N];
+    IPIV.zeros(N);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        arma_fortran(arma_sgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV, (E*)X.memptr(), &LDB, &INFO);
+        arma_fortran(arma_sgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV, (E*)X.memptr(), &LDB, &INFO);
+        arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    delete[] IPIV;
+    return INFO;
+}
+
+template <typename T>
+int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(IPIV.is_empty()) return -1;
+
+    X = B;
+
+    int N = n_cols;
+    int KL = low_bw;
+    int KU = up_bw;
+    auto NRHS = static_cast<int>(B.n_cols);
+    int LDAB = n_rows;
+    auto LDB = static_cast<int>(B.n_rows);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_sgbtrs)(&TRAN, &N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dgbtrs)(&TRAN, &N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
+    }
 
     return INFO;
+}
+
+template <typename T>
+MetaMat<T> BandMat<T>::i() {
+    // ReSharper disable once CppStaticAssertFailure
+    static_assert(false, "Inverse is not available for band matrix.");
+    MetaMat<T> X;
+    return X;
+}
+
+template <typename T>
+MetaMat<T> BandMat<T>::inv() {
+    // ReSharper disable once CppStaticAssertFailure
+    static_assert(false, "Inverse is not available for band matrix.");
+    MetaMat<T> X;
+    return X;
 }
 
 #endif

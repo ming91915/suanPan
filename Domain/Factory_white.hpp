@@ -3,88 +3,81 @@
 #include "Workshop.h"
 #include <suanPan.h>
 
-template <typename eT, typename T>
-class Factory final {
-    static_assert(std::is_same<eT, typename T::elem_type>::value, "Factory needs same data type for eT and T.");
-    // friend class Solver;
+enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
 
+template <typename T>
+class Factory final {
     bool initialized = false;
 
-    bool symm_mat = false; /**< symmetric matrix storage */
-    bool band_mat = false; /**< banded matrix storage */
+    unsigned n_size = 0; /**< number of DoFs */
+    unsigned n_lobw = 0; /**< low bandwidth */
+    unsigned n_upbw = 0; /**< up bandwidth */
+    unsigned n_sfbw = n_lobw + n_upbw;
 
-    unsigned dof_number = 0; /**< number of DoFs */
+    AnalysisType analysis_type = AnalysisType::NONE;  /**< type of analysis */
+    StorageScheme storage_type = StorageScheme::FULL; /**< type of analysis */
 
-    AnalysisType analysis_type = AnalysisType::NONE; /**< type of analysis */
+    T trial_time = 0.;   /**< global trial (pseudo) time */
+    T incre_time = 0.;   /**< global incremental (pseudo) time */
+    T current_time = 0.; /**< global current (pseudo) time */
+    T pre_time = 0.;     /**< global previous (pseudo) time */
 
-    unsigned low_bandwidth = 0; /**< low bandwidth */
-    unsigned up_bandwidth = 0;  /**< up bandwidth */
-    unsigned shifted_bandwidth = 0;
+    T error = 0.; /**< error produced by certain solvers */
 
-    eT trial_time = 0.;   /**< global trial (pseudo) time */
-    eT incre_time = 0.;   /**< global incremental (pseudo) time */
-    eT current_time = 0.; /**< global current (pseudo) time */
-    eT pre_time = 0.;     /**< global previous (pseudo) time */
+    Col<T> ninja; /**< the result from A*X=B */
 
-    eT error = 0.; /**< error produced by certain solvers */
+    Col<T> trial_load;         /**< global trial load vector */
+    Col<T> trial_resistance;   /**< global trial resistance vector */
+    Col<T> trial_displacement; /**< global trial displacement vector */
+    Col<T> trial_velocity;     /**< global trial velocity vector */
+    Col<T> trial_acceleration; /**< global trial acceleration vector */
+    Col<T> trial_temperature;  /**< global trial temperature vector */
 
-    Col<eT> ninja; /**< the result from A*X=B */
+    Col<T> incre_load;         /**< global incremental load vector */
+    Col<T> incre_resistance;   /**< global incremental resistance vector */
+    Col<T> incre_displacement; /**< global incremental displacement vector */
+    Col<T> incre_velocity;     /**< global incremental velocity vector */
+    Col<T> incre_acceleration; /**< global incremental acceleration vector */
+    Col<T> incre_temperature;  /**< global incremental temperature vector */
 
-    Col<eT> trial_load;         /**< global trial load vector */
-    Col<eT> trial_resistance;   /**< global trial resistance vector */
-    Col<eT> trial_displacement; /**< global trial displacement vector */
-    Col<eT> trial_velocity;     /**< global trial velocity vector */
-    Col<eT> trial_acceleration; /**< global trial acceleration vector */
-    Col<eT> trial_temperature;  /**< global trial temperature vector */
+    Col<T> current_load;         /**< global current load vector */
+    Col<T> current_resistance;   /**< global current resistance vector */
+    Col<T> current_displacement; /**< global current displacement vector */
+    Col<T> current_velocity;     /**< global current velocity vector */
+    Col<T> current_acceleration; /**< global current acceleration vector */
+    Col<T> current_temperature;  /**< global current temperature vector */
 
-    Col<eT> incre_load;         /**< global incremental load vector */
-    Col<eT> incre_resistance;   /**< global incremental resistance vector */
-    Col<eT> incre_displacement; /**< global incremental displacement vector */
-    Col<eT> incre_velocity;     /**< global incremental velocity vector */
-    Col<eT> incre_acceleration; /**< global incremental acceleration vector */
-    Col<eT> incre_temperature;  /**< global incremental temperature vector */
+    Col<T> pre_load;         /**< global previous load vector */
+    Col<T> pre_resistance;   /**< global previous resistance vector */
+    Col<T> pre_displacement; /**< global previous displacement vector */
+    Col<T> pre_velocity;     /**< global previous velocity vector */
+    Col<T> pre_acceleration; /**< global previous acceleration vector */
+    Col<T> pre_temperature;  /**< global previous temperature vector */
 
-    Col<eT> current_load;         /**< global current load vector */
-    Col<eT> current_resistance;   /**< global current resistance vector */
-    Col<eT> current_displacement; /**< global current displacement vector */
-    Col<eT> current_velocity;     /**< global current velocity vector */
-    Col<eT> current_acceleration; /**< global current acceleration vector */
-    Col<eT> current_temperature;  /**< global current temperature vector */
+    shared_ptr<MetaMat<T>> global_mass = nullptr;      /**< global mass matrix */
+    shared_ptr<MetaMat<T>> global_damping = nullptr;   /**< global damping matrix */
+    shared_ptr<MetaMat<T>> global_stiffness = nullptr; /**< global stiffness matrix */
 
-    Col<eT> pre_load;         /**< global previous load vector */
-    Col<eT> pre_resistance;   /**< global previous resistance vector */
-    Col<eT> pre_displacement; /**< global previous displacement vector */
-    Col<eT> pre_velocity;     /**< global previous velocity vector */
-    Col<eT> pre_acceleration; /**< global previous acceleration vector */
-    Col<eT> pre_temperature;  /**< global previous temperature vector */
+    Col<T> eigenvalue; /**< eigenvalues */
 
-    T global_mass;      /**< global mass matrix */
-    T global_damping;   /**< global damping matrix */
-    T global_stiffness; /**< global stiffness matrix */
-
-    Col<eT> eigenvalue; /**< eigenvalues */
-
-    Mat<eT> eigenvector; /**< eigenvectors */
+    Mat<T> eigenvector; /**< eigenvectors */
 public:
-    explicit Factory(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE);
+    explicit Factory(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE, const StorageScheme& = StorageScheme::FULL);
 
-    const bool& is_symm() const;
-    const bool& is_band() const;
-
-    void set_symm(const bool&);
-    void set_band(const bool&);
-
-    void set_dof_number(const unsigned&);
-    const unsigned& get_dof_number() const;
+    void set_size(const unsigned&);
+    const unsigned& get_size() const;
 
     void set_analysis_type(const AnalysisType&);
     const AnalysisType& get_analysis_type() const;
 
+    void set_storage_scheme(const StorageScheme&);
+    const StorageScheme& get_storage_scheme() const;
+
     void set_bandwidth(const unsigned&, const unsigned&);
     void get_bandwidth(unsigned&, unsigned&) const;
 
-    void set_error(const eT&);
-    const eT& get_error() const;
+    void set_error(const T&);
+    const T& get_error() const;
 
     const bool& is_initialized() const;
 
@@ -102,159 +95,159 @@ public:
     void initialize_damping(const unsigned&);
     void initialize_stiffness(const unsigned&);
 
-    void update_ninja(const Col<eT>&);
+    void update_ninja(const Col<T>&);
 
-    void update_trial_time(const eT&);
-    void update_trial_load(const Col<eT>&);
-    void update_trial_resistance(const Col<eT>&);
-    void update_trial_displacement(const Col<eT>&);
-    void update_trial_velocity(const Col<eT>&);
-    void update_trial_acceleration(const Col<eT>&);
-    void update_trial_temperature(const Col<eT>&);
+    void update_trial_time(const T&);
+    void update_trial_load(const Col<T>&);
+    void update_trial_resistance(const Col<T>&);
+    void update_trial_displacement(const Col<T>&);
+    void update_trial_velocity(const Col<T>&);
+    void update_trial_acceleration(const Col<T>&);
+    void update_trial_temperature(const Col<T>&);
 
-    void update_incre_time(const eT&);
-    void update_incre_load(const Col<eT>&);
-    void update_incre_resistance(const Col<eT>&);
-    void update_incre_displacement(const Col<eT>&);
-    void update_incre_velocity(const Col<eT>&);
-    void update_incre_acceleration(const Col<eT>&);
-    void update_incre_temperature(const Col<eT>&);
+    void update_incre_time(const T&);
+    void update_incre_load(const Col<T>&);
+    void update_incre_resistance(const Col<T>&);
+    void update_incre_displacement(const Col<T>&);
+    void update_incre_velocity(const Col<T>&);
+    void update_incre_acceleration(const Col<T>&);
+    void update_incre_temperature(const Col<T>&);
 
-    void update_current_time(const eT&);
-    void update_current_load(const Col<eT>&);
-    void update_current_resistance(const Col<eT>&);
-    void update_current_displacement(const Col<eT>&);
-    void update_current_velocity(const Col<eT>&);
-    void update_current_acceleration(const Col<eT>&);
-    void update_current_temperature(const Col<eT>&);
+    void update_current_time(const T&);
+    void update_current_load(const Col<T>&);
+    void update_current_resistance(const Col<T>&);
+    void update_current_displacement(const Col<T>&);
+    void update_current_velocity(const Col<T>&);
+    void update_current_acceleration(const Col<T>&);
+    void update_current_temperature(const Col<T>&);
 
-    void update_pre_time(const eT&);
-    void update_pre_load(const Col<eT>&);
-    void update_pre_resistance(const Col<eT>&);
-    void update_pre_displacement(const Col<eT>&);
-    void update_pre_velocity(const Col<eT>&);
-    void update_pre_acceleration(const Col<eT>&);
-    void update_pre_temperature(const Col<eT>&);
+    void update_pre_time(const T&);
+    void update_pre_load(const Col<T>&);
+    void update_pre_resistance(const Col<T>&);
+    void update_pre_displacement(const Col<T>&);
+    void update_pre_velocity(const Col<T>&);
+    void update_pre_acceleration(const Col<T>&);
+    void update_pre_temperature(const Col<T>&);
 
-    void update_mass(const T&);
-    void update_damping(const T&);
-    void update_stiffness(const T&);
+    void update_mass(const shared_ptr<MetaMat<T>>&);
+    void update_damping(const shared_ptr<MetaMat<T>>&);
+    void update_stiffness(const shared_ptr<MetaMat<T>>&);
 
-    const Col<eT>& get_ninja() const;
+    const Col<T>& get_ninja() const;
 
-    const eT& get_trial_time() const;
-    const Col<eT>& get_trial_load() const;
-    const Col<eT>& get_trial_resistance() const;
-    const Col<eT>& get_trial_displacement() const;
-    const Col<eT>& get_trial_velocity() const;
-    const Col<eT>& get_trial_acceleration() const;
-    const Col<eT>& get_trial_temperature() const;
+    const T& get_trial_time() const;
+    const Col<T>& get_trial_load() const;
+    const Col<T>& get_trial_resistance() const;
+    const Col<T>& get_trial_displacement() const;
+    const Col<T>& get_trial_velocity() const;
+    const Col<T>& get_trial_acceleration() const;
+    const Col<T>& get_trial_temperature() const;
 
-    const eT& get_incre_time() const;
-    const Col<eT>& get_incre_load() const;
-    const Col<eT>& get_incre_resistance() const;
-    const Col<eT>& get_incre_displacement() const;
-    const Col<eT>& get_incre_velocity() const;
-    const Col<eT>& get_incre_acceleration() const;
-    const Col<eT>& get_incre_temperature() const;
+    const T& get_incre_time() const;
+    const Col<T>& get_incre_load() const;
+    const Col<T>& get_incre_resistance() const;
+    const Col<T>& get_incre_displacement() const;
+    const Col<T>& get_incre_velocity() const;
+    const Col<T>& get_incre_acceleration() const;
+    const Col<T>& get_incre_temperature() const;
 
-    const eT& get_current_time() const;
-    const Col<eT>& get_current_load() const;
-    const Col<eT>& get_current_resistance() const;
-    const Col<eT>& get_current_displacement() const;
-    const Col<eT>& get_current_velocity() const;
-    const Col<eT>& get_current_acceleration() const;
-    const Col<eT>& get_current_temperature() const;
+    const T& get_current_time() const;
+    const Col<T>& get_current_load() const;
+    const Col<T>& get_current_resistance() const;
+    const Col<T>& get_current_displacement() const;
+    const Col<T>& get_current_velocity() const;
+    const Col<T>& get_current_acceleration() const;
+    const Col<T>& get_current_temperature() const;
 
-    const eT& get_pre_time() const;
-    const Col<eT>& get_pre_load() const;
-    const Col<eT>& get_pre_resistance() const;
-    const Col<eT>& get_pre_displacement() const;
-    const Col<eT>& get_pre_velocity() const;
-    const Col<eT>& get_pre_acceleration() const;
-    const Col<eT>& get_pre_temperature() const;
+    const T& get_pre_time() const;
+    const Col<T>& get_pre_load() const;
+    const Col<T>& get_pre_resistance() const;
+    const Col<T>& get_pre_displacement() const;
+    const Col<T>& get_pre_velocity() const;
+    const Col<T>& get_pre_acceleration() const;
+    const Col<T>& get_pre_temperature() const;
 
-    const T& get_mass() const;
-    const T& get_damping() const;
-    const T& get_stiffness() const;
+    const shared_ptr<MetaMat<T>>& get_mass() const;
+    const shared_ptr<MetaMat<T>>& get_damping() const;
+    const shared_ptr<MetaMat<T>>& get_stiffness() const;
 
-    const Col<eT>& get_eigenvalue() const;
-    const Mat<eT>& get_eigenvector() const;
+    const Col<T>& get_eigenvalue() const;
+    const Mat<T>& get_eigenvector() const;
 
-    template <eT, T>
-    friend Col<eT>& get_ninja(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend Col<T>& get_ninja(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend eT& get_trial_time(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_load(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_resistance(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_displacement(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_velocity(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_acceleration(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_trial_temperature(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend T& get_trial_time(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_load(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_resistance(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_displacement(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_velocity(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_acceleration(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_trial_temperature(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend eT& get_incre_time(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_load(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_resistance(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_displacement(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_velocity(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_acceleration(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_incre_temperature(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend T& get_incre_time(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_load(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_resistance(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_displacement(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_velocity(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_acceleration(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_incre_temperature(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend eT& get_current_time(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_load(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_resistance(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_displacement(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_velocity(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_acceleration(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_current_temperature(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend T& get_current_time(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_load(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_resistance(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_displacement(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_velocity(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_acceleration(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_current_temperature(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend eT& get_pre_time(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_load(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_resistance(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_displacement(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_velocity(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_acceleration(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Col<eT>& get_pre_temperature(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend T& get_pre_time(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_load(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_resistance(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_displacement(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_velocity(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_acceleration(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Col<T>& get_pre_temperature(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend T& get_mass(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend T& get_damping(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend T& get_stiffness(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend shared_ptr<MetaMat<T>>& get_mass(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend shared_ptr<MetaMat<T>>& get_damping(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend shared_ptr<MetaMat<T>>& get_stiffness(const shared_ptr<Factory<T>>&);
 
-    template <eT, T>
-    friend Col<eT>& get_eigenvalue(const shared_ptr<Factory<eT, T>>&);
-    template <eT, T>
-    friend Mat<eT>& get_eigenvector(const shared_ptr<Factory<eT, T>>&);
+    template <T>
+    friend Col<T>& get_eigenvalue(const shared_ptr<Factory<T>>&);
+    template <T>
+    friend Mat<T>& get_eigenvector(const shared_ptr<Factory<T>>&);
 
     void commit_status();
     void commit_time();
@@ -299,8 +292,8 @@ public:
 
     void print() const;
 
-    void assemble_resistance(const Mat<eT>&, const uvec&);
-    void assemble_mass(const Mat<eT>&, const uvec&);
-    void assemble_damping(const Mat<eT>&, const uvec&);
-    void assemble_stiffness(const Mat<eT>&, const uvec&);
+    void assemble_resistance(const Mat<T>&, const uvec&);
+    void assemble_mass(const Mat<T>&, const uvec&);
+    void assemble_damping(const Mat<T>&, const uvec&);
+    void assemble_stiffness(const Mat<T>&, const uvec&);
 };

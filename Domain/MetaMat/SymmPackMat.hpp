@@ -19,12 +19,16 @@ class SymmPackMat : public MetaMat<T> {
     const char UPLO = 'U';
 
 public:
+    using MetaMat<T>::IPIV;
     using MetaMat<T>::TRAN;
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
     using MetaMat<T>::memory;
+    using MetaMat<T>::solve;
+    using MetaMat<T>::solve_trs;
 
+    SymmPackMat();
     explicit SymmPackMat(const unsigned&);
 
     const T& operator()(const unsigned&, const unsigned&) const override;
@@ -34,8 +38,10 @@ public:
 
     Mat<T> operator*(const Mat<T>&)override;
 
-    Mat<T> solve(const Mat<T>&) override;
     int solve(Mat<T>&, const Mat<T>&) override;
+    int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> i() override;
 };
 
 template <typename T>
@@ -47,6 +53,10 @@ template <typename T>
 struct is_SymmPack<SymmPackMat<T>> {
     static const bool value = true;
 };
+
+template <typename T>
+SymmPackMat<T>::SymmPackMat()
+    : MetaMat<T>() {}
 
 template <typename T>
 SymmPackMat<T>::SymmPackMat(const unsigned& in_size)
@@ -100,34 +110,84 @@ Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T>
-Mat<T> SymmPackMat<T>::solve(const Mat<T>& B) {
-    Mat<T> X;
-    if(solve(X, B) != 0) X.reset();
-    return X;
-}
-
-template <typename T>
 int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
-    const auto UPLO = 'U';
     int N = n_rows;
     auto NRHS = static_cast<int>(B.n_cols);
-    const auto IPIV = new int[N];
+    IPIV.zeros(N);
     auto LDB = static_cast<int>(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        arma_fortran(arma_sspsv)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV, (E*)X.memptr(), &LDB, &INFO);
+        arma_fortran(arma_sspsv)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        arma_fortran(arma_dspsv)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV, (E*)X.memptr(), &LDB, &INFO);
+        arma_fortran(arma_dspsv)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    delete[] IPIV;
+    return INFO;
+}
+
+template <typename T>
+int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(IPIV.is_empty()) return -1;
+
+    X = B;
+
+    int N = n_rows;
+    auto NRHS = static_cast<int>(B.n_cols);
+    auto LDB = static_cast<int>(B.n_rows);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_ssptrs)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dsptrs)(&UPLO, &N, &NRHS, (E*)this->memptr(), IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
+    }
 
     return INFO;
+}
+
+template <typename T>
+MetaMat<T> SymmPackMat<T>::i() {
+    auto X = *this;
+
+    int N = X.n_rows;
+    IPIV.zeros(N);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_ssptrf)(&X.UPLO, &N, (E*)X.memptr(), IPIV.memptr(), &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dsptrf)(&X.UPLO, &N, (E*)X.memptr(), IPIV.memptr(), &INFO);
+    }
+
+    if(INFO != 0) {
+        X.reset();
+        return X;
+    }
+
+    const auto WORK = new double[N];
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_ssptri)(&X.UPLO, &N, (E*)X.memptr(), IPIV.memptr(), (E*)WORK, &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dsptri)(&X.UPLO, &N, (E*)X.memptr(), IPIV.memptr(), (E*)WORK, &INFO);
+    }
+
+    if(INFO != 0) X.reset();
+
+    delete[] WORK;
+
+    return X;
 }
 
 #endif

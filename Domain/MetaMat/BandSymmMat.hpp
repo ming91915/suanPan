@@ -16,13 +16,17 @@
 template <typename T>
 class BandSymmMat : public MetaMat<T> {
     const char UPLO = 'L';
+    const unsigned bw;
 
 public:
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
     using MetaMat<T>::memory;
+    using MetaMat<T>::solve;
+    using MetaMat<T>::solve_trs;
 
+    BandSymmMat();
     BandSymmMat(const unsigned&, const unsigned&);
 
     const T& operator()(const unsigned&, const unsigned&) const override;
@@ -32,8 +36,11 @@ public:
 
     Mat<T> operator*(const Mat<T>&)override;
 
-    Mat<T> solve(const Mat<T>&) override;
     int solve(Mat<T>&, const Mat<T>&) override;
+    int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> i() override;
+    MetaMat<T> inv() override;
 };
 
 template <typename T>
@@ -47,8 +54,14 @@ struct is_BandSymm<BandSymmMat<T>> {
 };
 
 template <typename T>
+BandSymmMat<T>::BandSymmMat()
+    : MetaMat<T>()
+    , bw(0) {}
+
+template <typename T>
 BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidth)
-    : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size) {}
+    : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size)
+    , bw(in_bandwidth) {}
 
 template <typename T>
 const T& BandSymmMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) const {
@@ -76,7 +89,7 @@ Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
         auto Y = X;
 
         int N = n_cols;
-        int K = n_rows - 1;
+        int K = bw;
         T ALPHA = 1.;
         int LDA = n_rows;
         auto INC = 1;
@@ -97,19 +110,11 @@ Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T>
-Mat<T> BandSymmMat<T>::solve(const Mat<T>& B) {
-    Mat<T> X;
-    if(solve(X, B) != 0) X.reset();
-    return X;
-}
-
-template <typename T>
 int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
-    auto UPLO = 'L';
     int N = n_cols;
-    int KD = n_rows - 1;
+    int KD = bw;
     auto NRHS = static_cast<int>(B.n_cols);
     int LDAB = n_rows;
     auto LDB = static_cast<int>(B.n_rows);
@@ -124,6 +129,44 @@ int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     }
 
     return INFO;
+}
+
+template <typename T>
+int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    X = B;
+
+    int N = n_cols;
+    int KD = bw;
+    auto NRHS = static_cast<int>(B.n_cols);
+    int LDAB = n_rows;
+    auto LDB = static_cast<int>(B.n_rows);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_spbtrs)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dpbtrs)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
+    }
+
+    return INFO;
+}
+
+template <typename T>
+MetaMat<T> BandSymmMat<T>::i() {
+    // ReSharper disable once CppStaticAssertFailure
+    static_assert(false, "Inverse is not available for band symmetric matrix.");
+    MetaMat<T> X;
+    return X;
+}
+
+template <typename T>
+MetaMat<T> BandSymmMat<T>::inv() {
+    // ReSharper disable once CppStaticAssertFailure
+    static_assert(false, "Inverse is not available for band symmetric matrix.");
+    MetaMat<T> X;
+    return X;
 }
 
 #endif

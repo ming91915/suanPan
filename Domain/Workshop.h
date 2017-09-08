@@ -76,9 +76,9 @@ class Workshop final {
     vec pre_acceleration; /**< global previous acceleration vector */
     vec pre_temperature;  /**< global previous temperature vector */
 
-    MetaMat<double> global_mass_t; /**< global mass matrix */
-    mat global_damping_t;          /**< global damping matrix */
-    mat global_stiffness_t;        /**< global stiffness matrix */
+    MetaMat<double> global_mass_t;      /**< global mass matrix */
+    MetaMat<double> global_damping_t;   /**< global damping matrix */
+    MetaMat<double> global_stiffness_t; /**< global stiffness matrix */
 
     mat global_mass;      /**< global mass matrix */
     mat global_damping;   /**< global damping matrix */
