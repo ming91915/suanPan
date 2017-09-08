@@ -1,9 +1,6 @@
 #include "utility.h"
 #include <cstring>
-
-#if defined(SUANPAN_UNIX)
-#define _strcmpi strcasecmp
-#endif
+#include <suanPan.h>
 
 bool if_equal(const string& A, const char* B) { return _strcmpi(A.c_str(), B) == 0; }
 
