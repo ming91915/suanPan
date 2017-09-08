@@ -1,15 +1,11 @@
-dist: precise
 language: generic
 compiler: gcc
 os: linux
 addons:
   apt:
-    sources: &sources
-      - george-edison55-precise-backports
+    sources:
       - ubuntu-toolchain-r-test
     packages:
-      - cmake
-      - cmake-data
       - g++-5
       - gfortran
 env:
