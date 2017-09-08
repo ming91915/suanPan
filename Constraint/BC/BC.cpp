@@ -2,6 +2,7 @@
 #include <Domain/Domain.h>
 #include <Domain/Node.h>
 #include <Domain/Workshop.h>
+#include <Toolbox/utility.h>
 
 /**
  * \brief The default constructor.
@@ -61,15 +62,15 @@ BC::BC(const unsigned& S, const uvec& N, const uvec& D)
 BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
     : Constraint(T, CT_BC, S)
     , nodes(N) {
-    if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
+    if(if_equal(TP, "XSYMM") || if_equal(TP, "X"))
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
-    else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
+    else if(if_equal(TP, "YSYMM") || if_equal(TP, "Y"))
         dofs = std::initializer_list<uword>({ 2, 4, 6 });
-    else if(_strcmpi(TP, "ZSYMM") == 0 || _strcmpi(TP, "Z") == 0)
+    else if(if_equal(TP, "ZSYMM") || if_equal(TP, "Z"))
         dofs = std::initializer_list<uword>({ 3, 4, 5 });
-    else if(_strcmpi(TP, "ENCASTRE") == 0 || _strcmpi(TP, "E") == 0)
+    else if(if_equal(TP, "ENCASTRE") || if_equal(TP, "E"))
         dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
-    else if(_strcmpi(TP, "PINNED") == 0 || _strcmpi(TP, "P") == 0)
+    else if(if_equal(TP, "PINNED") || if_equal(TP, "P"))
         dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 
@@ -82,15 +83,15 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
 BC::BC(const unsigned& ST, const uvec& NT, const char* TP)
     : Constraint(0, CT_BC, ST)
     , nodes(NT) {
-    if(_strcmpi(TP, "XSYMM") == 0 || _strcmpi(TP, "X") == 0)
+    if(if_equal(TP, "XSYMM") || if_equal(TP, "X"))
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
-    else if(_strcmpi(TP, "YSYMM") == 0 || _strcmpi(TP, "Y") == 0)
+    else if(if_equal(TP, "YSYMM") || if_equal(TP, "Y"))
         dofs = std::initializer_list<uword>({ 2, 4, 6 });
-    else if(_strcmpi(TP, "ZSYMM") == 0 || _strcmpi(TP, "Z") == 0)
+    else if(if_equal(TP, "ZSYMM") || if_equal(TP, "Z"))
         dofs = std::initializer_list<uword>({ 3, 4, 5 });
-    else if(_strcmpi(TP, "ENCASTRE") == 0 || _strcmpi(TP, "E") == 0)
+    else if(if_equal(TP, "ENCASTRE") || if_equal(TP, "E"))
         dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
-    else if(_strcmpi(TP, "PINNED") == 0 || _strcmpi(TP, "P") == 0)
+    else if(if_equal(TP, "PINNED") || if_equal(TP, "P"))
         dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 

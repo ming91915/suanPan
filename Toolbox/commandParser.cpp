@@ -158,13 +158,13 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    if(_strcmpi(step_type.c_str(), "Static") == 0) {
+    if(if_equal(step_type, "Static")) {
         if(model->insert(make_shared<Static>(tag, time))) {
             model->set_current_step(tag);
             model->get_current_step()->set_domain(model->get_current_domain());
         } else
             suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(_strcmpi(step_type.c_str(), "Dynamic") == 0) {
+    } else if(if_equal(step_type, "Dynamic")) {
         if(model->insert(make_shared<Dynamic>(tag, time))) {
             model->set_current_step(tag);
             model->get_current_step()->set_domain(model->get_current_domain());
@@ -263,12 +263,12 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    if(_strcmpi(solver_type.c_str(), "Newton") == 0) {
+    if(if_equal(solver_type, "Newton")) {
         if(model->insert(make_shared<Newton>(tag)))
             tmp_step->set_solver(model->get_solver(tag));
         else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else if(_strcmpi(solver_type.c_str(), "BFGS") == 0) {
+    } else if(if_equal(solver_type, "BFGS")) {
         if(model->insert(make_shared<BFGS>(tag)))
             tmp_step->set_solver(model->get_solver(tag));
         else
@@ -468,17 +468,17 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
 
     unique_ptr<Element> new_element = nullptr;
 
-    if(_strcmpi(element_id.c_str(), "CP4") == 0)
+    if(if_equal(element_id, "CP4"))
         new_cp4(new_element, command);
-    else if(_strcmpi(element_id.c_str(), "PS") == 0)
+    else if(if_equal(element_id, "PS"))
         new_ps(new_element, command);
-    else if(_strcmpi(element_id.c_str(), "QE2") == 0)
+    else if(if_equal(element_id, "QE2"))
         new_qe2(new_element, command);
-    else if(_strcmpi(element_id.c_str(), "GQ12") == 0)
+    else if(if_equal(element_id, "GQ12"))
         new_gq12(new_element, command);
-    else if(_strcmpi(element_id.c_str(), "Truss2D") == 0)
+    else if(if_equal(element_id, "Truss2D"))
         new_truss2d(new_element, command);
-    else if(_strcmpi(element_id.c_str(), "Proto01") == 0)
+    else if(if_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else {
         ExternalModule ext_library(element_id);
@@ -515,7 +515,7 @@ int create_new_recorder(const shared_ptr<Domain>& domain, istringstream& command
         return 0;
     }
 
-    if(_strcmpi(object_type.c_str(), "Node") == 0 && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+    if(if_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
 
     return 0;
 }
@@ -680,19 +680,19 @@ void print_command_usage(istringstream& command) {
     string command_id;
     command >> command_id;
 
-    if(_strcmpi(command_id.c_str(), "converger") == 0) {
+    if(if_equal(command_id, "converger")) {
         suanpan_info("\nconverger $type $tag $tolerance [$max_iteration] [$if_print]\n");
         suanpan_info("\t$type --- converger type\n");
         suanpan_info("\t$tag --- converger tag\n");
         suanpan_info("\t$tolerance --- tolerance -> 1E-8\n");
         suanpan_info("\t$max_iteration --- maximum iteration number -> 7\n");
         suanpan_info("\t$if_print --- print error in each iteration -> false\n\n");
-    } else if(_strcmpi(command_id.c_str(), "step") == 0) {
+    } else if(if_equal(command_id, "step")) {
         suanpan_info("\nstep $type $tag [$time_period]\n");
         suanpan_info("\t$type --- step type\n");
         suanpan_info("\t$tag --- step tag\n");
         suanpan_info("\t$time_period --- step time period -> 1.0\n\n");
-    } else if(_strcmpi(command_id.c_str(), "Truss2D") == 0) {
+    } else if(if_equal(command_id, "Truss2D")) {
         suanpan_info("\nelement Truss2D $tag {$node_tag...} $material_tag $area [$nonlinear_switch] [$constant_area_switch] [$log_strain_switch]\n");
         suanpan_info("\t$tag --- element tag\n");
         suanpan_info("\t$node_tag --- node tag (2)\n");
@@ -701,12 +701,12 @@ void print_command_usage(istringstream& command) {
         suanpan_info("\t$nonlinear_switch --- if to use corotational formulation -> false\n");
         suanpan_info("\t$constant_area_switch --- if to update area based on constant volume assumption -> false\n");
         suanpan_info("\t$log_strain_switch --- if to use log strain or engineering strain -> false\n\n");
-    } else if(_strcmpi(command_id.c_str(), "Elastic1D") == 0) {
+    } else if(if_equal(command_id, "Elastic1D")) {
         suanpan_info("\nmaterial Elastic1D $tag $elastic_modulus [$density]\n");
         suanpan_info("\t$tag --- material tag\n");
         suanpan_info("\t$elastic_modulus --- elastic modulus\n");
         suanpan_info("\t$density --- density -> 0.0\n\n");
-    } else if(_strcmpi(command_id.c_str(), "Bilinear1D") == 0) {
+    } else if(if_equal(command_id, "Bilinear1D")) {
         suanpan_info("\nmaterial Bilinear1D $tag $elastic_modulus $yield_stress [$hardening_ratio] [$beta] [$density]\n");
         suanpan_info("\t$tag --- material tag\n");
         suanpan_info("\t$elastic_modulus --- elastic modulus\n");

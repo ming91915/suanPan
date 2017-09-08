@@ -1,6 +1,7 @@
 #include "argumentParser.h"
 #include "commandParser.h"
 #include <Step/Bead.h>
+#include <Toolbox/utility.h>
 #include <suanPan.h>
 
 using std::string;
@@ -16,13 +17,13 @@ void argument_parser(int argc, char** argv) {
 
     if(argc > 1) {
         for(auto i = 0; i < argc; ++i) {
-            if(_strcmpi(argv[i], "-v") == 0 || _strcmpi(argv[i], "--version") == 0)
+            if(if_equal(argv[i], "-v") || if_equal(argv[i], "--version"))
                 print_version();
-            else if(_strcmpi(argv[i], "-h") == 0 || _strcmpi(argv[i], "--help") == 0)
+            else if(if_equal(argv[i], "-h") || if_equal(argv[i], "--help"))
                 print_helper();
-            else if(_strcmpi(argv[i], "-f") == 0 || _strcmpi(argv[i], "--file") == 0)
+            else if(if_equal(argv[i], "-f") || if_equal(argv[i], "--file"))
                 input_file_name = argv[++i];
-            else if(_strcmpi(argv[i], "-o") == 0 || _strcmpi(argv[i], "--output") == 0)
+            else if(if_equal(argv[i], "-o") || if_equal(argv[i], "--output"))
                 output_file_name = argv[++i];
         }
 
