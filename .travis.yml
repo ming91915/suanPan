@@ -1,15 +1,14 @@
+dist: precise
 language: cpp
 compiler: gcc
 os: linux
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
       - g++-5
-      - gfortran-6
+      - gfortran
 env:
-  - MATRIX_EVAL="FC=gfortran-6 CC=gcc-5 && CXX=g++-5"
+  - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 script:
   - mkdir cmake-build && cd cmake-build && cmake ../ && make
 before_install:
