@@ -32,10 +32,10 @@ public:
     BandSymmMat();
     BandSymmMat(const unsigned&, const unsigned&);
 
-    const T& operator()(const unsigned&, const unsigned&) const override;
-    const T& at(const unsigned&, const unsigned&) const override;
-    T& operator()(const unsigned&, const unsigned&) override;
-    T& at(const unsigned&, const unsigned&) override;
+    const T& operator()(const uword&, const uword&) const override;
+    const T& at(const uword&, const uword&) const override;
+    T& operator()(const uword&, const uword&) override;
+    T& at(const uword&, const uword&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
 
@@ -64,22 +64,22 @@ BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidt
     , bw(in_bandwidth) {}
 
 template <typename T>
-const T& BandSymmMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) const {
+const T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) const {
     return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows];
 }
 
 template <typename T>
-const T& BandSymmMat<T>::at(const unsigned& in_row, const unsigned& in_col) const {
+const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const {
     return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows];
 }
 
 template <typename T>
-T& BandSymmMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) {
+T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) {
     return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]);
 }
 
 template <typename T>
-T& BandSymmMat<T>::at(const unsigned& in_row, const unsigned& in_col) {
+T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) {
     return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]);
 }
 

@@ -41,10 +41,10 @@ public:
     void zeros();
     void reset();
 
-    virtual const T& operator()(const unsigned&, const unsigned&) const;
-    virtual const T& at(const unsigned&, const unsigned&) const;
-    virtual T& operator()(const unsigned&, const unsigned&);
-    virtual T& at(const unsigned&, const unsigned&);
+    virtual const T& operator()(const uword&, const uword&) const;
+    virtual const T& at(const uword&, const uword&) const;
+    virtual T& operator()(const uword&, const uword&);
+    virtual T& at(const uword&, const uword&);
 
     const T* memptr() const;
     T* memptr();
@@ -155,22 +155,22 @@ void MetaMat<T>::reset() {
 }
 
 template <typename T>
-const T& MetaMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) const {
+const T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) const {
     return memory[in_row + in_col * n_rows];
 }
 
 template <typename T>
-const T& MetaMat<T>::at(const unsigned& in_row, const unsigned& in_col) const {
+const T& MetaMat<T>::at(const uword& in_row, const uword& in_col) const {
     return memory[in_row + in_col * n_rows];
 }
 
 template <typename T>
-T& MetaMat<T>::operator()(const unsigned& in_row, const unsigned& in_col) {
+T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) {
     return access::rw(memory[in_row + in_col * n_rows]);
 }
 
 template <typename T>
-T& MetaMat<T>::at(const unsigned& in_row, const unsigned& in_col) {
+T& MetaMat<T>::at(const uword& in_row, const uword& in_col) {
     return access::rw(memory[in_row + in_col * n_rows]);
 }
 

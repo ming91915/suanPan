@@ -248,6 +248,8 @@ void Domain::update_initial_stiffness() const {
 void Domain::update_stiffness() const {
     workroom->clear_stiffness();
     for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
+    factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_damping() const {

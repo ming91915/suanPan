@@ -1,6 +1,7 @@
 #include "Step.h"
-#include "Converger/Converger.h"
+#include <Converger/Converger.h>
 #include <Domain/Domain.h>
+#include <Domain/Factory.hpp>
 #include <Domain/Workshop.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
@@ -33,17 +34,31 @@ int Step::initialize() {
         return -1;
     }
 
-    if(factory == nullptr) factory = make_shared<Workshop>();
+    if(workroom == nullptr) workroom = make_shared<Workshop>();
 
-    factory->set_symm(symm_mat);
-    factory->set_band(band_mat);
+    workroom->set_symm(symm_mat);
+    workroom->set_band(band_mat);
 
-    database->set_workshop(factory);
+    database->set_workshop(workroom);
+
+    if(factory == nullptr) factory = make_shared<Factory<double>>();
+
+    if(symm_mat && band_mat)
+        factory->set_storage_scheme(StorageScheme::BANDSYMM);
+    else if(!symm_mat && band_mat)
+        factory->set_storage_scheme(StorageScheme::BAND);
+    else if(symm_mat && !band_mat)
+        factory->set_storage_scheme(StorageScheme::SYMMPACK);
+    else if(!symm_mat && !band_mat)
+        factory->set_storage_scheme(StorageScheme::FULL);
+
+    database->set_factory(factory);
+
     database->initialize();
 
     switch(get_class_tag()) {
     case CT_STATIC:
-        factory->set_analysis_type(AnalysisType::STATICS);
+        workroom->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<Integrator>();
         modifier->set_domain(database);
         break;
@@ -53,16 +68,17 @@ int Step::initialize() {
             return -1;
         }
         modifier->set_domain(database);
-        factory->set_analysis_type(AnalysisType::DYNAMICS);
+        workroom->set_analysis_type(AnalysisType::DYNAMICS);
         break;
     case CT_FREQUENCE:
-        factory->set_analysis_type(AnalysisType::EIGEN);
+        workroom->set_analysis_type(AnalysisType::EIGEN);
         break;
     default:
         suanpan_error("initialize() needs a valid Step.\n");
         return -1;
     }
 
+    workroom->initialize();
     factory->initialize();
 
     tester->set_domain(database);
@@ -75,11 +91,11 @@ int Step::initialize() {
 int Step::analyze() { return -1; }
 
 void Step::set_workshop(const shared_ptr<Workshop>& F) {
-    factory = F;
+    workroom = F;
     updated = false;
 }
 
-const shared_ptr<Workshop>& Step::get_workshop() const { return factory; }
+const shared_ptr<Workshop>& Step::get_workshop() const { return workroom; }
 
 void Step::set_domain(const shared_ptr<Domain>& D) {
     database = D;

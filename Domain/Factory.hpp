@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Workshop.h"
+#include <Domain/MetaMat/MetaMat>
 #include <suanPan.h>
 
 enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
@@ -1119,17 +1120,17 @@ void Factory<T>::clear_eigen() {
 
 template <typename T>
 void Factory<T>::clear_mass() {
-    *global_mass.zeros();
+    global_mass->zeros();
 }
 
 template <typename T>
 void Factory<T>::clear_damping() {
-    *global_damping.zeros();
+    global_damping->zeros();
 }
 
 template <typename T>
 void Factory<T>::clear_stiffness() {
-    *global_stiffness.zeros();
+    global_stiffness->zeros();
 }
 
 template <typename T>
@@ -1145,19 +1146,19 @@ void Factory<T>::assemble_resistance(const Mat<T>& ER, const uvec& EI) {
 template <typename T>
 void Factory<T>::assemble_mass(const Mat<T>& EM, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) *global_mass(EI(J), EI(I)) += EM(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) global_mass->operator()(EI(J), EI(I)) += EM(J, I);
 }
 
 template <typename T>
 void Factory<T>::assemble_damping(const Mat<T>& EC, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) *global_damping(EI(J), EI(I)) += EC(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) global_damping->operator()(EI(J), EI(I)) += EC(J, I);
 }
 
 template <typename T>
 void Factory<T>::assemble_stiffness(const Mat<T>& EK, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) *global_stiffness(EI(J), EI(I)) += EK(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) global_stiffness->operator()(EI(J), EI(I)) += EK(J, I);
 }
 
 template <typename T>
