@@ -1,7 +1,6 @@
 class glue_times_symm {
 public:
-    template <typename T1, typename T2>
-    arma_hot static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times_symm>& I) {
+    template <typename T1, typename T2> arma_hot static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times_symm>& I) {
         typedef typename T1::elem_type eT;
         auto& A = I.A;
         auto& X = I.B;
@@ -26,8 +25,7 @@ public:
 
 class glue_mixed_times_symm {
 public:
-    template <typename T1, typename T2>
-    inline static void apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times_symm>& X) {
+    template <typename T1, typename T2> inline static void apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times_symm>& X) {
         arma_extra_debug_sigprint();
 
         typedef typename T1::elem_type eT1;
@@ -47,8 +45,7 @@ public:
     }
 };
 
-template <typename eT>
-inline Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X) {
+template <typename eT> inline Col<eT> sp_mv(const SymmMat<eT>& A, const Col<eT>& X) {
     auto Y = X;
 
     auto UPLO = 'U';

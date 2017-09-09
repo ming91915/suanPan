@@ -24,10 +24,8 @@ using std::vector;
 
 uvec RCM(const vector<uvec>&, const uvec&);
 
-template <typename eT>
-uvec RCM(const SpMat<eT>&);
+template <typename eT> uvec RCM(const SpMat<eT>&);
 
-template <typename eT>
-uvec RCM(const Mat<eT>&);
+template <typename eT> uvec RCM(const Mat<eT>&);
 
 #endif

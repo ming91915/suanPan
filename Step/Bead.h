@@ -10,17 +10,22 @@
 #ifndef BEAD_H
 #define BEAD_H
 
+#include <Domain/Storage.hpp>
 #include <map>
 #include <suanPan.h>
 #include <unordered_map>
+
+using std::map;
+using std::unordered_map;
 
 class Domain;
 class Solver;
 class Converger;
 class Step;
 
-using std::map;
-using std::unordered_map;
+using DomainStorage = Storage<Domain>;
+using SolverStorage = Storage<Solver>;
+using ConvergerStorage = Storage<Converger>;
 
 class Bead {
     unsigned current_domain = 1;

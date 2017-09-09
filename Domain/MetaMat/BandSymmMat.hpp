@@ -13,8 +13,7 @@
 #ifndef BANDSYMMMAT_HPP
 #define BANDSYMMMAT_HPP
 
-template <typename T>
-class BandSymmMat : public MetaMat<T> {
+template <typename T> class BandSymmMat : public MetaMat<T> {
     using MetaMat<T>::i;
     using MetaMat<T>::inv;
 
@@ -43,15 +42,9 @@ public:
     int solve_trs(Mat<T>&, const Mat<T>&) override;
 };
 
-template <typename T>
-struct is_BandSymm {
-    static const bool value = false;
-};
+template <typename T> struct is_BandSymm { static const bool value = false; };
 
-template <typename T>
-struct is_BandSymm<BandSymmMat<T>> {
-    static const bool value = true;
-};
+template <typename T> struct is_BandSymm<BandSymmMat<T>> { static const bool value = true; };
 
 template <typename T>
 BandSymmMat<T>::BandSymmMat()
@@ -63,28 +56,15 @@ BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidt
     : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size)
     , bw(in_bandwidth) {}
 
-template <typename T>
-const T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) const {
-    return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows];
-}
+template <typename T> const T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
 
-template <typename T>
-const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const {
-    return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows];
-}
+template <typename T> const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
 
-template <typename T>
-T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]);
-}
+template <typename T> T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]); }
 
-template <typename T>
-T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]);
-}
+template <typename T> T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]); }
 
-template <typename T>
-Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
+template <typename T> Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {
         auto Y = X;
 
@@ -109,8 +89,7 @@ Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
     return X;
 }
 
-template <typename T>
-int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_cols;
@@ -131,8 +110,7 @@ int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_cols;

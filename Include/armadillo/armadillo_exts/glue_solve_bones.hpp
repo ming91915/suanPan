@@ -1,14 +1,12 @@
 class glue_solve_symm {
 public:
-    template <typename T1, typename T2>
-    static void apply(Mat<typename T1::elem_type>& X, const Glue<T1, T2, glue_solve_symm>& S) {
+    template <typename T1, typename T2> static void apply(Mat<typename T1::elem_type>& X, const Glue<T1, T2, glue_solve_symm>& S) {
         arma_extra_debug_sigprint();
 
         if(glue_solve_symm::apply(X, S.A, S.B) == false) arma_stop_runtime_error("solve(): solution not found");
     }
 
-    template <typename eT, typename T1, typename T2>
-    static bool apply(Mat<eT>& X, const T1& A, const T2& B) {
+    template <typename eT, typename T1, typename T2> static bool apply(Mat<eT>& X, const T1& A, const T2& B) {
         auto UPLO = 'U';
         auto N = static_cast<int>(A.n_size);
         auto NRHS = static_cast<int>(B.n_cols);

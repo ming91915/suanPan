@@ -1,5 +1,4 @@
-template <typename eT>
-class BandMat : public Base<eT, BandMat<eT>> {
+template <typename eT> class BandMat : public Base<eT, BandMat<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -30,8 +29,7 @@ public:
 
     explicit BandMat(const uword& in_size, const uword& in_l, const uword& in_u);
 
-    template <typename fill_type>
-    BandMat(const uword& in_size, const uword& in_l, const uword& in_u, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> BandMat(const uword& in_size, const uword& in_l, const uword& in_u, const fill::fill_class<fill_type>& f);
 
     BandMat& operator=(const eT& val);
     BandMat& operator+=(const eT& val);
@@ -47,11 +45,9 @@ public:
     BandMat& operator%=(const BandMat& m);
     BandMat& operator/=(const BandMat& m);
 
-    template <typename T1, typename bdop_type>
-    BandMat(const BdOp<T1, bdop_type>& X);
+    template <typename T1, typename bdop_type> BandMat(const BdOp<T1, bdop_type>& X);
 
-    template <typename T1, typename bdop_type>
-    BandMat& operator=(const BdOp<T1, bdop_type>& X);
+    template <typename T1, typename bdop_type> BandMat& operator=(const BdOp<T1, bdop_type>& X);
 
     eT& at(const uword& in_row, const uword& in_col);
     const eT& at(const uword& in_row, const uword& in_col) const;
@@ -64,8 +60,7 @@ public:
     void set_size(const uword in_size, const uword& in_l, const uword& in_u);
 
     arma_hot const BandMat& fill(const eT val);
-    template <typename fill_type>
-    arma_hot const BandMat& fill(const fill::fill_class<fill_type>&);
+    template <typename fill_type> arma_hot const BandMat& fill(const fill::fill_class<fill_type>&);
 
     const BandMat& zeros();
     const BandMat& zeros(const uword in_size, const uword& in_l, const uword& in_u);

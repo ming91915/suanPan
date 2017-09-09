@@ -35,8 +35,7 @@ uvec RCM(const vector<uvec>& A, const uvec& E) {
     return R;
 }
 
-template <typename eT>
-uvec RCM(const SpMat<eT>& MEAT) {
+template <typename eT> uvec RCM(const SpMat<eT>& MEAT) {
 #ifdef SUANPAN_DEBUG
     //! Check if the matrix is square.
     if(!MEAT.is_square()) throw logic_error("RCM() can only be applied to square matrix.\n");
@@ -106,7 +105,4 @@ uvec RCM(const SpMat<eT>& MEAT) {
     return R;
 }
 
-template <typename eT>
-uvec RCM(const Mat<eT>& MEAT) {
-    return RCM(SpMat<eT>(MEAT));
-}
+template <typename eT> uvec RCM(const Mat<eT>& MEAT) { return RCM(SpMat<eT>(MEAT)); }

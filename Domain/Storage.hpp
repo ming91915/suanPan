@@ -19,10 +19,7 @@ using std::unordered_map;
 using std::unordered_set;
 using std::vector;
 
-template <typename T>
-const char* StorageType() {
-    return "Unknown";
-}
+template <typename T> const char* StorageType() { return "Unknown"; }
 
 class Constraint;
 class Element;
@@ -31,33 +28,14 @@ class Material;
 class Node;
 class Recorder;
 
-template <>
-inline const char* StorageType<Constraint>() {
-    return "Constraint";
-}
-template <>
-inline const char* StorageType<Element>() {
-    return "Element";
-}
-template <>
-inline const char* StorageType<Load>() {
-    return "Load";
-}
-template <>
-inline const char* StorageType<Material>() {
-    return "Material";
-}
-template <>
-inline const char* StorageType<Node>() {
-    return "Node";
-}
-template <>
-inline const char* StorageType<Recorder>() {
-    return "Recorder";
-}
+template <> inline const char* StorageType<Constraint>() { return "Constraint"; }
+template <> inline const char* StorageType<Element>() { return "Element"; }
+template <> inline const char* StorageType<Load>() { return "Load"; }
+template <> inline const char* StorageType<Material>() { return "Material"; }
+template <> inline const char* StorageType<Node>() { return "Node"; }
+template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
 
-template <typename T>
-class Storage {
+template <typename T> class Storage {
     typedef T object_type;
 
     const char* type_string = StorageType<object_type>();
@@ -116,25 +94,13 @@ public:
     size_t size() const { return pond.size(); }
 };
 
-template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin(const Storage<T>& S) {
-    return S.cbegin();
-}
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
 
-template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend(const Storage<T>& S) {
-    return S.cend();
-}
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend(const Storage<T>& S) { return S.cend(); }
 
-template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::iterator begin(Storage<T>& S) {
-    return S.begin();
-}
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator begin(Storage<T>& S) { return S.begin(); }
 
-template <typename T>
-typename unordered_map<unsigned, shared_ptr<T>>::iterator end(Storage<T>& S) {
-    return S.end();
-}
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator end(Storage<T>& S) { return S.end(); }
 
 #endif
 

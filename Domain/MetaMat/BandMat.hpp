@@ -13,8 +13,7 @@
 #ifndef BANDMAT_HPP
 #define BANDMAT_HPP
 
-template <typename T>
-class BandMat : public MetaMat<T> {
+template <typename T> class BandMat : public MetaMat<T> {
     using MetaMat<T>::i;
     using MetaMat<T>::inv;
 
@@ -46,15 +45,9 @@ public:
     int solve_trs(Mat<T>&, const Mat<T>&) override;
 };
 
-template <typename T>
-struct is_Band {
-    static const bool value = false;
-};
+template <typename T> struct is_Band { static const bool value = false; };
 
-template <typename T>
-struct is_Band<BandMat<T>> {
-    static const bool value = true;
-};
+template <typename T> struct is_Band<BandMat<T>> { static const bool value = true; };
 
 template <typename T>
 BandMat<T>::BandMat()
@@ -70,28 +63,15 @@ BandMat<T>::BandMat(const unsigned& in_size, const unsigned& in_l, const unsigne
     , up_bw(in_u)
     , shift_bw(low_bw + up_bw) {}
 
-template <typename T>
-const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const {
-    return memory[in_row - in_col + shift_bw + in_col * n_rows];
-}
+template <typename T> const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
 
-template <typename T>
-const T& BandMat<T>::at(const uword& in_row, const uword& in_col) const {
-    return memory[in_row - in_col + shift_bw + in_col * n_rows];
-}
+template <typename T> const T& BandMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
 
-template <typename T>
-T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]);
-}
+template <typename T> T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
 
-template <typename T>
-T& BandMat<T>::at(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]);
-}
+template <typename T> T& BandMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
 
-template <typename T>
-Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
+template <typename T> Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {
         auto Y = X;
 
@@ -118,8 +98,7 @@ Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
     return X;
 }
 
-template <typename T>
-int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_cols;
@@ -142,8 +121,7 @@ int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     if(IPIV.is_empty()) return -1;
 
     X = B;

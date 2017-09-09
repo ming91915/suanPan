@@ -1,13 +1,11 @@
 #pragma once
 
-template <typename T>
-MetaMat<T>& operator*(const T& value, MetaMat<T>& M) {
+template <typename T> MetaMat<T>& operator*(const T& value, MetaMat<T>& M) {
     arrayops::inplace_mul(M.memptr(), value, M.n_elem);
     return M;
 }
 
-template <typename T>
-Mat<T> operator*(const Mat<T>& A, const FullMat<T>& B) {
+template <typename T> Mat<T> operator*(const Mat<T>& A, const FullMat<T>& B) {
     Mat<T> C(A.n_rows, A.n_cols);
 
     const auto TRAN = 'N';
@@ -32,8 +30,7 @@ Mat<T> operator*(const Mat<T>& A, const FullMat<T>& B) {
     return C;
 }
 
-template <const char S, const char T, typename T1>
-Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B) {
+template <const char S, const char T, typename T1> Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B) {
     Mat<T1> C;
 
     auto SIDE = S;
@@ -88,12 +85,6 @@ Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B) {
     return C;
 }
 
-template <typename T>
-Mat<T> operator*(const Mat<T>& A, const SymmPackMat<T>& B) {
-    return spmm<'L', 'N'>(B, A);
-}
+template <typename T> Mat<T> operator*(const Mat<T>& A, const SymmPackMat<T>& B) { return spmm<'L', 'N'>(B, A); }
 
-template <typename T>
-Mat<T> operator*(const Op<Mat<T>, op_htrans>& A, const SymmPackMat<T>& B) {
-    return spmm<'L', 'T'>(B, A.m);
-}
+template <typename T> Mat<T> operator*(const Op<Mat<T>, op_htrans>& A, const SymmPackMat<T>& B) { return spmm<'L', 'T'>(B, A.m); }

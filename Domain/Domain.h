@@ -23,10 +23,8 @@ using std::vector;
 
 class Workshop;
 
-template <typename T>
-class Storage;
-template <typename T>
-class Factory;
+template <typename T> class Storage;
+template <typename T> class Factory;
 class Constraint;
 class Element;
 class Load;

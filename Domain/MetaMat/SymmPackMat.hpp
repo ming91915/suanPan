@@ -13,8 +13,7 @@
 #ifndef SYMMPACKMAT_HPP
 #define SYMMPACKMAT_HPP
 
-template <typename T>
-class SymmPackMat : public MetaMat<T> {
+template <typename T> class SymmPackMat : public MetaMat<T> {
     const char SIDE = 'R';
     const char UPLO = 'U';
 
@@ -44,15 +43,9 @@ public:
     MetaMat<T> i() override;
 };
 
-template <typename T>
-struct is_SymmPack {
-    static const bool value = false;
-};
+template <typename T> struct is_SymmPack { static const bool value = false; };
 
-template <typename T>
-struct is_SymmPack<SymmPackMat<T>> {
-    static const bool value = true;
-};
+template <typename T> struct is_SymmPack<SymmPackMat<T>> { static const bool value = true; };
 
 template <typename T>
 SymmPackMat<T>::SymmPackMat()
@@ -62,31 +55,17 @@ template <typename T>
 SymmPackMat<T>::SymmPackMat(const unsigned& in_size)
     : MetaMat<T>(in_size, in_size, (in_size + 1) * in_size / 2) {}
 
-template <typename T>
-const T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) const {
-    return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col];
-}
+template <typename T> const T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
 
-template <typename T>
-const T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) const {
-    return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col];
-}
+template <typename T> const T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
 
-template <typename T>
-T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]);
-}
+template <typename T> T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]); }
 
-template <typename T>
-T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]);
-}
+template <typename T> T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]); }
 
-template <const char S, const char T, typename T1>
-Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B);
+template <const char S, const char T, typename T1> Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B);
 
-template <typename T>
-Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
+template <typename T> Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {
         auto Y = X;
 
@@ -109,8 +88,7 @@ Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
     return spmm<'R', 'N'>(*this, X);
 }
 
-template <typename T>
-int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_rows;
@@ -130,8 +108,7 @@ int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     if(IPIV.is_empty()) return -1;
 
     X = B;
@@ -152,8 +129,7 @@ int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-MetaMat<T> SymmPackMat<T>::i() {
+template <typename T> MetaMat<T> SymmPackMat<T>::i() {
     auto X = *this;
 
     int N = X.n_rows;

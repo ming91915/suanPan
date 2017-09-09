@@ -19,7 +19,4 @@ BdOp<T1, bdop_type>::BdOp(const T1& in_m, const uword in_aux_uword_a, const uwor
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename bdop_type>
-BdOp<T1, bdop_type>::~BdOp() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename bdop_type> BdOp<T1, bdop_type>::~BdOp() { arma_extra_debug_sigprint(); }

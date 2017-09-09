@@ -1,7 +1,6 @@
 class smop_inv {
 public:
-    template <typename T1>
-    static void apply(T1& out, const SmOp<T1, smop_inv>& in) {
+    template <typename T1> static void apply(T1& out, const SmOp<T1, smop_inv>& in) {
         arma_extra_debug_sigprint();
 
         out = in.m;
@@ -13,8 +12,7 @@ public:
     }
 };
 
-template <typename eT>
-int sp_inv(SymmMat<eT>& A) {
+template <typename eT> int sp_inv(SymmMat<eT>& A) {
     auto UPLO = 'U';
     auto N = static_cast<int>(A.n_size);
     const auto IPIV = new int[N];

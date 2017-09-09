@@ -17,8 +17,7 @@
 
 using namespace arma;
 
-template <typename T>
-class MetaMat {
+template <typename T> class MetaMat {
 public:
     Col<int> IPIV;
     const char TRAN = 'N';
@@ -100,8 +99,7 @@ MetaMat<T>::MetaMat(MetaMat&& old_mat) noexcept
     access::rw(old_mat.memory) = nullptr;
 }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator=(const MetaMat& old_mat) {
+template <typename T> MetaMat<T>& MetaMat<T>::operator=(const MetaMat& old_mat) {
     if(this != &old_mat) {
         access::rw(n_rows) = old_mat.n_rows;
         access::rw(n_cols) = old_mat.n_cols;
@@ -112,8 +110,7 @@ MetaMat<T>& MetaMat<T>::operator=(const MetaMat& old_mat) {
     return *this;
 }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator=(MetaMat&& old_mat) noexcept {
+template <typename T> MetaMat<T>& MetaMat<T>::operator=(MetaMat&& old_mat) noexcept {
     if(this != &old_mat) {
         access::rw(n_rows) = old_mat.n_rows;
         access::rw(n_cols) = old_mat.n_cols;
@@ -124,29 +121,20 @@ MetaMat<T>& MetaMat<T>::operator=(MetaMat&& old_mat) noexcept {
     return *this;
 }
 
-template <typename T>
-MetaMat<T>::~MetaMat() {
+template <typename T> MetaMat<T>::~MetaMat() {
     if(memory != nullptr) memory::release(access::rw(memory));
 }
 
-template <typename T>
-bool MetaMat<T>::is_empty() const {
-    return n_elem == 0;
-}
+template <typename T> bool MetaMat<T>::is_empty() const { return n_elem == 0; }
 
-template <typename T>
-void MetaMat<T>::init() {
+template <typename T> void MetaMat<T>::init() {
     if(memory != nullptr) memory::release(access::rw(memory));
     access::rw(memory) = is_empty() ? nullptr : memory::acquire<T>(n_elem);
 }
 
-template <typename T>
-void MetaMat<T>::zeros() {
-    arrayops::fill_zeros(memptr(), n_elem);
-}
+template <typename T> void MetaMat<T>::zeros() { arrayops::fill_zeros(memptr(), n_elem); }
 
-template <typename T>
-void MetaMat<T>::reset() {
+template <typename T> void MetaMat<T>::reset() {
     access::rw(n_rows) = 0;
     access::rw(n_cols) = 0;
     access::rw(n_elem) = 0;
@@ -154,66 +142,38 @@ void MetaMat<T>::reset() {
     access::rw(memory) = nullptr;
 }
 
-template <typename T>
-const T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) const {
-    return memory[in_row + in_col * n_rows];
-}
+template <typename T> const T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row + in_col * n_rows]; }
 
-template <typename T>
-const T& MetaMat<T>::at(const uword& in_row, const uword& in_col) const {
-    return memory[in_row + in_col * n_rows];
-}
+template <typename T> const T& MetaMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row + in_col * n_rows]; }
 
-template <typename T>
-T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row + in_col * n_rows]);
-}
+template <typename T> T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row + in_col * n_rows]); }
 
-template <typename T>
-T& MetaMat<T>::at(const uword& in_row, const uword& in_col) {
-    return access::rw(memory[in_row + in_col * n_rows]);
-}
+template <typename T> T& MetaMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row + in_col * n_rows]); }
 
-template <typename T>
-const T* MetaMat<T>::memptr() const {
-    return memory;
-}
+template <typename T> const T* MetaMat<T>::memptr() const { return memory; }
 
-template <typename T>
-T* MetaMat<T>::memptr() {
-    return const_cast<T*>(memory);
-}
+template <typename T> T* MetaMat<T>::memptr() { return const_cast<T*>(memory); }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator+(const MetaMat& M) {
-    return *this += M;
-}
+template <typename T> MetaMat<T>& MetaMat<T>::operator+(const MetaMat& M) { return *this += M; }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator-(const MetaMat& M) {
-    return *this -= M;
-}
+template <typename T> MetaMat<T>& MetaMat<T>::operator-(const MetaMat& M) { return *this -= M; }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator+=(const MetaMat& M) {
+template <typename T> MetaMat<T>& MetaMat<T>::operator+=(const MetaMat& M) {
     if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) arrayops::inplace_plus(memptr(), M.memptr(), n_elem);
     return *this;
 }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator-=(const MetaMat& M) {
+template <typename T> MetaMat<T>& MetaMat<T>::operator-=(const MetaMat& M) {
     if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) arrayops::inplace_minus(memptr(), M.memptr(), n_elem);
     return *this;
 }
 
-template <typename T>
-MetaMat<T>& MetaMat<T>::operator*(const T& value) {
+template <typename T> MetaMat<T>& MetaMat<T>::operator*(const T& value) {
     arrayops::inplace_mul(memptr(), value, n_elem);
     return *this;
 }
 
-template <typename T>
-Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
+template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
     auto C = B;
 
     if(B.n_cols == 1) {
@@ -254,15 +214,13 @@ Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
     return C;
 }
 
-template <typename T>
-Mat<T> MetaMat<T>::solve(const Mat<T>& B) {
+template <typename T> Mat<T> MetaMat<T>::solve(const Mat<T>& B) {
     Mat<T> X;
     if(solve(X, B) != 0) X.reset();
     return X;
 }
 
-template <typename T>
-int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_rows;
@@ -283,15 +241,13 @@ int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-Mat<T> MetaMat<T>::solve_trs(const Mat<T>& B) {
+template <typename T> Mat<T> MetaMat<T>::solve_trs(const Mat<T>& B) {
     Mat<T> X;
     if(solve_trs(X, B) != 0) X.reset();
     return X;
 }
 
-template <typename T>
-int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+template <typename T> int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     if(IPIV.is_empty()) return -1;
 
     X = B;
@@ -314,8 +270,7 @@ int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     return INFO;
 }
 
-template <typename T>
-MetaMat<T> MetaMat<T>::i() {
+template <typename T> MetaMat<T> MetaMat<T>::i() {
     auto X = *this;
 
     arma_debug_check(X.n_rows != X.n_cols, "i() only accepts sqaure matrix.");
@@ -357,10 +312,7 @@ MetaMat<T> MetaMat<T>::i() {
     return X;
 }
 
-template <typename T>
-MetaMat<T> MetaMat<T>::inv() {
-    return i();
-}
+template <typename T> MetaMat<T> MetaMat<T>::inv() { return i(); }
 
 #endif
 

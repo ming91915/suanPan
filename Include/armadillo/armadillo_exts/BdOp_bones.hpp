@@ -1,5 +1,4 @@
-template <typename T1, typename bdop_type>
-class BdOp : public Base<typename T1::elem_type, BdOp<T1, bdop_type>> {
+template <typename T1, typename bdop_type> class BdOp : public Base<typename T1::elem_type, BdOp<T1, bdop_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

@@ -19,7 +19,4 @@ SmOp<T1, smop_type>::SmOp(const T1& in_m, const uword in_aux_uword_a, const uwor
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename smop_type>
-SmOp<T1, smop_type>::~SmOp() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename smop_type> SmOp<T1, smop_type>::~SmOp() { arma_extra_debug_sigprint(); }

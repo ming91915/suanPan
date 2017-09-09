@@ -1,5 +1,4 @@
-template <typename T1, typename smop_type>
-class SmOp : public Base<typename T1::elem_type, SmOp<T1, smop_type>> {
+template <typename T1, typename smop_type> class SmOp : public Base<typename T1::elem_type, SmOp<T1, smop_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
