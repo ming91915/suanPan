@@ -44,55 +44,94 @@ template <typename T> class Storage {
     unordered_set<unsigned> bait;                /**< data storage */
     unordered_map<unsigned, shared_ptr<T>> pond; /**< data storage */
 public:
-    Storage() { suanpan_debug("Storage of %s ctor() called.\n", type_string); }
-    ~Storage() { suanpan_debug("Storage of %s dtor() called.\n", type_string); }
+    Storage();
+    ~Storage();
 
-    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin() const { return pond.cbegin(); }
-    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend() const { return pond.cend(); }
-    typename unordered_map<unsigned, shared_ptr<T>>::iterator begin() { return pond.begin(); }
-    typename unordered_map<unsigned, shared_ptr<T>>::iterator end() { return pond.end(); }
+    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin() const;
+    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend() const;
+    typename unordered_map<unsigned, shared_ptr<T>>::iterator begin();
+    typename unordered_map<unsigned, shared_ptr<T>>::iterator end();
 
-    bool insert(const shared_ptr<T>& I) {
-        auto flag = pond.insert({ I->get_tag(), I }).second;
-        if(!flag) suanpan_warning("insert() fails to insert %s %u.\n", type_string, I->get_tag());
-        return flag;
-    }
-    shared_ptr<T>& operator[](const unsigned& L) { return pond[L]; }
-    const shared_ptr<T>& at(const unsigned& L) const { return pond.at(L); }
+    bool insert(const shared_ptr<T>&);
+    shared_ptr<T>& operator[](const unsigned&);
+    const shared_ptr<T>& at(const unsigned&) const;
 
-    const vector<shared_ptr<T>>& get() const { return fish; }
+    const vector<shared_ptr<T>>& get() const;
 
-    bool find(const unsigned& L) const { return pond.find(L) != pond.end(); }
-    bool erase(const unsigned& L) { return pond.erase(L) == 1; }
-    void enable(const unsigned& L) {
-        if(find(L)) pond[L]->enable();
-    }
-    void disable(const unsigned& L) {
-        if(find(L)) pond[L]->disable();
-    }
-    void update() {
-        reset();
-        fish.reserve(size());
-        for(const auto& I : pond)
-            if(I.second->is_active())
-                fish.push_back(I.second);
-            else
-                bait.insert(I.second->get_tag());
-    }
-    void enable() {
-        for(const auto& I : pond) I.second->enable();
-    }
-    void reset() {
-        fish.clear();
-        bait.clear();
-    }
-    void clear() {
-        pond.clear();
-        reset();
-    }
+    bool find(const unsigned&) const;
+    bool erase(const unsigned&);
+    void enable(const unsigned&);
+    void disable(const unsigned&);
 
-    size_t size() const { return pond.size(); }
+    void update();
+    void enable();
+    void reset();
+    void clear();
+
+    size_t size() const;
 };
+
+template <typename T> Storage<T>::Storage() { suanpan_debug("Storage of %s ctor() called.\n", type_string); }
+
+template <typename T> Storage<T>::~Storage() { suanpan_debug("Storage of %s dtor() called.\n", type_string); }
+
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator Storage<T>::cbegin() const { return pond.cbegin(); }
+
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator Storage<T>::cend() const { return pond.cend(); }
+
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator Storage<T>::begin() { return pond.begin(); }
+
+template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator Storage<T>::end() { return pond.end(); }
+
+template <typename T> bool Storage<T>::insert(const shared_ptr<T>& I) {
+    auto flag = pond.insert({ I->get_tag(), I }).second;
+    if(!flag) suanpan_warning("insert() fails to insert %s %u.\n", type_string, I->get_tag());
+    return flag;
+}
+
+template <typename T> shared_ptr<T>& Storage<T>::operator[](const unsigned& L) { return pond[L]; }
+
+template <typename T> const shared_ptr<T>& Storage<T>::at(const unsigned& L) const { return pond.at(L); }
+
+template <typename T> const vector<shared_ptr<T>>& Storage<T>::get() const { return fish; }
+
+template <typename T> bool Storage<T>::find(const unsigned& L) const { return pond.find(L) != pond.end(); }
+
+template <typename T> bool Storage<T>::erase(const unsigned& L) { return pond.erase(L) == 1; }
+
+template <typename T> void Storage<T>::enable(const unsigned& L) {
+    if(find(L)) pond[L]->enable();
+}
+
+template <typename T> void Storage<T>::disable(const unsigned& L) {
+    if(find(L)) pond[L]->disable();
+}
+
+template <typename T> void Storage<T>::update() {
+    reset();
+    fish.reserve(size());
+    for(const auto& I : pond)
+        if(I.second->is_active())
+            fish.push_back(I.second);
+        else
+            bait.insert(I.second->get_tag());
+}
+
+template <typename T> void Storage<T>::enable() {
+    for(const auto& I : pond) I.second->enable();
+}
+
+template <typename T> void Storage<T>::reset() {
+    fish.clear();
+    bait.clear();
+}
+
+template <typename T> void Storage<T>::clear() {
+    pond.clear();
+    reset();
+}
+
+template <typename T> size_t Storage<T>::size() const { return pond.size(); }
 
 template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
 

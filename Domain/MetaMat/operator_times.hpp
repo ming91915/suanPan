@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef OPERATOR_TIMES_HPP
+#define OPERATOR_TIMES_HPP
 
 template <typename T> MetaMat<T>& operator*(const T& value, MetaMat<T>& M) {
     arrayops::inplace_mul(M.memptr(), value, M.n_elem);
@@ -21,10 +23,10 @@ template <typename T> Mat<T> operator*(const Mat<T>& A, const FullMat<T>& B) {
 
     if(std::is_same<T, float>::value) {
         using E = float;
-        arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), (E*)(A.memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, (E*)&ALPHA, (E*)A.memptr(), &LDA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
     } else if(std::is_same<T, double>::value) {
         using E = double;
-        arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), (E*)(A.memptr()), &LDA, (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, (E*)&ALPHA, (E*)A.memptr(), &LDA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
     }
 
     return C;
@@ -76,10 +78,10 @@ template <const char S, const char T, typename T1> Mat<T1> spmm(const SymmPackMa
 
     if(std::is_same<T1, float>::value) {
         using E = float;
-        arma_fortran(arma_sspmm)(&SIDE, &UPLO, &TRAN, &M, &N, (E*)(A.memptr()), reinterpret_cast<E*>(&ALPHA), (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        arma_fortran(arma_sspmm)(&SIDE, &UPLO, &TRAN, &M, &N, (E*)A.memptr(), (E*)&ALPHA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
     } else if(std::is_same<T1, double>::value) {
         using E = double;
-        arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, (E*)(A.memptr()), reinterpret_cast<E*>(&ALPHA), (E*)(B.memptr()), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+        arma_fortran(arma_dspmm)(&SIDE, &UPLO, &TRAN, &M, &N, (E*)A.memptr(), (E*)&ALPHA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
     }
 
     return C;
@@ -88,3 +90,5 @@ template <const char S, const char T, typename T1> Mat<T1> spmm(const SymmPackMa
 template <typename T> Mat<T> operator*(const Mat<T>& A, const SymmPackMat<T>& B) { return spmm<'L', 'N'>(B, A); }
 
 template <typename T> Mat<T> operator*(const Op<Mat<T>, op_htrans>& A, const SymmPackMat<T>& B) { return spmm<'L', 'T'>(B, A.m); }
+
+#endif // OPERATOR_TIMES_HPP
