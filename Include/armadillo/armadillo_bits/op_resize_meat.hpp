@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out,
-    const Op<T1, op_resize>& in)
-{
+inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out, const Op<T1, op_resize>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -36,9 +34,7 @@ inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out,
     const bool alias = (&actual_out == &A);
 
     if(alias) {
-        if((A_n_rows == out_n_rows) && (A_n_cols == out_n_cols)) {
-            return;
-        }
+        if((A_n_rows == out_n_rows) && (A_n_cols == out_n_cols)) { return; }
 
         if(actual_out.is_empty()) {
             actual_out.zeros(out_n_rows, out_n_cols);
@@ -51,9 +47,7 @@ inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out,
 
     out.set_size(out_n_rows, out_n_cols);
 
-    if((out_n_rows > A_n_rows) || (out_n_cols > A_n_cols)) {
-        out.zeros();
-    }
+    if((out_n_rows > A_n_rows) || (out_n_cols > A_n_cols)) { out.zeros(); }
 
     if((out.n_elem > 0) && (A.n_elem > 0)) {
         const uword end_row = (std::min)(out_n_rows, A_n_rows) - 1;
@@ -62,15 +56,11 @@ inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out,
         out.submat(0, 0, end_row, end_col) = A.submat(0, 0, end_row, end_col);
     }
 
-    if(alias) {
-        actual_out.steal_mem(B);
-    }
+    if(alias) { actual_out.steal_mem(B); }
 }
 
 template <typename T1>
-inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out,
-    const OpCube<T1, op_resize>& in)
-{
+inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out, const OpCube<T1, op_resize>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -89,10 +79,7 @@ inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out,
     const bool alias = (&actual_out == &A);
 
     if(alias) {
-        if((A_n_rows == out_n_rows) && (A_n_cols == out_n_cols) &&
-            (A_n_slices == out_n_slices)) {
-            return;
-        }
+        if((A_n_rows == out_n_rows) && (A_n_cols == out_n_cols) && (A_n_slices == out_n_slices)) { return; }
 
         if(actual_out.is_empty()) {
             actual_out.zeros(out_n_rows, out_n_cols, out_n_slices);
@@ -105,23 +92,17 @@ inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out,
 
     out.set_size(out_n_rows, out_n_cols, out_n_slices);
 
-    if((out_n_rows > A_n_rows) || (out_n_cols > A_n_cols) ||
-        (out_n_slices > A_n_slices)) {
-        out.zeros();
-    }
+    if((out_n_rows > A_n_rows) || (out_n_cols > A_n_cols) || (out_n_slices > A_n_slices)) { out.zeros(); }
 
     if((out.n_elem > 0) && (A.n_elem > 0)) {
         const uword end_row = (std::min)(out_n_rows, A_n_rows) - 1;
         const uword end_col = (std::min)(out_n_cols, A_n_cols) - 1;
         const uword end_slice = (std::min)(out_n_slices, A_n_slices) - 1;
 
-        out.subcube(0, 0, 0, end_row, end_col, end_slice) =
-            A.subcube(0, 0, 0, end_row, end_col, end_slice);
+        out.subcube(0, 0, 0, end_row, end_col, end_slice) = A.subcube(0, 0, 0, end_row, end_col, end_slice);
     }
 
-    if(alias) {
-        actual_out.steal_mem(B);
-    }
+    if(alias) { actual_out.steal_mem(B); }
 }
 
 //! @}

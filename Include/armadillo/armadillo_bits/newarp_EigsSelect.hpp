@@ -13,8 +13,7 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 //! The enumeration of selection rules of desired eigenvalues.
 struct EigsSelect {

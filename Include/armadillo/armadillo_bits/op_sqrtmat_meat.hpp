@@ -25,31 +25,23 @@
 //! http://www.maths.manchester.ac.uk/~higham/narep/narep336.ps.gz
 
 template <typename T1>
-inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out,
-    const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in)
-{
+inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out, const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat::apply_direct(out, in.m);
 
-    if(status == false) {
-        arma_debug_warn(
-            "sqrtmat(): given matrix seems singular; may not have a square root");
-    }
+    if(status == false) { arma_debug_warn("sqrtmat(): given matrix seems singular; may not have a square root"); }
 }
 
 template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
-    const Op<T1, op_diagmat>& expr)
-{
+inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Op<T1, op_diagmat>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type T;
 
     const diagmat_proxy<T1> P(expr.m);
 
-    arma_debug_check(
-        (P.n_rows != P.n_cols), "sqrtmat(): given matrix must be square sized");
+    arma_debug_check((P.n_rows != P.n_cols), "sqrtmat(): given matrix must be square sized");
 
     const uword N = P.n_rows;
 
@@ -73,9 +65,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
 }
 
 template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out,
-    const Base<typename T1::elem_type, T1>& expr)
-{
+inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_T;
@@ -83,8 +73,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
 
     const Proxy<T1> P(expr.get_ref());
 
-    arma_debug_check((P.get_n_rows() != P.get_n_cols()),
-        "sqrtmat(): given matrix must be square sized");
+    arma_debug_check((P.get_n_rows() != P.get_n_cols()), "sqrtmat(): given matrix must be square sized");
 
     if(P.get_n_elem() == 0) {
         out.reset();
@@ -100,9 +89,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
 
     const uword N = P.get_n_elem();
 
-    for(uword i = 0; i < N; ++i) {
-        Smem[i] = std::complex<in_T>(Pea[i]);
-    }
+    for(uword i = 0; i < N; ++i) { Smem[i] = std::complex<in_T>(Pea[i]); }
 
     const bool schur_ok = auxlib::schur(U, S);
 
@@ -124,23 +111,16 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
 }
 
 template <typename T1>
-inline void op_sqrtmat_cx::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_sqrtmat_cx>& in)
-{
+inline void op_sqrtmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat_cx::apply_direct(out, in.m);
 
-    if(status == false) {
-        arma_debug_warn(
-            "sqrtmat(): given matrix seems singular; may not have a square root");
-    }
+    if(status == false) { arma_debug_warn("sqrtmat(): given matrix seems singular; may not have a square root"); }
 }
 
 template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_diagmat>& expr)
-{
+inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -163,15 +143,12 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out,
-    const diagmat_proxy<T1>& P)
-{
+inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out, const diagmat_proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
 
-    arma_debug_check(
-        (P.n_rows != P.n_cols), "sqrtmat(): given matrix must be square sized");
+    arma_debug_check((P.n_rows != P.n_cols), "sqrtmat(): given matrix must be square sized");
 
     const uword N = P.n_rows;
 
@@ -193,9 +170,7 @@ inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out
 }
 
 template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr)
-{
+inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -208,8 +183,7 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
         return true;
     }
 
-    arma_debug_check(
-        (S.n_rows != S.n_cols), "sqrtmat(): given matrix must be square sized");
+    arma_debug_check((S.n_rows != S.n_cols), "sqrtmat(): given matrix must be square sized");
 
     const bool schur_ok = auxlib::schur(U, S);
 
@@ -230,13 +204,11 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out,
     return status;
 }
 
-template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S)
-{
+template <typename T>
+inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S) {
     typedef typename std::complex<T> eT;
 
-    if(S.is_empty()) {
-        return true;
-    }
+    if(S.is_empty()) { return true; }
 
     const uword N = S.n_rows;
 
@@ -265,9 +237,7 @@ template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S)
             // S_j[i] /= (S_i[i] + S_j[j]);
             S_j[i] /= (S_i[i] + S_jj);
 
-            for(uword k = 0; k < i; ++k) {
-                S_j[k] -= S_i[k] * S_j[i];
-            }
+            for(uword k = 0; k < i; ++k) { S_j[k] -= S_i[k] * S_j[i]; }
         }
     }
 
@@ -275,9 +245,7 @@ template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S)
 }
 
 template <typename T1>
-inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_sqrtmat_sympd>& in)
-{
+inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_sympd>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat_sympd::apply_direct(out, in.m);
@@ -289,9 +257,7 @@ inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline bool op_sqrtmat_sympd::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr)
-{
+inline bool op_sqrtmat_sympd::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -302,30 +268,23 @@ inline bool op_sqrtmat_sympd::apply_direct(Mat<typename T1::elem_type>& out,
         const unwrap<T1> U(expr.get_ref());
         const Mat<eT>& X = U.M;
 
-        arma_debug_check((X.is_square() == false),
-            "sqrtmat_sympd(): given matrix must be square sized");
+        arma_debug_check((X.is_square() == false), "sqrtmat_sympd(): given matrix must be square sized");
 
         Col<T> eigval;
         Mat<eT> eigvec;
 
         const bool status = auxlib::eig_sym_dc(eigval, eigvec, X);
 
-        if(status == false) {
-            return false;
-        }
+        if(status == false) { return false; }
 
         const uword N = eigval.n_elem;
         const T* eigval_mem = eigval.memptr();
 
         bool all_pos = true;
 
-        for(uword i = 0; i < N; ++i) {
-            all_pos = (eigval_mem[i] < T(0)) ? false : all_pos;
-        }
+        for(uword i = 0; i < N; ++i) { all_pos = (eigval_mem[i] < T(0)) ? false : all_pos; }
 
-        if(all_pos == false) {
-            return false;
-        }
+        if(all_pos == false) { return false; }
 
         eigval = sqrt(eigval);
 

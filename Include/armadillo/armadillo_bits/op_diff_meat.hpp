@@ -17,9 +17,7 @@
 //! @{
 
 template <typename eT>
-inline void
-op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uword dim)
-{
+inline void op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uword dim) {
     arma_extra_debug_sigprint();
 
     uword n_rows = X.n_rows;
@@ -92,9 +90,7 @@ op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uwor
                 const eT* X_col0_mem = X.colptr(col);
                 const eT* X_col1_mem = X.colptr(col + 1);
 
-                for(uword row = 0; row < n_rows; ++row) {
-                    out_col_mem[row] = X_col1_mem[row] - X_col0_mem[row];
-                }
+                for(uword row = 0; row < n_rows; ++row) { out_col_mem[row] = X_col1_mem[row] - X_col0_mem[row]; }
             }
         }
 
@@ -116,9 +112,7 @@ op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uwor
                         eT* col0_mem = out.colptr(col);
                         const eT* col1_mem = out.colptr(col + 1);
 
-                        for(uword row = 0; row < n_rows; ++row) {
-                            col0_mem[row] = col1_mem[row] - col0_mem[row];
-                        }
+                        for(uword row = 0; row < n_rows; ++row) { col0_mem[row] = col1_mem[row] - col0_mem[row]; }
                     }
                 }
             }
@@ -129,8 +123,7 @@ op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uwor
 }
 
 template <typename T1>
-inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff>& in)
-{
+inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -159,9 +152,7 @@ inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_dif
 }
 
 template <typename T1>
-inline void op_diff_default::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_diff_default>& in)
-{
+inline void op_diff_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff_default>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

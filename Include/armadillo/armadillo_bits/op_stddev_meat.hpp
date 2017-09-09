@@ -22,9 +22,7 @@
 //! The dimension for which the standard deviations are found is set via the stddev()
 //! function.
 template <typename T1>
-inline void op_stddev::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_stddev>& in)
-{
+inline void op_stddev::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_stddev>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT;
@@ -50,10 +48,7 @@ inline void op_stddev::apply(Mat<typename T1::pod_type>& out,
         if(X_n_rows > 0) {
             out_eT* out_mem = out.memptr();
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] =
-                    std::sqrt(op_var::direct_var(X.colptr(col), X_n_rows, norm_type));
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = std::sqrt(op_var::direct_var(X.colptr(col), X_n_rows, norm_type)); }
         }
     } else if(dim == 1) {
         arma_extra_debug_print("op_stddev::apply(): dim = 1");
@@ -69,8 +64,7 @@ inline void op_stddev::apply(Mat<typename T1::pod_type>& out,
             for(uword row = 0; row < X_n_rows; ++row) {
                 dat.copy_row(X, row);
 
-                out_mem[row] =
-                    std::sqrt(op_var::direct_var(dat_mem, X_n_cols, norm_type));
+                out_mem[row] = std::sqrt(op_var::direct_var(dat_mem, X_n_cols, norm_type));
             }
         }
     }

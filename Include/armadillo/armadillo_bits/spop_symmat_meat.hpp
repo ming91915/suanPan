@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_symmat>& in)
-{
+inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -27,8 +25,7 @@ inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out,
 
     const SpProxy<T1> P(in.m);
 
-    arma_debug_check((P.get_n_rows() != P.get_n_cols()),
-        "symmatu()/symmatl(): given matrix must be square sized");
+    arma_debug_check((P.get_n_rows() != P.get_n_cols()), "symmatu()/symmatl(): given matrix must be square sized");
 
     const bool upper = (in.aux_uword_a == 0);
 
@@ -159,9 +156,7 @@ inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void spop_symmat_cx::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_symmat_cx>& in)
-{
+inline void spop_symmat_cx::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -169,8 +164,7 @@ inline void spop_symmat_cx::apply(SpMat<typename T1::elem_type>& out,
 
     const SpProxy<T1> P(in.m);
 
-    arma_debug_check((P.get_n_rows() != P.get_n_cols()),
-        "symmatu()/symmatl(): given matrix must be square sized");
+    arma_debug_check((P.get_n_rows() != P.get_n_cols()), "symmatu()/symmatl(): given matrix must be square sized");
 
     const bool upper = (in.aux_uword_a == 0);
     const bool do_conj = (in.aux_uword_b == 1);

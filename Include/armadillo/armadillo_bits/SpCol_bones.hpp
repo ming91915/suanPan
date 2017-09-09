@@ -17,8 +17,8 @@
 //! @{
 
 //! Class for sparse column vectors (matrices with only one column)
-template <typename eT> class SpCol : public SpMat<eT>
-{
+template <typename eT>
+class SpCol : public SpMat<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -38,11 +38,15 @@ public:
 
     inline SpCol& operator=(const eT val);
 
-    template <typename T1> inline SpCol(const Base<eT, T1>& X);
-    template <typename T1> inline SpCol& operator=(const Base<eT, T1>& X);
+    template <typename T1>
+    inline SpCol(const Base<eT, T1>& X);
+    template <typename T1>
+    inline SpCol& operator=(const Base<eT, T1>& X);
 
-    template <typename T1> inline SpCol(const SpBase<eT, T1>& X);
-    template <typename T1> inline SpCol& operator=(const SpBase<eT, T1>& X);
+    template <typename T1>
+    inline SpCol(const SpBase<eT, T1>& X);
+    template <typename T1>
+    inline SpCol& operator=(const SpBase<eT, T1>& X);
 
     template <typename T1, typename T2>
     inline explicit SpCol(const SpBase<pod_type, T1>& A, const SpBase<pod_type, T2>& B);

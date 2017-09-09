@@ -80,39 +80,17 @@ herr_t arma_H5Tclose(hid_t dtype_id);
 hid_t arma_H5Dopen(hid_t loc_id, const char* name, hid_t dapl_id);
 hid_t arma_H5Dget_type(hid_t dataset_id);
 herr_t arma_H5Dclose(hid_t dataset_id);
-hid_t arma_H5Dcreate(hid_t loc_id,
-    const char* name,
-    hid_t dtype_id,
-    hid_t space_id,
-    hid_t lcpl_id,
-    hid_t dcpl_id,
-    hid_t dapl_id);
-herr_t arma_H5Dwrite(hid_t dataset_id,
-    hid_t mem_type_id,
-    hid_t mem_space_id,
-    hid_t file_space_id,
-    hid_t xfer_plist_id,
-    const void* buf);
+hid_t arma_H5Dcreate(hid_t loc_id, const char* name, hid_t dtype_id, hid_t space_id, hid_t lcpl_id, hid_t dcpl_id, hid_t dapl_id);
+herr_t arma_H5Dwrite(hid_t dataset_id, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, const void* buf);
 hid_t arma_H5Dget_space(hid_t dataset_id);
-herr_t arma_H5Dread(hid_t dataset_id,
-    hid_t mem_type_id,
-    hid_t mem_space_id,
-    hid_t file_space_id,
-    hid_t xfer_plist_id,
-    void* buf);
+herr_t arma_H5Dread(hid_t dataset_id, hid_t mem_type_id, hid_t mem_space_id, hid_t file_space_id, hid_t xfer_plist_id, void* buf);
 
 int arma_H5Sget_simple_extent_ndims(hid_t space_id);
 int arma_H5Sget_simple_extent_dims(hid_t space_id, hsize_t* dims, hsize_t* maxdims);
 herr_t arma_H5Sclose(hid_t space_id);
-hid_t arma_H5Screate_simple(int rank,
-    const hsize_t* current_dims,
-    const hsize_t* maximum_dims);
+hid_t arma_H5Screate_simple(int rank, const hsize_t* current_dims, const hsize_t* maximum_dims);
 
-herr_t arma_H5Ovisit(hid_t object_id,
-    H5_index_t index_type,
-    H5_iter_order_t order,
-    H5O_iterate_t op,
-    void* op_data);
+herr_t arma_H5Ovisit(hid_t object_id, H5_index_t index_type, H5_iter_order_t order, H5O_iterate_t op, void* op_data);
 
 herr_t arma_H5Eset_auto(hid_t estack_id, H5E_auto_t func, void* client_data);
 herr_t arma_H5Eget_auto(hid_t estack_id, H5E_auto_t* func, void** client_data);
@@ -122,11 +100,7 @@ hid_t arma_H5Fcreate(const char* name, unsigned flags, hid_t fcpl_id, hid_t fapl
 herr_t arma_H5Fclose(hid_t file_id);
 htri_t arma_H5Fis_hdf5(const char* name);
 
-hid_t arma_H5Gcreate(hid_t loc_id,
-    const char* name,
-    hid_t lcpl_id,
-    hid_t gcpl_id,
-    hid_t gapl_id);
+hid_t arma_H5Gcreate(hid_t loc_id, const char* name, hid_t lcpl_id, hid_t gcpl_id, hid_t gapl_id);
 herr_t arma_H5Gclose(hid_t group_id);
 
 // Wrapper variables that represent the hid_t values for the H5T_NATIVE_*
@@ -162,8 +136,8 @@ extern hid_t arma_H5T_NATIVE_DOUBLE;
 herr_t H5open();
 herr_t H5check_version(unsigned majnum, unsigned minnum, unsigned relnum);
 
-using arma::H5open;
 using arma::H5check_version;
+using arma::H5open;
 
 #endif
 

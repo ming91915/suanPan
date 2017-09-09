@@ -19,8 +19,8 @@
 //! Class for storing data required to construct or apply operations to a subfield
 //! (i.e. where the subfield starts and ends as well as a reference/pointer to the
 //! original field),
-template <typename oT> class subview_field
-{
+template <typename oT>
+class subview_field {
 public:
     typedef oT object_type;
 
@@ -36,18 +36,8 @@ public:
     const uword n_elem;
 
 protected:
-    arma_inline subview_field(const field<oT>& in_f,
-        const uword in_row1,
-        const uword in_col1,
-        const uword in_n_rows,
-        const uword in_n_cols);
-    arma_inline subview_field(const field<oT>& in_f,
-        const uword in_row1,
-        const uword in_col1,
-        const uword in_slice1,
-        const uword in_n_rows,
-        const uword in_n_cols,
-        const uword in_n_slices);
+    arma_inline subview_field(const field<oT>& in_f, const uword in_row1, const uword in_col1, const uword in_n_rows, const uword in_n_cols);
+    arma_inline subview_field(const field<oT>& in_f, const uword in_row1, const uword in_col1, const uword in_slice1, const uword in_n_rows, const uword in_n_cols, const uword in_n_slices);
 
 public:
     inline ~subview_field();
@@ -71,8 +61,7 @@ public:
     arma_inline const oT& operator()(const uword row, const uword col) const;
 
     arma_inline oT& operator()(const uword row, const uword col, const uword slice);
-    arma_inline const oT&
-    operator()(const uword row, const uword col, const uword slice) const;
+    arma_inline const oT& operator()(const uword row, const uword col, const uword slice) const;
 
     arma_inline bool is_empty() const;
 
@@ -81,8 +70,10 @@ public:
     inline void print(const std::string extra_text = "") const;
     inline void print(std::ostream& user_stream, const std::string extra_text = "") const;
 
-    template <typename functor> inline void for_each(functor F);
-    template <typename functor> inline void for_each(functor F) const;
+    template <typename functor>
+    inline void for_each(functor F);
+    template <typename functor>
+    inline void for_each(functor F) const;
 
     inline void fill(const oT& x);
 

@@ -17,12 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-arma_warn_unused inline
-    typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value,
-        Col<std::complex<typename T1::pod_type>>>::result
-    eig_pair(const Base<typename T1::elem_type, T1>& A_expr,
-        const Base<typename T1::elem_type, T2>& B_expr)
-{
+arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, Col<std::complex<typename T1::pod_type>>>::result eig_pair(const Base<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -30,8 +25,7 @@ arma_warn_unused inline
     Col<std::complex<T>> eigvals;
     Mat<std::complex<T>> eigvecs;
 
-    const bool status =
-        auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
+    const bool status = auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
         eigvals.soft_reset();
@@ -42,20 +36,14 @@ arma_warn_unused inline
 }
 
 template <typename T1, typename T2>
-inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value,
-    bool>::result
-eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals,
-    const Base<typename T1::elem_type, T1>& A_expr,
-    const Base<typename T1::elem_type, T2>& B_expr)
-{
+inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals, const Base<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
 
     Mat<std::complex<T>> eigvecs;
 
-    const bool status =
-        auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
+    const bool status = auxlib::eig_pair(eigvals, eigvecs, false, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
         eigvals.soft_reset();
@@ -66,20 +54,12 @@ eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals,
 }
 
 template <typename T1, typename T2>
-inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value,
-    bool>::result
-eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals,
-    Mat<std::complex<typename T1::pod_type>>& eigvecs,
-    const Base<typename T1::elem_type, T1>& A_expr,
-    const Base<typename T1::elem_type, T2>& B_expr)
-{
+inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_pair(Col<std::complex<typename T1::pod_type>>& eigvals, Mat<std::complex<typename T1::pod_type>>& eigvecs, const Base<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((void_ptr(&eigvals) == void_ptr(&eigvecs)),
-        "eig_pair(): parameter 'eigval' is an alias of parameter 'eigvec'");
+    arma_debug_check((void_ptr(&eigvals) == void_ptr(&eigvecs)), "eig_pair(): parameter 'eigval' is an alias of parameter 'eigvec'");
 
-    const bool status =
-        auxlib::eig_pair(eigvals, eigvecs, true, A_expr.get_ref(), B_expr.get_ref());
+    const bool status = auxlib::eig_pair(eigvals, eigvecs, true, A_expr.get_ref(), B_expr.get_ref());
 
     if(status == false) {
         eigvals.soft_reset();

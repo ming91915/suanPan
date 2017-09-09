@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_mean::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_mean>& in)
-{
+inline void op_mean::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_mean>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -40,10 +39,7 @@ inline void op_mean::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_mea
 }
 
 template <typename T1>
-inline void op_mean::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+inline void op_mean::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(is_Mat<typename Proxy<T1>::stored_type>::value) {
@@ -54,10 +50,7 @@ inline void op_mean::apply_noalias(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_mean::apply_noalias_unwrap(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+inline void op_mean::apply_noalias_unwrap(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -75,47 +68,34 @@ inline void op_mean::apply_noalias_unwrap(Mat<typename T1::elem_type>& out,
     if(dim == 0) {
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = op_mean::direct_mean(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_mean::direct_mean(X.colptr(col), X_n_rows); }
     } else if(dim == 1) {
         out.zeros(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         eT* out_mem = out.memptr();
 
         for(uword col = 0; col < X_n_cols; ++col) {
             const eT* col_mem = X.colptr(col);
 
-            for(uword row = 0; row < X_n_rows; ++row) {
-                out_mem[row] += col_mem[row];
-            }
+            for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] += col_mem[row]; }
         }
 
         out /= T(X_n_cols);
 
         for(uword row = 0; row < X_n_rows; ++row) {
-            if(arma_isfinite(out_mem[row]) == false) {
-                out_mem[row] = op_mean::direct_mean_robust(X, row);
-            }
+            if(arma_isfinite(out_mem[row]) == false) { out_mem[row] = op_mean::direct_mean_robust(X, row); }
         }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_mean::apply_noalias_proxy(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_mean::apply_noalias_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -127,9 +107,7 @@ arma_hot inline void op_mean::apply_noalias_proxy(Mat<typename T1::elem_type>& o
     if(dim == 0) {
         out.set_size((P_n_rows > 0) ? 1 : 0, P_n_cols);
 
-        if(P_n_rows == 0) {
-            return;
-        }
+        if(P_n_rows == 0) { return; }
 
         eT* out_mem = out.memptr();
 
@@ -143,25 +121,19 @@ arma_hot inline void op_mean::apply_noalias_proxy(Mat<typename T1::elem_type>& o
                 val2 += P.at(j, col);
             }
 
-            if(i < P_n_rows) {
-                val1 += P.at(i, col);
-            }
+            if(i < P_n_rows) { val1 += P.at(i, col); }
 
             out_mem[col] = (val1 + val2) / T(P_n_rows);
         }
     } else if(dim == 1) {
         out.zeros(P_n_rows, (P_n_cols > 0) ? 1 : 0);
 
-        if(P_n_cols == 0) {
-            return;
-        }
+        if(P_n_cols == 0) { return; }
 
         eT* out_mem = out.memptr();
 
         for(uword col = 0; col < P_n_cols; ++col)
-            for(uword row = 0; row < P_n_rows; ++row) {
-                out_mem[row] += P.at(row, col);
-            }
+            for(uword row = 0; row < P_n_rows; ++row) { out_mem[row] += P.at(row, col); }
 
         out /= T(P_n_cols);
     }
@@ -176,9 +148,7 @@ arma_hot inline void op_mean::apply_noalias_proxy(Mat<typename T1::elem_type>& o
 // cubes
 
 template <typename T1>
-inline void op_mean::apply(Cube<typename T1::elem_type>& out,
-    const OpCube<T1, op_mean>& in)
-{
+inline void op_mean::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_mean>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -200,10 +170,7 @@ inline void op_mean::apply(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_mean::apply_noalias(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+inline void op_mean::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(is_Cube<typename ProxyCube<T1>::stored_type>::value) {
@@ -214,10 +181,7 @@ inline void op_mean::apply_noalias(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -236,23 +200,17 @@ inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
     if(dim == 0) {
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols, X_n_slices);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] = op_mean::direct_mean(X.slice_colptr(slice, col), X_n_rows);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_mean::direct_mean(X.slice_colptr(slice, col), X_n_rows); }
         }
     } else if(dim == 1) {
         out.zeros(X_n_rows, (X_n_cols > 0) ? 1 : 0, X_n_slices);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
@@ -260,9 +218,7 @@ inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
             for(uword col = 0; col < X_n_cols; ++col) {
                 const eT* col_mem = X.slice_colptr(slice, col);
 
-                for(uword row = 0; row < X_n_rows; ++row) {
-                    out_mem[row] += col_mem[row];
-                }
+                for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] += col_mem[row]; }
             }
 
             const Mat<eT> tmp('j', X.slice_memptr(slice), X_n_rows, X_n_cols);
@@ -270,23 +226,17 @@ inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
             for(uword row = 0; row < X_n_rows; ++row) {
                 out_mem[row] /= T(X_n_cols);
 
-                if(arma_isfinite(out_mem[row]) == false) {
-                    out_mem[row] = op_mean::direct_mean_robust(tmp, row);
-                }
+                if(arma_isfinite(out_mem[row]) == false) { out_mem[row] = op_mean::direct_mean_robust(tmp, row); }
             }
         }
     } else if(dim == 2) {
         out.zeros(X_n_rows, X_n_cols, (X_n_slices > 0) ? 1 : 0);
 
-        if(X_n_slices == 0) {
-            return;
-        }
+        if(X_n_slices == 0) { return; }
 
         eT* out_mem = out.memptr();
 
-        for(uword slice = 0; slice < X_n_slices; ++slice) {
-            arrayops::inplace_plus(out_mem, X.slice_memptr(slice), X.n_elem_slice);
-        }
+        for(uword slice = 0; slice < X_n_slices; ++slice) { arrayops::inplace_plus(out_mem, X.slice_memptr(slice), X.n_elem_slice); }
 
         out /= T(X_n_slices);
 
@@ -295,22 +245,16 @@ inline void op_mean::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
         for(uword col = 0; col < X_n_cols; ++col)
             for(uword row = 0; row < X_n_rows; ++row) {
                 if(arma_isfinite(out.at(row, col, 0)) == false) {
-                    for(uword slice = 0; slice < X_n_slices; ++slice) {
-                        tmp[slice] = X.at(row, col, slice);
-                    }
+                    for(uword slice = 0; slice < X_n_slices; ++slice) { tmp[slice] = X.at(row, col, slice); }
 
-                    out.at(row, col, 0) =
-                        op_mean::direct_mean_robust(tmp.memptr(), X_n_slices);
+                    out.at(row, col, 0) = op_mean::direct_mean_robust(tmp.memptr(), X_n_slices);
                 }
             }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_mean::apply_noalias_proxy(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_mean::apply_noalias_proxy(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     op_mean::apply_noalias_unwrap(out, P, dim);
@@ -321,8 +265,7 @@ arma_hot inline void op_mean::apply_noalias_proxy(Cube<typename T1::elem_type>& 
 //
 
 template <typename eT>
-inline eT op_mean::direct_mean(const eT* const X, const uword n_elem)
-{
+inline eT op_mean::direct_mean(const eT* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -333,8 +276,7 @@ inline eT op_mean::direct_mean(const eT* const X, const uword n_elem)
 }
 
 template <typename eT>
-inline eT op_mean::direct_mean_robust(const eT* const X, const uword n_elem)
-{
+inline eT op_mean::direct_mean_robust(const eT* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     // use an adapted form of the mean finding algorithm from the running_stat class
@@ -349,8 +291,7 @@ inline eT op_mean::direct_mean_robust(const eT* const X, const uword n_elem)
         const eT Xi = X[i];
         const eT Xj = X[j];
 
-        r_mean =
-            r_mean + (Xi - r_mean) / T(j); // we need i+1, and j is equivalent to i+1 here
+        r_mean = r_mean + (Xi - r_mean) / T(j); // we need i+1, and j is equivalent to i+1 here
         r_mean = r_mean + (Xj - r_mean) / T(j + 1);
     }
 
@@ -363,8 +304,8 @@ inline eT op_mean::direct_mean_robust(const eT* const X, const uword n_elem)
     return r_mean;
 }
 
-template <typename eT> inline eT op_mean::direct_mean(const Mat<eT>& X, const uword row)
-{
+template <typename eT>
+inline eT op_mean::direct_mean(const Mat<eT>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -379,9 +320,7 @@ template <typename eT> inline eT op_mean::direct_mean(const Mat<eT>& X, const uw
         val += X.at(row, j);
     }
 
-    if(i < X_n_cols) {
-        val += X.at(row, i);
-    }
+    if(i < X_n_cols) { val += X.at(row, i); }
 
     const eT result = val / T(X_n_cols);
 
@@ -389,8 +328,7 @@ template <typename eT> inline eT op_mean::direct_mean(const Mat<eT>& X, const uw
 }
 
 template <typename eT>
-inline eT op_mean::direct_mean_robust(const Mat<eT>& X, const uword row)
-{
+inline eT op_mean::direct_mean_robust(const Mat<eT>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -399,15 +337,13 @@ inline eT op_mean::direct_mean_robust(const Mat<eT>& X, const uword row)
 
     eT r_mean = eT(0);
 
-    for(uword col = 0; col < X_n_cols; ++col) {
-        r_mean = r_mean + (X.at(row, col) - r_mean) / T(col + 1);
-    }
+    for(uword col = 0; col < X_n_cols; ++col) { r_mean = r_mean + (X.at(row, col) - r_mean) / T(col + 1); }
 
     return r_mean;
 }
 
-template <typename eT> inline eT op_mean::mean_all(const subview<eT>& X)
-{
+template <typename eT>
+inline eT op_mean::mean_all(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -438,13 +374,9 @@ template <typename eT> inline eT op_mean::mean_all(const subview<eT>& X)
             val += A.at(start_row, j);
         }
 
-        if(i < end_col_p1) {
-            val += A.at(start_row, i);
-        }
+        if(i < end_col_p1) { val += A.at(start_row, i); }
     } else {
-        for(uword col = 0; col < X_n_cols; ++col) {
-            val += arrayops::accumulate(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { val += arrayops::accumulate(X.colptr(col), X_n_rows); }
     }
 
     const eT result = val / T(X_n_elem);
@@ -452,8 +384,8 @@ template <typename eT> inline eT op_mean::mean_all(const subview<eT>& X)
     return arma_isfinite(result) ? result : op_mean::mean_all_robust(X);
 }
 
-template <typename eT> inline eT op_mean::mean_all_robust(const subview<eT>& X)
-{
+template <typename eT>
+inline eT op_mean::mean_all_robust(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -474,23 +406,19 @@ template <typename eT> inline eT op_mean::mean_all_robust(const subview<eT>& X)
     if(X_n_rows == 1) {
         uword i = 0;
 
-        for(uword col = start_col; col < end_col_p1; ++col, ++i) {
-            r_mean = r_mean + (A.at(start_row, col) - r_mean) / T(i + 1);
-        }
+        for(uword col = start_col; col < end_col_p1; ++col, ++i) { r_mean = r_mean + (A.at(start_row, col) - r_mean) / T(i + 1); }
     } else {
         uword i = 0;
 
         for(uword col = start_col; col < end_col_p1; ++col)
-            for(uword row = start_row; row < end_row_p1; ++row, ++i) {
-                r_mean = r_mean + (A.at(row, col) - r_mean) / T(i + 1);
-            }
+            for(uword row = start_row; row < end_row_p1; ++row, ++i) { r_mean = r_mean + (A.at(row, col) - r_mean) / T(i + 1); }
     }
 
     return r_mean;
 }
 
-template <typename eT> inline eT op_mean::mean_all(const diagview<eT>& X)
-{
+template <typename eT>
+inline eT op_mean::mean_all(const diagview<eT>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -505,17 +433,15 @@ template <typename eT> inline eT op_mean::mean_all(const diagview<eT>& X)
 
     eT val = eT(0);
 
-    for(uword i = 0; i < X_n_elem; ++i) {
-        val += X[i];
-    }
+    for(uword i = 0; i < X_n_elem; ++i) { val += X[i]; }
 
     const eT result = val / T(X_n_elem);
 
     return arma_isfinite(result) ? result : op_mean::mean_all_robust(X);
 }
 
-template <typename eT> inline eT op_mean::mean_all_robust(const diagview<eT>& X)
-{
+template <typename eT>
+inline eT op_mean::mean_all_robust(const diagview<eT>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -524,24 +450,20 @@ template <typename eT> inline eT op_mean::mean_all_robust(const diagview<eT>& X)
 
     eT r_mean = eT(0);
 
-    for(uword i = 0; i < X_n_elem; ++i) {
-        r_mean = r_mean + (X[i] - r_mean) / T(i + 1);
-    }
+    for(uword i = 0; i < X_n_elem; ++i) { r_mean = r_mean + (X[i] - r_mean) / T(i + 1); }
 
     return r_mean;
 }
 
 template <typename T1>
-inline typename T1::elem_type op_mean::mean_all(const Op<T1, op_vectorise_col>& X)
-{
+inline typename T1::elem_type op_mean::mean_all(const Op<T1, op_vectorise_col>& X) {
     arma_extra_debug_sigprint();
 
     return op_mean::mean_all(X.m);
 }
 
 template <typename T1>
-inline typename T1::elem_type op_mean::mean_all(const Base<typename T1::elem_type, T1>& X)
-{
+inline typename T1::elem_type op_mean::mean_all(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -560,15 +482,13 @@ inline typename T1::elem_type op_mean::mean_all(const Base<typename T1::elem_typ
     return op_mean::direct_mean(A.memptr(), A_n_elem);
 }
 
-template <typename eT> arma_inline eT op_mean::robust_mean(const eT A, const eT B)
-{
+template <typename eT>
+arma_inline eT op_mean::robust_mean(const eT A, const eT B) {
     return A + (B - A) / eT(2);
 }
 
 template <typename T>
-arma_inline std::complex<T> op_mean::robust_mean(const std::complex<T>& A,
-    const std::complex<T>& B)
-{
+arma_inline std::complex<T> op_mean::robust_mean(const std::complex<T>& A, const std::complex<T>& B) {
     return A + (B - A) / T(2);
 }
 

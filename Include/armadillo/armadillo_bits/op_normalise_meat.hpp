@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_normalise_vec::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_normalise_vec>& in)
-{
+inline void op_normalise_vec::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_normalise_vec>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -37,9 +35,7 @@ inline void op_normalise_vec::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_normalise_mat::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_normalise_mat>& in)
-{
+inline void op_normalise_mat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_normalise_mat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -67,18 +63,14 @@ inline void op_normalise_mat::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline void
-op_normalise_mat::apply(Mat<eT>& out, const Mat<eT>& A, const uword p, const uword dim)
-{
+inline void op_normalise_mat::apply(Mat<eT>& out, const Mat<eT>& A, const uword p, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
 
     out.copy_size(A);
 
-    if(A.n_elem == 0) {
-        return;
-    }
+    if(A.n_elem == 0) { return; }
 
     if(dim == 0) {
         const uword n_cols = A.n_cols;

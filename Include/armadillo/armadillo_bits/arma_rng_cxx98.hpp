@@ -16,8 +16,7 @@
 //! \addtogroup arma_rng_cxx98
 //! @{
 
-class arma_rng_cxx98
-{
+class arma_rng_cxx98 {
 public:
     typedef unsigned int seed_type;
 
@@ -27,7 +26,8 @@ public:
     arma_inline static double randu_val();
     inline static double randn_val();
 
-    template <typename eT> inline static void randn_dual_val(eT& out1, eT& out2);
+    template <typename eT>
+    inline static void randn_dual_val(eT& out1, eT& out2);
 
     template <typename eT>
     inline static void randi_fill(eT* mem, const uword N, const int a, const int b);
@@ -35,13 +35,9 @@ public:
     inline static int randi_max_val();
 };
 
-inline void arma_rng_cxx98::set_seed(const arma_rng_cxx98::seed_type val)
-{
-    std::srand(val);
-}
+inline void arma_rng_cxx98::set_seed(const arma_rng_cxx98::seed_type val) { std::srand(val); }
 
-arma_inline int arma_rng_cxx98::randi_val()
-{
+arma_inline int arma_rng_cxx98::randi_val() {
 #if(RAND_MAX == 32767)
     {
         u32 val1 = u32(std::rand());
@@ -52,19 +48,13 @@ arma_inline int arma_rng_cxx98::randi_val()
         return (val1 | val2);
     }
 #else
-    {
-        return std::rand();
-    }
+    { return std::rand(); }
 #endif
 }
 
-arma_inline double arma_rng_cxx98::randu_val()
-{
-    return double(double(randi_val()) * (double(1) / double(randi_max_val())));
-}
+arma_inline double arma_rng_cxx98::randu_val() { return double(double(randi_val()) * (double(1) / double(randi_max_val()))); }
 
-inline double arma_rng_cxx98::randn_val()
-{
+inline double arma_rng_cxx98::randn_val() {
     // polar form of the Box-Muller transformation:
     // http://en.wikipedia.org/wiki/Box-Muller_transformation
     // http://en.wikipedia.org/wiki/Marsaglia_polar_method
@@ -74,10 +64,8 @@ inline double arma_rng_cxx98::randn_val()
     double w;
 
     do {
-        tmp1 = double(2) * double(randi_val()) * (double(1) / double(randi_max_val())) -
-            double(1);
-        tmp2 = double(2) * double(randi_val()) * (double(1) / double(randi_max_val())) -
-            double(1);
+        tmp1 = double(2) * double(randi_val()) * (double(1) / double(randi_max_val())) - double(1);
+        tmp2 = double(2) * double(randi_val()) * (double(1) / double(randi_max_val())) - double(1);
 
         w = tmp1 * tmp1 + tmp2 * tmp2;
     } while(w >= double(1));
@@ -85,8 +73,8 @@ inline double arma_rng_cxx98::randn_val()
     return double(tmp1 * std::sqrt((double(-2) * std::log(w)) / w));
 }
 
-template <typename eT> inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& out2)
-{
+template <typename eT>
+inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& out2) {
     // make sure we are internally using at least floats
     typedef typename promote_type<eT, float>::result eTp;
 
@@ -108,25 +96,19 @@ template <typename eT> inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& 
 }
 
 template <typename eT>
-inline void arma_rng_cxx98::randi_fill(eT* mem, const uword N, const int a, const int b)
-{
+inline void arma_rng_cxx98::randi_fill(eT* mem, const uword N, const int a, const int b) {
     if((a == 0) && (b == RAND_MAX)) {
-        for(uword i = 0; i < N; ++i) {
-            mem[i] = eT(std::rand());
-        }
+        for(uword i = 0; i < N; ++i) { mem[i] = eT(std::rand()); }
     } else {
         const uword length = uword(b - a + 1);
 
         const double scale = double(length) / double(randi_max_val());
 
-        for(uword i = 0; i < N; ++i) {
-            mem[i] = eT((std::min)(b, (int(double(randi_val()) * scale) + a)));
-        }
+        for(uword i = 0; i < N; ++i) { mem[i] = eT((std::min)(b, (int(double(randi_val()) * scale) + a))); }
     }
 }
 
-inline int arma_rng_cxx98::randi_max_val()
-{
+inline int arma_rng_cxx98::randi_max_val() {
 #if(RAND_MAX == 32767)
     return ((32767 << 15) + 32767);
 #else

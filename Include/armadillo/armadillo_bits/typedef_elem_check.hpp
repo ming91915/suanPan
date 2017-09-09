@@ -16,8 +16,7 @@
 //! \addtogroup typedef_elem
 //! @{
 
-namespace junk
-{
+namespace junk {
 struct arma_elem_size_test {
 
     // arma_static_check( (sizeof(size_t) < sizeof(uword)),
@@ -40,10 +39,8 @@ struct arma_elem_size_test {
     arma_static_check((sizeof(float) != 4), ERROR___TYPE_FLOAT_HAS_UNSUPPORTED_SIZE);
     arma_static_check((sizeof(double) != 8), ERROR___TYPE_DOUBLE_HAS_UNSUPPORTED_SIZE);
 
-    arma_static_check((sizeof(std::complex<float>) != 8),
-        ERROR___TYPE_COMPLEX_FLOAT_HAS_UNSUPPORTED_SIZE);
-    arma_static_check((sizeof(std::complex<double>) != 16),
-        ERROR___TYPE_COMPLEX_DOUBLE_HAS_UNSUPPORTED_SIZE);
+    arma_static_check((sizeof(std::complex<float>) != 8), ERROR___TYPE_COMPLEX_FLOAT_HAS_UNSUPPORTED_SIZE);
+    arma_static_check((sizeof(std::complex<double>) != 16), ERROR___TYPE_COMPLEX_DOUBLE_HAS_UNSUPPORTED_SIZE);
 };
 }
 

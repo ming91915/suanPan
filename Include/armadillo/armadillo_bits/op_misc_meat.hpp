@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_real::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_real>& X)
-{
+inline void op_real::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_real>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -39,9 +37,7 @@ inline void op_real::apply(Mat<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::real(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::real(A[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -52,9 +48,7 @@ inline void op_real::apply(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_real::apply(Cube<typename T1::pod_type>& out,
-    const mtOpCube<typename T1::pod_type, T1, op_real>& X)
-{
+inline void op_real::apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_real>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -75,9 +69,7 @@ inline void op_real::apply(Cube<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::real(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::real(A[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -89,9 +81,7 @@ inline void op_real::apply(Cube<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_imag::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_imag>& X)
-{
+inline void op_imag::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_imag>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -111,9 +101,7 @@ inline void op_imag::apply(Mat<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::imag(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::imag(A[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -124,9 +112,7 @@ inline void op_imag::apply(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_imag::apply(Cube<typename T1::pod_type>& out,
-    const mtOpCube<typename T1::pod_type, T1, op_imag>& X)
-{
+inline void op_imag::apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_imag>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -147,9 +133,7 @@ inline void op_imag::apply(Cube<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::imag(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::imag(A[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -161,9 +145,7 @@ inline void op_imag::apply(Cube<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_abs::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_abs>& X)
-{
+inline void op_abs::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_abs>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -183,9 +165,7 @@ inline void op_abs::apply(Mat<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::abs(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::abs(A[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -196,9 +176,7 @@ inline void op_abs::apply(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_abs::apply(Cube<typename T1::pod_type>& out,
-    const mtOpCube<typename T1::pod_type, T1, op_abs>& X)
-{
+inline void op_abs::apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_abs>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -219,9 +197,7 @@ inline void op_abs::apply(Cube<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = std::abs(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::abs(A[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -233,9 +209,7 @@ inline void op_abs::apply(Cube<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_arg::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_arg>& X)
-{
+inline void op_arg::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_arg>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -256,9 +230,7 @@ inline void op_arg::apply(Mat<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = arma_arg<eT>::eval(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = arma_arg<eT>::eval(A[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -269,9 +241,7 @@ inline void op_arg::apply(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline void op_arg::apply(Cube<typename T1::pod_type>& out,
-    const mtOpCube<typename T1::pod_type, T1, op_arg>& X)
-{
+inline void op_arg::apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_arg>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -293,9 +263,7 @@ inline void op_arg::apply(Cube<typename T1::pod_type>& out,
         const uword n_elem = P.get_n_elem();
         ea_type A = P.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = arma_arg<eT>::eval(A[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = arma_arg<eT>::eval(A[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)

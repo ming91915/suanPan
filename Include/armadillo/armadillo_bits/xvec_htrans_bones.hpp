@@ -16,8 +16,8 @@
 //! \addtogroup xvec_htrans
 //! @{
 
-template <typename eT> class xvec_htrans : public Base<eT, xvec_htrans<eT>>
-{
+template <typename eT>
+class xvec_htrans : public Base<eT, xvec_htrans<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -31,9 +31,7 @@ public:
     const uword n_cols;
     const uword n_elem;
 
-    inline explicit xvec_htrans(const eT* const in_mem,
-        const uword in_n_rows,
-        const uword in_n_cols);
+    inline explicit xvec_htrans(const eT* const in_mem, const uword in_n_rows, const uword in_n_cols);
 
     inline void extract(Mat<eT>& out) const;
 

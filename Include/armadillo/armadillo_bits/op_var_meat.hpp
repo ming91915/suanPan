@@ -21,9 +21,7 @@
 //! The result is stored in a dense matrix that has either one column or one row.
 //! The dimension, for which the variances are found, is set via the var() function.
 template <typename T1>
-inline void op_var::apply(Mat<typename T1::pod_type>& out,
-    const mtOp<typename T1::pod_type, T1, op_var>& in)
-{
+inline void op_var::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_var>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT;
@@ -49,9 +47,7 @@ inline void op_var::apply(Mat<typename T1::pod_type>& out,
         if(X_n_rows > 0) {
             out_eT* out_mem = out.memptr();
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] = op_var::direct_var(X.colptr(col), X_n_rows, norm_type);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_var::direct_var(X.colptr(col), X_n_rows, norm_type); }
         }
     } else if(dim == 1) {
         arma_extra_debug_print("op_var::apply(): dim = 1");
@@ -74,9 +70,7 @@ inline void op_var::apply(Mat<typename T1::pod_type>& out,
 }
 
 template <typename T1>
-inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, T1>& X,
-    const uword norm_type)
-{
+inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -91,9 +85,7 @@ inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, 
 }
 
 template <typename eT>
-inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& X,
-    const uword norm_type)
-{
+inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1");
@@ -102,9 +94,7 @@ inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& 
 }
 
 template <typename eT>
-inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& X,
-    const uword norm_type)
-{
+inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1");
@@ -119,17 +109,14 @@ inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& 
     podarray<eT> tmp(X.n_elem);
     eT* tmp_mem = tmp.memptr();
 
-    for(uword i = 0, col = start_col; col < end_col_p1; ++col, ++i) {
-        tmp_mem[i] = A.at(start_row, col);
-    }
+    for(uword i = 0, col = start_col; col < end_col_p1; ++col, ++i) { tmp_mem[i] = A.at(start_row, col); }
 
     return op_var::direct_var(tmp.memptr(), tmp.n_elem, norm_type);
 }
 
 //! find the variance of an array
 template <typename eT>
-inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type)
-{
+inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(n_elem >= 2) {
@@ -163,8 +150,7 @@ inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword 
         const eT norm_val = (norm_type == 0) ? eT(n_elem - 1) : eT(n_elem);
         const eT var_val = (acc2 - acc3 * acc3 / eT(n_elem)) / norm_val;
 
-        return arma_isfinite(var_val) ? var_val :
-                                        op_var::direct_var_robust(X, n_elem, norm_type);
+        return arma_isfinite(var_val) ? var_val : op_var::direct_var_robust(X, n_elem, norm_type);
     } else {
         return eT(0);
     }
@@ -172,9 +158,7 @@ inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword 
 
 //! find the variance of an array (robust but slow)
 template <typename eT>
-inline eT
-op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword norm_type)
-{
+inline eT op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(n_elem > 1) {
@@ -198,10 +182,7 @@ op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword nor
 
 //! find the variance of an array (version for complex numbers)
 template <typename T>
-inline T op_var::direct_var(const std::complex<T>* const X,
-    const uword n_elem,
-    const uword norm_type)
-{
+inline T op_var::direct_var(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -222,8 +203,7 @@ inline T op_var::direct_var(const std::complex<T>* const X,
         const T norm_val = (norm_type == 0) ? T(n_elem - 1) : T(n_elem);
         const T var_val = (acc2 - std::norm(acc3) / T(n_elem)) / norm_val;
 
-        return arma_isfinite(var_val) ? var_val :
-                                        op_var::direct_var_robust(X, n_elem, norm_type);
+        return arma_isfinite(var_val) ? var_val : op_var::direct_var_robust(X, n_elem, norm_type);
     } else {
         return T(0);
     }
@@ -231,10 +211,7 @@ inline T op_var::direct_var(const std::complex<T>* const X,
 
 //! find the variance of an array (version for complex numbers) (robust but slow)
 template <typename T>
-inline T op_var::direct_var_robust(const std::complex<T>* const X,
-    const uword n_elem,
-    const uword norm_type)
-{
+inline T op_var::direct_var_robust(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;

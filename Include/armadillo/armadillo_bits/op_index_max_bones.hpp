@@ -16,8 +16,7 @@
 //! \addtogroup op_index_max
 //! @{
 
-class op_index_max
-{
+class op_index_max {
 public:
     // dense matrices
 
@@ -30,9 +29,7 @@ public:
     // sparse matrices
 
     template <typename T1>
-    inline static void apply(Mat<uword>& out,
-        const SpBase<typename T1::elem_type, T1>& expr,
-        const uword dim);
+    inline static void apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim);
 };
 
 //! @}

@@ -16,20 +16,16 @@
 //! \addtogroup op_symmat
 //! @{
 
-class op_symmat
-{
+class op_symmat {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_symmat>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat>& in);
 };
 
-class op_symmat_cx
-{
+class op_symmat_cx {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_symmat_cx>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat_cx>& in);
 };
 
 //! @}

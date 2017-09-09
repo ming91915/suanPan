@@ -17,12 +17,11 @@
 //! @{
 
 // this class is for internal use only; subject to change and/or removal without notice
-template <typename eT> class MapMat
-{
+template <typename eT>
+class MapMat {
 public:
-    typedef eT elem_type; //!< the type of elements stored in the matrix
-    typedef typename get_pod_type<eT>::result
-        pod_type; //!< if eT is std::complex<T>, pod_type is T; otherwise pod_type is eT
+    typedef eT elem_type;                               //!< the type of elements stored in the matrix
+    typedef typename get_pod_type<eT>::result pod_type; //!< if eT is std::complex<T>, pod_type is T; otherwise pod_type is eT
 
     static const bool is_row = false;
     static const bool is_col = false;
@@ -72,15 +71,9 @@ public:
     inline void speye(const uword in_n_rows, const uword in_n_cols);
     inline void speye(const SizeMat& s);
 
-    arma_inline MapMat_elem<eT>
-    elem(const uword index, uword& sync_state, uword& n_nonzero);
-    arma_inline MapMat_elem<eT>
-    elem(const uword in_row, const uword in_col, uword& sync_state, uword& n_nonzero);
-    arma_inline MapMat_svel<eT> svel(const uword in_row,
-        const uword in_col,
-        uword& sync_state,
-        uword& n_nonzero,
-        uword& sv_n_nonzero);
+    arma_inline MapMat_elem<eT> elem(const uword index, uword& sync_state, uword& n_nonzero);
+    arma_inline MapMat_elem<eT> elem(const uword in_row, const uword in_col, uword& sync_state, uword& n_nonzero);
+    arma_inline MapMat_svel<eT> svel(const uword in_row, const uword in_col, uword& sync_state, uword& n_nonzero, uword& sv_n_nonzero);
 
     arma_inline arma_warn_unused MapMat_val<eT> operator[](const uword index);
     arma_inline arma_warn_unused eT operator[](const uword index) const;
@@ -88,14 +81,11 @@ public:
     arma_inline arma_warn_unused MapMat_val<eT> operator()(const uword index);
     arma_inline arma_warn_unused eT operator()(const uword index) const;
 
-    arma_inline arma_warn_unused MapMat_val<eT> at(const uword in_row,
-        const uword in_col);
+    arma_inline arma_warn_unused MapMat_val<eT> at(const uword in_row, const uword in_col);
     arma_inline arma_warn_unused eT at(const uword in_row, const uword in_col) const;
 
-    arma_inline arma_warn_unused MapMat_val<eT> operator()(const uword in_row,
-        const uword in_col);
-    arma_inline arma_warn_unused eT operator()(const uword in_row,
-        const uword in_col) const;
+    arma_inline arma_warn_unused MapMat_val<eT> operator()(const uword in_row, const uword in_col);
+    arma_inline arma_warn_unused eT operator()(const uword in_row, const uword in_col) const;
 
     inline arma_warn_unused bool is_empty() const;
     inline arma_warn_unused bool is_vec() const;
@@ -103,8 +93,7 @@ public:
     inline arma_warn_unused bool is_colvec() const;
     inline arma_warn_unused bool is_square() const;
 
-    inline void
-    sprandu(const uword in_n_rows, const uword in_n_cols, const double density);
+    inline void sprandu(const uword in_n_rows, const uword in_n_cols, const double density);
 
     inline void print(const std::string& extra_text) const;
 
@@ -130,8 +119,8 @@ private:
     friend class SpMat<eT>;
 };
 
-template <typename eT> class MapMat_val
-{
+template <typename eT>
+class MapMat_val {
 private:
     arma_aligned MapMat<eT>& parent;
 
@@ -158,8 +147,8 @@ public:
     arma_inline void operator--(int);
 };
 
-template <typename eT> class MapMat_elem
-{
+template <typename eT>
+class MapMat_elem {
 private:
     arma_aligned MapMat<eT>& parent;
 
@@ -167,10 +156,7 @@ private:
     arma_aligned uword& sync_state;
     arma_aligned uword& n_nonzero;
 
-    inline MapMat_elem(MapMat<eT>& in_parent,
-        const uword in_index,
-        uword& in_sync_state,
-        uword& in_n_nonzero);
+    inline MapMat_elem(MapMat<eT>& in_parent, const uword in_index, uword& in_sync_state, uword& in_n_nonzero);
 
     friend class MapMat<eT>;
 
@@ -192,8 +178,8 @@ public:
     arma_inline eT operator--(int);
 };
 
-template <typename eT> class MapMat_svel
-{
+template <typename eT>
+class MapMat_svel {
 private:
     arma_aligned MapMat<eT>& parent;
 
@@ -202,11 +188,7 @@ private:
     arma_aligned uword& n_nonzero;
     arma_aligned uword& sv_n_nonzero;
 
-    inline MapMat_svel(MapMat<eT>& in_parent,
-        const uword in_index,
-        uword& in_sync_state,
-        uword& in_n_nonzero,
-        uword& in_sv_n_nonzero);
+    inline MapMat_svel(MapMat<eT>& in_parent, const uword in_index, uword& in_sync_state, uword& in_n_nonzero, uword& in_sv_n_nonzero);
 
     arma_inline void update_n_nonzeros();
 

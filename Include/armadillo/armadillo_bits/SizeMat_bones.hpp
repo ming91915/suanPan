@@ -16,8 +16,7 @@
 //! \addtogroup SizeMat
 //! @{
 
-class SizeMat
-{
+class SizeMat {
 public:
     const uword n_rows;
     const uword n_cols;

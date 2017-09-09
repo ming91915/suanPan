@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_sum>& in)
-{
+arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sum>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -33,12 +31,8 @@ arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out,
     const uword p_n_cols = p.get_n_cols();
 
     if(p.get_n_nonzero() == 0) {
-        if(dim == 0) {
-            out.zeros(1, p_n_cols);
-        }
-        if(dim == 1) {
-            out.zeros(p_n_rows, 1);
-        }
+        if(dim == 0) { out.zeros(1, p_n_cols); }
+        if(dim == 1) { out.zeros(p_n_rows, 1); }
 
         return;
     }
@@ -56,10 +50,7 @@ arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out,
                 ++it;
             }
         } else {
-            for(uword col = 0; col < p_n_cols; ++col) {
-                acc[col] = arrayops::accumulate(&p.get_values()[p.get_col_ptrs()[col]],
-                    p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col]);
-            }
+            for(uword col = 0; col < p_n_cols; ++col) { acc[col] = arrayops::accumulate(&p.get_values()[p.get_col_ptrs()[col]], p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col]); }
         }
 
         out = acc;

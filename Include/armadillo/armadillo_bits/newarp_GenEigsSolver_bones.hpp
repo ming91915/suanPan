@@ -13,15 +13,14 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 //! This class implements the eigen solver for general real matrices.
-template <typename eT, int SelectionRule, typename OpType> class GenEigsSolver
-{
+template <typename eT, int SelectionRule, typename OpType>
+class GenEigsSolver {
 protected:
-    const OpType& op; // object to conduct matrix operation, e.g. matrix-vector product
-    const uword nev;  // number of eigenvalues requested
+    const OpType& op;               // object to conduct matrix operation, e.g. matrix-vector product
+    const uword nev;                // number of eigenvalues requested
     Col<std::complex<eT>> ritz_val; // ritz values
 
     // Sort the first nev Ritz pairs in decreasing magnitude order

@@ -20,12 +20,9 @@ inline arma_ostream_state::arma_ostream_state(const std::ostream& o)
     : orig_flags(o.flags())
     , orig_precision(o.precision())
     , orig_width(o.width())
-    , orig_fill(o.fill())
-{
-}
+    , orig_fill(o.fill()) {}
 
-inline void arma_ostream_state::restore(std::ostream& o) const
-{
+inline void arma_ostream_state::restore(std::ostream& o) const {
     o.flags(orig_flags);
     o.precision(orig_precision);
     o.width(orig_width);
@@ -36,9 +33,7 @@ inline void arma_ostream_state::restore(std::ostream& o) const
 //
 
 template <typename eT>
-inline std::streamsize
-arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem)
-{
+inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem) {
     o.unsetf(ios::showbase);
     o.unsetf(ios::uppercase);
     o.unsetf(ios::showpos);
@@ -54,11 +49,7 @@ arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem)
     for(uword i = 0; i < n_elem; ++i) {
         const eT val = data[i];
 
-        if((cond_rel < (sizeof(eT) > 4) &&
-               (is_same_type<uword, eT>::yes || is_same_type<sword, eT>::yes) >
-                   ::geq(val, eT(+10000000000))) ||
-            (cond_rel < (sizeof(eT) > 4) &&
-                is_same_type<sword, eT>::yes > ::leq(val, eT(-10000000000)))) {
+        if((cond_rel < (sizeof(eT) > 4) && (is_same_type<uword, eT>::yes || is_same_type<sword, eT>::yes) > ::geq(val, eT(+10000000000))) || (cond_rel < (sizeof(eT) > 4) && is_same_type<sword, eT>::yes > ::leq(val, eT(-10000000000)))) {
             use_layout_D = true;
             break;
         }
@@ -69,13 +60,7 @@ arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem)
             // eT(+1e-4)) ) ||
             //( (is_non_integral<eT>::value == true) && (is_signed<eT>::value == true) &&
             //(val < eT(0)) && (val >= eT(-1e-4)) )
-            (cond_rel<is_signed<eT>::value>::leq(val, eT(-100))) ||
-            (cond_rel<is_non_integral<eT>::value>::gt(val, eT(0)) &&
-                cond_rel<is_non_integral<eT>::value>::leq(val, eT(+1e-4))) ||
-            (cond_rel < is_non_integral<eT>::value &&
-                is_signed<eT>::value > ::lt(val, eT(0)) &&
-                cond_rel < is_non_integral<eT>::value &&
-                is_signed<eT>::value > ::geq(val, eT(-1e-4)))) {
+            (cond_rel<is_signed<eT>::value>::leq(val, eT(-100))) || (cond_rel<is_non_integral<eT>::value>::gt(val, eT(0)) && cond_rel<is_non_integral<eT>::value>::leq(val, eT(+1e-4))) || (cond_rel < is_non_integral<eT>::value && is_signed<eT>::value > ::lt(val, eT(0)) && cond_rel < is_non_integral<eT>::value && is_signed<eT>::value > ::geq(val, eT(-1e-4)))) {
             use_layout_C = true;
             break;
         }
@@ -118,10 +103,7 @@ arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem)
 
 //! "better than nothing" settings for complex numbers
 template <typename T>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
-    const std::complex<T>* data,
-    const uword n_elem)
-{
+inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const std::complex<T>* data, const uword n_elem) {
     arma_ignore(data);
     arma_ignore(n_elem);
 
@@ -143,11 +125,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
 }
 
 template <typename eT>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
-    typename SpMat<eT>::const_iterator begin,
-    const uword n_elem,
-    const typename arma_not_cx<eT>::result* junk)
-{
+inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<eT>::const_iterator begin, const uword n_elem, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -165,18 +143,12 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
     for(typename SpMat<eT>::const_iterator it = begin; it.pos() < n_elem; ++it) {
         const eT val = *it;
 
-        if(val >= eT(+100) || ((is_signed<eT>::value == true) && (val <= eT(-100))) ||
-            ((is_non_integral<eT>::value == true) && (val > eT(0)) &&
-                (val <= eT(+1e-4))) ||
-            ((is_non_integral<eT>::value == true) && (is_signed<eT>::value == true) &&
-                (val < eT(0)) && (val >= eT(-1e-4)))) {
+        if(val >= eT(+100) || ((is_signed<eT>::value == true) && (val <= eT(-100))) || ((is_non_integral<eT>::value == true) && (val > eT(0)) && (val <= eT(+1e-4))) || ((is_non_integral<eT>::value == true) && (is_signed<eT>::value == true) && (val < eT(0)) && (val >= eT(-1e-4)))) {
             use_layout_C = true;
             break;
         }
 
-        if((val >= eT(+10)) || ((is_signed<eT>::value == true) && (val <= eT(-10)))) {
-            use_layout_B = true;
-        }
+        if((val >= eT(+10)) || ((is_signed<eT>::value == true) && (val <= eT(-10)))) { use_layout_B = true; }
     }
 
     if(use_layout_C) {
@@ -204,11 +176,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
 
 //! "better than nothing" settings for complex numbers
 template <typename T>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
-    typename SpMat<T>::const_iterator begin,
-    const uword n_elem,
-    const typename arma_cx_only<T>::result* junk)
-{
+inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<T>::const_iterator begin, const uword n_elem, const typename arma_cx_only<T>::result* junk) {
     arma_ignore(begin);
     arma_ignore(n_elem);
     arma_ignore(junk);
@@ -231,8 +199,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o,
 }
 
 template <typename eT>
-inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify)
-{
+inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify) {
     if(modify == true) {
         const ios::fmtflags save_flags = o.flags();
         const std::streamsize save_precision = o.precision();
@@ -252,8 +219,7 @@ inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify)
 
 //! Print an element to the specified stream
 template <typename eT>
-arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bool modify)
-{
+arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bool modify) {
     if(is_signed<eT>::value) {
         typedef typename promote_type<eT, s16>::result promoted_eT;
 
@@ -279,9 +245,7 @@ arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bo
 
 //! Print a complex element to the specified stream
 template <typename T>
-inline void
-arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, const bool modify)
-{
+inline void arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, const bool modify) {
     if((x.real() != T(0)) || (x.imag() != T(0)) || (modify == false)) {
         std::ostringstream ss;
         ss.flags(o.flags());
@@ -318,15 +282,12 @@ arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, const bool m
 
 //! Print a matrix to the specified stream
 template <typename eT>
-arma_cold inline void
-arma_ostream::print(std::ostream& o, const Mat<eT>& m, const bool modify)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const Mat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
 
-    const std::streamsize cell_width =
-        modify ? arma_ostream::modify_stream(o, m.memptr(), m.n_elem) : o.width();
+    const std::streamsize cell_width = modify ? arma_ostream::modify_stream(o, m.memptr(), m.n_elem) : o.width();
 
     const uword m_n_rows = m.n_rows;
     const uword m_n_cols = m.n_cols;
@@ -367,17 +328,14 @@ arma_ostream::print(std::ostream& o, const Mat<eT>& m, const bool modify)
 
 //! Print a cube to the specified stream
 template <typename eT>
-arma_cold inline void
-arma_ostream::print(std::ostream& o, const Cube<eT>& x, const bool modify)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const Cube<eT>& x, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
 
     if(x.is_empty() == false) {
         for(uword slice = 0; slice < x.n_slices; ++slice) {
-            const Mat<eT> tmp(
-                const_cast<eT*>(x.slice_memptr(slice)), x.n_rows, x.n_cols, false);
+            const Mat<eT> tmp(const_cast<eT*>(x.slice_memptr(slice)), x.n_rows, x.n_cols, false);
 
             o << "[cube slice " << slice << ']' << '\n';
             arma_ostream::print(o, tmp, modify);
@@ -394,8 +352,7 @@ arma_ostream::print(std::ostream& o, const Cube<eT>& x, const bool modify)
 //! Assumes type oT can be printed, i.e. oT has std::ostream& operator<< (std::ostream&,
 //! const oT&)
 template <typename oT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -448,8 +405,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x)
 //! Assumes type oT can be printed, i.e. oT has std::ostream& operator<< (std::ostream&,
 //! const oT&)
 template <typename oT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<oT>& x)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<oT>& x) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -498,9 +454,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<o
 }
 
 template <typename eT>
-arma_cold inline void
-arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify)
-{
+arma_cold inline void arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -509,8 +463,7 @@ arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify
     const uword m_n_cols = m.n_cols;
 
     if(m.n_nonzero > 0) {
-        const std::streamsize cell_width =
-            modify ? modify_stream<eT>(o, m.begin(), m.n_nonzero) : o.width();
+        const std::streamsize cell_width = modify ? modify_stream<eT>(o, m.begin(), m.n_nonzero) : o.width();
 
         typename SpMat<eT>::const_iterator begin = m.begin();
 
@@ -524,8 +477,7 @@ arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify
                         // hence we need to restore it
                         o.width(cell_width);
                         eT val = eT(0);
-                        for(typename SpMat<eT>::const_iterator it = begin;
-                            it.pos() < m.n_nonzero; ++it) {
+                        for(typename SpMat<eT>::const_iterator it = begin; it.pos() < m.n_nonzero; ++it) {
                             if(it.row() == row && it.col() == col) {
                                 val = *it;
                                 break;
@@ -541,8 +493,7 @@ arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify
                 for(uword row = 0; row < m_n_rows; ++row) {
                     for(uword col = 0; col < m_n_cols; ++col) {
                         eT val = eT(0);
-                        for(typename SpMat<eT>::const_iterator it = begin;
-                            it.pos() < m.n_nonzero; ++it) {
+                        for(typename SpMat<eT>::const_iterator it = begin; it.pos() < m.n_nonzero; ++it) {
                             if(it.row() == row && it.col() == col) {
                                 val = *it;
                                 break;
@@ -563,8 +514,7 @@ arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify
             eT tmp[1];
             tmp[0] = eT(0);
 
-            const std::streamsize cell_width =
-                modify ? arma_ostream::modify_stream(o, &tmp[0], 1) : o.width();
+            const std::streamsize cell_width = modify ? arma_ostream::modify_stream(o, &tmp[0], 1) : o.width();
 
             for(uword row = 0; row < m_n_rows; ++row) {
                 for(uword col = 0; col < m_n_cols; ++col) {
@@ -585,9 +535,7 @@ arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify
 }
 
 template <typename eT>
-arma_cold inline void
-arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -602,19 +550,12 @@ arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify)
 
     const uword m_n_nonzero = m.n_nonzero;
 
-    o << "[matrix size: " << m.n_rows << 'x' << m.n_cols << "; n_nonzero: " << m_n_nonzero
-      << "; density: " << ((m.n_elem > 0) ?
-                                  (double(m_n_nonzero) / double(m.n_elem) * double(100)) :
-                                  double(0))
-      << "%]\n\n";
+    o << "[matrix size: " << m.n_rows << 'x' << m.n_cols << "; n_nonzero: " << m_n_nonzero << "; density: " << ((m.n_elem > 0) ? (double(m_n_nonzero) / double(m.n_elem) * double(100)) : double(0)) << "%]\n\n";
 
-    if(modify == false) {
-        stream_state.restore(o);
-    }
+    if(modify == false) { stream_state.restore(o); }
 
     if(m_n_nonzero > 0) {
-        const std::streamsize cell_width =
-            modify ? modify_stream<eT>(o, m.begin(), m_n_nonzero) : o.width();
+        const std::streamsize cell_width = modify ? modify_stream<eT>(o, m.begin(), m_n_nonzero) : o.width();
 
         typename SpMat<eT>::const_iterator begin = m.begin();
         typename SpMat<eT>::const_iterator m_end = m.end();
@@ -653,9 +594,7 @@ arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify)
                 o << ' ';
             }
 
-            if(cell_width > 0) {
-                o.width(cell_width);
-            }
+            if(cell_width > 0) { o.width(cell_width); }
 
             arma_ostream::print_elem(o, eT(*begin), modify);
             o << '\n';
@@ -670,8 +609,7 @@ arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify)
     stream_state.restore(o);
 }
 
-arma_cold inline void arma_ostream::print(std::ostream& o, const SizeMat& S)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const SizeMat& S) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -687,8 +625,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const SizeMat& S)
     stream_state.restore(o);
 }
 
-arma_cold inline void arma_ostream::print(std::ostream& o, const SizeCube& S)
-{
+arma_cold inline void arma_ostream::print(std::ostream& o, const SizeCube& S) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);

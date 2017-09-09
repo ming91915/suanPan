@@ -16,21 +16,19 @@
 //! \addtogroup running_stat_vec
 //! @{
 
-template <typename obj_type> inline running_stat_vec<obj_type>::~running_stat_vec()
-{
+template <typename obj_type>
+inline running_stat_vec<obj_type>::~running_stat_vec() {
     arma_extra_debug_sigprint_this(this);
 }
 
 template <typename obj_type>
 inline running_stat_vec<obj_type>::running_stat_vec(const bool in_calc_cov)
-    : calc_cov(in_calc_cov)
-{
+    : calc_cov(in_calc_cov) {
     arma_extra_debug_sigprint_this(this);
 }
 
 template <typename obj_type>
-inline running_stat_vec<obj_type>::running_stat_vec(
-    const running_stat_vec<obj_type>& in_rsv)
+inline running_stat_vec<obj_type>::running_stat_vec(const running_stat_vec<obj_type>& in_rsv)
     : calc_cov(in_rsv.calc_cov)
     , counter(in_rsv.counter)
     , r_mean(in_rsv.r_mean)
@@ -39,15 +37,12 @@ inline running_stat_vec<obj_type>::running_stat_vec(
     , min_val(in_rsv.min_val)
     , max_val(in_rsv.max_val)
     , min_val_norm(in_rsv.min_val_norm)
-    , max_val_norm(in_rsv.max_val_norm)
-{
+    , max_val_norm(in_rsv.max_val_norm) {
     arma_extra_debug_sigprint_this(this);
 }
 
 template <typename obj_type>
-inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(
-    const running_stat_vec<obj_type>& in_rsv)
-{
+inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(const running_stat_vec<obj_type>& in_rsv) {
     arma_extra_debug_sigprint();
 
     access::rw(calc_cov) = in_rsv.calc_cov;
@@ -67,17 +62,13 @@ inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(
 //! update statistics to reflect new sample
 template <typename obj_type>
 template <typename T1>
-arma_hot inline void running_stat_vec<obj_type>::operator()(
-    const Base<typename running_stat_vec<obj_type>::T, T1>& X)
-{
+arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<typename running_stat_vec<obj_type>::T, T1>& X) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> tmp(X.get_ref());
     const Mat<T>& sample = tmp.M;
 
-    if(sample.is_empty()) {
-        return;
-    }
+    if(sample.is_empty()) { return; }
 
     if(sample.is_finite() == false) {
         arma_debug_warn("running_stat_vec: sample ignored as it has non-finite elements");
@@ -89,18 +80,14 @@ arma_hot inline void running_stat_vec<obj_type>::operator()(
 
 template <typename obj_type>
 template <typename T1>
-arma_hot inline void running_stat_vec<obj_type>::operator()(
-    const Base<std::complex<typename running_stat_vec<obj_type>::T>, T1>& X)
-{
+arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<std::complex<typename running_stat_vec<obj_type>::T>, T1>& X) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> tmp(X.get_ref());
 
     const Mat<std::complex<T>>& sample = tmp.M;
 
-    if(sample.is_empty()) {
-        return;
-    }
+    if(sample.is_empty()) { return; }
 
     if(sample.is_finite() == false) {
         arma_debug_warn("running_stat_vec: sample ignored as it has non-finite elements");
@@ -111,8 +98,8 @@ arma_hot inline void running_stat_vec<obj_type>::operator()(
 }
 
 //! set all statistics to zero
-template <typename obj_type> inline void running_stat_vec<obj_type>::reset()
-{
+template <typename obj_type>
+inline void running_stat_vec<obj_type>::reset() {
     arma_extra_debug_sigprint();
 
     counter.reset();
@@ -136,9 +123,7 @@ template <typename obj_type> inline void running_stat_vec<obj_type>::reset()
 
 //! mean or average value
 template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1&
-running_stat_vec<obj_type>::mean() const
-{
+inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::mean() const {
     arma_extra_debug_sigprint();
 
     return r_mean;
@@ -146,9 +131,7 @@ running_stat_vec<obj_type>::mean() const
 
 //! variance
 template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type2&
-running_stat_vec<obj_type>::var(const uword norm_type)
-{
+inline const typename running_stat_vec<obj_type>::return_type2& running_stat_vec<obj_type>::var(const uword norm_type) {
     arma_extra_debug_sigprint();
 
     const T N = counter.value();
@@ -172,9 +155,7 @@ running_stat_vec<obj_type>::var(const uword norm_type)
 
 //! standard deviation
 template <typename obj_type>
-inline typename running_stat_vec<obj_type>::return_type2
-running_stat_vec<obj_type>::stddev(const uword norm_type) const
-{
+inline typename running_stat_vec<obj_type>::return_type2 running_stat_vec<obj_type>::stddev(const uword norm_type) const {
     arma_extra_debug_sigprint();
 
     const T N = counter.value();
@@ -195,9 +176,7 @@ running_stat_vec<obj_type>::stddev(const uword norm_type) const
 
 //! covariance
 template <typename obj_type>
-inline const Mat<typename running_stat_vec<obj_type>::eT>&
-running_stat_vec<obj_type>::cov(const uword norm_type)
-{
+inline const Mat<typename running_stat_vec<obj_type>::eT>& running_stat_vec<obj_type>::cov(const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(calc_cov == true) {
@@ -229,9 +208,7 @@ running_stat_vec<obj_type>::cov(const uword norm_type)
 
 //! vector with minimum values
 template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1&
-running_stat_vec<obj_type>::min() const
-{
+inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::min() const {
     arma_extra_debug_sigprint();
 
     return min_val;
@@ -239,18 +216,14 @@ running_stat_vec<obj_type>::min() const
 
 //! vector with maximum values
 template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1&
-running_stat_vec<obj_type>::max() const
-{
+inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::max() const {
     arma_extra_debug_sigprint();
 
     return max_val;
 }
 
 template <typename obj_type>
-inline typename running_stat_vec<obj_type>::return_type1
-running_stat_vec<obj_type>::range() const
-{
+inline typename running_stat_vec<obj_type>::return_type1 running_stat_vec<obj_type>::range() const {
     arma_extra_debug_sigprint();
 
     return (max_val - min_val);
@@ -258,8 +231,7 @@ running_stat_vec<obj_type>::range() const
 
 //! number of samples so far
 template <typename obj_type>
-inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count() const
-{
+inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count() const {
     arma_extra_debug_sigprint();
 
     return counter.value();
@@ -269,10 +241,7 @@ inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count(
 
 //! update statistics to reflect new sample (version for non-complex numbers)
 template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
-    const Mat<typename running_stat_vec<obj_type>::eT>& sample,
-    const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk)
-{
+inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -282,8 +251,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
     const T N = x.counter.value();
 
     if(N > T(0)) {
-        arma_debug_assert_same_size(
-            x.r_mean, sample, "running_stat_vec(): dimensionality mismatch");
+        arma_debug_assert_same_size(x.r_mean, sample, "running_stat_vec(): dimensionality mismatch");
 
         const uword n_elem = sample.n_elem;
         const eT* sample_mem = sample.memptr();
@@ -314,13 +282,9 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
         for(uword i = 0; i < n_elem; ++i) {
             const eT val = sample_mem[i];
 
-            if(val < min_val_mem[i]) {
-                min_val_mem[i] = val;
-            }
+            if(val < min_val_mem[i]) { min_val_mem[i] = val; }
 
-            if(val > max_val_mem[i]) {
-                max_val_mem[i] = val;
-            }
+            if(val > max_val_mem[i]) { max_val_mem[i] = val; }
 
             const eT r_mean_val = r_mean_mem[i];
             const eT tmp = val - r_mean_val;
@@ -330,16 +294,13 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
             r_mean_mem[i] = r_mean_val + (val - r_mean_val) / N_plus_1;
         }
     } else {
-        arma_debug_check((sample.is_vec() == false),
-            "running_stat_vec(): given sample is not a vector");
+        arma_debug_check((sample.is_vec() == false), "running_stat_vec(): given sample is not a vector");
 
         x.r_mean.set_size(sample.n_rows, sample.n_cols);
 
         x.r_var.zeros(sample.n_rows, sample.n_cols);
 
-        if(x.calc_cov == true) {
-            x.r_cov.zeros(sample.n_elem, sample.n_elem);
-        }
+        if(x.calc_cov == true) { x.r_cov.zeros(sample.n_elem, sample.n_elem); }
 
         x.min_val.set_size(sample.n_rows, sample.n_cols);
         x.max_val.set_size(sample.n_rows, sample.n_cols);
@@ -365,10 +326,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 //! update statistics to reflect new sample (version for non-complex numbers, complex
 //! sample)
 template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
-    const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample,
-    const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk)
-{
+inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -380,10 +338,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 //! update statistics to reflect new sample (version for complex numbers, non-complex
 //! sample)
 template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
-    const Mat<typename running_stat_vec<obj_type>::T>& sample,
-    const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk)
-{
+inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::T>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -394,10 +349,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 
 //! alter statistics to reflect new sample (version for complex numbers, complex sample)
 template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
-    const Mat<typename running_stat_vec<obj_type>::eT>& sample,
-    const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk)
-{
+inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -407,8 +359,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
     const T N = x.counter.value();
 
     if(N > T(0)) {
-        arma_debug_assert_same_size(
-            x.r_mean, sample, "running_stat_vec(): dimensionality mismatch");
+        arma_debug_assert_same_size(x.r_mean, sample, "running_stat_vec(): dimensionality mismatch");
 
         const uword n_elem = sample.n_elem;
         const eT* sample_mem = sample.memptr();
@@ -454,22 +405,18 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x,
 
             const eT& r_mean_val = r_mean_mem[i];
 
-            r_var_mem[i] =
-                N_minus_1 / N * r_var_mem[i] + std::norm(val - r_mean_val) / N_plus_1;
+            r_var_mem[i] = N_minus_1 / N * r_var_mem[i] + std::norm(val - r_mean_val) / N_plus_1;
 
             r_mean_mem[i] = r_mean_val + (val - r_mean_val) / N_plus_1;
         }
     } else {
-        arma_debug_check((sample.is_vec() == false),
-            "running_stat_vec(): given sample is not a vector");
+        arma_debug_check((sample.is_vec() == false), "running_stat_vec(): given sample is not a vector");
 
         x.r_mean.set_size(sample.n_rows, sample.n_cols);
 
         x.r_var.zeros(sample.n_rows, sample.n_cols);
 
-        if(x.calc_cov == true) {
-            x.r_cov.zeros(sample.n_elem, sample.n_elem);
-        }
+        if(x.calc_cov == true) { x.r_cov.zeros(sample.n_elem, sample.n_elem); }
 
         x.min_val.set_size(sample.n_rows, sample.n_cols);
         x.max_val.set_size(sample.n_rows, sample.n_cols);

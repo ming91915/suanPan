@@ -144,10 +144,7 @@
 #define ARMA_FNSIG "(unknown)"
 #endif
 
-#if(defined(__GNUG__) || defined(__GNUC__)) &&                               \
-    (defined(__clang__) || defined(__INTEL_COMPILER) || defined(__NVCC__) || \
-        defined(__CUDACC__) || defined(__PGI) || defined(__PATHSCALE__) ||   \
-        defined(__ARMCC_VERSION) || defined(__IBMCPP__))
+#if(defined(__GNUG__) || defined(__GNUC__)) && (defined(__clang__) || defined(__INTEL_COMPILER) || defined(__NVCC__) || defined(__CUDACC__) || defined(__PGI) || defined(__PATHSCALE__) || defined(__ARMCC_VERSION) || defined(__IBMCPP__))
 #undef ARMA_FAKE_GCC
 #define ARMA_FAKE_GCC
 #endif
@@ -203,8 +200,7 @@
 #endif
 #endif
 
-#if !defined(ARMA_USE_CXX11) && !defined(__GXX_EXPERIMENTAL_CXX0X__) && \
-    (__cplusplus < 201103L)
+#if !defined(ARMA_USE_CXX11) && !defined(__GXX_EXPERIMENTAL_CXX0X__) && (__cplusplus < 201103L)
 #if defined(_GLIBCXX_USE_C99_MATH_TR1) && defined(_GLIBCXX_USE_C99_COMPLEX_TR1)
 #define ARMA_HAVE_TR1
 #endif
@@ -231,10 +227,7 @@
 
 #endif
 
-#if defined(__clang__) &&                                                       \
-    (defined(__INTEL_COMPILER) || defined(__NVCC__) || defined(__CUDACC__) ||   \
-        defined(__PGI) || defined(__PATHSCALE__) || defined(__ARMCC_VERSION) || \
-        defined(__IBMCPP__))
+#if defined(__clang__) && (defined(__INTEL_COMPILER) || defined(__NVCC__) || defined(__CUDACC__) || defined(__PGI) || defined(__PATHSCALE__) || defined(__ARMCC_VERSION) || defined(__IBMCPP__))
 #undef ARMA_FAKE_CLANG
 #define ARMA_FAKE_CLANG
 #endif
@@ -417,8 +410,7 @@
 
 #endif
 
-#if defined(ARMA_USE_CXX11) && defined(__CYGWIN__) && \
-    !defined(ARMA_DONT_PRINT_CXX11_WARNING)
+#if defined(ARMA_USE_CXX11) && defined(__CYGWIN__) && !defined(ARMA_DONT_PRINT_CXX11_WARNING)
 #pragma message("WARNING: Cygwin may have incomplete support for C++11 features.")
 #endif
 
@@ -428,8 +420,7 @@
 #endif
 
 #if defined(ARMA_PRINT_CXX98_WARNING) && !defined(ARMA_DONT_PRINT_CXX98_WARNING)
-#pragma message( \
-    "WARNING: this compiler is OUTDATED and has INCOMPLETE support for the C++ standard;")
+#pragma message("WARNING: this compiler is OUTDATED and has INCOMPLETE support for the C++ standard;")
 #pragma message("WARNING: if something breaks, you get to keep all the pieces.")
 #endif
 
@@ -441,8 +432,7 @@
 #pragma message("WARNING: #define ARMA_DONT_USE_CXX11 before #include <armadillo>")
 #endif
 
-#if(defined(ARMA_USE_OPENMP) && \
-    (!defined(_OPENMP) || (defined(_OPENMP) && (_OPENMP < 200805))))
+#if(defined(ARMA_USE_OPENMP) && (!defined(_OPENMP) || (defined(_OPENMP) && (_OPENMP < 200805))))
 // we require OpenMP 3.0 to enable parallelisation of for loops with unsigned integers;
 // earlier versions of OpenMP can only handle signed integers
 #undef ARMA_USE_OPENMP
@@ -460,21 +450,18 @@
 #endif
 
 #if defined(ARMA_PRINT_OPENMP_WARNING) && !defined(ARMA_DONT_PRINT_OPENMP_WARNING)
-#pragma message( \
-    "WARNING: use of OpenMP disabled; this compiler doesn't support OpenMP 3.0+")
+#pragma message("WARNING: use of OpenMP disabled; this compiler doesn't support OpenMP 3.0+")
 #endif
 
 #if defined(ARMA_USE_OPENMP) && !defined(ARMA_USE_CXX11)
-#if(defined(ARMA_GCC_VERSION) && (ARMA_GCC_VERSION >= 40803)) || \
-    (defined(__clang__) && !defined(ARMA_FAKE_CLANG))
+#if(defined(ARMA_GCC_VERSION) && (ARMA_GCC_VERSION >= 40803)) || (defined(__clang__) && !defined(ARMA_FAKE_CLANG))
 #undef ARMA_PRINT_OPENMP_CXX11_WARNING
 #define ARMA_PRINT_OPENMP_CXX11_WARNING
 #endif
 #endif
 
 #if defined(ARMA_PRINT_OPENMP_CXX11_WARNING) && !defined(ARMA_DONT_PRINT_OPENMP_WARNING)
-#pragma message( \
-    "WARNING: support for OpenMP requires C++11/C++14; add -std=c++11 or -std=c++14 to compiler flags")
+#pragma message("WARNING: support for OpenMP requires C++11/C++14; add -std=c++11 or -std=c++14 to compiler flags")
 #endif
 
 // cleanup
@@ -500,6 +487,5 @@
 #undef min
 #undef max
 #pragma message("WARNING: detected 'min' and/or 'max' macros and undefined them;")
-#pragma message( \
-    "WARNING: you may wish to define NOMINMAX before including any windows header")
+#pragma message("WARNING: you may wish to define NOMINMAX before including any windows header")
 #endif

@@ -13,34 +13,29 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 template <typename eT>
 inline UpperHessenbergEigen<eT>::UpperHessenbergEigen()
     : n(0)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
 inline UpperHessenbergEigen<eT>::UpperHessenbergEigen(const Mat<eT>& mat_obj)
     : n(mat_obj.n_rows)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 
     compute(mat_obj);
 }
 
 template <typename eT>
-inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj)
-{
+inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((mat_obj.is_square() == false),
-        "newarp::UpperHessenbergEigen::compute(): matrix must be square");
+    arma_debug_check((mat_obj.is_square() == false), "newarp::UpperHessenbergEigen::compute(): matrix must be square");
 
     n = blas_int(mat_obj.n_rows);
 
@@ -64,12 +59,9 @@ inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj)
     podarray<eT> wr(static_cast<uword>(n));
     podarray<eT> wi(static_cast<uword>(n));
 
-    lapack::lahqr(&want_T, &want_Z, &n, &ilo, &ihi, mat_T.memptr(), &n, wr.memptr(),
-        wi.memptr(), &iloz, &ihiz, mat_Z.memptr(), &n, &info);
+    lapack::lahqr(&want_T, &want_Z, &n, &ilo, &ihi, mat_T.memptr(), &n, wr.memptr(), wi.memptr(), &iloz, &ihiz, mat_Z.memptr(), &n, &info);
 
-    for(blas_int i = 0; i < n; i++) {
-        evals(i) = std::complex<eT>(wr[i], wi[i]);
-    }
+    for(blas_int i = 0; i < n; i++) { evals(i) = std::complex<eT>(wr[i], wi[i]); }
 
     if(info > 0) {
         arma_stop_runtime_error("lapack::lahqr(): failed to compute all eigenvalues");
@@ -82,8 +74,7 @@ inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj)
 
     podarray<eT> work(static_cast<uword>(3 * n));
 
-    lapack::trevc(&side, &howmny, (blas_int*)NULL, &n, mat_T.memptr(), &n, (eT*)NULL, &n,
-        mat_Z.memptr(), &n, &n, &m, work.memptr(), &info);
+    lapack::trevc(&side, &howmny, (blas_int*)NULL, &n, mat_T.memptr(), &n, (eT*)NULL, &n, mat_Z.memptr(), &n, &n, &m, work.memptr(), &info);
 
     if(info < 0) {
         arma_stop_logic_error("lapack::trevc(): illegal value");
@@ -94,23 +85,19 @@ inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj)
 }
 
 template <typename eT>
-inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues()
-{
+inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::UpperHessenbergEigen::eigenvalues(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::UpperHessenbergEigen::eigenvalues(): need to call compute() first");
 
     return evals;
 }
 
 template <typename eT>
-inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors()
-{
+inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::UpperHessenbergEigen::eigenvectors(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::UpperHessenbergEigen::eigenvectors(): need to call compute() first");
 
     // Lapack will set the imaginary parts of real eigenvalues to be exact zero
     Mat<std::complex<eT>> evecs(n, n);
@@ -122,9 +109,7 @@ inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors()
             // for real eigenvector, normalise and copy
             eT z_norm = norm(mat_Z.col(i));
 
-            for(blas_int j = 0; j < n; j++) {
-                col_ptr[j] = std::complex<eT>(mat_Z(j, i) / z_norm, eT(0));
-            }
+            for(blas_int j = 0; j < n; j++) { col_ptr[j] = std::complex<eT>(mat_Z(j, i) / z_norm, eT(0)); }
 
             col_ptr += n;
         } else {

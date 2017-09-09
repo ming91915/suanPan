@@ -23,18 +23,11 @@
 //! latent_out   -> eigenvalues of principal vectors
 //! tsquared_out -> Hotelling's T^2 statistic
 template <typename T1>
-inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
-    Mat<typename T1::elem_type>& score_out,
-    Col<typename T1::pod_type>& latent_out,
-    Col<typename T1::elem_type>& tsquared_out,
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::pod_type>& latent_out, Col<typename T1::elem_type>& tsquared_out, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    const bool status =
-        op_princomp::direct_princomp(coeff_out, score_out, latent_out, tsquared_out, X);
+    const bool status = op_princomp::direct_princomp(coeff_out, score_out, latent_out, tsquared_out, X);
 
     if(status == false) {
         coeff_out.soft_reset();
@@ -54,12 +47,7 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
 //! score_out    -> projected samples
 //! latent_out   -> eigenvalues of principal vectors
 template <typename T1>
-inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
-    Mat<typename T1::elem_type>& score_out,
-    Col<typename T1::pod_type>& latent_out,
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::pod_type>& latent_out, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -81,11 +69,7 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
 //! coeff_out    -> principal component coefficients
 //! score_out    -> projected samples
 template <typename T1>
-inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
-    Mat<typename T1::elem_type>& score_out,
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -105,10 +89,7 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
 //! principal component analysis -- 1 argument version
 //! coeff_out    -> principal component coefficients
 template <typename T1>
-inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool princomp(Mat<typename T1::elem_type>& coeff_out, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -124,10 +105,7 @@ inline bool princomp(Mat<typename T1::elem_type>& coeff_out,
 }
 
 template <typename T1>
-arma_warn_unused inline const Op<T1, op_princomp> princomp(
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline const Op<T1, op_princomp> princomp(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

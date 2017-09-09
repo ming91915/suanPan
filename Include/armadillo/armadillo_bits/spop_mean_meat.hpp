@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void spop_mean::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_mean>& in)
-{
+inline void spop_mean::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_mean>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,10 +39,7 @@ inline void spop_mean::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& p,
-    const uword dim)
-{
+inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -54,12 +49,8 @@ inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out,
     const uword p_n_cols = p.get_n_cols();
 
     if((p_n_rows == 0) || (p_n_cols == 0) || (p.get_n_nonzero() == 0)) {
-        if(dim == 0) {
-            out.zeros((p_n_rows > 0) ? 1 : 0, p_n_cols);
-        }
-        if(dim == 1) {
-            out.zeros(p_n_rows, (p_n_cols > 0) ? 1 : 0);
-        }
+        if(dim == 0) { out.zeros((p_n_rows > 0) ? 1 : 0, p_n_cols); }
+        if(dim == 1) { out.zeros(p_n_rows, (p_n_cols > 0) ? 1 : 0); }
 
         return;
     }
@@ -79,11 +70,7 @@ inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out,
 
             acc /= T(p_n_rows);
         } else {
-            for(uword col = 0; col < p_n_cols; ++col) {
-                acc[col] = arrayops::accumulate(&p.get_values()[p.get_col_ptrs()[col]],
-                               p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col]) /
-                    T(p_n_rows);
-            }
+            for(uword col = 0; col < p_n_cols; ++col) { acc[col] = arrayops::accumulate(&p.get_values()[p.get_col_ptrs()[col]], p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col]) / T(p_n_rows); }
         }
 
         out = acc;
@@ -104,16 +91,11 @@ inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out,
         out = acc;
     }
 
-    if(out.is_finite() == false) {
-        spop_mean::apply_noalias_slow(out, p, dim);
-    }
+    if(out.is_finite() == false) { spop_mean::apply_noalias_slow(out, p, dim); }
 }
 
 template <typename T1>
-inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& p,
-    const uword dim)
-{
+inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -127,9 +109,7 @@ inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out,
 
         out.set_size((p_n_rows > 0) ? 1 : 0, p_n_cols);
 
-        if((p_n_rows == 0) || (p.get_n_nonzero() == 0)) {
-            return;
-        }
+        if((p_n_rows == 0) || (p.get_n_nonzero() == 0)) { return; }
 
         for(uword col = 0; col < p_n_cols; ++col) {
             // Do we have to use an iterator or can we use memory directly?
@@ -141,9 +121,7 @@ inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out,
 
                 out.at(0, col) = spop_mean::iterator_mean(it, end, n_zero, eT(0));
             } else {
-                out.at(0, col) =
-                    spop_mean::direct_mean(&p.get_values()[p.get_col_ptrs()[col]],
-                        p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col], p_n_rows);
+                out.at(0, col) = spop_mean::direct_mean(&p.get_values()[p.get_col_ptrs()[col]], p.get_col_ptrs()[col + 1] - p.get_col_ptrs()[col], p_n_rows);
             }
         }
     } else if(dim == 1) // find the mean in each row
@@ -152,9 +130,7 @@ inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out,
 
         out.set_size(p_n_rows, (p_n_cols > 0) ? 1 : 0);
 
-        if((p_n_cols == 0) || (p.get_n_nonzero() == 0)) {
-            return;
-        }
+        if((p_n_cols == 0) || (p.get_n_nonzero() == 0)) { return; }
 
         for(uword row = 0; row < p_n_rows; ++row) {
             // We must use an iterator regardless of how it is stored.
@@ -169,22 +145,18 @@ inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline eT spop_mean::direct_mean(const eT* const X, const uword length, const uword N)
-{
+inline eT spop_mean::direct_mean(const eT* const X, const uword length, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
 
-    const eT result =
-        ((length > 0) && (N > 0)) ? eT(arrayops::accumulate(X, length) / T(N)) : eT(0);
+    const eT result = ((length > 0) && (N > 0)) ? eT(arrayops::accumulate(X, length) / T(N)) : eT(0);
 
     return arma_isfinite(result) ? result : spop_mean::direct_mean_robust(X, length, N);
 }
 
 template <typename eT>
-inline eT
-spop_mean::direct_mean_robust(const eT* const X, const uword length, const uword N)
-{
+inline eT spop_mean::direct_mean_robust(const eT* const X, const uword length, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -213,9 +185,7 @@ spop_mean::direct_mean_robust(const eT* const X, const uword length, const uword
 }
 
 template <typename T1>
-inline typename T1::elem_type spop_mean::mean_all(
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+inline typename T1::elem_type spop_mean::mean_all(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpProxy<T1> p(X.get_ref());
@@ -224,8 +194,7 @@ inline typename T1::elem_type spop_mean::mean_all(
         typename SpProxy<T1>::const_iterator_type it = p.begin();
         typename SpProxy<T1>::const_iterator_type end = p.end();
 
-        return spop_mean::iterator_mean(
-            it, end, p.get_n_elem() - p.get_n_nonzero(), typename T1::elem_type(0));
+        return spop_mean::iterator_mean(it, end, p.get_n_elem() - p.get_n_nonzero(), typename T1::elem_type(0));
     } else // use_iterator == false; that is, we can directly access the values array
     {
         return spop_mean::direct_mean(p.get_values(), p.get_n_nonzero(), p.get_n_elem());
@@ -233,9 +202,7 @@ inline typename T1::elem_type spop_mean::mean_all(
 }
 
 template <typename T1, typename eT>
-inline eT
-spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, const eT junk)
-{
+inline eT spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, const eT junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -256,14 +223,11 @@ spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, const eT jun
 
     const eT result = (count > 0) ? eT(acc / T(count)) : eT(0);
 
-    return arma_isfinite(result) ? result : spop_mean::iterator_mean_robust(
-                                                backup_it, end, n_zero, eT(0));
+    return arma_isfinite(result) ? result : spop_mean::iterator_mean_robust(backup_it, end, n_zero, eT(0));
 }
 
 template <typename T1, typename eT>
-inline eT
-spop_mean::iterator_mean_robust(T1& it, const T1& end, const uword n_zero, const eT junk)
-{
+inline eT spop_mean::iterator_mean_robust(T1& it, const T1& end, const uword n_zero, const eT junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

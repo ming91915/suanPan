@@ -20,13 +20,7 @@
 //! A is sparse, and B is dense.  X will be dense too.
 
 template <typename T1, typename T2>
-inline bool spsolve_helper(Mat<typename T1::elem_type>& out,
-    const SpBase<typename T1::elem_type, T1>& A,
-    const Base<typename T1::elem_type, T2>& B,
-    const char* solver,
-    const spsolve_opts_base& settings,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool spsolve_helper(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver, const spsolve_opts_base& settings, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -43,45 +37,33 @@ inline bool spsolve_helper(Mat<typename T1::elem_type>& out,
 
     if(sig == 's') // SuperLU solver
     {
-        const superlu_opts& opts = (settings.id == 1) ?
-            static_cast<const superlu_opts&>(settings) :
-            superlu_opts();
+        const superlu_opts& opts = (settings.id == 1) ? static_cast<const superlu_opts&>(settings) : superlu_opts();
 
-        arma_debug_check(
-            ((opts.pivot_thresh < double(0)) || (opts.pivot_thresh > double(1))),
-            "spsolve(): pivot_thresh out of bounds");
+        arma_debug_check(((opts.pivot_thresh < double(0)) || (opts.pivot_thresh > double(1))), "spsolve(): pivot_thresh out of bounds");
 
         if((opts.equilibrate == false) && (opts.refine == superlu_opts::REF_NONE)) {
             status = sp_auxlib::spsolve_simple(out, A.get_ref(), B.get_ref(), opts);
         } else {
-            status =
-                sp_auxlib::spsolve_refine(out, rcond, A.get_ref(), B.get_ref(), opts);
+            status = sp_auxlib::spsolve_refine(out, rcond, A.get_ref(), B.get_ref(), opts);
         }
     } else if(sig == 'l') // brutal LAPACK solver
     {
-        if(settings.id != 0) {
-            arma_debug_warn(
-                "spsolve(): ignoring settings not applicable to LAPACK based solver");
-        }
+        if(settings.id != 0) { arma_debug_warn("spsolve(): ignoring settings not applicable to LAPACK based solver"); }
 
         Mat<eT> AA;
 
         bool conversion_ok = false;
 
         try {
-            Mat<eT> tmp(
-                A.get_ref()); // conversion from sparse to dense can throw std::bad_alloc
+            Mat<eT> tmp(A.get_ref()); // conversion from sparse to dense can throw std::bad_alloc
 
             AA.steal_mem(tmp);
 
             conversion_ok = true;
-        } catch(std::bad_alloc&) {
-            arma_debug_warn("spsolve(): not enough memory to use LAPACK based solver");
-        }
+        } catch(std::bad_alloc&) { arma_debug_warn("spsolve(): not enough memory to use LAPACK based solver"); }
 
         if(conversion_ok) {
-            arma_debug_check(
-                (AA.n_rows != AA.n_cols), "spsolve(): matrix A must be square sized");
+            arma_debug_check((AA.n_rows != AA.n_cols), "spsolve(): matrix A must be square sized");
 
             status = auxlib::solve_square_refine(out, rcond, AA, B.get_ref(), false);
         }
@@ -101,13 +83,7 @@ inline bool spsolve_helper(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline bool spsolve(Mat<typename T1::elem_type>& out,
-    const SpBase<typename T1::elem_type, T1>& A,
-    const Base<typename T1::elem_type, T2>& B,
-    const char* solver = "superlu",
-    const spsolve_opts_base& settings = spsolve_opts_none(),
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool spsolve(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -117,13 +93,7 @@ inline bool spsolve(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-arma_warn_unused inline Mat<typename T1::elem_type> spsolve(
-    const SpBase<typename T1::elem_type, T1>& A,
-    const Base<typename T1::elem_type, T2>& B,
-    const char* solver = "superlu",
-    const spsolve_opts_base& settings = spsolve_opts_none(),
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline Mat<typename T1::elem_type> spsolve(const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -133,9 +103,7 @@ arma_warn_unused inline Mat<typename T1::elem_type> spsolve(
 
     const bool status = spsolve_helper(out, A.get_ref(), B.get_ref(), solver, settings);
 
-    if(status == false) {
-        arma_stop_runtime_error("spsolve(): solution not found");
-    }
+    if(status == false) { arma_stop_runtime_error("spsolve(): solution not found"); }
 
     return out;
 }

@@ -17,23 +17,26 @@
 //! @{
 
 //! class for saving and loading matrices and fields
-class diskio
-{
+class diskio {
 public:
-    template <typename eT> inline static std::string gen_txt_header(const Mat<eT>& x);
-    template <typename eT> inline static std::string gen_bin_header(const Mat<eT>& x);
+    template <typename eT>
+    inline static std::string gen_txt_header(const Mat<eT>& x);
+    template <typename eT>
+    inline static std::string gen_bin_header(const Mat<eT>& x);
 
-    template <typename eT> inline static std::string gen_bin_header(const SpMat<eT>& x);
+    template <typename eT>
+    inline static std::string gen_bin_header(const SpMat<eT>& x);
 
-    template <typename eT> inline static std::string gen_txt_header(const Cube<eT>& x);
-    template <typename eT> inline static std::string gen_bin_header(const Cube<eT>& x);
+    template <typename eT>
+    inline static std::string gen_txt_header(const Cube<eT>& x);
+    template <typename eT>
+    inline static std::string gen_bin_header(const Cube<eT>& x);
 
     inline static file_type guess_file_type(std::istream& f);
 
     inline arma_cold static std::string gen_tmp_name(const std::string& x);
 
-    inline arma_cold static bool safe_rename(const std::string& old_name,
-        const std::string& new_name);
+    inline arma_cold static bool safe_rename(const std::string& old_name, const std::string& new_name);
 
     template <typename eT>
     inline static bool convert_naninf(eT& val, const std::string& token);
@@ -56,8 +59,7 @@ public:
     template <typename eT>
     inline static bool save_pgm_binary(const Mat<eT>& x, const std::string& final_name);
     template <typename T>
-    inline static bool save_pgm_binary(const Mat<std::complex<T>>& x,
-        const std::string& final_name);
+    inline static bool save_pgm_binary(const Mat<std::complex<T>>& x, const std::string& final_name);
     template <typename eT>
     inline static bool save_hdf5_binary(const Mat<eT>& x, const hdf5_name& spec);
 
@@ -82,33 +84,23 @@ public:
     // matrix loading
 
     template <typename eT>
-    inline static bool
-    load_raw_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_raw_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_raw_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_raw_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_csv_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_csv_ascii(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_pgm_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_pgm_binary(Mat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename T>
-    inline static bool load_pgm_binary(Mat<std::complex<T>>& x,
-        const std::string& name,
-        std::string& err_msg);
+    inline static bool load_pgm_binary(Mat<std::complex<T>>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_hdf5_binary(Mat<eT>& x, const hdf5_name& spec, std::string& err_msg);
+    inline static bool load_hdf5_binary(Mat<eT>& x, const hdf5_name& spec, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_auto_detect(Mat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_auto_detect(Mat<eT>& x, const std::string& name, std::string& err_msg);
 
     template <typename eT>
     inline static bool load_raw_ascii(Mat<eT>& x, std::istream& f, std::string& err_msg);
@@ -119,20 +111,15 @@ public:
     template <typename eT>
     inline static bool load_csv_ascii(Mat<eT>& x, std::istream& f, std::string& err_msg);
     template <typename T>
-    inline static bool
-    load_csv_ascii(Mat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_csv_ascii(Mat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(Mat<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_arma_binary(Mat<eT>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_pgm_binary(Mat<eT>& x, std::istream& is, std::string& err_msg);
+    inline static bool load_pgm_binary(Mat<eT>& x, std::istream& is, std::string& err_msg);
     template <typename T>
-    inline static bool
-    load_pgm_binary(Mat<std::complex<T>>& x, std::istream& is, std::string& err_msg);
+    inline static bool load_pgm_binary(Mat<std::complex<T>>& x, std::istream& is, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_auto_detect(Mat<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_auto_detect(Mat<eT>& x, std::istream& f, std::string& err_msg);
 
     inline static void pnm_skip_comments(std::istream& f);
 
@@ -140,11 +127,9 @@ public:
     // sparse matrix saving
 
     template <typename eT>
-    inline static bool save_coord_ascii(const SpMat<eT>& x,
-        const std::string& final_name);
+    inline static bool save_coord_ascii(const SpMat<eT>& x, const std::string& final_name);
     template <typename eT>
-    inline static bool save_arma_binary(const SpMat<eT>& x,
-        const std::string& final_name);
+    inline static bool save_arma_binary(const SpMat<eT>& x, const std::string& final_name);
 
     template <typename eT>
     inline static bool save_coord_ascii(const SpMat<eT>& x, std::ostream& f);
@@ -157,21 +142,16 @@ public:
     // sparse matrix loading
 
     template <typename eT>
-    inline static bool
-    load_coord_ascii(SpMat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_coord_ascii(SpMat<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(SpMat<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_binary(SpMat<eT>& x, const std::string& name, std::string& err_msg);
 
     template <typename eT>
-    inline static bool
-    load_coord_ascii(SpMat<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_coord_ascii(SpMat<eT>& x, std::istream& f, std::string& err_msg);
     template <typename T>
-    inline static bool
-    load_coord_ascii(SpMat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_coord_ascii(SpMat<std::complex<T>>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(SpMat<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_arma_binary(SpMat<eT>& x, std::istream& f, std::string& err_msg);
 
     //
     // cube saving
@@ -200,38 +180,28 @@ public:
     // cube loading
 
     template <typename eT>
-    inline static bool
-    load_raw_ascii(Cube<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_raw_ascii(Cube<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_raw_binary(Cube<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_raw_binary(Cube<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_ascii(Cube<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_ascii(Cube<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(Cube<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_binary(Cube<eT>& x, const std::string& name, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_hdf5_binary(Cube<eT>& x, const hdf5_name& spec, std::string& err_msg);
+    inline static bool load_hdf5_binary(Cube<eT>& x, const hdf5_name& spec, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_auto_detect(Cube<eT>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_auto_detect(Cube<eT>& x, const std::string& name, std::string& err_msg);
 
     template <typename eT>
     inline static bool load_raw_ascii(Cube<eT>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_raw_binary(Cube<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_raw_binary(Cube<eT>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_ascii(Cube<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_arma_ascii(Cube<eT>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_arma_binary(Cube<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_arma_binary(Cube<eT>& x, std::istream& f, std::string& err_msg);
     template <typename eT>
-    inline static bool
-    load_auto_detect(Cube<eT>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_auto_detect(Cube<eT>& x, std::istream& f, std::string& err_msg);
 
     //
     // field saving and loading
@@ -242,27 +212,20 @@ public:
     inline static bool save_arma_binary(const field<T1>& x, std::ostream& f);
 
     template <typename T1>
-    inline static bool
-    load_arma_binary(field<T1>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_arma_binary(field<T1>& x, const std::string& name, std::string& err_msg);
     template <typename T1>
-    inline static bool
-    load_arma_binary(field<T1>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_arma_binary(field<T1>& x, std::istream& f, std::string& err_msg);
 
     template <typename T1>
-    inline static bool
-    load_auto_detect(field<T1>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_auto_detect(field<T1>& x, const std::string& name, std::string& err_msg);
     template <typename T1>
-    inline static bool
-    load_auto_detect(field<T1>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_auto_detect(field<T1>& x, std::istream& f, std::string& err_msg);
 
-    inline static bool save_std_string(const field<std::string>& x,
-        const std::string& name);
+    inline static bool save_std_string(const field<std::string>& x, const std::string& name);
     inline static bool save_std_string(const field<std::string>& x, std::ostream& f);
 
-    inline static bool
-    load_std_string(field<std::string>& x, const std::string& name, std::string& err_msg);
-    inline static bool
-    load_std_string(field<std::string>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_std_string(field<std::string>& x, const std::string& name, std::string& err_msg);
+    inline static bool load_std_string(field<std::string>& x, std::istream& f, std::string& err_msg);
 
     //
     // handling of PPM images by cubes
@@ -273,11 +236,9 @@ public:
     inline static bool save_ppm_binary(const Cube<T1>& x, std::ostream& f);
 
     template <typename T1>
-    inline static bool
-    load_ppm_binary(Cube<T1>& x, const std::string& final_name, std::string& err_msg);
+    inline static bool load_ppm_binary(Cube<T1>& x, const std::string& final_name, std::string& err_msg);
     template <typename T1>
-    inline static bool
-    load_ppm_binary(Cube<T1>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_ppm_binary(Cube<T1>& x, std::istream& f, std::string& err_msg);
 
     //
     // handling of PPM images by fields
@@ -288,11 +249,9 @@ public:
     inline static bool save_ppm_binary(const field<T1>& x, std::ostream& f);
 
     template <typename T1>
-    inline static bool
-    load_ppm_binary(field<T1>& x, const std::string& final_name, std::string& err_msg);
+    inline static bool load_ppm_binary(field<T1>& x, const std::string& final_name, std::string& err_msg);
     template <typename T1>
-    inline static bool
-    load_ppm_binary(field<T1>& x, std::istream& f, std::string& err_msg);
+    inline static bool load_ppm_binary(field<T1>& x, std::istream& f, std::string& err_msg);
 };
 
 //! @}

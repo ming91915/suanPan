@@ -18,9 +18,7 @@
 
 //! matrix multiplication with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times>& X)
-{
+inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -41,9 +39,7 @@ inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
 
 //! matrix addition with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X)
-{
+inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -75,21 +71,14 @@ inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
         if(memory::is_aligned(out_mem)) {
             memory::mark_as_aligned(out_mem);
 
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) +
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) + upgrade_val<eT1, eT2>::apply(BB[i]); }
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) +
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) + upgrade_val<eT1, eT2>::apply(BB[i]); }
         }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
-                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) +
-                    upgrade_val<eT1, eT2>::apply(B.at(row, col));
+                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) + upgrade_val<eT1, eT2>::apply(B.at(row, col));
                 out_mem++;
             }
     }
@@ -97,9 +86,7 @@ inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
 
 //! matrix subtraction with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X)
-{
+inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -131,21 +118,14 @@ inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
         if(memory::is_aligned(out_mem)) {
             memory::mark_as_aligned(out_mem);
 
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) -
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) - upgrade_val<eT1, eT2>::apply(BB[i]); }
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) -
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) - upgrade_val<eT1, eT2>::apply(BB[i]); }
         }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
-                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) -
-                    upgrade_val<eT1, eT2>::apply(B.at(row, col));
+                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) - upgrade_val<eT1, eT2>::apply(B.at(row, col));
                 out_mem++;
             }
     }
@@ -153,9 +133,7 @@ inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
 
 //! element-wise matrix division with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X)
-{
+inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -187,21 +165,14 @@ inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
         if(memory::is_aligned(out_mem)) {
             memory::mark_as_aligned(out_mem);
 
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) /
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) / upgrade_val<eT1, eT2>::apply(BB[i]); }
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) /
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) / upgrade_val<eT1, eT2>::apply(BB[i]); }
         }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
-                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) /
-                    upgrade_val<eT1, eT2>::apply(B.at(row, col));
+                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) / upgrade_val<eT1, eT2>::apply(B.at(row, col));
                 out_mem++;
             }
     }
@@ -209,9 +180,7 @@ inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
 
 //! element-wise matrix multiplication with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X)
-{
+inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -243,21 +212,14 @@ inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
         if(memory::is_aligned(out_mem)) {
             memory::mark_as_aligned(out_mem);
 
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) *
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) * upgrade_val<eT1, eT2>::apply(BB[i]); }
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) *
-                    upgrade_val<eT1, eT2>::apply(BB[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) * upgrade_val<eT1, eT2>::apply(BB[i]); }
         }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
-                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) *
-                    upgrade_val<eT1, eT2>::apply(B.at(row, col));
+                (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col)) * upgrade_val<eT1, eT2>::apply(B.at(row, col));
                 out_mem++;
             }
     }
@@ -269,9 +231,7 @@ inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out,
 
 //! cube addition with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X)
-{
+inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -301,16 +261,12 @@ inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
         typename ProxyCube<T1>::ea_type AA = A.get_ea();
         typename ProxyCube<T2>::ea_type BB = B.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] =
-                upgrade_val<eT1, eT2>::apply(AA[i]) + upgrade_val<eT1, eT2>::apply(BB[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) + upgrade_val<eT1, eT2>::apply(BB[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
                 for(uword row = 0; row < n_rows; ++row) {
-                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) +
-                        upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
+                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) + upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
                     out_mem++;
                 }
     }
@@ -318,9 +274,7 @@ inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
 
 //! cube subtraction with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X)
-{
+inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -350,16 +304,12 @@ inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
         typename ProxyCube<T1>::ea_type AA = A.get_ea();
         typename ProxyCube<T2>::ea_type BB = B.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] =
-                upgrade_val<eT1, eT2>::apply(AA[i]) - upgrade_val<eT1, eT2>::apply(BB[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) - upgrade_val<eT1, eT2>::apply(BB[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
                 for(uword row = 0; row < n_rows; ++row) {
-                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) -
-                        upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
+                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) - upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
                     out_mem++;
                 }
     }
@@ -367,9 +317,7 @@ inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
 
 //! element-wise cube division with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X)
-{
+inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -399,16 +347,12 @@ inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
         typename ProxyCube<T1>::ea_type AA = A.get_ea();
         typename ProxyCube<T2>::ea_type BB = B.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] =
-                upgrade_val<eT1, eT2>::apply(AA[i]) / upgrade_val<eT1, eT2>::apply(BB[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) / upgrade_val<eT1, eT2>::apply(BB[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
                 for(uword row = 0; row < n_rows; ++row) {
-                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) /
-                        upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
+                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) / upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
                     out_mem++;
                 }
     }
@@ -416,9 +360,7 @@ inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
 
 //! element-wise cube multiplication with different element types
 template <typename T1, typename T2>
-inline void glue_mixed_schur::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
-    const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X)
-{
+inline void glue_mixed_schur::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -448,16 +390,12 @@ inline void glue_mixed_schur::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
         typename ProxyCube<T1>::ea_type AA = A.get_ea();
         typename ProxyCube<T2>::ea_type BB = B.get_ea();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] =
-                upgrade_val<eT1, eT2>::apply(AA[i]) * upgrade_val<eT1, eT2>::apply(BB[i]);
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = upgrade_val<eT1, eT2>::apply(AA[i]) * upgrade_val<eT1, eT2>::apply(BB[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
                 for(uword row = 0; row < n_rows; ++row) {
-                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) *
-                        upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
+                    (*out_mem) = upgrade_val<eT1, eT2>::apply(A.at(row, col, slice)) * upgrade_val<eT1, eT2>::apply(B.at(row, col, slice));
                     out_mem++;
                 }
     }

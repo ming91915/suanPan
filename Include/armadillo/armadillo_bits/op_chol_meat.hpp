@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_chol::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_chol>& X)
-{
+inline void op_chol::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_chol>& X) {
     arma_extra_debug_sigprint();
 
     const bool status = auxlib::chol(out, X.m, X.aux_uword_a);

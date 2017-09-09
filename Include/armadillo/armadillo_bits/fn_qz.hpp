@@ -18,23 +18,12 @@
 
 //! QZ decomposition for pair of N-by-N general matrices A and B
 template <typename T1, typename T2>
-inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value,
-    bool>::result
-qz(Mat<typename T1::elem_type>& AA,
-    Mat<typename T1::elem_type>& BB,
-    Mat<typename T1::elem_type>& Q,
-    Mat<typename T1::elem_type>& Z,
-    const Base<typename T1::elem_type, T1>& A_expr,
-    const Base<typename T1::elem_type, T2>& B_expr,
-    const char* select = "none")
-{
+inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result qz(Mat<typename T1::elem_type>& AA, Mat<typename T1::elem_type>& BB, Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& Z, const Base<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr, const char* select = "none") {
     arma_extra_debug_sigprint();
 
     const char sig = (select != NULL) ? select[0] : char(0);
 
-    arma_debug_check(
-        ((sig != 'n') && (sig != 'l') && (sig != 'r') && (sig != 'i') && (sig != 'o')),
-        "qz(): unknown select form");
+    arma_debug_check(((sig != 'n') && (sig != 'l') && (sig != 'r') && (sig != 'i') && (sig != 'o')), "qz(): unknown select form");
 
     const bool status = auxlib::qz(AA, BB, Q, Z, A_expr.get_ref(), B_expr.get_ref(), sig);
 

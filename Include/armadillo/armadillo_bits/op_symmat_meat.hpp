@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_symmat::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_symmat>& in)
-{
+inline void op_symmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -27,8 +25,7 @@ inline void op_symmat::apply(Mat<typename T1::elem_type>& out,
     const unwrap<T1> tmp(in.m);
     const Mat<eT>& A = tmp.M;
 
-    arma_debug_check((A.is_square() == false),
-        "symmatu()/symmatl(): given matrix must be square sized");
+    arma_debug_check((A.is_square() == false), "symmatu()/symmatl(): given matrix must be square sized");
 
     const uword N = A.n_rows;
     const bool upper = (in.aux_uword_a == 0);
@@ -63,9 +60,7 @@ inline void op_symmat::apply(Mat<typename T1::elem_type>& out,
         for(uword col = 1; col < N; ++col) {
             const eT* coldata = out.colptr(col);
 
-            for(uword row = 0; row < col; ++row) {
-                out.at(col, row) = coldata[row];
-            }
+            for(uword row = 0; row < col; ++row) { out.at(col, row) = coldata[row]; }
         }
     } else {
         // reflect elements across the diagonal from lower triangle to upper triangle
@@ -73,17 +68,13 @@ inline void op_symmat::apply(Mat<typename T1::elem_type>& out,
         for(uword col = 0; col < N; ++col) {
             const eT* coldata = out.colptr(col);
 
-            for(uword row = (col + 1); row < N; ++row) {
-                out.at(col, row) = coldata[row];
-            }
+            for(uword row = (col + 1); row < N; ++row) { out.at(col, row) = coldata[row]; }
         }
     }
 }
 
 template <typename T1>
-inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_symmat_cx>& in)
-{
+inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -91,8 +82,7 @@ inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
     const unwrap<T1> tmp(in.m);
     const Mat<eT>& A = tmp.M;
 
-    arma_debug_check((A.is_square() == false),
-        "symmatu()/symmatl(): given matrix must be square sized");
+    arma_debug_check((A.is_square() == false), "symmatu()/symmatl(): given matrix must be square sized");
 
     const uword N = A.n_rows;
 
@@ -130,9 +120,7 @@ inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
             for(uword col = 1; col < N; ++col) {
                 const eT* coldata = out.colptr(col);
 
-                for(uword row = 0; row < col; ++row) {
-                    out.at(col, row) = std::conj(coldata[row]);
-                }
+                for(uword row = 0; row < col; ++row) { out.at(col, row) = std::conj(coldata[row]); }
             }
         } else {
             // reflect elements across the diagonal from lower triangle to upper triangle
@@ -140,9 +128,7 @@ inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
             for(uword col = 0; col < N; ++col) {
                 const eT* coldata = out.colptr(col);
 
-                for(uword row = (col + 1); row < N; ++row) {
-                    out.at(col, row) = std::conj(coldata[row]);
-                }
+                for(uword row = (col + 1); row < N; ++row) { out.at(col, row) = std::conj(coldata[row]); }
             }
         }
     } else // don't do complex conjugation
@@ -153,9 +139,7 @@ inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
             for(uword col = 1; col < N; ++col) {
                 const eT* coldata = out.colptr(col);
 
-                for(uword row = 0; row < col; ++row) {
-                    out.at(col, row) = coldata[row];
-                }
+                for(uword row = 0; row < col; ++row) { out.at(col, row) = coldata[row]; }
             }
         } else {
             // reflect elements across the diagonal from lower triangle to upper triangle
@@ -163,9 +147,7 @@ inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out,
             for(uword col = 0; col < N; ++col) {
                 const eT* coldata = out.colptr(col);
 
-                for(uword row = (col + 1); row < N; ++row) {
-                    out.at(col, row) = coldata[row];
-                }
+                for(uword row = (col + 1); row < N; ++row) { out.at(col, row) = coldata[row]; }
             }
         }
     }

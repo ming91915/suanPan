@@ -29,8 +29,7 @@ extern thread_local arma_rng_cxx11 arma_rng_cxx11_instance;
 // namespace { thread_local arma_rng_cxx11 arma_rng_cxx11_instance; }
 #endif
 
-class arma_rng
-{
+class arma_rng {
 public:
 #if defined(ARMA_RNG_ALT)
     typedef arma_rng_alt::seed_type seed_type;
@@ -51,30 +50,25 @@ public:
     inline static void set_seed(const seed_type val);
     inline static void set_seed_random();
 
-    template <typename eT> struct randi;
-    template <typename eT> struct randu;
-    template <typename eT> struct randn;
+    template <typename eT>
+    struct randi;
+    template <typename eT>
+    struct randu;
+    template <typename eT>
+    struct randn;
 };
 
-inline void arma_rng::set_seed(const arma_rng::seed_type val)
-{
+inline void arma_rng::set_seed(const arma_rng::seed_type val) {
 #if defined(ARMA_RNG_ALT)
-    {
-        arma_rng_alt::set_seed(val);
-    }
+    { arma_rng_alt::set_seed(val); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-    {
-        arma_rng_cxx11_instance.set_seed(val);
-    }
+    { arma_rng_cxx11_instance.set_seed(val); }
 #else
-    {
-        arma_rng_cxx98::set_seed(val);
-    }
+    { arma_rng_cxx98::set_seed(val); }
 #endif
 }
 
-arma_cold inline void arma_rng::set_seed_random()
-{
+arma_cold inline void arma_rng::set_seed_random() {
     seed_type seed1 = seed_type(0);
     seed_type seed2 = seed_type(0);
     seed_type seed3 = seed_type(0);
@@ -88,15 +82,10 @@ arma_cold inline void arma_rng::set_seed_random()
         try {
             std::random_device rd;
 
-            if(rd.entropy() > double(0)) {
-                seed1 = static_cast<seed_type>(rd());
-            }
+            if(rd.entropy() > double(0)) { seed1 = static_cast<seed_type>(rd()); }
 
-            if(seed1 != seed_type(0)) {
-                have_seed = true;
-            }
-        } catch(...) {
-        }
+            if(seed1 != seed_type(0)) { have_seed = true; }
+        } catch(...) {}
     }
 #endif
 
@@ -111,23 +100,18 @@ arma_cold inline void arma_rng::set_seed_random()
 
             std::ifstream f("/dev/urandom", std::ifstream::binary);
 
-            if(f.good()) {
-                f.read((char*)(&(tmp.b[0])), sizeof(seed_type));
-            }
+            if(f.good()) { f.read((char*)(&(tmp.b[0])), sizeof(seed_type)); }
 
             if(f.good()) {
                 seed2 = tmp.a;
 
-                if(seed2 != seed_type(0)) {
-                    have_seed = true;
-                }
+                if(seed2 != seed_type(0)) { have_seed = true; }
             }
-        } catch(...) {
-        }
+        } catch(...) {}
     }
 
     if(have_seed == false) {
-// get better-than-nothing seeds in case reading /dev/urandom failed
+    // get better-than-nothing seeds in case reading /dev/urandom failed
 
 #if defined(ARMA_HAVE_GETTIMEOFDAY)
         {
@@ -149,9 +133,7 @@ arma_cold inline void arma_rng::set_seed_random()
         tmp.a = (uword*)malloc(sizeof(uword));
 
         if(tmp.a != NULL) {
-            for(size_t i = 0; i < sizeof(uword*); ++i) {
-                seed5 += seed_type(tmp.b[i]);
-            }
+            for(size_t i = 0; i < sizeof(uword*); ++i) { seed5 += seed_type(tmp.b[i]); }
 
             free(tmp.a);
         }
@@ -160,79 +142,52 @@ arma_cold inline void arma_rng::set_seed_random()
     arma_rng::set_seed(seed1 + seed2 + seed3 + seed4 + seed5);
 }
 
-template <typename eT> struct arma_rng::randi {
-    arma_inline operator eT()
-    {
+template <typename eT>
+struct arma_rng::randi {
+    arma_inline operator eT() {
 #if defined(ARMA_RNG_ALT)
-        {
-            return eT(arma_rng_alt::randi_val());
-        }
+        { return eT(arma_rng_alt::randi_val()); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            return eT(arma_rng_cxx11_instance.randi_val());
-        }
+        { return eT(arma_rng_cxx11_instance.randi_val()); }
 #else
-        {
-            return eT(arma_rng_cxx98::randi_val());
-        }
+        { return eT(arma_rng_cxx98::randi_val()); }
 #endif
     }
 
-    inline static int max_val()
-    {
+    inline static int max_val() {
 #if defined(ARMA_RNG_ALT)
-        {
-            return arma_rng_alt::randi_max_val();
-        }
+        { return arma_rng_alt::randi_max_val(); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            return arma_rng_cxx11::randi_max_val();
-        }
+        { return arma_rng_cxx11::randi_max_val(); }
 #else
-        {
-            return arma_rng_cxx98::randi_max_val();
-        }
+        { return arma_rng_cxx98::randi_max_val(); }
 #endif
     }
 
-    inline static void fill(eT* mem, const uword N, const int a, const int b)
-    {
+    inline static void fill(eT* mem, const uword N, const int a, const int b) {
 #if defined(ARMA_RNG_ALT)
-        {
-            return arma_rng_alt::randi_fill(mem, N, a, b);
-        }
+        { return arma_rng_alt::randi_fill(mem, N, a, b); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            return arma_rng_cxx11_instance.randi_fill(mem, N, a, b);
-        }
+        { return arma_rng_cxx11_instance.randi_fill(mem, N, a, b); }
 #else
-        {
-            return arma_rng_cxx98::randi_fill(mem, N, a, b);
-        }
+        { return arma_rng_cxx98::randi_fill(mem, N, a, b); }
 #endif
     }
 };
 
-template <typename eT> struct arma_rng::randu {
-    arma_inline operator eT()
-    {
+template <typename eT>
+struct arma_rng::randu {
+    arma_inline operator eT() {
 #if defined(ARMA_RNG_ALT)
-        {
-            return eT(arma_rng_alt::randu_val());
-        }
+        { return eT(arma_rng_alt::randu_val()); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            return eT(arma_rng_cxx11_instance.randu_val());
-        }
+        { return eT(arma_rng_cxx11_instance.randu_val()); }
 #else
-        {
-            return eT(arma_rng_cxx98::randu_val());
-        }
+        { return eT(arma_rng_cxx98::randu_val()); }
 #endif
     }
 
-    inline static void fill(eT* mem, const uword N)
-    {
+    inline static void fill(eT* mem, const uword N) {
         uword j;
 
         for(j = 1; j < N; j += 2) {
@@ -245,23 +200,20 @@ template <typename eT> struct arma_rng::randu {
             mem++;
         }
 
-        if((j - 1) < N) {
-            (*mem) = eT(arma_rng::randu<eT>());
-        }
+        if((j - 1) < N) { (*mem) = eT(arma_rng::randu<eT>()); }
     }
 };
 
-template <typename T> struct arma_rng::randu<std::complex<T>> {
-    arma_inline operator std::complex<T>()
-    {
+template <typename T>
+struct arma_rng::randu<std::complex<T>> {
+    arma_inline operator std::complex<T>() {
         const T a = T(arma_rng::randu<T>());
         const T b = T(arma_rng::randu<T>());
 
         return std::complex<T>(a, b);
     }
 
-    inline static void fill(std::complex<T>* mem, const uword N)
-    {
+    inline static void fill(std::complex<T>* mem, const uword N) {
         for(uword i = 0; i < N; ++i) {
             const T a = T(arma_rng::randu<T>());
             const T b = T(arma_rng::randu<T>());
@@ -271,56 +223,37 @@ template <typename T> struct arma_rng::randu<std::complex<T>> {
     }
 };
 
-template <typename eT> struct arma_rng::randn {
-    inline operator eT() const
-    {
+template <typename eT>
+struct arma_rng::randn {
+    inline operator eT() const {
 #if defined(ARMA_RNG_ALT)
-        {
-            return eT(arma_rng_alt::randn_val());
-        }
+        { return eT(arma_rng_alt::randn_val()); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            return eT(arma_rng_cxx11_instance.randn_val());
-        }
+        { return eT(arma_rng_cxx11_instance.randn_val()); }
 #else
-        {
-            return eT(arma_rng_cxx98::randn_val());
-        }
+        { return eT(arma_rng_cxx98::randn_val()); }
 #endif
     }
 
-    arma_inline static void dual_val(eT& out1, eT& out2)
-    {
+    arma_inline static void dual_val(eT& out1, eT& out2) {
 #if defined(ARMA_RNG_ALT)
-        {
-            arma_rng_alt::randn_dual_val(out1, out2);
-        }
+        { arma_rng_alt::randn_dual_val(out1, out2); }
 #elif defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            arma_rng_cxx11_instance.randn_dual_val(out1, out2);
-        }
+        { arma_rng_cxx11_instance.randn_dual_val(out1, out2); }
 #else
-        {
-            arma_rng_cxx98::randn_dual_val(out1, out2);
-        }
+        { arma_rng_cxx98::randn_dual_val(out1, out2); }
 #endif
     }
 
-    inline static void fill_simple(eT* mem, const uword N)
-    {
+    inline static void fill_simple(eT* mem, const uword N) {
         uword i, j;
 
-        for(i = 0, j = 1; j < N; i += 2, j += 2) {
-            arma_rng::randn<eT>::dual_val(mem[i], mem[j]);
-        }
+        for(i = 0, j = 1; j < N; i += 2, j += 2) { arma_rng::randn<eT>::dual_val(mem[i], mem[j]); }
 
-        if(i < N) {
-            mem[i] = eT(arma_rng::randn<eT>());
-        }
+        if(i < N) { mem[i] = eT(arma_rng::randn<eT>()); }
     }
 
-    inline static void fill(eT* mem, const uword N)
-    {
+    inline static void fill(eT* mem, const uword N) {
 #if defined(ARMA_USE_CXX11) && defined(ARMA_USE_OPENMP)
         {
             if((N < 1024) || omp_in_parallel()) {
@@ -351,29 +284,23 @@ template <typename eT> struct arma_rng::randn {
                 std::mt19937_64& t_engine = engine[t];
                 std::normal_distribution<double>& t_distr = distr[t];
 
-                for(uword i = start; i < endp1; ++i) {
-                    mem[i] = eT(t_distr(t_engine));
-                }
+                for(uword i = start; i < endp1; ++i) { mem[i] = eT(t_distr(t_engine)); }
             }
 
             std::mt19937_64& t0_engine = engine[0];
             std::normal_distribution<double>& t0_distr = distr[0];
 
-            for(uword i = (n_threads * chunk_size); i < N; ++i) {
-                mem[i] = eT(t0_distr(t0_engine));
-            }
+            for(uword i = (n_threads * chunk_size); i < N; ++i) { mem[i] = eT(t0_distr(t0_engine)); }
         }
 #else
-        {
-            arma_rng::randn<eT>::fill_simple(mem, N);
-        }
+        { arma_rng::randn<eT>::fill_simple(mem, N); }
 #endif
     }
 };
 
-template <typename T> struct arma_rng::randn<std::complex<T>> {
-    inline operator std::complex<T>() const
-    {
+template <typename T>
+struct arma_rng::randn<std::complex<T>> {
+    inline operator std::complex<T>() const {
         T a, b;
 
         arma_rng::randn<T>::dual_val(a, b);
@@ -381,15 +308,11 @@ template <typename T> struct arma_rng::randn<std::complex<T>> {
         return std::complex<T>(a, b);
     }
 
-    inline static void fill_simple(std::complex<T>* mem, const uword N)
-    {
-        for(uword i = 0; i < N; ++i) {
-            mem[i] = std::complex<T>(arma_rng::randn<std::complex<T>>());
-        }
+    inline static void fill_simple(std::complex<T>* mem, const uword N) {
+        for(uword i = 0; i < N; ++i) { mem[i] = std::complex<T>(arma_rng::randn<std::complex<T>>()); }
     }
 
-    inline static void fill(std::complex<T>* mem, const uword N)
-    {
+    inline static void fill(std::complex<T>* mem, const uword N) {
 #if defined(ARMA_USE_CXX11) && defined(ARMA_USE_OPENMP)
         {
             if((N < 512) || omp_in_parallel()) {
@@ -439,9 +362,7 @@ template <typename T> struct arma_rng::randn<std::complex<T>> {
             }
         }
 #else
-        {
-            arma_rng::randn<std::complex<T>>::fill_simple(mem, N);
-        }
+        { arma_rng::randn<std::complex<T>>::fill_simple(mem, N); }
 #endif
     }
 };

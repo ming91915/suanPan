@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-arma_hot inline void spglue_plus::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_plus>& X)
-{
+arma_hot inline void spglue_plus::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -40,13 +38,10 @@ arma_hot inline void spglue_plus::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-arma_hot inline void
-spglue_plus::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy<T2>& pb)
-{
+arma_hot inline void spglue_plus::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     arma_extra_debug_sigprint();
 
-    arma_debug_assert_same_size(
-        pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "addition");
+    arma_debug_assert_same_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "addition");
 
     if((pa.get_n_nonzero() != 0) && (pb.get_n_nonzero() != 0)) {
         out.zeros(pa.get_n_rows(), pa.get_n_cols());
@@ -82,9 +77,7 @@ spglue_plus::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy<
                 const uword y_it_row = y_it.row();
                 const uword y_it_col = y_it.col();
 
-                if((x_it_col < y_it_col) ||
-                    ((x_it_col == y_it_col) &&
-                        (x_it_row < y_it_row))) // if y is closer to the end
+                if((x_it_col < y_it_col) || ((x_it_col == y_it_col) && (x_it_row < y_it_row))) // if y is closer to the end
                 {
                     const eT val = (*x_it);
 
@@ -116,9 +109,7 @@ spglue_plus::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy<
         uword* col_ptrs = access::rwp(out.col_ptrs);
 
         // Fix column pointers to be cumulative.
-        for(uword c = 1; c <= out_n_cols; ++c) {
-            col_ptrs[c] += col_ptrs[c - 1];
-        }
+        for(uword c = 1; c <= out_n_cols; ++c) { col_ptrs[c] += col_ptrs[c - 1]; }
     } else {
         if(pa.get_n_nonzero() == 0) {
             out = pb.Q;
@@ -137,9 +128,7 @@ spglue_plus::apply_noalias(SpMat<eT>& out, const SpProxy<T1>& pa, const SpProxy<
 // spglue_plus2: scalar*(A + B)
 
 template <typename T1, typename T2>
-arma_hot inline void spglue_plus2::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_plus2>& X)
-{
+arma_hot inline void spglue_plus2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_plus2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

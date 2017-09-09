@@ -17,12 +17,7 @@
 //! @{
 
 template <typename T1>
-inline arma_warn_unused
-    typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result
-    norm(const T1& X,
-        const uword k = uword(2),
-        const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -30,12 +25,9 @@ inline arma_warn_unused
 
     const Proxy<T1> P(X);
 
-    if(P.get_n_elem() == 0) {
-        return T(0);
-    }
+    if(P.get_n_elem() == 0) { return T(0); }
 
-    const bool is_vec =
-        (T1::is_row) || (T1::is_col) || (P.get_n_rows() == 1) || (P.get_n_cols() == 1);
+    const bool is_vec = (T1::is_row) || (T1::is_col) || (P.get_n_rows() == 1) || (P.get_n_cols() == 1);
 
     if(is_vec) {
         switch(k) {
@@ -72,12 +64,7 @@ inline arma_warn_unused
 }
 
 template <typename T1>
-inline arma_warn_unused
-    typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result
-    norm(const T1& X,
-        const char* method,
-        const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -85,13 +72,10 @@ inline arma_warn_unused
 
     const Proxy<T1> P(X);
 
-    if(P.get_n_elem() == 0) {
-        return T(0);
-    }
+    if(P.get_n_elem() == 0) { return T(0); }
 
     const char sig = (method != NULL) ? method[0] : char(0);
-    const bool is_vec =
-        (T1::is_row) || (T1::is_col) || (P.get_n_rows() == 1) || (P.get_n_cols() == 1);
+    const bool is_vec = (T1::is_row) || (T1::is_col) || (P.get_n_rows() == 1) || (P.get_n_cols() == 1);
 
     if(is_vec) {
         if((sig == 'i') || (sig == 'I') || (sig == '+')) // max norm
@@ -123,12 +107,7 @@ inline arma_warn_unused
 // norms for sparse matrices
 
 template <typename T1>
-inline arma_warn_unused
-    typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result
-    norm(const T1& X,
-        const uword k = uword(2),
-        const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -137,9 +116,7 @@ inline arma_warn_unused
 
     const SpProxy<T1> P(X);
 
-    if(P.get_n_nonzero() == 0) {
-        return T(0);
-    }
+    if(P.get_n_nonzero() == 0) { return T(0); }
 
     const bool is_vec = (P.get_n_rows() == 1) || (P.get_n_cols() == 1);
 
@@ -177,20 +154,14 @@ inline arma_warn_unused
             break;
 
         default:
-            arma_stop_logic_error(
-                "norm(): unsupported or unimplemented norm type for sparse matrices");
+            arma_stop_logic_error("norm(): unsupported or unimplemented norm type for sparse matrices");
             return T(0);
         }
     }
 }
 
 template <typename T1>
-inline arma_warn_unused
-    typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result
-    norm(const T1& X,
-        const char* method,
-        const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -199,9 +170,7 @@ inline arma_warn_unused
 
     const SpProxy<T1> P(X);
 
-    if(P.get_n_nonzero() == 0) {
-        return T(0);
-    }
+    if(P.get_n_nonzero() == 0) { return T(0); }
 
     const unwrap_spmat<typename SpProxy<T1>::stored_type> tmp(P.Q);
     const SpMat<eT>& A = tmp.M;
@@ -212,8 +181,7 @@ inline arma_warn_unused
     const Proxy<Col<eT>> P_fake_vector(fake_vector);
 
     const char sig = (method != NULL) ? method[0] : char(0);
-    const bool is_vec = (P.get_n_rows() == 1) ||
-        (P.get_n_cols() == 1); // TODO: (T1::is_row) || (T1::is_col) || ...
+    const bool is_vec = (P.get_n_rows() == 1) || (P.get_n_cols() == 1); // TODO: (T1::is_row) || (T1::is_col) || ...
 
     if(is_vec == true) {
         if((sig == 'i') || (sig == 'I') || (sig == '+')) // max norm

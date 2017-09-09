@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-inline void glue_max::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_max>& X)
-{
+inline void glue_max::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_max>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -39,15 +37,13 @@ inline void glue_max::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& PB)
-{
+inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = PA.get_n_rows();
     const uword n_cols = PA.get_n_cols();
 
-    arma_debug_assert_same_size(n_rows, n_cols, PB.get_n_rows(), PB.get_n_cols(),
-        "max(): given matrices must have the same size");
+    arma_debug_assert_same_size(n_rows, n_cols, PB.get_n_rows(), PB.get_n_cols(), "max(): given matrices must have the same size");
 
     out.set_size(n_rows, n_cols);
 
@@ -59,9 +55,7 @@ inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& 
 
         const uword N = PA.get_n_elem();
 
-        for(uword i = 0; i < N; ++i) {
-            out_mem[i] = (std::max)(A[i], B[i]);
-        }
+        for(uword i = 0; i < N; ++i) { out_mem[i] = (std::max)(A[i], B[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -73,9 +67,7 @@ inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& 
 }
 
 template <typename T, typename T1, typename T2>
-inline void
-glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB)
-{
+inline void glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -83,8 +75,7 @@ glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>&
     const uword n_rows = PA.get_n_rows();
     const uword n_cols = PA.get_n_cols();
 
-    arma_debug_assert_same_size(n_rows, n_cols, PB.get_n_rows(), PB.get_n_cols(),
-        "max(): given matrices must have the same size");
+    arma_debug_assert_same_size(n_rows, n_cols, PB.get_n_rows(), PB.get_n_cols(), "max(): given matrices must have the same size");
 
     out.set_size(n_rows, n_cols);
 
@@ -116,9 +107,7 @@ glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>&
 }
 
 template <typename T1, typename T2>
-inline void glue_max::apply(Cube<typename T1::elem_type>& out,
-    const GlueCube<T1, T2, glue_max>& X)
-{
+inline void glue_max::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_max>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -138,17 +127,14 @@ inline void glue_max::apply(Cube<typename T1::elem_type>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-inline void
-glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB)
-{
+inline void glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = PA.get_n_rows();
     const uword n_cols = PA.get_n_cols();
     const uword n_slices = PA.get_n_slices();
 
-    arma_debug_assert_same_size(n_rows, n_cols, n_slices, PB.get_n_rows(),
-        PB.get_n_cols(), PB.get_n_slices(), "max(): given cubes must have the same size");
+    arma_debug_assert_same_size(n_rows, n_cols, n_slices, PB.get_n_rows(), PB.get_n_cols(), PB.get_n_slices(), "max(): given cubes must have the same size");
 
     out.set_size(n_rows, n_cols, n_slices);
 
@@ -160,9 +146,7 @@ glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB)
 
         const uword N = PA.get_n_elem();
 
-        for(uword i = 0; i < N; ++i) {
-            out_mem[i] = (std::max)(A[i], B[i]);
-        }
+        for(uword i = 0; i < N; ++i) { out_mem[i] = (std::max)(A[i], B[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -175,10 +159,7 @@ glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB)
 }
 
 template <typename T, typename T1, typename T2>
-inline void glue_max::apply(Cube<std::complex<T>>& out,
-    const ProxyCube<T1>& PA,
-    const ProxyCube<T2>& PB)
-{
+inline void glue_max::apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -187,8 +168,7 @@ inline void glue_max::apply(Cube<std::complex<T>>& out,
     const uword n_cols = PA.get_n_cols();
     const uword n_slices = PA.get_n_slices();
 
-    arma_debug_assert_same_size(n_rows, n_cols, n_slices, PB.get_n_rows(),
-        PB.get_n_cols(), PB.get_n_slices(), "max(): given cubes must have the same size");
+    arma_debug_assert_same_size(n_rows, n_cols, n_slices, PB.get_n_rows(), PB.get_n_cols(), PB.get_n_slices(), "max(): given cubes must have the same size");
 
     out.set_size(n_rows, n_cols, n_slices);
 

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, bool sort_stable>
-inline bool
-arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type)
-{
+inline bool arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -88,26 +86,20 @@ arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_typ
 
     uword* out_mem = out.memptr();
 
-    for(uword i = 0; i < n_elem; ++i) {
-        out_mem[i] = packet_vec[i].index;
-    }
+    for(uword i = 0; i < n_elem; ++i) { out_mem[i] = packet_vec[i].index; }
 
     return true;
 }
 
 template <typename T1>
-inline bool
-op_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type)
-{
+inline bool op_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     return arma_sort_index_helper<T1, false>(out, P, sort_type);
 }
 
 template <typename T1>
-inline void op_sort_index::apply(Mat<uword>& out,
-    const mtOp<uword, T1, op_sort_index>& in)
-{
+inline void op_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_sort_index>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -135,19 +127,14 @@ inline void op_sort_index::apply(Mat<uword>& out,
 }
 
 template <typename T1>
-inline bool op_stable_sort_index::apply_noalias(Mat<uword>& out,
-    const Proxy<T1>& P,
-    const uword sort_type)
-{
+inline bool op_stable_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     return arma_sort_index_helper<T1, true>(out, P, sort_type);
 }
 
 template <typename T1>
-inline void op_stable_sort_index::apply(Mat<uword>& out,
-    const mtOp<uword, T1, op_stable_sort_index>& in)
-{
+inline void op_stable_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_stable_sort_index>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

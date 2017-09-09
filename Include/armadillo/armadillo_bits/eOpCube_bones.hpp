@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1, typename eop_type>
-class eOpCube : public BaseCube<typename T1::elem_type, eOpCube<T1, eop_type>>
-{
+class eOpCube : public BaseCube<typename T1::elem_type, eOpCube<T1, eop_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -35,20 +34,10 @@ public:
 
     inline ~eOpCube();
     inline explicit eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m);
-    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m,
-        const elem_type in_aux);
-    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m,
-        const uword in_aux_uword_a,
-        const uword in_aux_uword_b);
-    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m,
-        const uword in_aux_uword_a,
-        const uword in_aux_uword_b,
-        const uword in_aux_uword_c);
-    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m,
-        const elem_type in_aux,
-        const uword in_aux_uword_a,
-        const uword in_aux_uword_b,
-        const uword in_aux_uword_c);
+    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m, const elem_type in_aux);
+    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m, const uword in_aux_uword_a, const uword in_aux_uword_b);
+    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m, const uword in_aux_uword_a, const uword in_aux_uword_b, const uword in_aux_uword_c);
+    inline eOpCube(const BaseCube<typename T1::elem_type, T1>& in_m, const elem_type in_aux, const uword in_aux_uword_a, const uword in_aux_uword_b, const uword in_aux_uword_c);
 
     arma_inline uword get_n_rows() const;
     arma_inline uword get_n_cols() const;

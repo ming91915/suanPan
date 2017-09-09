@@ -16,14 +16,13 @@
 //! \addtogroup arma_static_check
 //! @{
 
-template <bool ERROR___INCORRECT_OR_UNSUPPORTED_TYPE> struct arma_type_check_cxx1998 {
-    arma_inline static void apply()
-    {
-        static const char junk[ERROR___INCORRECT_OR_UNSUPPORTED_TYPE ? -1 : +1];
-    }
+template <bool ERROR___INCORRECT_OR_UNSUPPORTED_TYPE>
+struct arma_type_check_cxx1998 {
+    arma_inline static void apply() { static const char junk[ERROR___INCORRECT_OR_UNSUPPORTED_TYPE ? -1 : +1]; }
 };
 
-template <> struct arma_type_check_cxx1998<false> {
+template <>
+struct arma_type_check_cxx1998<false> {
     arma_inline static void apply() {}
 };
 
@@ -31,13 +30,11 @@ template <> struct arma_type_check_cxx1998<false> {
 
 #define arma_static_check(condition, message) static_assert(!(condition), #message)
 
-#define arma_type_check(condition) \
-    static_assert(!(condition), "error: incorrect or unsupported type")
+#define arma_type_check(condition) static_assert(!(condition), "error: incorrect or unsupported type")
 
 #else
 
-#define arma_static_check(condition, message) \
-    static const char message[(condition) ? -1 : +1]
+#define arma_static_check(condition, message) static const char message[(condition) ? -1 : +1]
 
 #define arma_type_check(condition) arma_type_check_cxx1998<condition>::apply()
 

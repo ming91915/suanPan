@@ -18,67 +18,61 @@
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<true>::lt(const eT A, const eT B)
-{
+arma_inline bool cond_rel<true>::lt(const eT A, const eT B) {
     return (A < B);
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<false>::lt(const eT, const eT)
-{
+arma_inline bool cond_rel<false>::lt(const eT, const eT) {
     return false;
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<true>::gt(const eT A, const eT B)
-{
+arma_inline bool cond_rel<true>::gt(const eT A, const eT B) {
     return (A > B);
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<false>::gt(const eT, const eT)
-{
+arma_inline bool cond_rel<false>::gt(const eT, const eT) {
     return false;
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<true>::leq(const eT A, const eT B)
-{
+arma_inline bool cond_rel<true>::leq(const eT A, const eT B) {
     return (A <= B);
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<false>::leq(const eT, const eT)
-{
+arma_inline bool cond_rel<false>::leq(const eT, const eT) {
     return false;
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<true>::geq(const eT A, const eT B)
-{
+arma_inline bool cond_rel<true>::geq(const eT A, const eT B) {
     return (A >= B);
 }
 
 template <>
 template <typename eT>
-arma_inline bool cond_rel<false>::geq(const eT, const eT)
-{
+arma_inline bool cond_rel<false>::geq(const eT, const eT) {
     return false;
 }
 
-template <> template <typename eT> arma_inline eT cond_rel<true>::make_neg(const eT val)
-{
+template <>
+template <typename eT>
+arma_inline eT cond_rel<true>::make_neg(const eT val) {
     return -val;
 }
 
-template <> template <typename eT> arma_inline eT cond_rel<false>::make_neg(const eT)
-{
+template <>
+template <typename eT>
+arma_inline eT cond_rel<false>::make_neg(const eT) {
     return eT(0);
 }
 

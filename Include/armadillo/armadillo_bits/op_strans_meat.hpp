@@ -18,8 +18,7 @@
 
 //! for tiny square matrices (size <= 4x4)
 template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA& A)
-{
+arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA& A) {
     const eT* Am = A.memptr();
     eT* outm = out.memptr();
 
@@ -78,8 +77,7 @@ arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA&
 
 //! Immediate transpose of a dense matrix
 template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A)
-{
+arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A) {
     arma_extra_debug_sigprint();
 
     const uword A_n_cols = A.n_cols;
@@ -121,16 +119,15 @@ arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A)
     }
 }
 
-template <typename eT> arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>& out)
-{
+template <typename eT>
+arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>& out) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = out.n_rows;
     const uword n_cols = out.n_cols;
 
     if(n_rows == n_cols) {
-        arma_extra_debug_print(
-            "op_strans::apply(): doing in-place transpose of a square matrix");
+        arma_extra_debug_print("op_strans::apply(): doing in-place transpose of a square matrix");
 
         const uword N = n_rows;
 
@@ -152,9 +149,7 @@ template <typename eT> arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>
                 colptr++;
             }
 
-            if((j - 1) < N) {
-                std::swap((*rowptr), (*colptr));
-            }
+            if((j - 1) < N) { std::swap((*rowptr), (*colptr)); }
         }
     } else {
         Mat<eT> tmp;
@@ -166,8 +161,7 @@ template <typename eT> arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>
 }
 
 template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A)
-{
+arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A) {
     arma_extra_debug_sigprint();
 
     if(&out != &A) {
@@ -178,8 +172,7 @@ arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A)
 }
 
 template <typename T1>
-arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X)
-{
+arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -187,8 +180,7 @@ arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, co
     const Proxy<T1> P(X);
 
     // allow detection of in-place transpose
-    if((is_Mat<typename Proxy<T1>::stored_type>::value == true) &&
-        (Proxy<T1>::fake_mat == false)) {
+    if((is_Mat<typename Proxy<T1>::stored_type>::value == true) && (Proxy<T1>::fake_mat == false)) {
         const unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
 
         op_strans::apply_mat(out, tmp.M);
@@ -217,9 +209,7 @@ arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, co
                     out_mem[j] = tmp_j;
                 }
 
-                if(i < n_elem) {
-                    out_mem[i] = Pea[i];
-                }
+                if(i < n_elem) { out_mem[i] = Pea[i]; }
             } else // aliasing
             {
                 Mat<eT> out2(n_cols, n_rows);
@@ -239,9 +229,7 @@ arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, co
                     out_mem[j] = tmp_j;
                 }
 
-                if(i < n_elem) {
-                    out_mem[i] = Pea[i];
-                }
+                if(i < n_elem) { out_mem[i] = Pea[i]; }
 
                 out.steal_mem(out2);
             }
@@ -308,9 +296,7 @@ arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, co
 }
 
 template <typename T1>
-arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_strans>& in)
-{
+arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_strans>& in) {
     arma_extra_debug_sigprint();
 
     op_strans::apply_proxy(out, in.m);
@@ -321,9 +307,7 @@ arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out,
 
 //! for tiny square matrices (size <= 4x4)
 template <typename eT, typename TA>
-arma_hot inline void
-op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A, const eT val)
-{
+arma_hot inline void op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A, const eT val) {
     const eT* Am = A.memptr();
     eT* outm = out.memptr();
 
@@ -381,8 +365,7 @@ op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A, const eT val)
 }
 
 template <typename eT, typename TA>
-arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const eT val)
-{
+arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const eT val) {
     arma_extra_debug_sigprint();
 
     const uword A_n_cols = A.n_cols;
@@ -405,9 +388,7 @@ arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const 
             out_mem[j] = val * tmp_j;
         }
 
-        if(i < N) {
-            out_mem[i] = val * A_mem[i];
-        }
+        if(i < N) { out_mem[i] = val * A_mem[i]; }
     } else {
         if((A_n_rows <= 4) && (A_n_rows == A_n_cols)) {
             op_strans2::apply_noalias_tinysq(out, A, val);
@@ -441,8 +422,7 @@ arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const 
 }
 
 template <typename eT, typename TA>
-arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val)
-{
+arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val) {
     arma_extra_debug_sigprint();
 
     if(&out != &A) {
@@ -452,8 +432,7 @@ arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val)
         const uword n_cols = out.n_cols;
 
         if(n_rows == n_cols) {
-            arma_extra_debug_print(
-                "op_strans2::apply(): doing in-place transpose of a square matrix");
+            arma_extra_debug_print("op_strans2::apply(): doing in-place transpose of a square matrix");
 
             const uword N = n_rows;
 
@@ -469,9 +448,7 @@ arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val)
                     std::swap(out.at(k, j), colptr[j]);
                 }
 
-                if(i < N) {
-                    std::swap(out.at(k, i), colptr[i]);
-                }
+                if(i < N) { std::swap(out.at(k, i), colptr[i]); }
             }
 
             arrayops::inplace_mul(out.memptr(), val, out.n_elem);
@@ -485,10 +462,7 @@ arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val)
 }
 
 template <typename T1>
-arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out,
-    const T1& X,
-    const typename T1::elem_type val)
-{
+arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X, const typename T1::elem_type val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -496,8 +470,7 @@ arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out,
     const Proxy<T1> P(X);
 
     // allow detection of in-place transpose
-    if((is_Mat<typename Proxy<T1>::stored_type>::value == true) &&
-        (Proxy<T1>::fake_mat == false)) {
+    if((is_Mat<typename Proxy<T1>::stored_type>::value == true) && (Proxy<T1>::fake_mat == false)) {
         const unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
 
         op_strans2::apply(out, tmp.M, val);
@@ -526,9 +499,7 @@ arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out,
                     out_mem[j] = val * tmp_j;
                 }
 
-                if(i < n_elem) {
-                    out_mem[i] = val * Pea[i];
-                }
+                if(i < n_elem) { out_mem[i] = val * Pea[i]; }
             } else // aliasing
             {
                 Mat<eT> out2(n_cols, n_rows);
@@ -548,9 +519,7 @@ arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out,
                     out_mem[j] = val * tmp_j;
                 }
 
-                if(i < n_elem) {
-                    out_mem[i] = val * Pea[i];
-                }
+                if(i < n_elem) { out_mem[i] = val * Pea[i]; }
 
                 out.steal_mem(out2);
             }
@@ -617,15 +586,13 @@ arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline void op_strans_cube::apply_noalias(Cube<eT>& out, const Cube<eT>& X)
-{
+inline void op_strans_cube::apply_noalias(Cube<eT>& out, const Cube<eT>& X) {
     out.set_size(X.n_cols, X.n_rows, X.n_slices);
 
     for(uword s = 0; s < X.n_slices; ++s) {
         Mat<eT> out_slice(out.slice_memptr(s), X.n_cols, X.n_rows, false, true);
 
-        const Mat<eT> X_slice(
-            const_cast<eT*>(X.slice_memptr(s)), X.n_rows, X.n_cols, false, true);
+        const Mat<eT> X_slice(const_cast<eT*>(X.slice_memptr(s)), X.n_rows, X.n_cols, false, true);
 
         op_strans::apply_mat_noalias(out_slice, X_slice);
     }

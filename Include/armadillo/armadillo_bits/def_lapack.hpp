@@ -331,1310 +331,204 @@
 
 extern "C" {
 // LU factorisation
-void arma_fortran(arma_sgetrf)(blas_int* m,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    blas_int* info);
-void arma_fortran(arma_dgetrf)(blas_int* m,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    blas_int* info);
-void arma_fortran(arma_cgetrf)(blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    blas_int* info);
-void arma_fortran(arma_zgetrf)(blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    blas_int* info);
+void arma_fortran(arma_sgetrf)(blas_int* m, blas_int* n, float* a, blas_int* lda, blas_int* ipiv, blas_int* info);
+void arma_fortran(arma_dgetrf)(blas_int* m, blas_int* n, double* a, blas_int* lda, blas_int* ipiv, blas_int* info);
+void arma_fortran(arma_cgetrf)(blas_int* m, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, blas_int* info);
+void arma_fortran(arma_zgetrf)(blas_int* m, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, blas_int* info);
 
 // matrix inversion (using LU factorisation result)
-void arma_fortran(arma_sgetri)(blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dgetri)(blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_cgetri)(blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_zgetri)(blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sgetri)(blas_int* n, float* a, blas_int* lda, blas_int* ipiv, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dgetri)(blas_int* n, double* a, blas_int* lda, blas_int* ipiv, double* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_cgetri)(blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_zgetri)(blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* lwork, blas_int* info);
 
 // matrix inversion (triangular matrices)
-void arma_fortran(arma_strtri)(char* uplo,
-    char* diag,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* info);
-void arma_fortran(arma_dtrtri)(char* uplo,
-    char* diag,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* info);
-void arma_fortran(arma_ctrtri)(char* uplo,
-    char* diag,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* info);
-void arma_fortran(arma_ztrtri)(char* uplo,
-    char* diag,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* info);
+void arma_fortran(arma_strtri)(char* uplo, char* diag, blas_int* n, float* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_dtrtri)(char* uplo, char* diag, blas_int* n, double* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_ctrtri)(char* uplo, char* diag, blas_int* n, void* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_ztrtri)(char* uplo, char* diag, blas_int* n, void* a, blas_int* lda, blas_int* info);
 
 // eigen decomposition of general matrix (real)
-void arma_fortran(arma_sgeev)(char* jobvl,
-    char* jobvr,
-    blas_int* N,
-    float* a,
-    blas_int* lda,
-    float* wr,
-    float* wi,
-    float* vl,
-    blas_int* ldvl,
-    float* vr,
-    blas_int* ldvr,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dgeev)(char* jobvl,
-    char* jobvr,
-    blas_int* N,
-    double* a,
-    blas_int* lda,
-    double* wr,
-    double* wi,
-    double* vl,
-    blas_int* ldvl,
-    double* vr,
-    blas_int* ldvr,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sgeev)(char* jobvl, char* jobvr, blas_int* N, float* a, blas_int* lda, float* wr, float* wi, float* vl, blas_int* ldvl, float* vr, blas_int* ldvr, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dgeev)(char* jobvl, char* jobvr, blas_int* N, double* a, blas_int* lda, double* wr, double* wi, double* vl, blas_int* ldvl, double* vr, blas_int* ldvr, double* work, blas_int* lwork, blas_int* info);
 
 // eigen decomposition of general matrix (complex)
-void arma_fortran(arma_cgeev)(char* jobvl,
-    char* jobvr,
-    blas_int* N,
-    void* a,
-    blas_int* lda,
-    void* w,
-    void* vl,
-    blas_int* ldvl,
-    void* vr,
-    blas_int* ldvr,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zgeev)(char* jobvl,
-    char* jobvr,
-    blas_int* N,
-    void* a,
-    blas_int* lda,
-    void* w,
-    void* vl,
-    blas_int* ldvl,
-    void* vr,
-    blas_int* ldvr,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cgeev)(char* jobvl, char* jobvr, blas_int* N, void* a, blas_int* lda, void* w, void* vl, blas_int* ldvl, void* vr, blas_int* ldvr, void* work, blas_int* lwork, float* rwork, blas_int* info);
+void arma_fortran(arma_zgeev)(char* jobvl, char* jobvr, blas_int* N, void* a, blas_int* lda, void* w, void* vl, blas_int* ldvl, void* vr, blas_int* ldvr, void* work, blas_int* lwork, double* rwork, blas_int* info);
 
 // eigen decomposition of symmetric real matrices
-void arma_fortran(arma_ssyev)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* w,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dsyev)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* w,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_ssyev)(char* jobz, char* uplo, blas_int* n, float* a, blas_int* lda, float* w, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dsyev)(char* jobz, char* uplo, blas_int* n, double* a, blas_int* lda, double* w, double* work, blas_int* lwork, blas_int* info);
 
 // eigen decomposition of hermitian matrices (complex)
-void arma_fortran(arma_cheev)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* w,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zheev)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* w,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cheev)(char* jobz, char* uplo, blas_int* n, void* a, blas_int* lda, float* w, void* work, blas_int* lwork, float* rwork, blas_int* info);
+void arma_fortran(arma_zheev)(char* jobz, char* uplo, blas_int* n, void* a, blas_int* lda, double* w, void* work, blas_int* lwork, double* rwork, blas_int* info);
 
 // eigen decomposition of symmetric real matrices by divide and conquer
-void arma_fortran(arma_ssyevd)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* w,
-    float* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
-void arma_fortran(arma_dsyevd)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* w,
-    double* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
+void arma_fortran(arma_ssyevd)(char* jobz, char* uplo, blas_int* n, float* a, blas_int* lda, float* w, float* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info);
+void arma_fortran(arma_dsyevd)(char* jobz, char* uplo, blas_int* n, double* a, blas_int* lda, double* w, double* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info);
 
 // eigen decomposition of hermitian matrices (complex) by divide and conquer
-void arma_fortran(arma_cheevd)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* w,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* lrwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
-void arma_fortran(arma_zheevd)(char* jobz,
-    char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* w,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* lrwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
+void arma_fortran(arma_cheevd)(char* jobz, char* uplo, blas_int* n, void* a, blas_int* lda, float* w, void* work, blas_int* lwork, float* rwork, blas_int* lrwork, blas_int* iwork, blas_int* liwork, blas_int* info);
+void arma_fortran(arma_zheevd)(char* jobz, char* uplo, blas_int* n, void* a, blas_int* lda, double* w, void* work, blas_int* lwork, double* rwork, blas_int* lrwork, blas_int* iwork, blas_int* liwork, blas_int* info);
 
 // eigen decomposition of general real matrix pair
-void arma_fortran(arma_sggev)(char* jobvl,
-    char* jobvr,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* b,
-    blas_int* ldb,
-    float* alphar,
-    float* alphai,
-    float* beta,
-    float* vl,
-    blas_int* ldvl,
-    float* vr,
-    blas_int* ldvr,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dggev)(char* jobvl,
-    char* jobvr,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* b,
-    blas_int* ldb,
-    double* alphar,
-    double* alphai,
-    double* beta,
-    double* vl,
-    blas_int* ldvl,
-    double* vr,
-    blas_int* ldvr,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sggev)(char* jobvl, char* jobvr, blas_int* n, float* a, blas_int* lda, float* b, blas_int* ldb, float* alphar, float* alphai, float* beta, float* vl, blas_int* ldvl, float* vr, blas_int* ldvr, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dggev)(char* jobvl, char* jobvr, blas_int* n, double* a, blas_int* lda, double* b, blas_int* ldb, double* alphar, double* alphai, double* beta, double* vl, blas_int* ldvl, double* vr, blas_int* ldvr, double* work, blas_int* lwork, blas_int* info);
 
 // eigen decomposition of general complex matrix pair
-void arma_fortran(arma_cggev)(char* jobvl,
-    char* jobvr,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    void* alpha,
-    void* beta,
-    void* vl,
-    blas_int* ldvl,
-    void* vr,
-    blas_int* ldvr,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zggev)(char* jobvl,
-    char* jobvr,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    void* alpha,
-    void* beta,
-    void* vl,
-    blas_int* ldvl,
-    void* vr,
-    blas_int* ldvr,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cggev)(char* jobvl, char* jobvr, blas_int* n, void* a, blas_int* lda, void* b, blas_int* ldb, void* alpha, void* beta, void* vl, blas_int* ldvl, void* vr, blas_int* ldvr, void* work, blas_int* lwork, float* rwork, blas_int* info);
+void arma_fortran(arma_zggev)(char* jobvl, char* jobvr, blas_int* n, void* a, blas_int* lda, void* b, blas_int* ldb, void* alpha, void* beta, void* vl, blas_int* ldvl, void* vr, blas_int* ldvr, void* work, blas_int* lwork, double* rwork, blas_int* info);
 
 // Cholesky decomposition
-void arma_fortran(
-    arma_spotrf)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_dpotrf)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_cpotrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_zpotrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_spotrf)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_dpotrf)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_cpotrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_zpotrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
 
 // matrix inversion (using Cholesky decomposition result)
-void arma_fortran(
-    arma_spotri)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_dpotri)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_cpotri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
-void arma_fortran(
-    arma_zpotri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_spotri)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_dpotri)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_cpotri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
+void arma_fortran(arma_zpotri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* info);
 
 // QR decomposition
-void arma_fortran(arma_sgeqrf)(blas_int* m,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* tau,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dgeqrf)(blas_int* m,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* tau,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_cgeqrf)(blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* tau,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_zgeqrf)(blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* tau,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sgeqrf)(blas_int* m, blas_int* n, float* a, blas_int* lda, float* tau, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dgeqrf)(blas_int* m, blas_int* n, double* a, blas_int* lda, double* tau, double* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_cgeqrf)(blas_int* m, blas_int* n, void* a, blas_int* lda, void* tau, void* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_zgeqrf)(blas_int* m, blas_int* n, void* a, blas_int* lda, void* tau, void* work, blas_int* lwork, blas_int* info);
 
 // Q matrix calculation from QR decomposition (real matrices)
-void arma_fortran(arma_sorgqr)(blas_int* m,
-    blas_int* n,
-    blas_int* k,
-    float* a,
-    blas_int* lda,
-    float* tau,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dorgqr)(blas_int* m,
-    blas_int* n,
-    blas_int* k,
-    double* a,
-    blas_int* lda,
-    double* tau,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sorgqr)(blas_int* m, blas_int* n, blas_int* k, float* a, blas_int* lda, float* tau, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dorgqr)(blas_int* m, blas_int* n, blas_int* k, double* a, blas_int* lda, double* tau, double* work, blas_int* lwork, blas_int* info);
 
 // Q matrix calculation from QR decomposition (complex matrices)
-void arma_fortran(arma_cungqr)(blas_int* m,
-    blas_int* n,
-    blas_int* k,
-    void* a,
-    blas_int* lda,
-    void* tau,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_zungqr)(blas_int* m,
-    blas_int* n,
-    blas_int* k,
-    void* a,
-    blas_int* lda,
-    void* tau,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_cungqr)(blas_int* m, blas_int* n, blas_int* k, void* a, blas_int* lda, void* tau, void* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_zungqr)(blas_int* m, blas_int* n, blas_int* k, void* a, blas_int* lda, void* tau, void* work, blas_int* lwork, blas_int* info);
 
 // SVD (real matrices)
-void arma_fortran(arma_sgesvd)(char* jobu,
-    char* jobvt,
-    blas_int* m,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* s,
-    float* u,
-    blas_int* ldu,
-    float* vt,
-    blas_int* ldvt,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dgesvd)(char* jobu,
-    char* jobvt,
-    blas_int* m,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* s,
-    double* u,
-    blas_int* ldu,
-    double* vt,
-    blas_int* ldvt,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sgesvd)(char* jobu, char* jobvt, blas_int* m, blas_int* n, float* a, blas_int* lda, float* s, float* u, blas_int* ldu, float* vt, blas_int* ldvt, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dgesvd)(char* jobu, char* jobvt, blas_int* m, blas_int* n, double* a, blas_int* lda, double* s, double* u, blas_int* ldu, double* vt, blas_int* ldvt, double* work, blas_int* lwork, blas_int* info);
 
 // SVD (complex matrices)
-void arma_fortran(arma_cgesvd)(char* jobu,
-    char* jobvt,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* s,
-    void* u,
-    blas_int* ldu,
-    void* vt,
-    blas_int* ldvt,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zgesvd)(char* jobu,
-    char* jobvt,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* s,
-    void* u,
-    blas_int* ldu,
-    void* vt,
-    blas_int* ldvt,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cgesvd)(char* jobu, char* jobvt, blas_int* m, blas_int* n, void* a, blas_int* lda, float* s, void* u, blas_int* ldu, void* vt, blas_int* ldvt, void* work, blas_int* lwork, float* rwork, blas_int* info);
+void arma_fortran(arma_zgesvd)(char* jobu, char* jobvt, blas_int* m, blas_int* n, void* a, blas_int* lda, double* s, void* u, blas_int* ldu, void* vt, blas_int* ldvt, void* work, blas_int* lwork, double* rwork, blas_int* info);
 
 // SVD (real matrices) by divide and conquer
-void arma_fortran(arma_sgesdd)(char* jobz,
-    blas_int* m,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* s,
-    float* u,
-    blas_int* ldu,
-    float* vt,
-    blas_int* ldvt,
-    float* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_dgesdd)(char* jobz,
-    blas_int* m,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* s,
-    double* u,
-    blas_int* ldu,
-    double* vt,
-    blas_int* ldvt,
-    double* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_sgesdd)(char* jobz, blas_int* m, blas_int* n, float* a, blas_int* lda, float* s, float* u, blas_int* ldu, float* vt, blas_int* ldvt, float* work, blas_int* lwork, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_dgesdd)(char* jobz, blas_int* m, blas_int* n, double* a, blas_int* lda, double* s, double* u, blas_int* ldu, double* vt, blas_int* ldvt, double* work, blas_int* lwork, blas_int* iwork, blas_int* info);
 
 // SVD (complex matrices) by divide and conquer
-void arma_fortran(arma_cgesdd)(char* jobz,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* s,
-    void* u,
-    blas_int* ldu,
-    void* vt,
-    blas_int* ldvt,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_zgesdd)(char* jobz,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* s,
-    void* u,
-    blas_int* ldu,
-    void* vt,
-    blas_int* ldvt,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_cgesdd)(char* jobz, blas_int* m, blas_int* n, void* a, blas_int* lda, float* s, void* u, blas_int* ldu, void* vt, blas_int* ldvt, void* work, blas_int* lwork, float* rwork, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_zgesdd)(char* jobz, blas_int* m, blas_int* n, void* a, blas_int* lda, double* s, void* u, blas_int* ldu, void* vt, blas_int* ldvt, void* work, blas_int* lwork, double* rwork, blas_int* iwork, blas_int* info);
 
 // solve system of linear equations (general square matrix)
-void arma_fortran(arma_sgesv)(blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_dgesv)(blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_cgesv)(blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_zgesv)(blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
+void arma_fortran(arma_sgesv)(blas_int* n, blas_int* nrhs, float* a, blas_int* lda, blas_int* ipiv, float* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_dgesv)(blas_int* n, blas_int* nrhs, double* a, blas_int* lda, blas_int* ipiv, double* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_cgesv)(blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_zgesv)(blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
 
 // solve system of linear equations (general square matrix, advanced form, real matrices)
-void arma_fortran(arma_sgesvx)(char* fact,
-    char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    float* af,
-    blas_int* ldaf,
-    blas_int* ipiv,
-    char* equed,
-    float* r,
-    float* c,
-    float* b,
-    blas_int* ldb,
-    float* x,
-    blas_int* ldx,
-    float* rcond,
-    float* ferr,
-    float* berr,
-    float* work,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_dgesvx)(char* fact,
-    char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    double* af,
-    blas_int* ldaf,
-    blas_int* ipiv,
-    char* equed,
-    double* r,
-    double* c,
-    double* b,
-    blas_int* ldb,
-    double* x,
-    blas_int* ldx,
-    double* rcond,
-    double* ferr,
-    double* berr,
-    double* work,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_sgesvx)(char* fact, char* trans, blas_int* n, blas_int* nrhs, float* a, blas_int* lda, float* af, blas_int* ldaf, blas_int* ipiv, char* equed, float* r, float* c, float* b, blas_int* ldb, float* x, blas_int* ldx, float* rcond, float* ferr, float* berr, float* work, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_dgesvx)(char* fact, char* trans, blas_int* n, blas_int* nrhs, double* a, blas_int* lda, double* af, blas_int* ldaf, blas_int* ipiv, char* equed, double* r, double* c, double* b, blas_int* ldb, double* x, blas_int* ldx, double* rcond, double* ferr, double* berr, double* work, blas_int* iwork, blas_int* info);
 
 // solve system of linear equations (general square matrix, advanced form, complex
 // matrices)
-void arma_fortran(arma_cgesvx)(char* fact,
-    char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* af,
-    blas_int* ldaf,
-    blas_int* ipiv,
-    char* equed,
-    float* r,
-    float* c,
-    void* b,
-    blas_int* ldb,
-    void* x,
-    blas_int* ldx,
-    float* rcond,
-    float* ferr,
-    float* berr,
-    void* work,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zgesvx)(char* fact,
-    char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* af,
-    blas_int* ldaf,
-    blas_int* ipiv,
-    char* equed,
-    double* r,
-    double* c,
-    void* b,
-    blas_int* ldb,
-    void* x,
-    blas_int* ldx,
-    double* rcond,
-    double* ferr,
-    double* berr,
-    void* work,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cgesvx)(char* fact, char* trans, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* af, blas_int* ldaf, blas_int* ipiv, char* equed, float* r, float* c, void* b, blas_int* ldb, void* x, blas_int* ldx, float* rcond, float* ferr, float* berr, void* work, float* rwork, blas_int* info);
+void arma_fortran(arma_zgesvx)(char* fact, char* trans, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* af, blas_int* ldaf, blas_int* ipiv, char* equed, double* r, double* c, void* b, blas_int* ldb, void* x, blas_int* ldx, double* rcond, double* ferr, double* berr, void* work, double* rwork, blas_int* info);
 
 // solve over/under-determined system of linear equations
-void arma_fortran(arma_sgels)(char* trans,
-    blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    float* b,
-    blas_int* ldb,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dgels)(char* trans,
-    blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    double* b,
-    blas_int* ldb,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_cgels)(char* trans,
-    blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_zgels)(char* trans,
-    blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_sgels)(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, float* a, blas_int* lda, float* b, blas_int* ldb, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dgels)(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, double* a, blas_int* lda, double* b, blas_int* ldb, double* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_cgels)(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* b, blas_int* ldb, void* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_zgels)(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* b, blas_int* ldb, void* work, blas_int* lwork, blas_int* info);
 
 // approximately solve system of linear equations using svd (real)
-void arma_fortran(arma_sgelsd)(blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    float* b,
-    blas_int* ldb,
-    float* S,
-    float* rcond,
-    blas_int* rank,
-    float* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_dgelsd)(blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    double* b,
-    blas_int* ldb,
-    double* S,
-    double* rcond,
-    blas_int* rank,
-    double* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_sgelsd)(blas_int* m, blas_int* n, blas_int* nrhs, float* a, blas_int* lda, float* b, blas_int* ldb, float* S, float* rcond, blas_int* rank, float* work, blas_int* lwork, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_dgelsd)(blas_int* m, blas_int* n, blas_int* nrhs, double* a, blas_int* lda, double* b, blas_int* ldb, double* S, double* rcond, blas_int* rank, double* work, blas_int* lwork, blas_int* iwork, blas_int* info);
 
 // approximately solve system of linear equations using svd (complex)
-void arma_fortran(arma_cgelsd)(blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    float* S,
-    float* rcond,
-    blas_int* rank,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_zgelsd)(blas_int* m,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    double* S,
-    double* rcond,
-    blas_int* rank,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_cgelsd)(blas_int* m, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* b, blas_int* ldb, float* S, float* rcond, blas_int* rank, void* work, blas_int* lwork, float* rwork, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_zgelsd)(blas_int* m, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, void* b, blas_int* ldb, double* S, double* rcond, blas_int* rank, void* work, blas_int* lwork, double* rwork, blas_int* iwork, blas_int* info);
 
 // solve system of linear equations (triangular matrix)
-void arma_fortran(arma_strtrs)(char* uplo,
-    char* trans,
-    char* diag,
-    blas_int* n,
-    blas_int* nrhs,
-    const float* a,
-    blas_int* lda,
-    float* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_dtrtrs)(char* uplo,
-    char* trans,
-    char* diag,
-    blas_int* n,
-    blas_int* nrhs,
-    const double* a,
-    blas_int* lda,
-    double* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_ctrtrs)(char* uplo,
-    char* trans,
-    char* diag,
-    blas_int* n,
-    blas_int* nrhs,
-    const void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_ztrtrs)(char* uplo,
-    char* trans,
-    char* diag,
-    blas_int* n,
-    blas_int* nrhs,
-    const void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
+void arma_fortran(arma_strtrs)(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const float* a, blas_int* lda, float* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_dtrtrs)(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const double* a, blas_int* lda, double* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_ctrtrs)(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const void* a, blas_int* lda, void* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_ztrtrs)(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const void* a, blas_int* lda, void* b, blas_int* ldb, blas_int* info);
 
 // Schur decomposition (real matrices)
-void arma_fortran(arma_sgees)(char* jobvs,
-    char* sort,
-    void* select,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* sdim,
-    float* wr,
-    float* wi,
-    float* vs,
-    blas_int* ldvs,
-    float* work,
-    blas_int* lwork,
-    blas_int* bwork,
-    blas_int* info);
-void arma_fortran(arma_dgees)(char* jobvs,
-    char* sort,
-    void* select,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* sdim,
-    double* wr,
-    double* wi,
-    double* vs,
-    blas_int* ldvs,
-    double* work,
-    blas_int* lwork,
-    blas_int* bwork,
-    blas_int* info);
+void arma_fortran(arma_sgees)(char* jobvs, char* sort, void* select, blas_int* n, float* a, blas_int* lda, blas_int* sdim, float* wr, float* wi, float* vs, blas_int* ldvs, float* work, blas_int* lwork, blas_int* bwork, blas_int* info);
+void arma_fortran(arma_dgees)(char* jobvs, char* sort, void* select, blas_int* n, double* a, blas_int* lda, blas_int* sdim, double* wr, double* wi, double* vs, blas_int* ldvs, double* work, blas_int* lwork, blas_int* bwork, blas_int* info);
 
 // Schur decomposition (complex matrices)
-void arma_fortran(arma_cgees)(char* jobvs,
-    char* sort,
-    void* select,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* sdim,
-    void* w,
-    void* vs,
-    blas_int* ldvs,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    blas_int* bwork,
-    blas_int* info);
-void arma_fortran(arma_zgees)(char* jobvs,
-    char* sort,
-    void* select,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* sdim,
-    void* w,
-    void* vs,
-    blas_int* ldvs,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    blas_int* bwork,
-    blas_int* info);
+void arma_fortran(arma_cgees)(char* jobvs, char* sort, void* select, blas_int* n, void* a, blas_int* lda, blas_int* sdim, void* w, void* vs, blas_int* ldvs, void* work, blas_int* lwork, float* rwork, blas_int* bwork, blas_int* info);
+void arma_fortran(arma_zgees)(char* jobvs, char* sort, void* select, blas_int* n, void* a, blas_int* lda, blas_int* sdim, void* w, void* vs, blas_int* ldvs, void* work, blas_int* lwork, double* rwork, blas_int* bwork, blas_int* info);
 
 // solve a Sylvester equation ax + xb = c, with a and b assumed to be in Schur form
-void arma_fortran(arma_strsyl)(char* transa,
-    char* transb,
-    blas_int* isgn,
-    blas_int* m,
-    blas_int* n,
-    const float* a,
-    blas_int* lda,
-    const float* b,
-    blas_int* ldb,
-    float* c,
-    blas_int* ldc,
-    float* scale,
-    blas_int* info);
-void arma_fortran(arma_dtrsyl)(char* transa,
-    char* transb,
-    blas_int* isgn,
-    blas_int* m,
-    blas_int* n,
-    const double* a,
-    blas_int* lda,
-    const double* b,
-    blas_int* ldb,
-    double* c,
-    blas_int* ldc,
-    double* scale,
-    blas_int* info);
-void arma_fortran(arma_ctrsyl)(char* transa,
-    char* transb,
-    blas_int* isgn,
-    blas_int* m,
-    blas_int* n,
-    const void* a,
-    blas_int* lda,
-    const void* b,
-    blas_int* ldb,
-    void* c,
-    blas_int* ldc,
-    float* scale,
-    blas_int* info);
-void arma_fortran(arma_ztrsyl)(char* transa,
-    char* transb,
-    blas_int* isgn,
-    blas_int* m,
-    blas_int* n,
-    const void* a,
-    blas_int* lda,
-    const void* b,
-    blas_int* ldb,
-    void* c,
-    blas_int* ldc,
-    double* scale,
-    blas_int* info);
+void arma_fortran(arma_strsyl)(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const float* a, blas_int* lda, const float* b, blas_int* ldb, float* c, blas_int* ldc, float* scale, blas_int* info);
+void arma_fortran(arma_dtrsyl)(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const double* a, blas_int* lda, const double* b, blas_int* ldb, double* c, blas_int* ldc, double* scale, blas_int* info);
+void arma_fortran(arma_ctrsyl)(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const void* a, blas_int* lda, const void* b, blas_int* ldb, void* c, blas_int* ldc, float* scale, blas_int* info);
+void arma_fortran(arma_ztrsyl)(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const void* a, blas_int* lda, const void* b, blas_int* ldb, void* c, blas_int* ldc, double* scale, blas_int* info);
 
-void arma_fortran(arma_ssytrf)(char* uplo,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_dsytrf)(char* uplo,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_csytrf)(char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
-void arma_fortran(arma_zsytrf)(char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* lwork,
-    blas_int* info);
+void arma_fortran(arma_ssytrf)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* ipiv, float* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_dsytrf)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* ipiv, double* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_csytrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* lwork, blas_int* info);
+void arma_fortran(arma_zsytrf)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* lwork, blas_int* info);
 
-void arma_fortran(arma_ssytri)(char* uplo,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* work,
-    blas_int* info);
-void arma_fortran(arma_dsytri)(char* uplo,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* work,
-    blas_int* info);
-void arma_fortran(arma_csytri)(char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* info);
-void arma_fortran(arma_zsytri)(char* uplo,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* work,
-    blas_int* info);
+void arma_fortran(arma_ssytri)(char* uplo, blas_int* n, float* a, blas_int* lda, blas_int* ipiv, float* work, blas_int* info);
+void arma_fortran(arma_dsytri)(char* uplo, blas_int* n, double* a, blas_int* lda, blas_int* ipiv, double* work, blas_int* info);
+void arma_fortran(arma_csytri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* info);
+void arma_fortran(arma_zsytri)(char* uplo, blas_int* n, void* a, blas_int* lda, blas_int* ipiv, void* work, blas_int* info);
 
 // QZ decomposition (real matrices)
-void arma_fortran(arma_sgges)(char* jobvsl,
-    char* jobvsr,
-    char* sort,
-    void* selctg,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* b,
-    blas_int* ldb,
-    blas_int* sdim,
-    float* alphar,
-    float* alphai,
-    float* beta,
-    float* vsl,
-    blas_int* ldvsl,
-    float* vsr,
-    blas_int* ldvsr,
-    float* work,
-    blas_int* lwork,
-    float* bwork,
-    blas_int* info);
-void arma_fortran(arma_dgges)(char* jobvsl,
-    char* jobvsr,
-    char* sort,
-    void* selctg,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* b,
-    blas_int* ldb,
-    blas_int* sdim,
-    double* alphar,
-    double* alphai,
-    double* beta,
-    double* vsl,
-    blas_int* ldvsl,
-    double* vsr,
-    blas_int* ldvsr,
-    double* work,
-    blas_int* lwork,
-    double* bwork,
-    blas_int* info);
+void arma_fortran(arma_sgges)(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, float* a, blas_int* lda, float* b, blas_int* ldb, blas_int* sdim, float* alphar, float* alphai, float* beta, float* vsl, blas_int* ldvsl, float* vsr, blas_int* ldvsr, float* work, blas_int* lwork, float* bwork, blas_int* info);
+void arma_fortran(arma_dgges)(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, double* a, blas_int* lda, double* b, blas_int* ldb, blas_int* sdim, double* alphar, double* alphai, double* beta, double* vsl, blas_int* ldvsl, double* vsr, blas_int* ldvsr, double* work, blas_int* lwork, double* bwork, blas_int* info);
 
 // QZ decomposition (complex matrices)
-void arma_fortran(arma_cgges)(char* jobvsl,
-    char* jobvsr,
-    char* sort,
-    void* selctg,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    blas_int* sdim,
-    void* alpha,
-    void* beta,
-    void* vsl,
-    blas_int* ldvsl,
-    void* vsr,
-    blas_int* ldvsr,
-    void* work,
-    blas_int* lwork,
-    float* rwork,
-    float* bwork,
-    blas_int* info);
-void arma_fortran(arma_zgges)(char* jobvsl,
-    char* jobvsr,
-    char* sort,
-    void* selctg,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    void* b,
-    blas_int* ldb,
-    blas_int* sdim,
-    void* alpha,
-    void* beta,
-    void* vsl,
-    blas_int* ldvsl,
-    void* vsr,
-    blas_int* ldvsr,
-    void* work,
-    blas_int* lwork,
-    double* rwork,
-    double* bwork,
-    blas_int* info);
+void arma_fortran(arma_cgges)(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, void* a, blas_int* lda, void* b, blas_int* ldb, blas_int* sdim, void* alpha, void* beta, void* vsl, blas_int* ldvsl, void* vsr, blas_int* ldvsr, void* work, blas_int* lwork, float* rwork, float* bwork, blas_int* info);
+void arma_fortran(arma_zgges)(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, void* a, blas_int* lda, void* b, blas_int* ldb, blas_int* sdim, void* alpha, void* beta, void* vsl, blas_int* ldvsl, void* vsr, blas_int* ldvsr, void* work, blas_int* lwork, double* rwork, double* bwork, blas_int* info);
 
 // 1-norm
-float arma_fortran(arma_slange)(char* norm,
-    blas_int* m,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* work);
-double arma_fortran(arma_dlange)(char* norm,
-    blas_int* m,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* work);
-float arma_fortran(arma_clange)(char* norm,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* work);
-double arma_fortran(arma_zlange)(char* norm,
-    blas_int* m,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* work);
+float arma_fortran(arma_slange)(char* norm, blas_int* m, blas_int* n, float* a, blas_int* lda, float* work);
+double arma_fortran(arma_dlange)(char* norm, blas_int* m, blas_int* n, double* a, blas_int* lda, double* work);
+float arma_fortran(arma_clange)(char* norm, blas_int* m, blas_int* n, void* a, blas_int* lda, float* work);
+double arma_fortran(arma_zlange)(char* norm, blas_int* m, blas_int* n, void* a, blas_int* lda, double* work);
 
 // reciprocal of condition number (real)
-void arma_fortran(arma_sgecon)(char* norm,
-    blas_int* n,
-    float* a,
-    blas_int* lda,
-    float* anorm,
-    float* rcond,
-    float* work,
-    blas_int* iwork,
-    blas_int* info);
-void arma_fortran(arma_dgecon)(char* norm,
-    blas_int* n,
-    double* a,
-    blas_int* lda,
-    double* anorm,
-    double* rcond,
-    double* work,
-    blas_int* iwork,
-    blas_int* info);
+void arma_fortran(arma_sgecon)(char* norm, blas_int* n, float* a, blas_int* lda, float* anorm, float* rcond, float* work, blas_int* iwork, blas_int* info);
+void arma_fortran(arma_dgecon)(char* norm, blas_int* n, double* a, blas_int* lda, double* anorm, double* rcond, double* work, blas_int* iwork, blas_int* info);
 
 // reciprocal of condition number (complex)
-void arma_fortran(arma_cgecon)(char* norm,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    float* anorm,
-    float* rcond,
-    void* work,
-    float* rwork,
-    blas_int* info);
-void arma_fortran(arma_zgecon)(char* norm,
-    blas_int* n,
-    void* a,
-    blas_int* lda,
-    double* anorm,
-    double* rcond,
-    void* work,
-    double* rwork,
-    blas_int* info);
+void arma_fortran(arma_cgecon)(char* norm, blas_int* n, void* a, blas_int* lda, float* anorm, float* rcond, void* work, float* rwork, blas_int* info);
+void arma_fortran(arma_zgecon)(char* norm, blas_int* n, void* a, blas_int* lda, double* anorm, double* rcond, void* work, double* rwork, blas_int* info);
 
 // obtain parameters according to the local configuration of lapack
-blas_int arma_fortran(arma_ilaenv)(blas_int* ispec,
-    char* name,
-    char* opts,
-    blas_int* n1,
-    blas_int* n2,
-    blas_int* n3,
-    blas_int* n4);
+blas_int arma_fortran(arma_ilaenv)(blas_int* ispec, char* name, char* opts, blas_int* n1, blas_int* n2, blas_int* n3, blas_int* n4);
 
 // solve linear equations using LDL decomposition
-void arma_fortran(arma_ssytrs)(char* uplo,
-    blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_dsytrs)(char* uplo,
-    blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_csytrs)(char* uplo,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_zsytrs)(char* uplo,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
+void arma_fortran(arma_ssytrs)(char* uplo, blas_int* n, blas_int* nrhs, float* a, blas_int* lda, blas_int* ipiv, float* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_dsytrs)(char* uplo, blas_int* n, blas_int* nrhs, double* a, blas_int* lda, blas_int* ipiv, double* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_csytrs)(char* uplo, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_zsytrs)(char* uplo, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
 
 // solve linear equations using LU decomposition
-void arma_fortran(arma_sgetrs)(char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    float* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    float* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_dgetrs)(char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    double* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    double* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_cgetrs)(char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
-void arma_fortran(arma_zgetrs)(char* trans,
-    blas_int* n,
-    blas_int* nrhs,
-    void* a,
-    blas_int* lda,
-    blas_int* ipiv,
-    void* b,
-    blas_int* ldb,
-    blas_int* info);
+void arma_fortran(arma_sgetrs)(char* trans, blas_int* n, blas_int* nrhs, float* a, blas_int* lda, blas_int* ipiv, float* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_dgetrs)(char* trans, blas_int* n, blas_int* nrhs, double* a, blas_int* lda, blas_int* ipiv, double* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_cgetrs)(char* trans, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
+void arma_fortran(arma_zgetrs)(char* trans, blas_int* n, blas_int* nrhs, void* a, blas_int* lda, blas_int* ipiv, void* b, blas_int* ldb, blas_int* info);
 
 // calculate eigenvalues of an upper Hessenberg matrix
-void arma_fortran(arma_slahqr)(blas_int* wantt,
-    blas_int* wantz,
-    blas_int* n,
-    blas_int* ilo,
-    blas_int* ihi,
-    float* h,
-    blas_int* ldh,
-    float* wr,
-    float* wi,
-    blas_int* iloz,
-    blas_int* ihiz,
-    float* z,
-    blas_int* ldz,
-    blas_int* info);
-void arma_fortran(arma_dlahqr)(blas_int* wantt,
-    blas_int* wantz,
-    blas_int* n,
-    blas_int* ilo,
-    blas_int* ihi,
-    double* h,
-    blas_int* ldh,
-    double* wr,
-    double* wi,
-    blas_int* iloz,
-    blas_int* ihiz,
-    double* z,
-    blas_int* ldz,
-    blas_int* info);
+void arma_fortran(arma_slahqr)(blas_int* wantt, blas_int* wantz, blas_int* n, blas_int* ilo, blas_int* ihi, float* h, blas_int* ldh, float* wr, float* wi, blas_int* iloz, blas_int* ihiz, float* z, blas_int* ldz, blas_int* info);
+void arma_fortran(arma_dlahqr)(blas_int* wantt, blas_int* wantz, blas_int* n, blas_int* ilo, blas_int* ihi, double* h, blas_int* ldh, double* wr, double* wi, blas_int* iloz, blas_int* ihiz, double* z, blas_int* ldz, blas_int* info);
 
 // calculate eigenvalues of a symmetric tridiagonal matrix
-void arma_fortran(arma_sstedc)(char* compz,
-    blas_int* n,
-    float* d,
-    float* e,
-    float* z,
-    blas_int* ldz,
-    float* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
-void arma_fortran(arma_dstedc)(char* compz,
-    blas_int* n,
-    double* d,
-    double* e,
-    double* z,
-    blas_int* ldz,
-    double* work,
-    blas_int* lwork,
-    blas_int* iwork,
-    blas_int* liwork,
-    blas_int* info);
+void arma_fortran(arma_sstedc)(char* compz, blas_int* n, float* d, float* e, float* z, blas_int* ldz, float* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info);
+void arma_fortran(arma_dstedc)(char* compz, blas_int* n, double* d, double* e, double* z, blas_int* ldz, double* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info);
 
 // calculate eigenvectors of a Schur form matrix
-void arma_fortran(arma_strevc)(char* side,
-    char* howmny,
-    blas_int* select,
-    blas_int* n,
-    float* t,
-    blas_int* ldt,
-    float* vl,
-    blas_int* ldvl,
-    float* vr,
-    blas_int* ldvr,
-    blas_int* mm,
-    blas_int* m,
-    float* work,
-    blas_int* info);
-void arma_fortran(arma_dtrevc)(char* side,
-    char* howmny,
-    blas_int* select,
-    blas_int* n,
-    double* t,
-    blas_int* ldt,
-    double* vl,
-    blas_int* ldvl,
-    double* vr,
-    blas_int* ldvr,
-    blas_int* mm,
-    blas_int* m,
-    double* work,
-    blas_int* info);
+void arma_fortran(arma_strevc)(char* side, char* howmny, blas_int* select, blas_int* n, float* t, blas_int* ldt, float* vl, blas_int* ldvl, float* vr, blas_int* ldvr, blas_int* mm, blas_int* m, float* work, blas_int* info);
+void arma_fortran(arma_dtrevc)(char* side, char* howmny, blas_int* select, blas_int* n, double* t, blas_int* ldt, double* vl, blas_int* ldvl, double* vr, blas_int* ldvr, blas_int* mm, blas_int* m, double* work, blas_int* info);
 
 // generate a vector of random numbers
 void arma_fortran(arma_slarnv)(blas_int* idist, blas_int* iseed, blas_int* n, float* x);

@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused arma_hot inline
-    typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result
-    trace(const T1& X)
-{
+arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result trace(const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -38,16 +35,13 @@ arma_warn_unused arma_hot inline
         val2 += A.at(j, j);
     }
 
-    if(i < N) {
-        val1 += A.at(i, i);
-    }
+    if(i < N) { val1 += A.at(i, i); }
 
     return val1 + val2;
 }
 
 template <typename T1>
-arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_diagmat>& X)
-{
+arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_diagmat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -58,16 +52,13 @@ arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_di
 
     eT val = eT(0);
 
-    for(uword i = 0; i < N; ++i) {
-        val += A[i];
-    }
+    for(uword i = 0; i < N; ++i) { val += A[i]; }
 
     return val;
 }
 
 template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, const T2& XB)
-{
+arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, const T2& XB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -82,8 +73,7 @@ arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, con
     const uword B_n_rows = B.n_rows;
     const uword B_n_cols = B.n_cols;
 
-    arma_debug_assert_mul_size(
-        A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
+    arma_debug_assert_mul_size(A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
 
     const uword N = (std::min)(A_n_rows, B_n_cols);
 
@@ -109,9 +99,7 @@ arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, con
 
         const uword i = (j - 1);
 
-        if(i < A_n_cols) {
-            acc1 += PA.at(k, i) * B_colptr[i];
-        }
+        if(i < A_n_cols) { acc1 += PA.at(k, i) * B_colptr[i]; }
 
         val += (acc1 + acc2);
     }
@@ -121,17 +109,14 @@ arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, con
 
 //! speedup for trace(A*B), where the result of A*B is a square sized matrix
 template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, const T2& XB)
-{
+arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, const T2& XB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
 
     const Proxy<T2> PB(XB);
 
-    if(is_Mat<typename Proxy<T2>::stored_type>::value) {
-        return trace_mul_unwrap(PA, PB.Q);
-    }
+    if(is_Mat<typename Proxy<T2>::stored_type>::value) { return trace_mul_unwrap(PA, PB.Q); }
 
     const uword A_n_rows = PA.get_n_rows();
     const uword A_n_cols = PA.get_n_cols();
@@ -139,8 +124,7 @@ arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, cons
     const uword B_n_rows = PB.get_n_rows();
     const uword B_n_cols = PB.get_n_cols();
 
-    arma_debug_assert_mul_size(
-        A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
+    arma_debug_assert_mul_size(A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
 
     const uword N = (std::min)(A_n_rows, B_n_cols);
 
@@ -164,9 +148,7 @@ arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, cons
 
         const uword i = (j - 1);
 
-        if(i < A_n_cols) {
-            acc1 += PA.at(k, i) * PB.at(i, k);
-        }
+        if(i < A_n_cols) { acc1 += PA.at(k, i) * PB.at(i, k); }
 
         val += (acc1 + acc2);
     }
@@ -176,9 +158,7 @@ arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, cons
 
 //! speedup for trace(A*B), where the result of A*B is a square sized matrix
 template <typename T1, typename T2>
-arma_warn_unused arma_hot inline typename T1::elem_type trace(
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_warn_unused arma_hot inline typename T1::elem_type trace(const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> PA(X.A);
@@ -188,10 +168,7 @@ arma_warn_unused arma_hot inline typename T1::elem_type trace(
 
 //! trace of sparse object
 template <typename T1>
-arma_warn_unused arma_hot inline
-    typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result
-    trace(const T1& x)
-{
+arma_warn_unused arma_hot inline typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result trace(const T1& x) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> p(x);
@@ -204,9 +181,7 @@ arma_warn_unused arma_hot inline
     typename SpProxy<T1>::const_iterator_type it_end = p.end();
 
     while(it != it_end) {
-        if(it.row() == it.col()) {
-            result += (*it);
-        }
+        if(it.row() == it.col()) { result += (*it); }
 
         ++it;
     }

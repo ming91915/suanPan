@@ -13,13 +13,10 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 template <typename eT>
-inline void
-DoubleShiftQR<eT>::compute_reflector(const eT& x1, const eT& x2, const eT& x3, uword ind)
-{
+inline void DoubleShiftQR<eT>::compute_reflector(const eT& x1, const eT& x2, const eT& x3, uword ind) {
     arma_extra_debug_sigprint();
 
     // In general case the reflector affects 3 rows
@@ -54,15 +51,14 @@ DoubleShiftQR<eT>::compute_reflector(const eT& x1, const eT& x2, const eT& x3, u
 }
 
 template <typename eT>
-arma_inline void DoubleShiftQR<eT>::compute_reflector(const eT* x, uword ind)
-{
+arma_inline void DoubleShiftQR<eT>::compute_reflector(const eT* x, uword ind) {
     arma_extra_debug_sigprint();
 
     compute_reflector(x[0], x[1], x[2], ind);
 }
 
-template <typename eT> inline void DoubleShiftQR<eT>::update_block(uword il, uword iu)
-{
+template <typename eT>
+inline void DoubleShiftQR<eT>::update_block(uword il, uword iu) {
     arma_extra_debug_sigprint();
 
     // Block size
@@ -77,8 +73,7 @@ template <typename eT> inline void DoubleShiftQR<eT>::update_block(uword il, uwo
     // For block size == 2, do a Givens rotation on M = X * X - s * X + t * I
     if(bsize == 2) {
         // m00 = x00 * (x00 - s) + x01 * x10 + t
-        eT m00 = mat_H(il, il) * (mat_H(il, il) - shift_s) +
-            mat_H(il, il + 1) * mat_H(il + 1, il) + shift_t;
+        eT m00 = mat_H(il, il) * (mat_H(il, il) - shift_s) + mat_H(il, il + 1) * mat_H(il + 1, il) + shift_t;
         // m10 = x10 * (x00 + x11 - s)
         eT m10 = mat_H(il + 1, il) * (mat_H(il, il) + mat_H(il + 1, il + 1) - shift_s);
         // This causes nr=2
@@ -92,8 +87,7 @@ template <typename eT> inline void DoubleShiftQR<eT>::update_block(uword il, uwo
     }
 
     // For block size >=3, use the regular strategy
-    eT m00 = mat_H(il, il) * (mat_H(il, il) - shift_s) +
-        mat_H(il, il + 1) * mat_H(il + 1, il) + shift_t;
+    eT m00 = mat_H(il, il) * (mat_H(il, il) - shift_s) + mat_H(il, il + 1) * mat_H(il + 1, il) + shift_t;
     eT m10 = mat_H(il + 1, il) * (mat_H(il, il) + mat_H(il + 1, il + 1) - shift_s);
     // m20 = x21 * x10
     eT m20 = mat_H(il + 2, il + 1) * mat_H(il + 1, il);
@@ -123,18 +117,10 @@ template <typename eT> inline void DoubleShiftQR<eT>::update_block(uword il, uwo
 }
 
 template <typename eT>
-inline void DoubleShiftQR<eT>::apply_PX(Mat<eT>& X,
-    uword oi,
-    uword oj,
-    uword nrow,
-    uword ncol,
-    uword u_ind)
-{
+inline void DoubleShiftQR<eT>::apply_PX(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind) {
     arma_extra_debug_sigprint();
 
-    if(ref_nr(u_ind) == 1) {
-        return;
-    }
+    if(ref_nr(u_ind) == 1) { return; }
 
     // Householder reflectors at index u_ind
     Col<eT> u(ref_u.colptr(u_ind), 3, false);
@@ -161,13 +147,11 @@ inline void DoubleShiftQR<eT>::apply_PX(Mat<eT>& X,
     }
 }
 
-template <typename eT> inline void DoubleShiftQR<eT>::apply_PX(eT* x, uword u_ind)
-{
+template <typename eT>
+inline void DoubleShiftQR<eT>::apply_PX(eT* x, uword u_ind) {
     arma_extra_debug_sigprint();
 
-    if(ref_nr(u_ind) == 1) {
-        return;
-    }
+    if(ref_nr(u_ind) == 1) { return; }
 
     eT u0 = ref_u(0, u_ind), u1 = ref_u(1, u_ind), u2 = ref_u(2, u_ind);
 
@@ -177,24 +161,14 @@ template <typename eT> inline void DoubleShiftQR<eT>::apply_PX(eT* x, uword u_in
     dot2 *= 2;
     x[0] -= dot2 * u0;
     x[1] -= dot2 * u1;
-    if(!nr_is_2) {
-        x[2] -= dot2 * u2;
-    }
+    if(!nr_is_2) { x[2] -= dot2 * u2; }
 }
 
 template <typename eT>
-inline void DoubleShiftQR<eT>::apply_XP(Mat<eT>& X,
-    uword oi,
-    uword oj,
-    uword nrow,
-    uword ncol,
-    uword u_ind)
-{
+inline void DoubleShiftQR<eT>::apply_XP(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind) {
     arma_extra_debug_sigprint();
 
-    if(ref_nr(u_ind) == 1) {
-        return;
-    }
+    if(ref_nr(u_ind) == 1) { return; }
 
     // Householder reflectors at index u_ind
     Col<eT> u(ref_u.colptr(u_ind), 3, false);
@@ -231,8 +205,7 @@ inline DoubleShiftQR<eT>::DoubleShiftQR(uword size)
     , prec(std::numeric_limits<eT>::epsilon())
     , eps_rel(prec)
     , eps_abs(prec)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 }
 
@@ -247,19 +220,17 @@ inline DoubleShiftQR<eT>::DoubleShiftQR(const Mat<eT>& mat_obj, eT s, eT t)
     , prec(std::numeric_limits<eT>::epsilon())
     , eps_rel(prec)
     , eps_abs(prec)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 
     compute(mat_obj, s, t);
 }
 
-template <typename eT> void DoubleShiftQR<eT>::compute(const Mat<eT>& mat_obj, eT s, eT t)
-{
+template <typename eT>
+void DoubleShiftQR<eT>::compute(const Mat<eT>& mat_obj, eT s, eT t) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((mat_obj.is_square() == false),
-        "newarp::DoubleShiftQR::compute(): matrix must be square");
+    arma_debug_check((mat_obj.is_square() == false), "newarp::DoubleShiftQR::compute(): matrix must be square");
 
     n = mat_obj.n_rows;
     mat_H.set_size(n, n);
@@ -300,40 +271,33 @@ template <typename eT> void DoubleShiftQR<eT>::compute(const Mat<eT>& mat_obj, e
     computed = true;
 }
 
-template <typename eT> Mat<eT> DoubleShiftQR<eT>::matrix_QtHQ()
-{
+template <typename eT>
+Mat<eT> DoubleShiftQR<eT>::matrix_QtHQ() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::DoubleShiftQR::matrix_QtHQ(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::DoubleShiftQR::matrix_QtHQ(): need to call compute() first");
 
     return mat_H;
 }
 
-template <typename eT> inline void DoubleShiftQR<eT>::apply_QtY(Col<eT>& y)
-{
+template <typename eT>
+inline void DoubleShiftQR<eT>::apply_QtY(Col<eT>& y) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::DoubleShiftQR::apply_QtY(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::DoubleShiftQR::apply_QtY(): need to call compute() first");
 
     eT* y_ptr = y.memptr();
-    for(uword i = 0; i < n - 1; i++, y_ptr++) {
-        apply_PX(y_ptr, i);
-    }
+    for(uword i = 0; i < n - 1; i++, y_ptr++) { apply_PX(y_ptr, i); }
 }
 
-template <typename eT> inline void DoubleShiftQR<eT>::apply_YQ(Mat<eT>& Y)
-{
+template <typename eT>
+inline void DoubleShiftQR<eT>::apply_YQ(Mat<eT>& Y) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::DoubleShiftQR::apply_YQ(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::DoubleShiftQR::apply_YQ(): need to call compute() first");
 
     uword nrow = Y.n_rows;
-    for(uword i = 0; i < n - 2; i++) {
-        apply_XP(Y, 0, i, nrow, 3, i);
-    }
+    for(uword i = 0; i < n - 2; i++) { apply_XP(Y, 0, i, nrow, 3, i); }
 
     apply_XP(Y, 0, n - 2, nrow, 2, n - 2);
 }

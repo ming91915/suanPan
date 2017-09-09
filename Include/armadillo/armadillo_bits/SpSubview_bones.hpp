@@ -16,8 +16,8 @@
 //! \addtogroup SpSubview
 //! @{
 
-template <typename eT> class SpSubview : public SpBase<eT, SpSubview<eT>>
-{
+template <typename eT>
+class SpSubview : public SpBase<eT, SpSubview<eT>> {
 public:
     const SpMat<eT>& m;
 
@@ -38,16 +38,8 @@ public:
     friend class SpValProxy<SpSubview<eT>>;
 
 protected:
-    arma_inline SpSubview(const SpMat<eT>& in_m,
-        const uword in_row1,
-        const uword in_col1,
-        const uword in_n_rows,
-        const uword in_n_cols);
-    arma_inline SpSubview(SpMat<eT>& in_m,
-        const uword in_row1,
-        const uword in_col1,
-        const uword in_n_rows,
-        const uword in_n_cols);
+    arma_inline SpSubview(const SpMat<eT>& in_m, const uword in_row1, const uword in_col1, const uword in_n_rows, const uword in_n_cols);
+    arma_inline SpSubview(SpMat<eT>& in_m, const uword in_row1, const uword in_col1, const uword in_n_rows, const uword in_n_cols);
 
 public:
     inline ~SpSubview();
@@ -59,22 +51,34 @@ public:
 
     inline const SpSubview& operator=(const SpSubview& x);
 
-    template <typename T1> inline const SpSubview& operator=(const Base<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator+=(const Base<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator-=(const Base<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator*=(const Base<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator%=(const Base<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator/=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator+=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator-=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator*=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator%=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator/=(const Base<eT, T1>& x);
 
     template <typename T1>
     inline const SpSubview& operator_equ_common(const SpBase<eT, T1>& x);
 
-    template <typename T1> inline const SpSubview& operator=(const SpBase<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator+=(const SpBase<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator-=(const SpBase<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator*=(const SpBase<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator%=(const SpBase<eT, T1>& x);
-    template <typename T1> inline const SpSubview& operator/=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator+=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator-=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator*=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator%=(const SpBase<eT, T1>& x);
+    template <typename T1>
+    inline const SpSubview& operator/=(const SpBase<eT, T1>& x);
 
     /*
     inline static void extract(SpMat<eT>& out, const SpSubview& in);
@@ -123,14 +127,8 @@ public:
     inline SpSubview cols(const uword in_col1, const uword in_col2);
     inline const SpSubview cols(const uword in_col1, const uword in_col2) const;
 
-    inline SpSubview submat(const uword in_row1,
-        const uword in_col1,
-        const uword in_row2,
-        const uword in_col2);
-    inline const SpSubview submat(const uword in_row1,
-        const uword in_col1,
-        const uword in_row2,
-        const uword in_col2) const;
+    inline SpSubview submat(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2);
+    inline const SpSubview submat(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2) const;
 
     inline SpSubview submat(const span& row_span, const span& col_span);
     inline const SpSubview submat(const span& row_span, const span& col_span) const;
@@ -156,22 +154,15 @@ public:
 
     // Similar to SpMat iterators but automatically iterates past and ignores values not
     // in the subview.
-    class iterator_base
-    {
+    class iterator_base {
     public:
         inline iterator_base(const SpSubview& in_M);
-        inline iterator_base(const SpSubview& in_M,
-            const uword col,
-            const uword pos,
-            const uword skip_pos);
+        inline iterator_base(const SpSubview& in_M, const uword col, const uword pos, const uword skip_pos);
 
         arma_inline eT operator*() const;
 
         // Don't hold location internally; call "dummy" methods to get that information.
-        arma_inline uword row() const
-        {
-            return M.m.row_indices[internal_pos + skip_pos] - M.aux_row1;
-        }
+        arma_inline uword row() const { return M.m.row_indices[internal_pos + skip_pos] - M.aux_row1; }
         arma_inline uword col() const { return internal_col; }
         arma_inline uword pos() const { return internal_pos; }
 
@@ -188,16 +179,11 @@ public:
         typedef const eT& reference;
     };
 
-    class const_iterator : public iterator_base
-    {
+    class const_iterator : public iterator_base {
     public:
         inline const_iterator(const SpSubview& in_M, uword initial_pos = 0);
         inline const_iterator(const SpSubview& in_M, uword in_row, uword in_col);
-        inline const_iterator(const SpSubview& in_M,
-            uword in_row,
-            uword in_col,
-            uword in_pos,
-            uword skip_pos);
+        inline const_iterator(const SpSubview& in_M, uword in_row, uword in_col, uword in_pos, uword skip_pos);
         inline const_iterator(const const_iterator& other);
 
         inline const_iterator& operator++();
@@ -219,29 +205,16 @@ public:
         inline bool operator==(const typename SpMat<eT>::const_row_iterator& rhs) const;
     };
 
-    class iterator : public const_iterator
-    {
+    class iterator : public const_iterator {
     public:
         inline iterator(SpSubview& in_M, const uword initial_pos = 0)
-            : const_iterator(in_M, initial_pos)
-        {
-        }
+            : const_iterator(in_M, initial_pos) {}
         inline iterator(SpSubview& in_M, const uword in_row, const uword in_col)
-            : const_iterator(in_M, in_row, in_col)
-        {
-        }
-        inline iterator(SpSubview& in_M,
-            const uword in_row,
-            const uword in_col,
-            const uword in_pos,
-            const uword in_skip_pos)
-            : const_iterator(in_M, in_row, in_col, in_pos, in_skip_pos)
-        {
-        }
+            : const_iterator(in_M, in_row, in_col) {}
+        inline iterator(SpSubview& in_M, const uword in_row, const uword in_col, const uword in_pos, const uword in_skip_pos)
+            : const_iterator(in_M, in_row, in_col, in_pos, in_skip_pos) {}
         inline iterator(const iterator& other)
-            : const_iterator(other)
-        {
-        }
+            : const_iterator(other) {}
 
         inline SpValProxy<SpSubview<eT>> operator*();
 
@@ -258,8 +231,7 @@ public:
         typedef const SpValProxy<SpSubview<eT>>& reference;
     };
 
-    class const_row_iterator : public iterator_base
-    {
+    class const_row_iterator : public iterator_base {
     public:
         inline const_row_iterator(const SpSubview& in_M, uword initial_pos = 0);
         inline const_row_iterator(const SpSubview& in_M, uword in_row, uword in_col);
@@ -271,9 +243,8 @@ public:
         inline const_row_iterator& operator--();
         inline const_row_iterator operator--(int);
 
-        uword
-            internal_row; // Hold row internally because we use internal_pos differently.
-        uword actual_pos; // Actual position in subview's parent matrix.
+        uword internal_row; // Hold row internally because we use internal_pos differently.
+        uword actual_pos;   // Actual position in subview's parent matrix.
 
         arma_inline eT operator*() const { return iterator_base::M.m.values[actual_pos]; }
 
@@ -292,21 +263,14 @@ public:
         inline bool operator==(const typename SpMat<eT>::const_row_iterator& rhs) const;
     };
 
-    class row_iterator : public const_row_iterator
-    {
+    class row_iterator : public const_row_iterator {
     public:
         inline row_iterator(SpSubview& in_M, uword initial_pos = 0)
-            : const_row_iterator(in_M, initial_pos)
-        {
-        }
+            : const_row_iterator(in_M, initial_pos) {}
         inline row_iterator(SpSubview& in_M, uword in_row, uword in_col)
-            : const_row_iterator(in_M, in_row, in_col)
-        {
-        }
+            : const_row_iterator(in_M, in_row, in_col) {}
         inline row_iterator(const row_iterator& other)
-            : const_row_iterator(other)
-        {
-        }
+            : const_row_iterator(other) {}
 
         inline SpValProxy<SpSubview<eT>> operator*();
 
@@ -347,8 +311,7 @@ private:
 
     // For use by SpValProxy.  We just update n_nonzero and pass the call on to the
     // matrix.
-    inline arma_hot arma_warn_unused eT&
-    add_element(const uword in_row, const uword in_col, const eT in_val = 0.0);
+    inline arma_hot arma_warn_unused eT& add_element(const uword in_row, const uword in_col, const eT in_val = 0.0);
     inline arma_hot void delete_element(const uword in_row, const uword in_col);
 };
 

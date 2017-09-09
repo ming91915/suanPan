@@ -16,8 +16,7 @@
 //! \addtogroup distr_param
 //! @{
 
-class distr_param
-{
+class distr_param {
 public:
     uword state;
 
@@ -32,23 +31,17 @@ public:
     };
 
     inline distr_param()
-        : state(0)
-    {
-    }
+        : state(0) {}
 
     inline explicit distr_param(const int a, const int b)
         : state(1)
         , a_int(a)
-        , b_int(b)
-    {
-    }
+        , b_int(b) {}
 
     inline explicit distr_param(const double a, const double b)
         : state(2)
         , a_double(a)
-        , b_double(b)
-    {
-    }
+        , b_double(b) {}
 };
 
 //! @}

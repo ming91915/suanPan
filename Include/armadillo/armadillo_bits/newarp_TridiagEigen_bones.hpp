@@ -13,13 +13,12 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 //! Calculate the eigenvalues and eigenvectors of a symmetric tridiagonal matrix.
 //! This class is a wrapper of the Lapack functions `_steqr`.
-template <typename eT> class TridiagEigen
-{
+template <typename eT>
+class TridiagEigen {
 private:
     blas_int n;
     Col<eT> main_diag; // Main diagonal elements of the matrix

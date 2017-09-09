@@ -17,8 +17,7 @@
 //! @{
 
 template <typename eT>
-inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim)
-{
+inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     const uword X_n_rows = X.n_rows;
@@ -30,9 +29,7 @@ inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword d
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = arrayops::product(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = arrayops::product(X.colptr(col), X_n_rows); }
     } else // traverse across columns (i.e. find the product in each row)
     {
         out.ones(X_n_rows, 1);
@@ -42,16 +39,13 @@ inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword d
         for(uword col = 0; col < X_n_cols; ++col) {
             const eT* X_col_mem = X.colptr(col);
 
-            for(uword row = 0; row < X_n_rows; ++row) {
-                out_mem[row] *= X_col_mem[row];
-            }
+            for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] *= X_col_mem[row]; }
         }
     }
 }
 
 template <typename T1>
-inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in)
-{
+inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -73,8 +67,8 @@ inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pro
     }
 }
 
-template <typename eT> inline eT op_prod::prod(const subview<eT>& X)
-{
+template <typename eT>
+inline eT op_prod::prod(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     eT val = eT(1);
@@ -96,21 +90,16 @@ template <typename eT> inline eT op_prod::prod(const subview<eT>& X)
             val *= A.at(start_row, j);
         }
 
-        if(i < end_col_p1) {
-            val *= A.at(start_row, i);
-        }
+        if(i < end_col_p1) { val *= A.at(start_row, i); }
     } else {
-        for(uword col = 0; col < X_n_cols; ++col) {
-            val *= arrayops::product(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { val *= arrayops::product(X.colptr(col), X_n_rows); }
     }
 
     return val;
 }
 
 template <typename T1>
-inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T1>& X)
-{
+inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -132,9 +121,7 @@ inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T
             val *= A[j];
         }
 
-        if(i < n_elem) {
-            val *= A[i];
-        }
+        if(i < n_elem) { val *= A[i]; }
     } else {
         const uword n_rows = P.get_n_rows();
         const uword n_cols = P.get_n_cols();
@@ -146,9 +133,7 @@ inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T
                 val *= P.at(0, j);
             }
 
-            if(i < n_cols) {
-                val *= P.at(0, i);
-            }
+            if(i < n_cols) { val *= P.at(0, i); }
         } else {
             for(uword col = 0; col < n_cols; ++col) {
                 uword i, j;
@@ -157,9 +142,7 @@ inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T
                     val *= P.at(j, col);
                 }
 
-                if(i < n_rows) {
-                    val *= P.at(i, col);
-                }
+                if(i < n_rows) { val *= P.at(i, col); }
             }
         }
     }

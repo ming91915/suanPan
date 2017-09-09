@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_nonzeros::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P)
-{
+inline void op_nonzeros::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -62,9 +60,7 @@ inline void op_nonzeros::apply_noalias(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_nonzeros::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_nonzeros>& X)
-{
+inline void op_nonzeros::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_nonzeros>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -88,9 +84,7 @@ inline void op_nonzeros::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_nonzeros::apply_noalias(Mat<typename T1::elem_type>& out,
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+inline void op_nonzeros::apply_noalias(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,27 +16,23 @@
 //! \addtogroup podarray
 //! @{
 
-template <typename eT> arma_hot inline podarray<eT>::~podarray()
-{
+template <typename eT>
+arma_hot inline podarray<eT>::~podarray() {
     arma_extra_debug_sigprint_this(this);
 
-    if(n_elem > podarray_prealloc_n_elem::val) {
-        memory::release(mem);
-    }
+    if(n_elem > podarray_prealloc_n_elem::val) { memory::release(mem); }
 }
 
 template <typename eT>
 inline podarray<eT>::podarray()
     : n_elem(0)
-    , mem(0)
-{
+    , mem(0) {
     arma_extra_debug_sigprint_this(this);
 }
 
 template <typename eT>
 inline podarray<eT>::podarray(const podarray& x)
-    : n_elem(x.n_elem)
-{
+    : n_elem(x.n_elem) {
     arma_extra_debug_sigprint();
 
     const uword x_n_elem = x.n_elem;
@@ -47,8 +43,7 @@ inline podarray<eT>::podarray(const podarray& x)
 }
 
 template <typename eT>
-inline const podarray<eT>& podarray<eT>::operator=(const podarray& x)
-{
+inline const podarray<eT>& podarray<eT>::operator=(const podarray& x) {
     arma_extra_debug_sigprint();
 
     if(this != &x) {
@@ -64,8 +59,7 @@ inline const podarray<eT>& podarray<eT>::operator=(const podarray& x)
 
 template <typename eT>
 arma_hot arma_inline podarray<eT>::podarray(const uword new_n_elem)
-    : n_elem(new_n_elem)
-{
+    : n_elem(new_n_elem) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold(new_n_elem);
@@ -73,8 +67,7 @@ arma_hot arma_inline podarray<eT>::podarray(const uword new_n_elem)
 
 template <typename eT>
 arma_inline podarray<eT>::podarray(const eT* X, const uword new_n_elem)
-    : n_elem(new_n_elem)
-{
+    : n_elem(new_n_elem) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold(new_n_elem);
@@ -85,8 +78,7 @@ arma_inline podarray<eT>::podarray(const eT* X, const uword new_n_elem)
 template <typename eT>
 template <typename T1>
 inline podarray<eT>::podarray(const Proxy<T1>& P)
-    : n_elem(P.get_n_elem())
-{
+    : n_elem(P.get_n_elem()) {
     arma_extra_debug_sigprint_this(this);
 
     const uword P_n_elem = P.get_n_elem();
@@ -107,9 +99,7 @@ inline podarray<eT>::podarray(const Proxy<T1>& P)
             out_mem[j] = val_j;
         }
 
-        if(i < P_n_elem) {
-            out_mem[i] = A[i];
-        }
+        if(i < P_n_elem) { out_mem[i] = A[i]; }
     } else {
         const uword P_n_rows = P.get_n_rows();
         const uword P_n_cols = P.get_n_cols();
@@ -118,80 +108,74 @@ inline podarray<eT>::podarray(const Proxy<T1>& P)
             uword count = 0;
 
             for(uword col = 0; col < P_n_cols; ++col)
-                for(uword row = 0; row < P_n_rows; ++row, ++count) {
-                    out_mem[count] = P.at(row, col);
-                }
+                for(uword row = 0; row < P_n_rows; ++row, ++count) { out_mem[count] = P.at(row, col); }
         } else {
-            for(uword col = 0; col < P_n_cols; ++col) {
-                out_mem[col] = P.at(0, col);
-            }
+            for(uword col = 0; col < P_n_cols; ++col) { out_mem[col] = P.at(0, col); }
         }
     }
 }
 
-template <typename eT> arma_inline eT podarray<eT>::operator[](const uword i) const
-{
+template <typename eT>
+arma_inline eT podarray<eT>::operator[](const uword i) const {
     return mem[i];
 }
 
-template <typename eT> arma_inline eT& podarray<eT>::operator[](const uword i)
-{
+template <typename eT>
+arma_inline eT& podarray<eT>::operator[](const uword i) {
     return access::rw(mem[i]);
 }
 
-template <typename eT> arma_inline eT podarray<eT>::operator()(const uword i) const
-{
+template <typename eT>
+arma_inline eT podarray<eT>::operator()(const uword i) const {
     arma_debug_check((i >= n_elem), "podarray::operator(): index out of bounds");
 
     return mem[i];
 }
 
-template <typename eT> arma_inline eT& podarray<eT>::operator()(const uword i)
-{
+template <typename eT>
+arma_inline eT& podarray<eT>::operator()(const uword i) {
     arma_debug_check((i >= n_elem), "podarray::operator(): index out of bounds");
 
     return access::rw(mem[i]);
 }
 
-template <typename eT> inline void podarray<eT>::set_min_size(const uword min_n_elem)
-{
+template <typename eT>
+inline void podarray<eT>::set_min_size(const uword min_n_elem) {
     arma_extra_debug_sigprint();
 
-    if(min_n_elem > n_elem) {
-        init_warm(min_n_elem);
-    }
+    if(min_n_elem > n_elem) { init_warm(min_n_elem); }
 }
 
-template <typename eT> inline void podarray<eT>::set_size(const uword new_n_elem)
-{
+template <typename eT>
+inline void podarray<eT>::set_size(const uword new_n_elem) {
     arma_extra_debug_sigprint();
 
     init_warm(new_n_elem);
 }
 
-template <typename eT> inline void podarray<eT>::reset()
-{
+template <typename eT>
+inline void podarray<eT>::reset() {
     arma_extra_debug_sigprint();
 
     init_warm(0);
 }
 
-template <typename eT> inline void podarray<eT>::fill(const eT val)
-{
+template <typename eT>
+inline void podarray<eT>::fill(const eT val) {
     arma_extra_debug_sigprint();
 
     arrayops::inplace_set(memptr(), val, n_elem);
 }
 
-template <typename eT> inline void podarray<eT>::zeros()
-{
+template <typename eT>
+inline void podarray<eT>::zeros() {
     arma_extra_debug_sigprint();
 
     arrayops::fill_zeros(memptr(), n_elem);
 }
 
-template <typename eT> inline void podarray<eT>::zeros(const uword new_n_elem)
-{
+template <typename eT>
+inline void podarray<eT>::zeros(const uword new_n_elem) {
     arma_extra_debug_sigprint();
 
     init_warm(new_n_elem);
@@ -199,13 +183,18 @@ template <typename eT> inline void podarray<eT>::zeros(const uword new_n_elem)
     arrayops::fill_zeros(memptr(), n_elem);
 }
 
-template <typename eT> arma_inline eT* podarray<eT>::memptr() { return mem; }
-
-template <typename eT> arma_inline const eT* podarray<eT>::memptr() const { return mem; }
+template <typename eT>
+arma_inline eT* podarray<eT>::memptr() {
+    return mem;
+}
 
 template <typename eT>
-arma_hot inline void podarray<eT>::copy_row(const Mat<eT>& A, const uword row)
-{
+arma_inline const eT* podarray<eT>::memptr() const {
+    return mem;
+}
+
+template <typename eT>
+arma_hot inline void podarray<eT>::copy_row(const Mat<eT>& A, const uword row) {
     const uword cols = A.n_cols;
 
     // note: this function assumes that the podarray has been set to the correct size
@@ -223,9 +212,7 @@ arma_hot inline void podarray<eT>::copy_row(const Mat<eT>& A, const uword row)
             out[j] = tmp_j;
         }
 
-        if(i < cols) {
-            out[i] = A.at(row, i);
-        }
+        if(i < cols) { out[i] = A.at(row, i); }
     } break;
 
     case 8:
@@ -249,8 +236,7 @@ arma_hot inline void podarray<eT>::copy_row(const Mat<eT>& A, const uword row)
 }
 
 template <typename eT>
-arma_hot inline void podarray<eT>::init_cold(const uword new_n_elem)
-{
+arma_hot inline void podarray<eT>::init_cold(const uword new_n_elem) {
     arma_extra_debug_sigprint();
 
     if(new_n_elem <= podarray_prealloc_n_elem::val) {
@@ -260,17 +246,13 @@ arma_hot inline void podarray<eT>::init_cold(const uword new_n_elem)
     }
 }
 
-template <typename eT> inline void podarray<eT>::init_warm(const uword new_n_elem)
-{
+template <typename eT>
+inline void podarray<eT>::init_warm(const uword new_n_elem) {
     arma_extra_debug_sigprint();
 
-    if(n_elem == new_n_elem) {
-        return;
-    }
+    if(n_elem == new_n_elem) { return; }
 
-    if(n_elem > podarray_prealloc_n_elem::val) {
-        memory::release(mem);
-    }
+    if(n_elem > podarray_prealloc_n_elem::val) { memory::release(mem); }
 
     if(new_n_elem <= podarray_prealloc_n_elem::val) {
         mem = mem_local;

@@ -13,19 +13,13 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k,
-    uword to_m,
-    const Col<eT>& fk)
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k, uword to_m, const Col<eT>& fk) {
     arma_extra_debug_sigprint();
 
-    if(to_m <= from_k) {
-        return;
-    }
+    if(to_m <= from_k) { return; }
 
     fac_f = fk;
 
@@ -81,9 +75,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_
         fac_f = w - Vs * h;
         beta = norm(fac_f);
 
-        if(beta > 0.717 * norm(h)) {
-            continue;
-        }
+        if(beta > 0.717 * norm(h)) { continue; }
 
         // f/||f|| is going to be the next column of V, so we need to test
         // whether V' * (f/||f||) ~= 0
@@ -105,13 +97,10 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k)
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
     arma_extra_debug_sigprint();
 
-    if(k >= ncv) {
-        return;
-    }
+    if(k >= ncv) { return; }
 
     DoubleShiftQR<eT> decomp_ds(ncv);
     UpperHessenbergQR<eT> decomp;
@@ -119,8 +108,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k)
     Mat<eT> Q(ncv, ncv, fill::eye);
 
     for(uword i = k; i < ncv; i++) {
-        if(cx_attrib::is_complex(ritz_val(i), eT(0)) && (i < (ncv - 1)) &&
-            cx_attrib::is_conj(ritz_val(i), ritz_val(i + 1), eT(0))) {
+        if(cx_attrib::is_complex(ritz_val(i), eT(0)) && (i < (ncv - 1)) && cx_attrib::is_conj(ritz_val(i), ritz_val(i + 1), eT(0))) {
             // H - mu * I = Q1 * R1
             // H <- R1 * Q1 + mu * I = Q1' * H * Q1
             // H - conj(mu) * I = Q2 * R2
@@ -171,8 +159,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k)
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol)
-{
+inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
     arma_extra_debug_sigprint();
 
     // thresh = tol * max(prec, abs(theta)), theta for ritz value
@@ -187,16 +174,13 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol)
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv)
-{
+inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv) {
     arma_extra_debug_sigprint();
 
     uword nev_new = nev;
 
     for(uword i = nev; i < ncv; i++) {
-        if(std::abs(ritz_est(i)) < eps) {
-            nev_new++;
-        }
+        if(std::abs(ritz_est(i)) < eps) { nev_new++; }
     }
     // Adjust nev_new again, according to dnaup2.f line 660~674 in ARPACK
     nev_new += std::min(nconv, (ncv - nev_new) / 2);
@@ -206,23 +190,17 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv)
         nev_new = 2;
     }
 
-    if(nev_new > ncv - 2) {
-        nev_new = ncv - 2;
-    }
+    if(nev_new > ncv - 2) { nev_new = ncv - 2; }
 
     // Increase nev by one if ritz_val[nev - 1] and
     // ritz_val[nev] are conjugate pairs
-    if(cx_attrib::is_complex(ritz_val(nev_new - 1), eps) &&
-        cx_attrib::is_conj(ritz_val(nev_new - 1), ritz_val(nev_new), eps)) {
-        nev_new++;
-    }
+    if(cx_attrib::is_complex(ritz_val(nev_new - 1), eps) && cx_attrib::is_conj(ritz_val(nev_new - 1), ritz_val(nev_new), eps)) { nev_new++; }
 
     return nev_new;
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair()
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
     arma_extra_debug_sigprint();
 
     UpperHessenbergEigen<eT> decomp(fac_H);
@@ -238,14 +216,11 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair()
         ritz_val(i) = evals(ind[i]);
         ritz_est(i) = evecs(ncv - 1, ind[i]);
     }
-    for(uword i = 0; i < nev; i++) {
-        ritz_vec.col(i) = evecs.col(ind[i]);
-    }
+    for(uword i = 0; i < nev; i++) { ritz_vec.col(i) = evecs.col(ind[i]); }
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair()
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair() {
     arma_extra_debug_sigprint();
 
     // SortEigenvalue< std::complex<eT>, EigsSelect::LARGEST_MAGN >
@@ -272,9 +247,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair()
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline GenEigsSolver<eT, SelectionRule, OpType>::GenEigsSolver(const OpType& op_,
-    uword nev_,
-    uword ncv_)
+inline GenEigsSolver<eT, SelectionRule, OpType>::GenEigsSolver(const OpType& op_, uword nev_, uword ncv_)
     : op(op_)
     , nev(nev_)
     , dim_n(op.n_rows)
@@ -282,21 +255,21 @@ inline GenEigsSolver<eT, SelectionRule, OpType>::GenEigsSolver(const OpType& op_
     , nmatop(0)
     , niter(0)
     , eps(std::numeric_limits<eT>::epsilon())
-    , approx0(std::pow(eps, eT(2.0) / 3))
-{
+    , approx0(std::pow(eps, eT(2.0) / 3)) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((nev_ < 1 || nev_ > dim_n - 2), "newarp::GenEigsSolver: nev must "
-                                                     "satisfy 1 <= nev <= n - 2, n is "
-                                                     "the size of matrix");
-    arma_debug_check((ncv_ < nev_ + 2 || ncv_ > dim_n), "newarp::GenEigsSolver: ncv must "
-                                                        "satisfy nev + 2 <= ncv <= n, n "
-                                                        "is the size of matrix");
+    arma_debug_check((nev_ < 1 || nev_ > dim_n - 2),
+        "newarp::GenEigsSolver: nev must "
+        "satisfy 1 <= nev <= n - 2, n is "
+        "the size of matrix");
+    arma_debug_check((ncv_ < nev_ + 2 || ncv_ > dim_n),
+        "newarp::GenEigsSolver: ncv must "
+        "satisfy nev + 2 <= ncv <= n, n "
+        "is the size of matrix");
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid)
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
     arma_extra_debug_sigprint();
 
     // Reset all matrices/vectors to zero
@@ -315,8 +288,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid)
     // The first column of fac_V
     Col<eT> v(fac_V.colptr(0), dim_n, false);
     eT rnorm = norm(r);
-    arma_check((rnorm < eps),
-        "newarp::GenEigsSolver::init(): initial residual vector cannot be zero");
+    arma_check((rnorm < eps), "newarp::GenEigsSolver::init(): initial residual vector cannot be zero");
     v = r / rnorm;
 
     Col<eT> w(dim_n);
@@ -328,8 +300,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid)
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::init()
-{
+inline void GenEigsSolver<eT, SelectionRule, OpType>::init() {
     arma_extra_debug_sigprint();
 
     podarray<eT> init_resid(dim_n);
@@ -341,8 +312,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::init()
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol)
-{
+inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol) {
     arma_extra_debug_sigprint();
 
     // The m-step Arnoldi factorisation
@@ -352,9 +322,7 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT t
     uword i, nconv = 0, nev_adj;
     for(i = 0; i < maxit; i++) {
         nconv = num_converged(tol);
-        if(nconv >= nev) {
-            break;
-        }
+        if(nconv >= nev) { break; }
 
         nev_adj = nev_adjusted(nconv);
         restart(nev_adj);
@@ -368,8 +336,7 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT t
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues()
-{
+inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);
@@ -389,9 +356,7 @@ inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalu
 }
 
 template <typename eT, int SelectionRule, typename OpType>
-inline Mat<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(
-    uword nvec)
-{
+inline Mat<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(uword nvec) {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);

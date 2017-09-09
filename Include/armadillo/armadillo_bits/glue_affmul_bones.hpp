@@ -16,16 +16,13 @@
 //! \addtogroup glue_affmul
 //! @{
 
-class glue_affmul
-{
+class glue_affmul {
 public:
     template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Glue<T1, T2, glue_affmul>& X);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_affmul>& X);
 
     template <typename T1, typename T2>
-    inline static void
-    apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const T2& B);
+    inline static void apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const T2& B);
 };
 
 //! @}

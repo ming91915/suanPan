@@ -13,11 +13,10 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
-template <typename eT> class DoubleShiftQR
-{
+template <typename eT>
+class DoubleShiftQR {
 private:
     uword n;                    // Dimension of the matrix
     Mat<eT> mat_H;              // A copy of the matrix to be factorised
@@ -41,16 +40,14 @@ private:
 
     // P = I - 2 * u * u' = P'
     // PX = X - 2 * u * (u'X)
-    inline void
-    apply_PX(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind);
+    inline void apply_PX(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind);
 
     // x is a pointer to a vector
     // Px = x - 2 * dot(x, u) * u
     inline void apply_PX(eT* x, uword u_ind);
 
     // XP = X - 2 * (X * u) * u'
-    inline void
-    apply_XP(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind);
+    inline void apply_XP(Mat<eT>& X, uword oi, uword oj, uword nrow, uword ncol, uword u_ind);
 
 public:
     inline DoubleShiftQR(uword size);

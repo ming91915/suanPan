@@ -17,8 +17,7 @@
 //! @{
 
 template <typename eT>
-inline void op_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const uword norm_type)
-{
+inline void op_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(A.is_vec()) {
@@ -40,10 +39,7 @@ inline void op_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const uword norm_
 }
 
 template <typename T>
-inline void op_cov::direct_cov(Mat<std::complex<T>>& out,
-    const Mat<std::complex<T>>& A,
-    const uword norm_type)
-{
+inline void op_cov::direct_cov(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -71,8 +67,7 @@ inline void op_cov::direct_cov(Mat<std::complex<T>>& out,
 }
 
 template <typename T1>
-inline void op_cov::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cov>& in)
-{
+inline void op_cov::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cov>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

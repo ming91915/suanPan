@@ -16,12 +16,10 @@
 //! \addtogroup mtOpCube
 //! @{
 
-struct mtOpCube_dual_aux_indicator {
-};
+struct mtOpCube_dual_aux_indicator {};
 
 template <typename out_eT, typename T1, typename op_type>
-class mtOpCube : public BaseCube<out_eT, mtOpCube<out_eT, T1, op_type>>
-{
+class mtOpCube : public BaseCube<out_eT, mtOpCube<out_eT, T1, op_type>> {
 public:
     typedef out_eT elem_type;
     typedef typename get_pod_type<out_eT>::result pod_type;
@@ -30,28 +28,17 @@ public:
 
     inline explicit mtOpCube(const T1& in_m);
     inline mtOpCube(const T1& in_m, const in_eT in_aux);
-    inline mtOpCube(const T1& in_m,
-        const uword in_aux_uword_a,
-        const uword in_aux_uword_b,
-        const uword in_aux_uword_c);
-    inline mtOpCube(const T1& in_m,
-        const in_eT in_aux,
-        const uword in_aux_uword_a,
-        const uword in_aux_uword_b,
-        const uword in_aux_uword_c);
+    inline mtOpCube(const T1& in_m, const uword in_aux_uword_a, const uword in_aux_uword_b, const uword in_aux_uword_c);
+    inline mtOpCube(const T1& in_m, const in_eT in_aux, const uword in_aux_uword_a, const uword in_aux_uword_b, const uword in_aux_uword_c);
 
     inline mtOpCube(const char junk, const T1& in_m, const out_eT in_aux);
 
-    inline mtOpCube(const mtOpCube_dual_aux_indicator&,
-        const T1& in_m,
-        const in_eT in_aux_a,
-        const out_eT in_aux_b);
+    inline mtOpCube(const mtOpCube_dual_aux_indicator&, const T1& in_m, const in_eT in_aux_a, const out_eT in_aux_b);
 
     inline ~mtOpCube();
 
-    arma_aligned const T1& m; //!< storage of reference to the operand (eg. a matrix)
-    arma_aligned in_eT
-        aux; //!< storage of auxiliary data, using the element type as used by T1
+    arma_aligned const T1& m;       //!< storage of reference to the operand (eg. a matrix)
+    arma_aligned in_eT aux;         //!< storage of auxiliary data, using the element type as used by T1
     arma_aligned out_eT aux_out_eT; //!< storage of auxiliary data, using the element type
                                     //! as specified by the out_eT template parameter
     arma_aligned uword aux_uword_a; //!< storage of auxiliary data, uword format

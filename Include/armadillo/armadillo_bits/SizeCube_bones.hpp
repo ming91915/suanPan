@@ -16,16 +16,13 @@
 //! \addtogroup SizeCube
 //! @{
 
-class SizeCube
-{
+class SizeCube {
 public:
     const uword n_rows;
     const uword n_cols;
     const uword n_slices;
 
-    inline explicit SizeCube(const uword in_n_rows,
-        const uword in_n_cols,
-        const uword in_n_slices);
+    inline explicit SizeCube(const uword in_n_rows, const uword in_n_cols, const uword in_n_slices);
 
     inline uword operator[](const uword dim) const;
     inline uword operator()(const uword dim) const;

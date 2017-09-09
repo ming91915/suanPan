@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-inline void glue_affmul::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_affmul>& X)
-{
+inline void glue_affmul::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_affmul>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,9 +39,7 @@ inline void glue_affmul::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void
-glue_affmul::apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const T2& B)
-{
+inline void glue_affmul::apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -57,9 +53,7 @@ glue_affmul::apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const 
 
     out.set_size(N, B_n_cols);
 
-    if(out.n_elem == 0) {
-        return;
-    }
+    if(out.n_elem == 0) { return; }
 
     const eT* A_mem = A.memptr();
 
@@ -156,16 +150,11 @@ glue_affmul::apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const 
             const eT z = B_mem[2];
             const eT w = B_mem[3];
 
-            out_mem[0] =
-                A_mem[0] * x + A_mem[5] * y + A_mem[10] * z + A_mem[15] * w + A_mem[20];
-            out_mem[1] =
-                A_mem[1] * x + A_mem[6] * y + A_mem[11] * z + A_mem[16] * w + A_mem[21];
-            out_mem[2] =
-                A_mem[2] * x + A_mem[7] * y + A_mem[12] * z + A_mem[17] * w + A_mem[22];
-            out_mem[3] =
-                A_mem[3] * x + A_mem[8] * y + A_mem[13] * z + A_mem[18] * w + A_mem[23];
-            out_mem[4] =
-                A_mem[4] * x + A_mem[9] * y + A_mem[14] * z + A_mem[19] * w + A_mem[24];
+            out_mem[0] = A_mem[0] * x + A_mem[5] * y + A_mem[10] * z + A_mem[15] * w + A_mem[20];
+            out_mem[1] = A_mem[1] * x + A_mem[6] * y + A_mem[11] * z + A_mem[16] * w + A_mem[21];
+            out_mem[2] = A_mem[2] * x + A_mem[7] * y + A_mem[12] * z + A_mem[17] * w + A_mem[22];
+            out_mem[3] = A_mem[3] * x + A_mem[8] * y + A_mem[13] * z + A_mem[18] * w + A_mem[23];
+            out_mem[4] = A_mem[4] * x + A_mem[9] * y + A_mem[14] * z + A_mem[19] * w + A_mem[24];
         } else
             for(uword col = 0; col < B_n_cols; ++col) {
                 const eT* B_mem = B.colptr(col);
@@ -176,16 +165,11 @@ glue_affmul::apply_noalias(Mat<typename T1::elem_type>& out, const T1& A, const 
                 const eT z = B_mem[2];
                 const eT w = B_mem[3];
 
-                out_mem[0] = A_mem[0] * x + A_mem[5] * y + A_mem[10] * z + A_mem[15] * w +
-                    A_mem[20];
-                out_mem[1] = A_mem[1] * x + A_mem[6] * y + A_mem[11] * z + A_mem[16] * w +
-                    A_mem[21];
-                out_mem[2] = A_mem[2] * x + A_mem[7] * y + A_mem[12] * z + A_mem[17] * w +
-                    A_mem[22];
-                out_mem[3] = A_mem[3] * x + A_mem[8] * y + A_mem[13] * z + A_mem[18] * w +
-                    A_mem[23];
-                out_mem[4] = A_mem[4] * x + A_mem[9] * y + A_mem[14] * z + A_mem[19] * w +
-                    A_mem[24];
+                out_mem[0] = A_mem[0] * x + A_mem[5] * y + A_mem[10] * z + A_mem[15] * w + A_mem[20];
+                out_mem[1] = A_mem[1] * x + A_mem[6] * y + A_mem[11] * z + A_mem[16] * w + A_mem[21];
+                out_mem[2] = A_mem[2] * x + A_mem[7] * y + A_mem[12] * z + A_mem[17] * w + A_mem[22];
+                out_mem[3] = A_mem[3] * x + A_mem[8] * y + A_mem[13] * z + A_mem[18] * w + A_mem[23];
+                out_mem[4] = A_mem[4] * x + A_mem[9] * y + A_mem[14] * z + A_mem[19] * w + A_mem[24];
             }
     } break;
 

@@ -16,26 +16,20 @@
 //! \addtogroup fn_eye
 //! @{
 
-arma_warn_unused arma_inline const Gen<mat, gen_eye> eye(const uword n_rows,
-    const uword n_cols)
-{
+arma_warn_unused arma_inline const Gen<mat, gen_eye> eye(const uword n_rows, const uword n_cols) {
     arma_extra_debug_sigprint();
 
     return Gen<mat, gen_eye>(n_rows, n_cols);
 }
 
-arma_warn_unused arma_inline const Gen<mat, gen_eye> eye(const SizeMat& s)
-{
+arma_warn_unused arma_inline const Gen<mat, gen_eye> eye(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     return Gen<mat, gen_eye>(s.n_rows, s.n_cols);
 }
 
 template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const uword n_rows,
-    const uword n_cols,
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -49,9 +43,7 @@ arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const uword n_rows
 }
 
 template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const SizeMat& s,
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -59,10 +51,7 @@ arma_warn_unused arma_inline const Gen<obj_type, gen_eye> eye(const SizeMat& s,
 }
 
 template <typename obj_type>
-arma_warn_unused inline obj_type eye(const uword n_rows,
-    const uword n_cols,
-    const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL)
-{
+arma_warn_unused inline obj_type eye(const uword n_rows, const uword n_cols, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -80,9 +69,7 @@ arma_warn_unused inline obj_type eye(const uword n_rows,
 }
 
 template <typename obj_type>
-arma_warn_unused inline obj_type eye(const SizeMat& s,
-    const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL)
-{
+arma_warn_unused inline obj_type eye(const SizeMat& s, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

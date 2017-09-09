@@ -52,10 +52,11 @@
 //! \addtogroup fft_engine
 //! @{
 
-template <typename cx_type, uword fixed_N, bool> struct store {
-};
+template <typename cx_type, uword fixed_N, bool>
+struct store {};
 
-template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, true> {
+template <typename cx_type, uword fixed_N>
+struct store<cx_type, fixed_N, true> {
     static const uword N = fixed_N;
 
     arma_aligned cx_type coeffs_array[fixed_N];
@@ -67,18 +68,16 @@ template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, true> 
     arma_inline const cx_type* coeffs_ptr() const { return &coeffs_array[0]; }
 };
 
-template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, false> {
+template <typename cx_type, uword fixed_N>
+struct store<cx_type, fixed_N, false> {
     const uword N;
 
     podarray<cx_type> coeffs_array;
 
     inline store()
-        : N(0)
-    {
-    }
+        : N(0) {}
     inline store(uword in_N)
-        : N(in_N)
-    {
+        : N(in_N) {
         coeffs_array.set_size(N);
     }
 
@@ -87,8 +86,7 @@ template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, false>
 };
 
 template <typename cx_type, bool inverse, uword fixed_N = 0>
-class fft_engine : public store<cx_type, fixed_N, (fixed_N > 0)>
-{
+class fft_engine : public store<cx_type, fixed_N, (fixed_N > 0)> {
 public:
     typedef typename get_pod_type<cx_type>::result T;
 
@@ -100,8 +98,8 @@ public:
 
     podarray<cx_type> tmp_array;
 
-    template <bool fill> inline uword calc_radix()
-    {
+    template <bool fill>
+    inline uword calc_radix() {
         uword i = 0;
 
         for(uword n = N, r = 4; n >= 2; ++i) {
@@ -118,9 +116,7 @@ public:
                     break;
                 }
 
-                if(r * r > n) {
-                    r = n;
-                }
+                if(r * r > n) { r = n; }
             }
 
             n /= r;
@@ -135,8 +131,7 @@ public:
     }
 
     inline fft_engine(const uword in_N)
-        : store<cx_type, fixed_N, (fixed_N > 0)>(in_N)
-    {
+        : store<cx_type, fixed_N, (fixed_N > 0)>(in_N) {
         arma_extra_debug_sigprint();
 
         const uword len = calc_radix<false>();
@@ -152,13 +147,10 @@ public:
 
         const T k = T((inverse) ? +2 : -2) * std::acos(T(-1)) / T(N);
 
-        for(uword i = 0; i < N; ++i) {
-            coeffs[i] = std::exp(cx_type(T(0), i * k));
-        }
+        for(uword i = 0; i < N; ++i) { coeffs[i] = std::exp(cx_type(T(0), i * k)); }
     }
 
-    arma_hot inline void butterfly_2(cx_type* Y, const uword stride, const uword m)
-    {
+    arma_hot inline void butterfly_2(cx_type* Y, const uword stride, const uword m) {
         arma_extra_debug_sigprint();
 
         const cx_type* coeffs = coeffs_ptr();
@@ -171,8 +163,7 @@ public:
         }
     }
 
-    arma_hot inline void butterfly_3(cx_type* Y, const uword stride, const uword m)
-    {
+    arma_hot inline void butterfly_3(cx_type* Y, const uword stride, const uword m) {
         arma_extra_debug_sigprint();
 
         arma_aligned cx_type tmp[5];
@@ -195,8 +186,7 @@ public:
 
             tmp[3] = tmp[1] + tmp[2];
 
-            Y[m] = cx_type((Y[0].real() - (T(0.5) * tmp[3].real())),
-                (Y[0].imag() - (T(0.5) * tmp[3].imag())));
+            Y[m] = cx_type((Y[0].real() - (T(0.5) * tmp[3].real())), (Y[0].imag() - (T(0.5) * tmp[3].imag())));
 
             Y[0] += tmp[3];
 
@@ -211,8 +201,7 @@ public:
         }
     }
 
-    arma_hot inline void butterfly_4(cx_type* Y, const uword stride, const uword m)
-    {
+    arma_hot inline void butterfly_4(cx_type* Y, const uword stride, const uword m) {
         arma_extra_debug_sigprint();
 
         arma_aligned cx_type tmp[7];
@@ -233,10 +222,7 @@ public:
             // tmp[4] = (inverse) ? cx_type( -(tmp[4].imag()), tmp[4].real() ) : cx_type(
             // tmp[4].imag(), -tmp[4].real() );
 
-            tmp[4] = (inverse) ?
-                cx_type(
-                    (tmp[2].imag() - tmp[0].imag()), (tmp[0].real() - tmp[2].real())) :
-                cx_type((tmp[0].imag() - tmp[2].imag()), (tmp[2].real() - tmp[0].real()));
+            tmp[4] = (inverse) ? cx_type((tmp[2].imag() - tmp[0].imag()), (tmp[0].real() - tmp[2].real())) : cx_type((tmp[0].imag() - tmp[2].imag()), (tmp[2].real() - tmp[0].real()));
 
             tmp[1] = Y[i + m2] * coeffs[i * stride * 2];
             tmp[5] = Y[i] - tmp[1];
@@ -249,8 +235,7 @@ public:
         }
     }
 
-    inline arma_hot void butterfly_5(cx_type* Y, const uword stride, const uword m)
-    {
+    inline arma_hot void butterfly_5(cx_type* Y, const uword stride, const uword m) {
         arma_extra_debug_sigprint();
 
         arma_aligned cx_type tmp[13];
@@ -285,22 +270,16 @@ public:
             (*Y0) += tmp[7];
             (*Y0) += tmp[8];
 
-            tmp[5] =
-                tmp[0] + cx_type(((tmp[7].real() * a_real) + (tmp[8].real() * b_real)),
-                             ((tmp[7].imag() * a_real) + (tmp[8].imag() * b_real)));
+            tmp[5] = tmp[0] + cx_type(((tmp[7].real() * a_real) + (tmp[8].real() * b_real)), ((tmp[7].imag() * a_real) + (tmp[8].imag() * b_real)));
 
-            tmp[6] = cx_type(((tmp[10].imag() * a_imag) + (tmp[9].imag() * b_imag)),
-                (-(tmp[10].real() * a_imag) - (tmp[9].real() * b_imag)));
+            tmp[6] = cx_type(((tmp[10].imag() * a_imag) + (tmp[9].imag() * b_imag)), (-(tmp[10].real() * a_imag) - (tmp[9].real() * b_imag)));
 
             (*Y1) = tmp[5] - tmp[6];
             (*Y4) = tmp[5] + tmp[6];
 
-            tmp[11] =
-                tmp[0] + cx_type(((tmp[7].real() * b_real) + (tmp[8].real() * a_real)),
-                             ((tmp[7].imag() * b_real) + (tmp[8].imag() * a_real)));
+            tmp[11] = tmp[0] + cx_type(((tmp[7].real() * b_real) + (tmp[8].real() * a_real)), ((tmp[7].imag() * b_real) + (tmp[8].imag() * a_real)));
 
-            tmp[12] = cx_type((-(tmp[10].imag() * b_imag) + (tmp[9].imag() * a_imag)),
-                ((tmp[10].real() * b_imag) - (tmp[9].real() * a_imag)));
+            tmp[12] = cx_type((-(tmp[10].imag() * b_imag) + (tmp[9].imag() * a_imag)), ((tmp[10].real() * b_imag) - (tmp[9].real() * a_imag)));
 
             (*Y2) = tmp[11] + tmp[12];
             (*Y3) = tmp[11] - tmp[12];
@@ -313,9 +292,7 @@ public:
         }
     }
 
-    arma_hot inline void
-    butterfly_N(cx_type* Y, const uword stride, const uword m, const uword r)
-    {
+    arma_hot inline void butterfly_N(cx_type* Y, const uword stride, const uword m, const uword r) {
         arma_extra_debug_sigprint();
 
         const cx_type* coeffs = coeffs_ptr();
@@ -341,9 +318,7 @@ public:
                 for(uword w = 1; w < r; ++w) {
                     j += stride * k;
 
-                    if(j >= N) {
-                        j -= N;
-                    }
+                    if(j >= N) { j -= N; }
 
                     Y[k] += tmp[w] * coeffs[j];
                 }
@@ -353,9 +328,7 @@ public:
         }
     }
 
-    inline void
-    run(cx_type* Y, const cx_type* X, const uword stage = 0, const uword stride = 1)
-    {
+    inline void run(cx_type* Y, const cx_type* X, const uword stage = 0, const uword stride = 1) {
         arma_extra_debug_sigprint();
 
         const uword m = residue[stage];
@@ -364,16 +337,12 @@ public:
         const cx_type* Y_end = Y + r * m;
 
         if(m == 1) {
-            for(cx_type *Yi = Y; Yi != Y_end; Yi++, X += stride) {
-                (*Yi) = (*X);
-            }
+            for(cx_type *Yi = Y; Yi != Y_end; Yi++, X += stride) { (*Yi) = (*X); }
         } else {
             const uword next_stage = stage + 1;
             const uword next_stride = stride * r;
 
-            for(cx_type *Yi = Y; Yi != Y_end; Yi += m, X += stride) {
-                run(Yi, X, next_stage, next_stride);
-            }
+            for(cx_type *Yi = Y; Yi != Y_end; Yi += m, X += stride) { run(Yi, X, next_stage, next_stride); }
         }
 
         switch(r) {

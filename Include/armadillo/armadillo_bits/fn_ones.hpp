@@ -16,18 +16,14 @@
 //! \addtogroup fn_ones
 //! @{
 
-arma_warn_unused arma_inline const Gen<vec, gen_ones> ones(const uword n_elem)
-{
+arma_warn_unused arma_inline const Gen<vec, gen_ones> ones(const uword n_elem) {
     arma_extra_debug_sigprint();
 
     return Gen<vec, gen_ones>(n_elem, 1);
 }
 
 template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_ones> ones(const uword n_elem,
-    const arma_empty_class junk1 = arma_empty_class(),
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0)
-{
+arma_warn_unused arma_inline const Gen<obj_type, gen_ones> ones(const uword n_elem, const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -39,26 +35,20 @@ arma_warn_unused arma_inline const Gen<obj_type, gen_ones> ones(const uword n_el
     }
 }
 
-arma_warn_unused arma_inline const Gen<mat, gen_ones> ones(const uword n_rows,
-    const uword n_cols)
-{
+arma_warn_unused arma_inline const Gen<mat, gen_ones> ones(const uword n_rows, const uword n_cols) {
     arma_extra_debug_sigprint();
 
     return Gen<mat, gen_ones>(n_rows, n_cols);
 }
 
-arma_warn_unused arma_inline const Gen<mat, gen_ones> ones(const SizeMat& s)
-{
+arma_warn_unused arma_inline const Gen<mat, gen_ones> ones(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     return Gen<mat, gen_ones>(s.n_rows, s.n_cols);
 }
 
 template <typename obj_type>
-arma_warn_unused inline const Gen<obj_type, gen_ones> ones(const uword n_rows,
-    const uword n_cols,
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline const Gen<obj_type, gen_ones> ones(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -72,38 +62,27 @@ arma_warn_unused inline const Gen<obj_type, gen_ones> ones(const uword n_rows,
 }
 
 template <typename obj_type>
-arma_warn_unused inline const Gen<obj_type, gen_ones> ones(const SizeMat& s,
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline const Gen<obj_type, gen_ones> ones(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return ones<obj_type>(s.n_rows, s.n_cols);
 }
 
-arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_ones>
-ones(const uword n_rows, const uword n_cols, const uword n_slices)
-{
+arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_ones> ones(const uword n_rows, const uword n_cols, const uword n_slices) {
     arma_extra_debug_sigprint();
 
     return GenCube<cube::elem_type, gen_ones>(n_rows, n_cols, n_slices);
 }
 
-arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_ones> ones(
-    const SizeCube& s)
-{
+arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_ones> ones(const SizeCube& s) {
     arma_extra_debug_sigprint();
 
     return GenCube<cube::elem_type, gen_ones>(s.n_rows, s.n_cols, s.n_slices);
 }
 
 template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_ones> ones(
-    const uword n_rows,
-    const uword n_cols,
-    const uword n_slices,
-    const typename arma_Cube_only<cube_type>::result* junk = 0)
-{
+arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_ones> ones(const uword n_rows, const uword n_cols, const uword n_slices, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -111,14 +90,11 @@ arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_on
 }
 
 template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_ones>
-ones(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0)
-{
+arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_ones> ones(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    return GenCube<typename cube_type::elem_type, gen_ones>(
-        s.n_rows, s.n_cols, s.n_slices);
+    return GenCube<typename cube_type::elem_type, gen_ones>(s.n_rows, s.n_cols, s.n_slices);
 }
 
 //! @}

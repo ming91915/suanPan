@@ -17,15 +17,10 @@
 //! @{
 
 template <typename eT>
-inline void glue_histc::apply_noalias(Mat<uword>& C,
-    const Mat<eT>& A,
-    const Mat<eT>& B,
-    const uword dim)
-{
+inline void glue_histc::apply_noalias(Mat<uword>& C, const Mat<eT>& A, const Mat<eT>& B, const uword dim) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check(((B.is_vec() == false) && (B.is_empty() == false)),
-        "histc(): parameter 'edges' is not a vector");
+    arma_debug_check(((B.is_vec() == false) && (B.is_empty() == false)), "histc(): parameter 'edges' is not a vector");
 
     const uword A_n_rows = A.n_rows;
     const uword A_n_cols = A.n_cols;
@@ -102,9 +97,7 @@ inline void glue_histc::apply_noalias(Mat<uword>& C,
 }
 
 template <typename T1, typename T2>
-inline void glue_histc::apply(Mat<uword>& C,
-    const mtGlue<uword, T1, T2, glue_histc>& expr)
-{
+inline void glue_histc::apply(Mat<uword>& C, const mtGlue<uword, T1, T2, glue_histc>& expr) {
     arma_extra_debug_sigprint();
 
     const uword dim = expr.aux_uword;
@@ -126,9 +119,7 @@ inline void glue_histc::apply(Mat<uword>& C,
 }
 
 template <typename T1, typename T2>
-inline void glue_histc_default::apply(Mat<uword>& C,
-    const mtGlue<uword, T1, T2, glue_histc_default>& expr)
-{
+inline void glue_histc_default::apply(Mat<uword>& C, const mtGlue<uword, T1, T2, glue_histc_default>& expr) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> UA(expr.A);

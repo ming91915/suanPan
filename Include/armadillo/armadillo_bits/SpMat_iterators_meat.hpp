@@ -24,8 +24,7 @@ template <typename eT>
 inline SpMat<eT>::iterator_base::iterator_base()
     : M(NULL)
     , internal_col(0)
-    , internal_pos(0)
-{
+    , internal_pos(0) {
     // Technically this iterator is invalid (it may not point to a real element)
 }
 
@@ -33,24 +32,20 @@ template <typename eT>
 inline SpMat<eT>::iterator_base::iterator_base(const SpMat<eT>& in_M)
     : M(&in_M)
     , internal_col(0)
-    , internal_pos(0)
-{
+    , internal_pos(0) {
     // Technically this iterator is invalid (it may not point to a real element)
 }
 
 template <typename eT>
-inline SpMat<eT>::iterator_base::iterator_base(const SpMat<eT>& in_M,
-    const uword in_col,
-    const uword in_pos)
+inline SpMat<eT>::iterator_base::iterator_base(const SpMat<eT>& in_M, const uword in_col, const uword in_pos)
     : M(&in_M)
     , internal_col(in_col)
-    , internal_pos(in_pos)
-{
+    , internal_pos(in_pos) {
     // Nothing to do.
 }
 
-template <typename eT> arma_inline eT SpMat<eT>::iterator_base::operator*() const
-{
+template <typename eT>
+arma_inline eT SpMat<eT>::iterator_base::operator*() const {
     return M->values[internal_pos];
 }
 
@@ -60,14 +55,11 @@ template <typename eT> arma_inline eT SpMat<eT>::iterator_base::operator*() cons
 
 template <typename eT>
 inline SpMat<eT>::const_iterator::const_iterator()
-    : iterator_base()
-{
-}
+    : iterator_base() {}
 
 template <typename eT>
 inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M, uword initial_pos)
-    : iterator_base(in_M, 0, initial_pos)
-{
+    : iterator_base(in_M, 0, initial_pos) {
     // Corner case for empty matrices.
     if(in_M.n_nonzero == 0) {
         iterator_base::internal_col = in_M.n_cols;
@@ -75,56 +67,38 @@ inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M, uword in
     }
 
     // Determine which column we should be in.
-    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <=
-        iterator_base::internal_pos) {
-        iterator_base::internal_col++;
-    }
+    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <= iterator_base::internal_pos) { iterator_base::internal_col++; }
 }
 
 template <typename eT>
-inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M,
-    uword in_row,
-    uword in_col)
-    : iterator_base(in_M, in_col, 0)
-{
+inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M, uword in_row, uword in_col)
+    : iterator_base(in_M, in_col, 0) {
     // So we have a position we want to be right after.  Skip to the column.
     iterator_base::internal_pos = iterator_base::M->col_ptrs[iterator_base::internal_col];
 
     // Now we have to make sure that is the right column.
-    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <=
-        iterator_base::internal_pos) {
-        iterator_base::internal_col++;
-    }
+    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <= iterator_base::internal_pos) { iterator_base::internal_col++; }
 
     // Now we have to get to the right row.
-    while((iterator_base::M->row_indices[iterator_base::internal_pos] < in_row) &&
-        (iterator_base::internal_col == in_col)) {
+    while((iterator_base::M->row_indices[iterator_base::internal_pos] < in_row) && (iterator_base::internal_col == in_col)) {
         ++(*this); // Increment iterator.
     }
 }
 
 template <typename eT>
-inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M,
-    const uword /* in_row */,
-    const uword in_col,
-    const uword in_pos)
-    : iterator_base(in_M, in_col, in_pos)
-{
+inline SpMat<eT>::const_iterator::const_iterator(const SpMat<eT>& in_M, const uword /* in_row */, const uword in_col, const uword in_pos)
+    : iterator_base(in_M, in_col, in_pos) {
     // Nothing to do.
 }
 
 template <typename eT>
-inline SpMat<eT>::const_iterator::const_iterator(
-    const typename SpMat<eT>::const_iterator& other)
-    : iterator_base(*other.M, other.internal_col, other.internal_pos)
-{
+inline SpMat<eT>::const_iterator::const_iterator(const typename SpMat<eT>::const_iterator& other)
+    : iterator_base(*other.M, other.internal_col, other.internal_pos) {
     // Nothing to do.
 }
 
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator++()
-{
+inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator++() {
     ++iterator_base::internal_pos;
 
     if(iterator_base::internal_pos == iterator_base::M->n_nonzero) {
@@ -133,18 +107,13 @@ inline arma_hot
     }
 
     // Check to see if we moved a column.
-    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <=
-        iterator_base::internal_pos) {
-        ++iterator_base::internal_col;
-    }
+    while(iterator_base::M->col_ptrs[iterator_base::internal_col + 1] <= iterator_base::internal_pos) { ++iterator_base::internal_col; }
 
     return *this;
 }
 
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(int)
-{
+inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(int) {
     typename SpMat<eT>::const_iterator tmp(*this);
 
     ++(*this);
@@ -153,9 +122,7 @@ inline arma_hot
 }
 
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator--()
-{
+inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator--() {
     // iterator_base::M.print("M");
 
     // printf("decrement from %d, %d, %d\n", iterator_base::internal_pos,
@@ -166,8 +133,7 @@ inline arma_hot
     // printf("now pos %d\n", iterator_base::internal_pos);
 
     // First, see if we moved back a column.
-    while(iterator_base::internal_pos <
-        iterator_base::M->col_ptrs[iterator_base::internal_col]) {
+    while(iterator_base::internal_pos < iterator_base::M->col_ptrs[iterator_base::internal_col]) {
         // printf("colptr %d (col %d)\n",
         // iterator_base::M.col_ptrs[iterator_base::internal_col],
         // iterator_base::internal_col);
@@ -179,9 +145,7 @@ inline arma_hot
 }
 
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(int)
-{
+inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(int) {
     typename SpMat<eT>::const_iterator tmp(*this);
 
     --(*this);
@@ -190,58 +154,42 @@ inline arma_hot
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(
-    const const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
-    const const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(
-    const typename SpSubview<eT>::const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
-    const typename SpSubview<eT>::const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(
-    const const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_row_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
-    const const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_row_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(
-    const typename SpSubview<eT>::const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
-    const typename SpSubview<eT>::const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
@@ -250,24 +198,18 @@ inline arma_hot bool SpMat<eT>::const_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::iterator::operator*()
-{
-    return SpValProxy<SpMat<eT>>(
-        iterator_base::M->row_indices[iterator_base::internal_pos],
-        iterator_base::internal_col, access::rw(*iterator_base::M),
-        &access::rw(iterator_base::M->values[iterator_base::internal_pos]));
+inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::iterator::operator*() {
+    return SpValProxy<SpMat<eT>>(iterator_base::M->row_indices[iterator_base::internal_pos], iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[iterator_base::internal_pos]));
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator++()
-{
+inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator++() {
     const_iterator::operator++();
     return *this;
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int)
-{
+inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int) {
     typename SpMat<eT>::iterator tmp(*this);
 
     const_iterator::operator++();
@@ -276,15 +218,13 @@ inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator--()
-{
+inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator--() {
     const_iterator::operator--();
     return *this;
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator--(int)
-{
+inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator--(int) {
     typename SpMat<eT>::iterator tmp(*this);
 
     const_iterator::operator--();
@@ -304,17 +244,13 @@ template <typename eT>
 inline SpMat<eT>::const_row_iterator::const_row_iterator()
     : iterator_base()
     , internal_row(0)
-    , actual_pos(0)
-{
-}
+    , actual_pos(0) {}
 
 template <typename eT>
-inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M,
-    uword initial_pos)
+inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M, uword initial_pos)
     : iterator_base(in_M, 0, initial_pos)
     , internal_row(0)
-    , actual_pos(0)
-{
+    , actual_pos(0) {
     // Corner case for empty matrix.
     if(in_M.n_nonzero == 0) {
         iterator_base::internal_col = 0;
@@ -337,14 +273,9 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M,
     while(true) // This loop is terminated from the inside.
     {
         // Is there anything in the column we are looking at?
-        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind <
-                                iterator_base::M->col_ptrs[cur_col + 1]) &&
-                (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] +
-                     ind] <= cur_row));
-            ind++) {
+        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind < iterator_base::M->col_ptrs[cur_col + 1]) && (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] <= cur_row)); ind++) {
             // There is something in this column.  Is it in the row we are looking at?
-            const uword row_index =
-                iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind];
+            const uword row_index = iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind];
             if(row_index == cur_row) {
                 // Yes, it is what we are looking for.  Increment our current position.
                 if(++cur_pos == iterator_base::internal_pos) // TODO: HACK: if cur_pos is
@@ -379,20 +310,15 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M,
 }
 
 template <typename eT>
-inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M,
-    uword in_row,
-    uword in_col)
+inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M, uword in_row, uword in_col)
     : iterator_base(in_M, in_col, 0)
     , internal_row(0)
-    , actual_pos(0)
-{
+    , actual_pos(0) {
     // This is slow.  It needs to be rewritten.
     // So we have a destination we want to be just after, but don't know what position
     // that is.  Make another iterator to find out...
     const_row_iterator it(in_M, 0);
-    while((it.row() < in_row) || ((it.row() == in_row) && (it.col() < in_col))) {
-        it++;
-    }
+    while((it.row() < in_row) || ((it.row() == in_row) && (it.col() < in_col))) { it++; }
 
     // Now that it is at the right place, take its position.
     iterator_base::internal_col = it.internal_col;
@@ -405,12 +331,10 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(const SpMat<eT>& in_M,
  * Initialize the const_row_iterator from another const_row_iterator.
  */
 template <typename eT>
-inline SpMat<eT>::const_row_iterator::const_row_iterator(
-    const typename SpMat<eT>::const_row_iterator& other)
+inline SpMat<eT>::const_row_iterator::const_row_iterator(const typename SpMat<eT>::const_row_iterator& other)
     : iterator_base(*other.M, other.internal_col, other.internal_pos)
     , internal_row(other.internal_row)
-    , actual_pos(other.actual_pos)
-{
+    , actual_pos(other.actual_pos) {
     // Nothing to do.
 }
 
@@ -418,9 +342,7 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(
  * Increment the row_iterator.
  */
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator++()
-{
+inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator++() {
     // We just need to find the next nonzero element.
     iterator_base::internal_pos++;
 
@@ -445,13 +367,8 @@ inline arma_hot
         }
 
         // Is there anything in this new column?
-        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind <
-                                iterator_base::M->col_ptrs[cur_col + 1]) &&
-                (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] +
-                     ind] <= cur_row));
-            ind++) {
-            if(iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] ==
-                cur_row) {
+        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind < iterator_base::M->col_ptrs[cur_col + 1]) && (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] <= cur_row)); ind++) {
+            if(iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] == cur_row) {
                 // We have successfully incremented.
                 internal_row = cur_row;
                 iterator_base::internal_col = cur_col;
@@ -467,9 +384,7 @@ inline arma_hot
  * Increment the row_iterator (but do not return anything.
  */
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator++(int)
-{
+inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator++(int) {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
     ++(*this);
@@ -481,9 +396,7 @@ inline arma_hot
  * Decrement the row_iterator.
  */
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator--()
-{
+inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator--() {
     iterator_base::internal_pos--;
 
     // We have to search backwards.
@@ -500,13 +413,8 @@ inline arma_hot
         }
 
         // Is there anything in this new column?
-        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind <
-                                iterator_base::M->col_ptrs[cur_col + 1]) &&
-                (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] +
-                     ind] <= cur_row));
-            ind++) {
-            if(iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] ==
-                cur_row) {
+        for(uword ind = 0; ((iterator_base::M->col_ptrs[cur_col] + ind < iterator_base::M->col_ptrs[cur_col + 1]) && (iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] <= cur_row)); ind++) {
+            if(iterator_base::M->row_indices[iterator_base::M->col_ptrs[cur_col] + ind] == cur_row) {
                 // We have successfully decremented.
                 iterator_base::internal_col = cur_col;
                 internal_row = cur_row;
@@ -522,9 +430,7 @@ inline arma_hot
  * Decrement the row_iterator.
  */
 template <typename eT>
-inline arma_hot
-    typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator--(int)
-{
+inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator--(int) {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
     --(*this);
@@ -533,58 +439,42 @@ inline arma_hot
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(
-    const const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
-    const const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(
-    const typename SpSubview<eT>::const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
-    const typename SpSubview<eT>::const_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(
-    const const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_row_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
-    const const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_row_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(
-    const typename SpSubview<eT>::const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
-    const typename SpSubview<eT>::const_row_iterator& rhs) const
-{
+inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
@@ -593,23 +483,18 @@ inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::row_iterator::operator*()
-{
-    return SpValProxy<SpMat<eT>>(const_row_iterator::internal_row,
-        iterator_base::internal_col, access::rw(*iterator_base::M),
-        &access::rw(iterator_base::M->values[const_row_iterator::actual_pos]));
+inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::row_iterator::operator*() {
+    return SpValProxy<SpMat<eT>>(const_row_iterator::internal_row, iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[const_row_iterator::actual_pos]));
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator++()
-{
+inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator++() {
     const_row_iterator::operator++();
     return *this;
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator++(int)
-{
+inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator++(int) {
     typename SpMat<eT>::row_iterator tmp(*this);
 
     const_row_iterator::operator++();
@@ -618,15 +503,13 @@ inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operat
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator--()
-{
+inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator--() {
     const_row_iterator::operator--();
     return *this;
 }
 
 template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator--(int)
-{
+inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator--(int) {
     typename SpMat<eT>::row_iterator tmp(*this);
 
     const_row_iterator::operator--();

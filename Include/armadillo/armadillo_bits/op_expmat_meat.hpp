@@ -23,9 +23,7 @@
 //! http://dx.doi.org/10.1137/S00361445024180
 
 template <typename T1>
-inline void op_expmat::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_expmat>& expr)
-{
+inline void op_expmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat>& expr) {
     arma_extra_debug_sigprint();
 
     const bool status = op_expmat::apply_direct(out, expr.m);
@@ -37,9 +35,7 @@ inline void op_expmat::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr)
-{
+inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -48,24 +44,19 @@ inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out,
     if(is_op_diagmat<T1>::value) {
         out = expr.get_ref(); // force the evaluation of diagmat()
 
-        arma_debug_check(
-            (out.is_square() == false), "expmat(): given matrix must be square sized");
+        arma_debug_check((out.is_square() == false), "expmat(): given matrix must be square sized");
 
         const uword N = (std::min)(out.n_rows, out.n_cols);
 
-        for(uword i = 0; i < N; ++i) {
-            out.at(i, i) = std::exp(out.at(i, i));
-        }
+        for(uword i = 0; i < N; ++i) { out.at(i, i) = std::exp(out.at(i, i)); }
     } else {
         Mat<eT> A = expr.get_ref();
 
-        arma_debug_check(
-            (A.is_square() == false), "expmat(): given matrix must be square sized");
+        arma_debug_check((A.is_square() == false), "expmat(): given matrix must be square sized");
 
         const T norm_val = arma::norm(A, "inf");
 
-        const double log2_val =
-            (norm_val > T(0)) ? double(eop_aux::log2(norm_val)) : double(0);
+        const double log2_val = (norm_val > T(0)) ? double(eop_aux::log2(norm_val)) : double(0);
 
         int exponent = int(0);
         std::frexp(log2_val, &exponent);
@@ -103,28 +94,20 @@ inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out,
             positive = (positive) ? false : true;
         }
 
-        if((D.is_finite() == false) || (E.is_finite() == false)) {
-            return false;
-        }
+        if((D.is_finite() == false) || (E.is_finite() == false)) { return false; }
 
         const bool status = solve(out, D, E);
 
-        if(status == false) {
-            return false;
-        }
+        if(status == false) { return false; }
 
-        for(uword i = 0; i < s; ++i) {
-            out = out * out;
-        }
+        for(uword i = 0; i < s; ++i) { out = out * out; }
     }
 
     return true;
 }
 
 template <typename T1>
-inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_expmat_sym>& in)
-{
+inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat_sym>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_expmat_sym::apply_direct(out, in.m);
@@ -136,9 +119,7 @@ inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline bool op_expmat_sym::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr)
-{
+inline bool op_expmat_sym::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -149,17 +130,14 @@ inline bool op_expmat_sym::apply_direct(Mat<typename T1::elem_type>& out,
         const unwrap<T1> U(expr.get_ref());
         const Mat<eT>& X = U.M;
 
-        arma_debug_check(
-            (X.is_square() == false), "expmat_sym(): given matrix must be square sized");
+        arma_debug_check((X.is_square() == false), "expmat_sym(): given matrix must be square sized");
 
         Col<T> eigval;
         Mat<eT> eigvec;
 
         const bool status = auxlib::eig_sym_dc(eigval, eigvec, X);
 
-        if(status == false) {
-            return false;
-        }
+        if(status == false) { return false; }
 
         eigval = exp(eigval);
 

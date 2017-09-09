@@ -16,15 +16,12 @@
 //! \addtogroup op_resize
 //! @{
 
-class op_resize
-{
+class op_resize {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_resize>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_resize>& in);
     template <typename T1>
-    inline static void apply(Cube<typename T1::elem_type>& out,
-        const OpCube<T1, op_resize>& in);
+    inline static void apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_resize>& in);
 };
 
 //! @}

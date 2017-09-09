@@ -16,12 +16,10 @@
 //! \addtogroup glue_toeplitz
 //! @{
 
-class glue_toeplitz
-{
+class glue_toeplitz {
 public:
     template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Glue<T1, T2, glue_toeplitz>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_toeplitz>& in);
 };
 
 //! @}

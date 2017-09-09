@@ -19,8 +19,7 @@
 //! \brief
 //! both input matrices have the same element type
 template <typename eT>
-inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B)
-{
+inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_rows = A.n_rows;
@@ -30,15 +29,10 @@ inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>
 
     out.set_size(A_rows * B_rows, A_cols * B_cols);
 
-    if(out.is_empty()) {
-        return;
-    }
+    if(out.is_empty()) { return; }
 
     for(uword j = 0; j < A_cols; j++) {
-        for(uword i = 0; i < A_rows; i++) {
-            out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1,
-                (j + 1) * B_cols - 1) = A.at(i, j) * B;
-        }
+        for(uword i = 0; i < A_rows; i++) { out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1, (j + 1) * B_cols - 1) = A.at(i, j) * B; }
     }
 }
 
@@ -46,10 +40,7 @@ inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>
 //! different types of input matrices
 //! A -> complex, B -> basic element type
 template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
-    const Mat<std::complex<T>>& A,
-    const Mat<T>& B)
-{
+inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<T>& B) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -61,17 +52,12 @@ inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
 
     out.set_size(A_rows * B_rows, A_cols * B_cols);
 
-    if(out.is_empty()) {
-        return;
-    }
+    if(out.is_empty()) { return; }
 
     Mat<eT> tmp_B = conv_to<Mat<eT>>::from(B);
 
     for(uword j = 0; j < A_cols; j++) {
-        for(uword i = 0; i < A_rows; i++) {
-            out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1,
-                (j + 1) * B_cols - 1) = A.at(i, j) * tmp_B;
-        }
+        for(uword i = 0; i < A_rows; i++) { out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1, (j + 1) * B_cols - 1) = A.at(i, j) * tmp_B; }
     }
 }
 
@@ -79,10 +65,7 @@ inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
 //! different types of input matrices
 //! A -> basic element type, B -> complex
 template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
-    const Mat<T>& A,
-    const Mat<std::complex<T>>& B)
-{
+inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<T>& A, const Mat<std::complex<T>>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_rows = A.n_rows;
@@ -92,24 +75,17 @@ inline void glue_kron::direct_kron(Mat<std::complex<T>>& out,
 
     out.set_size(A_rows * B_rows, A_cols * B_cols);
 
-    if(out.is_empty()) {
-        return;
-    }
+    if(out.is_empty()) { return; }
 
     for(uword j = 0; j < A_cols; j++) {
-        for(uword i = 0; i < A_rows; i++) {
-            out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1,
-                (j + 1) * B_cols - 1) = A.at(i, j) * B;
-        }
+        for(uword i = 0; i < A_rows; i++) { out.submat(i * B_rows, j * B_cols, (i + 1) * B_rows - 1, (j + 1) * B_cols - 1) = A.at(i, j) * B; }
     }
 }
 
 //! \brief
 //! apply Kronecker product for two objects with same element type
 template <typename T1, typename T2>
-inline void glue_kron::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_kron>& X)
-{
+inline void glue_kron::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_kron>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

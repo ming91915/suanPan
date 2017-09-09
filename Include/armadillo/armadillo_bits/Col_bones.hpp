@@ -18,8 +18,8 @@
 
 //! Class for column vectors (matrices with only one column)
 
-template <typename eT> class Col : public Mat<eT>
-{
+template <typename eT>
+class Col : public Mat<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -36,9 +36,7 @@ public:
     template <typename fill_type>
     inline Col(const uword n_elem, const fill::fill_class<fill_type>& f);
     template <typename fill_type>
-    inline Col(const uword in_rows,
-        const uword in_cols,
-        const fill::fill_class<fill_type>& f);
+    inline Col(const uword in_rows, const uword in_cols, const fill::fill_class<fill_type>& f);
     template <typename fill_type>
     inline Col(const SizeMat& s, const fill::fill_class<fill_type>& f);
 
@@ -64,20 +62,21 @@ public:
     inline Col& operator=(const eT val);
     inline Col& operator=(const Col& m);
 
-    template <typename T1> inline Col(const Base<eT, T1>& X);
-    template <typename T1> inline Col& operator=(const Base<eT, T1>& X);
+    template <typename T1>
+    inline Col(const Base<eT, T1>& X);
+    template <typename T1>
+    inline Col& operator=(const Base<eT, T1>& X);
 
-    inline Col(eT* aux_mem,
-        const uword aux_length,
-        const bool copy_aux_mem = true,
-        const bool strict = false);
+    inline Col(eT* aux_mem, const uword aux_length, const bool copy_aux_mem = true, const bool strict = false);
     inline Col(const eT* aux_mem, const uword aux_length);
 
     template <typename T1, typename T2>
     inline explicit Col(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
 
-    template <typename T1> inline Col(const BaseCube<eT, T1>& X);
-    template <typename T1> inline Col& operator=(const BaseCube<eT, T1>& X);
+    template <typename T1>
+    inline Col(const BaseCube<eT, T1>& X);
+    template <typename T1>
+    inline Col& operator=(const BaseCube<eT, T1>& X);
 
     inline Col(const subview_cube<eT>& X);
     inline Col& operator=(const subview_cube<eT>& X);
@@ -95,12 +94,10 @@ public:
     using Mat<eT>::operator();
 
     arma_inline subview_col<eT> rows(const uword in_row1, const uword in_row2);
-    arma_inline const subview_col<eT> rows(const uword in_row1,
-        const uword in_row2) const;
+    arma_inline const subview_col<eT> rows(const uword in_row1, const uword in_row2) const;
 
     arma_inline subview_col<eT> subvec(const uword in_row1, const uword in_row2);
-    arma_inline const subview_col<eT> subvec(const uword in_row1,
-        const uword in_row2) const;
+    arma_inline const subview_col<eT> subvec(const uword in_row1, const uword in_row2) const;
 
     arma_inline subview_col<eT> rows(const span& row_span);
     arma_inline const subview_col<eT> rows(const span& row_span) const;
@@ -112,8 +109,7 @@ public:
     arma_inline const subview_col<eT> operator()(const span& row_span) const;
 
     arma_inline subview_col<eT> subvec(const uword start_row, const SizeMat& s);
-    arma_inline const subview_col<eT> subvec(const uword start_row,
-        const SizeMat& s) const;
+    arma_inline const subview_col<eT> subvec(const uword start_row, const SizeMat& s) const;
 
     arma_inline subview_col<eT> head(const uword N);
     arma_inline const subview_col<eT> head(const uword N) const;
@@ -130,8 +126,7 @@ public:
     inline void shed_row(const uword row_num);
     inline void shed_rows(const uword in_row1, const uword in_row2);
 
-    inline void
-    insert_rows(const uword row_num, const uword N, const bool set_to_zero = true);
+    inline void insert_rows(const uword row_num, const uword N, const bool set_to_zero = true);
     template <typename T1>
     inline void insert_rows(const uword row_num, const Base<eT, T1>& X);
 
@@ -139,8 +134,7 @@ public:
     arma_inline arma_warn_unused const eT& at(const uword i) const;
 
     arma_inline arma_warn_unused eT& at(const uword in_row, const uword in_col);
-    arma_inline arma_warn_unused const eT& at(const uword in_row,
-        const uword in_col) const;
+    arma_inline arma_warn_unused const eT& at(const uword in_row, const uword in_col) const;
 
     typedef eT* row_iterator;
     typedef const eT* const_row_iterator;
@@ -151,7 +145,8 @@ public:
     inline row_iterator end_row(const uword row_num);
     inline const_row_iterator end_row(const uword row_num) const;
 
-    template <uword fixed_n_elem> class fixed;
+    template <uword fixed_n_elem>
+    class fixed;
 
 protected:
     inline Col(const arma_fixed_indicator&, const uword in_n_elem, const eT* in_mem);
@@ -162,8 +157,9 @@ public:
 #endif
 };
 
-template <typename eT> template <uword fixed_n_elem> class Col<eT>::fixed : public Col<eT>
-{
+template <typename eT>
+template <uword fixed_n_elem>
+class Col<eT>::fixed : public Col<eT> {
 private:
     static const bool use_extra = (fixed_n_elem > arma_config::mat_prealloc);
 
@@ -186,8 +182,10 @@ public:
     arma_inline fixed(const fixed<fixed_n_elem>& X);
     inline fixed(const subview_cube<eT>& X);
 
-    template <typename fill_type> inline fixed(const fill::fill_class<fill_type>& f);
-    template <typename T1> inline fixed(const Base<eT, T1>& A);
+    template <typename fill_type>
+    inline fixed(const fill::fill_class<fill_type>& f);
+    template <typename T1>
+    inline fixed(const Base<eT, T1>& A);
     template <typename T1, typename T2>
     inline fixed(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
 
@@ -196,7 +194,8 @@ public:
     inline fixed(const char* text);
     inline fixed(const std::string& text);
 
-    template <typename T1> inline Col& operator=(const Base<eT, T1>& A);
+    template <typename T1>
+    inline Col& operator=(const Base<eT, T1>& A);
 
     inline Col& operator=(const eT val);
     inline Col& operator=(const char* text);
@@ -233,11 +232,9 @@ public:
     arma_inline arma_warn_unused const eT& operator()(const uword i) const;
 
     arma_inline arma_warn_unused eT& at(const uword in_row, const uword in_col);
-    arma_inline arma_warn_unused const eT& at(const uword in_row,
-        const uword in_col) const;
+    arma_inline arma_warn_unused const eT& at(const uword in_row, const uword in_col) const;
     arma_inline arma_warn_unused eT& operator()(const uword in_row, const uword in_col);
-    arma_inline arma_warn_unused const eT& operator()(const uword in_row,
-        const uword in_col) const;
+    arma_inline arma_warn_unused const eT& operator()(const uword in_row, const uword in_col) const;
 
     arma_inline arma_warn_unused eT* memptr();
     arma_inline arma_warn_unused const eT* memptr() const;

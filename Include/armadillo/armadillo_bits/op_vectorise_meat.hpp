@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_vectorise_col>& in)
-{
+inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_col>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -34,8 +32,7 @@ inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv)
-{
+inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv) {
     arma_extra_debug_sigprint();
 
     const bool is_alias = (&out == &(sv.m));
@@ -63,9 +60,7 @@ inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv)
 }
 
 template <typename T1>
-inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P)
-{
+inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -97,17 +92,13 @@ inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out,
                     outmem[j] = tmp_j;
                 }
 
-                if(i < N) {
-                    outmem[i] = A[i];
-                }
+                if(i < N) { outmem[i] = A[i]; }
             } else {
                 const uword n_rows = P.get_n_rows();
                 const uword n_cols = P.get_n_cols();
 
                 if(n_rows == 1) {
-                    for(uword i = 0; i < n_cols; ++i) {
-                        outmem[i] = P.at(0, i);
-                    }
+                    for(uword i = 0; i < n_cols; ++i) { outmem[i] = P.at(0, i); }
                 } else {
                     for(uword col = 0; col < n_cols; ++col)
                         for(uword row = 0; row < n_rows; ++row) {
@@ -121,8 +112,7 @@ inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out,
     {
         arma_extra_debug_print("op_vectorise_col::apply(): aliasing detected");
 
-        if((is_Mat<typename Proxy<T1>::stored_type>::value == true) &&
-            (Proxy<T1>::fake_mat == false)) {
+        if((is_Mat<typename Proxy<T1>::stored_type>::value == true) && (Proxy<T1>::fake_mat == false)) {
             out.set_size(out.n_elem, 1); // set_size() doesn't destroy data as long as the
                                          // number of elements in the matrix remains the
                                          // same
@@ -137,9 +127,7 @@ inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_vectorise_row>& in)
-{
+inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_row>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -148,9 +136,7 @@ inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P)
-{
+inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -194,9 +180,7 @@ inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_vectorise_all>& in)
-{
+inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_all>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -213,16 +197,13 @@ inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out,
 //
 
 template <typename T1>
-inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out,
-    const BaseCube<typename T1::elem_type, T1>& in)
-{
+inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out, const BaseCube<typename T1::elem_type, T1>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
 
     if(is_same_type<T1, subview_cube<eT>>::yes) {
-        op_vectorise_cube_col::apply_subview(
-            out, reinterpret_cast<const subview_cube<eT>&>(in.get_ref()));
+        op_vectorise_cube_col::apply_subview(out, reinterpret_cast<const subview_cube<eT>&>(in.get_ref()));
     } else {
         const ProxyCube<T1> P(in.get_ref());
 
@@ -231,8 +212,7 @@ inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cube<eT>& sv)
-{
+inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cube<eT>& sv) {
     arma_extra_debug_sigprint();
 
     const uword sv_n_rows = sv.n_rows;
@@ -252,9 +232,7 @@ inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cub
 }
 
 template <typename T1>
-inline void op_vectorise_cube_col::apply_proxy(Mat<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P)
-{
+inline void op_vectorise_cube_col::apply_proxy(Mat<typename T1::elem_type>& out, const ProxyCube<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -283,9 +261,7 @@ inline void op_vectorise_cube_col::apply_proxy(Mat<typename T1::elem_type>& out,
                 outmem[j] = tmp_j;
             }
 
-            if(i < N) {
-                outmem[i] = A[i];
-            }
+            if(i < N) { outmem[i] = A[i]; }
         } else {
             const uword n_rows = P.get_n_rows();
             const uword n_cols = P.get_n_cols();

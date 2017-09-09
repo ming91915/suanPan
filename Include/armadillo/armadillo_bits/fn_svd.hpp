@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-inline bool svd(Col<typename T1::pod_type>& S,
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svd(Col<typename T1::pod_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -37,10 +34,7 @@ inline bool svd(Col<typename T1::pod_type>& S,
 }
 
 template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> svd(
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline Col<typename T1::pod_type> svd(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -57,27 +51,18 @@ arma_warn_unused inline Col<typename T1::pod_type> svd(
 }
 
 template <typename T1>
-inline bool svd(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const Base<typename T1::elem_type, T1>& X,
-    const char* method = "dc",
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svd(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    arma_debug_check(
-        (((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))),
-        "svd(): two or more output objects are the same object");
+    arma_debug_check((((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))), "svd(): two or more output objects are the same object");
 
     const char sig = (method != NULL) ? method[0] : char(0);
 
     arma_debug_check(((sig != 's') && (sig != 'd')), "svd(): unknown method specified");
 
     // auxlib::svd() makes an internal copy of X
-    const bool status =
-        (sig == 'd') ? auxlib::svd_dc(U, S, V, X) : auxlib::svd(U, S, V, X);
+    const bool status = (sig == 'd') ? auxlib::svd_dc(U, S, V, X) : auxlib::svd(U, S, V, X);
 
     if(status == false) {
         U.soft_reset();
@@ -90,32 +75,19 @@ inline bool svd(Mat<typename T1::elem_type>& U,
 }
 
 template <typename T1>
-inline bool svd_econ(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const Base<typename T1::elem_type, T1>& X,
-    const char mode,
-    const char* method = "dc",
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char mode, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    arma_debug_check(
-        (((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))),
-        "svd_econ(): two or more output objects are the same object");
+    arma_debug_check((((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))), "svd_econ(): two or more output objects are the same object");
 
-    arma_debug_check(((mode != 'l') && (mode != 'r') && (mode != 'b')),
-        "svd_econ(): parameter 'mode' is incorrect");
+    arma_debug_check(((mode != 'l') && (mode != 'r') && (mode != 'b')), "svd_econ(): parameter 'mode' is incorrect");
 
     const char sig = (method != NULL) ? method[0] : char(0);
 
-    arma_debug_check(
-        ((sig != 's') && (sig != 'd')), "svd_econ(): unknown method specified");
+    arma_debug_check(((sig != 's') && (sig != 'd')), "svd_econ(): unknown method specified");
 
-    const bool status = ((mode == 'b') && (sig == 'd')) ?
-        auxlib::svd_dc_econ(U, S, V, X) :
-        auxlib::svd_econ(U, S, V, X, mode);
+    const bool status = ((mode == 'b') && (sig == 'd')) ? auxlib::svd_dc_econ(U, S, V, X) : auxlib::svd_econ(U, S, V, X, mode);
 
     if(status == false) {
         U.soft_reset();
@@ -128,14 +100,7 @@ inline bool svd_econ(Mat<typename T1::elem_type>& U,
 }
 
 template <typename T1>
-inline bool svd_econ(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const Base<typename T1::elem_type, T1>& X,
-    const char* mode = "both",
-    const char* method = "dc",
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* mode = "both", const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

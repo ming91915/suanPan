@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_cx_scalar_times::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X)
-{
+inline void op_cx_scalar_times::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -38,9 +35,7 @@ inline void op_cx_scalar_times::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] * k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] * k; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -51,10 +46,7 @@ inline void op_cx_scalar_times::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_plus::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X)
-{
+inline void op_cx_scalar_plus::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -72,9 +64,7 @@ inline void op_cx_scalar_plus::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] + k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] + k; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -85,11 +75,7 @@ inline void op_cx_scalar_plus::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_minus_pre::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>&
-        X)
-{
+inline void op_cx_scalar_minus_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -107,9 +93,7 @@ inline void op_cx_scalar_minus_pre::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = k - A[i];
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = k - A[i]; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -120,11 +104,7 @@ inline void op_cx_scalar_minus_pre::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_minus_post::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>&
-        X)
-{
+inline void op_cx_scalar_minus_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -142,9 +122,7 @@ inline void op_cx_scalar_minus_post::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] - k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] - k; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -155,10 +133,7 @@ inline void op_cx_scalar_minus_post::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_div_pre::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X)
-{
+inline void op_cx_scalar_div_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -176,9 +151,7 @@ inline void op_cx_scalar_div_pre::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = k / A[i];
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = k / A[i]; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -189,11 +162,7 @@ inline void op_cx_scalar_div_pre::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_div_post::apply(
-    Mat<typename std::complex<typename T1::pod_type>>& out,
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>&
-        X)
-{
+inline void op_cx_scalar_div_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -211,9 +180,7 @@ inline void op_cx_scalar_div_post::apply(
     if(Proxy<T1>::use_at == false) {
         const uword n_elem = A.get_n_elem();
 
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] / k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] / k; }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -228,11 +195,7 @@ inline void op_cx_scalar_div_post::apply(
 //
 
 template <typename T1>
-inline void op_cx_scalar_times::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>&
-        X)
-{
+inline void op_cx_scalar_times::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -250,9 +213,7 @@ inline void op_cx_scalar_times::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] * k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] * k; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -264,11 +225,7 @@ inline void op_cx_scalar_times::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_plus::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>&
-        X)
-{
+inline void op_cx_scalar_plus::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -286,9 +243,7 @@ inline void op_cx_scalar_plus::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] + k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] + k; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -300,12 +255,7 @@ inline void op_cx_scalar_plus::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_minus_pre::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>,
-        T1,
-        op_cx_scalar_minus_pre>& X)
-{
+inline void op_cx_scalar_minus_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -323,9 +273,7 @@ inline void op_cx_scalar_minus_pre::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = k - A[i];
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = k - A[i]; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -337,12 +285,7 @@ inline void op_cx_scalar_minus_pre::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_minus_post::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>,
-        T1,
-        op_cx_scalar_minus_post>& X)
-{
+inline void op_cx_scalar_minus_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -360,9 +303,7 @@ inline void op_cx_scalar_minus_post::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] - k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] - k; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -374,12 +315,7 @@ inline void op_cx_scalar_minus_post::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_div_pre::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>,
-        T1,
-        op_cx_scalar_div_pre>& X)
-{
+inline void op_cx_scalar_div_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -397,9 +333,7 @@ inline void op_cx_scalar_div_pre::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = k / A[i];
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = k / A[i]; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)
@@ -411,12 +345,7 @@ inline void op_cx_scalar_div_pre::apply(
 }
 
 template <typename T1>
-inline void op_cx_scalar_div_post::apply(
-    Cube<typename std::complex<typename T1::pod_type>>& out,
-    const mtOpCube<typename std::complex<typename T1::pod_type>,
-        T1,
-        op_cx_scalar_div_post>& X)
-{
+inline void op_cx_scalar_div_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -434,9 +363,7 @@ inline void op_cx_scalar_div_post::apply(
     eT* out_mem = out.memptr();
 
     if(ProxyCube<T1>::use_at == false) {
-        for(uword i = 0; i < n_elem; ++i) {
-            out_mem[i] = A[i] / k;
-        }
+        for(uword i = 0; i < n_elem; ++i) { out_mem[i] = A[i] / k; }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)

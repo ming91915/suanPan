@@ -16,38 +16,28 @@
 //! \addtogroup glue_join
 //! @{
 
-class glue_join_cols
-{
+class glue_join_cols {
 public:
     template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Glue<T1, T2, glue_join_cols>& X);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_cols>& X);
 
     template <typename T1, typename T2>
-    inline static void apply_noalias(Mat<typename T1::elem_type>& out,
-        const Proxy<T1>& A,
-        const Proxy<T2>& B);
+    inline static void apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B);
 };
 
-class glue_join_rows
-{
+class glue_join_rows {
 public:
     template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Glue<T1, T2, glue_join_rows>& X);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_rows>& X);
 
     template <typename T1, typename T2>
-    inline static void apply_noalias(Mat<typename T1::elem_type>& out,
-        const Proxy<T1>& A,
-        const Proxy<T2>& B);
+    inline static void apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B);
 };
 
-class glue_join_slices
-{
+class glue_join_slices {
 public:
     template <typename T1, typename T2>
-    inline static void apply(Cube<typename T1::elem_type>& out,
-        const GlueCube<T1, T2, glue_join_slices>& X);
+    inline static void apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_join_slices>& X);
 };
 
 //! @}

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_diagmat::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_diagmat>& X)
-{
+inline void op_diagmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,18 +39,12 @@ inline void op_diagmat::apply(Mat<typename T1::elem_type>& out,
             if(Proxy<T1>::use_at == false) {
                 typename Proxy<T1>::ea_type P_ea = P.get_ea();
 
-                for(uword i = 0; i < N; ++i) {
-                    out.at(i, i) = P_ea[i];
-                }
+                for(uword i = 0; i < N; ++i) { out.at(i, i) = P_ea[i]; }
             } else {
                 if(n_rows == 1) {
-                    for(uword i = 0; i < N; ++i) {
-                        out.at(i, i) = P.at(0, i);
-                    }
+                    for(uword i = 0; i < N; ++i) { out.at(i, i) = P.at(0, i); }
                 } else {
-                    for(uword i = 0; i < N; ++i) {
-                        out.at(i, i) = P.at(i, 0);
-                    }
+                    for(uword i = 0; i < N; ++i) { out.at(i, i) = P.at(i, 0); }
                 }
             }
         } else // generate a diagonal matrix out of a matrix
@@ -61,9 +53,7 @@ inline void op_diagmat::apply(Mat<typename T1::elem_type>& out,
 
             const uword N = (std::min)(n_rows, n_cols);
 
-            for(uword i = 0; i < N; ++i) {
-                out.at(i, i) = P.at(i, i);
-            }
+            for(uword i = 0; i < N; ++i) { out.at(i, i) = P.at(i, i); }
         }
     } else // we have aliasing
     {
@@ -77,26 +67,18 @@ inline void op_diagmat::apply(Mat<typename T1::elem_type>& out,
             if(Proxy<T1>::use_at == false) {
                 typename Proxy<T1>::ea_type P_ea = P.get_ea();
 
-                for(uword i = 0; i < N; ++i) {
-                    tmp_mem[i] = P_ea[i];
-                }
+                for(uword i = 0; i < N; ++i) { tmp_mem[i] = P_ea[i]; }
             } else {
                 if(n_rows == 1) {
-                    for(uword i = 0; i < N; ++i) {
-                        tmp_mem[i] = P.at(0, i);
-                    }
+                    for(uword i = 0; i < N; ++i) { tmp_mem[i] = P.at(0, i); }
                 } else {
-                    for(uword i = 0; i < N; ++i) {
-                        tmp_mem[i] = P.at(i, 0);
-                    }
+                    for(uword i = 0; i < N; ++i) { tmp_mem[i] = P.at(i, 0); }
                 }
             }
 
             out.zeros(N, N);
 
-            for(uword i = 0; i < N; ++i) {
-                out.at(i, i) = tmp_mem[i];
-            }
+            for(uword i = 0; i < N; ++i) { out.at(i, i) = tmp_mem[i]; }
         } else // generate a diagonal matrix out of a matrix
         {
             const uword N = (std::min)(n_rows, n_cols);
@@ -120,26 +102,18 @@ inline void op_diagmat::apply(Mat<typename T1::elem_type>& out,
                 podarray<eT> tmp(N);
                 eT* tmp_mem = tmp.memptr();
 
-                for(uword i = 0; i < N; ++i) {
-                    tmp_mem[i] = P.at(i, i);
-                }
+                for(uword i = 0; i < N; ++i) { tmp_mem[i] = P.at(i, i); }
 
                 out.zeros(n_rows, n_cols);
 
-                for(uword i = 0; i < N; ++i) {
-                    out.at(i, i) = tmp_mem[i];
-                }
+                for(uword i = 0; i < N; ++i) { out.at(i, i) = tmp_mem[i]; }
             }
         }
     }
 }
 
 template <typename T1>
-inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword row_offset,
-    const uword col_offset)
-{
+inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = P.get_n_rows();
@@ -161,22 +135,17 @@ inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out,
         if(Proxy<T1>::use_at == false) {
             typename Proxy<T1>::ea_type Pea = P.get_ea();
 
-            for(uword i = 0; i < n_elem; ++i) {
-                out.at(row_offset + i, col_offset + i) = Pea[i];
-            }
+            for(uword i = 0; i < n_elem; ++i) { out.at(row_offset + i, col_offset + i) = Pea[i]; }
         } else {
             const unwrap<typename Proxy<T1>::stored_type> U(P.Q);
 
-            const Proxy<typename unwrap<typename Proxy<T1>::stored_type>::stored_type> PP(
-                U.M);
+            const Proxy<typename unwrap<typename Proxy<T1>::stored_type>::stored_type> PP(U.M);
 
             op_diagmat2::apply(out, PP, row_offset, col_offset);
         }
     } else // P represents a matrix
     {
-        arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) ||
-                ((col_offset > 0) && (col_offset >= n_cols)),
-            "diagmat(): requested diagonal out of bounds");
+        arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) || ((col_offset > 0) && (col_offset >= n_cols)), "diagmat(): requested diagonal out of bounds");
 
         out.zeros(n_rows, n_cols);
 
@@ -192,9 +161,7 @@ inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_diagmat2>& X)
-{
+inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

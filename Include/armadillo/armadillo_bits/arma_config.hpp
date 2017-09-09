@@ -18,29 +18,25 @@
 
 struct arma_config {
 #if defined(ARMA_MAT_PREALLOC)
-    static const uword mat_prealloc =
-        (sword(ARMA_MAT_PREALLOC) > 0) ? uword(ARMA_MAT_PREALLOC) : 1;
+    static const uword mat_prealloc = (sword(ARMA_MAT_PREALLOC) > 0) ? uword(ARMA_MAT_PREALLOC) : 1;
 #else
     static const uword mat_prealloc = 16;
 #endif
 
 #if defined(ARMA_OPENMP_THRESHOLD)
-    static const uword mp_threshold =
-        (sword(ARMA_OPENMP_THRESHOLD) > 0) ? uword(ARMA_OPENMP_THRESHOLD) : 384;
+    static const uword mp_threshold = (sword(ARMA_OPENMP_THRESHOLD) > 0) ? uword(ARMA_OPENMP_THRESHOLD) : 384;
 #else
     static const uword mp_threshold = 384;
 #endif
 
 #if defined(ARMA_OPENMP_THREADS)
-    static const uword mp_threads =
-        (sword(ARMA_OPENMP_THREADS) > 0) ? uword(ARMA_OPENMP_THREADS) : 10;
+    static const uword mp_threads = (sword(ARMA_OPENMP_THREADS) > 0) ? uword(ARMA_OPENMP_THREADS) : 10;
 #else
     static const uword mp_threads = 10;
 #endif
 
 #if defined(ARMA_SPMAT_CHUNKSIZE)
-    static const uword spmat_chunksize =
-        (sword(ARMA_SPMAT_CHUNKSIZE) > 0) ? uword(ARMA_SPMAT_CHUNKSIZE) : 256;
+    static const uword spmat_chunksize = (sword(ARMA_SPMAT_CHUNKSIZE) > 0) ? uword(ARMA_SPMAT_CHUNKSIZE) : 256;
 #else
     static const uword spmat_chunksize = 256;
 #endif
@@ -105,14 +101,7 @@ struct arma_config {
     static const bool good_comp = false;
 #endif
 
-#if(defined(ARMA_EXTRA_MAT_PROTO) || defined(ARMA_EXTRA_MAT_MEAT) ||     \
-    defined(ARMA_EXTRA_COL_PROTO) || defined(ARMA_EXTRA_COL_MEAT) ||     \
-    defined(ARMA_EXTRA_ROW_PROTO) || defined(ARMA_EXTRA_ROW_MEAT) ||     \
-    defined(ARMA_EXTRA_CUBE_PROTO) || defined(ARMA_EXTRA_CUBE_MEAT) ||   \
-    defined(ARMA_EXTRA_FIELD_PROTO) || defined(ARMA_EXTRA_FIELD_MEAT) || \
-    defined(ARMA_EXTRA_SPMAT_PROTO) || defined(ARMA_EXTRA_SPMAT_MEAT) || \
-    defined(ARMA_EXTRA_SPCOL_PROTO) || defined(ARMA_EXTRA_SPCOL_MEAT) || \
-    defined(ARMA_EXTRA_SPROW_PROTO) || defined(ARMA_EXTRA_SPROW_MEAT))
+#if(defined(ARMA_EXTRA_MAT_PROTO) || defined(ARMA_EXTRA_MAT_MEAT) || defined(ARMA_EXTRA_COL_PROTO) || defined(ARMA_EXTRA_COL_MEAT) || defined(ARMA_EXTRA_ROW_PROTO) || defined(ARMA_EXTRA_ROW_MEAT) || defined(ARMA_EXTRA_CUBE_PROTO) || defined(ARMA_EXTRA_CUBE_MEAT) || defined(ARMA_EXTRA_FIELD_PROTO) || defined(ARMA_EXTRA_FIELD_MEAT) || defined(ARMA_EXTRA_SPMAT_PROTO) || defined(ARMA_EXTRA_SPMAT_MEAT) || defined(ARMA_EXTRA_SPCOL_PROTO) || defined(ARMA_EXTRA_SPCOL_MEAT) || defined(ARMA_EXTRA_SPROW_PROTO) || defined(ARMA_EXTRA_SPROW_MEAT))
     static const bool extra_code = true;
 #else
     static const bool extra_code = false;

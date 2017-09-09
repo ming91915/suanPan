@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-inline void spglue_times::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_times>& X)
-{
+inline void spglue_times::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -45,9 +43,7 @@ inline void spglue_times::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-arma_hot inline void
-spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T2>& pb)
-{
+arma_hot inline void spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     arma_extra_debug_sigprint();
 
     const uword x_n_rows = pa.get_n_rows();
@@ -55,8 +51,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
     const uword y_n_rows = pb.get_n_rows();
     const uword y_n_cols = pb.get_n_cols();
 
-    arma_debug_assert_mul_size(
-        x_n_rows, x_n_cols, y_n_rows, y_n_cols, "matrix multiplication");
+    arma_debug_assert_mul_size(x_n_rows, x_n_cols, y_n_rows, y_n_cols, "matrix multiplication");
 
     // First we must determine the structure of the new matrix (column pointers).
     // This follows the algorithm described in 'Sparse Matrix Multiplication
@@ -71,9 +66,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
     c.zeros(x_n_rows, y_n_cols);
 
     // if( (pa.get_n_elem() == 0) || (pb.get_n_elem() == 0) )
-    if((pa.get_n_nonzero() == 0) || (pb.get_n_nonzero() == 0)) {
-        return;
-    }
+    if((pa.get_n_nonzero() == 0) || (pb.get_n_nonzero() == 0)) { return; }
 
     // Auxiliary storage which denotes when items have been found.
     podarray<uword> index(x_n_rows);
@@ -122,9 +115,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
     } while(y_it != y_end);
 
     // Accumulate column pointers.
-    for(uword i = 0; i < c.n_cols; ++i) {
-        access::rw(c.col_ptrs[i + 1]) += c.col_ptrs[i];
-    }
+    for(uword i = 0; i < c.n_cols; ++i) { access::rw(c.col_ptrs[i + 1]) += c.col_ptrs[i]; }
 
     // Now that we know a decent bound on the number of nonzero elements, allocate
     // the memory and fill it.
@@ -151,9 +142,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
             ++cur_col;
         }
 
-        if(cur_col == c.n_cols) {
-            break;
-        }
+        if(cur_col == c.n_cols) { break; }
 
         // Update current column pointer.
         access::rw(c.col_ptrs[cur_col]) = cur_pos;
@@ -164,8 +153,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
         while(y_col_it.col() == cur_col) {
             // Check all elements in the column of the other matrix corresponding to
             // the row of this column.
-            typename SpProxy<T1>::const_iterator_type x_col_it =
-                pa.begin_col(y_col_it.row());
+            typename SpProxy<T1>::const_iterator_type x_col_it = pa.begin_col(y_col_it.row());
 
             const eT y_value = (*y_col_it);
 
@@ -237,9 +225,7 @@ spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T
 // spglue_times2: scalar*(A * B)
 
 template <typename T1, typename T2>
-inline void spglue_times2::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_times2>& X)
-{
+inline void spglue_times2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

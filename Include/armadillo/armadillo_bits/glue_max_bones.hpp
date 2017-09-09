@@ -16,35 +16,29 @@
 //! \addtogroup glue_max
 //! @{
 
-class glue_max
-{
+class glue_max {
 public:
     // dense matrices
 
     template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Glue<T1, T2, glue_max>& X);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_max>& X);
 
     template <typename eT, typename T1, typename T2>
     inline static void apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& PB);
 
     template <typename T, typename T1, typename T2>
-    inline static void
-    apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB);
+    inline static void apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB);
 
     // cubes
 
     template <typename T1, typename T2>
-    inline static void apply(Cube<typename T1::elem_type>& out,
-        const GlueCube<T1, T2, glue_max>& X);
+    inline static void apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_max>& X);
 
     template <typename eT, typename T1, typename T2>
-    inline static void
-    apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
+    inline static void apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
 
     template <typename T, typename T1, typename T2>
-    inline static void
-    apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
+    inline static void apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB);
 };
 
 //! @}

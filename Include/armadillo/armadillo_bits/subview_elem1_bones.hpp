@@ -17,8 +17,7 @@
 //! @{
 
 template <typename eT, typename T1>
-class subview_elem1 : public Base<eT, subview_elem1<eT, T1>>
-{
+class subview_elem1 : public Base<eT, subview_elem1<eT, T1>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -37,7 +36,8 @@ protected:
 public:
     inline ~subview_elem1();
 
-    template <typename op_type> inline void inplace_op(const eT val);
+    template <typename op_type>
+    inline void inplace_op(const eT val);
     template <typename op_type, typename T2>
     inline void inplace_op(const subview_elem1<eT, T2>& x);
     template <typename op_type, typename T2>
@@ -61,19 +61,30 @@ public:
     inline void operator/=(const eT val);
 
     // deliberately returning void
-    template <typename T2> inline void operator_equ(const subview_elem1<eT, T2>& x);
-    template <typename T2> inline void operator=(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator_equ(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator=(const subview_elem1<eT, T2>& x);
     inline void operator=(const subview_elem1<eT, T1>& x);
-    template <typename T2> inline void operator+=(const subview_elem1<eT, T2>& x);
-    template <typename T2> inline void operator-=(const subview_elem1<eT, T2>& x);
-    template <typename T2> inline void operator%=(const subview_elem1<eT, T2>& x);
-    template <typename T2> inline void operator/=(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator+=(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator-=(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator%=(const subview_elem1<eT, T2>& x);
+    template <typename T2>
+    inline void operator/=(const subview_elem1<eT, T2>& x);
 
-    template <typename T2> inline void operator=(const Base<eT, T2>& x);
-    template <typename T2> inline void operator+=(const Base<eT, T2>& x);
-    template <typename T2> inline void operator-=(const Base<eT, T2>& x);
-    template <typename T2> inline void operator%=(const Base<eT, T2>& x);
-    template <typename T2> inline void operator/=(const Base<eT, T2>& x);
+    template <typename T2>
+    inline void operator=(const Base<eT, T2>& x);
+    template <typename T2>
+    inline void operator+=(const Base<eT, T2>& x);
+    template <typename T2>
+    inline void operator-=(const Base<eT, T2>& x);
+    template <typename T2>
+    inline void operator%=(const Base<eT, T2>& x);
+    template <typename T2>
+    inline void operator/=(const Base<eT, T2>& x);
 
     inline static void extract(Mat<eT>& out, const subview_elem1& in);
 

@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>& in)
-{
+inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,11 +40,7 @@ inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>
 }
 
 template <typename eT>
-inline void op_max::apply_noalias(Mat<eT>& out,
-    const Mat<eT>& X,
-    const uword dim,
-    const typename arma_not_cx<eT>::result* junk)
-{
+inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -57,23 +52,17 @@ inline void op_max::apply_noalias(Mat<eT>& out,
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = op_max::direct_max(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_max::direct_max(X.colptr(col), X_n_rows); }
     } else if(dim == 1) {
         arma_extra_debug_print("op_max::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         eT* out_mem = out.memptr();
 
@@ -85,20 +74,14 @@ inline void op_max::apply_noalias(Mat<eT>& out,
             for(uword row = 0; row < X_n_rows; ++row) {
                 const eT col_val = col_mem[row];
 
-                if(col_val > out_mem[row]) {
-                    out_mem[row] = col_val;
-                }
+                if(col_val > out_mem[row]) { out_mem[row] = col_val; }
             }
         }
     }
 }
 
 template <typename eT>
-inline void op_max::apply_noalias(Mat<eT>& out,
-    const Mat<eT>& X,
-    const uword dim,
-    const typename arma_cx_only<eT>::result* junk)
-{
+inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -110,35 +93,26 @@ inline void op_max::apply_noalias(Mat<eT>& out,
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = op_max::direct_max(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_max::direct_max(X.colptr(col), X_n_rows); }
     } else if(dim == 1) {
         arma_extra_debug_print("op_max::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         eT* out_mem = out.memptr();
 
-        for(uword row = 0; row < X_n_rows; ++row) {
-            out_mem[row] = op_max::direct_max(X, row);
-        }
+        for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] = op_max::direct_max(X, row); }
     }
 }
 
 template <typename T1>
-inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_max>& in)
-{
+inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_max>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -161,11 +135,7 @@ inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op
 }
 
 template <typename eT>
-inline void op_max::apply_noalias(Cube<eT>& out,
-    const Cube<eT>& X,
-    const uword dim,
-    const typename arma_not_cx<eT>::result* junk)
-{
+inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -178,25 +148,19 @@ inline void op_max::apply_noalias(Cube<eT>& out,
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols, X_n_slices);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] = op_max::direct_max(X.slice_colptr(slice, col), X_n_rows);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_max::direct_max(X.slice_colptr(slice, col), X_n_rows); }
         }
     } else if(dim == 1) {
         arma_extra_debug_print("op_max::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0, X_n_slices);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
@@ -209,9 +173,7 @@ inline void op_max::apply_noalias(Cube<eT>& out,
                 for(uword row = 0; row < X_n_rows; ++row) {
                     const eT col_val = col_mem[row];
 
-                    if(col_val > out_mem[row]) {
-                        out_mem[row] = col_val;
-                    }
+                    if(col_val > out_mem[row]) { out_mem[row] = col_val; }
                 }
             }
         }
@@ -220,9 +182,7 @@ inline void op_max::apply_noalias(Cube<eT>& out,
 
         out.set_size(X_n_rows, X_n_cols, (X_n_slices > 0) ? 1 : 0);
 
-        if(X_n_slices == 0) {
-            return;
-        }
+        if(X_n_slices == 0) { return; }
 
         const uword N = X.n_elem_slice;
 
@@ -236,20 +196,14 @@ inline void op_max::apply_noalias(Cube<eT>& out,
             for(uword i = 0; i < N; ++i) {
                 const eT val = X_mem[i];
 
-                if(val > out_mem[i]) {
-                    out_mem[i] = val;
-                }
+                if(val > out_mem[i]) { out_mem[i] = val; }
             }
         }
     }
 }
 
 template <typename eT>
-inline void op_max::apply_noalias(Cube<eT>& out,
-    const Cube<eT>& X,
-    const uword dim,
-    const typename arma_cx_only<eT>::result* junk)
-{
+inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -262,43 +216,33 @@ inline void op_max::apply_noalias(Cube<eT>& out,
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols, X_n_slices);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] = op_max::direct_max(X.slice_colptr(slice, col), X_n_rows);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = op_max::direct_max(X.slice_colptr(slice, col), X_n_rows); }
         }
     } else if(dim == 1) {
         arma_extra_debug_print("op_max::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0, X_n_slices);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
             const Mat<eT> tmp('j', X.slice_memptr(slice), X_n_rows, X_n_cols);
 
-            for(uword row = 0; row < X_n_rows; ++row) {
-                out_mem[row] = op_max::direct_max(tmp, row);
-            }
+            for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] = op_max::direct_max(tmp, row); }
         }
     } else if(dim == 2) {
         arma_extra_debug_print("op_max::apply(): dim = 2");
 
         out.set_size(X_n_rows, X_n_cols, (X_n_slices > 0) ? 1 : 0);
 
-        if(X_n_slices == 0) {
-            return;
-        }
+        if(X_n_slices == 0) { return; }
 
         const uword N = X.n_elem_slice;
 
@@ -312,16 +256,14 @@ inline void op_max::apply_noalias(Cube<eT>& out,
             for(uword i = 0; i < N; ++i) {
                 const eT& val = X_mem[i];
 
-                if(std::abs(val) > std::abs(out_mem[i])) {
-                    out_mem[i] = val;
-                }
+                if(std::abs(val) > std::abs(out_mem[i])) { out_mem[i] = val; }
             }
         }
     }
 }
 
-template <typename eT> inline eT op_max::direct_max(const eT* const X, const uword n_elem)
-{
+template <typename eT>
+inline eT op_max::direct_max(const eT* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     eT max_val = priv::most_neg<eT>();
@@ -331,29 +273,21 @@ template <typename eT> inline eT op_max::direct_max(const eT* const X, const uwo
         const eT X_i = X[i];
         const eT X_j = X[j];
 
-        if(X_i > max_val) {
-            max_val = X_i;
-        }
-        if(X_j > max_val) {
-            max_val = X_j;
-        }
+        if(X_i > max_val) { max_val = X_i; }
+        if(X_j > max_val) { max_val = X_j; }
     }
 
     if(i < n_elem) {
         const eT X_i = X[i];
 
-        if(X_i > max_val) {
-            max_val = X_i;
-        }
+        if(X_i > max_val) { max_val = X_i; }
     }
 
     return max_val;
 }
 
 template <typename eT>
-inline eT
-op_max::direct_max(const eT* const X, const uword n_elem, uword& index_of_max_val)
-{
+inline eT op_max::direct_max(const eT* const X, const uword n_elem, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     eT max_val = priv::most_neg<eT>();
@@ -390,8 +324,8 @@ op_max::direct_max(const eT* const X, const uword n_elem, uword& index_of_max_va
     return max_val;
 }
 
-template <typename eT> inline eT op_max::direct_max(const Mat<eT>& X, const uword row)
-{
+template <typename eT>
+inline eT op_max::direct_max(const Mat<eT>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     const uword X_n_cols = X.n_cols;
@@ -403,27 +337,21 @@ template <typename eT> inline eT op_max::direct_max(const Mat<eT>& X, const uwor
         const eT tmp_i = X.at(row, i);
         const eT tmp_j = X.at(row, j);
 
-        if(tmp_i > max_val) {
-            max_val = tmp_i;
-        }
-        if(tmp_j > max_val) {
-            max_val = tmp_j;
-        }
+        if(tmp_i > max_val) { max_val = tmp_i; }
+        if(tmp_j > max_val) { max_val = tmp_j; }
     }
 
     if(i < X_n_cols) {
         const eT tmp_i = X.at(row, i);
 
-        if(tmp_i > max_val) {
-            max_val = tmp_i;
-        }
+        if(tmp_i > max_val) { max_val = tmp_i; }
     }
 
     return max_val;
 }
 
-template <typename eT> inline eT op_max::max(const subview<eT>& X)
-{
+template <typename eT>
+inline eT op_max::max(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     if(X.n_elem == 0) {
@@ -450,34 +378,24 @@ template <typename eT> inline eT op_max::max(const subview<eT>& X)
             const eT tmp_i = A.at(start_row, i);
             const eT tmp_j = A.at(start_row, j);
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
-            if(tmp_j > max_val) {
-                max_val = tmp_j;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
+            if(tmp_j > max_val) { max_val = tmp_j; }
         }
 
         if(i < end_col_p1) {
             const eT tmp_i = A.at(start_row, i);
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
         }
     } else {
-        for(uword col = 0; col < X_n_cols; ++col) {
-            max_val = (std::max)(max_val, op_max::direct_max(X.colptr(col), X_n_rows));
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { max_val = (std::max)(max_val, op_max::direct_max(X.colptr(col), X_n_rows)); }
     }
 
     return max_val;
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
-    const Base<typename T1::elem_type, T1>& X)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -505,20 +423,14 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
             const eT tmp_i = A[i];
             const eT tmp_j = A[j];
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
-            if(tmp_j > max_val) {
-                max_val = tmp_j;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
+            if(tmp_j > max_val) { max_val = tmp_j; }
         }
 
         if(i < n_elem) {
             const eT tmp_i = A[i];
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
         }
     } else {
         const uword n_rows = P.get_n_rows();
@@ -530,20 +442,14 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
                 const eT tmp_i = P.at(0, i);
                 const eT tmp_j = P.at(0, j);
 
-                if(tmp_i > max_val) {
-                    max_val = tmp_i;
-                }
-                if(tmp_j > max_val) {
-                    max_val = tmp_j;
-                }
+                if(tmp_i > max_val) { max_val = tmp_i; }
+                if(tmp_j > max_val) { max_val = tmp_j; }
             }
 
             if(i < n_cols) {
                 const eT tmp_i = P.at(0, i);
 
-                if(tmp_i > max_val) {
-                    max_val = tmp_i;
-                }
+                if(tmp_i > max_val) { max_val = tmp_i; }
             }
         } else {
             for(uword col = 0; col < n_cols; ++col) {
@@ -552,20 +458,14 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
                     const eT tmp_i = P.at(i, col);
                     const eT tmp_j = P.at(j, col);
 
-                    if(tmp_i > max_val) {
-                        max_val = tmp_i;
-                    }
-                    if(tmp_j > max_val) {
-                        max_val = tmp_j;
-                    }
+                    if(tmp_i > max_val) { max_val = tmp_i; }
+                    if(tmp_j > max_val) { max_val = tmp_j; }
                 }
 
                 if(i < n_rows) {
                     const eT tmp_i = P.at(i, col);
 
-                    if(tmp_i > max_val) {
-                        max_val = tmp_i;
-                    }
+                    if(tmp_i > max_val) { max_val = tmp_i; }
                 }
             }
         }
@@ -575,9 +475,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
-    const BaseCube<typename T1::elem_type, T1>& X)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -605,20 +503,14 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
             const eT tmp_i = A[i];
             const eT tmp_j = A[j];
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
-            if(tmp_j > max_val) {
-                max_val = tmp_j;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
+            if(tmp_j > max_val) { max_val = tmp_j; }
         }
 
         if(i < n_elem) {
             const eT tmp_i = A[i];
 
-            if(tmp_i > max_val) {
-                max_val = tmp_i;
-            }
+            if(tmp_i > max_val) { max_val = tmp_i; }
         }
     } else {
         const uword n_rows = P.get_n_rows();
@@ -630,9 +522,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
                 for(uword row = 0; row < n_rows; ++row) {
                     const eT tmp = P.at(row, col, slice);
 
-                    if(tmp > max_val) {
-                        max_val = tmp;
-                    }
+                    if(tmp > max_val) { max_val = tmp; }
                 }
     }
 
@@ -640,9 +530,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result
-op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -716,9 +604,7 @@ op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val)
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result
-op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -774,9 +660,7 @@ op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val)
 }
 
 template <typename T>
-inline std::complex<T> op_max::direct_max(const std::complex<T>* const X,
-    const uword n_elem)
-{
+inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     uword index = 0;
@@ -795,10 +679,7 @@ inline std::complex<T> op_max::direct_max(const std::complex<T>* const X,
 }
 
 template <typename T>
-inline std::complex<T> op_max::direct_max(const std::complex<T>* const X,
-    const uword n_elem,
-    uword& index_of_max_val)
-{
+inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     uword index = 0;
@@ -819,8 +700,7 @@ inline std::complex<T> op_max::direct_max(const std::complex<T>* const X,
 }
 
 template <typename T>
-inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const uword row)
-{
+inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     const uword X_n_cols = X.n_cols;
@@ -841,8 +721,7 @@ inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const u
 }
 
 template <typename T>
-inline std::complex<T> op_max::max(const subview<std::complex<T>>& X)
-{
+inline std::complex<T> op_max::max(const subview<std::complex<T>>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -899,9 +778,7 @@ inline std::complex<T> op_max::max(const subview<std::complex<T>>& X)
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(
-    const Base<typename T1::elem_type, T1>& X)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -971,9 +848,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(
-    const BaseCube<typename T1::elem_type, T1>& X)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -1032,9 +907,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result
-op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -1126,9 +999,7 @@ op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val)
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result
-op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

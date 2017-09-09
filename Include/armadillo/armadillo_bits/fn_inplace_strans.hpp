@@ -16,14 +16,13 @@
 //! \addtogroup fn_inplace_strans
 //! @{
 
-template <typename eT> inline void inplace_strans(Mat<eT>& X, const char* method = "std")
-{
+template <typename eT>
+inline void inplace_strans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);
 
-    arma_debug_check(
-        ((sig != 's') && (sig != 'l')), "inplace_strans(): unknown method specified");
+    arma_debug_check(((sig != 's') && (sig != 'l')), "inplace_strans(): unknown method specified");
 
     const bool low_memory = (sig == 'l');
 
@@ -45,8 +44,7 @@ template <typename eT> inline void inplace_strans(Mat<eT>& X, const char* method
         const uword m = X.n_cols;
         const uword n = X.n_rows;
 
-        std::vector<bool> visited(
-            X.n_elem); // TODO: replace std::vector<bool> with a better implementation
+        std::vector<bool> visited(X.n_elem); // TODO: replace std::vector<bool> with a better implementation
 
         for(uword col = 0; col < m; ++col)
             for(uword row = 0; row < n; ++row) {

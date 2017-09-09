@@ -17,8 +17,7 @@
 //! @{
 
 template <typename eT>
-inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim)
-{
+inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(X.is_empty()) {
@@ -50,13 +49,9 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
             out.copy_size(X);
 
             if(dim == 0) {
-                for(uword i = 0; i < N; ++i) {
-                    out.row(i) = X.row(packet_vec[i].index);
-                }
+                for(uword i = 0; i < N; ++i) { out.row(i) = X.row(packet_vec[i].index); }
             } else {
-                for(uword i = 0; i < N; ++i) {
-                    out.col(i) = X.col(packet_vec[i].index);
-                }
+                for(uword i = 0; i < N; ++i) { out.col(i) = X.col(packet_vec[i].index); }
             }
         } else // in-place shuffle
         {
@@ -66,9 +61,7 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
             // to indicate whether a particular row or column
             // has already been shuffled
 
-            for(uword i = 0; i < N; ++i) {
-                packet_vec[i].val = 0;
-            }
+            for(uword i = 0; i < N; ++i) { packet_vec[i].val = 0; }
 
             if(dim == 0) {
                 for(uword i = 0; i < N; ++i) {
@@ -102,18 +95,14 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
             if(dim == 0) {
                 if(X.n_rows > 1) // i.e. column vector
                 {
-                    for(uword i = 0; i < N; ++i) {
-                        out[i] = X[packet_vec[i].index];
-                    }
+                    for(uword i = 0; i < N; ++i) { out[i] = X[packet_vec[i].index]; }
                 } else {
                     out = X;
                 }
             } else {
                 if(X.n_cols > 1) // i.e. row vector
                 {
-                    for(uword i = 0; i < N; ++i) {
-                        out[i] = X[packet_vec[i].index];
-                    }
+                    for(uword i = 0; i < N; ++i) { out[i] = X[packet_vec[i].index]; }
                 } else {
                     out = X;
                 }
@@ -126,9 +115,7 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
             // to indicate whether a particular row or column
             // has already been shuffled
 
-            for(uword i = 0; i < N; ++i) {
-                packet_vec[i].val = 0;
-            }
+            for(uword i = 0; i < N; ++i) { packet_vec[i].val = 0; }
 
             if(dim == 0) {
                 if(X.n_rows > 1) // i.e. column vector
@@ -162,9 +149,7 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
 }
 
 template <typename T1>
-inline void op_shuffle::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_shuffle>& in)
-{
+inline void op_shuffle::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -177,9 +162,7 @@ inline void op_shuffle::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_shuffle_default::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_shuffle_default>& in)
-{
+inline void op_shuffle_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle_default>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);

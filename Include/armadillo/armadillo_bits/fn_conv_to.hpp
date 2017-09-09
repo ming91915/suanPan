@@ -19,31 +19,25 @@
 //! conversion from Armadillo Base and BaseCube objects to scalars
 //! (kept only for compatibility with old code; use as_scalar() instead for Base objects
 //! like Mat)
-template <typename out_eT> class conv_to
-{
+template <typename out_eT>
+class conv_to {
 public:
     template <typename in_eT, typename T1>
-    inline static out_eT from(const Base<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static out_eT from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static out_eT from(const Base<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static out_eT from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static out_eT from(const BaseCube<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static out_eT from(const BaseCube<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static out_eT from(const BaseCube<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static out_eT from(const BaseCube<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -51,17 +45,14 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in,
 
     const Proxy<T1> P(in.get_ref());
 
-    arma_debug_check((P.get_n_elem() != 1),
-        "conv_to(): given object doesn't have exactly one element");
+    arma_debug_check((P.get_n_elem() != 1), "conv_to(): given object doesn't have exactly one element");
 
     return out_eT(Proxy<T1>::use_at ? P.at(0, 0) : P[0]);
 }
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -69,8 +60,7 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in,
 
     const Proxy<T1> P(in.get_ref());
 
-    arma_debug_check((P.get_n_elem() != 1),
-        "conv_to(): given object doesn't have exactly one element");
+    arma_debug_check((P.get_n_elem() != 1), "conv_to(): given object doesn't have exactly one element");
 
     out_eT out;
 
@@ -81,9 +71,7 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const Base<in_eT, T1>& in,
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -91,17 +79,14 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& 
 
     const ProxyCube<T1> P(in.get_ref());
 
-    arma_debug_check((P.get_n_elem() != 1),
-        "conv_to(): given object doesn't have exactly one element");
+    arma_debug_check((P.get_n_elem() != 1), "conv_to(): given object doesn't have exactly one element");
 
     return out_eT(ProxyCube<T1>::use_at ? P.at(0, 0, 0) : P[0]);
 }
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -109,8 +94,7 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& 
 
     const ProxyCube<T1> P(in.get_ref());
 
-    arma_debug_check((P.get_n_elem() != 1),
-        "conv_to(): given object doesn't have exactly one element");
+    arma_debug_check((P.get_n_elem() != 1), "conv_to(): given object doesn't have exactly one element");
 
     out_eT out;
 
@@ -121,33 +105,28 @@ arma_warn_unused inline out_eT conv_to<out_eT>::from(const BaseCube<in_eT, T1>& 
 
 //! conversion to Armadillo matrices from Armadillo Base objects, as well as from
 //! std::vector
-template <typename out_eT> class conv_to<Mat<out_eT>>
-{
+template <typename out_eT>
+class conv_to<Mat<out_eT>> {
 public:
     template <typename in_eT, typename T1>
-    inline static Mat<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Mat<out_eT> from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static Mat<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Mat<out_eT> from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 
-    template <typename T1> inline static Mat<out_eT> from(const SpBase<out_eT, T1>& in);
-
-    template <typename in_eT>
-    inline static Mat<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    template <typename T1>
+    inline static Mat<out_eT> from(const SpBase<out_eT, T1>& in);
 
     template <typename in_eT>
-    inline static Mat<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Mat<out_eT> from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
+
+    template <typename in_eT>
+    inline static Mat<out_eT> from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -163,9 +142,7 @@ arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -181,9 +158,7 @@ arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename T1>
-arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
-    const SpBase<out_eT, T1>& in)
-{
+arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const SpBase<out_eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     return Mat<out_eT>(in.get_ref());
@@ -191,10 +166,7 @@ arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -202,19 +174,14 @@ arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
 
     Mat<out_eT> out(N, 1);
 
-    if(N > 0) {
-        arrayops::convert(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -222,48 +189,39 @@ arma_warn_unused inline Mat<out_eT> conv_to<Mat<out_eT>>::from(
 
     Mat<out_eT> out(N, 1);
 
-    if(N > 0) {
-        arrayops::convert_cx(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert_cx(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
 //! conversion to Armadillo row vectors from Armadillo Base objects, as well as from
 //! std::vector
-template <typename out_eT> class conv_to<Row<out_eT>>
-{
+template <typename out_eT>
+class conv_to<Row<out_eT>> {
 public:
     template <typename in_eT, typename T1>
-    inline static Row<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Row<out_eT> from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static Row<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Row<out_eT> from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 
     template <typename in_eT>
-    inline static Row<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Row<out_eT> from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT>
-    inline static Row<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Row<out_eT> from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     Row<out_eT> out(X.n_elem);
 
@@ -274,17 +232,14 @@ arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     Row<out_eT> out(X.n_rows, X.n_cols);
 
@@ -295,10 +250,7 @@ arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -306,19 +258,14 @@ arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(
 
     Row<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -326,48 +273,39 @@ arma_warn_unused inline Row<out_eT> conv_to<Row<out_eT>>::from(
 
     Row<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert_cx(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert_cx(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
 //! conversion to Armadillo column vectors from Armadillo Base objects, as well as from
 //! std::vector
-template <typename out_eT> class conv_to<Col<out_eT>>
-{
+template <typename out_eT>
+class conv_to<Col<out_eT>> {
 public:
     template <typename in_eT, typename T1>
-    inline static Col<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Col<out_eT> from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static Col<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Col<out_eT> from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 
     template <typename in_eT>
-    inline static Col<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Col<out_eT> from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT>
-    inline static Col<out_eT> from(const std::vector<in_eT>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Col<out_eT> from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     Col<out_eT> out(X.n_elem);
 
@@ -378,17 +316,14 @@ arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     Col<out_eT> out(X.n_rows, X.n_cols);
 
@@ -399,10 +334,7 @@ arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const Base<in_eT,
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -410,19 +342,14 @@ arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(
 
     Col<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
 template <typename out_eT>
 template <typename in_eT>
-arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(
-    const std::vector<in_eT>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(const std::vector<in_eT>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -430,48 +357,40 @@ arma_warn_unused inline Col<out_eT> conv_to<Col<out_eT>>::from(
 
     Col<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert_cx(out.memptr(), &(in[0]), N);
-    }
+    if(N > 0) { arrayops::convert_cx(out.memptr(), &(in[0]), N); }
 
     return out;
 }
 
-template <typename out_eT> class conv_to<SpMat<out_eT>>
-{
+template <typename out_eT>
+class conv_to<SpMat<out_eT>> {
 public:
-    template <typename T1> inline static SpMat<out_eT> from(const Base<out_eT, T1>& in);
+    template <typename T1>
+    inline static SpMat<out_eT> from(const Base<out_eT, T1>& in);
 };
 
 template <typename out_eT>
 template <typename T1>
-arma_warn_unused inline SpMat<out_eT> conv_to<SpMat<out_eT>>::from(
-    const Base<out_eT, T1>& in)
-{
+arma_warn_unused inline SpMat<out_eT> conv_to<SpMat<out_eT>>::from(const Base<out_eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     return SpMat<out_eT>(in.get_ref());
 }
 
 //! conversion to Armadillo cubes from Armadillo BaseCube objects
-template <typename out_eT> class conv_to<Cube<out_eT>>
-{
+template <typename out_eT>
+class conv_to<Cube<out_eT>> {
 public:
     template <typename in_eT, typename T1>
-    inline static Cube<out_eT> from(const BaseCube<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static Cube<out_eT> from(const BaseCube<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static Cube<out_eT> from(const BaseCube<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static Cube<out_eT> from(const BaseCube<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(
-    const BaseCube<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(const BaseCube<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -487,10 +406,7 @@ arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(
-    const BaseCube<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(const BaseCube<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -505,66 +421,52 @@ arma_warn_unused inline Cube<out_eT> conv_to<Cube<out_eT>>::from(
 }
 
 //! conversion to std::vector from Armadillo Base objects
-template <typename out_eT> class conv_to<std::vector<out_eT>>
-{
+template <typename out_eT>
+class conv_to<std::vector<out_eT>> {
 public:
     template <typename in_eT, typename T1>
-    inline static std::vector<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_not_cx<in_eT>::result* junk = 0);
+    inline static std::vector<out_eT> from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk = 0);
 
     template <typename in_eT, typename T1>
-    inline static std::vector<out_eT> from(const Base<in_eT, T1>& in,
-        const typename arma_cx_only<in_eT>::result* junk = 0);
+    inline static std::vector<out_eT> from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk = 0);
 };
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline std::vector<out_eT> conv_to<std::vector<out_eT>>::from(
-    const Base<in_eT, T1>& in,
-    const typename arma_not_cx<in_eT>::result* junk)
-{
+arma_warn_unused inline std::vector<out_eT> conv_to<std::vector<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_not_cx<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     const uword N = X.n_elem;
 
     std::vector<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert(&(out[0]), X.memptr(), N);
-    }
+    if(N > 0) { arrayops::convert(&(out[0]), X.memptr(), N); }
 
     return out;
 }
 
 template <typename out_eT>
 template <typename in_eT, typename T1>
-arma_warn_unused inline std::vector<out_eT> conv_to<std::vector<out_eT>>::from(
-    const Base<in_eT, T1>& in,
-    const typename arma_cx_only<in_eT>::result* junk)
-{
+arma_warn_unused inline std::vector<out_eT> conv_to<std::vector<out_eT>>::from(const Base<in_eT, T1>& in, const typename arma_cx_only<in_eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const quasi_unwrap<T1> tmp(in.get_ref());
     const Mat<in_eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "conv_to(): given object can't be interpreted as a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "conv_to(): given object can't be interpreted as a vector");
 
     const uword N = X.n_elem;
 
     std::vector<out_eT> out(N);
 
-    if(N > 0) {
-        arrayops::convert_cx(&(out[0]), X.memptr(), N);
-    }
+    if(N > 0) { arrayops::convert_cx(&(out[0]), X.memptr(), N); }
 
     return out;
 }

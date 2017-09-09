@@ -17,8 +17,7 @@
 //! @{
 
 template <typename eT, typename T1, typename T2>
-class subview_elem2 : public Base<eT, subview_elem2<eT, T1, T2>>
-{
+class subview_elem2 : public Base<eT, subview_elem2<eT, T1, T2>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -35,16 +34,13 @@ public:
     const bool all_cols;
 
 protected:
-    arma_inline subview_elem2(const Mat<eT>& in_m,
-        const Base<uword, T1>& in_ri,
-        const Base<uword, T2>& in_ci,
-        const bool in_all_rows,
-        const bool in_all_cols);
+    arma_inline subview_elem2(const Mat<eT>& in_m, const Base<uword, T1>& in_ri, const Base<uword, T2>& in_ci, const bool in_all_rows, const bool in_all_cols);
 
 public:
     inline ~subview_elem2();
 
-    template <typename op_type> inline void inplace_op(const eT val);
+    template <typename op_type>
+    inline void inplace_op(const eT val);
 
     template <typename op_type, typename expr>
     inline void inplace_op(const Base<eT, expr>& x);
@@ -74,11 +70,16 @@ public:
     template <typename T3, typename T4>
     inline void operator/=(const subview_elem2<eT, T3, T4>& x);
 
-    template <typename expr> inline void operator=(const Base<eT, expr>& x);
-    template <typename expr> inline void operator+=(const Base<eT, expr>& x);
-    template <typename expr> inline void operator-=(const Base<eT, expr>& x);
-    template <typename expr> inline void operator%=(const Base<eT, expr>& x);
-    template <typename expr> inline void operator/=(const Base<eT, expr>& x);
+    template <typename expr>
+    inline void operator=(const Base<eT, expr>& x);
+    template <typename expr>
+    inline void operator+=(const Base<eT, expr>& x);
+    template <typename expr>
+    inline void operator-=(const Base<eT, expr>& x);
+    template <typename expr>
+    inline void operator%=(const Base<eT, expr>& x);
+    template <typename expr>
+    inline void operator/=(const Base<eT, expr>& x);
 
     inline static void extract(Mat<eT>& out, const subview_elem2& in);
 

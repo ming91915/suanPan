@@ -18,15 +18,14 @@
 
 template <typename eT>
 inline mat_injector_row<eT>::mat_injector_row()
-    : n_cols(0)
-{
+    : n_cols(0) {
     arma_extra_debug_sigprint();
 
     A.set_size(podarray_prealloc_n_elem::val);
 }
 
-template <typename eT> inline void mat_injector_row<eT>::insert(const eT val) const
-{
+template <typename eT>
+inline void mat_injector_row<eT>::insert(const eT val) const {
     arma_extra_debug_sigprint();
 
     if(n_cols < A.n_elem) {
@@ -50,11 +49,9 @@ template <typename eT> inline void mat_injector_row<eT>::insert(const eT val) co
 //
 
 template <typename T1>
-inline mat_injector<T1>::mat_injector(T1& in_X,
-    const typename mat_injector<T1>::elem_type val)
+inline mat_injector<T1>::mat_injector(T1& in_X, const typename mat_injector<T1>::elem_type val)
     : X(in_X)
-    , n_rows(1)
-{
+    , n_rows(1) {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -66,9 +63,7 @@ inline mat_injector<T1>::mat_injector(T1& in_X,
 
     A.set_size(n_rows);
 
-    for(uword row = 0; row < n_rows; ++row) {
-        A[row] = new mat_injector_row<eT>;
-    }
+    for(uword row = 0; row < n_rows; ++row) { A[row] = new mat_injector_row<eT>; }
 
     (*(A[0])).insert(val);
 }
@@ -76,8 +71,7 @@ inline mat_injector<T1>::mat_injector(T1& in_X,
 template <typename T1>
 inline mat_injector<T1>::mat_injector(T1& in_X, const injector_end_of_row<>& x)
     : X(in_X)
-    , n_rows(1)
-{
+    , n_rows(1) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 
@@ -90,15 +84,13 @@ inline mat_injector<T1>::mat_injector(T1& in_X, const injector_end_of_row<>& x)
 
     A.set_size(n_rows);
 
-    for(uword row = 0; row < n_rows; ++row) {
-        A[row] = new mat_injector_row<eT>;
-    }
+    for(uword row = 0; row < n_rows; ++row) { A[row] = new mat_injector_row<eT>; }
 
     (*this).end_of_row();
 }
 
-template <typename T1> inline mat_injector<T1>::~mat_injector()
-{
+template <typename T1>
+inline mat_injector<T1>::~mat_injector() {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -111,9 +103,7 @@ template <typename T1> inline mat_injector<T1>::~mat_injector()
         for(uword row = 1; row < n_rows; ++row) {
             const uword n_cols = (*(A[row])).n_cols;
 
-            if(max_n_cols < n_cols) {
-                max_n_cols = n_cols;
-            }
+            if(max_n_cols < n_cols) { max_n_cols = n_cols; }
         }
 
         const uword max_n_rows = ((*(A[n_rows - 1])).n_cols == 0) ? n_rows - 1 : n_rows;
@@ -124,17 +114,12 @@ template <typename T1> inline mat_injector<T1>::~mat_injector()
             for(uword row = 0; row < max_n_rows; ++row) {
                 const uword n_cols = (*(A[row])).n_cols;
 
-                for(uword col = 0; col < n_cols; ++col) {
-                    X.at(row, col) = (*(A[row])).A[col];
-                }
+                for(uword col = 0; col < n_cols; ++col) { X.at(row, col) = (*(A[row])).A[col]; }
 
-                for(uword col = n_cols; col < max_n_cols; ++col) {
-                    X.at(row, col) = eT(0);
-                }
+                for(uword col = n_cols; col < max_n_cols; ++col) { X.at(row, col) = eT(0); }
             }
         } else if(is_Row<T1>::value == true) {
-            arma_debug_check(
-                (max_n_rows > 1), "matrix initialisation: incompatible dimensions");
+            arma_debug_check((max_n_rows > 1), "matrix initialisation: incompatible dimensions");
 
             const uword n_cols = (*(A[0])).n_cols;
 
@@ -144,8 +129,7 @@ template <typename T1> inline mat_injector<T1>::~mat_injector()
         } else if(is_Col<T1>::value == true) {
             const bool is_vec = ((max_n_rows == 1) || (max_n_cols == 1));
 
-            arma_debug_check(
-                (is_vec == false), "matrix initialisation: incompatible dimensions");
+            arma_debug_check((is_vec == false), "matrix initialisation: incompatible dimensions");
 
             const uword n_elem = (std::max)(max_n_rows, max_n_cols);
 
@@ -168,17 +152,14 @@ template <typename T1> inline mat_injector<T1>::~mat_injector()
         }
     }
 
-    for(uword row = 0; row < n_rows; ++row) {
-        delete A[row];
-    }
+    for(uword row = 0; row < n_rows; ++row) { delete A[row]; }
 
     delete AA;
     delete BB;
 }
 
 template <typename T1>
-inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type val) const
-{
+inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type val) const {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -188,8 +169,8 @@ inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type 
     (*(A[n_rows - 1])).insert(val);
 }
 
-template <typename T1> inline void mat_injector<T1>::end_of_row() const
-{
+template <typename T1>
+inline void mat_injector<T1>::end_of_row() const {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -201,9 +182,7 @@ template <typename T1> inline void mat_injector<T1>::end_of_row() const
 
     arrayops::copy(B.memptr(), A.memptr(), n_rows);
 
-    for(uword row = n_rows; row < (n_rows + 1); ++row) {
-        B[row] = new mat_injector_row<eT>;
-    }
+    for(uword row = n_rows; row < (n_rows + 1); ++row) { B[row] = new mat_injector_row<eT>; }
 
     std::swap(AA, BB);
 
@@ -211,9 +190,7 @@ template <typename T1> inline void mat_injector<T1>::end_of_row() const
 }
 
 template <typename T1>
-arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref,
-    const typename mat_injector<T1>::elem_type val)
-{
+arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const typename mat_injector<T1>::elem_type val) {
     arma_extra_debug_sigprint();
 
     ref.insert(val);
@@ -222,9 +199,7 @@ arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref,
 }
 
 template <typename T1>
-arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref,
-    const injector_end_of_row<>& x)
-{
+arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const injector_end_of_row<>& x) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 
@@ -269,8 +244,7 @@ arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref,
 
 template <typename oT>
 inline field_injector_row<oT>::field_injector_row()
-    : n_cols(0)
-{
+    : n_cols(0) {
     arma_extra_debug_sigprint();
 
     AA = new field<oT>;
@@ -281,16 +255,16 @@ inline field_injector_row<oT>::field_injector_row()
     A.set_size(field_prealloc_n_elem::val);
 }
 
-template <typename oT> inline field_injector_row<oT>::~field_injector_row()
-{
+template <typename oT>
+inline field_injector_row<oT>::~field_injector_row() {
     arma_extra_debug_sigprint();
 
     delete AA;
     delete BB;
 }
 
-template <typename oT> inline void field_injector_row<oT>::insert(const oT& val) const
-{
+template <typename oT>
+inline void field_injector_row<oT>::insert(const oT& val) const {
     arma_extra_debug_sigprint();
 
     field<oT>& A = *AA;
@@ -302,9 +276,7 @@ template <typename oT> inline void field_injector_row<oT>::insert(const oT& val)
     } else {
         B.set_size(2 * A.n_elem);
 
-        for(uword i = 0; i < n_cols; ++i) {
-            B[i] = A[i];
-        }
+        for(uword i = 0; i < n_cols; ++i) { B[i] = A[i]; }
 
         B[n_cols] = val;
         ++n_cols;
@@ -318,11 +290,9 @@ template <typename oT> inline void field_injector_row<oT>::insert(const oT& val)
 //
 
 template <typename T1>
-inline field_injector<T1>::field_injector(T1& in_X,
-    const typename field_injector<T1>::object_type& val)
+inline field_injector<T1>::field_injector(T1& in_X, const typename field_injector<T1>::object_type& val)
     : X(in_X)
-    , n_rows(1)
-{
+    , n_rows(1) {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -334,9 +304,7 @@ inline field_injector<T1>::field_injector(T1& in_X,
 
     A.set_size(n_rows);
 
-    for(uword row = 0; row < n_rows; ++row) {
-        A[row] = new field_injector_row<oT>;
-    }
+    for(uword row = 0; row < n_rows; ++row) { A[row] = new field_injector_row<oT>; }
 
     (*(A[0])).insert(val);
 }
@@ -344,8 +312,7 @@ inline field_injector<T1>::field_injector(T1& in_X,
 template <typename T1>
 inline field_injector<T1>::field_injector(T1& in_X, const injector_end_of_row<>& x)
     : X(in_X)
-    , n_rows(1)
-{
+    , n_rows(1) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 
@@ -358,15 +325,13 @@ inline field_injector<T1>::field_injector(T1& in_X, const injector_end_of_row<>&
 
     A.set_size(n_rows);
 
-    for(uword row = 0; row < n_rows; ++row) {
-        A[row] = new field_injector_row<oT>;
-    }
+    for(uword row = 0; row < n_rows; ++row) { A[row] = new field_injector_row<oT>; }
 
     (*this).end_of_row();
 }
 
-template <typename T1> inline field_injector<T1>::~field_injector()
-{
+template <typename T1>
+inline field_injector<T1>::~field_injector() {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -379,9 +344,7 @@ template <typename T1> inline field_injector<T1>::~field_injector()
         for(uword row = 1; row < n_rows; ++row) {
             const uword n_cols = (*(A[row])).n_cols;
 
-            if(max_n_cols < n_cols) {
-                max_n_cols = n_cols;
-            }
+            if(max_n_cols < n_cols) { max_n_cols = n_cols; }
         }
 
         const uword max_n_rows = ((*(A[n_rows - 1])).n_cols == 0) ? n_rows - 1 : n_rows;
@@ -396,24 +359,18 @@ template <typename T1> inline field_injector<T1>::~field_injector()
                 X.at(row, col) = tmp[col];
             }
 
-            for(uword col = n_cols; col < max_n_cols; ++col) {
-                X.at(row, col) = oT();
-            }
+            for(uword col = n_cols; col < max_n_cols; ++col) { X.at(row, col) = oT(); }
         }
     }
 
-    for(uword row = 0; row < n_rows; ++row) {
-        delete A[row];
-    }
+    for(uword row = 0; row < n_rows; ++row) { delete A[row]; }
 
     delete AA;
     delete BB;
 }
 
 template <typename T1>
-inline void field_injector<T1>::insert(
-    const typename field_injector<T1>::object_type& val) const
-{
+inline void field_injector<T1>::insert(const typename field_injector<T1>::object_type& val) const {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -423,8 +380,8 @@ inline void field_injector<T1>::insert(
     (*(A[n_rows - 1])).insert(val);
 }
 
-template <typename T1> inline void field_injector<T1>::end_of_row() const
-{
+template <typename T1>
+inline void field_injector<T1>::end_of_row() const {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -434,13 +391,9 @@ template <typename T1> inline void field_injector<T1>::end_of_row() const
 
     B.set_size(n_rows + 1);
 
-    for(uword row = 0; row < n_rows; ++row) {
-        B[row] = A[row];
-    }
+    for(uword row = 0; row < n_rows; ++row) { B[row] = A[row]; }
 
-    for(uword row = n_rows; row < (n_rows + 1); ++row) {
-        B[row] = new field_injector_row<oT>;
-    }
+    for(uword row = n_rows; row < (n_rows + 1); ++row) { B[row] = new field_injector_row<oT>; }
 
     std::swap(AA, BB);
 
@@ -448,9 +401,7 @@ template <typename T1> inline void field_injector<T1>::end_of_row() const
 }
 
 template <typename T1>
-arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref,
-    const typename field_injector<T1>::object_type& val)
-{
+arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const typename field_injector<T1>::object_type& val) {
     arma_extra_debug_sigprint();
 
     ref.insert(val);
@@ -459,9 +410,7 @@ arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref,
 }
 
 template <typename T1>
-arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref,
-    const injector_end_of_row<>& x)
-{
+arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const injector_end_of_row<>& x) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 

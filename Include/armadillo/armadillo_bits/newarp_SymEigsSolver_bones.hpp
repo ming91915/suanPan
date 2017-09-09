@@ -13,12 +13,11 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 //! This class implements the eigen solver for real symmetric matrices.
-template <typename eT, int SelectionRule, typename OpType> class SymEigsSolver
-{
+template <typename eT, int SelectionRule, typename OpType>
+class SymEigsSolver {
 protected:
     const OpType& op; // object to conduct matrix operation, e.g. matrix-vector product
     const uword nev;  // number of eigenvalues requested

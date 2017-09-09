@@ -17,8 +17,8 @@
 //! @{
 
 //! immediate inverse of a matrix, storing the result in a dense matrix
-template <typename eT> inline void op_inv::apply(Mat<eT>& out, const Mat<eT>& A)
-{
+template <typename eT>
+inline void op_inv::apply(Mat<eT>& out, const Mat<eT>& A) {
     arma_extra_debug_sigprint();
 
     // no need to check for aliasing, due to:
@@ -35,8 +35,7 @@ template <typename eT> inline void op_inv::apply(Mat<eT>& out, const Mat<eT>& A)
 
 //! immediate inverse of T1, storing the result in a dense matrix
 template <typename T1>
-inline void op_inv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv>& X)
-{
+inline void op_inv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv>& X) {
     arma_extra_debug_sigprint();
 
     const strip_diagmat<T1> strip(X.m);
@@ -56,8 +55,7 @@ inline void op_inv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv>
 }
 
 template <typename T1>
-inline bool op_inv::apply_diagmat(Mat<typename T1::elem_type>& out, const T1& X)
-{
+inline bool op_inv::apply_diagmat(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -78,9 +76,7 @@ inline bool op_inv::apply_diagmat(Mat<typename T1::elem_type>& out, const T1& X)
 
             out.at(i, i) = eT(1) / val;
 
-            if(val == eT(0)) {
-                status = false;
-            }
+            if(val == eT(0)) { status = false; }
         }
     } else {
         Mat<eT> tmp(N, N, fill::zeros);
@@ -90,9 +86,7 @@ inline bool op_inv::apply_diagmat(Mat<typename T1::elem_type>& out, const T1& X)
 
             tmp.at(i, i) = eT(1) / val;
 
-            if(val == eT(0)) {
-                status = false;
-            }
+            if(val == eT(0)) { status = false; }
         }
 
         out.steal_mem(tmp);
@@ -103,8 +97,7 @@ inline bool op_inv::apply_diagmat(Mat<typename T1::elem_type>& out, const T1& X)
 
 //! inverse of T1 (triangular matrices)
 template <typename T1>
-inline void op_inv_tr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv_tr>& X)
-{
+inline void op_inv_tr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv_tr>& X) {
     arma_extra_debug_sigprint();
 
     const bool status = auxlib::inv_tr(out, X.m, X.aux_uword_a);
@@ -117,17 +110,14 @@ inline void op_inv_tr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_i
 
 //! inverse of T1 (symmetric positive definite matrices)
 template <typename T1>
-inline void op_inv_sympd::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_inv_sympd>& X)
-{
+inline void op_inv_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_inv_sympd>& X) {
     arma_extra_debug_sigprint();
 
     const bool status = auxlib::inv_sympd(out, X.m);
 
     if(status == false) {
         out.soft_reset();
-        arma_stop_runtime_error(
-            "inv_sympd(): matrix is singular or not positive definite");
+        arma_stop_runtime_error("inv_sympd(): matrix is singular or not positive definite");
     }
 }
 

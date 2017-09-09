@@ -17,15 +17,13 @@
 //! @{
 
 inline wall_clock::wall_clock()
-    : valid(false)
-{
+    : valid(false) {
     arma_extra_debug_sigprint();
 }
 
 inline wall_clock::~wall_clock() { arma_extra_debug_sigprint(); }
 
-inline void wall_clock::tic()
-{
+inline void wall_clock::tic() {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_CXX11)
@@ -46,20 +44,17 @@ inline void wall_clock::tic()
 #endif
 }
 
-inline double wall_clock::toc()
-{
+inline double wall_clock::toc() {
     arma_extra_debug_sigprint();
 
     if(valid) {
 #if defined(ARMA_USE_CXX11)
         {
-            const std::chrono::steady_clock::time_point chrono_time2 =
-                std::chrono::steady_clock::now();
+            const std::chrono::steady_clock::time_point chrono_time2 = std::chrono::steady_clock::now();
 
             typedef std::chrono::duration<double> duration_type;
 
-            const duration_type chrono_span =
-                std::chrono::duration_cast<duration_type>(chrono_time2 - chrono_time1);
+            const duration_type chrono_span = std::chrono::duration_cast<duration_type>(chrono_time2 - chrono_time1);
 
             return chrono_span.count();
         }
@@ -67,10 +62,8 @@ inline double wall_clock::toc()
         {
             gettimeofday(&posix_time2, 0);
 
-            const double tmp_time1 =
-                double(posix_time1.tv_sec) + double(posix_time1.tv_usec) * 1.0e-6;
-            const double tmp_time2 =
-                double(posix_time2.tv_sec) + double(posix_time2.tv_usec) * 1.0e-6;
+            const double tmp_time1 = double(posix_time1.tv_sec) + double(posix_time1.tv_usec) * 1.0e-6;
+            const double tmp_time2 = double(posix_time2.tv_sec) + double(posix_time2.tv_usec) * 1.0e-6;
 
             return tmp_time2 - tmp_time1;
         }

@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_index_min::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_min>& in)
-{
+inline void op_index_min::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_min>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,9 +40,7 @@ inline void op_index_min::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_
 }
 
 template <typename eT>
-inline void
-op_index_min::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim)
-{
+inline void op_index_min::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     const uword X_n_rows = X.n_rows;
@@ -54,37 +51,26 @@ op_index_min::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim)
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         uword* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            op_min::direct_min(X.colptr(col), X_n_rows, out_mem[col]);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { op_min::direct_min(X.colptr(col), X_n_rows, out_mem[col]); }
     } else if(dim == 1) {
         arma_extra_debug_print("op_index_min::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         uword* out_mem = out.memptr();
 
-        for(uword row = 0; row < X_n_rows; ++row) {
-            out_mem[row] = X.row(row).index_min();
-        }
+        for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] = X.row(row).index_min(); }
     }
 }
 
 template <typename T1>
-inline void op_index_min::apply(Mat<uword>& out,
-    const SpBase<typename T1::elem_type, T1>& expr,
-    const uword dim)
-{
+inline void op_index_min::apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -102,29 +88,21 @@ inline void op_index_min::apply(Mat<uword>& out,
 
         out.set_size((X_n_rows > 0) ? 1 : 0, X_n_cols);
 
-        if(X_n_rows == 0) {
-            return;
-        }
+        if(X_n_rows == 0) { return; }
 
         uword* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = X.col(col).index_min();
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = X.col(col).index_min(); }
     } else if(dim == 1) {
         arma_extra_debug_print("op_index_min::apply(): dim = 1");
 
         out.set_size(X_n_rows, (X_n_cols > 0) ? 1 : 0);
 
-        if(X_n_cols == 0) {
-            return;
-        }
+        if(X_n_cols == 0) { return; }
 
         uword* out_mem = out.memptr();
 
-        for(uword row = 0; row < X_n_rows; ++row) {
-            out_mem[row] = X.row(row).index_min();
-        }
+        for(uword row = 0; row < X_n_rows; ++row) { out_mem[row] = X.row(row).index_min(); }
     }
 }
 

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-inline void glue_hypot::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_hypot>& expr)
-{
+inline void glue_hypot::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_hypot>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -29,8 +27,7 @@ inline void glue_hypot::apply(Mat<typename T1::elem_type>& out,
 
     arma_assert_same_size(P1, P2, "hypot()");
 
-    const bool bad_alias = ((Proxy<T1>::has_subview && P1.is_alias(out)) ||
-        (Proxy<T2>::has_subview && P2.is_alias(out)));
+    const bool bad_alias = ((Proxy<T1>::has_subview && P1.is_alias(out)) || (Proxy<T2>::has_subview && P2.is_alias(out)));
 
     if(bad_alias == false) {
         glue_hypot::apply_noalias(out, P1, P2);
@@ -44,10 +41,7 @@ inline void glue_hypot::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_hypot::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P1,
-    const Proxy<T2>& P2)
-{
+inline void glue_hypot::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -65,9 +59,7 @@ inline void glue_hypot::apply_noalias(Mat<typename T1::elem_type>& out,
 
         const uword N = P1.get_n_elem();
 
-        for(uword i = 0; i < N; ++i) {
-            out_mem[i] = arma_hypot(eaP1[i], eaP2[i]);
-        }
+        for(uword i = 0; i < N; ++i) { out_mem[i] = arma_hypot(eaP1[i], eaP2[i]); }
     } else {
         for(uword col = 0; col < n_cols; ++col)
             for(uword row = 0; row < n_rows; ++row) {
@@ -78,9 +70,7 @@ inline void glue_hypot::apply_noalias(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_hypot::apply(Cube<typename T1::elem_type>& out,
-    const GlueCube<T1, T2, glue_hypot>& expr)
-{
+inline void glue_hypot::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_hypot>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -90,8 +80,7 @@ inline void glue_hypot::apply(Cube<typename T1::elem_type>& out,
 
     arma_assert_same_size(P1, P2, "hypot()");
 
-    const bool bad_alias = ((ProxyCube<T1>::has_subview && P1.is_alias(out)) ||
-        (ProxyCube<T2>::has_subview && P2.is_alias(out)));
+    const bool bad_alias = ((ProxyCube<T1>::has_subview && P1.is_alias(out)) || (ProxyCube<T2>::has_subview && P2.is_alias(out)));
 
     if(bad_alias == false) {
         glue_hypot::apply_noalias(out, P1, P2);
@@ -105,10 +94,7 @@ inline void glue_hypot::apply(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_hypot::apply_noalias(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P1,
-    const ProxyCube<T2>& P2)
-{
+inline void glue_hypot::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -127,9 +113,7 @@ inline void glue_hypot::apply_noalias(Cube<typename T1::elem_type>& out,
 
         const uword N = P1.get_n_elem();
 
-        for(uword i = 0; i < N; ++i) {
-            out_mem[i] = arma_hypot(eaP1[i], eaP2[i]);
-        }
+        for(uword i = 0; i < N; ++i) { out_mem[i] = arma_hypot(eaP1[i], eaP2[i]); }
     } else {
         for(uword slice = 0; slice < n_slices; ++slice)
             for(uword col = 0; col < n_cols; ++col)

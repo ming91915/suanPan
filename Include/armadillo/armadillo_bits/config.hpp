@@ -179,8 +179,7 @@
 //// This is mainly useful for debugging of the library.
 
 #if defined(ARMA_DEFAULT_OSTREAM)
-#pragma message( \
-    "WARNING: support for ARMA_DEFAULT_OSTREAM is deprecated and will be removed;")
+#pragma message("WARNING: support for ARMA_DEFAULT_OSTREAM is deprecated and will be removed;")
 #pragma message("WARNING: use ARMA_COUT_STREAM and ARMA_CERR_STREAM instead")
 #endif
 

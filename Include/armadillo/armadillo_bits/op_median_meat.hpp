@@ -21,9 +21,7 @@
 //! The result is stored in a dense matrix that has either one column or one row.
 //! The dimension, for which the medians are found, is set via the median() function.
 template <typename T1>
-inline void op_median::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_median>& in)
-{
+inline void op_median::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_median>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -70,9 +68,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out,
                 std::vector<eT> tmp_vec(X_n_cols);
 
                 for(uword row = 0; row < X_n_rows; ++row) {
-                    for(uword col = 0; col < X_n_cols; ++col) {
-                        tmp_vec[col] = X.at(row, col);
-                    }
+                    for(uword col = 0; col < X_n_cols; ++col) { tmp_vec[col] = X.at(row, col); }
 
                     out[row] = op_median::direct_median(tmp_vec);
                 }
@@ -92,9 +88,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out,
                 std::vector<eT> tmp_vec(P_n_rows);
 
                 for(uword col = 0; col < P_n_cols; ++col) {
-                    for(uword row = 0; row < P_n_rows; ++row) {
-                        tmp_vec[row] = P.at(row, col);
-                    }
+                    for(uword row = 0; row < P_n_rows; ++row) { tmp_vec[row] = P.at(row, col); }
 
                     out[col] = op_median::direct_median(tmp_vec);
                 }
@@ -109,9 +103,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out,
                 std::vector<eT> tmp_vec(P_n_cols);
 
                 for(uword row = 0; row < P_n_rows; ++row) {
-                    for(uword col = 0; col < P_n_cols; ++col) {
-                        tmp_vec[col] = P.at(row, col);
-                    }
+                    for(uword col = 0; col < P_n_cols; ++col) { tmp_vec[col] = P.at(row, col); }
 
                     out[row] = op_median::direct_median(tmp_vec);
                 }
@@ -122,8 +114,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out,
 
 //! Implementation for complex numbers
 template <typename T, typename T1>
-inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in)
-{
+inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -189,9 +180,7 @@ inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>&
 }
 
 template <typename T1>
-inline typename T1::elem_type op_median::median_vec(const T1& X,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk)
-{
+inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -223,21 +212,15 @@ inline typename T1::elem_type op_median::median_vec(const T1& X,
 
             ea_type A = P.get_ea();
 
-            for(uword i = 0; i < n_elem; ++i) {
-                tmp_vec[i] = A[i];
-            }
+            for(uword i = 0; i < n_elem; ++i) { tmp_vec[i] = A[i]; }
         } else {
             const uword n_rows = P.get_n_rows();
             const uword n_cols = P.get_n_cols();
 
             if(n_cols == 1) {
-                for(uword row = 0; row < n_rows; ++row) {
-                    tmp_vec[row] = P.at(row, 0);
-                }
+                for(uword row = 0; row < n_rows; ++row) { tmp_vec[row] = P.at(row, 0); }
             } else if(n_rows == 1) {
-                for(uword col = 0; col < n_cols; ++col) {
-                    tmp_vec[col] = P.at(0, col);
-                }
+                for(uword col = 0; col < n_cols; ++col) { tmp_vec[col] = P.at(0, col); }
             } else {
                 arma_stop_logic_error("op_median::median_vec(): expected a vector");
             }
@@ -248,9 +231,7 @@ inline typename T1::elem_type op_median::median_vec(const T1& X,
 }
 
 template <typename T1>
-inline typename T1::elem_type op_median::median_vec(const T1& X,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -319,8 +300,8 @@ inline typename T1::elem_type op_median::median_vec(const T1& X,
 }
 
 //! find the median value of a std::vector (contents is modified)
-template <typename eT> inline eT op_median::direct_median(std::vector<eT>& X)
-{
+template <typename eT>
+inline eT op_median::direct_median(std::vector<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword n_elem = uword(X.size());
@@ -348,10 +329,7 @@ template <typename eT> inline eT op_median::direct_median(std::vector<eT>& X)
 }
 
 template <typename T>
-inline void op_median::direct_cx_median_index(uword& out_index1,
-    uword& out_index2,
-    std::vector<arma_cx_median_packet<T>>& X)
-{
+inline void op_median::direct_cx_median_index(uword& out_index1, uword& out_index2, std::vector<arma_cx_median_packet<T>>& X) {
     arma_extra_debug_sigprint();
 
     typedef arma_cx_median_packet<T> eT;

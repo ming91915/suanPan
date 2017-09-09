@@ -16,24 +16,20 @@
 //! \addtogroup op_nonzeros
 //! @{
 
-class op_nonzeros
-{
+class op_nonzeros {
 public:
     // for dense matrices
 
     template <typename T1>
-    static inline void apply_noalias(Mat<typename T1::elem_type>& out,
-        const Proxy<T1>& P);
+    static inline void apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P);
 
     template <typename T1>
-    static inline void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_nonzeros>& X);
+    static inline void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_nonzeros>& X);
 
     // for sparse matrices
 
     template <typename T1>
-    static inline void apply_noalias(Mat<typename T1::elem_type>& out,
-        const SpBase<typename T1::elem_type, T1>& X);
+    static inline void apply_noalias(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& X);
 };
 
 //! @}

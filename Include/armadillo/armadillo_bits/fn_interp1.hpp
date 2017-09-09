@@ -17,12 +17,7 @@
 //! @{
 
 template <typename eT>
-inline void interp1_helper_nearest(const Mat<eT>& XG,
-    const Mat<eT>& YG,
-    const Mat<eT>& XI,
-    Mat<eT>& YI,
-    const eT extrap_val)
-{
+inline void interp1_helper_nearest(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
     const eT XG_min = XG.min();
@@ -70,12 +65,7 @@ inline void interp1_helper_nearest(const Mat<eT>& XG,
 }
 
 template <typename eT>
-inline void interp1_helper_linear(const Mat<eT>& XG,
-    const Mat<eT>& YG,
-    const Mat<eT>& XI,
-    Mat<eT>& YI,
-    const eT extrap_val)
-{
+inline void interp1_helper_linear(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
     const eT XG_min = XG.min();
@@ -135,8 +125,7 @@ inline void interp1_helper_linear(const Mat<eT>& XG,
                 std::swap(a_best_err, b_best_err);
             }
 
-            const eT weight =
-                (a_best_err > eT(0)) ? (a_best_err / (a_best_err + b_best_err)) : eT(0);
+            const eT weight = (a_best_err > eT(0)) ? (a_best_err / (a_best_err + b_best_err)) : eT(0);
 
             YI_mem[i] = (eT(1) - weight) * YG_mem[a_best_j] + (weight)*YG_mem[b_best_j];
         }
@@ -144,24 +133,14 @@ inline void interp1_helper_linear(const Mat<eT>& XG,
 }
 
 template <typename eT>
-inline void interp1_helper(const Mat<eT>& X,
-    const Mat<eT>& Y,
-    const Mat<eT>& XI,
-    Mat<eT>& YI,
-    const uword sig,
-    const eT extrap_val)
-{
+inline void interp1_helper(const Mat<eT>& X, const Mat<eT>& Y, const Mat<eT>& XI, Mat<eT>& YI, const uword sig, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check(
-        ((X.is_vec() == false) || (Y.is_vec() == false) || (XI.is_vec() == false)),
-        "interp1(): currently only vectors are supported");
+    arma_debug_check(((X.is_vec() == false) || (Y.is_vec() == false) || (XI.is_vec() == false)), "interp1(): currently only vectors are supported");
 
-    arma_debug_check((X.n_elem != Y.n_elem),
-        "interp1(): X and Y must have the same number of elements");
+    arma_debug_check((X.n_elem != Y.n_elem), "interp1(): X and Y must have the same number of elements");
 
-    arma_debug_check(
-        (X.n_elem < 2), "interp1(): X must have at least two unique elements");
+    arma_debug_check((X.n_elem < 2), "interp1(): X must have at least two unique elements");
 
     // sig = 10: nearest neighbour
     // sig = 11: nearest neighbour, assume monotonic increase in X and XI
@@ -182,16 +161,14 @@ inline void interp1_helper(const Mat<eT>& X,
 
     try {
         X_indices = find_unique(X, false);
-    } catch(...) {
-    }
+    } catch(...) {}
 
     // NOTE: find_unique(X,false) provides indices of elements sorted in ascending order
     // NOTE: find_unique(X,false) will reset X_indices if X has NaN
 
     const uword N_subset = X_indices.n_elem;
 
-    arma_debug_check(
-        (N_subset < 2), "interp1(): X must have at least two unique elements");
+    arma_debug_check((N_subset < 2), "interp1(): X must have at least two unique elements");
 
     Mat<eT> X_sanitised(N_subset, 1);
     Mat<eT> Y_sanitised(N_subset, 1);
@@ -228,9 +205,7 @@ inline void interp1_helper(const Mat<eT>& X,
         const eT* XI_mem = XI.memptr();
         eT* XI_tmp_mem = XI_tmp.memptr();
 
-        for(uword i = 0; i < N; ++i) {
-            XI_tmp_mem[i] = XI_mem[XI_indices_mem[i]];
-        }
+        for(uword i = 0; i < N; ++i) { XI_tmp_mem[i] = XI_mem[XI_indices_mem[i]]; }
     }
 
     const Mat<eT>& XI_sorted = (XI_is_sorted) ? XI : XI_tmp;
@@ -252,23 +227,14 @@ inline void interp1_helper(const Mat<eT>& X,
         const uword N = XI_sorted.n_elem;
         const uword* XI_indices_mem = XI_indices.memptr();
 
-        for(uword i = 0; i < N; ++i) {
-            YI_unsorted_mem[XI_indices_mem[i]] = YI_mem[i];
-        }
+        for(uword i = 0; i < N; ++i) { YI_unsorted_mem[XI_indices_mem[i]] = YI_mem[i]; }
 
         YI.steal_mem(YI_unsorted);
     }
 }
 
 template <typename T1, typename T2, typename T3>
-inline typename enable_if2<is_real<typename T1::elem_type>::value, void>::result interp1(
-    const Base<typename T1::elem_type, T1>& X,
-    const Base<typename T1::elem_type, T2>& Y,
-    const Base<typename T1::elem_type, T3>& XI,
-    Mat<typename T1::elem_type>& YI,
-    const char* method = "linear",
-    const typename T1::elem_type extrap_val = Datum<typename T1::elem_type>::nan)
-{
+inline typename enable_if2<is_real<typename T1::elem_type>::value, void>::result interp1(const Base<typename T1::elem_type, T1>& X, const Base<typename T1::elem_type, T2>& Y, const Base<typename T1::elem_type, T3>& XI, Mat<typename T1::elem_type>& YI, const char* method = "linear", const typename T1::elem_type extrap_val = Datum<typename T1::elem_type>::nan) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -288,12 +254,8 @@ inline typename enable_if2<is_real<typename T1::elem_type>::value, void>::result
                     sig = 20;
                 } // linear
                 else {
-                    if((c1 == '*') && (c2 == 'n')) {
-                        sig = 11;
-                    } // nearest neighour, assume monotonic increase in X and XI
-                    if((c1 == '*') && (c2 == 'l')) {
-                        sig = 21;
-                    } // linear, assume monotonic increase in X and XI
+                    if((c1 == '*') && (c2 == 'n')) { sig = 11; } // nearest neighour, assume monotonic increase in X and XI
+                    if((c1 == '*') && (c2 == 'l')) { sig = 21; } // linear, assume monotonic increase in X and XI
                 }
             }
 

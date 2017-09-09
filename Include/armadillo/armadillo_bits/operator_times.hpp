@@ -18,10 +18,7 @@
 
 //! Base * scalar
 template <typename T1>
-arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_times>>::result
-    operator*(const T1& X, const typename T1::elem_type k)
-{
+arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_times>>::result operator*(const T1& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return eOp<T1, eop_scalar_times>(X, k);
@@ -29,10 +26,7 @@ arma_inline
 
 //! scalar * Base
 template <typename T1>
-arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_times>>::result
-    operator*(const typename T1::elem_type k, const T1& X)
-{
+arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_times>>::result operator*(const typename T1::elem_type k, const T1& X) {
     arma_extra_debug_sigprint();
 
     return eOp<T1, eop_scalar_times>(X, k); // NOTE: order is swapped
@@ -40,37 +34,23 @@ arma_inline
 
 //! non-complex Base * complex scalar
 template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value &&
-                                    is_cx<typename T1::elem_type>::no),
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>>::
-    result
-    operator*(const T1& X, const std::complex<typename T1::pod_type>& k)
-{
+arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>>::result operator*(const T1& X, const std::complex<typename T1::pod_type>& k) {
     arma_extra_debug_sigprint();
 
-    return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>(
-        'j', X, k);
+    return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>('j', X, k);
 }
 
 //! complex scalar * non-complex Base
 template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value &&
-                                    is_cx<typename T1::elem_type>::no),
-    const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>>::
-    result
-    operator*(const std::complex<typename T1::pod_type>& k, const T1& X)
-{
+arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>>::result operator*(const std::complex<typename T1::pod_type>& k, const T1& X) {
     arma_extra_debug_sigprint();
 
-    return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>(
-        'j', X, k);
+    return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>('j', X, k);
 }
 
 //! scalar * trans(T1)
 template <typename T1>
-arma_inline const Op<T1, op_htrans2> operator*(const typename T1::elem_type k,
-    const Op<T1, op_htrans>& X)
-{
+arma_inline const Op<T1, op_htrans2> operator*(const typename T1::elem_type k, const Op<T1, op_htrans>& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_htrans2>(X.m, k);
@@ -78,9 +58,7 @@ arma_inline const Op<T1, op_htrans2> operator*(const typename T1::elem_type k,
 
 //! trans(T1) * scalar
 template <typename T1>
-arma_inline const Op<T1, op_htrans2> operator*(const Op<T1, op_htrans>& X,
-    const typename T1::elem_type k)
-{
+arma_inline const Op<T1, op_htrans2> operator*(const Op<T1, op_htrans>& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_htrans2>(X.m, k);
@@ -88,12 +66,7 @@ arma_inline const Op<T1, op_htrans2> operator*(const Op<T1, op_htrans>& X,
 
 //! Base * diagmat
 template <typename T1, typename T2>
-arma_inline
-    typename enable_if2<(is_arma_type<T1>::value && is_same_type<typename T1::elem_type,
-                                                        typename T2::elem_type>::value),
-        const Glue<T1, Op<T2, op_diagmat>, glue_times_diag>>::result
-    operator*(const T1& X, const Op<T2, op_diagmat>& Y)
-{
+arma_inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, Op<T2, op_diagmat>, glue_times_diag>>::result operator*(const T1& X, const Op<T2, op_diagmat>& Y) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, Op<T2, op_diagmat>, glue_times_diag>(X, Y);
@@ -101,12 +74,7 @@ arma_inline
 
 //! diagmat * Base
 template <typename T1, typename T2>
-arma_inline
-    typename enable_if2<(is_arma_type<T2>::value && is_same_type<typename T1::elem_type,
-                                                        typename T2::elem_type>::value),
-        const Glue<Op<T1, op_diagmat>, T2, glue_times_diag>>::result
-    operator*(const Op<T1, op_diagmat>& X, const T2& Y)
-{
+arma_inline typename enable_if2<(is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<Op<T1, op_diagmat>, T2, glue_times_diag>>::result operator*(const Op<T1, op_diagmat>& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     return Glue<Op<T1, op_diagmat>, T2, glue_times_diag>(X, Y);
@@ -114,9 +82,7 @@ arma_inline
 
 //! diagmat * diagmat
 template <typename T1, typename T2>
-inline Mat<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result>
-operator*(const Op<T1, op_diagmat>& X, const Op<T2, op_diagmat>& Y)
-{
+inline Mat<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result> operator*(const Op<T1, op_diagmat>& X, const Op<T2, op_diagmat>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -129,8 +95,7 @@ operator*(const Op<T1, op_diagmat>& X, const Op<T2, op_diagmat>& Y)
     const diagmat_proxy<T1> A(X.m);
     const diagmat_proxy<T2> B(Y.m);
 
-    arma_debug_assert_mul_size(
-        A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
+    arma_debug_assert_mul_size(A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
 
     Mat<out_eT> out(A.n_rows, B.n_cols, fill::zeros);
 
@@ -139,21 +104,14 @@ operator*(const Op<T1, op_diagmat>& X, const Op<T2, op_diagmat>& Y)
 
     const uword N = (std::min)(A_length, B_length);
 
-    for(uword i = 0; i < N; ++i) {
-        out.at(i, i) =
-            upgrade_val<eT1, eT2>::apply(A[i]) * upgrade_val<eT1, eT2>::apply(B[i]);
-    }
+    for(uword i = 0; i < N; ++i) { out.at(i, i) = upgrade_val<eT1, eT2>::apply(A[i]) * upgrade_val<eT1, eT2>::apply(B[i]); }
 
     return out;
 }
 
 //! multiplication of Base objects with same element type
 template <typename T1, typename T2>
-arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value &&
-        is_same_type<typename T1::elem_type, typename T2::elem_type>::value,
-    const Glue<T1, T2, glue_times>>::result
-operator*(const T1& X, const T2& Y)
-{
+arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value, const Glue<T1, T2, glue_times>>::result operator*(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_times>(X, Y);
@@ -161,16 +119,7 @@ operator*(const T1& X, const T2& Y)
 
 //! multiplication of Base objects with different element types
 template <typename T1, typename T2>
-inline typename enable_if2<
-    (is_arma_type<T1>::value && is_arma_type<T2>::value &&
-        (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)),
-    const mtGlue<
-        typename promote_type<typename T1::elem_type, typename T2::elem_type>::result,
-        T1,
-        T2,
-        glue_mixed_times>>::result
-operator*(const T1& X, const T2& Y)
-{
+inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)), const mtGlue<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result, T1, T2, glue_mixed_times>>::result operator*(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -185,20 +134,14 @@ operator*(const T1& X, const T2& Y)
 
 //! sparse multiplied by scalar
 template <typename T1>
-inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    SpOp<T1, spop_scalar_times>>::result
-operator*(const T1& X, const typename T1::elem_type k)
-{
+inline typename enable_if2<is_arma_sparse_type<T1>::value, SpOp<T1, spop_scalar_times>>::result operator*(const T1& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return SpOp<T1, spop_scalar_times>(X, k);
 }
 
 template <typename T1>
-inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    SpOp<T1, spop_scalar_times>>::result
-operator*(const typename T1::elem_type k, const T1& X)
-{
+inline typename enable_if2<is_arma_sparse_type<T1>::value, SpOp<T1, spop_scalar_times>>::result operator*(const typename T1::elem_type k, const T1& X) {
     arma_extra_debug_sigprint();
 
     return SpOp<T1, spop_scalar_times>(X, k);
@@ -206,12 +149,7 @@ operator*(const typename T1::elem_type k, const T1& X)
 
 //! multiplication of two sparse objects
 template <typename T1, typename T2>
-inline arma_hot typename enable_if2<
-    (is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value &&
-        is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    const SpGlue<T1, T2, spglue_times>>::result
-operator*(const T1& x, const T2& y)
-{
+inline arma_hot typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const SpGlue<T1, T2, spglue_times>>::result operator*(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_times>(x, y);
@@ -220,9 +158,7 @@ operator*(const T1& x, const T2& y)
 //! convert "(sparse + sparse) * scalar" to specialised operation "scalar * (sparse +
 //! sparse)"
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_plus2> operator*(const SpGlue<T1, T2, spglue_plus>& X,
-    const typename T1::elem_type k)
-{
+inline const SpGlue<T1, T2, spglue_plus2> operator*(const SpGlue<T1, T2, spglue_plus>& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_plus2>(X.A, X.B, k);
@@ -230,9 +166,7 @@ inline const SpGlue<T1, T2, spglue_plus2> operator*(const SpGlue<T1, T2, spglue_
 
 //! convert "scalar * (sparse + sparse)" to specialised operation
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_plus2> operator*(const typename T1::elem_type k,
-    const SpGlue<T1, T2, spglue_plus>& X)
-{
+inline const SpGlue<T1, T2, spglue_plus2> operator*(const typename T1::elem_type k, const SpGlue<T1, T2, spglue_plus>& X) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_plus2>(X.A, X.B, k);
@@ -241,9 +175,7 @@ inline const SpGlue<T1, T2, spglue_plus2> operator*(const typename T1::elem_type
 //! convert "(sparse - sparse) * scalar" to specialised operation "scalar * (sparse -
 //! sparse)"
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_minus2>
-operator*(const SpGlue<T1, T2, spglue_minus>& X, const typename T1::elem_type k)
-{
+inline const SpGlue<T1, T2, spglue_minus2> operator*(const SpGlue<T1, T2, spglue_minus>& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_minus2>(X.A, X.B, k);
@@ -251,9 +183,7 @@ operator*(const SpGlue<T1, T2, spglue_minus>& X, const typename T1::elem_type k)
 
 //! convert "scalar * (sparse - sparse)" to specialised operation
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_minus2> operator*(const typename T1::elem_type k,
-    const SpGlue<T1, T2, spglue_minus>& X)
-{
+inline const SpGlue<T1, T2, spglue_minus2> operator*(const typename T1::elem_type k, const SpGlue<T1, T2, spglue_minus>& X) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_minus2>(X.A, X.B, k);
@@ -261,9 +191,7 @@ inline const SpGlue<T1, T2, spglue_minus2> operator*(const typename T1::elem_typ
 
 //! convert "(sparse*sparse) * scalar" to specialised operation "scalar * (sparse*sparse)"
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_times2>
-operator*(const SpGlue<T1, T2, spglue_times>& X, const typename T1::elem_type k)
-{
+inline const SpGlue<T1, T2, spglue_times2> operator*(const SpGlue<T1, T2, spglue_times>& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_times2>(X.A, X.B, k);
@@ -271,9 +199,7 @@ operator*(const SpGlue<T1, T2, spglue_times>& X, const typename T1::elem_type k)
 
 //! convert "scalar * (sparse*sparse)" to specialised operation
 template <typename T1, typename T2>
-inline const SpGlue<T1, T2, spglue_times2> operator*(const typename T1::elem_type k,
-    const SpGlue<T1, T2, spglue_times>& X)
-{
+inline const SpGlue<T1, T2, spglue_times2> operator*(const typename T1::elem_type k, const SpGlue<T1, T2, spglue_times>& X) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_times2>(X.A, X.B, k);
@@ -281,10 +207,7 @@ inline const SpGlue<T1, T2, spglue_times2> operator*(const typename T1::elem_typ
 
 //! convert "(scalar*sparse) * sparse" to specialised operation "scalar * (sparse*sparse)"
 template <typename T1, typename T2>
-inline typename enable_if2<is_arma_sparse_type<T2>::value,
-    const SpGlue<T1, T2, spglue_times2>>::result
-operator*(const SpOp<T1, spop_scalar_times>& X, const T2& Y)
-{
+inline typename enable_if2<is_arma_sparse_type<T2>::value, const SpGlue<T1, T2, spglue_times2>>::result operator*(const SpOp<T1, spop_scalar_times>& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_times2>(X.m, Y, X.aux);
@@ -292,10 +215,7 @@ operator*(const SpOp<T1, spop_scalar_times>& X, const T2& Y)
 
 //! convert "sparse * (scalar*sparse)" to specialised operation "scalar * (sparse*sparse)"
 template <typename T1, typename T2>
-inline typename enable_if2<is_arma_sparse_type<T1>::value,
-    const SpGlue<T1, T2, spglue_times2>>::result
-operator*(const T1& X, const SpOp<T2, spop_scalar_times>& Y)
-{
+inline typename enable_if2<is_arma_sparse_type<T1>::value, const SpGlue<T1, T2, spglue_times2>>::result operator*(const T1& X, const SpOp<T2, spop_scalar_times>& Y) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_times2>(X, Y.m, Y.aux);
@@ -303,19 +223,13 @@ operator*(const T1& X, const SpOp<T2, spop_scalar_times>& Y)
 
 //! multiplication of one sparse and one dense object
 template <typename T1, typename T2>
-inline typename enable_if2<
-    (is_arma_sparse_type<T1>::value && is_arma_type<T2>::value &&
-        is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    Mat<typename T1::elem_type>>::result
-operator*(const T1& x, const T2& y)
-{
+inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), Mat<typename T1::elem_type>>::result operator*(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> pa(x);
     const Proxy<T2> pb(y);
 
-    arma_debug_assert_mul_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(),
-        pb.get_n_cols(), "matrix multiplication");
+    arma_debug_assert_mul_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "matrix multiplication");
 
     Mat<typename T1::elem_type> result(pa.get_n_rows(), pb.get_n_cols());
     result.zeros();
@@ -327,9 +241,7 @@ operator*(const T1& x, const T2& y)
         const uword result_n_cols = result.n_cols;
 
         while(x_it != x_it_end) {
-            for(uword col = 0; col < result_n_cols; ++col) {
-                result.at(x_it.row(), col) += (*x_it) * pb.at(x_it.col(), col);
-            }
+            for(uword col = 0; col < result_n_cols; ++col) { result.at(x_it.row(), col) += (*x_it) * pb.at(x_it.col(), col); }
 
             ++x_it;
         }
@@ -340,19 +252,13 @@ operator*(const T1& x, const T2& y)
 
 //! multiplication of one dense and one sparse object
 template <typename T1, typename T2>
-inline typename enable_if2<
-    (is_arma_type<T1>::value && is_arma_sparse_type<T2>::value &&
-        is_same_type<typename T1::elem_type, typename T2::elem_type>::value),
-    Mat<typename T1::elem_type>>::result
-operator*(const T1& x, const T2& y)
-{
+inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), Mat<typename T1::elem_type>>::result operator*(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> pa(x);
     const SpProxy<T2> pb(y);
 
-    arma_debug_assert_mul_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(),
-        pb.get_n_cols(), "matrix multiplication");
+    arma_debug_assert_mul_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "matrix multiplication");
 
     Mat<typename T1::elem_type> result(pa.get_n_rows(), pb.get_n_cols());
     result.zeros();
@@ -364,10 +270,7 @@ operator*(const T1& x, const T2& y)
         const uword result_n_rows = result.n_rows;
 
         while(y_col_it != y_col_it_end) {
-            for(uword row = 0; row < result_n_rows; ++row) {
-                result.at(row, y_col_it.col()) +=
-                    pa.at(row, y_col_it.row()) * (*y_col_it);
-            }
+            for(uword row = 0; row < result_n_rows; ++row) { result.at(row, y_col_it.col()) += pa.at(row, y_col_it.row()) * (*y_col_it); }
 
             ++y_col_it;
         }

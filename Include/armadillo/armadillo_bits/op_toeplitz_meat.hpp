@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_toeplitz>& in)
-{
+inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -27,8 +25,7 @@ inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out,
     const unwrap_check<T1> tmp(in.m, out);
     const Mat<eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "toeplitz(): given object is not a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "toeplitz(): given object is not a vector");
 
     const uword N = X.n_elem;
     const eT* X_mem = X.memptr();
@@ -41,21 +38,15 @@ inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out,
         uword i;
 
         i = col;
-        for(uword row = 0; row < col; ++row, --i) {
-            col_mem[row] = X_mem[i];
-        }
+        for(uword row = 0; row < col; ++row, --i) { col_mem[row] = X_mem[i]; }
 
         i = 0;
-        for(uword row = col; row < N; ++row, ++i) {
-            col_mem[row] = X_mem[i];
-        }
+        for(uword row = col; row < N; ++row, ++i) { col_mem[row] = X_mem[i]; }
     }
 }
 
 template <typename T1>
-inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_toeplitz_c>& in)
-{
+inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz_c>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -63,8 +54,7 @@ inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out,
     const unwrap_check<T1> tmp(in.m, out);
     const Mat<eT>& X = tmp.M;
 
-    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)),
-        "circ_toeplitz(): given object is not a vector");
+    arma_debug_check(((X.is_vec() == false) && (X.is_empty() == false)), "circ_toeplitz(): given object is not a vector");
 
     const uword N = X.n_elem;
     const eT* X_mem = X.memptr();
@@ -76,14 +66,10 @@ inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out,
             uword i;
 
             i = row;
-            for(uword col = 0; col < row; ++col, --i) {
-                out.at(row, col) = X_mem[N - i];
-            }
+            for(uword col = 0; col < row; ++col, --i) { out.at(row, col) = X_mem[N - i]; }
 
             i = 0;
-            for(uword col = row; col < N; ++col, ++i) {
-                out.at(row, col) = X_mem[i];
-            }
+            for(uword col = row; col < N; ++col, ++i) { out.at(row, col) = X_mem[i]; }
         }
     } else {
         for(uword col = 0; col < N; ++col) {
@@ -92,14 +78,10 @@ inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out,
             uword i;
 
             i = col;
-            for(uword row = 0; row < col; ++row, --i) {
-                col_mem[row] = X_mem[N - i];
-            }
+            for(uword row = 0; row < col; ++row, --i) { col_mem[row] = X_mem[N - i]; }
 
             i = 0;
-            for(uword row = col; row < N; ++row, ++i) {
-                col_mem[row] = X_mem[i];
-            }
+            for(uword row = col; row < N; ++row, ++i) { col_mem[row] = X_mem[i]; }
         }
     }
 }

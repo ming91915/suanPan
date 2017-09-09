@@ -17,8 +17,8 @@
 //! @{
 
 //! Class for storing data required to extract and set the diagonals of a matrix
-template <typename eT> class diagview : public Base<eT, diagview<eT>>
-{
+template <typename eT>
+class diagview : public Base<eT, diagview<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -37,10 +37,7 @@ public:
     static const uword n_cols = 1;
 
 protected:
-    arma_inline diagview(const Mat<eT>& in_m,
-        const uword in_row_offset,
-        const uword in_col_offset,
-        const uword len);
+    arma_inline diagview(const Mat<eT>& in_m, const uword in_row_offset, const uword in_col_offset, const uword len);
 
 public:
     inline ~diagview();
@@ -52,11 +49,16 @@ public:
     inline void operator*=(const eT val);
     inline void operator/=(const eT val);
 
-    template <typename T1> inline void operator=(const Base<eT, T1>& x);
-    template <typename T1> inline void operator+=(const Base<eT, T1>& x);
-    template <typename T1> inline void operator-=(const Base<eT, T1>& x);
-    template <typename T1> inline void operator%=(const Base<eT, T1>& x);
-    template <typename T1> inline void operator/=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline void operator=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline void operator+=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline void operator-=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline void operator%=(const Base<eT, T1>& x);
+    template <typename T1>
+    inline void operator/=(const Base<eT, T1>& x);
 
     arma_inline eT at_alt(const uword ii) const;
 

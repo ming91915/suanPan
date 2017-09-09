@@ -17,15 +17,10 @@
 //! @{
 
 template <typename eT>
-inline void op_hist::apply_noalias(Mat<uword>& out,
-    const Mat<eT>& A,
-    const uword n_bins,
-    const bool A_is_row)
-{
+inline void op_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& A, const uword n_bins, const bool A_is_row) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check(((A.is_vec() == false) && (A.is_empty() == false)),
-        "hist(): only vectors are supported when automatically determining bin centers");
+    arma_debug_check(((A.is_vec() == false) && (A.is_empty() == false)), "hist(): only vectors are supported when automatically determining bin centers");
 
     if(n_bins == 0) {
         out.reset();
@@ -43,45 +38,28 @@ inline void op_hist::apply_noalias(Mat<uword>& out,
         const eT val_i = A_mem[i];
         const eT val_j = A_mem[j];
 
-        if(min_val > val_i) {
-            min_val = val_i;
-        }
-        if(min_val > val_j) {
-            min_val = val_j;
-        }
+        if(min_val > val_i) { min_val = val_i; }
+        if(min_val > val_j) { min_val = val_j; }
 
-        if(max_val < val_i) {
-            max_val = val_i;
-        }
-        if(max_val < val_j) {
-            max_val = val_j;
-        }
+        if(max_val < val_i) { max_val = val_i; }
+        if(max_val < val_j) { max_val = val_j; }
     }
 
     if(i < A_n_elem) {
         const eT val_i = A_mem[i];
 
-        if(min_val > val_i) {
-            min_val = val_i;
-        }
-        if(max_val < val_i) {
-            max_val = val_i;
-        }
+        if(min_val > val_i) { min_val = val_i; }
+        if(max_val < val_i) { max_val = val_i; }
     }
 
-    if(arma_isfinite(min_val) == false) {
-        min_val = priv::most_neg<eT>();
-    }
-    if(arma_isfinite(max_val) == false) {
-        max_val = priv::most_pos<eT>();
-    }
+    if(arma_isfinite(min_val) == false) { min_val = priv::most_neg<eT>(); }
+    if(arma_isfinite(max_val) == false) { max_val = priv::most_pos<eT>(); }
 
     Col<eT> c(n_bins);
     eT* c_mem = c.memptr();
 
     for(uword ii = 0; ii < n_bins; ++ii) {
-        c_mem[ii] = (0.5 + ii) /
-            double(n_bins); // TODO: may need to be modified for integer matrices
+        c_mem[ii] = (0.5 + ii) / double(n_bins); // TODO: may need to be modified for integer matrices
     }
 
     c = ((max_val - min_val) * c) + min_val;
@@ -92,8 +70,7 @@ inline void op_hist::apply_noalias(Mat<uword>& out,
 }
 
 template <typename T1>
-inline void op_hist::apply(Mat<uword>& out, const mtOp<uword, T1, op_hist>& X)
-{
+inline void op_hist::apply(Mat<uword>& out, const mtOp<uword, T1, op_hist>& X) {
     arma_extra_debug_sigprint();
 
     const uword n_bins = X.aux_uword_a;

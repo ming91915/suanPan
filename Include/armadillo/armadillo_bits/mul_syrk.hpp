@@ -16,12 +16,10 @@
 //! \addtogroup syrk
 //! @{
 
-class syrk_helper
-{
+class syrk_helper {
 public:
     template <typename eT>
-    inline static void inplace_copy_upper_tri_to_lower_tri(Mat<eT>& C)
-    {
+    inline static void inplace_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
         // under the assumption that C is a square matrix
 
         const uword N = C.n_rows;
@@ -38,24 +36,17 @@ public:
                 colmem[j] = tmp_j;
             }
 
-            if(i < N) {
-                colmem[i] = C.at(k, i);
-            }
+            if(i < N) { colmem[i] = C.at(k, i); }
         }
     }
 };
 
 //! partial emulation of BLAS function syrk(), specialised for A being a vector
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class syrk_vec
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class syrk_vec {
 public:
     template <typename eT, typename TA>
-    arma_hot inline static void
-    apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0))
-    {
+    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         const uword A_n1 = (do_trans_A == false) ? A.n_rows : A.n_cols;
@@ -103,9 +94,7 @@ public:
                         C.at(k, i) = acc1 + beta * C.at(k, i);
                         C.at(k, j) = acc2 + beta * C.at(k, j);
 
-                        if(i != k) {
-                            C.at(i, k) = acc1 + beta * C.at(i, k);
-                        }
+                        if(i != k) { C.at(i, k) = acc1 + beta * C.at(i, k); }
                         C.at(j, k) = acc2 + beta * C.at(j, k);
                     } else if((use_alpha == true) && (use_beta == true)) {
                         const eT val1 = alpha * acc1;
@@ -114,9 +103,7 @@ public:
                         C.at(k, i) = val1 + beta * C.at(k, i);
                         C.at(k, j) = val2 + beta * C.at(k, j);
 
-                        if(i != k) {
-                            C.at(i, k) = val1 + beta * C.at(i, k);
-                        }
+                        if(i != k) { C.at(i, k) = val1 + beta * C.at(i, k); }
                         C.at(j, k) = val2 + beta * C.at(j, k);
                     }
                 }
@@ -134,16 +121,12 @@ public:
                         C.at(i, k) = val1;
                     } else if((use_alpha == false) && (use_beta == true)) {
                         C.at(k, i) = acc1 + beta * C.at(k, i);
-                        if(i != k) {
-                            C.at(i, k) = acc1 + beta * C.at(i, k);
-                        }
+                        if(i != k) { C.at(i, k) = acc1 + beta * C.at(i, k); }
                     } else if((use_alpha == true) && (use_beta == true)) {
                         const eT val1 = alpha * acc1;
 
                         C.at(k, i) = val1 + beta * C.at(k, i);
-                        if(i != k) {
-                            C.at(i, k) = val1 + beta * C.at(i, k);
-                        }
+                        if(i != k) { C.at(i, k) = val1 + beta * C.at(i, k); }
                     }
                 }
             }
@@ -151,16 +134,11 @@ public:
 };
 
 //! partial emulation of BLAS function syrk()
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class syrk_emul
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class syrk_emul {
 public:
     template <typename eT, typename TA>
-    arma_hot inline static void
-    apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0))
-    {
+    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         // do_trans_A == false  ->   C = alpha * A   * A^T + beta*C
@@ -182,8 +160,7 @@ public:
                 const eT* A_coldata = A.colptr(col_A);
 
                 for(uword k = col_A; k < A_n_cols; ++k) {
-                    const eT acc =
-                        op_dot::direct_dot_arma(A_n_rows, A_coldata, A.colptr(k));
+                    const eT acc = op_dot::direct_dot_arma(A_n_rows, A_coldata, A.colptr(k));
 
                     if((use_alpha == false) && (use_beta == false)) {
                         C.at(col_A, k) = acc;
@@ -195,16 +172,12 @@ public:
                         C.at(k, col_A) = val;
                     } else if((use_alpha == false) && (use_beta == true)) {
                         C.at(col_A, k) = acc + beta * C.at(col_A, k);
-                        if(col_A != k) {
-                            C.at(k, col_A) = acc + beta * C.at(k, col_A);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = acc + beta * C.at(k, col_A); }
                     } else if((use_alpha == true) && (use_beta == true)) {
                         const eT val = alpha * acc;
 
                         C.at(col_A, k) = val + beta * C.at(col_A, k);
-                        if(col_A != k) {
-                            C.at(k, col_A) = val + beta * C.at(k, col_A);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = val + beta * C.at(k, col_A); }
                     }
                 }
             }
@@ -212,18 +185,11 @@ public:
     }
 };
 
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class syrk
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class syrk {
 public:
     template <typename eT, typename TA>
-    inline static void apply_blas_type(Mat<eT>& C,
-        const TA& A,
-        const eT alpha = eT(1),
-        const eT beta = eT(0))
-    {
+    inline static void apply_blas_type(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         if(A.is_vec()) {
@@ -256,11 +222,7 @@ public:
                     return;
                 }
 
-                atlas::cblas_syrk<eT>(atlas::CblasColMajor, atlas::CblasUpper,
-                    (do_trans_A) ? atlas::CblasTrans : atlas::CblasNoTrans, C.n_cols,
-                    (do_trans_A) ? A.n_rows : A.n_cols, (use_alpha) ? alpha : eT(1),
-                    A.mem, (do_trans_A) ? A.n_rows : C.n_cols, (use_beta) ? beta : eT(0),
-                    C.memptr(), C.n_cols);
+                atlas::cblas_syrk<eT>(atlas::CblasColMajor, atlas::CblasUpper, (do_trans_A) ? atlas::CblasTrans : atlas::CblasNoTrans, C.n_cols, (do_trans_A) ? A.n_rows : A.n_cols, (use_alpha) ? alpha : eT(1), A.mem, (do_trans_A) ? A.n_rows : C.n_cols, (use_beta) ? beta : eT(0), C.memptr(), C.n_cols);
 
                 syrk_helper::inplace_copy_upper_tri_to_lower_tri(C);
             }
@@ -294,28 +256,22 @@ public:
 
                 const blas_int lda = (do_trans_A) ? k : n;
 
-                arma_extra_debug_print(
-                    arma_str::format("blas::syrk(): trans_A = %c") % trans_A);
+                arma_extra_debug_print(arma_str::format("blas::syrk(): trans_A = %c") % trans_A);
 
-                blas::syrk<eT>(&uplo, &trans_A, &n, &k, &local_alpha, A.mem, &lda,
-                    &local_beta, C.memptr(),
+                blas::syrk<eT>(&uplo, &trans_A, &n, &k, &local_alpha, A.mem, &lda, &local_beta, C.memptr(),
                     &n // &ldc
-                    );
+                );
 
                 syrk_helper::inplace_copy_upper_tri_to_lower_tri(C);
             }
 #else
-            {
-                syrk_emul<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta);
-            }
+            { syrk_emul<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta); }
 #endif
         }
     }
 
     template <typename eT, typename TA>
-    inline static void
-    apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0))
-    {
+    inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         if(is_cx<eT>::no) {
             if(A.is_vec()) {
                 syrk_vec<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta);
@@ -329,29 +285,17 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<float>& C,
-        const TA& A,
-        const float alpha = float(1),
-        const float beta = float(0))
-    {
+    arma_inline static void apply(Mat<float>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) {
         syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<double>& C,
-        const TA& A,
-        const double alpha = double(1),
-        const double beta = double(0))
-    {
+    arma_inline static void apply(Mat<double>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) {
         syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float>>& C,
-        const TA& A,
-        const std::complex<float> alpha = std::complex<float>(1),
-        const std::complex<float> beta = std::complex<float>(0))
-    {
+    arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const std::complex<float> alpha = std::complex<float>(1), const std::complex<float> beta = std::complex<float>(0)) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);
@@ -362,11 +306,7 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double>>& C,
-        const TA& A,
-        const std::complex<double> alpha = std::complex<double>(1),
-        const std::complex<double> beta = std::complex<double>(0))
-    {
+    arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const std::complex<double> alpha = std::complex<double>(1), const std::complex<double> beta = std::complex<double>(0)) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);

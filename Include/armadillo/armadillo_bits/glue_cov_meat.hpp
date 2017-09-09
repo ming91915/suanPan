@@ -17,16 +17,11 @@
 //! @{
 
 template <typename eT>
-inline void glue_cov::direct_cov(Mat<eT>& out,
-    const Mat<eT>& A,
-    const Mat<eT>& B,
-    const uword norm_type)
-{
+inline void glue_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(A.is_vec() && B.is_vec()) {
-        arma_debug_check((A.n_elem != B.n_elem),
-            "cov(): the number of elements in A and B must match");
+        arma_debug_check((A.n_elem != B.n_elem), "cov(): the number of elements in A and B must match");
 
         const eT* A_ptr = A.memptr();
         const eT* B_ptr = B.memptr();
@@ -66,18 +61,13 @@ inline void glue_cov::direct_cov(Mat<eT>& out,
 }
 
 template <typename T>
-inline void glue_cov::direct_cov(Mat<std::complex<T>>& out,
-    const Mat<std::complex<T>>& A,
-    const Mat<std::complex<T>>& B,
-    const uword norm_type)
-{
+inline void glue_cov::direct_cov(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<std::complex<T>>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
 
     if(A.is_vec() && B.is_vec()) {
-        arma_debug_check((A.n_elem != B.n_elem),
-            "cov(): the number of elements in A and B must match");
+        arma_debug_check((A.n_elem != B.n_elem), "cov(): the number of elements in A and B must match");
 
         const eT* A_ptr = A.memptr();
         const eT* B_ptr = B.memptr();
@@ -110,17 +100,14 @@ inline void glue_cov::direct_cov(Mat<std::complex<T>>& out,
         const uword N = A.n_rows;
         const eT norm_val = (norm_type == 0) ? ((N > 1) ? eT(N - 1) : eT(1)) : eT(N);
 
-        out = trans(A) * B; // out = strans(conj(A)) * B;
-        out -= (trans(sum(A)) * sum(B)) /
-            eT(N); // out -= (strans(conj(sum(A))) * sum(B))/eT(N);
+        out = trans(A) * B;                      // out = strans(conj(A)) * B;
+        out -= (trans(sum(A)) * sum(B)) / eT(N); // out -= (strans(conj(sum(A))) * sum(B))/eT(N);
         out /= norm_val;
     }
 }
 
 template <typename T1, typename T2>
-inline void glue_cov::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_cov>& X)
-{
+inline void glue_cov::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cov>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

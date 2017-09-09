@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-inline bool op_find_unique::apply_helper(Mat<uword>& out,
-    const Proxy<T1>& P,
-    const bool ascending_indices)
-{
+inline bool op_find_unique::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const bool ascending_indices) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -47,9 +44,7 @@ inline bool op_find_unique::apply_helper(Mat<uword>& out,
         for(uword i = 0; i < n_elem; ++i) {
             const eT val = Pea[i];
 
-            if(arma_isnan(val)) {
-                return false;
-            }
+            if(arma_isnan(val)) { return false; }
 
             packet_vec[i].val = val;
             packet_vec[i].index = i;
@@ -64,9 +59,7 @@ inline bool op_find_unique::apply_helper(Mat<uword>& out,
             for(uword row = 0; row < n_rows; ++row) {
                 const eT val = P.at(row, col);
 
-                if(arma_isnan(val)) {
-                    return false;
-                }
+                if(arma_isnan(val)) { return false; }
 
                 packet_vec[i].val = val;
                 packet_vec[i].index = i;
@@ -96,17 +89,13 @@ inline bool op_find_unique::apply_helper(Mat<uword>& out,
 
     out.steal_mem_col(indices, count);
 
-    if(ascending_indices) {
-        std::sort(out.begin(), out.end());
-    }
+    if(ascending_indices) { std::sort(out.begin(), out.end()); }
 
     return true;
 }
 
 template <typename T1>
-inline void op_find_unique::apply(Mat<uword>& out,
-    const mtOp<uword, T1, op_find_unique>& in)
-{
+inline void op_find_unique::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_unique>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

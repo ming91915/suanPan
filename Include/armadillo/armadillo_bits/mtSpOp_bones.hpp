@@ -20,8 +20,7 @@
 // the resulting type is different than the stored type.
 
 template <typename out_eT, typename T1, typename op_type>
-class mtSpOp : public SpBase<out_eT, mtSpOp<out_eT, T1, op_type>>
-{
+class mtSpOp : public SpBase<out_eT, mtSpOp<out_eT, T1, op_type>> {
 public:
     typedef out_eT elem_type;
     typedef typename get_pod_type<out_eT>::result pod_type;

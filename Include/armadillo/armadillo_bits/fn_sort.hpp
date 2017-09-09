@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused arma_inline
-    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort_default>>::result
-    sort(const T1& X)
-{
+arma_warn_unused arma_inline typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort_default>>::result sort(const T1& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_sort_default>(X, 0, 0);
@@ -28,10 +25,7 @@ arma_warn_unused arma_inline
 
 //! NOTE: don't use this form: it will be removed
 template <typename T1>
-arma_deprecated inline
-    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort_default>>::result
-    sort(const T1& X, const uword sort_type)
-{
+arma_deprecated inline typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort_default>>::result sort(const T1& X, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     // arma_debug_warn("sort(X,uword) is deprecated and will be removed; change to
@@ -42,10 +36,7 @@ arma_deprecated inline
 
 //! NOTE: don't use this form: it will be removed
 template <typename T1>
-arma_deprecated inline
-    typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort>>::result
-    sort(const T1& X, const uword sort_type, const uword dim)
-{
+arma_deprecated inline typename enable_if2<(is_arma_type<T1>::value), const Op<T1, op_sort>>::result sort(const T1& X, const uword sort_type, const uword dim) {
     arma_extra_debug_sigprint();
 
     // arma_debug_warn("sort(X,uword,uword) is deprecated and will be removed; change to
@@ -55,11 +46,7 @@ arma_deprecated inline
 }
 
 template <typename T1, typename T2>
-arma_warn_unused inline
-    typename enable_if2<((is_arma_type<T1>::value) && (is_same_type<T2, char>::value)),
-        const Op<T1, op_sort_default>>::result
-    sort(const T1& X, const T2* sort_direction)
-{
+arma_warn_unused inline typename enable_if2<((is_arma_type<T1>::value) && (is_same_type<T2, char>::value)), const Op<T1, op_sort_default>>::result sort(const T1& X, const T2* sort_direction) {
     arma_extra_debug_sigprint();
 
     const char sig = (sort_direction != NULL) ? sort_direction[0] : char(0);
@@ -72,11 +59,7 @@ arma_warn_unused inline
 }
 
 template <typename T1, typename T2>
-arma_warn_unused inline
-    typename enable_if2<((is_arma_type<T1>::value) && (is_same_type<T2, char>::value)),
-        const Op<T1, op_sort>>::result
-    sort(const T1& X, const T2* sort_direction, const uword dim)
-{
+arma_warn_unused inline typename enable_if2<((is_arma_type<T1>::value) && (is_same_type<T2, char>::value)), const Op<T1, op_sort>>::result sort(const T1& X, const T2* sort_direction, const uword dim) {
     arma_extra_debug_sigprint();
 
     const char sig = (sort_direction != NULL) ? sort_direction[0] : char(0);

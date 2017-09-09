@@ -21,78 +21,47 @@
 // for new code, use the Datum class instead
 // eg. instead of math::pi(), use datum::pi
 
-template <typename eT> class Math
-{
+template <typename eT>
+class Math {
 public:
     // the long lengths of the constants are for future support of "long double"
     // and any smart compiler that does high-precision computation at compile-time
 
     //! ratio of any circle's circumference to its diameter
-    arma_deprecated static eT pi()
-    {
-        return eT(
-            3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679);
-    } // use datum::pi instead
+    arma_deprecated static eT pi() { return eT(3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679); } // use datum::pi instead
 
     //! base of the natural logarithm
-    arma_deprecated static eT e()
-    {
-        return eT(
-            2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274);
-    } // use datum::e instead
+    arma_deprecated static eT e() { return eT(2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274); } // use datum::e instead
 
     //! Euler's constant, aka Euler-Mascheroni constant
-    arma_deprecated static eT euler()
-    {
-        return eT(
-            0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495);
-    } // use datum::euler instead
+    arma_deprecated static eT euler() { return eT(0.5772156649015328606065120900824024310421593359399235988057672348848677267776646709369470632917467495); } // use datum::euler instead
 
     //! golden ratio
-    arma_deprecated static eT gratio()
-    {
-        return eT(
-            1.6180339887498948482045868343656381177203091798057628621354486227052604628189024497072072041893911374);
-    } // use datum::gratio instead
+    arma_deprecated static eT gratio() { return eT(1.6180339887498948482045868343656381177203091798057628621354486227052604628189024497072072041893911374); } // use datum::gratio instead
 
     //! square root of 2
-    arma_deprecated static eT sqrt2()
-    {
-        return eT(
-            1.4142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727);
-    } // use datum::sqrt2 instead
+    arma_deprecated static eT sqrt2() { return eT(1.4142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727); } // use datum::sqrt2 instead
 
     //! the difference between 1 and the least value greater than 1 that is representable
-    arma_deprecated static eT eps()
-    {
-        return std::numeric_limits<eT>::epsilon();
-    } // use datum::eps instead
+    arma_deprecated static eT eps() { return std::numeric_limits<eT>::epsilon(); } // use datum::eps instead
 
     //! log of the minimum representable value
-    arma_deprecated static eT log_min()
-    {
+    arma_deprecated static eT log_min() {
         static const eT out = std::log(std::numeric_limits<eT>::min());
         return out;
     } // use datum::log_min instead
 
     //! log of the maximum representable value
-    arma_deprecated static eT log_max()
-    {
+    arma_deprecated static eT log_max() {
         static const eT out = std::log(std::numeric_limits<eT>::max());
         return out;
     } // use datum::log_max instead
 
     //! "not a number"
-    arma_deprecated static eT nan()
-    {
-        return priv::Datum_helper::nan<eT>();
-    } // use datum::nan instead
+    arma_deprecated static eT nan() { return priv::Datum_helper::nan<eT>(); } // use datum::nan instead
 
     //! infinity
-    arma_deprecated static eT inf()
-    {
-        return priv::Datum_helper::inf<eT>();
-    } // use datum::inf instead
+    arma_deprecated static eT inf() { return priv::Datum_helper::inf<eT>(); } // use datum::inf instead
 };
 
 //! Physical constants taken from NIST 2010 CODATA values, and some from WolframAlpha
@@ -100,8 +69,8 @@ public:
 //! http://physics.nist.gov/cuu/Constants
 //! http://www.wolframalpha.com
 //! See also http://en.wikipedia.org/wiki/Physical_constant
-template <typename eT> class Phy
-{
+template <typename eT>
+class Phy {
 public:
     //! atomic mass constant (in kg)
     arma_deprecated static eT m_u() { return eT(1.660539040e-27); }

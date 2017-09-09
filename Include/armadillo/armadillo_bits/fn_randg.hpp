@@ -17,11 +17,7 @@
 //! @{
 
 template <typename obj_type>
-arma_warn_unused inline obj_type randg(const uword n_rows,
-    const uword n_cols,
-    const distr_param& param = distr_param(),
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline obj_type randg(const uword n_rows, const uword n_cols, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -49,21 +45,17 @@ arma_warn_unused inline obj_type randg(const uword n_rows,
             b = param.b_double;
         }
 
-        arma_debug_check(((a <= double(0)) || (b <= double(0))),
-            "randg(): a and b must be greater than zero");
+        arma_debug_check(((a <= double(0)) || (b <= double(0))), "randg(): a and b must be greater than zero");
 
 #if defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b);
-        }
+        { arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b); }
 #else
         {
             arma_rng_cxx11 local_arma_rng_cxx11_instance;
 
             typedef typename arma_rng_cxx11::seed_type seed_type;
 
-            local_arma_rng_cxx11_instance.set_seed(
-                seed_type(arma_rng::randi<seed_type>()));
+            local_arma_rng_cxx11_instance.set_seed(seed_type(arma_rng::randi<seed_type>()));
 
             local_arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b);
         }
@@ -85,10 +77,7 @@ arma_warn_unused inline obj_type randg(const uword n_rows,
 }
 
 template <typename obj_type>
-arma_warn_unused inline obj_type randg(const SizeMat& s,
-    const distr_param& param = distr_param(),
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline obj_type randg(const SizeMat& s, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -96,11 +85,7 @@ arma_warn_unused inline obj_type randg(const SizeMat& s,
 }
 
 template <typename obj_type>
-arma_warn_unused inline obj_type randg(const uword n_elem,
-    const distr_param& param = distr_param(),
-    const arma_empty_class junk1 = arma_empty_class(),
-    const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0)
-{
+arma_warn_unused inline obj_type randg(const uword n_elem, const distr_param& param = distr_param(), const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -112,37 +97,26 @@ arma_warn_unused inline obj_type randg(const uword n_elem,
     }
 }
 
-arma_warn_unused inline mat
-randg(const uword n_rows, const uword n_cols, const distr_param& param = distr_param())
-{
+arma_warn_unused inline mat randg(const uword n_rows, const uword n_cols, const distr_param& param = distr_param()) {
     arma_extra_debug_sigprint();
 
     return randg<mat>(n_rows, n_cols, param);
 }
 
-arma_warn_unused inline mat randg(const SizeMat& s,
-    const distr_param& param = distr_param())
-{
+arma_warn_unused inline mat randg(const SizeMat& s, const distr_param& param = distr_param()) {
     arma_extra_debug_sigprint();
 
     return randg<mat>(s.n_rows, s.n_cols, param);
 }
 
-arma_warn_unused inline vec randg(const uword n_elem,
-    const distr_param& param = distr_param())
-{
+arma_warn_unused inline vec randg(const uword n_elem, const distr_param& param = distr_param()) {
     arma_extra_debug_sigprint();
 
     return randg<vec>(n_elem, param);
 }
 
 template <typename cube_type>
-arma_warn_unused inline cube_type randg(const uword n_rows,
-    const uword n_cols,
-    const uword n_slices,
-    const distr_param& param = distr_param(),
-    const typename arma_Cube_only<cube_type>::result* junk = 0)
-{
+arma_warn_unused inline cube_type randg(const uword n_rows, const uword n_cols, const uword n_slices, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -164,21 +138,17 @@ arma_warn_unused inline cube_type randg(const uword n_rows,
             b = param.b_double;
         }
 
-        arma_debug_check(((a <= double(0)) || (b <= double(0))),
-            "randg(): a and b must be greater than zero");
+        arma_debug_check(((a <= double(0)) || (b <= double(0))), "randg(): a and b must be greater than zero");
 
 #if defined(ARMA_USE_EXTERN_CXX11_RNG)
-        {
-            arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b);
-        }
+        { arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b); }
 #else
         {
             arma_rng_cxx11 local_arma_rng_cxx11_instance;
 
             typedef typename arma_rng_cxx11::seed_type seed_type;
 
-            local_arma_rng_cxx11_instance.set_seed(
-                seed_type(arma_rng::randi<seed_type>()));
+            local_arma_rng_cxx11_instance.set_seed(seed_type(arma_rng::randi<seed_type>()));
 
             local_arma_rng_cxx11_instance.randg_fill(out.memptr(), out.n_elem, a, b);
         }
@@ -201,29 +171,20 @@ arma_warn_unused inline cube_type randg(const uword n_rows,
 }
 
 template <typename cube_type>
-arma_warn_unused inline cube_type randg(const SizeCube& s,
-    const distr_param& param = distr_param(),
-    const typename arma_Cube_only<cube_type>::result* junk = 0)
-{
+arma_warn_unused inline cube_type randg(const SizeCube& s, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return randg<cube_type>(s.n_rows, s.n_cols, s.n_slices, param);
 }
 
-arma_warn_unused inline cube randg(const uword n_rows,
-    const uword n_cols,
-    const uword n_slices,
-    const distr_param& param = distr_param())
-{
+arma_warn_unused inline cube randg(const uword n_rows, const uword n_cols, const uword n_slices, const distr_param& param = distr_param()) {
     arma_extra_debug_sigprint();
 
     return randg<cube>(n_rows, n_cols, n_slices, param);
 }
 
-arma_warn_unused inline cube randg(const SizeCube& s,
-    const distr_param& param = distr_param())
-{
+arma_warn_unused inline cube randg(const SizeCube& s, const distr_param& param = distr_param()) {
     arma_extra_debug_sigprint();
 
     return randg<cube>(s.n_rows, s.n_cols, s.n_slices, param);

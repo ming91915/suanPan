@@ -16,30 +16,22 @@
 //! \addtogroup op_orth_null
 //! @{
 
-class op_orth
-{
+class op_orth {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_orth>& expr);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_orth>& expr);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<typename T1::elem_type>& out,
-        const Base<typename T1::elem_type, T1>& expr,
-        typename T1::pod_type tol);
+    inline static bool apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol);
 };
 
-class op_null
-{
+class op_null {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_null>& expr);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_null>& expr);
 
     template <typename T1>
-    inline static bool apply_direct(Mat<typename T1::elem_type>& out,
-        const Base<typename T1::elem_type, T1>& expr,
-        typename T1::pod_type tol);
+    inline static bool apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol);
 };
 
 //! @}

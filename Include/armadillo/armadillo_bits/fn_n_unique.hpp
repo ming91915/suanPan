@@ -22,10 +22,7 @@
 //! a sparse matrix operation on two matrices.
 
 template <typename T1, typename T2, typename op_n_unique_type>
-inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x,
-    const SpBase<typename T2::elem_type, T2>& y,
-    const op_n_unique_type junk)
-{
+inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x, const SpBase<typename T2::elem_type, T2>& y, const op_n_unique_type junk) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> pa(x.get_ref());
@@ -35,9 +32,7 @@ inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x,
 }
 
 template <typename T1, typename T2, typename op_n_unique_type>
-arma_hot inline uword
-n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type junk)
-{
+arma_hot inline uword n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -51,29 +46,19 @@ n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type ju
 
     while((x_it != x_it_end) || (y_it != y_it_end)) {
         if(x_it == y_it) {
-            if(op_n_unique_type::eval((*x_it), (*y_it)) != typename T1::elem_type(0)) {
-                ++total_n_nonzero;
-            }
+            if(op_n_unique_type::eval((*x_it), (*y_it)) != typename T1::elem_type(0)) { ++total_n_nonzero; }
 
             ++x_it;
             ++y_it;
         } else {
-            if((x_it.col() < y_it.col()) ||
-                ((x_it.col() == y_it.col()) &&
-                    (x_it.row() < y_it.row()))) // if y is closer to the end
+            if((x_it.col() < y_it.col()) || ((x_it.col() == y_it.col()) && (x_it.row() < y_it.row()))) // if y is closer to the end
             {
-                if(op_n_unique_type::eval((*x_it), typename T1::elem_type(0)) !=
-                    typename T1::elem_type(0)) {
-                    ++total_n_nonzero;
-                }
+                if(op_n_unique_type::eval((*x_it), typename T1::elem_type(0)) != typename T1::elem_type(0)) { ++total_n_nonzero; }
 
                 ++x_it;
             } else // x is closer to the end
             {
-                if(op_n_unique_type::eval(typename T1::elem_type(0), (*y_it)) !=
-                    typename T1::elem_type(0)) {
-                    ++total_n_nonzero;
-                }
+                if(op_n_unique_type::eval(typename T1::elem_type(0), (*y_it)) != typename T1::elem_type(0)) { ++total_n_nonzero; }
 
                 ++y_it;
             }
@@ -85,28 +70,31 @@ n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type ju
 
 // Simple operators.
 struct op_n_unique_add {
-    template <typename eT> inline static eT eval(const eT& l, const eT& r)
-    {
+    template <typename eT>
+    inline static eT eval(const eT& l, const eT& r) {
         return (l + r);
     }
 };
 
 struct op_n_unique_sub {
-    template <typename eT> inline static eT eval(const eT& l, const eT& r)
-    {
+    template <typename eT>
+    inline static eT eval(const eT& l, const eT& r) {
         return (l - r);
     }
 };
 
 struct op_n_unique_mul {
-    template <typename eT> inline static eT eval(const eT& l, const eT& r)
-    {
+    template <typename eT>
+    inline static eT eval(const eT& l, const eT& r) {
         return (l * r);
     }
 };
 
 struct op_n_unique_count {
-    template <typename eT> inline static eT eval(const eT&, const eT&) { return eT(1); }
+    template <typename eT>
+    inline static eT eval(const eT&, const eT&) {
+        return eT(1);
+    }
 };
 
 //! @}

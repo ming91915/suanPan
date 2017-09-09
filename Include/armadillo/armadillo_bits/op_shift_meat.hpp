@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_shift_default::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_shift_default>& in)
-{
+inline void op_shift_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift_default>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -32,8 +30,7 @@ inline void op_shift_default::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift>& in)
-{
+inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -48,18 +45,11 @@ inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sh
 }
 
 template <typename eT>
-inline void op_shift::apply_direct(Mat<eT>& out,
-    const Mat<eT>& X,
-    const uword len,
-    const uword neg,
-    const uword dim)
-{
+inline void op_shift::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check(
-        ((dim == 0) && (len >= X.n_rows)), "shift(): shift amount out of bounds");
-    arma_debug_check(
-        ((dim == 1) && (len >= X.n_cols)), "shift(): shift amount out of bounds");
+    arma_debug_check(((dim == 0) && (len >= X.n_rows)), "shift(): shift amount out of bounds");
+    arma_debug_check(((dim == 1) && (len >= X.n_cols)), "shift(): shift amount out of bounds");
 
     if(&out == &X) {
         op_shift::apply_alias(out, len, neg, dim);
@@ -69,12 +59,7 @@ inline void op_shift::apply_direct(Mat<eT>& out,
 }
 
 template <typename eT>
-inline void op_shift::apply_noalias(Mat<eT>& out,
-    const Mat<eT>& X,
-    const uword len,
-    const uword neg,
-    const uword dim)
-{
+inline void op_shift::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
     out.copy_size(X);
@@ -88,29 +73,18 @@ inline void op_shift::apply_noalias(Mat<eT>& out,
                 eT* out_ptr = out.colptr(col);
                 const eT* X_ptr = X.colptr(col);
 
-                for(uword out_row = len, row = 0; row < (X_n_rows - len);
-                    ++row, ++out_row) {
-                    out_ptr[out_row] = X_ptr[row];
-                }
+                for(uword out_row = len, row = 0; row < (X_n_rows - len); ++row, ++out_row) { out_ptr[out_row] = X_ptr[row]; }
 
-                for(uword out_row = 0, row = (X_n_rows - len); row < X_n_rows;
-                    ++row, ++out_row) {
-                    out_ptr[out_row] = X_ptr[row];
-                }
+                for(uword out_row = 0, row = (X_n_rows - len); row < X_n_rows; ++row, ++out_row) { out_ptr[out_row] = X_ptr[row]; }
             }
         } else if(neg == 1) {
             for(uword col = 0; col < X_n_cols; ++col) {
                 eT* out_ptr = out.colptr(col);
                 const eT* X_ptr = X.colptr(col);
 
-                for(uword out_row = 0, row = len; row < X_n_rows; ++row, ++out_row) {
-                    out_ptr[out_row] = X_ptr[row];
-                }
+                for(uword out_row = 0, row = len; row < X_n_rows; ++row, ++out_row) { out_ptr[out_row] = X_ptr[row]; }
 
-                for(uword out_row = (X_n_rows - len), row = 0; row < len;
-                    ++row, ++out_row) {
-                    out_ptr[out_row] = X_ptr[row];
-                }
+                for(uword out_row = (X_n_rows - len), row = 0; row < len; ++row, ++out_row) { out_ptr[out_row] = X_ptr[row]; }
             }
         }
     } else if(dim == 1) {
@@ -119,57 +93,33 @@ inline void op_shift::apply_noalias(Mat<eT>& out,
                 eT* out_ptr = out.memptr();
                 const eT* X_ptr = X.memptr();
 
-                for(uword out_col = len, col = 0; col < (X_n_cols - len);
-                    ++col, ++out_col) {
-                    out_ptr[out_col] = X_ptr[col];
-                }
+                for(uword out_col = len, col = 0; col < (X_n_cols - len); ++col, ++out_col) { out_ptr[out_col] = X_ptr[col]; }
 
-                for(uword out_col = 0, col = (X_n_cols - len); col < X_n_cols;
-                    ++col, ++out_col) {
-                    out_ptr[out_col] = X_ptr[col];
-                }
+                for(uword out_col = 0, col = (X_n_cols - len); col < X_n_cols; ++col, ++out_col) { out_ptr[out_col] = X_ptr[col]; }
             } else {
-                for(uword out_col = len, col = 0; col < (X_n_cols - len);
-                    ++col, ++out_col) {
-                    arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows);
-                }
+                for(uword out_col = len, col = 0; col < (X_n_cols - len); ++col, ++out_col) { arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows); }
 
-                for(uword out_col = 0, col = (X_n_cols - len); col < X_n_cols;
-                    ++col, ++out_col) {
-                    arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows);
-                }
+                for(uword out_col = 0, col = (X_n_cols - len); col < X_n_cols; ++col, ++out_col) { arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows); }
             }
         } else if(neg == 1) {
             if(X_n_rows == 1) {
                 eT* out_ptr = out.memptr();
                 const eT* X_ptr = X.memptr();
 
-                for(uword out_col = 0, col = len; col < X_n_cols; ++col, ++out_col) {
-                    out_ptr[out_col] = X_ptr[col];
-                }
+                for(uword out_col = 0, col = len; col < X_n_cols; ++col, ++out_col) { out_ptr[out_col] = X_ptr[col]; }
 
-                for(uword out_col = (X_n_cols - len), col = 0; col < len;
-                    ++col, ++out_col) {
-                    out_ptr[out_col] = X_ptr[col];
-                }
+                for(uword out_col = (X_n_cols - len), col = 0; col < len; ++col, ++out_col) { out_ptr[out_col] = X_ptr[col]; }
             } else {
-                for(uword out_col = 0, col = len; col < X_n_cols; ++col, ++out_col) {
-                    arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows);
-                }
+                for(uword out_col = 0, col = len; col < X_n_cols; ++col, ++out_col) { arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows); }
 
-                for(uword out_col = (X_n_cols - len), col = 0; col < len;
-                    ++col, ++out_col) {
-                    arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows);
-                }
+                for(uword out_col = (X_n_cols - len), col = 0; col < len; ++col, ++out_col) { arrayops::copy(out.colptr(out_col), X.colptr(col), X_n_rows); }
             }
         }
     }
 }
 
 template <typename eT>
-inline void
-op_shift::apply_alias(Mat<eT>& X, const uword len, const uword neg, const uword dim)
-{
+inline void op_shift::apply_alias(Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
     // TODO: replace with better implementation

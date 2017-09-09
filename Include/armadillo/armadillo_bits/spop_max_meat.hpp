@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void spop_max::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_max>& in)
-{
+inline void spop_max::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_max>& in) {
     arma_extra_debug_sigprint();
 
     const uword dim = in.aux_uword_a;
@@ -31,12 +29,8 @@ inline void spop_max::apply(SpMat<typename T1::elem_type>& out,
     const uword p_n_cols = p.get_n_cols();
 
     if((p_n_rows == 0) || (p_n_cols == 0) || (p.get_n_nonzero() == 0)) {
-        if(dim == 0) {
-            out.zeros((p_n_rows > 0) ? 1 : 0, p_n_cols);
-        }
-        if(dim == 1) {
-            out.zeros(p_n_rows, (p_n_cols > 0) ? 1 : 0);
-        }
+        if(dim == 0) { out.zeros((p_n_rows > 0) ? 1 : 0, p_n_cols); }
+        if(dim == 1) { out.zeros(p_n_rows, (p_n_cols > 0) ? 1 : 0); }
 
         return;
     }
@@ -45,11 +39,7 @@ inline void spop_max::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& p,
-    const uword dim,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk)
-{
+inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -75,9 +65,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
         }
 
         for(uword col = 0; col < p_n_cols; ++col) {
-            if(count[col] < p_n_rows) {
-                value[col] = (std::max)(value[col], eT(0));
-            }
+            if(count[col] < p_n_rows) { value[col] = (std::max)(value[col], eT(0)); }
         }
 
         out = value;
@@ -95,9 +83,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
         }
 
         for(uword row = 0; row < p_n_rows; ++row) {
-            if(count[row] < p_n_cols) {
-                value[row] = (std::max)(value[row], eT(0));
-            }
+            if(count[row] < p_n_cols) { value[row] = (std::max)(value[row], eT(0)); }
         }
 
         out = value;
@@ -105,9 +91,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline typename T1::elem_type spop_max::vector_max(const T1& x,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk)
-{
+inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -121,9 +105,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x,
         return Datum<eT>::nan;
     }
 
-    if(p.get_n_nonzero() == 0) {
-        return eT(0);
-    }
+    if(p.get_n_nonzero() == 0) { return eT(0); }
 
     if(SpProxy<T1>::use_iterator == false) {
         // direct access of values
@@ -141,9 +123,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x,
         ++it;
 
         while(it != it_end) {
-            if((*it) > result) {
-                result = (*it);
-            }
+            if((*it) > result) { result = (*it); }
 
             ++it;
         }
@@ -157,9 +137,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x,
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -185,9 +163,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(
         it_type it_end = P.end();
 
         while(it != it_end) {
-            if((*it) > max_val) {
-                max_val = *it;
-            }
+            if((*it) > max_val) { max_val = *it; }
 
             ++it;
         }
@@ -206,9 +182,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(
 }
 
 template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result
-spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -249,8 +223,7 @@ spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val)
         // Convert to actual position in matrix.
         const uword row = P.get_row_indices()[index_of_max_val];
         uword col = 0;
-        while(P.get_col_ptrs()[++col] <= index_of_max_val) {
-        }
+        while(P.get_col_ptrs()[++col] <= index_of_max_val) {}
         index_of_max_val = (col - 1) * n_rows + row;
     }
 
@@ -295,11 +268,7 @@ spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val)
 }
 
 template <typename T1>
-inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& p,
-    const uword dim,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -356,9 +325,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline typename T1::elem_type spop_max::vector_max(const T1& x,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -373,9 +340,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x,
         return Datum<eT>::nan;
     }
 
-    if(p.get_n_nonzero() == 0) {
-        return eT(0);
-    }
+    if(p.get_n_nonzero() == 0) { return eT(0); }
 
     if(SpProxy<T1>::use_iterator == false) {
         // direct access of values
@@ -420,9 +385,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x,
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -475,9 +438,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(
 }
 
 template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result
-spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val)
-{
+inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -516,14 +477,12 @@ spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val)
         }
     } else {
         // We can do direct access.
-        max_val =
-            std::abs(op_max::direct_max(P.get_values(), n_nonzero, index_of_max_val));
+        max_val = std::abs(op_max::direct_max(P.get_values(), n_nonzero, index_of_max_val));
 
         // Convert to actual position in matrix.
         const uword row = P.get_row_indices()[index_of_max_val];
         uword col = 0;
-        while(P.get_col_ptrs()[++col] <= index_of_max_val) {
-        }
+        while(P.get_col_ptrs()[++col] <= index_of_max_val) {}
         index_of_max_val = (col - 1) * n_rows + row;
     }
 

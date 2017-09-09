@@ -13,14 +13,12 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 template <typename eT>
 inline UpperHessenbergQR<eT>::UpperHessenbergQR()
     : n(0)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 }
 
@@ -30,15 +28,14 @@ inline UpperHessenbergQR<eT>::UpperHessenbergQR(const Mat<eT>& mat_obj)
     , mat_T(n, n)
     , rot_cos(n - 1)
     , rot_sin(n - 1)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 
     compute(mat_obj);
 }
 
-template <typename eT> void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_obj)
-{
+template <typename eT>
+void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     n = mat_obj.n_rows;
@@ -54,9 +51,7 @@ template <typename eT> void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_ob
     for(uword i = 0; i < n - 1; i++) {
         // Make sure mat_T is upper Hessenberg
         // Zero the elements below mat_T(i + 1, i)
-        if(i < n - 2) {
-            mat_T(span(i + 2, n - 1), i).zeros();
-        }
+        if(i < n - 2) { mat_T(span(i + 2, n - 1), i).zeros(); }
 
         xi = mat_T(i, i);     // mat_T(i, i)
         xj = mat_T(i + 1, i); // mat_T(i + 1, i)
@@ -90,12 +85,11 @@ template <typename eT> void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_ob
     computed = true;
 }
 
-template <typename eT> Mat<eT> UpperHessenbergQR<eT>::matrix_RQ()
-{
+template <typename eT>
+Mat<eT> UpperHessenbergQR<eT>::matrix_RQ() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::UpperHessenbergQR::matrix_RQ(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::UpperHessenbergQR::matrix_RQ(): need to call compute() first");
 
     // Make a copy of the R matrix
     Mat<eT> RQ = trimatu(mat_T);
@@ -123,12 +117,11 @@ template <typename eT> Mat<eT> UpperHessenbergQR<eT>::matrix_RQ()
     return RQ;
 }
 
-template <typename eT> inline void UpperHessenbergQR<eT>::apply_YQ(Mat<eT>& Y)
-{
+template <typename eT>
+inline void UpperHessenbergQR<eT>::apply_YQ(Mat<eT>& Y) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::UpperHessenbergQR::apply_YQ(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::UpperHessenbergQR::apply_YQ(): need to call compute() first");
 
     eT *Y_col_i, *Y_col_i1;
     uword nrow = Y.n_rows;
@@ -147,22 +140,20 @@ template <typename eT> inline void UpperHessenbergQR<eT>::apply_YQ(Mat<eT>& Y)
 
 template <typename eT>
 inline TridiagQR<eT>::TridiagQR()
-    : UpperHessenbergQR<eT>()
-{
+    : UpperHessenbergQR<eT>() {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
 inline TridiagQR<eT>::TridiagQR(const Mat<eT>& mat_obj)
-    : UpperHessenbergQR<eT>()
-{
+    : UpperHessenbergQR<eT>() {
     arma_extra_debug_sigprint();
 
     this->compute(mat_obj);
 }
 
-template <typename eT> inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj)
-{
+template <typename eT>
+inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     this->n = mat_obj.n_rows;
@@ -222,12 +213,11 @@ template <typename eT> inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj
     this->computed = true;
 }
 
-template <typename eT> Mat<eT> TridiagQR<eT>::matrix_RQ()
-{
+template <typename eT>
+Mat<eT> TridiagQR<eT>::matrix_RQ() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((this->computed == false),
-        "newarp::TridiagQR::matrix_RQ(): need to call compute() first");
+    arma_debug_check((this->computed == false), "newarp::TridiagQR::matrix_RQ(): need to call compute() first");
 
     // Make a copy of the R matrix
     Mat<eT> RQ(this->n, this->n, fill::zeros);

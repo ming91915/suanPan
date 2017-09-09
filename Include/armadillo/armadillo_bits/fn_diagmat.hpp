@@ -19,10 +19,7 @@
 //! interpret a matrix or a vector as a diagonal matrix (i.e. off-diagonal entries are
 //! zero)
 template <typename T1>
-arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat>>::result
-    diagmat(const T1& X)
-{
+arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat>>::result diagmat(const T1& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_diagmat>(X);
@@ -30,10 +27,7 @@ arma_warn_unused arma_inline
 
 //! create a matrix with the k-th diagonal set to the given vector
 template <typename T1>
-arma_warn_unused arma_inline
-    typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat2>>::result
-    diagmat(const T1& X, const sword k)
-{
+arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diagmat2>>::result diagmat(const T1& X, const sword k) {
     arma_extra_debug_sigprint();
 
     const uword row_offset = (k < 0) ? uword(-k) : uword(0);
@@ -43,18 +37,14 @@ arma_warn_unused arma_inline
 }
 
 template <typename T1>
-arma_warn_unused inline const SpOp<T1, spop_diagmat> diagmat(
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+arma_warn_unused inline const SpOp<T1, spop_diagmat> diagmat(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     return SpOp<T1, spop_diagmat>(X.get_ref());
 }
 
 template <typename T1>
-arma_warn_unused inline const SpOp<T1, spop_diagmat2>
-diagmat(const SpBase<typename T1::elem_type, T1>& X, const sword k)
-{
+arma_warn_unused inline const SpOp<T1, spop_diagmat2> diagmat(const SpBase<typename T1::elem_type, T1>& X, const sword k) {
     arma_extra_debug_sigprint();
 
     const uword row_offset = (k < 0) ? uword(-k) : uword(0);

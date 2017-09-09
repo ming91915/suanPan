@@ -16,12 +16,10 @@
 //! \addtogroup op_vectorise
 //! @{
 
-class op_vectorise_col
-{
+class op_vectorise_col {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_vectorise_col>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_col>& in);
 
     template <typename eT>
     inline static void apply_subview(Mat<eT>& out, const subview<eT>& sv);
@@ -30,38 +28,31 @@ public:
     inline static void apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P);
 };
 
-class op_vectorise_row
-{
+class op_vectorise_row {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_vectorise_row>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_row>& in);
 
     template <typename T1>
     inline static void apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P);
 };
 
-class op_vectorise_all
-{
+class op_vectorise_all {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_vectorise_all>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_all>& in);
 };
 
-class op_vectorise_cube_col
-{
+class op_vectorise_cube_col {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const BaseCube<typename T1::elem_type, T1>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const BaseCube<typename T1::elem_type, T1>& in);
 
     template <typename eT>
     inline static void apply_subview(Mat<eT>& out, const subview_cube<eT>& sv);
 
     template <typename T1>
-    inline static void apply_proxy(Mat<typename T1::elem_type>& out,
-        const ProxyCube<T1>& P);
+    inline static void apply_proxy(Mat<typename T1::elem_type>& out, const ProxyCube<T1>& P);
 };
 
 //! @}

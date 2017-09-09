@@ -16,8 +16,8 @@
 //! \addtogroup injector
 //! @{
 
-template <typename eT> class mat_injector_row
-{
+template <typename eT>
+class mat_injector_row {
 public:
     inline mat_injector_row();
 
@@ -28,8 +28,8 @@ public:
     mutable podarray<eT> B;
 };
 
-template <typename T1> class mat_injector
-{
+template <typename T1>
+class mat_injector {
 public:
     typedef typename T1::elem_type elem_type;
 
@@ -54,8 +54,8 @@ private:
 
 //
 
-template <typename oT> class field_injector_row
-{
+template <typename oT>
+class field_injector_row {
 public:
     inline field_injector_row();
     inline ~field_injector_row();
@@ -67,8 +67,8 @@ public:
     mutable field<oT>* BB;
 };
 
-template <typename T1> class field_injector
-{
+template <typename T1>
+class field_injector {
 public:
     typedef typename T1::object_type object_type;
 

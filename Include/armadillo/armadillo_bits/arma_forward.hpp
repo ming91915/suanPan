@@ -13,61 +13,92 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-using std::cout;
 using std::cerr;
+using std::cout;
 using std::endl;
 using std::ios;
 using std::size_t;
 
-template <typename elem_type, typename derived> struct Base;
-template <typename elem_type, typename derived> struct BaseCube;
+template <typename elem_type, typename derived>
+struct Base;
+template <typename elem_type, typename derived>
+struct BaseCube;
 
-template <typename eT> class Mat;
-template <typename eT> class Col;
-template <typename eT> class Row;
-template <typename eT> class Cube;
-template <typename eT> class xvec_htrans;
-template <typename oT> class field;
+template <typename eT>
+class Mat;
+template <typename eT>
+class Col;
+template <typename eT>
+class Row;
+template <typename eT>
+class Cube;
+template <typename eT>
+class xvec_htrans;
+template <typename oT>
+class field;
 
-template <typename eT, bool do_conj> class xtrans_mat;
+template <typename eT, bool do_conj>
+class xtrans_mat;
 
-template <typename eT> class subview;
-template <typename eT> class subview_col;
-template <typename eT> class subview_row;
-template <typename eT> class subview_row_strans;
-template <typename eT> class subview_row_htrans;
-template <typename eT> class subview_cube;
-template <typename oT> class subview_field;
+template <typename eT>
+class subview;
+template <typename eT>
+class subview_col;
+template <typename eT>
+class subview_row;
+template <typename eT>
+class subview_row_strans;
+template <typename eT>
+class subview_row_htrans;
+template <typename eT>
+class subview_cube;
+template <typename oT>
+class subview_field;
 
-template <typename eT> class SpValProxy;
-template <typename eT> class SpMat;
-template <typename eT> class SpCol;
-template <typename eT> class SpRow;
-template <typename eT> class SpSubview;
+template <typename eT>
+class SpValProxy;
+template <typename eT>
+class SpMat;
+template <typename eT>
+class SpCol;
+template <typename eT>
+class SpRow;
+template <typename eT>
+class SpSubview;
 
-template <typename eT> class diagview;
-template <typename eT> class spdiagview;
+template <typename eT>
+class diagview;
+template <typename eT>
+class spdiagview;
 
-template <typename eT> class MapMat;
-template <typename eT> class MapMat_val;
-template <typename eT> class MapMat_elem;
-template <typename eT> class MapMat_svel;
+template <typename eT>
+class MapMat;
+template <typename eT>
+class MapMat_val;
+template <typename eT>
+class MapMat_elem;
+template <typename eT>
+class MapMat_svel;
 
-template <typename eT, typename T1> class subview_elem1;
-template <typename eT, typename T1, typename T2> class subview_elem2;
+template <typename eT, typename T1>
+class subview_elem1;
+template <typename eT, typename T1, typename T2>
+class subview_elem2;
 
-template <typename parent, unsigned int mode> class subview_each1;
-template <typename parent, unsigned int mode, typename TB> class subview_each2;
+template <typename parent, unsigned int mode>
+class subview_each1;
+template <typename parent, unsigned int mode, typename TB>
+class subview_each2;
 
-template <typename eT> class subview_cube_each1;
-template <typename eT, typename TB> class subview_cube_each2;
+template <typename eT>
+class subview_cube_each1;
+template <typename eT, typename TB>
+class subview_cube_each2;
 
 class SizeMat;
 class SizeCube;
 
-class arma_empty_class
-{
-};
+class arma_empty_class {};
 
 class diskio;
 
@@ -173,33 +204,52 @@ class op_internal_minus;
 class op_internal_schur;
 class op_internal_div;
 
-template <const bool, const bool, const bool, const bool> class gemm;
-template <const bool, const bool, const bool> class gemv;
+template <const bool, const bool, const bool, const bool>
+class gemm;
+template <const bool, const bool, const bool>
+class gemv;
 
-template <typename eT, typename gen_type> class Gen;
+template <typename eT, typename gen_type>
+class Gen;
 
-template <typename T1, typename op_type> class Op;
-template <typename T1, typename eop_type> class eOp;
-template <typename out_eT, typename T1, typename op_type> class mtOp;
+template <typename T1, typename op_type>
+class Op;
+template <typename T1, typename eop_type>
+class eOp;
+template <typename out_eT, typename T1, typename op_type>
+class mtOp;
 
-template <typename T1, typename T2, typename glue_type> class Glue;
-template <typename T1, typename T2, typename eglue_type> class eGlue;
-template <typename out_eT, typename T1, typename T2, typename glue_type> class mtGlue;
+template <typename T1, typename T2, typename glue_type>
+class Glue;
+template <typename T1, typename T2, typename eglue_type>
+class eGlue;
+template <typename out_eT, typename T1, typename T2, typename glue_type>
+class mtGlue;
 
-template <typename eT, typename gen_type> class GenCube;
+template <typename eT, typename gen_type>
+class GenCube;
 
-template <typename T1, typename op_type> class OpCube;
-template <typename T1, typename eop_type> class eOpCube;
-template <typename out_eT, typename T1, typename op_type> class mtOpCube;
+template <typename T1, typename op_type>
+class OpCube;
+template <typename T1, typename eop_type>
+class eOpCube;
+template <typename out_eT, typename T1, typename op_type>
+class mtOpCube;
 
-template <typename T1, typename T2, typename glue_type> class GlueCube;
-template <typename T1, typename T2, typename eglue_type> class eGlueCube;
-template <typename out_eT, typename T1, typename T2, typename glue_type> class mtGlueCube;
+template <typename T1, typename T2, typename glue_type>
+class GlueCube;
+template <typename T1, typename T2, typename eglue_type>
+class eGlueCube;
+template <typename out_eT, typename T1, typename T2, typename glue_type>
+class mtGlueCube;
 
-template <typename T1> class Proxy;
-template <typename T1> class ProxyCube;
+template <typename T1>
+class Proxy;
+template <typename T1>
+class ProxyCube;
 
-template <typename T1> class diagmat_proxy;
+template <typename T1>
+class diagmat_proxy;
 
 class spop_strans;
 class spop_htrans;
@@ -214,23 +264,25 @@ class spglue_minus2;
 class spglue_times;
 class spglue_times2;
 
-template <typename T1, typename spop_type> class SpOp;
-template <typename out_eT, typename T1, typename spop_type> class mtSpOp;
+template <typename T1, typename spop_type>
+class SpOp;
+template <typename out_eT, typename T1, typename spop_type>
+class mtSpOp;
 
-template <typename T1, typename T2, typename spglue_type> class SpGlue;
+template <typename T1, typename T2, typename spglue_type>
+class SpGlue;
 
-template <typename T1> class SpProxy;
+template <typename T1>
+class SpProxy;
 
-struct arma_vec_indicator {
-};
-struct arma_fixed_indicator {
-};
+struct arma_vec_indicator {};
+struct arma_fixed_indicator {};
 
 //! \addtogroup injector
 //! @{
 
-template <typename Dummy = int> struct injector_end_of_row {
-};
+template <typename Dummy = int>
+struct injector_end_of_row {};
 
 static const injector_end_of_row<> endr = injector_end_of_row<>();
 //!< endr indicates "end of row" when using the << operator;
@@ -243,15 +295,15 @@ static const injector_end_of_row<> endr = injector_end_of_row<>();
 
 enum file_type {
     file_type_unknown,
-    auto_detect, //!< Automatically detect the file type
-    raw_ascii,   //!< ASCII format (text), without any other information.
-    arma_ascii, //!< Armadillo ASCII format (text), with information about matrix type and
-                //! size
-    csv_ascii,  //!< comma separated values (CSV), without any other information
-    raw_binary, //!< raw binary format, without any other information.
-    arma_binary, //!< Armadillo binary format, with information about matrix type and size
-    pgm_binary,  //!< Portable Grey Map (greyscale image)
-    ppm_binary, //!< Portable Pixel Map (colour image), used by the field and cube classes
+    auto_detect,       //!< Automatically detect the file type
+    raw_ascii,         //!< ASCII format (text), without any other information.
+    arma_ascii,        //!< Armadillo ASCII format (text), with information about matrix type and
+                       //! size
+    csv_ascii,         //!< comma separated values (CSV), without any other information
+    raw_binary,        //!< raw binary format, without any other information.
+    arma_binary,       //!< Armadillo binary format, with information about matrix type and size
+    pgm_binary,        //!< Portable Grey Map (greyscale image)
+    ppm_binary,        //!< Portable Pixel Map (colour image), used by the field and cube classes
     hdf5_binary,       //!< Open binary format, not specific to Armadillo, which can store
                        //! arbitrary data
     hdf5_binary_trans, //!< as per hdf5_binary, but save/load the data with columns
@@ -264,15 +316,11 @@ struct hdf5_name {
     const std::string dsname;
 
     inline hdf5_name(const std::string& in_filename)
-        : filename(in_filename)
-    {
-    }
+        : filename(in_filename) {}
 
     inline hdf5_name(const std::string& in_filename, const std::string& in_dsname)
         : filename(in_filename)
-        , dsname(in_dsname)
-    {
-    }
+        , dsname(in_dsname) {}
 };
 
 //! @}
@@ -280,22 +328,16 @@ struct hdf5_name {
 //! \addtogroup fill
 //! @{
 
-namespace fill
-{
-struct fill_none {
-};
-struct fill_zeros {
-};
-struct fill_ones {
-};
-struct fill_eye {
-};
-struct fill_randu {
-};
-struct fill_randn {
-};
+namespace fill {
+struct fill_none {};
+struct fill_zeros {};
+struct fill_ones {};
+struct fill_eye {};
+struct fill_randu {};
+struct fill_randn {};
 
-template <typename fill_type> struct fill_class {
+template <typename fill_type>
+struct fill_class {
     inline fill_class() {}
 };
 
@@ -316,16 +358,12 @@ struct spsolve_opts_base {
     const unsigned int id;
 
     inline spsolve_opts_base(const unsigned int in_id)
-        : id(in_id)
-    {
-    }
+        : id(in_id) {}
 };
 
 struct spsolve_opts_none : public spsolve_opts_base {
     inline spsolve_opts_none()
-        : spsolve_opts_base(0)
-    {
-    }
+        : spsolve_opts_base(0) {}
 };
 
 struct superlu_opts : public spsolve_opts_base {
@@ -340,8 +378,7 @@ struct superlu_opts : public spsolve_opts_base {
     refine_type refine;
 
     inline superlu_opts()
-        : spsolve_opts_base(1)
-    {
+        : spsolve_opts_base(1) {
         equilibrate = false;
         symmetric = false;
         pivot_thresh = 1.0;

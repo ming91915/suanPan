@@ -26,13 +26,11 @@ struct arma_version {
     static const unsigned int minor = ARMA_VERSION_MINOR;
     static const unsigned int patch = ARMA_VERSION_PATCH;
 
-    static inline std::string as_string()
-    {
+    static inline std::string as_string() {
         const char* nickname = ARMA_VERSION_NAME;
 
         std::stringstream ss;
-        ss << arma_version::major << '.' << arma_version::minor << '.'
-           << arma_version::patch << " (" << nickname << ')';
+        ss << arma_version::major << '.' << arma_version::minor << '.' << arma_version::patch << " (" << nickname << ')';
 
         return ss.str();
     }

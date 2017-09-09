@@ -17,14 +17,11 @@
 //! @{
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    const bool have_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) ||
-        (is_subview_col<typename Proxy<T1>::stored_type>::value);
+    const bool have_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value);
 
     if(have_direct_mem) {
         const quasi_unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
@@ -50,9 +47,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
             acc2 += std::abs(A[j]);
         }
 
-        if(i < N) {
-            acc1 += std::abs(A[i]);
-        }
+        if(i < N) { acc1 += std::abs(A[i]); }
 
         acc = acc1 + acc2;
     } else {
@@ -60,9 +55,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
         const uword n_cols = P.get_n_cols();
 
         if(n_rows == 1) {
-            for(uword col = 0; col < n_cols; ++col) {
-                acc += std::abs(P.at(0, col));
-            }
+            for(uword col = 0; col < n_cols; ++col) { acc += std::abs(P.at(0, col)); }
         } else {
             T acc1 = T(0);
             T acc2 = T(0);
@@ -75,9 +68,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
                     acc2 += std::abs(P.at(j, col));
                 }
 
-                if(i < n_rows) {
-                    acc1 += std::abs(P.at(i, col));
-                }
+                if(i < n_rows) { acc1 += std::abs(P.at(i, col)); }
             }
 
             acc = acc1 + acc2;
@@ -88,9 +79,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -141,8 +130,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
     if((acc != T(0)) && arma_isfinite(acc)) {
         return acc;
     } else {
-        arma_extra_debug_print(
-            "op_norm::vec_norm_1(): detected possible underflow or overflow");
+        arma_extra_debug_print("op_norm::vec_norm_1(): detected possible underflow or overflow");
 
         const quasi_unwrap<typename Proxy<T1>::stored_type> R(P.Q);
 
@@ -157,17 +145,11 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
             const T a = std::abs(X.real());
             const T b = std::abs(X.imag());
 
-            if(a > max_val) {
-                max_val = a;
-            }
-            if(b > max_val) {
-                max_val = b;
-            }
+            if(a > max_val) { max_val = a; }
+            if(b > max_val) { max_val = b; }
         }
 
-        if(max_val == T(0)) {
-            return T(0);
-        }
+        if(max_val == T(0)) { return T(0); }
 
         T alt_acc = T(0);
 
@@ -184,8 +166,8 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P,
     }
 }
 
-template <typename eT> arma_hot inline eT op_norm::vec_norm_1_direct_std(const Mat<eT>& X)
-{
+template <typename eT>
+arma_hot inline eT op_norm::vec_norm_1_direct_std(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -195,41 +177,29 @@ template <typename eT> arma_hot inline eT op_norm::vec_norm_1_direct_std(const M
         return op_norm::vec_norm_1_direct_mem(N, A);
     } else {
 #if defined(ARMA_USE_ATLAS)
-        {
-            return atlas::cblas_asum(N, A);
-        }
+        { return atlas::cblas_asum(N, A); }
 #elif defined(ARMA_USE_BLAS)
-        {
-            return blas::asum(N, A);
-        }
+        { return blas::asum(N, A); }
 #else
-        {
-            return op_norm::vec_norm_1_direct_mem(N, A);
-        }
+        { return op_norm::vec_norm_1_direct_mem(N, A); }
 #endif
     }
 }
 
 template <typename eT>
-arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A)
-{
+arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A) {
     arma_extra_debug_sigprint();
 
-#if defined(ARMA_SIMPLE_LOOPS) || \
-    (defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0))
+#if defined(ARMA_SIMPLE_LOOPS) || (defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0))
     {
         eT acc1 = eT(0);
 
         if(memory::is_aligned(A)) {
             memory::mark_as_aligned(A);
 
-            for(uword i = 0; i < N; ++i) {
-                acc1 += std::abs(A[i]);
-            }
+            for(uword i = 0; i < N; ++i) { acc1 += std::abs(A[i]); }
         } else {
-            for(uword i = 0; i < N; ++i) {
-                acc1 += std::abs(A[i]);
-            }
+            for(uword i = 0; i < N; ++i) { acc1 += std::abs(A[i]); }
         }
 
         return acc1;
@@ -251,9 +221,7 @@ arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A)
             acc2 += std::abs(tmp_j);
         }
 
-        if((j - 1) < N) {
-            acc1 += std::abs(*A);
-        }
+        if((j - 1) < N) { acc1 += std::abs(*A); }
 
         return (acc1 + acc2);
     }
@@ -261,14 +229,11 @@ arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A)
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
-    const bool have_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) ||
-        (is_subview_col<typename Proxy<T1>::stored_type>::value);
+    const bool have_direct_mem = (is_Mat<typename Proxy<T1>::stored_type>::value) || (is_subview_col<typename Proxy<T1>::stored_type>::value);
 
     if(have_direct_mem) {
         const quasi_unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
@@ -340,8 +305,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
     if((sqrt_acc != T(0)) && arma_isfinite(sqrt_acc)) {
         return sqrt_acc;
     } else {
-        arma_extra_debug_print(
-            "op_norm::vec_norm_2(): detected possible underflow or overflow");
+        arma_extra_debug_print("op_norm::vec_norm_2(): detected possible underflow or overflow");
 
         const quasi_unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
 
@@ -350,9 +314,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -405,8 +367,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
     if((sqrt_acc != T(0)) && arma_isfinite(sqrt_acc)) {
         return sqrt_acc;
     } else {
-        arma_extra_debug_print(
-            "op_norm::vec_norm_2(): detected possible underflow or overflow");
+        arma_extra_debug_print("op_norm::vec_norm_2(): detected possible underflow or overflow");
 
         const quasi_unwrap<typename Proxy<T1>::stored_type> R(P.Q);
 
@@ -418,14 +379,10 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
         for(uword i = 0; i < N; ++i) {
             const T val_i = std::abs(R_mem[i]);
 
-            if(val_i > max_val) {
-                max_val = val_i;
-            }
+            if(val_i > max_val) { max_val = val_i; }
         }
 
-        if(max_val == T(0)) {
-            return T(0);
-        }
+        if(max_val == T(0)) { return T(0); }
 
         T alt_acc = T(0);
 
@@ -439,8 +396,8 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P,
     }
 }
 
-template <typename eT> arma_hot inline eT op_norm::vec_norm_2_direct_std(const Mat<eT>& X)
-{
+template <typename eT>
+arma_hot inline eT op_norm::vec_norm_2_direct_std(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -452,39 +409,30 @@ template <typename eT> arma_hot inline eT op_norm::vec_norm_2_direct_std(const M
         result = op_norm::vec_norm_2_direct_mem(N, A);
     } else {
 #if defined(ARMA_USE_ATLAS)
-        {
-            result = atlas::cblas_nrm2(N, A);
-        }
+        { result = atlas::cblas_nrm2(N, A); }
 #elif defined(ARMA_USE_BLAS)
-        {
-            result = blas::nrm2(N, A);
-        }
+        { result = blas::nrm2(N, A); }
 #else
-        {
-            result = op_norm::vec_norm_2_direct_mem(N, A);
-        }
+        { result = op_norm::vec_norm_2_direct_mem(N, A); }
 #endif
     }
 
     if((result != eT(0)) && arma_isfinite(result)) {
         return result;
     } else {
-        arma_extra_debug_print(
-            "op_norm::vec_norm_2_direct_std(): detected possible underflow or overflow");
+        arma_extra_debug_print("op_norm::vec_norm_2_direct_std(): detected possible underflow or overflow");
 
         return op_norm::vec_norm_2_direct_robust(X);
     }
 }
 
 template <typename eT>
-arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A)
-{
+arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A) {
     arma_extra_debug_sigprint();
 
     eT acc;
 
-#if defined(ARMA_SIMPLE_LOOPS) || \
-    (defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0))
+#if defined(ARMA_SIMPLE_LOOPS) || (defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0))
     {
         eT acc1 = eT(0);
 
@@ -535,8 +483,7 @@ arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A)
 }
 
 template <typename eT>
-arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
-{
+arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -555,25 +502,17 @@ arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
         val_i = std::abs(val_i);
         val_j = std::abs(val_j);
 
-        if(val_i > max_val) {
-            max_val = val_i;
-        }
-        if(val_j > max_val) {
-            max_val = val_j;
-        }
+        if(val_i > max_val) { max_val = val_i; }
+        if(val_j > max_val) { max_val = val_j; }
     }
 
     if((j - 1) < N) {
         const eT val_i = std::abs(*A);
 
-        if(val_i > max_val) {
-            max_val = val_i;
-        }
+        if(val_i > max_val) { max_val = val_i; }
     }
 
-    if(max_val == eT(0)) {
-        return eT(0);
-    }
+    if(max_val == eT(0)) { return eT(0); }
 
     const eT* B = X.memptr();
 
@@ -603,8 +542,7 @@ arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X)
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, const int k)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, const int k) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -623,22 +561,16 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, co
             acc += std::pow(std::abs(A[j]), k);
         }
 
-        if(i < N) {
-            acc += std::pow(std::abs(A[i]), k);
-        }
+        if(i < N) { acc += std::pow(std::abs(A[i]), k); }
     } else {
         const uword n_rows = P.get_n_rows();
         const uword n_cols = P.get_n_cols();
 
         if(n_rows != 1) {
             for(uword col = 0; col < n_cols; ++col)
-                for(uword row = 0; row < n_rows; ++row) {
-                    acc += std::pow(std::abs(P.at(row, col)), k);
-                }
+                for(uword row = 0; row < n_rows; ++row) { acc += std::pow(std::abs(P.at(row, col)), k); }
         } else {
-            for(uword col = 0; col < n_cols; ++col) {
-                acc += std::pow(std::abs(P.at(0, col)), k);
-            }
+            for(uword col = 0; col < n_cols; ++col) { acc += std::pow(std::abs(P.at(0, col)), k); }
         }
     }
 
@@ -646,8 +578,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, co
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -664,20 +595,14 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P)
             const T tmp_i = std::abs(A[i]);
             const T tmp_j = std::abs(A[j]);
 
-            if(max_val < tmp_i) {
-                max_val = tmp_i;
-            }
-            if(max_val < tmp_j) {
-                max_val = tmp_j;
-            }
+            if(max_val < tmp_i) { max_val = tmp_i; }
+            if(max_val < tmp_j) { max_val = tmp_j; }
         }
 
         if(i < N) {
             const T tmp_i = std::abs(A[i]);
 
-            if(max_val < tmp_i) {
-                max_val = tmp_i;
-            }
+            if(max_val < tmp_i) { max_val = tmp_i; }
         }
     } else {
         const uword n_rows = P.get_n_rows();
@@ -688,17 +613,13 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P)
                 for(uword row = 0; row < n_rows; ++row) {
                     const T tmp = std::abs(P.at(row, col));
 
-                    if(max_val < tmp) {
-                        max_val = tmp;
-                    }
+                    if(max_val < tmp) { max_val = tmp; }
                 }
         } else {
             for(uword col = 0; col < n_cols; ++col) {
                 const T tmp = std::abs(P.at(0, col));
 
-                if(max_val < tmp) {
-                    max_val = tmp;
-                }
+                if(max_val < tmp) { max_val = tmp; }
             }
         }
     }
@@ -707,8 +628,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P)
 }
 
 template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P)
-{
+arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -725,20 +645,14 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P)
             const T tmp_i = std::abs(A[i]);
             const T tmp_j = std::abs(A[j]);
 
-            if(min_val > tmp_i) {
-                min_val = tmp_i;
-            }
-            if(min_val > tmp_j) {
-                min_val = tmp_j;
-            }
+            if(min_val > tmp_i) { min_val = tmp_i; }
+            if(min_val > tmp_j) { min_val = tmp_j; }
         }
 
         if(i < N) {
             const T tmp_i = std::abs(A[i]);
 
-            if(min_val > tmp_i) {
-                min_val = tmp_i;
-            }
+            if(min_val > tmp_i) { min_val = tmp_i; }
         }
     } else {
         const uword n_rows = P.get_n_rows();
@@ -749,17 +663,13 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P)
                 for(uword row = 0; row < n_rows; ++row) {
                     const T tmp = std::abs(P.at(row, col));
 
-                    if(min_val > tmp) {
-                        min_val = tmp;
-                    }
+                    if(min_val > tmp) { min_val = tmp; }
                 }
         } else {
             for(uword col = 0; col < n_cols; ++col) {
                 const T tmp = std::abs(P.at(0, col));
 
-                if(min_val > tmp) {
-                    min_val = tmp;
-                }
+                if(min_val > tmp) { min_val = tmp; }
             }
         }
     }
@@ -768,8 +678,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P)
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_1(const Proxy<T1>& P)
-{
+inline typename T1::pod_type op_norm::mat_norm_1(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
@@ -777,8 +686,7 @@ inline typename T1::pod_type op_norm::mat_norm_1(const Proxy<T1>& P)
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P)
-{
+inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -790,8 +698,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P)
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P)
-{
+inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
@@ -802,8 +709,7 @@ inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P)
 // norms for sparse matrices
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_1(const SpProxy<T1>& P)
-{
+inline typename T1::pod_type op_norm::mat_norm_1(const SpProxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
@@ -811,9 +717,7 @@ inline typename T1::pod_type op_norm::mat_norm_1(const SpProxy<T1>& P)
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P,
-    const typename arma_real_only<typename T1::elem_type>::result* junk)
-{
+inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_real_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -836,9 +740,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P,
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk)
-{
+inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -861,8 +763,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P,
 }
 
 template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_inf(const SpProxy<T1>& P)
-{
+inline typename T1::pod_type op_norm::mat_norm_inf(const SpProxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation

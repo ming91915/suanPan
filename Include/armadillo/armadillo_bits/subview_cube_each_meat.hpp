@@ -22,29 +22,22 @@
 
 template <typename eT>
 inline subview_cube_each_common<eT>::subview_cube_each_common(const Cube<eT>& in_p)
-    : P(in_p)
-{
+    : P(in_p) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
-inline void subview_cube_each_common<eT>::check_size(const Mat<eT>& A) const
-{
+inline void subview_cube_each_common<eT>::check_size(const Mat<eT>& A) const {
     if(arma_config::debug == true) {
-        if((A.n_rows != P.n_rows) || (A.n_cols != P.n_cols)) {
-            arma_stop_logic_error(incompat_size_string(A));
-        }
+        if((A.n_rows != P.n_rows) || (A.n_cols != P.n_cols)) { arma_stop_logic_error(incompat_size_string(A)); }
     }
 }
 
 template <typename eT>
-arma_cold inline const std::string subview_cube_each_common<eT>::incompat_size_string(
-    const Mat<eT>& A) const
-{
+arma_cold inline const std::string subview_cube_each_common<eT>::incompat_size_string(const Mat<eT>& A) const {
     std::stringstream tmp;
 
-    tmp << "each_slice(): incompatible size; expected " << P.n_rows << 'x' << P.n_cols
-        << ", got " << A.n_rows << 'x' << A.n_cols;
+    tmp << "each_slice(): incompatible size; expected " << P.n_rows << 'x' << P.n_cols << ", got " << A.n_rows << 'x' << A.n_cols;
 
     return tmp.str();
 }
@@ -53,22 +46,20 @@ arma_cold inline const std::string subview_cube_each_common<eT>::incompat_size_s
 //
 // subview_cube_each1
 
-template <typename eT> inline subview_cube_each1<eT>::~subview_cube_each1()
-{
+template <typename eT>
+inline subview_cube_each1<eT>::~subview_cube_each1() {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
 inline subview_cube_each1<eT>::subview_cube_each1(const Cube<eT>& in_p)
-    : subview_cube_each_common<eT>::subview_cube_each_common(in_p)
-{
+    : subview_cube_each_common<eT>::subview_cube_each_common(in_p) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -83,15 +74,12 @@ inline void subview_cube_each1<eT>::operator=(const Base<eT, T1>& in)
 
     const eT* A_mem = A.memptr();
 
-    for(uword i = 0; i < p_n_slices; ++i) {
-        arrayops::copy(p.slice_memptr(i), A_mem, p_n_elem_slice);
-    }
+    for(uword i = 0; i < p_n_slices; ++i) { arrayops::copy(p.slice_memptr(i), A_mem, p_n_elem_slice); }
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator+=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator+=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -106,15 +94,12 @@ inline void subview_cube_each1<eT>::operator+=(const Base<eT, T1>& in)
 
     const eT* A_mem = A.memptr();
 
-    for(uword i = 0; i < p_n_slices; ++i) {
-        arrayops::inplace_plus(p.slice_memptr(i), A_mem, p_n_elem_slice);
-    }
+    for(uword i = 0; i < p_n_slices; ++i) { arrayops::inplace_plus(p.slice_memptr(i), A_mem, p_n_elem_slice); }
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator-=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator-=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -129,15 +114,12 @@ inline void subview_cube_each1<eT>::operator-=(const Base<eT, T1>& in)
 
     const eT* A_mem = A.memptr();
 
-    for(uword i = 0; i < p_n_slices; ++i) {
-        arrayops::inplace_minus(p.slice_memptr(i), A_mem, p_n_elem_slice);
-    }
+    for(uword i = 0; i < p_n_slices; ++i) { arrayops::inplace_minus(p.slice_memptr(i), A_mem, p_n_elem_slice); }
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator%=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator%=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -152,15 +134,12 @@ inline void subview_cube_each1<eT>::operator%=(const Base<eT, T1>& in)
 
     const eT* A_mem = A.memptr();
 
-    for(uword i = 0; i < p_n_slices; ++i) {
-        arrayops::inplace_mul(p.slice_memptr(i), A_mem, p_n_elem_slice);
-    }
+    for(uword i = 0; i < p_n_slices; ++i) { arrayops::inplace_mul(p.slice_memptr(i), A_mem, p_n_elem_slice); }
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator/=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator/=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -175,15 +154,12 @@ inline void subview_cube_each1<eT>::operator/=(const Base<eT, T1>& in)
 
     const eT* A_mem = A.memptr();
 
-    for(uword i = 0; i < p_n_slices; ++i) {
-        arrayops::inplace_div(p.slice_memptr(i), A_mem, p_n_elem_slice);
-    }
+    for(uword i = 0; i < p_n_slices; ++i) { arrayops::inplace_div(p.slice_memptr(i), A_mem, p_n_elem_slice); }
 }
 
 template <typename eT>
 template <typename T1>
-inline void subview_cube_each1<eT>::operator*=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each1<eT>::operator*=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& C = access::rw(subview_cube_each_common<eT>::P);
@@ -196,31 +172,25 @@ inline void subview_cube_each1<eT>::operator*=(const Base<eT, T1>& in)
 // subview_cube_each2
 
 template <typename eT, typename TB>
-inline subview_cube_each2<eT, TB>::~subview_cube_each2()
-{
+inline subview_cube_each2<eT, TB>::~subview_cube_each2() {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT, typename TB>
-inline subview_cube_each2<eT, TB>::subview_cube_each2(const Cube<eT>& in_p,
-    const Base<uword, TB>& in_indices)
+inline subview_cube_each2<eT, TB>::subview_cube_each2(const Cube<eT>& in_p, const Base<uword, TB>& in_indices)
     : subview_cube_each_common<eT>::subview_cube_each_common(in_p)
-    , base_indices(in_indices)
-{
+    , base_indices(in_indices) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT, typename TB>
-inline void subview_cube_each2<eT, TB>::check_indices(const Mat<uword>& indices) const
-{
-    arma_debug_check(((indices.is_vec() == false) && (indices.is_empty() == false)),
-        "each_slice(): list of indices must be a vector");
+inline void subview_cube_each2<eT, TB>::check_indices(const Mat<uword>& indices) const {
+    arma_debug_check(((indices.is_vec() == false) && (indices.is_empty() == false)), "each_slice(): list of indices must be a vector");
 }
 
 template <typename eT, typename TB>
 template <typename T1>
-inline void subview_cube_each2<eT, TB>::operator=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each2<eT, TB>::operator=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -253,8 +223,7 @@ inline void subview_cube_each2<eT, TB>::operator=(const Base<eT, T1>& in)
 
 template <typename eT, typename TB>
 template <typename T1>
-inline void subview_cube_each2<eT, TB>::operator+=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each2<eT, TB>::operator+=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -287,8 +256,7 @@ inline void subview_cube_each2<eT, TB>::operator+=(const Base<eT, T1>& in)
 
 template <typename eT, typename TB>
 template <typename T1>
-inline void subview_cube_each2<eT, TB>::operator-=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each2<eT, TB>::operator-=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -321,8 +289,7 @@ inline void subview_cube_each2<eT, TB>::operator-=(const Base<eT, T1>& in)
 
 template <typename eT, typename TB>
 template <typename T1>
-inline void subview_cube_each2<eT, TB>::operator%=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each2<eT, TB>::operator%=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -355,8 +322,7 @@ inline void subview_cube_each2<eT, TB>::operator%=(const Base<eT, T1>& in)
 
 template <typename eT, typename TB>
 template <typename T1>
-inline void subview_cube_each2<eT, TB>::operator/=(const Base<eT, T1>& in)
-{
+inline void subview_cube_each2<eT, TB>::operator/=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     Cube<eT>& p = access::rw(subview_cube_each_common<eT>::P);
@@ -392,9 +358,7 @@ inline void subview_cube_each2<eT, TB>::operator/=(const Base<eT, T1>& in)
 // subview_cube_each1_aux
 
 template <typename eT, typename T2>
-inline Cube<eT> subview_cube_each1_aux::operator_plus(const subview_cube_each1<eT>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_plus(const subview_cube_each1<eT>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -412,8 +376,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_plus(const subview_cube_each1<e
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = p_slice + A;
     }
@@ -422,9 +385,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_plus(const subview_cube_each1<e
 }
 
 template <typename eT, typename T2>
-inline Cube<eT> subview_cube_each1_aux::operator_minus(const subview_cube_each1<eT>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_minus(const subview_cube_each1<eT>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -442,8 +403,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_minus(const subview_cube_each1<
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = p_slice - A;
     }
@@ -452,9 +412,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_minus(const subview_cube_each1<
 }
 
 template <typename T1, typename eT>
-inline Cube<eT> subview_cube_each1_aux::operator_minus(const Base<eT, T1>& X,
-    const subview_cube_each1<eT>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_minus(const Base<eT, T1>& X, const subview_cube_each1<eT>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = Y.P;
@@ -472,8 +430,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_minus(const Base<eT, T1>& X,
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = A - p_slice;
     }
@@ -482,9 +439,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_minus(const Base<eT, T1>& X,
 }
 
 template <typename eT, typename T2>
-inline Cube<eT> subview_cube_each1_aux::operator_schur(const subview_cube_each1<eT>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_schur(const subview_cube_each1<eT>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -502,8 +457,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_schur(const subview_cube_each1<
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = p_slice % A;
     }
@@ -512,9 +466,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_schur(const subview_cube_each1<
 }
 
 template <typename eT, typename T2>
-inline Cube<eT> subview_cube_each1_aux::operator_div(const subview_cube_each1<eT>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_div(const subview_cube_each1<eT>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -532,8 +484,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_div(const subview_cube_each1<eT
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = p_slice / A;
     }
@@ -542,9 +493,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_div(const subview_cube_each1<eT
 }
 
 template <typename T1, typename eT>
-inline Cube<eT> subview_cube_each1_aux::operator_div(const Base<eT, T1>& X,
-    const subview_cube_each1<eT>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_div(const Base<eT, T1>& X, const subview_cube_each1<eT>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = Y.P;
@@ -562,8 +511,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_div(const Base<eT, T1>& X,
 
     for(uword i = 0; i < p_n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(i)), p_n_rows, p_n_cols, false, true);
 
         out_slice = A / p_slice;
     }
@@ -572,9 +520,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_div(const Base<eT, T1>& X,
 }
 
 template <typename eT, typename T2>
-inline Cube<eT> subview_cube_each1_aux::operator_times(const subview_cube_each1<eT>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_times(const subview_cube_each1<eT>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& C = X.P;
@@ -586,8 +532,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_times(const subview_cube_each1<
 
     for(uword i = 0; i < C.n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), C.n_rows, M.n_cols, false, true);
-        const Mat<eT> C_slice(
-            const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
+        const Mat<eT> C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
 
         out_slice = C_slice * M;
     }
@@ -596,9 +541,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_times(const subview_cube_each1<
 }
 
 template <typename T1, typename eT>
-inline Cube<eT> subview_cube_each1_aux::operator_times(const Base<eT, T1>& X,
-    const subview_cube_each1<eT>& Y)
-{
+inline Cube<eT> subview_cube_each1_aux::operator_times(const Base<eT, T1>& X, const subview_cube_each1<eT>& Y) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> tmp(X.get_ref());
@@ -610,8 +553,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_times(const Base<eT, T1>& X,
 
     for(uword i = 0; i < C.n_slices; ++i) {
         Mat<eT> out_slice(out.slice_memptr(i), M.n_rows, C.n_cols, false, true);
-        const Mat<eT> C_slice(
-            const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
+        const Mat<eT> C_slice(const_cast<eT*>(C.slice_memptr(i)), C.n_rows, C.n_cols, false, true);
 
         out_slice = M * C_slice;
     }
@@ -624,9 +566,7 @@ inline Cube<eT> subview_cube_each1_aux::operator_times(const Base<eT, T1>& X,
 // subview_cube_each2_aux
 
 template <typename eT, typename TB, typename T2>
-inline Cube<eT> subview_cube_each2_aux::operator_plus(const subview_cube_each2<eT, TB>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_plus(const subview_cube_each2<eT, TB>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -661,10 +601,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_plus(const subview_cube_each2<e
 }
 
 template <typename eT, typename TB, typename T2>
-inline Cube<eT> subview_cube_each2_aux::operator_minus(
-    const subview_cube_each2<eT, TB>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_minus(const subview_cube_each2<eT, TB>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -699,9 +636,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_minus(
 }
 
 template <typename T1, typename eT, typename TB>
-inline Cube<eT> subview_cube_each2_aux::operator_minus(const Base<eT, T1>& X,
-    const subview_cube_each2<eT, TB>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_minus(const Base<eT, T1>& X, const subview_cube_each2<eT, TB>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = Y.P;
@@ -729,8 +664,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_minus(const Base<eT, T1>& X,
         arma_debug_check((slice >= p_n_slices), "each_slice(): index out of bounds");
 
         Mat<eT> out_slice(out.slice_memptr(slice), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
 
         out_slice = A - p_slice;
     }
@@ -739,10 +673,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_minus(const Base<eT, T1>& X,
 }
 
 template <typename eT, typename TB, typename T2>
-inline Cube<eT> subview_cube_each2_aux::operator_schur(
-    const subview_cube_each2<eT, TB>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_schur(const subview_cube_each2<eT, TB>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -777,9 +708,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_schur(
 }
 
 template <typename eT, typename TB, typename T2>
-inline Cube<eT> subview_cube_each2_aux::operator_div(const subview_cube_each2<eT, TB>& X,
-    const Base<eT, T2>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_div(const subview_cube_each2<eT, TB>& X, const Base<eT, T2>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = X.P;
@@ -814,9 +743,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_div(const subview_cube_each2<eT
 }
 
 template <typename T1, typename eT, typename TB>
-inline Cube<eT> subview_cube_each2_aux::operator_div(const Base<eT, T1>& X,
-    const subview_cube_each2<eT, TB>& Y)
-{
+inline Cube<eT> subview_cube_each2_aux::operator_div(const Base<eT, T1>& X, const subview_cube_each2<eT, TB>& Y) {
     arma_extra_debug_sigprint();
 
     const Cube<eT>& p = Y.P;
@@ -844,8 +771,7 @@ inline Cube<eT> subview_cube_each2_aux::operator_div(const Base<eT, T1>& X,
         arma_debug_check((slice >= p_n_slices), "each_slice(): index out of bounds");
 
         Mat<eT> out_slice(out.slice_memptr(slice), p_n_rows, p_n_cols, false, true);
-        const Mat<eT> p_slice(
-            const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
+        const Mat<eT> p_slice(const_cast<eT*>(p.slice_memptr(slice)), p_n_rows, p_n_cols, false, true);
 
         out_slice = A / p_slice;
     }

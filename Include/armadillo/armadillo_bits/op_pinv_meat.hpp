@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pinv>& in)
-{
+inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pinv>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -29,17 +28,11 @@ inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pin
 
     const bool status = op_pinv::apply_direct(out, in.m, tol, use_divide_and_conquer);
 
-    if(status == false) {
-        arma_stop_runtime_error("pinv(): svd failed");
-    }
+    if(status == false) { arma_stop_runtime_error("pinv(): svd failed"); }
 }
 
 template <typename T1>
-inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr,
-    typename T1::pod_type tol,
-    const bool use_divide_and_conquer)
-{
+inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol, const bool use_divide_and_conquer) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -65,11 +58,9 @@ inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out,
     bool status = false;
 
     if(use_divide_and_conquer) {
-        status = (n_cols > n_rows) ? auxlib::svd_dc_econ(U, s, V, trans(P.Q)) :
-                                     auxlib::svd_dc_econ(U, s, V, P.Q);
+        status = (n_cols > n_rows) ? auxlib::svd_dc_econ(U, s, V, trans(P.Q)) : auxlib::svd_dc_econ(U, s, V, P.Q);
     } else {
-        status = (n_cols > n_rows) ? auxlib::svd_econ(U, s, V, trans(P.Q), 'b') :
-                                     auxlib::svd_econ(U, s, V, P.Q, 'b');
+        status = (n_cols > n_rows) ? auxlib::svd_econ(U, s, V, trans(P.Q), 'b') : auxlib::svd_econ(U, s, V, P.Q, 'b');
     }
 
     if(status == false) {
@@ -81,15 +72,11 @@ inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out,
     const T* s_mem = s.memptr();
 
     // set tolerance to default if it hasn't been specified
-    if((tol == T(0)) && (s_n_elem > 0)) {
-        tol = (std::max)(n_rows, n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon();
-    }
+    if((tol == T(0)) && (s_n_elem > 0)) { tol = (std::max)(n_rows, n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon(); }
 
     uword count = 0;
 
-    for(uword i = 0; i < s_n_elem; ++i) {
-        count += (s_mem[i] >= tol) ? uword(1) : uword(0);
-    }
+    for(uword i = 0; i < s_n_elem; ++i) { count += (s_mem[i] >= tol) ? uword(1) : uword(0); }
 
     if(count > 0) {
         Col<T> s2(count);
@@ -108,11 +95,9 @@ inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out,
         }
 
         if(n_rows >= n_cols) {
-            out = ((V.n_cols > count) ? V.cols(0, count - 1) : V) * diagmat(s2) *
-                trans((U.n_cols > count) ? U.cols(0, count - 1) : U);
+            out = ((V.n_cols > count) ? V.cols(0, count - 1) : V) * diagmat(s2) * trans((U.n_cols > count) ? U.cols(0, count - 1) : U);
         } else {
-            out = ((U.n_cols > count) ? U.cols(0, count - 1) : U) * diagmat(s2) *
-                trans((V.n_cols > count) ? V.cols(0, count - 1) : V);
+            out = ((U.n_cols > count) ? U.cols(0, count - 1) : U) * diagmat(s2) * trans((V.n_cols > count) ? V.cols(0, count - 1) : V);
         }
     } else {
         out.zeros(n_cols, n_rows);

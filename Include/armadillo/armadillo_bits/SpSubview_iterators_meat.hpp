@@ -25,26 +25,21 @@ inline SpSubview<eT>::iterator_base::iterator_base(const SpSubview<eT>& in_M)
     : M(in_M)
     , internal_col(0)
     , internal_pos(0)
-    , skip_pos(0)
-{
+    , skip_pos(0) {
     // Technically this iterator is invalid (it may not point to a real element).
 }
 
 template <typename eT>
-inline SpSubview<eT>::iterator_base::iterator_base(const SpSubview<eT>& in_M,
-    const uword in_col,
-    const uword in_pos,
-    const uword in_skip_pos)
+inline SpSubview<eT>::iterator_base::iterator_base(const SpSubview<eT>& in_M, const uword in_col, const uword in_pos, const uword in_skip_pos)
     : M(in_M)
     , internal_col(in_col)
     , internal_pos(in_pos)
-    , skip_pos(in_skip_pos)
-{
+    , skip_pos(in_skip_pos) {
     // Nothing to do.
 }
 
-template <typename eT> arma_inline eT SpSubview<eT>::iterator_base::operator*() const
-{
+template <typename eT>
+arma_inline eT SpSubview<eT>::iterator_base::operator*() const {
     return M.m.values[internal_pos + skip_pos];
 }
 
@@ -53,10 +48,8 @@ template <typename eT> arma_inline eT SpSubview<eT>::iterator_base::operator*() 
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
-    const uword initial_pos)
-    : iterator_base(in_M, 0, initial_pos, 0)
-{
+inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M, const uword initial_pos)
+    : iterator_base(in_M, 0, initial_pos, 0) {
     // Corner case for empty subviews.
     if(in_M.n_nonzero == 0) {
         iterator_base::internal_col = in_M.n_cols;
@@ -77,11 +70,7 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
 
     while(cur_pos < (iterator_base::internal_pos + 1)) {
         // Have we stepped forward a column (or multiple columns)?
-        while(((lskip_pos + cur_pos) >=
-                  iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-            (cur_col < ln_cols)) {
-            ++cur_col;
-        }
+        while(((lskip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
 
         // See if the current position is in the subview.
         const uword row_index = iterator_base::M.m.row_indices[cur_pos + lskip_pos];
@@ -101,11 +90,8 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
 }
 
 template <typename eT>
-inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
-    const uword in_row,
-    const uword in_col)
-    : iterator_base(in_M, in_col, 0, 0)
-{
+inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M, const uword in_row, const uword in_col)
+    : iterator_base(in_M, in_col, 0, 0) {
     // Corner case for empty subviews.
     if(in_M.n_nonzero == 0) {
         // We must be at the last position.
@@ -128,10 +114,7 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
     uword cur_col = 0;
 
     // Skip any empty columns.
-    while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-        (cur_col < ln_cols)) {
-        ++cur_col;
-    }
+    while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
 
     while(cur_col < in_col) {
         // See if the current position is in the subview.
@@ -147,11 +130,7 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
         }
 
         // Have we stepped forward a column (or multiple columns)?
-        while(((skip_pos + cur_pos) >=
-                  iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-            (cur_col < ln_cols)) {
-            ++cur_col;
-        }
+        while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
     }
 
     // Now we are either on the right column or ahead of it.
@@ -166,15 +145,9 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
             }
 
             // Ensure we didn't step forward a column; if we did, we need to stop.
-            while(((skip_pos + cur_pos) >=
-                      iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-                (cur_col < ln_cols)) {
-                ++cur_col;
-            }
+            while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
 
-            if(cur_col != in_col) {
-                break;
-            }
+            if(cur_col != in_col) { break; }
 
             row_index = iterator_base::M.m.row_indices[cur_pos + skip_pos];
         }
@@ -203,18 +176,11 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
         }
 
         // Did we move any columns?
-        while(((skip_pos + cur_pos) >=
-                  iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-            (cur_col < ln_cols)) {
-            ++cur_col;
-        }
+        while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
     }
 
     // It is possible we have moved another column.
-    while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) &&
-        (cur_col < ln_cols)) {
-        ++cur_col;
-    }
+    while(((skip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1]) && (cur_col < ln_cols)) { ++cur_col; }
 
     iterator_base::internal_pos = cur_pos;
     iterator_base::skip_pos = skip_pos;
@@ -222,13 +188,8 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
 }
 
 template <typename eT>
-inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
-    uword in_row,
-    uword in_col,
-    uword in_pos,
-    uword in_skip_pos)
-    : iterator_base(in_M, in_col, in_pos, in_skip_pos)
-{
+inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M, uword in_row, uword in_col, uword in_pos, uword in_skip_pos)
+    : iterator_base(in_M, in_col, in_pos, in_skip_pos) {
     arma_ignore(in_row);
 
     // Nothing to do.
@@ -236,14 +197,12 @@ inline SpSubview<eT>::const_iterator::const_iterator(const SpSubview<eT>& in_M,
 
 template <typename eT>
 inline SpSubview<eT>::const_iterator::const_iterator(const const_iterator& other)
-    : iterator_base(other.M, other.internal_col, other.internal_pos, other.skip_pos)
-{
+    : iterator_base(other.M, other.internal_col, other.internal_pos, other.skip_pos) {
     // Nothing to do.
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::operator++()
-{
+inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::operator++() {
     const uword aux_col = iterator_base::M.aux_col1;
     const uword aux_row = iterator_base::M.aux_row1;
     const uword ln_rows = iterator_base::M.n_rows;
@@ -259,11 +218,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
         row_index = iterator_base::M.m.row_indices[cur_pos + lskip_pos];
 
         // Did we move any columns?
-        while((cur_col < ln_cols) &&
-            ((lskip_pos + cur_pos) >=
-                iterator_base::M.m.col_ptrs[cur_col + aux_col + 1])) {
-            ++cur_col;
-        }
+        while((cur_col < ln_cols) && ((lskip_pos + cur_pos) >= iterator_base::M.m.col_ptrs[cur_col + aux_col + 1])) { ++cur_col; }
 
         // Are we at the last position?
         if(cur_col >= ln_cols) {
@@ -290,9 +245,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
 }
 
 template <typename eT>
-inline
-    typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator++(int)
-{
+inline typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator++(int) {
     typename SpSubview<eT>::const_iterator tmp(*this);
 
     ++(*this);
@@ -301,8 +254,7 @@ inline
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::operator--()
-{
+inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::operator--() {
     const uword aux_col = iterator_base::M.aux_col1;
     const uword aux_row = iterator_base::M.aux_row1;
     const uword ln_rows = iterator_base::M.n_rows;
@@ -315,8 +267,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
     if((skip_pos + cur_pos + 1) == iterator_base::M.m.n_nonzero) {
         // We are at the last element.  So we need to set skip_pos back to what it
         // would be if we didn't manually modify it back in operator++().
-        skip_pos =
-            iterator_base::M.m.col_ptrs[cur_col + aux_col] - iterator_base::internal_pos;
+        skip_pos = iterator_base::M.m.col_ptrs[cur_col + aux_col] - iterator_base::internal_pos;
     }
 
     uword row_index;
@@ -326,9 +277,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
         row_index = iterator_base::M.m.row_indices[cur_pos + skip_pos];
 
         // Did we move back any columns?
-        while((skip_pos + cur_pos) < iterator_base::M.m.col_ptrs[cur_col + aux_col]) {
-            --cur_col;
-        }
+        while((skip_pos + cur_pos) < iterator_base::M.m.col_ptrs[cur_col + aux_col]) { --cur_col; }
 
         if(row_index < aux_row) {
             skip_pos -= (colptr - (cur_pos + skip_pos) + 1);
@@ -347,9 +296,7 @@ inline typename SpSubview<eT>::const_iterator& SpSubview<eT>::const_iterator::op
 }
 
 template <typename eT>
-inline
-    typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator--(int)
-{
+inline typename SpSubview<eT>::const_iterator SpSubview<eT>::const_iterator::operator--(int) {
     typename SpSubview<eT>::const_iterator tmp(*this);
 
     --(*this);
@@ -358,54 +305,42 @@ inline
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator==(const const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator==(const const_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator!=(const const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator!=(const const_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator==(
-    const typename SpMat<eT>::const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator==(const typename SpMat<eT>::const_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator!=(
-    const typename SpMat<eT>::const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator!=(const typename SpMat<eT>::const_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator==(const const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator==(const const_row_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator!=(const const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator!=(const const_row_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator==(
-    const typename SpMat<eT>::const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator==(const typename SpMat<eT>::const_row_iterator& rhs) const {
     return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_iterator::operator!=(
-    const typename SpMat<eT>::const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_iterator::operator!=(const typename SpMat<eT>::const_row_iterator& rhs) const {
     return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
 }
 
@@ -414,24 +349,18 @@ inline bool SpSubview<eT>::const_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpValProxy<SpSubview<eT>> SpSubview<eT>::iterator::operator*()
-{
-    return SpValProxy<SpSubview<eT>>(iterator_base::row(), iterator_base::col(),
-        access::rw(iterator_base::M),
-        &(access::rw(iterator_base::M.m.values[iterator_base::internal_pos +
-            iterator_base::skip_pos])));
+inline SpValProxy<SpSubview<eT>> SpSubview<eT>::iterator::operator*() {
+    return SpValProxy<SpSubview<eT>>(iterator_base::row(), iterator_base::col(), access::rw(iterator_base::M), &(access::rw(iterator_base::M.m.values[iterator_base::internal_pos + iterator_base::skip_pos])));
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::iterator& SpSubview<eT>::iterator::operator++()
-{
+inline typename SpSubview<eT>::iterator& SpSubview<eT>::iterator::operator++() {
     const_iterator::operator++();
     return *this;
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator++(int)
-{
+inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator++(int) {
     typename SpSubview<eT>::iterator tmp(*this);
 
     const_iterator::operator++();
@@ -440,15 +369,13 @@ inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator++(int)
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::iterator& SpSubview<eT>::iterator::operator--()
-{
+inline typename SpSubview<eT>::iterator& SpSubview<eT>::iterator::operator--() {
     const_iterator::operator--();
     return *this;
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator--(int)
-{
+inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator--(int) {
     typename SpSubview<eT>::iterator tmp(*this);
 
     const_iterator::operator--();
@@ -461,12 +388,10 @@ inline typename SpSubview<eT>::iterator SpSubview<eT>::iterator::operator--(int)
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>& in_M,
-    uword initial_pos)
+inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>& in_M, uword initial_pos)
     : iterator_base(in_M, 0, initial_pos, 0)
     , internal_row(0)
-    , actual_pos(0)
-{
+    , actual_pos(0) {
     // Corner case for empty subviews.
     if(in_M.n_nonzero == 0) {
         iterator_base::internal_col = 0;
@@ -493,9 +418,7 @@ inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>
         const uword colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col];
         const uword next_colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col + 1];
 
-        for(uword ind = colptr; (ind < next_colptr) &&
-            (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row));
-            ++ind) {
+        for(uword ind = colptr; (ind < next_colptr) && (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row)); ++ind) {
             // There is something in this column.  Is it in the row we are looking at?
             const uword row_index = iterator_base::M.m.row_indices[ind];
             if(row_index == (cur_row + aux_row)) {
@@ -531,21 +454,16 @@ inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>
 }
 
 template <typename eT>
-inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>& in_M,
-    uword in_row,
-    uword in_col)
+inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>& in_M, uword in_row, uword in_col)
     : iterator_base(in_M, in_col, 0, 0)
     , internal_row(0)
-    , actual_pos(0)
-{
+    , actual_pos(0) {
     // We have a destination we want to be just after, but don't know what that
     // position is.  Because we will have to loop over everything anyway, create
     // another iterator and loop it until it is at the right place, then take its
     // information.
     const_row_iterator it(in_M, 0);
-    while((it.row() < in_row) || ((it.row() == in_row) && (it.col() < in_col))) {
-        ++it;
-    }
+    while((it.row() < in_row) || ((it.row() == in_row) && (it.col() < in_col))) { ++it; }
 
     iterator_base::internal_col = it.col();
     iterator_base::internal_pos = it.pos();
@@ -555,19 +473,15 @@ inline SpSubview<eT>::const_row_iterator::const_row_iterator(const SpSubview<eT>
 }
 
 template <typename eT>
-inline SpSubview<eT>::const_row_iterator::const_row_iterator(
-    const const_row_iterator& other)
+inline SpSubview<eT>::const_row_iterator::const_row_iterator(const const_row_iterator& other)
     : iterator_base(other.M, other.internal_col, other.internal_pos, other.skip_pos)
     , internal_row(other.internal_row)
-    , actual_pos(other.actual_pos)
-{
+    , actual_pos(other.actual_pos) {
     // Nothing to do.
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_row_iterator& SpSubview<eT>::const_row_iterator::
-operator++()
-{
+inline typename SpSubview<eT>::const_row_iterator& SpSubview<eT>::const_row_iterator::operator++() {
     // We just need to find the next nonzero element.
     ++iterator_base::internal_pos;
 
@@ -599,9 +513,7 @@ operator++()
         const uword colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col];
         const uword next_colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col + 1];
 
-        for(uword ind = colptr; (ind < next_colptr) &&
-            (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row));
-            ++ind) {
+        for(uword ind = colptr; (ind < next_colptr) && (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row)); ++ind) {
             const uword row_index = iterator_base::M.m.row_indices[ind];
 
             if((row_index - aux_row) == cur_row) {
@@ -617,9 +529,7 @@ operator++()
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_row_iterator SpSubview<eT>::const_row_iterator::
-operator++(int)
-{
+inline typename SpSubview<eT>::const_row_iterator SpSubview<eT>::const_row_iterator::operator++(int) {
     typename SpSubview<eT>::const_row_iterator tmp(*this);
 
     ++(*this);
@@ -628,9 +538,7 @@ operator++(int)
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_row_iterator& SpSubview<eT>::const_row_iterator::
-operator--()
-{
+inline typename SpSubview<eT>::const_row_iterator& SpSubview<eT>::const_row_iterator::operator--() {
     // We just need to find the previous element.
     //  if(iterator_base::pos == 0)
     //    {
@@ -671,9 +579,7 @@ operator--()
         const uword colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col];
         const uword next_colptr = iterator_base::M.m.col_ptrs[cur_col + aux_col + 1];
 
-        for(uword ind = colptr; (ind < next_colptr) &&
-            (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row));
-            ++ind) {
+        for(uword ind = colptr; (ind < next_colptr) && (iterator_base::M.m.row_indices[ind] <= (cur_row + aux_row)); ++ind) {
             const uword row_index = iterator_base::M.m.row_indices[ind];
 
             if((row_index - aux_row) == cur_row) {
@@ -688,9 +594,7 @@ operator--()
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::const_row_iterator SpSubview<eT>::const_row_iterator::
-operator--(int)
-{
+inline typename SpSubview<eT>::const_row_iterator SpSubview<eT>::const_row_iterator::operator--(int) {
     typename SpSubview<eT>::const_row_iterator tmp(*this);
 
     --(*this);
@@ -699,56 +603,42 @@ operator--(int)
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator==(const const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator==(const const_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator!=(const const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator!=(const const_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator==(
-    const typename SpMat<eT>::const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator==(const typename SpMat<eT>::const_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator!=(
-    const typename SpMat<eT>::const_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator!=(const typename SpMat<eT>::const_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator==(
-    const const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator==(const const_row_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator!=(
-    const const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator!=(const const_row_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator==(
-    const typename SpMat<eT>::const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator==(const typename SpMat<eT>::const_row_iterator& rhs) const {
     return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
 }
 
 template <typename eT>
-inline bool SpSubview<eT>::const_row_iterator::operator!=(
-    const typename SpMat<eT>::const_row_iterator& rhs) const
-{
+inline bool SpSubview<eT>::const_row_iterator::operator!=(const typename SpMat<eT>::const_row_iterator& rhs) const {
     return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
 }
 
@@ -757,23 +647,18 @@ inline bool SpSubview<eT>::const_row_iterator::operator!=(
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename eT>
-inline SpValProxy<SpSubview<eT>> SpSubview<eT>::row_iterator::operator*()
-{
-    return SpValProxy<SpSubview<eT>>(const_row_iterator::internal_row,
-        iterator_base::internal_col, access::rw(iterator_base::M),
-        &access::rw(iterator_base::M.m.values[const_row_iterator::actual_pos]));
+inline SpValProxy<SpSubview<eT>> SpSubview<eT>::row_iterator::operator*() {
+    return SpValProxy<SpSubview<eT>>(const_row_iterator::internal_row, iterator_base::internal_col, access::rw(iterator_base::M), &access::rw(iterator_base::M.m.values[const_row_iterator::actual_pos]));
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::row_iterator& SpSubview<eT>::row_iterator::operator++()
-{
+inline typename SpSubview<eT>::row_iterator& SpSubview<eT>::row_iterator::operator++() {
     const_row_iterator::operator++();
     return *this;
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::row_iterator SpSubview<eT>::row_iterator::operator++(int)
-{
+inline typename SpSubview<eT>::row_iterator SpSubview<eT>::row_iterator::operator++(int) {
     typename SpSubview<eT>::row_iterator tmp(*this);
 
     ++(*this);
@@ -782,15 +667,13 @@ inline typename SpSubview<eT>::row_iterator SpSubview<eT>::row_iterator::operato
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::row_iterator& SpSubview<eT>::row_iterator::operator--()
-{
+inline typename SpSubview<eT>::row_iterator& SpSubview<eT>::row_iterator::operator--() {
     const_row_iterator::operator--();
     return *this;
 }
 
 template <typename eT>
-inline typename SpSubview<eT>::row_iterator SpSubview<eT>::row_iterator::operator--(int)
-{
+inline typename SpSubview<eT>::row_iterator SpSubview<eT>::row_iterator::operator--(int) {
     typename SpSubview<eT>::row_iterator tmp(*this);
 
     --(*this);

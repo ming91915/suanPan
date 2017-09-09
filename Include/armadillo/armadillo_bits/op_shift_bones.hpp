@@ -16,38 +16,25 @@
 //! \addtogroup op_shift
 //! @{
 
-class op_shift_default
-{
+class op_shift_default {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_shift_default>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift_default>& in);
 };
 
-class op_shift
-{
+class op_shift {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_shift>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift>& in);
 
     template <typename eT>
-    inline static void apply_direct(Mat<eT>& out,
-        const Mat<eT>& X,
-        const uword len,
-        const uword neg,
-        const uword dim);
+    inline static void apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim);
 
     template <typename eT>
-    inline static void apply_noalias(Mat<eT>& out,
-        const Mat<eT>& X,
-        const uword len,
-        const uword neg,
-        const uword dim);
+    inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim);
 
     template <typename eT>
-    inline static void
-    apply_alias(Mat<eT>& out, const uword len, const uword neg, const uword dim);
+    inline static void apply_alias(Mat<eT>& out, const uword len, const uword neg, const uword dim);
 };
 
 //! @}

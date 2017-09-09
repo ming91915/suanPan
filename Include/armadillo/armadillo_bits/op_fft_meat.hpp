@@ -20,9 +20,7 @@
 // op_fft_real
 
 template <typename T1>
-inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
-    const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in)
-{
+inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out, const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type in_eT;
@@ -61,27 +59,19 @@ inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
 
         out_eT* data_mem = data.memptr();
 
-        if(N_user > N_orig) {
-            arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig));
-        }
+        if(N_user > N_orig) { arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig)); }
 
         const uword N = (std::min)(N_user, N_orig);
 
         if(Proxy<T1>::use_at == false) {
             typename Proxy<T1>::ea_type X = P.get_ea();
 
-            for(uword i = 0; i < N; ++i) {
-                data_mem[i] = out_eT(X[i], in_eT(0));
-            }
+            for(uword i = 0; i < N; ++i) { data_mem[i] = out_eT(X[i], in_eT(0)); }
         } else {
             if(n_cols == 1) {
-                for(uword i = 0; i < N; ++i) {
-                    data_mem[i] = out_eT(P.at(i, 0), in_eT(0));
-                }
+                for(uword i = 0; i < N; ++i) { data_mem[i] = out_eT(P.at(i, 0), in_eT(0)); }
             } else {
-                for(uword i = 0; i < N; ++i) {
-                    data_mem[i] = out_eT(P.at(0, i), in_eT(0));
-                }
+                for(uword i = 0; i < N; ++i) { data_mem[i] = out_eT(P.at(0, i), in_eT(0)); }
             }
         }
 
@@ -97,9 +87,7 @@ inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
         }
 
         if((N_user == 1) && (N_orig >= 1)) {
-            for(uword col = 0; col < n_cols; ++col) {
-                out.at(0, col) = out_eT(P.at(0, col));
-            }
+            for(uword col = 0; col < n_cols; ++col) { out.at(0, col) = out_eT(P.at(0, col)); }
 
             return;
         }
@@ -108,16 +96,12 @@ inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
 
         out_eT* data_mem = data.memptr();
 
-        if(N_user > N_orig) {
-            arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig));
-        }
+        if(N_user > N_orig) { arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig)); }
 
         const uword N = (std::min)(N_user, N_orig);
 
         for(uword col = 0; col < n_cols; ++col) {
-            for(uword i = 0; i < N; ++i) {
-                data_mem[i] = P.at(i, col);
-            }
+            for(uword i = 0; i < N; ++i) { data_mem[i] = P.at(i, col); }
 
             worker.run(out.colptr(col), data_mem);
         }
@@ -128,9 +112,7 @@ inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out,
 // op_fft_cx
 
 template <typename T1>
-inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_fft_cx>& in)
-{
+inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_fft_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -149,11 +131,7 @@ inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, bool inverse>
-inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword a,
-    const uword b)
-{
+inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword a, const uword b) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -182,15 +160,12 @@ inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out,
             return;
         }
 
-        if((N_user > N_orig) ||
-            (is_Mat<typename Proxy<T1>::stored_type>::value == false)) {
+        if((N_user > N_orig) || (is_Mat<typename Proxy<T1>::stored_type>::value == false)) {
             podarray<eT> data(N_user);
 
             eT* data_mem = data.memptr();
 
-            if(N_user > N_orig) {
-                arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig));
-            }
+            if(N_user > N_orig) { arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig)); }
 
             op_fft_cx::copy_vec(data_mem, P, (std::min)(N_user, N_orig));
 
@@ -211,38 +186,29 @@ inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out,
         }
 
         if((N_user == 1) && (N_orig >= 1)) {
-            for(uword col = 0; col < n_cols; ++col) {
-                out.at(0, col) = P.at(0, col);
-            }
+            for(uword col = 0; col < n_cols; ++col) { out.at(0, col) = P.at(0, col); }
 
             return;
         }
 
-        if((N_user > N_orig) ||
-            (is_Mat<typename Proxy<T1>::stored_type>::value == false)) {
+        if((N_user > N_orig) || (is_Mat<typename Proxy<T1>::stored_type>::value == false)) {
             podarray<eT> data(N_user);
 
             eT* data_mem = data.memptr();
 
-            if(N_user > N_orig) {
-                arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig));
-            }
+            if(N_user > N_orig) { arrayops::fill_zeros(&data_mem[N_orig], (N_user - N_orig)); }
 
             const uword N = (std::min)(N_user, N_orig);
 
             for(uword col = 0; col < n_cols; ++col) {
-                for(uword i = 0; i < N; ++i) {
-                    data_mem[i] = P.at(i, col);
-                }
+                for(uword i = 0; i < N; ++i) { data_mem[i] = P.at(i, col); }
 
                 worker.run(out.colptr(col), data_mem);
             }
         } else {
             const unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
 
-            for(uword col = 0; col < n_cols; ++col) {
-                worker.run(out.colptr(col), tmp.M.colptr(col));
-            }
+            for(uword col = 0; col < n_cols; ++col) { worker.run(out.colptr(col), tmp.M.colptr(col)); }
         }
     }
 
@@ -256,17 +222,12 @@ inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out,
 
         const uword out_n_elem = out.n_elem;
 
-        for(uword i = 0; i < out_n_elem; ++i) {
-            out_mem[i] *= k;
-        }
+        for(uword i = 0; i < out_n_elem; ++i) { out_mem[i] *= k; }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest,
-    const Proxy<T1>& P,
-    const uword N)
-{
+arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     if(is_Mat<typename Proxy<T1>::stored_type>::value == true) {
@@ -277,10 +238,7 @@ arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest,
 }
 
 template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* dest,
-    const Proxy<T1>& P,
-    const uword N)
-{
+arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     const unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
@@ -289,27 +247,18 @@ arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* d
 }
 
 template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* dest,
-    const Proxy<T1>& P,
-    const uword N)
-{
+arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     if(Proxy<T1>::use_at == false) {
         typename Proxy<T1>::ea_type X = P.get_ea();
 
-        for(uword i = 0; i < N; ++i) {
-            dest[i] = X[i];
-        }
+        for(uword i = 0; i < N; ++i) { dest[i] = X[i]; }
     } else {
         if(P.get_n_cols() == 1) {
-            for(uword i = 0; i < N; ++i) {
-                dest[i] = P.at(i, 0);
-            }
+            for(uword i = 0; i < N; ++i) { dest[i] = P.at(i, 0); }
         } else {
-            for(uword i = 0; i < N; ++i) {
-                dest[i] = P.at(0, i);
-            }
+            for(uword i = 0; i < N; ++i) { dest[i] = P.at(0, i); }
         }
     }
 }
@@ -318,9 +267,7 @@ arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* de
 // op_ifft_cx
 
 template <typename T1>
-inline void op_ifft_cx::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_ifft_cx>& in)
-{
+inline void op_ifft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_ifft_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

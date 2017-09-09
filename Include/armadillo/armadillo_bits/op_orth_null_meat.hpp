@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_orth::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_orth>& expr)
-{
+inline void op_orth::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_orth>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -27,16 +26,11 @@ inline void op_orth::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_ort
 
     const bool status = op_orth::apply_direct(out, expr.m, tol);
 
-    if(status == false) {
-        arma_stop_runtime_error("orth(): svd failed");
-    }
+    if(status == false) { arma_stop_runtime_error("orth(): svd failed"); }
 }
 
 template <typename T1>
-inline bool op_orth::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr,
-    typename T1::pod_type tol)
-{
+inline bool op_orth::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -69,16 +63,11 @@ inline bool op_orth::apply_direct(Mat<typename T1::elem_type>& out,
     const T* s_mem = s.memptr();
 
     // set tolerance to default if it hasn't been specified
-    if(tol == T(0)) {
-        tol =
-            (std::max)(X.n_rows, X.n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon();
-    }
+    if(tol == T(0)) { tol = (std::max)(X.n_rows, X.n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon(); }
 
     uword count = 0;
 
-    for(uword i = 0; i < s_n_elem; ++i) {
-        count += (s_mem[i] > tol) ? uword(1) : uword(0);
-    }
+    for(uword i = 0; i < s_n_elem; ++i) { count += (s_mem[i] > tol) ? uword(1) : uword(0); }
 
     if(count > 0) {
         out = U.head_cols(count); // out *= eT(-1);
@@ -92,8 +81,7 @@ inline bool op_orth::apply_direct(Mat<typename T1::elem_type>& out,
 //
 
 template <typename T1>
-inline void op_null::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_null>& expr)
-{
+inline void op_null::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_null>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -102,16 +90,11 @@ inline void op_null::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_nul
 
     const bool status = op_null::apply_direct(out, expr.m, tol);
 
-    if(status == false) {
-        arma_stop_runtime_error("null(): svd failed");
-    }
+    if(status == false) { arma_stop_runtime_error("null(): svd failed"); }
 }
 
 template <typename T1>
-inline bool op_null::apply_direct(Mat<typename T1::elem_type>& out,
-    const Base<typename T1::elem_type, T1>& expr,
-    typename T1::pod_type tol)
-{
+inline bool op_null::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -144,16 +127,11 @@ inline bool op_null::apply_direct(Mat<typename T1::elem_type>& out,
     const T* s_mem = s.memptr();
 
     // set tolerance to default if it hasn't been specified
-    if(tol == T(0)) {
-        tol =
-            (std::max)(X.n_rows, X.n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon();
-    }
+    if(tol == T(0)) { tol = (std::max)(X.n_rows, X.n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon(); }
 
     uword count = 0;
 
-    for(uword i = 0; i < s_n_elem; ++i) {
-        count += (s_mem[i] > tol) ? uword(1) : uword(0);
-    }
+    for(uword i = 0; i < s_n_elem; ++i) { count += (s_mem[i] > tol) ? uword(1) : uword(0); }
 
     if(count < X.n_cols) {
         out = V.tail_cols(X.n_cols - count);
@@ -162,9 +140,7 @@ inline bool op_null::apply_direct(Mat<typename T1::elem_type>& out,
         eT* out_mem = out.memptr();
 
         for(uword i = 0; i < out_n_elem; ++i) {
-            if(std::abs(out_mem[i]) < std::numeric_limits<T>::epsilon()) {
-                out_mem[i] = eT(0);
-            }
+            if(std::abs(out_mem[i]) < std::numeric_limits<T>::epsilon()) { out_mem[i] = eT(0); }
         }
     } else {
         out.set_size(X.n_cols, 0);

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused inline const Op<T1, op_cor>
-cor(const Base<typename T1::elem_type, T1>& X, const uword norm_type = 0)
-{
+arma_warn_unused inline const Op<T1, op_cor> cor(const Base<typename T1::elem_type, T1>& X, const uword norm_type = 0) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "cor(): parameter 'norm_type' must be 0 or 1");
@@ -28,11 +26,7 @@ cor(const Base<typename T1::elem_type, T1>& X, const uword norm_type = 0)
 }
 
 template <typename T1, typename T2>
-arma_warn_unused inline const Glue<T1, T2, glue_cor> cor(
-    const Base<typename T1::elem_type, T1>& A,
-    const Base<typename T1::elem_type, T2>& B,
-    const uword norm_type = 0)
-{
+arma_warn_unused inline const Glue<T1, T2, glue_cor> cor(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const uword norm_type = 0) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "cor(): parameter 'norm_type' must be 0 or 1");

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_hot inline void op_sum::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_sum>& in)
-{
+arma_hot inline void op_sum::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sum>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -41,10 +39,7 @@ arma_hot inline void op_sum::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(is_Mat<typename Proxy<T1>::stored_type>::value) {
@@ -55,10 +50,7 @@ arma_hot inline void op_sum::apply_noalias(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_unwrap(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_unwrap(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -77,25 +69,18 @@ arma_hot inline void op_sum::apply_noalias_unwrap(Mat<typename T1::elem_type>& o
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            out_mem[col] = arrayops::accumulate(X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = arrayops::accumulate(X.colptr(col), X_n_rows); }
     } else {
         out.zeros(X_n_rows, 1);
 
         eT* out_mem = out.memptr();
 
-        for(uword col = 0; col < X_n_cols; ++col) {
-            arrayops::inplace_plus(out_mem, X.colptr(col), X_n_rows);
-        }
+        for(uword col = 0; col < X_n_cols; ++col) { arrayops::inplace_plus(out_mem, X.colptr(col), X_n_rows); }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_proxy(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -124,9 +109,7 @@ arma_hot inline void op_sum::apply_noalias_proxy(Mat<typename T1::elem_type>& ou
                 val2 += P.at(j, col);
             }
 
-            if(i < P_n_rows) {
-                val1 += P.at(i, col);
-            }
+            if(i < P_n_rows) { val1 += P.at(i, col); }
 
             out_mem[col] = (val1 + val2);
         }
@@ -136,17 +119,12 @@ arma_hot inline void op_sum::apply_noalias_proxy(Mat<typename T1::elem_type>& ou
         eT* out_mem = out.memptr();
 
         for(uword col = 0; col < P_n_cols; ++col)
-            for(uword row = 0; row < P_n_rows; ++row) {
-                out_mem[row] += P.at(row, col);
-            }
+            for(uword row = 0; row < P_n_rows; ++row) { out_mem[row] += P.at(row, col); }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_OPENMP)
@@ -174,9 +152,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>&
                     val2 += P.at(j, col);
                 }
 
-                if(i < P_n_rows) {
-                    val1 += P.at(i, col);
-                }
+                if(i < P_n_rows) { val1 += P.at(i, col); }
 
                 out_mem[col] = (val1 + val2);
             }
@@ -188,9 +164,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>&
 #pragma omp parallel for schedule(static) num_threads(n_threads)
             for(uword row = 0; row < P_n_rows; ++row) {
                 eT acc = eT(0);
-                for(uword col = 0; col < P_n_cols; ++col) {
-                    acc += P.at(row, col);
-                }
+                for(uword col = 0; col < P_n_cols; ++col) { acc += P.at(row, col); }
 
                 out_mem[row] = acc;
             }
@@ -209,9 +183,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Mat<typename T1::elem_type>&
 // cubes
 
 template <typename T1>
-arma_hot inline void op_sum::apply(Cube<typename T1::elem_type>& out,
-    const OpCube<T1, op_sum>& in)
-{
+arma_hot inline void op_sum::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_sum>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -233,10 +205,7 @@ arma_hot inline void op_sum::apply(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(is_Cube<typename ProxyCube<T1>::stored_type>::value) {
@@ -247,10 +216,7 @@ arma_hot inline void op_sum::apply_noalias(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -271,9 +237,7 @@ arma_hot inline void op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                out_mem[col] = arrayops::accumulate(X.slice_colptr(slice, col), X_n_rows);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { out_mem[col] = arrayops::accumulate(X.slice_colptr(slice, col), X_n_rows); }
         }
     } else if(dim == 1) {
         out.zeros(X_n_rows, 1, X_n_slices);
@@ -281,32 +245,24 @@ arma_hot inline void op_sum::apply_noalias_unwrap(Cube<typename T1::elem_type>& 
         for(uword slice = 0; slice < X_n_slices; ++slice) {
             eT* out_mem = out.slice_memptr(slice);
 
-            for(uword col = 0; col < X_n_cols; ++col) {
-                arrayops::inplace_plus(out_mem, X.slice_colptr(slice, col), X_n_rows);
-            }
+            for(uword col = 0; col < X_n_cols; ++col) { arrayops::inplace_plus(out_mem, X.slice_colptr(slice, col), X_n_rows); }
         }
     } else if(dim == 2) {
         out.zeros(X_n_rows, X_n_cols, 1);
 
         eT* out_mem = out.memptr();
 
-        for(uword slice = 0; slice < X_n_slices; ++slice) {
-            arrayops::inplace_plus(out_mem, X.slice_memptr(slice), X.n_elem_slice);
-        }
+        for(uword slice = 0; slice < X_n_slices; ++slice) { arrayops::inplace_plus(out_mem, X.slice_memptr(slice), X.n_elem_slice); }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
 
-    if(arma_config::openmp && ProxyCube<T1>::use_mp &&
-        mp_gate<eT>::eval(P.get_n_elem())) {
+    if(arma_config::openmp && ProxyCube<T1>::use_mp && mp_gate<eT>::eval(P.get_n_elem())) {
         op_sum::apply_noalias_proxy_mp(out, P, dim);
 
         return;
@@ -332,9 +288,7 @@ arma_hot inline void op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& o
                     val2 += P.at(j, col, slice);
                 }
 
-                if(i < P_n_rows) {
-                    val1 += P.at(i, col, slice);
-                }
+                if(i < P_n_rows) { val1 += P.at(i, col, slice); }
 
                 out_mem[col] = (val1 + val2);
             }
@@ -346,9 +300,7 @@ arma_hot inline void op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& o
             eT* out_mem = out.slice_memptr(slice);
 
             for(uword col = 0; col < P_n_cols; ++col)
-                for(uword row = 0; row < P_n_rows; ++row) {
-                    out_mem[row] += P.at(row, col, slice);
-                }
+                for(uword row = 0; row < P_n_rows; ++row) { out_mem[row] += P.at(row, col, slice); }
         }
     } else if(dim == 2) {
         out.zeros(P_n_rows, P_n_cols, 1);
@@ -357,19 +309,14 @@ arma_hot inline void op_sum::apply_noalias_proxy(Cube<typename T1::elem_type>& o
             for(uword col = 0; col < P_n_cols; ++col) {
                 eT* out_mem = out.slice_colptr(0, col);
 
-                for(uword row = 0; row < P_n_rows; ++row) {
-                    out_mem[row] += P.at(row, col, slice);
-                }
+                for(uword row = 0; row < P_n_rows; ++row) { out_mem[row] += P.at(row, col, slice); }
             }
         }
     }
 }
 
 template <typename T1>
-arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P,
-    const uword dim)
-{
+arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const uword dim) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_OPENMP)
@@ -399,9 +346,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>
                         val2 += P.at(j, col, slice);
                     }
 
-                    if(i < P_n_rows) {
-                        val1 += P.at(i, col, slice);
-                    }
+                    if(i < P_n_rows) { val1 += P.at(i, col, slice); }
 
                     out_mem[col] = (val1 + val2);
                 }
@@ -414,9 +359,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>
                 eT* out_mem = out.slice_memptr(slice);
 
                 for(uword col = 0; col < P_n_cols; ++col)
-                    for(uword row = 0; row < P_n_rows; ++row) {
-                        out_mem[row] += P.at(row, col, slice);
-                    }
+                    for(uword row = 0; row < P_n_rows; ++row) { out_mem[row] += P.at(row, col, slice); }
             }
         } else if(dim == 2) {
             out.zeros(P_n_rows, P_n_cols, 1);
@@ -426,9 +369,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>
                 for(uword col = 0; col < P_n_cols; ++col) {
                     for(uword row = 0; row < P_n_rows; ++row) {
                         eT acc = eT(0);
-                        for(uword slice = 0; slice < P_n_slices; ++slice) {
-                            acc += P.at(row, col, slice);
-                        }
+                        for(uword slice = 0; slice < P_n_slices; ++slice) { acc += P.at(row, col, slice); }
 
                         out.at(row, col, 0) = acc;
                     }
@@ -438,9 +379,7 @@ arma_hot inline void op_sum::apply_noalias_proxy_mp(Cube<typename T1::elem_type>
                 for(uword row = 0; row < P_n_rows; ++row) {
                     for(uword col = 0; col < P_n_cols; ++col) {
                         eT acc = eT(0);
-                        for(uword slice = 0; slice < P_n_slices; ++slice) {
-                            acc += P.at(row, col, slice);
-                        }
+                        for(uword slice = 0; slice < P_n_slices; ++slice) { acc += P.at(row, col, slice); }
 
                         out.at(row, col, 0) = acc;
                     }

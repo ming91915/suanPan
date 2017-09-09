@@ -17,8 +17,7 @@
 //! @{
 
 template <typename T1>
-inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Proxy<T1>& P)
-{
+inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -88,9 +87,7 @@ inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Prox
 
         const eT diff = a - b;
 
-        if(diff != eT(0)) {
-            ++N_unique;
-        }
+        if(diff != eT(0)) { ++N_unique; }
     }
 
     uword out_n_rows;
@@ -134,9 +131,7 @@ inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Prox
 }
 
 template <typename T1>
-inline void op_unique::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_unique>& in)
-{
+inline void op_unique::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_unique>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

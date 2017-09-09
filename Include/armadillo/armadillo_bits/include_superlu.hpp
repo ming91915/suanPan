@@ -64,31 +64,27 @@
 // This code requires SuperLU version 5.2,
 // and assumes that newer 5.x versions will have no API changes.
 
-namespace arma
-{
+namespace arma {
 
-namespace superlu
-{
+namespace superlu {
     // slu_*defs.h has int typedefed to int_t.
     // I'll just write it as int for simplicity, where I can, but supermatrix.h needs
     // int_t.
     typedef int int_t;
 
-// Include supermatrix.h.  This gives us SuperMatrix.
-// Put it in the slu namespace.
-// For versions of SuperLU I am familiar with, supermatrix.h does not include any other
-// files.
-// Therefore, putting it in the superlu namespace is reasonably safe.
-// This same reasoning is true for superlu_enum_consts.h.
+    // Include supermatrix.h.  This gives us SuperMatrix.
+    // Put it in the slu namespace.
+    // For versions of SuperLU I am familiar with, supermatrix.h does not include any other
+    // files.
+    // Therefore, putting it in the superlu namespace is reasonably safe.
+    // This same reasoning is true for superlu_enum_consts.h.
 
 #if defined(ARMA_SUPERLU_INCLUDE_DIR)
 #define ARMA_SLU_STR(x) x
 #define ARMA_SLU_STR2(x) ARMA_SLU_STR(x)
 
-#define ARMA_SLU_SUPERMATRIX_H \
-    ARMA_SLU_STR2(ARMA_SUPERLU_INCLUDE_DIR) ARMA_SLU_STR2(supermatrix.h)
-#define ARMA_SLU_SUPERLU_ENUM_CONSTS_H \
-    ARMA_SLU_STR2(ARMA_SUPERLU_INCLUDE_DIR) ARMA_SLU_STR2(superlu_enum_consts.h)
+#define ARMA_SLU_SUPERMATRIX_H ARMA_SLU_STR2(ARMA_SUPERLU_INCLUDE_DIR) ARMA_SLU_STR2(supermatrix.h)
+#define ARMA_SLU_SUPERLU_ENUM_CONSTS_H ARMA_SLU_STR2(ARMA_SUPERLU_INCLUDE_DIR) ARMA_SLU_STR2(superlu_enum_consts.h)
 #else
 #define ARMA_SLU_SUPERMATRIX_H supermatrix.h
 #define ARMA_SLU_SUPERLU_ENUM_CONSTS_H superlu_enum_consts.h
@@ -186,37 +182,16 @@ namespace superlu
 // This code requires SuperLU version 5.2,
 // and assumes that newer 5.x versions will have no API changes.
 
-namespace arma
-{
+namespace arma {
 
-namespace superlu
-{
+namespace superlu {
     typedef int int_t;
 
-    typedef enum {
-        SLU_NC,
-        SLU_NCP,
-        SLU_NR,
-        SLU_SC,
-        SLU_SCP,
-        SLU_SR,
-        SLU_DN,
-        SLU_NR_loc
-    } Stype_t;
+    typedef enum { SLU_NC, SLU_NCP, SLU_NR, SLU_SC, SLU_SCP, SLU_SR, SLU_DN, SLU_NR_loc } Stype_t;
 
     typedef enum { SLU_S, SLU_D, SLU_C, SLU_Z } Dtype_t;
 
-    typedef enum {
-        SLU_GE,
-        SLU_TRLU,
-        SLU_TRUU,
-        SLU_TRL,
-        SLU_TRU,
-        SLU_SYL,
-        SLU_SYU,
-        SLU_HEL,
-        SLU_HEU
-    } Mtype_t;
+    typedef enum { SLU_GE, SLU_TRLU, SLU_TRUU, SLU_TRL, SLU_TRU, SLU_SYL, SLU_SYU, SLU_HEL, SLU_HEU } Mtype_t;
 
     typedef struct {
         Stype_t Stype;
@@ -239,16 +214,7 @@ namespace superlu
     typedef enum { NO, YES } yes_no_t;
     typedef enum { DOFACT, SamePattern, SamePattern_SameRowPerm, FACTORED } fact_t;
     typedef enum { NOROWPERM, LargeDiag, MY_PERMR } rowperm_t;
-    typedef enum {
-        NATURAL,
-        MMD_ATA,
-        MMD_AT_PLUS_A,
-        COLAMD,
-        METIS_AT_PLUS_A,
-        PARMETIS,
-        ZOLTAN,
-        MY_PERMC
-    } colperm_t;
+    typedef enum { NATURAL, MMD_ATA, MMD_AT_PLUS_A, COLAMD, METIS_AT_PLUS_A, PARMETIS, ZOLTAN, MY_PERMC } colperm_t;
     typedef enum { NOTRANS, TRANS, CONJ } trans_t;
     typedef enum { NOREFINE, SLU_SINGLE = 1, SLU_DOUBLE, SLU_EXTRA } IterRefine_t;
     typedef enum { SYSTEM, USER } LU_space_t;

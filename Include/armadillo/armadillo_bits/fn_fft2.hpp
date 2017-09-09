@@ -19,10 +19,7 @@
 // 2D FFT & 2D IFFT
 
 template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    Mat<std::complex<typename T1::pod_type>>>::result
-fft2(const T1& A)
-{
+arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, Mat<std::complex<typename T1::pod_type>>>::result fft2(const T1& A) {
     arma_extra_debug_sigprint();
 
     // not exactly efficient, but "better-than-nothing" implementation
@@ -40,10 +37,7 @@ fft2(const T1& A)
 }
 
 template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value,
-    Mat<std::complex<typename T1::pod_type>>>::result
-fft2(const T1& A, const uword n_rows, const uword n_cols)
-{
+arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, Mat<std::complex<typename T1::pod_type>>>::result fft2(const T1& A, const uword n_rows, const uword n_cols) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -57,12 +51,7 @@ fft2(const T1& A, const uword n_rows, const uword n_cols)
 }
 
 template <typename T1>
-arma_warn_unused inline
-    typename enable_if2<(is_arma_type<T1>::value &&
-                            is_complex_strict<typename T1::elem_type>::value),
-        Mat<std::complex<typename T1::pod_type>>>::result
-    ifft2(const T1& A)
-{
+arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_complex_strict<typename T1::elem_type>::value), Mat<std::complex<typename T1::pod_type>>>::result ifft2(const T1& A) {
     arma_extra_debug_sigprint();
 
     // not exactly efficient, but "better-than-nothing" implementation
@@ -80,12 +69,7 @@ arma_warn_unused inline
 }
 
 template <typename T1>
-arma_warn_unused inline
-    typename enable_if2<(is_arma_type<T1>::value &&
-                            is_complex_strict<typename T1::elem_type>::value),
-        Mat<std::complex<typename T1::pod_type>>>::result
-    ifft2(const T1& A, const uword n_rows, const uword n_cols)
-{
+arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_complex_strict<typename T1::elem_type>::value), Mat<std::complex<typename T1::pod_type>>>::result ifft2(const T1& A, const uword n_rows, const uword n_cols) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

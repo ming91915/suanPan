@@ -17,15 +17,10 @@
 //! @{
 
 template <typename eT>
-inline void glue_hist::apply_noalias(Mat<uword>& out,
-    const Mat<eT>& X,
-    const Mat<eT>& C,
-    const uword dim)
-{
+inline void glue_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const Mat<eT>& C, const uword dim) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check(((C.is_vec() == false) && (C.is_empty() == false)),
-        "hist(): parameter 'centers' must be a vector");
+    arma_debug_check(((C.is_vec() == false) && (C.is_empty() == false)), "hist(): parameter 'centers' must be a vector");
 
     const uword X_n_rows = X.n_rows;
     const uword X_n_cols = X.n_cols;
@@ -69,14 +64,10 @@ inline void glue_hist::apply_noalias(Mat<uword>& out,
                     out_coldata[opt_index]++;
                 } else {
                     // -inf
-                    if(val < eT(0)) {
-                        out_coldata[0]++;
-                    }
+                    if(val < eT(0)) { out_coldata[0]++; }
 
                     // +inf
-                    if(val > eT(0)) {
-                        out_coldata[C_n_elem - 1]++;
-                    }
+                    if(val > eT(0)) { out_coldata[C_n_elem - 1]++; }
 
                     // ignore NaN
                 }
@@ -112,14 +103,10 @@ inline void glue_hist::apply_noalias(Mat<uword>& out,
                     out_mem[opt_index]++;
                 } else {
                     // -inf
-                    if(val < eT(0)) {
-                        out_mem[0]++;
-                    }
+                    if(val < eT(0)) { out_mem[0]++; }
 
                     // +inf
-                    if(val > eT(0)) {
-                        out_mem[C_n_elem - 1]++;
-                    }
+                    if(val > eT(0)) { out_mem[C_n_elem - 1]++; }
 
                     // ignore NaN
                 }
@@ -130,14 +117,12 @@ inline void glue_hist::apply_noalias(Mat<uword>& out,
                     const eT val = X.at(row, col);
 
                     if(arma_isfinite(val)) {
-                        eT opt_dist =
-                            (center_0 >= val) ? (center_0 - val) : (val - center_0);
+                        eT opt_dist = (center_0 >= val) ? (center_0 - val) : (val - center_0);
                         uword opt_index = 0;
 
                         for(uword j = 1; j < C_n_elem; ++j) {
                             const eT center = C_mem[j];
-                            const eT dist =
-                                (center >= val) ? (center - val) : (val - center);
+                            const eT dist = (center >= val) ? (center - val) : (val - center);
 
                             if(dist < opt_dist) {
                                 opt_dist = dist;
@@ -150,14 +135,10 @@ inline void glue_hist::apply_noalias(Mat<uword>& out,
                         out.at(row, opt_index)++;
                     } else {
                         // -inf
-                        if(val < eT(0)) {
-                            out.at(row, 0)++;
-                        }
+                        if(val < eT(0)) { out.at(row, 0)++; }
 
                         // +inf
-                        if(val > eT(0)) {
-                            out.at(row, C_n_elem - 1)++;
-                        }
+                        if(val > eT(0)) { out.at(row, C_n_elem - 1)++; }
 
                         // ignore NaN
                     }
@@ -168,9 +149,7 @@ inline void glue_hist::apply_noalias(Mat<uword>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_hist::apply(Mat<uword>& out,
-    const mtGlue<uword, T1, T2, glue_hist>& expr)
-{
+inline void glue_hist::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist>& expr) {
     arma_extra_debug_sigprint();
 
     const uword dim = expr.aux_uword;
@@ -192,9 +171,7 @@ inline void glue_hist::apply(Mat<uword>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_hist_default::apply(Mat<uword>& out,
-    const mtGlue<uword, T1, T2, glue_hist_default>& expr)
-{
+inline void glue_hist_default::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist_default>& expr) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> UA(expr.A);

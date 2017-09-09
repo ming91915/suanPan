@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void op_diagvec::apply(Mat<typename T1::elem_type>& out,
-    const Op<T1, op_diagvec>& X)
-{
+inline void op_diagvec::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagvec>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -35,14 +33,11 @@ inline void op_diagvec::apply(Mat<typename T1::elem_type>& out,
     const uword n_rows = P.get_n_rows();
     const uword n_cols = P.get_n_cols();
 
-    arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) ||
-            ((col_offset > 0) && (col_offset >= n_cols)),
-        "diagvec(): requested diagonal is out of bounds");
+    arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) || ((col_offset > 0) && (col_offset >= n_cols)), "diagvec(): requested diagonal is out of bounds");
 
     const uword len = (std::min)(n_rows - row_offset, n_cols - col_offset);
 
-    if((is_Mat<typename Proxy<T1>::stored_type>::value) &&
-        (Proxy<T1>::fake_mat == false)) {
+    if((is_Mat<typename Proxy<T1>::stored_type>::value) && (Proxy<T1>::fake_mat == false)) {
         op_diagvec::apply_unwrap(out, P.Q, row_offset, col_offset, len);
     } else {
         if(P.is_alias(out) == false) {
@@ -58,12 +53,7 @@ inline void op_diagvec::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out,
-    const T1& X,
-    const uword row_offset,
-    const uword col_offset,
-    const uword len)
-{
+arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out, const T1& X, const uword row_offset, const uword col_offset, const uword len) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -84,18 +74,11 @@ arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out,
         out_mem[j] = tmp_j;
     }
 
-    if(i < len) {
-        out_mem[i] = A.at(i + row_offset, i + col_offset);
-    }
+    if(i < len) { out_mem[i] = A.at(i + row_offset, i + col_offset); }
 }
 
 template <typename T1>
-arma_hot inline void op_diagvec::apply_proxy(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P,
-    const uword row_offset,
-    const uword col_offset,
-    const uword len)
-{
+arma_hot inline void op_diagvec::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset, const uword len) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -113,9 +96,7 @@ arma_hot inline void op_diagvec::apply_proxy(Mat<typename T1::elem_type>& out,
         out_mem[j] = tmp_j;
     }
 
-    if(i < len) {
-        out_mem[i] = P.at(i + row_offset, i + col_offset);
-    }
+    if(i < len) { out_mem[i] = P.at(i + row_offset, i + col_offset); }
 }
 
 //! @}

@@ -19,11 +19,7 @@
 //! Generate a sparse matrix with a randomly selected subset of the elements
 //! set to random values from a Gaussian distribution with zero mean and unit variance
 template <typename obj_type>
-arma_warn_unused inline obj_type sprandn(const uword n_rows,
-    const uword n_cols,
-    const double density,
-    const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline obj_type sprandn(const uword n_rows, const uword n_cols, const double density, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -41,19 +37,14 @@ arma_warn_unused inline obj_type sprandn(const uword n_rows,
 }
 
 template <typename obj_type>
-arma_warn_unused inline obj_type sprandn(const SizeMat& s,
-    const double density,
-    const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = 0)
-{
+arma_warn_unused inline obj_type sprandn(const SizeMat& s, const double density, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return sprandn<obj_type>(s.n_rows, s.n_cols, density);
 }
 
-arma_warn_unused inline sp_mat
-sprandn(const uword n_rows, const uword n_cols, const double density)
-{
+arma_warn_unused inline sp_mat sprandn(const uword n_rows, const uword n_cols, const double density) {
     arma_extra_debug_sigprint();
 
     sp_mat out;
@@ -63,8 +54,7 @@ sprandn(const uword n_rows, const uword n_cols, const double density)
     return out;
 }
 
-arma_warn_unused inline sp_mat sprandn(const SizeMat& s, const double density)
-{
+arma_warn_unused inline sp_mat sprandn(const SizeMat& s, const double density) {
     arma_extra_debug_sigprint();
 
     sp_mat out;
@@ -79,9 +69,7 @@ arma_warn_unused inline sp_mat sprandn(const SizeMat& s, const double density)
 //! with the non-zero values set to random values from a Gaussian distribution with zero
 //! mean and unit variance
 template <typename T1>
-arma_warn_unused inline SpMat<typename T1::elem_type> sprandn(
-    const SpBase<typename T1::elem_type, T1>& X)
-{
+arma_warn_unused inline SpMat<typename T1::elem_type> sprandn(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,24 +16,19 @@
 //! \addtogroup spglue_minus
 //! @{
 
-class spglue_minus
-{
+class spglue_minus {
 public:
     template <typename T1, typename T2>
-    arma_hot inline static void apply(SpMat<typename T1::elem_type>& out,
-        const SpGlue<T1, T2, spglue_minus>& X);
+    arma_hot inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus>& X);
 
     template <typename eT, typename T1, typename T2>
-    arma_hot inline static void
-    apply_noalias(SpMat<eT>& result, const SpProxy<T1>& pa, const SpProxy<T2>& pb);
+    arma_hot inline static void apply_noalias(SpMat<eT>& result, const SpProxy<T1>& pa, const SpProxy<T2>& pb);
 };
 
-class spglue_minus2
-{
+class spglue_minus2 {
 public:
     template <typename T1, typename T2>
-    arma_hot inline static void apply(SpMat<typename T1::elem_type>& out,
-        const SpGlue<T1, T2, spglue_minus2>& X);
+    arma_hot inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus2>& X);
 };
 
 //! @}

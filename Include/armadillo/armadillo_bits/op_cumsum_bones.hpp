@@ -16,23 +16,19 @@
 //! \addtogroup op_cumsum
 //! @{
 
-class op_cumsum
-{
+class op_cumsum {
 public:
     template <typename eT>
     inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
 
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_cumsum>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum>& in);
 };
 
-class op_cumsum_default
-{
+class op_cumsum_default {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_cumsum_default>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum_default>& in);
 };
 
 //! @}

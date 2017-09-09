@@ -19,37 +19,23 @@
 struct gmm_dist_mode {
     const uword id;
     inline explicit gmm_dist_mode(const uword in_id)
-        : id(in_id)
-    {
-    }
+        : id(in_id) {}
 };
 
-inline bool operator==(const gmm_dist_mode& a, const gmm_dist_mode& b)
-{
-    return (a.id == b.id);
-}
-inline bool operator!=(const gmm_dist_mode& a, const gmm_dist_mode& b)
-{
-    return (a.id != b.id);
-}
+inline bool operator==(const gmm_dist_mode& a, const gmm_dist_mode& b) { return (a.id == b.id); }
+inline bool operator!=(const gmm_dist_mode& a, const gmm_dist_mode& b) { return (a.id != b.id); }
 
 struct gmm_dist_eucl : public gmm_dist_mode {
     inline gmm_dist_eucl()
-        : gmm_dist_mode(1)
-    {
-    }
+        : gmm_dist_mode(1) {}
 };
 struct gmm_dist_maha : public gmm_dist_mode {
     inline gmm_dist_maha()
-        : gmm_dist_mode(2)
-    {
-    }
+        : gmm_dist_mode(2) {}
 };
 struct gmm_dist_prob : public gmm_dist_mode {
     inline gmm_dist_prob()
-        : gmm_dist_mode(3)
-    {
-    }
+        : gmm_dist_mode(3) {}
 };
 
 static const gmm_dist_eucl eucl_dist;
@@ -59,49 +45,31 @@ static const gmm_dist_prob prob_dist;
 struct gmm_seed_mode {
     const uword id;
     inline explicit gmm_seed_mode(const uword in_id)
-        : id(in_id)
-    {
-    }
+        : id(in_id) {}
 };
 
-inline bool operator==(const gmm_seed_mode& a, const gmm_seed_mode& b)
-{
-    return (a.id == b.id);
-}
-inline bool operator!=(const gmm_seed_mode& a, const gmm_seed_mode& b)
-{
-    return (a.id != b.id);
-}
+inline bool operator==(const gmm_seed_mode& a, const gmm_seed_mode& b) { return (a.id == b.id); }
+inline bool operator!=(const gmm_seed_mode& a, const gmm_seed_mode& b) { return (a.id != b.id); }
 
 struct gmm_seed_keep_existing : public gmm_seed_mode {
     inline gmm_seed_keep_existing()
-        : gmm_seed_mode(1)
-    {
-    }
+        : gmm_seed_mode(1) {}
 };
 struct gmm_seed_static_subset : public gmm_seed_mode {
     inline gmm_seed_static_subset()
-        : gmm_seed_mode(2)
-    {
-    }
+        : gmm_seed_mode(2) {}
 };
 struct gmm_seed_static_spread : public gmm_seed_mode {
     inline gmm_seed_static_spread()
-        : gmm_seed_mode(3)
-    {
-    }
+        : gmm_seed_mode(3) {}
 };
 struct gmm_seed_random_subset : public gmm_seed_mode {
     inline gmm_seed_random_subset()
-        : gmm_seed_mode(4)
-    {
-    }
+        : gmm_seed_mode(4) {}
 };
 struct gmm_seed_random_spread : public gmm_seed_mode {
     inline gmm_seed_random_spread()
-        : gmm_seed_mode(5)
-    {
-    }
+        : gmm_seed_mode(5) {}
 };
 
 static const gmm_seed_keep_existing keep_existing;
@@ -110,19 +78,19 @@ static const gmm_seed_static_spread static_spread;
 static const gmm_seed_random_subset random_subset;
 static const gmm_seed_random_spread random_spread;
 
-namespace gmm_priv
-{
+namespace gmm_priv {
 
-template <typename eT> class gmm_diag;
-template <typename eT> class gmm_full;
+template <typename eT>
+class gmm_diag;
+template <typename eT>
+class gmm_full;
 
-struct gmm_empty_arg {
-};
+struct gmm_empty_arg {};
 
 // running_mean_scalar
 
-template <typename eT> class running_mean_scalar
-{
+template <typename eT>
+class running_mean_scalar {
 public:
     inline running_mean_scalar();
     inline running_mean_scalar(const running_mean_scalar& in_rms);
@@ -143,17 +111,17 @@ private:
 
 // distance
 
-template <typename eT, uword dist_id> struct distance {
+template <typename eT, uword dist_id>
+struct distance {};
+
+template <typename eT>
+struct distance<eT, uword(1)> {
+    arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT*);
 };
 
-template <typename eT> struct distance<eT, uword(1)> {
-    arma_inline arma_hot static eT
-    eval(const uword N, const eT* A, const eT* B, const eT*);
-};
-
-template <typename eT> struct distance<eT, uword(2)> {
-    arma_inline arma_hot static eT
-    eval(const uword N, const eT* A, const eT* B, const eT* C);
+template <typename eT>
+struct distance<eT, uword(2)> {
+    arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT* C);
 };
 }
 

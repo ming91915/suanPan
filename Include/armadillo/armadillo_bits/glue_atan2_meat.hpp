@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-inline void glue_atan2::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_atan2>& expr)
-{
+inline void glue_atan2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_atan2>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -29,8 +27,7 @@ inline void glue_atan2::apply(Mat<typename T1::elem_type>& out,
 
     arma_assert_same_size(P1, P2, "atan2()");
 
-    const bool bad_alias = ((Proxy<T1>::has_subview && P1.is_alias(out)) ||
-        (Proxy<T2>::has_subview && P2.is_alias(out)));
+    const bool bad_alias = ((Proxy<T1>::has_subview && P1.is_alias(out)) || (Proxy<T2>::has_subview && P2.is_alias(out)));
 
     if(bad_alias == false) {
         glue_atan2::apply_noalias(out, P1, P2);
@@ -44,10 +41,7 @@ inline void glue_atan2::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out,
-    const Proxy<T1>& P1,
-    const Proxy<T2>& P2)
-{
+inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -60,8 +54,7 @@ inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out,
 
     eT* out_mem = out.memptr();
 
-    const bool use_mp = arma_config::cxx11 && arma_config::openmp &&
-        mp_gate<eT, (Proxy<T1>::use_mp || Proxy<T2>::use_mp)>::eval(n_elem);
+    const bool use_mp = arma_config::cxx11 && arma_config::openmp && mp_gate<eT, (Proxy<T1>::use_mp || Proxy<T2>::use_mp)>::eval(n_elem);
     const bool use_at = Proxy<T1>::use_at || Proxy<T2>::use_at;
 
     if(use_at == false) {
@@ -73,15 +66,11 @@ inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out,
             {
                 const int n_threads = mp_thread_limit::get();
 #pragma omp parallel for schedule(static) num_threads(n_threads)
-                for(uword i = 0; i < n_elem; ++i) {
-                    out_mem[i] = std::atan2(eaP1[i], eaP2[i]);
-                }
+                for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::atan2(eaP1[i], eaP2[i]); }
             }
 #endif
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = std::atan2(eaP1[i], eaP2[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::atan2(eaP1[i], eaP2[i]); }
         }
     } else {
         if(use_mp) {
@@ -100,9 +89,7 @@ inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_atan2::apply(Cube<typename T1::elem_type>& out,
-    const GlueCube<T1, T2, glue_atan2>& expr)
-{
+inline void glue_atan2::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_atan2>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -112,8 +99,7 @@ inline void glue_atan2::apply(Cube<typename T1::elem_type>& out,
 
     arma_assert_same_size(P1, P2, "atan2()");
 
-    const bool bad_alias = ((ProxyCube<T1>::has_subview && P1.is_alias(out)) ||
-        (ProxyCube<T2>::has_subview && P2.is_alias(out)));
+    const bool bad_alias = ((ProxyCube<T1>::has_subview && P1.is_alias(out)) || (ProxyCube<T2>::has_subview && P2.is_alias(out)));
 
     if(bad_alias == false) {
         glue_atan2::apply_noalias(out, P1, P2);
@@ -127,10 +113,7 @@ inline void glue_atan2::apply(Cube<typename T1::elem_type>& out,
 }
 
 template <typename T1, typename T2>
-inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out,
-    const ProxyCube<T1>& P1,
-    const ProxyCube<T2>& P2)
-{
+inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -144,8 +127,7 @@ inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out,
 
     eT* out_mem = out.memptr();
 
-    const bool use_mp = arma_config::cxx11 && arma_config::openmp &&
-        mp_gate<eT, (ProxyCube<T1>::use_mp || ProxyCube<T2>::use_mp)>::eval(n_elem);
+    const bool use_mp = arma_config::cxx11 && arma_config::openmp && mp_gate<eT, (ProxyCube<T1>::use_mp || ProxyCube<T2>::use_mp)>::eval(n_elem);
     const bool use_at = ProxyCube<T1>::use_at || ProxyCube<T2>::use_at;
 
     if(use_at == false) {
@@ -157,15 +139,11 @@ inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out,
             {
                 const int n_threads = mp_thread_limit::get();
 #pragma omp parallel for schedule(static) num_threads(n_threads)
-                for(uword i = 0; i < n_elem; ++i) {
-                    out_mem[i] = std::atan2(eaP1[i], eaP2[i]);
-                }
+                for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::atan2(eaP1[i], eaP2[i]); }
             }
 #endif
         } else {
-            for(uword i = 0; i < n_elem; ++i) {
-                out_mem[i] = std::atan2(eaP1[i], eaP2[i]);
-            }
+            for(uword i = 0; i < n_elem; ++i) { out_mem[i] = std::atan2(eaP1[i], eaP2[i]); }
         }
     } else {
         if(use_mp) {
@@ -177,8 +155,7 @@ inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out,
             for(uword slice = 0; slice < n_slices; ++slice)
                 for(uword col = 0; col < n_cols; ++col)
                     for(uword row = 0; row < n_rows; ++row) {
-                        *out_mem =
-                            std::atan2(P1.at(row, col, slice), P2.at(row, col, slice));
+                        *out_mem = std::atan2(P1.at(row, col, slice), P2.at(row, col, slice));
                         out_mem++;
                     }
         }

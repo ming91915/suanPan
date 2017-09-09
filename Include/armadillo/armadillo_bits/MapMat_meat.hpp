@@ -16,20 +16,16 @@
 //! \addtogroup MapMat
 //! @{
 
-template <typename eT> inline MapMat<eT>::~MapMat()
-{
+template <typename eT>
+inline MapMat<eT>::~MapMat() {
     arma_extra_debug_sigprint_this(this);
 
     reset();
 
-    if(map_ptr) {
-        delete map_ptr;
-    }
+    if(map_ptr) { delete map_ptr; }
 
     // try to expose buggy user code that accesses deleted objects
-    if(arma_config::debug) {
-        map_ptr = NULL;
-    }
+    if(arma_config::debug) { map_ptr = NULL; }
 
     arma_type_check((is_supported_elem_type<eT>::value == false));
 }
@@ -39,8 +35,7 @@ inline MapMat<eT>::MapMat()
     : n_rows(0)
     , n_cols(0)
     , n_elem(0)
-    , map_ptr(NULL)
-{
+    , map_ptr(NULL) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -51,8 +46,7 @@ inline MapMat<eT>::MapMat(const uword in_n_rows, const uword in_n_cols)
     : n_rows(in_n_rows)
     , n_cols(in_n_cols)
     , n_elem(in_n_rows * in_n_cols)
-    , map_ptr(NULL)
-{
+    , map_ptr(NULL) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -63,8 +57,7 @@ inline MapMat<eT>::MapMat(const SizeMat& s)
     : n_rows(s.n_rows)
     , n_cols(s.n_cols)
     , n_elem(s.n_rows * s.n_cols)
-    , map_ptr(NULL)
-{
+    , map_ptr(NULL) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -75,8 +68,7 @@ inline MapMat<eT>::MapMat(const MapMat<eT>& x)
     : n_rows(0)
     , n_cols(0)
     , n_elem(0)
-    , map_ptr(NULL)
-{
+    , map_ptr(NULL) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -84,13 +76,11 @@ inline MapMat<eT>::MapMat(const MapMat<eT>& x)
     (*this).operator=(x);
 }
 
-template <typename eT> inline void MapMat<eT>::operator=(const MapMat<eT>& x)
-{
+template <typename eT>
+inline void MapMat<eT>::operator=(const MapMat<eT>& x) {
     arma_extra_debug_sigprint();
 
-    if(this == &x) {
-        return;
-    }
+    if(this == &x) { return; }
 
     access::rw(n_rows) = x.n_rows;
     access::rw(n_cols) = x.n_cols;
@@ -104,8 +94,7 @@ inline MapMat<eT>::MapMat(const SpMat<eT>& x)
     : n_rows(0)
     , n_cols(0)
     , n_elem(0)
-    , map_ptr(NULL)
-{
+    , map_ptr(NULL) {
     arma_extra_debug_sigprint_this(this);
 
     init_cold();
@@ -113,15 +102,13 @@ inline MapMat<eT>::MapMat(const SpMat<eT>& x)
     (*this).operator=(x);
 }
 
-template <typename eT> inline void MapMat<eT>::operator=(const SpMat<eT>& x)
-{
+template <typename eT>
+inline void MapMat<eT>::operator=(const SpMat<eT>& x) {
     arma_extra_debug_sigprint();
 
     (*this).zeros(x.n_rows, x.n_cols);
 
-    if(x.n_nonzero == 0) {
-        return;
-    }
+    if(x.n_nonzero == 0) { return; }
 
     typename SpMat<eT>::const_iterator it = x.begin();
     typename SpMat<eT>::const_iterator it_end = x.end();
@@ -155,8 +142,7 @@ inline MapMat<eT>::MapMat(MapMat<eT>&& x)
     : n_rows(x.n_rows)
     , n_cols(x.n_cols)
     , n_elem(x.n_elem)
-    , map_ptr(x.map_ptr)
-{
+    , map_ptr(x.map_ptr) {
     arma_extra_debug_sigprint_this(this);
 
     access::rw(x.n_rows) = 0;
@@ -165,15 +151,13 @@ inline MapMat<eT>::MapMat(MapMat<eT>&& x)
     access::rw(x.map_ptr) = NULL;
 }
 
-template <typename eT> inline void MapMat<eT>::operator=(MapMat<eT>&& x)
-{
+template <typename eT>
+inline void MapMat<eT>::operator=(MapMat<eT>&& x) {
     arma_extra_debug_sigprint();
 
     reset();
 
-    if(map_ptr) {
-        delete map_ptr;
-    }
+    if(map_ptr) { delete map_ptr; }
 
     access::rw(n_rows) = x.n_rows;
     access::rw(n_cols) = x.n_cols;
@@ -188,44 +172,43 @@ template <typename eT> inline void MapMat<eT>::operator=(MapMat<eT>&& x)
 
 #endif
 
-template <typename eT> inline void MapMat<eT>::reset()
-{
+template <typename eT>
+inline void MapMat<eT>::reset() {
     arma_extra_debug_sigprint();
 
     init_warm(0, 0);
 }
 
-template <typename eT> inline void MapMat<eT>::set_size(const uword in_n_rows)
-{
+template <typename eT>
+inline void MapMat<eT>::set_size(const uword in_n_rows) {
     arma_extra_debug_sigprint();
 
     init_warm(in_n_rows, 1);
 }
 
 template <typename eT>
-inline void MapMat<eT>::set_size(const uword in_n_rows, const uword in_n_cols)
-{
+inline void MapMat<eT>::set_size(const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     init_warm(in_n_rows, in_n_cols);
 }
 
-template <typename eT> inline void MapMat<eT>::set_size(const SizeMat& s)
-{
+template <typename eT>
+inline void MapMat<eT>::set_size(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     init_warm(s.n_rows, s.n_cols);
 }
 
-template <typename eT> inline void MapMat<eT>::zeros()
-{
+template <typename eT>
+inline void MapMat<eT>::zeros() {
     arma_extra_debug_sigprint();
 
     (*map_ptr).clear();
 }
 
-template <typename eT> inline void MapMat<eT>::zeros(const uword in_n_rows)
-{
+template <typename eT>
+inline void MapMat<eT>::zeros(const uword in_n_rows) {
     arma_extra_debug_sigprint();
 
     init_warm(in_n_rows, 1);
@@ -234,8 +217,7 @@ template <typename eT> inline void MapMat<eT>::zeros(const uword in_n_rows)
 }
 
 template <typename eT>
-inline void MapMat<eT>::zeros(const uword in_n_rows, const uword in_n_cols)
-{
+inline void MapMat<eT>::zeros(const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     init_warm(in_n_rows, in_n_cols);
@@ -243,8 +225,8 @@ inline void MapMat<eT>::zeros(const uword in_n_rows, const uword in_n_cols)
     (*map_ptr).clear();
 }
 
-template <typename eT> inline void MapMat<eT>::zeros(const SizeMat& s)
-{
+template <typename eT>
+inline void MapMat<eT>::zeros(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     init_warm(s.n_rows, s.n_cols);
@@ -252,16 +234,15 @@ template <typename eT> inline void MapMat<eT>::zeros(const SizeMat& s)
     (*map_ptr).clear();
 }
 
-template <typename eT> inline void MapMat<eT>::eye()
-{
+template <typename eT>
+inline void MapMat<eT>::eye() {
     arma_extra_debug_sigprint();
 
     (*this).eye(n_rows, n_cols);
 }
 
 template <typename eT>
-inline void MapMat<eT>::eye(const uword in_n_rows, const uword in_n_cols)
-{
+inline void MapMat<eT>::eye(const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     zeros(in_n_rows, in_n_cols);
@@ -281,74 +262,60 @@ inline void MapMat<eT>::eye(const uword in_n_rows, const uword in_n_cols)
     }
 }
 
-template <typename eT> inline void MapMat<eT>::eye(const SizeMat& s)
-{
+template <typename eT>
+inline void MapMat<eT>::eye(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     (*this).eye(s.n_rows, s.n_cols);
 }
 
-template <typename eT> inline void MapMat<eT>::speye()
-{
+template <typename eT>
+inline void MapMat<eT>::speye() {
     arma_extra_debug_sigprint();
 
     (*this).eye();
 }
 
 template <typename eT>
-inline void MapMat<eT>::speye(const uword in_n_rows, const uword in_n_cols)
-{
+inline void MapMat<eT>::speye(const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     (*this).eye(in_n_rows, in_n_cols);
 }
 
-template <typename eT> inline void MapMat<eT>::speye(const SizeMat& s)
-{
+template <typename eT>
+inline void MapMat<eT>::speye(const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     (*this).eye(s);
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>
-MapMat<eT>::elem(const uword index, uword& sync_state, uword& n_nonzero)
-{
+arma_inline MapMat_elem<eT> MapMat<eT>::elem(const uword index, uword& sync_state, uword& n_nonzero) {
     return MapMat_elem<eT>(*this, index, sync_state, n_nonzero);
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT> MapMat<eT>::elem(const uword in_row,
-    const uword in_col,
-    uword& sync_state,
-    uword& n_nonzero)
-{
+arma_inline MapMat_elem<eT> MapMat<eT>::elem(const uword in_row, const uword in_col, uword& sync_state, uword& n_nonzero) {
     const uword index = (n_rows * in_col) + in_row;
 
     return MapMat_elem<eT>(*this, index, sync_state, n_nonzero);
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT> MapMat<eT>::svel(const uword in_row,
-    const uword in_col,
-    uword& sync_state,
-    uword& n_nonzero,
-    uword& sv_n_nonzero)
-{
+arma_inline MapMat_svel<eT> MapMat<eT>::svel(const uword in_row, const uword in_col, uword& sync_state, uword& n_nonzero, uword& sv_n_nonzero) {
     const uword index = (n_rows * in_col) + in_row;
 
     return MapMat_svel<eT>(*this, index, sync_state, n_nonzero, sv_n_nonzero);
 }
 
 template <typename eT>
-arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator[](const uword index)
-{
+arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator[](const uword index) {
     return MapMat_val<eT>(*this, index);
 }
 
 template <typename eT>
-arma_inline arma_warn_unused eT MapMat<eT>::operator[](const uword index) const
-{
+arma_inline arma_warn_unused eT MapMat<eT>::operator[](const uword index) const {
     map_type& map_ref = (*map_ptr);
 
     typename map_type::const_iterator it = map_ref.find(index);
@@ -358,16 +325,14 @@ arma_inline arma_warn_unused eT MapMat<eT>::operator[](const uword index) const
 }
 
 template <typename eT>
-arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator()(const uword index)
-{
+arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator()(const uword index) {
     arma_debug_check((index >= n_elem), "MapMat::operator(): index out of bounds");
 
     return MapMat_val<eT>(*this, index);
 }
 
 template <typename eT>
-arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword index) const
-{
+arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword index) const {
     arma_debug_check((index >= n_elem), "MapMat::operator(): index out of bounds");
 
     map_type& map_ref = (*map_ptr);
@@ -379,18 +344,14 @@ arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword index) const
 }
 
 template <typename eT>
-arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::at(const uword in_row,
-    const uword in_col)
-{
+arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::at(const uword in_row, const uword in_col) {
     const uword index = (n_rows * in_col) + in_row;
 
     return MapMat_val<eT>(*this, index);
 }
 
 template <typename eT>
-arma_inline arma_warn_unused eT MapMat<eT>::at(const uword in_row,
-    const uword in_col) const
-{
+arma_inline arma_warn_unused eT MapMat<eT>::at(const uword in_row, const uword in_col) const {
     const uword index = (n_rows * in_col) + in_row;
 
     map_type& map_ref = (*map_ptr);
@@ -402,11 +363,8 @@ arma_inline arma_warn_unused eT MapMat<eT>::at(const uword in_row,
 }
 
 template <typename eT>
-arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator()(const uword in_row,
-    const uword in_col)
-{
-    arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols)),
-        "MapMat::operator(): index out of bounds");
+arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator()(const uword in_row, const uword in_col) {
+    arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols)), "MapMat::operator(): index out of bounds");
 
     const uword index = (n_rows * in_col) + in_row;
 
@@ -414,11 +372,8 @@ arma_inline arma_warn_unused MapMat_val<eT> MapMat<eT>::operator()(const uword i
 }
 
 template <typename eT>
-arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword in_row,
-    const uword in_col) const
-{
-    arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols)),
-        "MapMat::operator(): index out of bounds");
+arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword in_row, const uword in_col) const {
+    arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols)), "MapMat::operator(): index out of bounds");
 
     const uword index = (n_rows * in_col) + in_row;
 
@@ -430,37 +385,35 @@ arma_inline arma_warn_unused eT MapMat<eT>::operator()(const uword in_row,
     return (it != it_end) ? eT((*it).second) : eT(0);
 }
 
-template <typename eT> inline arma_warn_unused bool MapMat<eT>::is_empty() const
-{
+template <typename eT>
+inline arma_warn_unused bool MapMat<eT>::is_empty() const {
     return (n_elem == 0);
 }
 
-template <typename eT> inline arma_warn_unused bool MapMat<eT>::is_vec() const
-{
+template <typename eT>
+inline arma_warn_unused bool MapMat<eT>::is_vec() const {
     return ((n_rows == 1) || (n_cols == 1));
 }
 
-template <typename eT> inline arma_warn_unused bool MapMat<eT>::is_rowvec() const
-{
+template <typename eT>
+inline arma_warn_unused bool MapMat<eT>::is_rowvec() const {
     return (n_rows == 1);
 }
 
 //! returns true if the object can be interpreted as a column vector
-template <typename eT> inline arma_warn_unused bool MapMat<eT>::is_colvec() const
-{
+template <typename eT>
+inline arma_warn_unused bool MapMat<eT>::is_colvec() const {
     return (n_cols == 1);
 }
 
-template <typename eT> inline arma_warn_unused bool MapMat<eT>::is_square() const
-{
+template <typename eT>
+inline arma_warn_unused bool MapMat<eT>::is_square() const {
     return (n_rows == n_cols);
 }
 
 // this function is for debugging purposes only
 template <typename eT>
-inline void
-MapMat<eT>::sprandu(const uword in_n_rows, const uword in_n_cols, const double density)
-{
+inline void MapMat<eT>::sprandu(const uword in_n_rows, const uword in_n_cols, const double density) {
     arma_extra_debug_sigprint();
 
     zeros(in_n_rows, in_n_cols);
@@ -468,8 +421,7 @@ MapMat<eT>::sprandu(const uword in_n_rows, const uword in_n_cols, const double d
     const uword N = uword(density * double(n_elem));
 
     const Col<eT> vals(N, fill::randu);
-    const Col<uword> indx =
-        linspace<Col<uword>>(0, ((n_elem > 0) ? uword(n_elem - 1) : uword(0)), N);
+    const Col<uword> indx = linspace<Col<uword>>(0, ((n_elem > 0) ? uword(n_elem - 1) : uword(0)), N);
 
     const eT* vals_mem = vals.memptr();
     const uword* indx_mem = indx.memptr();
@@ -489,8 +441,8 @@ MapMat<eT>::sprandu(const uword in_n_rows, const uword in_n_cols, const double d
 }
 
 // this function is for debugging purposes only
-template <typename eT> inline void MapMat<eT>::print(const std::string& extra_text) const
-{
+template <typename eT>
+inline void MapMat<eT>::print(const std::string& extra_text) const {
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
@@ -505,12 +457,9 @@ template <typename eT> inline void MapMat<eT>::print(const std::string& extra_te
 
     const uword n_nonzero = uword(map_ref.size());
 
-    const double density =
-        (n_elem > 0) ? ((double(n_nonzero) / double(n_elem)) * double(100)) : double(0);
+    const double density = (n_elem > 0) ? ((double(n_nonzero) / double(n_elem)) * double(100)) : double(0);
 
-    get_cout_stream() << "[matrix size: " << n_rows << 'x' << n_cols
-                      << "; n_nonzero: " << n_nonzero << "; density: " << density
-                      << "%]\n\n";
+    get_cout_stream() << "[matrix size: " << n_rows << 'x' << n_cols << "; n_nonzero: " << n_nonzero << "; density: " << density << "%]\n\n";
 
     if(n_nonzero > 0) {
         typename map_type::const_iterator it = map_ref.begin();
@@ -534,16 +483,15 @@ template <typename eT> inline void MapMat<eT>::print(const std::string& extra_te
     get_cout_stream().flush();
 }
 
-template <typename eT> inline uword MapMat<eT>::get_n_nonzero() const
-{
+template <typename eT>
+inline uword MapMat<eT>::get_n_nonzero() const {
     arma_extra_debug_sigprint();
 
     return uword((*map_ptr).size());
 }
 
 template <typename eT>
-inline void MapMat<eT>::get_locval_format(umat& locs, Col<eT>& vals) const
-{
+inline void MapMat<eT>::get_locval_format(umat& locs, Col<eT>& vals) const {
     arma_extra_debug_sigprint();
 
     map_type& map_ref = (*map_ptr);
@@ -579,8 +527,7 @@ inline void MapMat<eT>::get_locval_format(umat& locs, Col<eT>& vals) const
 
 // for experimental purposes only
 template <typename eT>
-inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
-{
+inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(A.n_rows, A.n_cols, B.n_rows, B.n_cols, "addition");
@@ -608,9 +555,7 @@ inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
         if(A_index == B_index) {
             const eT val = A_it_deref.second + B_it_deref.second;
 
-            if(val != eT(0)) {
-                (*this).set_val(A_index, val);
-            }
+            if(val != eT(0)) { (*this).set_val(A_index, val); }
 
             ++A_it;
             ++B_it;
@@ -619,17 +564,13 @@ inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
             {
                 const eT val = A_it_deref.second;
 
-                if(val != eT(0)) {
-                    (*this).set_val(A_index, val);
-                }
+                if(val != eT(0)) { (*this).set_val(A_index, val); }
 
                 ++A_it;
             } else {
                 const eT val = B_it_deref.second;
 
-                if(val != eT(0)) {
-                    (*this).set_val(B_index, val);
-                }
+                if(val != eT(0)) { (*this).set_val(B_index, val); }
 
                 ++B_it;
             }
@@ -642,9 +583,7 @@ inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
         const uword index = A_it_deref.first;
         const eT val = A_it_deref.second;
 
-        if(val != eT(0)) {
-            (*this).set_val(index, val);
-        }
+        if(val != eT(0)) { (*this).set_val(index, val); }
 
         ++A_it;
     }
@@ -655,9 +594,7 @@ inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
         const uword index = B_it_deref.first;
         const eT val = B_it_deref.second;
 
-        if(val != eT(0)) {
-            (*this).set_val(index, val);
-        }
+        if(val != eT(0)) { (*this).set_val(index, val); }
 
         ++B_it;
     }
@@ -665,8 +602,7 @@ inline void MapMat<eT>::add(const MapMat<eT>& A, const MapMat<eT>& B)
 
 // for experimental purposes only
 template <typename eT>
-inline void MapMat<eT>::mul(const MapMat<eT>& A, const MapMat<eT>& B)
-{
+inline void MapMat<eT>::mul(const MapMat<eT>& A, const MapMat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.n_rows;
@@ -724,10 +660,8 @@ inline void MapMat<eT>::mul(const MapMat<eT>& A, const MapMat<eT>& B)
 
         map_type& At_map_ref = *(At.map_ptr);
 
-        typename map_type::const_iterator At_col_it =
-            At_map_ref.lower_bound(At_col_start_index);
-        typename map_type::const_iterator At_col_end =
-            At_map_ref.upper_bound(At_col_end_index);
+        typename map_type::const_iterator At_col_it = At_map_ref.lower_bound(At_col_start_index);
+        typename map_type::const_iterator At_col_end = At_map_ref.upper_bound(At_col_end_index);
 
         tmp.zeros();
 
@@ -756,18 +690,16 @@ inline void MapMat<eT>::mul(const MapMat<eT>& A, const MapMat<eT>& B)
                 val += tmp.at(index) * B_col_it_deref.second;
             }
 
-            if(val != eT(0)) {
-                (*this).at(A_row, B_col) = val;
-            }
+            if(val != eT(0)) { (*this).at(A_row, B_col) = val; }
         }
     }
 }
 
-template <typename eT> inline void MapMat<eT>::init_cold()
-{
+template <typename eT>
+inline void MapMat<eT>::init_cold() {
     arma_extra_debug_sigprint();
 
-// ensure that n_elem can hold the result of (n_rows * n_cols)
+    // ensure that n_elem can hold the result of (n_rows * n_cols)
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     const char* error_message = "MapMat(): requested size is too large";
@@ -776,11 +708,7 @@ template <typename eT> inline void MapMat<eT>::init_cold()
                                 "compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
-    arma_debug_check(
-        (((n_rows > ARMA_MAX_UHWORD) || (n_cols > ARMA_MAX_UHWORD)) ?
-                ((double(n_rows) * double(n_cols)) > double(ARMA_MAX_UWORD)) :
-                false),
-        error_message);
+    arma_debug_check((((n_rows > ARMA_MAX_UHWORD) || (n_cols > ARMA_MAX_UHWORD)) ? ((double(n_rows) * double(n_cols)) > double(ARMA_MAX_UWORD)) : false), error_message);
 
     map_ptr = new(std::nothrow) map_type;
 
@@ -788,15 +716,12 @@ template <typename eT> inline void MapMat<eT>::init_cold()
 }
 
 template <typename eT>
-inline void MapMat<eT>::init_warm(const uword in_n_rows, const uword in_n_cols)
-{
+inline void MapMat<eT>::init_warm(const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
-    if((n_rows == in_n_rows) && (n_cols == in_n_cols)) {
-        return;
-    }
+    if((n_rows == in_n_rows) && (n_cols == in_n_cols)) { return; }
 
-// ensure that n_elem can hold the result of (n_rows * n_cols)
+        // ensure that n_elem can hold the result of (n_rows * n_cols)
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
     const char* error_message = "MapMat(): requested size is too large";
@@ -805,11 +730,7 @@ inline void MapMat<eT>::init_warm(const uword in_n_rows, const uword in_n_cols)
                                 "compile in C++11 mode or enable ARMA_64BIT_WORD";
 #endif
 
-    arma_debug_check(
-        (((in_n_rows > ARMA_MAX_UHWORD) || (in_n_cols > ARMA_MAX_UHWORD)) ?
-                ((double(in_n_rows) * double(in_n_cols)) > double(ARMA_MAX_UWORD)) :
-                false),
-        error_message);
+    arma_debug_check((((in_n_rows > ARMA_MAX_UHWORD) || (in_n_cols > ARMA_MAX_UHWORD)) ? ((double(in_n_rows) * double(in_n_cols)) > double(ARMA_MAX_UWORD)) : false), error_message);
 
     const uword new_n_elem = in_n_rows * in_n_cols;
 
@@ -817,14 +738,11 @@ inline void MapMat<eT>::init_warm(const uword in_n_rows, const uword in_n_cols)
     access::rw(n_cols) = in_n_cols;
     access::rw(n_elem) = new_n_elem;
 
-    if((new_n_elem == 0) && ((*map_ptr).empty() == false)) {
-        (*map_ptr).clear();
-    }
+    if((new_n_elem == 0) && ((*map_ptr).empty() == false)) { (*map_ptr).clear(); }
 }
 
 template <typename eT>
-arma_inline void MapMat<eT>::set_val(const uword index, const eT& in_val)
-{
+arma_inline void MapMat<eT>::set_val(const uword index, const eT& in_val) {
     arma_extra_debug_sigprint();
 
     if(in_val != eT(0)) {
@@ -839,17 +757,15 @@ arma_inline void MapMat<eT>::set_val(const uword index, const eT& in_val)
             }
         }
 #else
-        {
-            (*map_ptr).operator[](index) = in_val;
-        }
+        { (*map_ptr).operator[](index) = in_val; }
 #endif
     } else {
         (*this).erase_val(index);
     }
 }
 
-template <typename eT> inline void MapMat<eT>::erase_val(const uword index)
-{
+template <typename eT>
+inline void MapMat<eT>::erase_val(const uword index) {
     arma_extra_debug_sigprint();
 
     map_type& map_ref = (*map_ptr);
@@ -857,9 +773,7 @@ template <typename eT> inline void MapMat<eT>::erase_val(const uword index)
     typename map_type::iterator it = map_ref.find(index);
     typename map_type::iterator it_end = map_ref.end();
 
-    if(it != it_end) {
-        map_ref.erase(it);
-    }
+    if(it != it_end) { map_ref.erase(it); }
 }
 
 // MapMat_val
@@ -867,13 +781,12 @@ template <typename eT> inline void MapMat<eT>::erase_val(const uword index)
 template <typename eT>
 arma_inline MapMat_val<eT>::MapMat_val(MapMat<eT>& in_parent, const uword in_index)
     : parent(in_parent)
-    , index(in_index)
-{
+    , index(in_index) {
     arma_extra_debug_sigprint();
 }
 
-template <typename eT> arma_inline MapMat_val<eT>::operator eT() const
-{
+template <typename eT>
+arma_inline MapMat_val<eT>::operator eT() const {
     arma_extra_debug_sigprint();
 
     const MapMat<eT>& const_parent = parent;
@@ -881,8 +794,8 @@ template <typename eT> arma_inline MapMat_val<eT>::operator eT() const
     return const_parent.operator[](index);
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator=(const MapMat_val<eT>& x)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator=(const MapMat_val<eT>& x) {
     arma_extra_debug_sigprint();
 
     const eT in_val = eT(x);
@@ -890,15 +803,15 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator=(const MapMat_v
     parent.set_val(index, in_val);
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator=(const eT in_val)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     parent.set_val(index, in_val);
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator+=(const eT in_val)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator+=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -908,14 +821,12 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator+=(const eT in_v
 
         val += in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
     }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator-=(const eT in_val)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator-=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -925,14 +836,12 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator-=(const eT in_v
 
         val -= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
     }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator*=(const eT in_val)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator*=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -946,17 +855,15 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator*=(const eT in_v
 
             val *= in_val;
 
-            if(val == eT(0)) {
-                map_ref.erase(it);
-            }
+            if(val == eT(0)) { map_ref.erase(it); }
         } else {
             map_ref.erase(it);
         }
     }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator/=(const eT in_val)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator/=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -969,22 +876,18 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator/=(const eT in_v
 
         val /= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(it);
-        }
+        if(val == eT(0)) { map_ref.erase(it); }
     } else {
         // silly operation, but included for completness
 
         const eT val = eT(0) / in_val;
 
-        if(val != eT(0)) {
-            parent.set_val(index, val);
-        }
+        if(val != eT(0)) { parent.set_val(index, val); }
     }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator++()
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator++() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -993,20 +896,18 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator++()
 
     val += eT(1); // can't use ++,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator++(int)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator++(int) {
     arma_extra_debug_sigprint();
 
     (*this).operator++();
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator--()
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator--() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1015,13 +916,11 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator--()
 
     val -= eT(1); // can't use --,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 }
 
-template <typename eT> arma_inline void MapMat_val<eT>::operator--(int)
-{
+template <typename eT>
+arma_inline void MapMat_val<eT>::operator--(int) {
     arma_extra_debug_sigprint();
 
     (*this).operator--();
@@ -1030,20 +929,16 @@ template <typename eT> arma_inline void MapMat_val<eT>::operator--(int)
 // MapMat_elem
 
 template <typename eT>
-arma_inline MapMat_elem<eT>::MapMat_elem(MapMat<eT>& in_parent,
-    const uword in_index,
-    uword& in_sync_state,
-    uword& in_n_nonzero)
+arma_inline MapMat_elem<eT>::MapMat_elem(MapMat<eT>& in_parent, const uword in_index, uword& in_sync_state, uword& in_n_nonzero)
     : parent(in_parent)
     , index(in_index)
     , sync_state(in_sync_state)
-    , n_nonzero(in_n_nonzero)
-{
+    , n_nonzero(in_n_nonzero) {
     arma_extra_debug_sigprint();
 }
 
-template <typename eT> arma_inline MapMat_elem<eT>::operator eT() const
-{
+template <typename eT>
+arma_inline MapMat_elem<eT>::operator eT() const {
     arma_extra_debug_sigprint();
 
     const MapMat<eT>& const_parent = parent;
@@ -1052,8 +947,7 @@ template <typename eT> arma_inline MapMat_elem<eT>::operator eT() const
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const MapMat_elem<eT>& x)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const MapMat_elem<eT>& x) {
     arma_extra_debug_sigprint();
 
     const eT in_val = eT(x);
@@ -1067,8 +961,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const MapMat_elem<eT>& x
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const eT in_val)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     parent.set_val(index, in_val);
@@ -1080,8 +973,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator+=(const eT in_val)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator+=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1091,9 +983,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator+=(const eT in_val)
 
         val += in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
 
         sync_state = 1;
         n_nonzero = parent.get_n_nonzero();
@@ -1103,8 +993,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator+=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator-=(const eT in_val)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator-=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1114,9 +1003,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator-=(const eT in_val)
 
         val -= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
 
         sync_state = 1;
         n_nonzero = parent.get_n_nonzero();
@@ -1126,8 +1013,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator-=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator*=(const eT in_val)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator*=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1141,9 +1027,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator*=(const eT in_val)
 
             val *= in_val;
 
-            if(val == eT(0)) {
-                map_ref.erase(it);
-            }
+            if(val == eT(0)) { map_ref.erase(it); }
         } else {
             map_ref.erase(it);
         }
@@ -1156,8 +1040,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator*=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator/=(const eT in_val)
-{
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator/=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1170,9 +1053,7 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator/=(const eT in_val)
 
         val /= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(it);
-        }
+        if(val == eT(0)) { map_ref.erase(it); }
 
         sync_state = 1;
         n_nonzero = parent.get_n_nonzero();
@@ -1192,8 +1073,8 @@ arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator/=(const eT in_val)
     return *this;
 }
 
-template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator++()
-{
+template <typename eT>
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator++() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1202,9 +1083,7 @@ template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator++(
 
     val += eT(1); // can't use ++,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     n_nonzero = parent.get_n_nonzero();
@@ -1212,8 +1091,8 @@ template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator++(
     return *this;
 }
 
-template <typename eT> arma_inline eT MapMat_elem<eT>::operator++(int)
-{
+template <typename eT>
+arma_inline eT MapMat_elem<eT>::operator++(int) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1224,9 +1103,7 @@ template <typename eT> arma_inline eT MapMat_elem<eT>::operator++(int)
 
     val += eT(1); // can't use ++,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     n_nonzero = parent.get_n_nonzero();
@@ -1234,8 +1111,8 @@ template <typename eT> arma_inline eT MapMat_elem<eT>::operator++(int)
     return old_val;
 }
 
-template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator--()
-{
+template <typename eT>
+arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator--() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1244,9 +1121,7 @@ template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator--(
 
     val -= eT(1); // can't use --,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     n_nonzero = parent.get_n_nonzero();
@@ -1254,8 +1129,8 @@ template <typename eT> arma_inline MapMat_elem<eT>& MapMat_elem<eT>::operator--(
     return *this;
 }
 
-template <typename eT> arma_inline eT MapMat_elem<eT>::operator--(int)
-{
+template <typename eT>
+arma_inline eT MapMat_elem<eT>::operator--(int) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1266,9 +1141,7 @@ template <typename eT> arma_inline eT MapMat_elem<eT>::operator--(int)
 
     val -= eT(1); // can't use --,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     n_nonzero = parent.get_n_nonzero();
@@ -1279,22 +1152,17 @@ template <typename eT> arma_inline eT MapMat_elem<eT>::operator--(int)
 // MapMat_svel
 
 template <typename eT>
-arma_inline MapMat_svel<eT>::MapMat_svel(MapMat<eT>& in_parent,
-    const uword in_index,
-    uword& in_sync_state,
-    uword& in_n_nonzero,
-    uword& in_sv_n_nonzero)
+arma_inline MapMat_svel<eT>::MapMat_svel(MapMat<eT>& in_parent, const uword in_index, uword& in_sync_state, uword& in_n_nonzero, uword& in_sv_n_nonzero)
     : parent(in_parent)
     , index(in_index)
     , sync_state(in_sync_state)
     , n_nonzero(in_n_nonzero)
-    , sv_n_nonzero(in_sv_n_nonzero)
-{
+    , sv_n_nonzero(in_sv_n_nonzero) {
     arma_extra_debug_sigprint();
 }
 
-template <typename eT> arma_inline void MapMat_svel<eT>::update_n_nonzeros()
-{
+template <typename eT>
+arma_inline void MapMat_svel<eT>::update_n_nonzeros() {
     arma_extra_debug_sigprint();
 
     const uword old_n_nonzero = n_nonzero;
@@ -1308,8 +1176,8 @@ template <typename eT> arma_inline void MapMat_svel<eT>::update_n_nonzeros()
     }
 }
 
-template <typename eT> arma_inline MapMat_svel<eT>::operator eT() const
-{
+template <typename eT>
+arma_inline MapMat_svel<eT>::operator eT() const {
     arma_extra_debug_sigprint();
 
     const MapMat<eT>& const_parent = parent;
@@ -1318,8 +1186,7 @@ template <typename eT> arma_inline MapMat_svel<eT>::operator eT() const
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const MapMat_svel<eT>& x)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const MapMat_svel<eT>& x) {
     arma_extra_debug_sigprint();
 
     const eT in_val = eT(x);
@@ -1333,8 +1200,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const MapMat_svel<eT>& x
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const eT in_val)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     parent.set_val(index, in_val);
@@ -1346,8 +1212,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator+=(const eT in_val)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator+=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1357,9 +1222,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator+=(const eT in_val)
 
         val += in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
 
         sync_state = 1;
         update_n_nonzeros();
@@ -1369,8 +1232,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator+=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator-=(const eT in_val)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator-=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1380,9 +1242,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator-=(const eT in_val)
 
         val -= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(index);
-        }
+        if(val == eT(0)) { map_ref.erase(index); }
 
         sync_state = 1;
         update_n_nonzeros();
@@ -1392,8 +1252,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator-=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator*=(const eT in_val)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator*=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1407,9 +1266,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator*=(const eT in_val)
 
             val *= in_val;
 
-            if(val == eT(0)) {
-                map_ref.erase(it);
-            }
+            if(val == eT(0)) { map_ref.erase(it); }
         } else {
             map_ref.erase(it);
         }
@@ -1422,8 +1279,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator*=(const eT in_val)
 }
 
 template <typename eT>
-arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator/=(const eT in_val)
-{
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator/=(const eT in_val) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1436,9 +1292,7 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator/=(const eT in_val)
 
         val /= in_val;
 
-        if(val == eT(0)) {
-            map_ref.erase(it);
-        }
+        if(val == eT(0)) { map_ref.erase(it); }
 
         sync_state = 1;
         update_n_nonzeros();
@@ -1458,8 +1312,8 @@ arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator/=(const eT in_val)
     return *this;
 }
 
-template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator++()
-{
+template <typename eT>
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator++() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1468,9 +1322,7 @@ template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator++(
 
     val += eT(1); // can't use ++,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     update_n_nonzeros();
@@ -1478,8 +1330,8 @@ template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator++(
     return *this;
 }
 
-template <typename eT> arma_inline eT MapMat_svel<eT>::operator++(int)
-{
+template <typename eT>
+arma_inline eT MapMat_svel<eT>::operator++(int) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1490,9 +1342,7 @@ template <typename eT> arma_inline eT MapMat_svel<eT>::operator++(int)
 
     val += eT(1); // can't use ++,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     update_n_nonzeros();
@@ -1500,8 +1350,8 @@ template <typename eT> arma_inline eT MapMat_svel<eT>::operator++(int)
     return old_val;
 }
 
-template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator--()
-{
+template <typename eT>
+arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator--() {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1510,9 +1360,7 @@ template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator--(
 
     val -= eT(1); // can't use --,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     update_n_nonzeros();
@@ -1520,8 +1368,8 @@ template <typename eT> arma_inline MapMat_svel<eT>& MapMat_svel<eT>::operator--(
     return *this;
 }
 
-template <typename eT> arma_inline eT MapMat_svel<eT>::operator--(int)
-{
+template <typename eT>
+arma_inline eT MapMat_svel<eT>::operator--(int) {
     arma_extra_debug_sigprint();
 
     typename MapMat<eT>::map_type& map_ref = *(parent.map_ptr);
@@ -1532,9 +1380,7 @@ template <typename eT> arma_inline eT MapMat_svel<eT>::operator--(int)
 
     val -= eT(1); // can't use --,  as eT can be std::complex
 
-    if(val == eT(0)) {
-        map_ref.erase(index);
-    }
+    if(val == eT(0)) { map_ref.erase(index); }
 
     sync_state = 1;
     update_n_nonzeros();

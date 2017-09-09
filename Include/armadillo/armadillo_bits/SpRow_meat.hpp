@@ -18,8 +18,7 @@
 
 template <typename eT>
 inline SpRow<eT>::SpRow()
-    : SpMat<eT>(1, 0)
-{
+    : SpMat<eT>(1, 0) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -27,8 +26,7 @@ inline SpRow<eT>::SpRow()
 
 template <typename eT>
 inline SpRow<eT>::SpRow(const uword in_n_elem)
-    : SpMat<eT>(1, in_n_elem)
-{
+    : SpMat<eT>(1, in_n_elem) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -36,8 +34,7 @@ inline SpRow<eT>::SpRow(const uword in_n_elem)
 
 template <typename eT>
 inline SpRow<eT>::SpRow(const uword in_n_rows, const uword in_n_cols)
-    : SpMat<eT>(in_n_rows, in_n_cols)
-{
+    : SpMat<eT>(in_n_rows, in_n_cols) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((in_n_rows != 1), "SpRow::SpRow(): must have only one row");
@@ -47,8 +44,7 @@ inline SpRow<eT>::SpRow(const uword in_n_rows, const uword in_n_cols)
 
 template <typename eT>
 inline SpRow<eT>::SpRow(const char* text)
-    : SpMat<eT>(text)
-{
+    : SpMat<eT>(text) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -56,8 +52,8 @@ inline SpRow<eT>::SpRow(const char* text)
     arma_debug_check((SpMat<eT>::n_rows != 1), "SpRow::SpRow(): must have only one row");
 }
 
-template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const char* text)
-{
+template <typename eT>
+inline SpRow<eT>& SpRow<eT>::operator=(const char* text) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -69,8 +65,7 @@ template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const char* text)
 
 template <typename eT>
 inline SpRow<eT>::SpRow(const std::string& text)
-    : SpMat<eT>(text)
-{
+    : SpMat<eT>(text) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -78,8 +73,8 @@ inline SpRow<eT>::SpRow(const std::string& text)
     arma_debug_check((SpMat<eT>::n_rows != 1), "SpRow::SpRow(): must have only one row");
 }
 
-template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const std::string& text)
-{
+template <typename eT>
+inline SpRow<eT>& SpRow<eT>::operator=(const std::string& text) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(text);
@@ -87,8 +82,8 @@ template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const std::string&
     return *this;
 }
 
-template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const eT val)
-{
+template <typename eT>
+inline SpRow<eT>& SpRow<eT>::operator=(const eT val) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(val);
@@ -98,8 +93,7 @@ template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const eT val)
 
 template <typename eT>
 template <typename T1>
-inline SpRow<eT>::SpRow(const Base<eT, T1>& X)
-{
+inline SpRow<eT>::SpRow(const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -109,8 +103,7 @@ inline SpRow<eT>::SpRow(const Base<eT, T1>& X)
 
 template <typename eT>
 template <typename T1>
-inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X)
-{
+inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(X.get_ref());
@@ -120,8 +113,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X)
 
 template <typename eT>
 template <typename T1>
-inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X)
-{
+inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -131,8 +123,7 @@ inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X)
 
 template <typename eT>
 template <typename T1>
-inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X)
-{
+inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(X.get_ref());
@@ -142,9 +133,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X)
 
 template <typename eT>
 template <typename T1, typename T2>
-inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A,
-    const SpBase<typename SpRow<eT>::pod_type, T2>& B)
-{
+inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A, const SpBase<typename SpRow<eT>::pod_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -153,8 +142,8 @@ inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A,
 }
 
 //! remove specified columns
-template <typename eT> inline void SpRow<eT>::shed_col(const uword col_num)
-{
+template <typename eT>
+inline void SpRow<eT>::shed_col(const uword col_num) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(col_num >= SpMat<eT>::n_cols, "SpRow::shed_col(): out of bounds");
@@ -164,12 +153,10 @@ template <typename eT> inline void SpRow<eT>::shed_col(const uword col_num)
 
 //! remove specified columns
 template <typename eT>
-inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2)
-{
+inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((in_col1 > in_col2) || (in_col2 >= SpMat<eT>::n_cols),
-        "SpRow::shed_cols(): indices out of bounds or incorrectly used");
+    arma_debug_check((in_col1 > in_col2) || (in_col2 >= SpMat<eT>::n_cols), "SpRow::shed_cols(): indices out of bounds or incorrectly used");
 
     SpMat<eT>::sync_csc();
 
@@ -183,8 +170,7 @@ inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2)
         const uword elem_diff = end - start;
 
         eT* new_values = memory::acquire_chunked<eT>(SpMat<eT>::n_nonzero - elem_diff);
-        uword* new_row_indices =
-            memory::acquire_chunked<uword>(SpMat<eT>::n_nonzero - elem_diff);
+        uword* new_row_indices = memory::acquire_chunked<uword>(SpMat<eT>::n_nonzero - elem_diff);
 
         // Copy first set of elements, if necessary.
         if(start > 0) {
@@ -194,10 +180,8 @@ inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2)
 
         // Copy last set of elements, if necessary.
         if(end != SpMat<eT>::n_nonzero) {
-            arrayops::copy(new_values + start, SpMat<eT>::values + end,
-                (SpMat<eT>::n_nonzero - end));
-            arrayops::copy(new_row_indices + start, SpMat<eT>::row_indices + end,
-                (SpMat<eT>::n_nonzero - end));
+            arrayops::copy(new_values + start, SpMat<eT>::values + end, (SpMat<eT>::n_nonzero - end));
+            arrayops::copy(new_row_indices + start, SpMat<eT>::row_indices + end, (SpMat<eT>::n_nonzero - end));
         }
 
         memory::release(SpMat<eT>::values);
@@ -213,17 +197,13 @@ inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2)
     uword* new_col_ptrs = memory::acquire<uword>(SpMat<eT>::n_cols - diff + 1);
 
     // Copy first part of column pointers.
-    if(in_col1 > 0) {
-        arrayops::copy(new_col_ptrs, SpMat<eT>::col_ptrs, in_col1);
-    }
+    if(in_col1 > 0) { arrayops::copy(new_col_ptrs, SpMat<eT>::col_ptrs, in_col1); }
 
     // Copy last part of column pointers (and adjust their values as necessary).
     if(in_col2 < SpMat<eT>::n_cols - 1) {
-        arrayops::copy(new_col_ptrs + in_col1, SpMat<eT>::col_ptrs + in_col2 + 1,
-            SpMat<eT>::n_cols - in_col2);
+        arrayops::copy(new_col_ptrs + in_col1, SpMat<eT>::col_ptrs + in_col2 + 1, SpMat<eT>::n_cols - in_col2);
         // Modify their values.
-        arrayops::inplace_minus(
-            new_col_ptrs + in_col1, (end - start), SpMat<eT>::n_cols - in_col2);
+        arrayops::inplace_minus(new_col_ptrs + in_col1, (end - start), SpMat<eT>::n_cols - in_col2);
     }
 
     memory::release(SpMat<eT>::col_ptrs);
@@ -269,8 +249,7 @@ inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2)
 //   }
 
 template <typename eT>
-inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num)
-{
+inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num) {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -281,9 +260,7 @@ inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num
 }
 
 template <typename eT>
-inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(
-    const uword row_num) const
-{
+inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(const uword row_num) const {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -294,8 +271,7 @@ inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(
 }
 
 template <typename eT>
-inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num)
-{
+inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num) {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -306,9 +282,7 @@ inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num)
 }
 
 template <typename eT>
-inline typename SpRow<eT>::const_row_iterator SpRow<eT>::end_row(
-    const uword row_num) const
-{
+inline typename SpRow<eT>::const_row_iterator SpRow<eT>::end_row(const uword row_num) const {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for

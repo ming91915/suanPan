@@ -17,30 +17,23 @@
 //! @{
 
 template <typename eT, typename T1, typename T2>
-inline subview_elem2<eT, T1, T2>::~subview_elem2()
-{
+inline subview_elem2<eT, T1, T2>::~subview_elem2() {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT, typename T1, typename T2>
-arma_inline subview_elem2<eT, T1, T2>::subview_elem2(const Mat<eT>& in_m,
-    const Base<uword, T1>& in_ri,
-    const Base<uword, T2>& in_ci,
-    const bool in_all_rows,
-    const bool in_all_cols)
+arma_inline subview_elem2<eT, T1, T2>::subview_elem2(const Mat<eT>& in_m, const Base<uword, T1>& in_ri, const Base<uword, T2>& in_ci, const bool in_all_rows, const bool in_all_cols)
     : m(in_m)
     , base_ri(in_ri)
     , base_ci(in_ci)
     , all_rows(in_all_rows)
-    , all_cols(in_all_cols)
-{
+    , all_cols(in_all_cols) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT, typename T1, typename T2>
 template <typename op_type>
-inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -55,9 +48,7 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
         const umat& ri = tmp1.M;
         const umat& ci = tmp2.M;
 
-        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) ||
-                             ((ci.is_vec() == false) && (ci.is_empty() == false))),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) || ((ci.is_vec() == false) && (ci.is_empty() == false))), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
@@ -75,21 +66,11 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
 
                 arma_debug_check((row >= m_n_rows), "Mat::elem(): index out of bounds");
 
-                if(is_same_type<op_type, op_internal_equ>::yes) {
-                    m_local.at(row, col) = val;
-                }
-                if(is_same_type<op_type, op_internal_plus>::yes) {
-                    m_local.at(row, col) += val;
-                }
-                if(is_same_type<op_type, op_internal_minus>::yes) {
-                    m_local.at(row, col) -= val;
-                }
-                if(is_same_type<op_type, op_internal_schur>::yes) {
-                    m_local.at(row, col) *= val;
-                }
-                if(is_same_type<op_type, op_internal_div>::yes) {
-                    m_local.at(row, col) /= val;
-                }
+                if(is_same_type<op_type, op_internal_equ>::yes) { m_local.at(row, col) = val; }
+                if(is_same_type<op_type, op_internal_plus>::yes) { m_local.at(row, col) += val; }
+                if(is_same_type<op_type, op_internal_minus>::yes) { m_local.at(row, col) -= val; }
+                if(is_same_type<op_type, op_internal_schur>::yes) { m_local.at(row, col) *= val; }
+                if(is_same_type<op_type, op_internal_div>::yes) { m_local.at(row, col) /= val; }
             }
         }
     } else if((all_rows == true) && (all_cols == false)) {
@@ -97,8 +78,7 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
 
         const umat& ci = tmp2.M;
 
-        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ci_mem = ci.memptr();
         const uword ci_n_elem = ci.n_elem;
@@ -110,29 +90,18 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
 
             eT* colptr = m_local.colptr(col);
 
-            if(is_same_type<op_type, op_internal_equ>::yes) {
-                arrayops::inplace_set(colptr, val, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_plus>::yes) {
-                arrayops::inplace_plus(colptr, val, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_minus>::yes) {
-                arrayops::inplace_minus(colptr, val, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_schur>::yes) {
-                arrayops::inplace_mul(colptr, val, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_div>::yes) {
-                arrayops::inplace_div(colptr, val, m_n_rows);
-            }
+            if(is_same_type<op_type, op_internal_equ>::yes) { arrayops::inplace_set(colptr, val, m_n_rows); }
+            if(is_same_type<op_type, op_internal_plus>::yes) { arrayops::inplace_plus(colptr, val, m_n_rows); }
+            if(is_same_type<op_type, op_internal_minus>::yes) { arrayops::inplace_minus(colptr, val, m_n_rows); }
+            if(is_same_type<op_type, op_internal_schur>::yes) { arrayops::inplace_mul(colptr, val, m_n_rows); }
+            if(is_same_type<op_type, op_internal_div>::yes) { arrayops::inplace_div(colptr, val, m_n_rows); }
         }
     } else if((all_rows == false) && (all_cols == true)) {
         const unwrap_check_mixed<T1> tmp1(base_ri.get_ref(), m_local);
 
         const umat& ri = tmp1.M;
 
-        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
@@ -143,21 +112,11 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
 
                 arma_debug_check((row >= m_n_rows), "Mat::elem(): index out of bounds");
 
-                if(is_same_type<op_type, op_internal_equ>::yes) {
-                    m_local.at(row, col) = val;
-                }
-                if(is_same_type<op_type, op_internal_plus>::yes) {
-                    m_local.at(row, col) += val;
-                }
-                if(is_same_type<op_type, op_internal_minus>::yes) {
-                    m_local.at(row, col) -= val;
-                }
-                if(is_same_type<op_type, op_internal_schur>::yes) {
-                    m_local.at(row, col) *= val;
-                }
-                if(is_same_type<op_type, op_internal_div>::yes) {
-                    m_local.at(row, col) /= val;
-                }
+                if(is_same_type<op_type, op_internal_equ>::yes) { m_local.at(row, col) = val; }
+                if(is_same_type<op_type, op_internal_plus>::yes) { m_local.at(row, col) += val; }
+                if(is_same_type<op_type, op_internal_minus>::yes) { m_local.at(row, col) -= val; }
+                if(is_same_type<op_type, op_internal_schur>::yes) { m_local.at(row, col) *= val; }
+                if(is_same_type<op_type, op_internal_div>::yes) { m_local.at(row, col) /= val; }
             }
         }
     }
@@ -165,8 +124,7 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const eT val)
 
 template <typename eT, typename T1, typename T2>
 template <typename op_type, typename expr>
-inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -184,9 +142,7 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
         const umat& ri = tmp1.M;
         const umat& ci = tmp2.M;
 
-        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) ||
-                             ((ci.is_vec() == false) && (ci.is_empty() == false))),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) || ((ci.is_vec() == false) && (ci.is_empty() == false))), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
@@ -194,8 +150,7 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
         const uword* ci_mem = ci.memptr();
         const uword ci_n_elem = ci.n_elem;
 
-        arma_debug_assert_same_size(
-            ri_n_elem, ci_n_elem, X.n_rows, X.n_cols, "Mat::elem()");
+        arma_debug_assert_same_size(ri_n_elem, ci_n_elem, X.n_rows, X.n_cols, "Mat::elem()");
 
         for(uword ci_count = 0; ci_count < ci_n_elem; ++ci_count) {
             const uword col = ci_mem[ci_count];
@@ -207,21 +162,11 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
 
                 arma_debug_check((row >= m_n_rows), "Mat::elem(): index out of bounds");
 
-                if(is_same_type<op_type, op_internal_equ>::yes) {
-                    m_local.at(row, col) = X.at(ri_count, ci_count);
-                }
-                if(is_same_type<op_type, op_internal_plus>::yes) {
-                    m_local.at(row, col) += X.at(ri_count, ci_count);
-                }
-                if(is_same_type<op_type, op_internal_minus>::yes) {
-                    m_local.at(row, col) -= X.at(ri_count, ci_count);
-                }
-                if(is_same_type<op_type, op_internal_schur>::yes) {
-                    m_local.at(row, col) *= X.at(ri_count, ci_count);
-                }
-                if(is_same_type<op_type, op_internal_div>::yes) {
-                    m_local.at(row, col) /= X.at(ri_count, ci_count);
-                }
+                if(is_same_type<op_type, op_internal_equ>::yes) { m_local.at(row, col) = X.at(ri_count, ci_count); }
+                if(is_same_type<op_type, op_internal_plus>::yes) { m_local.at(row, col) += X.at(ri_count, ci_count); }
+                if(is_same_type<op_type, op_internal_minus>::yes) { m_local.at(row, col) -= X.at(ri_count, ci_count); }
+                if(is_same_type<op_type, op_internal_schur>::yes) { m_local.at(row, col) *= X.at(ri_count, ci_count); }
+                if(is_same_type<op_type, op_internal_div>::yes) { m_local.at(row, col) /= X.at(ri_count, ci_count); }
             }
         }
     } else if((all_rows == true) && (all_cols == false)) {
@@ -229,14 +174,12 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
 
         const umat& ci = tmp2.M;
 
-        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ci_mem = ci.memptr();
         const uword ci_n_elem = ci.n_elem;
 
-        arma_debug_assert_same_size(
-            m_n_rows, ci_n_elem, X.n_rows, X.n_cols, "Mat::elem()");
+        arma_debug_assert_same_size(m_n_rows, ci_n_elem, X.n_rows, X.n_cols, "Mat::elem()");
 
         for(uword ci_count = 0; ci_count < ci_n_elem; ++ci_count) {
             const uword col = ci_mem[ci_count];
@@ -246,35 +189,23 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
             eT* m_colptr = m_local.colptr(col);
             const eT* X_colptr = X.colptr(ci_count);
 
-            if(is_same_type<op_type, op_internal_equ>::yes) {
-                arrayops::copy(m_colptr, X_colptr, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_plus>::yes) {
-                arrayops::inplace_plus(m_colptr, X_colptr, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_minus>::yes) {
-                arrayops::inplace_minus(m_colptr, X_colptr, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_schur>::yes) {
-                arrayops::inplace_mul(m_colptr, X_colptr, m_n_rows);
-            }
-            if(is_same_type<op_type, op_internal_div>::yes) {
-                arrayops::inplace_div(m_colptr, X_colptr, m_n_rows);
-            }
+            if(is_same_type<op_type, op_internal_equ>::yes) { arrayops::copy(m_colptr, X_colptr, m_n_rows); }
+            if(is_same_type<op_type, op_internal_plus>::yes) { arrayops::inplace_plus(m_colptr, X_colptr, m_n_rows); }
+            if(is_same_type<op_type, op_internal_minus>::yes) { arrayops::inplace_minus(m_colptr, X_colptr, m_n_rows); }
+            if(is_same_type<op_type, op_internal_schur>::yes) { arrayops::inplace_mul(m_colptr, X_colptr, m_n_rows); }
+            if(is_same_type<op_type, op_internal_div>::yes) { arrayops::inplace_div(m_colptr, X_colptr, m_n_rows); }
         }
     } else if((all_rows == false) && (all_cols == true)) {
         const unwrap_check_mixed<T1> tmp1(base_ri.get_ref(), m_local);
 
         const umat& ri = tmp1.M;
 
-        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
 
-        arma_debug_assert_same_size(
-            ri_n_elem, m_n_cols, X.n_rows, X.n_cols, "Mat::elem()");
+        arma_debug_assert_same_size(ri_n_elem, m_n_cols, X.n_rows, X.n_cols, "Mat::elem()");
 
         for(uword col = 0; col < m_n_cols; ++col) {
             for(uword ri_count = 0; ri_count < ri_n_elem; ++ri_count) {
@@ -282,21 +213,11 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
 
                 arma_debug_check((row >= m_n_rows), "Mat::elem(): index out of bounds");
 
-                if(is_same_type<op_type, op_internal_equ>::yes) {
-                    m_local.at(row, col) = X.at(ri_count, col);
-                }
-                if(is_same_type<op_type, op_internal_plus>::yes) {
-                    m_local.at(row, col) += X.at(ri_count, col);
-                }
-                if(is_same_type<op_type, op_internal_minus>::yes) {
-                    m_local.at(row, col) -= X.at(ri_count, col);
-                }
-                if(is_same_type<op_type, op_internal_schur>::yes) {
-                    m_local.at(row, col) *= X.at(ri_count, col);
-                }
-                if(is_same_type<op_type, op_internal_div>::yes) {
-                    m_local.at(row, col) /= X.at(ri_count, col);
-                }
+                if(is_same_type<op_type, op_internal_equ>::yes) { m_local.at(row, col) = X.at(ri_count, col); }
+                if(is_same_type<op_type, op_internal_plus>::yes) { m_local.at(row, col) += X.at(ri_count, col); }
+                if(is_same_type<op_type, op_internal_minus>::yes) { m_local.at(row, col) -= X.at(ri_count, col); }
+                if(is_same_type<op_type, op_internal_schur>::yes) { m_local.at(row, col) *= X.at(ri_count, col); }
+                if(is_same_type<op_type, op_internal_div>::yes) { m_local.at(row, col) /= X.at(ri_count, col); }
             }
         }
     }
@@ -306,56 +227,49 @@ inline void subview_elem2<eT, T1, T2>::inplace_op(const Base<eT, expr>& x)
 //
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::fill(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::fill(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(val);
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::zeros()
-{
+inline void subview_elem2<eT, T1, T2>::zeros() {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(eT(0));
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::ones()
-{
+inline void subview_elem2<eT, T1, T2>::ones() {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(eT(1));
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::operator+=(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::operator+=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(val);
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::operator-=(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::operator-=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(val);
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::operator*=(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::operator*=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(val);
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::operator/=(const eT val)
-{
+inline void subview_elem2<eT, T1, T2>::operator/=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(val);
@@ -366,8 +280,7 @@ inline void subview_elem2<eT, T1, T2>::operator/=(const eT val)
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator_equ(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator_equ(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(x);
@@ -375,8 +288,7 @@ inline void subview_elem2<eT, T1, T2>::operator_equ(const subview_elem2<eT, T3, 
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     (*this).operator_equ(x);
@@ -384,8 +296,7 @@ inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T3, T4>
 
 //! work around compiler bugs
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T1, T2>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T1, T2>& x) {
     arma_extra_debug_sigprint();
 
     (*this).operator_equ(x);
@@ -393,8 +304,7 @@ inline void subview_elem2<eT, T1, T2>::operator=(const subview_elem2<eT, T1, T2>
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator+=(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator+=(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(x);
@@ -402,8 +312,7 @@ inline void subview_elem2<eT, T1, T2>::operator+=(const subview_elem2<eT, T3, T4
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator-=(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator-=(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(x);
@@ -411,8 +320,7 @@ inline void subview_elem2<eT, T1, T2>::operator-=(const subview_elem2<eT, T3, T4
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator%=(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator%=(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(x);
@@ -420,8 +328,7 @@ inline void subview_elem2<eT, T1, T2>::operator%=(const subview_elem2<eT, T3, T4
 
 template <typename eT, typename T1, typename T2>
 template <typename T3, typename T4>
-inline void subview_elem2<eT, T1, T2>::operator/=(const subview_elem2<eT, T3, T4>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator/=(const subview_elem2<eT, T3, T4>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(x);
@@ -429,8 +336,7 @@ inline void subview_elem2<eT, T1, T2>::operator/=(const subview_elem2<eT, T3, T4
 
 template <typename eT, typename T1, typename T2>
 template <typename expr>
-inline void subview_elem2<eT, T1, T2>::operator=(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator=(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(x);
@@ -438,8 +344,7 @@ inline void subview_elem2<eT, T1, T2>::operator=(const Base<eT, expr>& x)
 
 template <typename eT, typename T1, typename T2>
 template <typename expr>
-inline void subview_elem2<eT, T1, T2>::operator+=(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator+=(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(x);
@@ -447,8 +352,7 @@ inline void subview_elem2<eT, T1, T2>::operator+=(const Base<eT, expr>& x)
 
 template <typename eT, typename T1, typename T2>
 template <typename expr>
-inline void subview_elem2<eT, T1, T2>::operator-=(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator-=(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(x);
@@ -456,8 +360,7 @@ inline void subview_elem2<eT, T1, T2>::operator-=(const Base<eT, expr>& x)
 
 template <typename eT, typename T1, typename T2>
 template <typename expr>
-inline void subview_elem2<eT, T1, T2>::operator%=(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator%=(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(x);
@@ -465,8 +368,7 @@ inline void subview_elem2<eT, T1, T2>::operator%=(const Base<eT, expr>& x)
 
 template <typename eT, typename T1, typename T2>
 template <typename expr>
-inline void subview_elem2<eT, T1, T2>::operator/=(const Base<eT, expr>& x)
-{
+inline void subview_elem2<eT, T1, T2>::operator/=(const Base<eT, expr>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(x);
@@ -476,9 +378,7 @@ inline void subview_elem2<eT, T1, T2>::operator/=(const Base<eT, expr>& x)
 //
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
-    const subview_elem2<eT, T1, T2>& in)
-{
+inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out, const subview_elem2<eT, T1, T2>& in) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(in.m);
@@ -488,9 +388,7 @@ inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
 
     const bool alias = (&actual_out == &m_local);
 
-    if(alias) {
-        arma_extra_debug_print("subview_elem2::extract(): aliasing detected");
-    }
+    if(alias) { arma_extra_debug_print("subview_elem2::extract(): aliasing detected"); }
 
     Mat<eT>* tmp_out = alias ? new Mat<eT>() : 0;
     Mat<eT>& out = alias ? *tmp_out : actual_out;
@@ -502,9 +400,7 @@ inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
         const umat& ri = tmp1.M;
         const umat& ci = tmp2.M;
 
-        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) ||
-                             ((ci.is_vec() == false) && (ci.is_empty() == false))),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check((((ri.is_vec() == false) && (ri.is_empty() == false)) || ((ci.is_vec() == false) && (ci.is_empty() == false))), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
@@ -536,8 +432,7 @@ inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
 
         const umat& ci = tmp2.M;
 
-        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ci.is_vec() == false) && (ci.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ci_mem = ci.memptr();
         const uword ci_n_elem = ci.n_elem;
@@ -556,8 +451,7 @@ inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
 
         const umat& ri = tmp1.M;
 
-        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)),
-            "Mat::elem(): given object is not a vector");
+        arma_debug_check(((ri.is_vec() == false) && (ri.is_empty() == false)), "Mat::elem(): given object is not a vector");
 
         const uword* ri_mem = ri.memptr();
         const uword ri_n_elem = ri.n_elem;
@@ -585,8 +479,7 @@ inline void subview_elem2<eT, T1, T2>::extract(Mat<eT>& actual_out,
 // TODO: implement a dedicated function instead of creating a temporary (but lots of
 // potential aliasing issues)
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::plus_inplace(Mat<eT>& out, const subview_elem2& in)
-{
+inline void subview_elem2<eT, T1, T2>::plus_inplace(Mat<eT>& out, const subview_elem2& in) {
     arma_extra_debug_sigprint();
 
     const Mat<eT> tmp(in);
@@ -595,9 +488,7 @@ inline void subview_elem2<eT, T1, T2>::plus_inplace(Mat<eT>& out, const subview_
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::minus_inplace(Mat<eT>& out,
-    const subview_elem2& in)
-{
+inline void subview_elem2<eT, T1, T2>::minus_inplace(Mat<eT>& out, const subview_elem2& in) {
     arma_extra_debug_sigprint();
 
     const Mat<eT> tmp(in);
@@ -606,9 +497,7 @@ inline void subview_elem2<eT, T1, T2>::minus_inplace(Mat<eT>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::schur_inplace(Mat<eT>& out,
-    const subview_elem2& in)
-{
+inline void subview_elem2<eT, T1, T2>::schur_inplace(Mat<eT>& out, const subview_elem2& in) {
     arma_extra_debug_sigprint();
 
     const Mat<eT> tmp(in);
@@ -617,8 +506,7 @@ inline void subview_elem2<eT, T1, T2>::schur_inplace(Mat<eT>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-inline void subview_elem2<eT, T1, T2>::div_inplace(Mat<eT>& out, const subview_elem2& in)
-{
+inline void subview_elem2<eT, T1, T2>::div_inplace(Mat<eT>& out, const subview_elem2& in) {
     arma_extra_debug_sigprint();
 
     const Mat<eT> tmp(in);

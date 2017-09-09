@@ -13,33 +13,29 @@
 // limitations under the License.
 // ------------------------------------------------------------------------
 
-namespace newarp
-{
+namespace newarp {
 
 template <typename eT>
 inline TridiagEigen<eT>::TridiagEigen()
     : n(0)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 }
 
 template <typename eT>
 inline TridiagEigen<eT>::TridiagEigen(const Mat<eT>& mat_obj)
     : n(mat_obj.n_rows)
-    , computed(false)
-{
+    , computed(false) {
     arma_extra_debug_sigprint();
 
     compute(mat_obj);
 }
 
-template <typename eT> inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_obj)
-{
+template <typename eT>
+inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((mat_obj.is_square() == false),
-        "newarp::TridiagEigen::compute(): matrix must be square");
+    arma_debug_check((mat_obj.is_square() == false), "newarp::TridiagEigen::compute(): matrix must be square");
 
     n = blas_int(mat_obj.n_rows);
 
@@ -57,8 +53,7 @@ template <typename eT> inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_
     blas_int info = blas_int(0);
 
     // query for lwork and liwork
-    lapack::stedc(&compz, &n, main_diag.memptr(), sub_diag.memptr(), evecs.memptr(), &n,
-        &lwork_opt, &lwork, &liwork_opt, &liwork, &info);
+    lapack::stedc(&compz, &n, main_diag.memptr(), sub_diag.memptr(), evecs.memptr(), &n, &lwork_opt, &lwork, &liwork_opt, &liwork, &info);
 
     if(info == 0) {
         lwork = blas_int(lwork_opt);
@@ -73,8 +68,7 @@ template <typename eT> inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_
     podarray<eT> work(static_cast<uword>(lwork));
     podarray<blas_int> iwork(static_cast<uword>(liwork));
 
-    lapack::stedc(&compz, &n, main_diag.memptr(), sub_diag.memptr(), evecs.memptr(), &n,
-        work.memptr(), &lwork, iwork.memptr(), &liwork, &info);
+    lapack::stedc(&compz, &n, main_diag.memptr(), sub_diag.memptr(), evecs.memptr(), &n, work.memptr(), &lwork, iwork.memptr(), &liwork, &info);
 
     if(info < 0) {
         arma_stop_logic_error("lapack::stedc(): illegal value");
@@ -89,23 +83,21 @@ template <typename eT> inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_
     computed = true;
 }
 
-template <typename eT> inline Col<eT> TridiagEigen<eT>::eigenvalues()
-{
+template <typename eT>
+inline Col<eT> TridiagEigen<eT>::eigenvalues() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::TridiagEigen::eigenvalues(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::TridiagEigen::eigenvalues(): need to call compute() first");
 
     // After calling compute(), main_diag will contain the eigenvalues.
     return main_diag;
 }
 
-template <typename eT> inline Mat<eT> TridiagEigen<eT>::eigenvectors()
-{
+template <typename eT>
+inline Mat<eT> TridiagEigen<eT>::eigenvectors() {
     arma_extra_debug_sigprint();
 
-    arma_debug_check((computed == false),
-        "newarp::TridiagEigen::eigenvectors(): need to call compute() first");
+    arma_debug_check((computed == false), "newarp::TridiagEigen::eigenvectors(): need to call compute() first");
 
     return evecs;
 }

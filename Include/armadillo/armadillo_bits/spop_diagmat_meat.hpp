@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_diagmat>& in)
-{
+inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -38,9 +36,7 @@ inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& p)
-{
+inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = p.get_n_rows();
@@ -54,9 +50,7 @@ inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out,
 
         out.zeros(N, N);
 
-        if(p.get_n_nonzero() == 0) {
-            return;
-        }
+        if(p.get_n_nonzero() == 0) { return; }
 
         typename SpProxy<T1>::const_iterator_type it = p.begin();
         typename SpProxy<T1>::const_iterator_type it_end = p.end();
@@ -82,9 +76,7 @@ inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out,
     {
         out.zeros(n_rows, n_cols);
 
-        if(p.get_n_nonzero() == 0) {
-            return;
-        }
+        if(p.get_n_nonzero() == 0) { return; }
 
         typename SpProxy<T1>::const_iterator_type it = p.begin();
         typename SpProxy<T1>::const_iterator_type it_end = p.end();
@@ -93,9 +85,7 @@ inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out,
             const uword row = it.row();
             const uword col = it.col();
 
-            if(row == col) {
-                out.at(row, row) = (*it);
-            }
+            if(row == col) { out.at(row, row) = (*it); }
 
             ++it;
         }
@@ -103,9 +93,7 @@ inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_diagmat2>& in)
-{
+inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat2>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -127,11 +115,7 @@ inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename eT>
-inline void spop_diagmat2::apply_noalias(SpMat<eT>& out,
-    const SpMat<eT>& X,
-    const uword row_offset,
-    const uword col_offset)
-{
+inline void spop_diagmat2::apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = X.n_rows;
@@ -151,9 +135,7 @@ inline void spop_diagmat2::apply_noalias(SpMat<eT>& out,
 
         out.zeros(n_elem + n_pad, n_elem + n_pad);
 
-        if(X.n_nonzero == 0) {
-            return;
-        }
+        if(X.n_nonzero == 0) { return; }
 
         typename SpMat<eT>::const_iterator it = X.begin();
         typename SpMat<eT>::const_iterator it_end = X.end();
@@ -177,15 +159,11 @@ inline void spop_diagmat2::apply_noalias(SpMat<eT>& out,
         }
     } else // generate a diagonal matrix out of a matrix
     {
-        arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) ||
-                ((col_offset > 0) && (col_offset >= n_cols)),
-            "diagmat(): requested diagonal out of bounds");
+        arma_debug_check(((row_offset > 0) && (row_offset >= n_rows)) || ((col_offset > 0) && (col_offset >= n_cols)), "diagmat(): requested diagonal out of bounds");
 
         out.zeros(n_rows, n_cols);
 
-        if(X.n_nonzero == 0) {
-            return;
-        }
+        if(X.n_nonzero == 0) { return; }
 
         // TODO: this is a rudimentary implementation; replace with a faster version using
         // iterators

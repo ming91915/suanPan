@@ -18,10 +18,7 @@
 
 template <bool do_inv_detect>
 template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(
-    Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -38,25 +35,18 @@ arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(
     const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out);
 
     if(alias == false) {
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(
-            out, A, B, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(out, A, B, alpha);
     } else {
         Mat<eT> tmp;
 
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(
-            tmp, A, B, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(tmp, A, B, alpha);
 
         out.steal_mem(tmp);
     }
 }
 
 template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect2_helper<true>::apply(
-    Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -70,8 +60,7 @@ arma_hot inline void glue_times_redirect2_helper<true>::apply(
 
         Mat<eT> A = A_strip.M;
 
-        arma_debug_check(
-            (A.is_square() == false), "inv(): given matrix must be square sized");
+        arma_debug_check((A.is_square() == false), "inv(): given matrix must be square sized");
 
         const unwrap_check<T2> B_tmp(X.B, out);
         const Mat<eT>& B = B_tmp.M;
@@ -94,10 +83,7 @@ arma_hot inline void glue_times_redirect2_helper<true>::apply(
 
 template <bool do_inv_detect>
 template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(
-    Mat<typename T1::elem_type>& out,
-    const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -113,35 +99,24 @@ arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(
     const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
     const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
 
-    const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-        partial_unwrap<T3>::do_times;
-    const eT alpha =
-        use_alpha ? (tmp1.get_val() * tmp2.get_val() * tmp3.get_val()) : eT(0);
+    const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times;
+    const eT alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val() * tmp3.get_val()) : eT(0);
 
     const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out) || tmp3.is_alias(out);
 
     if(alias == false) {
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            partial_unwrap<T3>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                partial_unwrap<T3>::do_times)>(out, A, B, C, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)>(out, A, B, C, alpha);
     } else {
         Mat<eT> tmp;
 
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            partial_unwrap<T3>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                partial_unwrap<T3>::do_times)>(tmp, A, B, C, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)>(tmp, A, B, C, alpha);
 
         out.steal_mem(tmp);
     }
 }
 
 template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect3_helper<true>::apply(
-    Mat<typename T1::elem_type>& out,
-    const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -155,8 +130,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
 
         Mat<eT> A = A_strip.M;
 
-        arma_debug_check(
-            (A.is_square() == false), "inv(): given matrix must be square sized");
+        arma_debug_check((A.is_square() == false), "inv(): given matrix must be square sized");
 
         const partial_unwrap<T2> tmp2(X.A.B);
         const partial_unwrap<T3> tmp3(X.B);
@@ -164,15 +138,12 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
         const typename partial_unwrap<T2>::stored_type& B = tmp2.M;
         const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
 
-        const bool use_alpha =
-            partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times;
+        const bool use_alpha = partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times;
         const eT alpha = use_alpha ? (tmp2.get_val() * tmp3.get_val()) : eT(0);
 
         Mat<eT> BC;
 
-        glue_times::apply<eT, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans,
-            (partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)>(
-            BC, B, C, alpha);
+        glue_times::apply<eT, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans, (partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times)>(BC, B, C, alpha);
 
         arma_debug_assert_mul_size(A, BC, "matrix multiplication");
 
@@ -196,8 +167,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
 
         Mat<eT> B = B_strip.M;
 
-        arma_debug_check(
-            (B.is_square() == false), "inv(): given matrix must be square sized");
+        arma_debug_check((B.is_square() == false), "inv(): given matrix must be square sized");
 
         const unwrap<T3> C_tmp(X.B);
         const Mat<eT>& C = C_tmp.M;
@@ -222,8 +192,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
         const bool use_alpha = partial_unwrap_check<T1>::do_times;
         const eT alpha = use_alpha ? tmp1.get_val() : eT(0);
 
-        glue_times::apply<eT, partial_unwrap_check<T1>::do_trans, false,
-            partial_unwrap_check<T1>::do_times>(out, A, solve_result, alpha);
+        glue_times::apply<eT, partial_unwrap_check<T1>::do_trans, false, partial_unwrap_check<T1>::do_times>(out, A, solve_result, alpha);
 
         return;
     }
@@ -233,9 +202,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(
 
 template <uword N>
 template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -252,24 +219,18 @@ arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& 
     const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out);
 
     if(alias == false) {
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(
-            out, A, B, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(out, A, B, alpha);
     } else {
         Mat<eT> tmp;
 
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(
-            tmp, A, B, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times)>(tmp, A, B, alpha);
 
         out.steal_mem(tmp);
     }
 }
 
 template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -278,9 +239,7 @@ arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& 
 }
 
 template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& out,
-    const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -289,9 +248,7 @@ arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& 
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out,
-    const Glue<Glue<Glue<T1, T2, glue_times>, T3, glue_times>, T4, glue_times>& X)
-{
+arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<Glue<T1, T2, glue_times>, T3, glue_times>, T4, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -309,38 +266,24 @@ arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& 
     const typename partial_unwrap<T3>::stored_type& C = tmp3.M;
     const typename partial_unwrap<T4>::stored_type& D = tmp4.M;
 
-    const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-        partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times;
-    const eT alpha = use_alpha ?
-        (tmp1.get_val() * tmp2.get_val() * tmp3.get_val() * tmp4.get_val()) :
-        eT(0);
+    const bool use_alpha = partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times;
+    const eT alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val() * tmp3.get_val() * tmp4.get_val()) : eT(0);
 
-    const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out) || tmp3.is_alias(out) ||
-        tmp4.is_alias(out);
+    const bool alias = tmp1.is_alias(out) || tmp2.is_alias(out) || tmp3.is_alias(out) || tmp4.is_alias(out);
 
     if(alias == false) {
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(
-            out, A, B, C, D, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(out, A, B, C, D, alpha);
     } else {
         Mat<eT> tmp;
 
-        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans,
-            partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans,
-            (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times ||
-                partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(
-            tmp, A, B, C, D, alpha);
+        glue_times::apply<eT, partial_unwrap<T1>::do_trans, partial_unwrap<T2>::do_trans, partial_unwrap<T3>::do_trans, partial_unwrap<T4>::do_trans, (partial_unwrap<T1>::do_times || partial_unwrap<T2>::do_times || partial_unwrap<T3>::do_times || partial_unwrap<T4>::do_times)>(tmp, A, B, C, D, alpha);
 
         out.steal_mem(tmp);
     }
 }
 
 template <typename T1, typename T2>
-arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X)
-{
+arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times>>::num;
@@ -351,26 +294,20 @@ arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out,
 }
 
 template <typename T1>
-arma_hot inline void glue_times::apply_inplace(Mat<typename T1::elem_type>& out,
-    const T1& X)
-{
+arma_hot inline void glue_times::apply_inplace(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     out = out * X;
 }
 
 template <typename T1, typename T2>
-arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times>& X,
-    const sword sign)
-{
+arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X, const sword sign) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
     typedef typename get_pod_type<eT>::result T;
 
-    if((is_outer_product<T1>::value) || (has_op_inv<T1>::value) ||
-        (has_op_inv<T2>::value)) {
+    if((is_outer_product<T1>::value) || (has_op_inv<T1>::value) || (has_op_inv<T2>::value)) {
         // partial workaround for corner cases
 
         const Mat<eT> tmp(X);
@@ -396,26 +333,18 @@ arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>&
     const bool do_trans_A = partial_unwrap_check<T1>::do_trans;
     const bool do_trans_B = partial_unwrap_check<T2>::do_trans;
 
-    const bool use_alpha = partial_unwrap_check<T1>::do_times ||
-        partial_unwrap_check<T2>::do_times || (sign < sword(0));
+    const bool use_alpha = partial_unwrap_check<T1>::do_times || partial_unwrap_check<T2>::do_times || (sign < sword(0));
 
-    const eT alpha = use_alpha ?
-        (tmp1.get_val() * tmp2.get_val() * ((sign > sword(0)) ? eT(1) : eT(-1))) :
-        eT(0);
+    const eT alpha = use_alpha ? (tmp1.get_val() * tmp2.get_val() * ((sign > sword(0)) ? eT(1) : eT(-1))) : eT(0);
 
     arma_debug_assert_mul_size(A, B, do_trans_A, do_trans_B, "matrix multiplication");
 
-    const uword result_n_rows =
-        (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
-    const uword result_n_cols =
-        (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
+    const uword result_n_rows = (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
+    const uword result_n_cols = (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
 
-    arma_debug_assert_same_size(out.n_rows, out.n_cols, result_n_rows, result_n_cols,
-        ((sign > sword(0)) ? "addition" : "subtraction"));
+    arma_debug_assert_same_size(out.n_rows, out.n_cols, result_n_rows, result_n_cols, ((sign > sword(0)) ? "addition" : "subtraction"));
 
-    if(out.n_elem == 0) {
-        return;
-    }
+    if(out.n_elem == 0) { return; }
 
     if((do_trans_A == false) && (do_trans_B == false) && (use_alpha == false)) {
         if(((A.n_rows == 1) || (TA::is_row)) && (is_cx<eT>::no)) {
@@ -496,40 +425,23 @@ arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>&
     }
 }
 
-template <typename eT,
-    const bool do_trans_A,
-    const bool do_trans_B,
-    typename TA,
-    typename TB>
-arma_inline uword glue_times::mul_storage_cost(const TA& A, const TB& B)
-{
-    const uword final_A_n_rows =
-        (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
-    const uword final_B_n_cols =
-        (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
+template <typename eT, const bool do_trans_A, const bool do_trans_B, typename TA, typename TB>
+arma_inline uword glue_times::mul_storage_cost(const TA& A, const TB& B) {
+    const uword final_A_n_rows = (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
+    const uword final_B_n_cols = (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
 
     return final_A_n_rows * final_B_n_cols;
 }
 
-template <typename eT,
-    const bool do_trans_A,
-    const bool do_trans_B,
-    const bool use_alpha,
-    typename TA,
-    typename TB>
-arma_hot inline void
-glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const eT alpha)
-{
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool use_alpha, typename TA, typename TB>
+arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const eT alpha) {
     arma_extra_debug_sigprint();
 
     // arma_debug_assert_mul_size(A, B, do_trans_A, do_trans_B, "matrix multiplication");
-    arma_debug_assert_trans_mul_size<do_trans_A, do_trans_B>(
-        A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
+    arma_debug_assert_trans_mul_size<do_trans_A, do_trans_B>(A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
 
-    const uword final_n_rows =
-        (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
-    const uword final_n_cols =
-        (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
+    const uword final_n_rows = (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
+    const uword final_n_cols = (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
 
     out.set_size(final_n_rows, final_n_cols);
 
@@ -617,25 +529,14 @@ glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const eT alpha)
     }
 }
 
-template <typename eT,
-    const bool do_trans_A,
-    const bool do_trans_B,
-    const bool do_trans_C,
-    const bool use_alpha,
-    typename TA,
-    typename TB,
-    typename TC>
-arma_hot inline void
-glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const eT alpha)
-{
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool use_alpha, typename TA, typename TB, typename TC>
+arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const eT alpha) {
     arma_extra_debug_sigprint();
 
     Mat<eT> tmp;
 
-    const uword storage_cost_AB =
-        glue_times::mul_storage_cost<eT, do_trans_A, do_trans_B>(A, B);
-    const uword storage_cost_BC =
-        glue_times::mul_storage_cost<eT, do_trans_B, do_trans_C>(B, C);
+    const uword storage_cost_AB = glue_times::mul_storage_cost<eT, do_trans_A, do_trans_B>(A, B);
+    const uword storage_cost_BC = glue_times::mul_storage_cost<eT, do_trans_B, do_trans_C>(B, C);
 
     if(storage_cost_AB <= storage_cost_BC) {
         // out = (A*B)*C
@@ -650,44 +551,25 @@ glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const eT 
     }
 }
 
-template <typename eT,
-    const bool do_trans_A,
-    const bool do_trans_B,
-    const bool do_trans_C,
-    const bool do_trans_D,
-    const bool use_alpha,
-    typename TA,
-    typename TB,
-    typename TC,
-    typename TD>
-arma_hot inline void glue_times::apply(Mat<eT>& out,
-    const TA& A,
-    const TB& B,
-    const TC& C,
-    const TD& D,
-    const eT alpha)
-{
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool do_trans_D, const bool use_alpha, typename TA, typename TB, typename TC, typename TD>
+arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const TD& D, const eT alpha) {
     arma_extra_debug_sigprint();
 
     Mat<eT> tmp;
 
-    const uword storage_cost_AC =
-        glue_times::mul_storage_cost<eT, do_trans_A, do_trans_C>(A, C);
-    const uword storage_cost_BD =
-        glue_times::mul_storage_cost<eT, do_trans_B, do_trans_D>(B, D);
+    const uword storage_cost_AC = glue_times::mul_storage_cost<eT, do_trans_A, do_trans_C>(A, C);
+    const uword storage_cost_BD = glue_times::mul_storage_cost<eT, do_trans_B, do_trans_D>(B, D);
 
     if(storage_cost_AC <= storage_cost_BD) {
         // out = (A*B*C)*D
 
-        glue_times::apply<eT, do_trans_A, do_trans_B, do_trans_C, use_alpha>(
-            tmp, A, B, C, alpha);
+        glue_times::apply<eT, do_trans_A, do_trans_B, do_trans_C, use_alpha>(tmp, A, B, C, alpha);
 
         glue_times::apply<eT, false, do_trans_D, false>(out, tmp, D, eT(0));
     } else {
         // out = A*(B*C*D)
 
-        glue_times::apply<eT, do_trans_B, do_trans_C, do_trans_D, use_alpha>(
-            tmp, B, C, D, alpha);
+        glue_times::apply<eT, do_trans_B, do_trans_C, do_trans_D, use_alpha>(tmp, B, C, D, alpha);
 
         glue_times::apply<eT, do_trans_A, false, false>(out, A, tmp, eT(0));
     }
@@ -697,9 +579,7 @@ arma_hot inline void glue_times::apply(Mat<eT>& out,
 // glue_times_diag
 
 template <typename T1, typename T2>
-arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
-    const Glue<T1, T2, glue_times_diag>& X)
-{
+arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times_diag>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -710,8 +590,7 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
     typedef typename strip_diagmat<T1>::stored_type T1_stripped;
     typedef typename strip_diagmat<T2>::stored_type T2_stripped;
 
-    if((strip_diagmat<T1>::do_diagmat == true) &&
-        (strip_diagmat<T2>::do_diagmat == false)) {
+    if((strip_diagmat<T1>::do_diagmat == true) && (strip_diagmat<T2>::do_diagmat == false)) {
         arma_extra_debug_print("glue_times_diag::apply(): diagmat(A) * B");
 
         const diagmat_proxy_check<T1_stripped> A(S1.M, out);
@@ -726,8 +605,7 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
         const uword B_n_rows = B.n_rows;
         const uword B_n_cols = B.n_cols;
 
-        arma_debug_assert_mul_size(
-            A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
+        arma_debug_assert_mul_size(A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
 
         out.zeros(A_n_rows, B_n_cols);
 
@@ -735,12 +613,9 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
             eT* out_coldata = out.colptr(col);
             const eT* B_coldata = B.colptr(col);
 
-            for(uword i = 0; i < A_length; ++i) {
-                out_coldata[i] = A[i] * B_coldata[i];
-            }
+            for(uword i = 0; i < A_length; ++i) { out_coldata[i] = A[i] * B_coldata[i]; }
         }
-    } else if((strip_diagmat<T1>::do_diagmat == false) &&
-        (strip_diagmat<T2>::do_diagmat == true)) {
+    } else if((strip_diagmat<T1>::do_diagmat == false) && (strip_diagmat<T2>::do_diagmat == true)) {
         arma_extra_debug_print("glue_times_diag::apply(): A * diagmat(B)");
 
         const unwrap_check<T1> tmp(X.A, out);
@@ -755,8 +630,7 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
         const uword B_n_cols = B.n_cols;
         const uword B_length = (std::min)(B_n_rows, B_n_cols);
 
-        arma_debug_assert_mul_size(
-            A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
+        arma_debug_assert_mul_size(A_n_rows, A_n_cols, B_n_rows, B_n_cols, "matrix multiplication");
 
         out.zeros(A_n_rows, B_n_cols);
 
@@ -766,19 +640,15 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
             eT* out_coldata = out.colptr(col);
             const eT* A_coldata = A.colptr(col);
 
-            for(uword i = 0; i < A_n_rows; ++i) {
-                out_coldata[i] = A_coldata[i] * val;
-            }
+            for(uword i = 0; i < A_n_rows; ++i) { out_coldata[i] = A_coldata[i] * val; }
         }
-    } else if((strip_diagmat<T1>::do_diagmat == true) &&
-        (strip_diagmat<T2>::do_diagmat == true)) {
+    } else if((strip_diagmat<T1>::do_diagmat == true) && (strip_diagmat<T2>::do_diagmat == true)) {
         arma_extra_debug_print("glue_times_diag::apply(): diagmat(A) * diagmat(B)");
 
         const diagmat_proxy_check<T1_stripped> A(S1.M, out);
         const diagmat_proxy_check<T2_stripped> B(S2.M, out);
 
-        arma_debug_assert_mul_size(
-            A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
+        arma_debug_assert_mul_size(A.n_rows, A.n_cols, B.n_rows, B.n_cols, "matrix multiplication");
 
         out.zeros(A.n_rows, B.n_cols);
 
@@ -787,9 +657,7 @@ arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out,
 
         const uword N = (std::min)(A_length, B_length);
 
-        for(uword i = 0; i < N; ++i) {
-            out.at(i, i) = A[i] * B[i];
-        }
+        for(uword i = 0; i < N; ++i) { out.at(i, i) = A[i] * B[i]; }
     }
 }
 

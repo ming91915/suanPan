@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused inline const eOp<T1, eop_eps> eps(
-    const Base<typename T1::elem_type, T1>& X,
-    const typename arma_not_cx<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline const eOp<T1, eop_eps> eps(const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -28,10 +25,7 @@ arma_warn_unused inline const eOp<T1, eop_eps> eps(
 }
 
 template <typename T1>
-arma_warn_unused inline Mat<typename T1::pod_type> eps(
-    const Base<std::complex<typename T1::pod_type>, T1>& X,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline Mat<typename T1::pod_type> eps(const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -48,31 +42,25 @@ arma_warn_unused inline Mat<typename T1::pod_type> eps(
 
     const uword n_elem = A.n_elem;
 
-    for(uword i = 0; i < n_elem; ++i) {
-        out_mem[i] = eop_aux::direct_eps(A_mem[i]);
-    }
+    for(uword i = 0; i < n_elem; ++i) { out_mem[i] = eop_aux::direct_eps(A_mem[i]); }
 
     return out;
 }
 
 template <typename eT>
-arma_warn_unused arma_inline typename arma_integral_only<eT>::result eps(const eT& x)
-{
+arma_warn_unused arma_inline typename arma_integral_only<eT>::result eps(const eT& x) {
     arma_ignore(x);
 
     return eT(0);
 }
 
 template <typename eT>
-arma_warn_unused arma_inline typename arma_real_only<eT>::result eps(const eT& x)
-{
+arma_warn_unused arma_inline typename arma_real_only<eT>::result eps(const eT& x) {
     return eop_aux::direct_eps(x);
 }
 
 template <typename T>
-arma_warn_unused arma_inline typename arma_real_only<T>::result eps(
-    const std::complex<T>& x)
-{
+arma_warn_unused arma_inline typename arma_real_only<T>::result eps(const std::complex<T>& x) {
     return eop_aux::direct_eps(x);
 }
 

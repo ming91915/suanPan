@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused inline uword rank(const Base<typename T1::elem_type, T1>& X,
-    typename T1::pod_type tol = 0.0,
-    const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline uword rank(const Base<typename T1::elem_type, T1>& X, typename T1::pod_type tol = 0.0, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -42,16 +39,11 @@ arma_warn_unused inline uword rank(const Base<typename T1::elem_type, T1>& X,
     const T* s_mem = s.memptr();
 
     // set tolerance to default if it hasn't been specified
-    if((tol == T(0)) && (s_n_elem > 0)) {
-        tol =
-            (std::max)(X_n_rows, X_n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon();
-    }
+    if((tol == T(0)) && (s_n_elem > 0)) { tol = (std::max)(X_n_rows, X_n_cols) * s_mem[0] * std::numeric_limits<T>::epsilon(); }
 
     uword count = 0;
 
-    for(uword i = 0; i < s_n_elem; ++i) {
-        count += (s_mem[i] > tol) ? uword(1) : uword(0);
-    }
+    for(uword i = 0; i < s_n_elem; ++i) { count += (s_mem[i] > tol) ? uword(1) : uword(0); }
 
     return count;
 }

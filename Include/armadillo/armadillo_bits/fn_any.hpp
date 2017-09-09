@@ -17,11 +17,7 @@
 //! @{
 
 template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X,
-    const uword dim = 0,
-    const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0,
-    const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0)
-{
+arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X, const uword dim = 0, const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0, const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -30,10 +26,7 @@ arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X,
 }
 
 template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X,
-    const uword dim,
-    const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0)
-{
+arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X, const uword dim, const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -41,10 +34,7 @@ arma_warn_unused arma_inline const mtOp<uword, T1, op_any> any(const T1& X,
 }
 
 template <typename T1>
-arma_warn_unused inline bool any(const T1& X,
-    const arma_empty_class junk1 = arma_empty_class(),
-    const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0)
-{
+arma_warn_unused inline bool any(const T1& X, const arma_empty_class junk1 = arma_empty_class(), const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -52,8 +42,8 @@ arma_warn_unused inline bool any(const T1& X,
     return op_any::any_vec(X);
 }
 
-template <typename T1> arma_warn_unused inline bool any(const mtOp<uword, T1, op_any>& in)
-{
+template <typename T1>
+arma_warn_unused inline bool any(const mtOp<uword, T1, op_any>& in) {
     arma_extra_debug_sigprint();
     arma_extra_debug_print("any(): two consecutive calls to any() detected");
 
@@ -61,9 +51,7 @@ template <typename T1> arma_warn_unused inline bool any(const mtOp<uword, T1, op
 }
 
 template <typename T1>
-arma_warn_unused arma_inline const Op<mtOp<uword, T1, op_any>, op_any>
-any(const mtOp<uword, T1, op_any>& in, const uword dim)
-{
+arma_warn_unused arma_inline const Op<mtOp<uword, T1, op_any>, op_any> any(const mtOp<uword, T1, op_any>& in, const uword dim) {
     arma_extra_debug_sigprint();
 
     return mtOp<uword, mtOp<uword, T1, op_any>, op_any>(in, dim, 0);

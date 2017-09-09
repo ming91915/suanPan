@@ -17,10 +17,7 @@
 //! @{
 
 template <typename T1>
-inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out,
-    const SpProxy<T1>& P,
-    const bool upper)
-{
+inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& P, const bool upper) {
     arma_extra_debug_sigprint();
 
     typename SpProxy<T1>::const_iterator_type it = P.begin();
@@ -89,23 +86,18 @@ inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out,
         }
     }
 
-    for(uword i = 0; i < n_cols; ++i) {
-        access::rw(out.col_ptrs[i + 1]) += out.col_ptrs[i];
-    }
+    for(uword i = 0; i < n_cols; ++i) { access::rw(out.col_ptrs[i + 1]) += out.col_ptrs[i]; }
 }
 
 template <typename T1>
-inline void spop_trimat::apply(SpMat<typename T1::elem_type>& out,
-    const SpOp<T1, spop_trimat>& in)
-{
+inline void spop_trimat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_trimat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
 
     const SpProxy<T1> P(in.m);
 
-    arma_debug_check((P.get_n_rows() != P.get_n_cols()),
-        "trimatu()/trimatl(): given matrix must be square sized");
+    arma_debug_check((P.get_n_rows() != P.get_n_cols()), "trimatu()/trimatl(): given matrix must be square sized");
 
     const bool upper = (in.aux_uword_a == 0);
 

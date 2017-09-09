@@ -16,17 +16,18 @@
 //! \addtogroup SpBase
 //! @{
 
-template <typename elem_type, typename derived> struct SpBase_eval_SpMat {
+template <typename elem_type, typename derived>
+struct SpBase_eval_SpMat {
     inline const derived& eval() const;
 };
 
-template <typename elem_type, typename derived> struct SpBase_eval_expr {
-    inline SpMat<elem_type>
-    eval() const; //!< force the immediate evaluation of a delayed expression
+template <typename elem_type, typename derived>
+struct SpBase_eval_expr {
+    inline SpMat<elem_type> eval() const; //!< force the immediate evaluation of a delayed expression
 };
 
-template <typename elem_type, typename derived, bool condition> struct SpBase_eval {
-};
+template <typename elem_type, typename derived, bool condition>
+struct SpBase_eval {};
 
 template <typename elem_type, typename derived>
 struct SpBase_eval<elem_type, derived, true> {
@@ -50,16 +51,13 @@ struct SpBase : public SpBase_eval<elem_type, derived, is_SpMat<derived>::value>
     inline void print(std::ostream& user_stream, const std::string extra_text = "") const;
 
     inline void raw_print(const std::string extra_text = "") const;
-    inline void raw_print(std::ostream& user_stream,
-        const std::string extra_text = "") const;
+    inline void raw_print(std::ostream& user_stream, const std::string extra_text = "") const;
 
     inline void print_dense(const std::string extra_text = "") const;
-    inline void print_dense(std::ostream& user_stream,
-        const std::string extra_text = "") const;
+    inline void print_dense(std::ostream& user_stream, const std::string extra_text = "") const;
 
     inline void raw_print_dense(const std::string extra_text = "") const;
-    inline void raw_print_dense(std::ostream& user_stream,
-        const std::string extra_text = "") const;
+    inline void raw_print_dense(std::ostream& user_stream, const std::string extra_text = "") const;
 
     inline arma_warn_unused elem_type min() const;
     inline arma_warn_unused elem_type max() const;

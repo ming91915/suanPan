@@ -16,12 +16,12 @@
 //! \addtogroup strip
 //! @{
 
-template <typename T1> struct strip_diagmat {
+template <typename T1>
+struct strip_diagmat {
     typedef T1 stored_type;
 
     arma_hot inline strip_diagmat(const T1& X)
-        : M(X)
-    {
+        : M(X) {
         arma_extra_debug_sigprint();
     }
 
@@ -30,12 +30,12 @@ template <typename T1> struct strip_diagmat {
     const T1& M;
 };
 
-template <typename T1> struct strip_diagmat<Op<T1, op_diagmat>> {
+template <typename T1>
+struct strip_diagmat<Op<T1, op_diagmat>> {
     typedef T1 stored_type;
 
     arma_hot inline strip_diagmat(const Op<T1, op_diagmat>& X)
-        : M(X.m)
-    {
+        : M(X.m) {
         arma_extra_debug_sigprint();
     }
 
@@ -44,12 +44,12 @@ template <typename T1> struct strip_diagmat<Op<T1, op_diagmat>> {
     const T1& M;
 };
 
-template <typename T1> struct strip_inv {
+template <typename T1>
+struct strip_inv {
     typedef T1 stored_type;
 
     arma_hot inline strip_inv(const T1& X)
-        : M(X)
-    {
+        : M(X) {
         arma_extra_debug_sigprint();
     }
 
@@ -58,12 +58,12 @@ template <typename T1> struct strip_inv {
     static const bool do_inv = false;
 };
 
-template <typename T1> struct strip_inv<Op<T1, op_inv>> {
+template <typename T1>
+struct strip_inv<Op<T1, op_inv>> {
     typedef T1 stored_type;
 
     arma_hot inline strip_inv(const Op<T1, op_inv>& X)
-        : M(X.m)
-    {
+        : M(X.m) {
         arma_extra_debug_sigprint();
     }
 
@@ -72,12 +72,12 @@ template <typename T1> struct strip_inv<Op<T1, op_inv>> {
     static const bool do_inv = true;
 };
 
-template <typename T1> struct strip_inv<Op<T1, op_inv_sympd>> {
+template <typename T1>
+struct strip_inv<Op<T1, op_inv_sympd>> {
     typedef T1 stored_type;
 
     arma_hot inline strip_inv(const Op<T1, op_inv_sympd>& X)
-        : M(X.m)
-    {
+        : M(X.m) {
         arma_extra_debug_sigprint();
     }
 

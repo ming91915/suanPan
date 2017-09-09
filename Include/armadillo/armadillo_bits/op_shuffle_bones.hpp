@@ -16,23 +16,19 @@
 //! \addtogroup op_shuffle
 //! @{
 
-class op_shuffle
-{
+class op_shuffle {
 public:
     template <typename eT>
     inline static void apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim);
 
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_shuffle>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle>& in);
 };
 
-class op_shuffle_default
-{
+class op_shuffle_default {
 public:
     template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out,
-        const Op<T1, op_shuffle_default>& in);
+    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle_default>& in);
 };
 
 //! @}

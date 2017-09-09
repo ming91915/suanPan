@@ -17,24 +17,14 @@
 //! @{
 
 template <typename T1>
-inline bool svds_helper(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const SpBase<typename T1::elem_type, T1>& X,
-    const uword k,
-    const typename T1::pod_type tol,
-    const bool calc_UV,
-    const typename arma_real_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     typedef typename T1::elem_type eT;
     typedef typename T1::pod_type T;
 
-    arma_debug_check(
-        (((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))),
-        "svds(): two or more output objects are the same object");
+    arma_debug_check((((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))), "svds(): two or more output objects are the same object");
 
     arma_debug_check((tol < T(0)), "svds(): tol must be >= 0");
 
@@ -43,9 +33,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
     const uword kk = (std::min)((std::min)(A.n_rows, A.n_cols), k);
 
-    const T A_max = (A.n_nonzero > 0) ?
-        T(max(abs(Col<eT>(const_cast<eT*>(A.values), A.n_nonzero, false)))) :
-        T(0);
+    const T A_max = (A.n_nonzero > 0) ? T(max(abs(Col<eT>(const_cast<eT*>(A.values), A.n_nonzero, false)))) : T(0);
 
     if(A_max == T(0)) {
         // TODO: use reset instead ?
@@ -70,8 +58,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
         Col<eT> eigval;
         Mat<eT> eigvec;
 
-        const bool status =
-            sp_auxlib::eigs_sym(eigval, eigvec, C, kk, "la", (tol / Datum<T>::sqrt2));
+        const bool status = sp_auxlib::eigs_sym(eigval, eigvec, C, kk, "la", (tol / Datum<T>::sqrt2));
 
         if(status == false) {
             U.soft_reset();
@@ -94,9 +81,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
             const uword N_extra = (std::min)(indices2.n_elem, (kk - indices.n_elem));
 
-            if(N_extra > 0) {
-                indices = join_cols(indices, indices2.subvec(0, N_extra - 1));
-            }
+            if(N_extra > 0) { indices = join_cols(indices, indices2.subvec(0, N_extra - 1)); }
         }
 
         const uvec sorted_indices = sort_index(eigval, "descend");
@@ -106,36 +91,22 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
         if(calc_UV) {
             uvec U_row_indices(A.n_rows);
-            for(uword i = 0; i < A.n_rows; ++i) {
-                U_row_indices[i] = i;
-            }
+            for(uword i = 0; i < A.n_rows; ++i) { U_row_indices[i] = i; }
             uvec V_row_indices(A.n_cols);
-            for(uword i = 0; i < A.n_cols; ++i) {
-                V_row_indices[i] = i + A.n_rows;
-            }
+            for(uword i = 0; i < A.n_cols; ++i) { V_row_indices[i] = i + A.n_rows; }
 
             U = Datum<T>::sqrt2 * eigvec(U_row_indices, sorted_indices);
             V = Datum<T>::sqrt2 * eigvec(V_row_indices, sorted_indices);
         }
     }
 
-    if(S.n_elem < k) {
-        arma_debug_warn("svds(): found fewer singular values than specified");
-    }
+    if(S.n_elem < k) { arma_debug_warn("svds(): found fewer singular values than specified"); }
 
     return true;
 }
 
 template <typename T1>
-inline bool svds_helper(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const SpBase<typename T1::elem_type, T1>& X,
-    const uword k,
-    const typename T1::pod_type tol,
-    const bool calc_UV,
-    const typename arma_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -148,9 +119,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
         return false;
     }
 
-    arma_debug_check(
-        (((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))),
-        "svds(): two or more output objects are the same object");
+    arma_debug_check((((void*)(&U) == (void*)(&S)) || (&U == &V) || ((void*)(&S) == (void*)(&V))), "svds(): two or more output objects are the same object");
 
     arma_debug_check((tol < T(0)), "svds(): tol must be >= 0");
 
@@ -159,9 +128,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
     const uword kk = (std::min)((std::min)(A.n_rows, A.n_cols), k);
 
-    const T A_max = (A.n_nonzero > 0) ?
-        T(max(abs(Col<eT>(const_cast<eT*>(A.values), A.n_nonzero, false)))) :
-        T(0);
+    const T A_max = (A.n_nonzero > 0) ? T(max(abs(Col<eT>(const_cast<eT*>(A.values), A.n_nonzero, false)))) : T(0);
 
     if(A_max == T(0)) {
         // TODO: use reset instead ?
@@ -186,8 +153,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
         Col<eT> eigval_tmp;
         Mat<eT> eigvec;
 
-        const bool status =
-            sp_auxlib::eigs_gen(eigval_tmp, eigvec, C, kk, "lr", (tol / Datum<T>::sqrt2));
+        const bool status = sp_auxlib::eigs_gen(eigval_tmp, eigvec, C, kk, "lr", (tol / Datum<T>::sqrt2));
 
         if(status == false) {
             U.soft_reset();
@@ -212,9 +178,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
             const uword N_extra = (std::min)(indices2.n_elem, (kk - indices.n_elem));
 
-            if(N_extra > 0) {
-                indices = join_cols(indices, indices2.subvec(0, N_extra - 1));
-            }
+            if(N_extra > 0) { indices = join_cols(indices, indices2.subvec(0, N_extra - 1)); }
         }
 
         const uvec sorted_indices = sort_index(eigval, "descend");
@@ -224,22 +188,16 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 
         if(calc_UV) {
             uvec U_row_indices(A.n_rows);
-            for(uword i = 0; i < A.n_rows; ++i) {
-                U_row_indices[i] = i;
-            }
+            for(uword i = 0; i < A.n_rows; ++i) { U_row_indices[i] = i; }
             uvec V_row_indices(A.n_cols);
-            for(uword i = 0; i < A.n_cols; ++i) {
-                V_row_indices[i] = i + A.n_rows;
-            }
+            for(uword i = 0; i < A.n_cols; ++i) { V_row_indices[i] = i + A.n_rows; }
 
             U = Datum<T>::sqrt2 * eigvec(U_row_indices, sorted_indices);
             V = Datum<T>::sqrt2 * eigvec(V_row_indices, sorted_indices);
         }
     }
 
-    if(S.n_elem < k) {
-        arma_debug_warn("svds(): found fewer singular values than specified");
-    }
+    if(S.n_elem < k) { arma_debug_warn("svds(): found fewer singular values than specified"); }
 
     return true;
 }
@@ -247,34 +205,20 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U,
 //! find the k largest singular values and corresponding singular vectors of sparse matrix
 //! X
 template <typename T1>
-inline bool svds(Mat<typename T1::elem_type>& U,
-    Col<typename T1::pod_type>& S,
-    Mat<typename T1::elem_type>& V,
-    const SpBase<typename T1::elem_type, T1>& X,
-    const uword k,
-    const typename T1::pod_type tol = 0.0,
-    const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svds(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     const bool status = svds_helper(U, S, V, X.get_ref(), k, tol, true);
 
-    if(status == false) {
-        arma_debug_warn("svds(): decomposition failed");
-    }
+    if(status == false) { arma_debug_warn("svds(): decomposition failed"); }
 
     return status;
 }
 
 //! find the k largest singular values of sparse matrix X
 template <typename T1>
-inline bool svds(Col<typename T1::pod_type>& S,
-    const SpBase<typename T1::elem_type, T1>& X,
-    const uword k,
-    const typename T1::pod_type tol = 0.0,
-    const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+inline bool svds(Col<typename T1::pod_type>& S, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -283,21 +227,14 @@ inline bool svds(Col<typename T1::pod_type>& S,
 
     const bool status = svds_helper(U, S, V, X.get_ref(), k, tol, false);
 
-    if(status == false) {
-        arma_debug_warn("svds(): decomposition failed");
-    }
+    if(status == false) { arma_debug_warn("svds(): decomposition failed"); }
 
     return status;
 }
 
 //! find the k largest singular values of sparse matrix X
 template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> svds(
-    const SpBase<typename T1::elem_type, T1>& X,
-    const uword k,
-    const typename T1::pod_type tol = 0.0,
-    const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0)
-{
+arma_warn_unused inline Col<typename T1::pod_type> svds(const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -308,9 +245,7 @@ arma_warn_unused inline Col<typename T1::pod_type> svds(
 
     const bool status = svds_helper(U, S, V, X.get_ref(), k, tol, false);
 
-    if(status == false) {
-        arma_stop_runtime_error("svds(): decomposition failed");
-    }
+    if(status == false) { arma_stop_runtime_error("svds(): decomposition failed"); }
 
     return S;
 }

@@ -17,9 +17,7 @@
 //! @{
 
 template <typename T1, typename T2>
-arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_minus>& X)
-{
+arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -40,14 +38,10 @@ arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out,
 }
 
 template <typename eT, typename T1, typename T2>
-arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result,
-    const SpProxy<T1>& pa,
-    const SpProxy<T2>& pb)
-{
+arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     arma_extra_debug_sigprint();
 
-    arma_debug_assert_same_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(),
-        pb.get_n_cols(), "subtraction");
+    arma_debug_assert_same_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "subtraction");
 
     if((pa.get_n_nonzero() != 0) && (pb.get_n_nonzero() != 0)) {
         result.zeros(pa.get_n_rows(), pa.get_n_cols());
@@ -83,9 +77,7 @@ arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result,
                 const uword y_it_row = y_it.row();
                 const uword y_it_col = y_it.col();
 
-                if((x_it_col < y_it_col) ||
-                    ((x_it_col == y_it_col) &&
-                        (x_it_row < y_it_row))) // if y is closer to the end
+                if((x_it_col < y_it_col) || ((x_it_col == y_it_col) && (x_it_row < y_it_row))) // if y is closer to the end
                 {
                     const eT val = (*x_it);
 
@@ -113,9 +105,7 @@ arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result,
         }
 
         // Fix column pointers to be cumulative.
-        for(uword c = 1; c <= result.n_cols; ++c) {
-            access::rw(result.col_ptrs[c]) += result.col_ptrs[c - 1];
-        }
+        for(uword c = 1; c <= result.n_cols; ++c) { access::rw(result.col_ptrs[c]) += result.col_ptrs[c - 1]; }
     } else {
         if(pa.get_n_nonzero() == 0) {
             result = pb.Q;
@@ -136,9 +126,7 @@ arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result,
 // spglue_minus2: scalar*(A - B)
 
 template <typename T1, typename T2>
-arma_hot inline void spglue_minus2::apply(SpMat<typename T1::elem_type>& out,
-    const SpGlue<T1, T2, spglue_minus2>& X)
-{
+arma_hot inline void spglue_minus2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

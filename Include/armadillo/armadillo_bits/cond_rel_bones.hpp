@@ -19,16 +19,21 @@
 //
 // for preventing pedantic compiler warnings
 
-template <const bool do_eval> class cond_rel
-{
+template <const bool do_eval>
+class cond_rel {
 public:
-    template <typename eT> arma_inline static bool lt(const eT A, const eT B);
-    template <typename eT> arma_inline static bool gt(const eT A, const eT B);
+    template <typename eT>
+    arma_inline static bool lt(const eT A, const eT B);
+    template <typename eT>
+    arma_inline static bool gt(const eT A, const eT B);
 
-    template <typename eT> arma_inline static bool leq(const eT A, const eT B);
-    template <typename eT> arma_inline static bool geq(const eT A, const eT B);
+    template <typename eT>
+    arma_inline static bool leq(const eT A, const eT B);
+    template <typename eT>
+    arma_inline static bool geq(const eT A, const eT B);
 
-    template <typename eT> arma_inline static eT make_neg(const eT val);
+    template <typename eT>
+    arma_inline static eT make_neg(const eT val);
 };
 
 //! @}

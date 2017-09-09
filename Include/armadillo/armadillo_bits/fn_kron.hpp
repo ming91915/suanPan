@@ -17,18 +17,14 @@
 //! @{
 
 template <typename T1, typename T2>
-arma_warn_unused arma_inline const Glue<T1, T2, glue_kron>
-kron(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B)
-{
+arma_warn_unused arma_inline const Glue<T1, T2, glue_kron> kron(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_kron>(A.get_ref(), B.get_ref());
 }
 
 template <typename T, typename T1, typename T2>
-arma_warn_unused inline Mat<typename eT_promoter<T1, T2>::eT>
-kron(const Base<std::complex<T>, T1>& X, const Base<T, T2>& Y)
-{
+arma_warn_unused inline Mat<typename eT_promoter<T1, T2>::eT> kron(const Base<std::complex<T>, T1>& X, const Base<T, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT1;
@@ -49,9 +45,7 @@ kron(const Base<std::complex<T>, T1>& X, const Base<T, T2>& Y)
 }
 
 template <typename T, typename T1, typename T2>
-arma_warn_unused inline Mat<typename eT_promoter<T1, T2>::eT> kron(const Base<T, T1>& X,
-    const Base<std::complex<T>, T2>& Y)
-{
+arma_warn_unused inline Mat<typename eT_promoter<T1, T2>::eT> kron(const Base<T, T1>& X, const Base<std::complex<T>, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT2;

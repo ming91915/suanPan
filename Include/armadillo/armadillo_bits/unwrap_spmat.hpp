@@ -16,26 +16,26 @@
 //! \addtogroup unwrap_spmat
 //! @{
 
-template <typename T1> struct unwrap_spmat {
+template <typename T1>
+struct unwrap_spmat {
     typedef typename T1::elem_type eT;
 
     typedef SpMat<eT> stored_type;
 
     inline unwrap_spmat(const T1& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
     }
 
     const SpMat<eT> M;
 };
 
-template <typename eT> struct unwrap_spmat<SpMat<eT>> {
+template <typename eT>
+struct unwrap_spmat<SpMat<eT>> {
     typedef SpMat<eT> stored_type;
 
     inline unwrap_spmat(const SpMat<eT>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
 
         M.sync();
@@ -44,12 +44,12 @@ template <typename eT> struct unwrap_spmat<SpMat<eT>> {
     const SpMat<eT>& M;
 };
 
-template <typename eT> struct unwrap_spmat<SpRow<eT>> {
+template <typename eT>
+struct unwrap_spmat<SpRow<eT>> {
     typedef SpRow<eT> stored_type;
 
     inline unwrap_spmat(const SpRow<eT>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
 
         M.sync();
@@ -58,12 +58,12 @@ template <typename eT> struct unwrap_spmat<SpRow<eT>> {
     const SpRow<eT>& M;
 };
 
-template <typename eT> struct unwrap_spmat<SpCol<eT>> {
+template <typename eT>
+struct unwrap_spmat<SpCol<eT>> {
     typedef SpCol<eT> stored_type;
 
     inline unwrap_spmat(const SpCol<eT>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
 
         M.sync();
@@ -72,14 +72,14 @@ template <typename eT> struct unwrap_spmat<SpCol<eT>> {
     const SpCol<eT>& M;
 };
 
-template <typename T1, typename spop_type> struct unwrap_spmat<SpOp<T1, spop_type>> {
+template <typename T1, typename spop_type>
+struct unwrap_spmat<SpOp<T1, spop_type>> {
     typedef typename T1::elem_type eT;
 
     typedef SpMat<eT> stored_type;
 
     inline unwrap_spmat(const SpOp<T1, spop_type>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
     }
 
@@ -93,8 +93,7 @@ struct unwrap_spmat<SpGlue<T1, T2, spglue_type>> {
     typedef SpMat<eT> stored_type;
 
     inline unwrap_spmat(const SpGlue<T1, T2, spglue_type>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
     }
 
@@ -106,8 +105,7 @@ struct unwrap_spmat<mtSpOp<out_eT, T1, spop_type>> {
     typedef SpMat<out_eT> stored_type;
 
     inline unwrap_spmat(const mtSpOp<out_eT, T1, spop_type>& A)
-        : M(A)
-    {
+        : M(A) {
         arma_extra_debug_sigprint();
     }
 

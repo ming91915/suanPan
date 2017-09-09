@@ -16,12 +16,10 @@
 //! \addtogroup herk
 //! @{
 
-class herk_helper
-{
+class herk_helper {
 public:
     template <typename eT>
-    inline static void inplace_conj_copy_upper_tri_to_lower_tri(Mat<eT>& C)
-    {
+    inline static void inplace_conj_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
         // under the assumption that C is a square matrix
 
         const uword N = C.n_rows;
@@ -29,16 +27,12 @@ public:
         for(uword k = 0; k < N; ++k) {
             eT* colmem = C.colptr(k);
 
-            for(uword i = (k + 1); i < N; ++i) {
-                colmem[i] = std::conj(C.at(k, i));
-            }
+            for(uword i = (k + 1); i < N; ++i) { colmem[i] = std::conj(C.at(k, i)); }
         }
     }
 
     template <typename eT>
-    static arma_hot inline eT
-    dot_conj_row(const uword n_elem, const eT* const A, const Mat<eT>& B, const uword row)
-    {
+    static arma_hot inline eT dot_conj_row(const uword n_elem, const eT* const A, const Mat<eT>& B, const uword row) {
         arma_extra_debug_sigprint();
 
         typedef typename get_pod_type<eT>::result T;
@@ -64,16 +58,11 @@ public:
     }
 };
 
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class herk_vec
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class herk_vec {
 public:
     template <typename T, typename TA>
-    arma_hot inline static void
-    apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0))
-    {
+    arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         typedef std::complex<T> eT;
@@ -110,28 +99,20 @@ public:
 
                         if((use_alpha == false) && (use_beta == false)) {
                             C.at(row_A, k) = acc;
-                            if(row_A != k) {
-                                C.at(k, row_A) = std::conj(acc);
-                            }
+                            if(row_A != k) { C.at(k, row_A) = std::conj(acc); }
                         } else if((use_alpha == true) && (use_beta == false)) {
                             const eT val = alpha * acc;
 
                             C.at(row_A, k) = val;
-                            if(row_A != k) {
-                                C.at(k, row_A) = std::conj(val);
-                            }
+                            if(row_A != k) { C.at(k, row_A) = std::conj(val); }
                         } else if((use_alpha == false) && (use_beta == true)) {
                             C.at(row_A, k) = acc + beta * C.at(row_A, k);
-                            if(row_A != k) {
-                                C.at(k, row_A) = std::conj(acc) + beta * C.at(k, row_A);
-                            }
+                            if(row_A != k) { C.at(k, row_A) = std::conj(acc) + beta * C.at(k, row_A); }
                         } else if((use_alpha == true) && (use_beta == true)) {
                             const eT val = alpha * acc;
 
                             C.at(row_A, k) = val + beta * C.at(row_A, k);
-                            if(row_A != k) {
-                                C.at(k, row_A) = std::conj(val) + beta * C.at(k, row_A);
-                            }
+                            if(row_A != k) { C.at(k, row_A) = std::conj(val) + beta * C.at(k, row_A); }
                         }
                     }
                 }
@@ -159,28 +140,20 @@ public:
 
                         if((use_alpha == false) && (use_beta == false)) {
                             C.at(col_A, k) = acc;
-                            if(col_A != k) {
-                                C.at(k, col_A) = std::conj(acc);
-                            }
+                            if(col_A != k) { C.at(k, col_A) = std::conj(acc); }
                         } else if((use_alpha == true) && (use_beta == false)) {
                             const eT val = alpha * acc;
 
                             C.at(col_A, k) = val;
-                            if(col_A != k) {
-                                C.at(k, col_A) = std::conj(val);
-                            }
+                            if(col_A != k) { C.at(k, col_A) = std::conj(val); }
                         } else if((use_alpha == false) && (use_beta == true)) {
                             C.at(col_A, k) = acc + beta * C.at(col_A, k);
-                            if(col_A != k) {
-                                C.at(k, col_A) = std::conj(acc) + beta * C.at(k, col_A);
-                            }
+                            if(col_A != k) { C.at(k, col_A) = std::conj(acc) + beta * C.at(k, col_A); }
                         } else if((use_alpha == true) && (use_beta == true)) {
                             const eT val = alpha * acc;
 
                             C.at(col_A, k) = val + beta * C.at(col_A, k);
-                            if(col_A != k) {
-                                C.at(k, col_A) = std::conj(val) + beta * C.at(k, col_A);
-                            }
+                            if(col_A != k) { C.at(k, col_A) = std::conj(val) + beta * C.at(k, col_A); }
                         }
                     }
                 }
@@ -188,16 +161,11 @@ public:
     }
 };
 
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class herk_emul
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class herk_emul {
 public:
     template <typename T, typename TA>
-    arma_hot inline static void
-    apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0))
-    {
+    arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         typedef std::complex<T> eT;
@@ -225,28 +193,20 @@ public:
 
                     if((use_alpha == false) && (use_beta == false)) {
                         C.at(col_A, k) = acc;
-                        if(col_A != k) {
-                            C.at(k, col_A) = std::conj(acc);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = std::conj(acc); }
                     } else if((use_alpha == true) && (use_beta == false)) {
                         const eT val = alpha * acc;
 
                         C.at(col_A, k) = val;
-                        if(col_A != k) {
-                            C.at(k, col_A) = std::conj(val);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = std::conj(val); }
                     } else if((use_alpha == false) && (use_beta == true)) {
                         C.at(col_A, k) = acc + beta * C.at(col_A, k);
-                        if(col_A != k) {
-                            C.at(k, col_A) = std::conj(acc) + beta * C.at(k, col_A);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = std::conj(acc) + beta * C.at(k, col_A); }
                     } else if((use_alpha == true) && (use_beta == true)) {
                         const eT val = alpha * acc;
 
                         C.at(col_A, k) = val + beta * C.at(col_A, k);
-                        if(col_A != k) {
-                            C.at(k, col_A) = std::conj(val) + beta * C.at(k, col_A);
-                        }
+                        if(col_A != k) { C.at(k, col_A) = std::conj(val) + beta * C.at(k, col_A); }
                     }
                 }
             }
@@ -254,18 +214,11 @@ public:
     }
 };
 
-template <const bool do_trans_A = false,
-    const bool use_alpha = false,
-    const bool use_beta = false>
-class herk
-{
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
+class herk {
 public:
     template <typename T, typename TA>
-    inline static void apply_blas_type(Mat<std::complex<T>>& C,
-        const TA& A,
-        const T alpha = T(1),
-        const T beta = T(0))
-    {
+    inline static void apply_blas_type(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         const uword threshold = 16;
@@ -300,11 +253,7 @@ public:
                     return;
                 }
 
-                atlas::cblas_herk<T>(atlas::CblasColMajor, atlas::CblasUpper,
-                    (do_trans_A) ? CblasConjTrans : atlas::CblasNoTrans, C.n_cols,
-                    (do_trans_A) ? A.n_rows : A.n_cols, (use_alpha) ? alpha : T(1), A.mem,
-                    (do_trans_A) ? A.n_rows : C.n_cols, (use_beta) ? beta : T(0),
-                    C.memptr(), C.n_cols);
+                atlas::cblas_herk<T>(atlas::CblasColMajor, atlas::CblasUpper, (do_trans_A) ? CblasConjTrans : atlas::CblasNoTrans, C.n_cols, (do_trans_A) ? A.n_rows : A.n_cols, (use_alpha) ? alpha : T(1), A.mem, (do_trans_A) ? A.n_rows : C.n_cols, (use_beta) ? beta : T(0), C.memptr(), C.n_cols);
 
                 herk_helper::inplace_conj_copy_upper_tri_to_lower_tri(C);
             }
@@ -340,31 +289,22 @@ public:
 
                 const blas_int lda = (do_trans_A) ? k : n;
 
-                arma_extra_debug_print(
-                    arma_str::format("blas::herk(): trans_A = %c") % trans_A);
+                arma_extra_debug_print(arma_str::format("blas::herk(): trans_A = %c") % trans_A);
 
-                blas::herk<T>(&uplo, &trans_A, &n, &k, &local_alpha, A.mem, &lda,
-                    &local_beta, C.memptr(),
+                blas::herk<T>(&uplo, &trans_A, &n, &k, &local_alpha, A.mem, &lda, &local_beta, C.memptr(),
                     &n // &ldc
-                    );
+                );
 
                 herk_helper::inplace_conj_copy_upper_tri_to_lower_tri(C);
             }
 #else
-            {
-                herk_emul<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta);
-            }
+            { herk_emul<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta); }
 #endif
         }
     }
 
     template <typename eT, typename TA>
-    inline static void apply(Mat<eT>& C,
-        const TA& A,
-        const eT alpha = eT(1),
-        const eT beta = eT(0),
-        const typename arma_not_cx<eT>::result* junk = 0)
-    {
+    inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_not_cx<eT>::result* junk = 0) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);
@@ -377,20 +317,12 @@ public:
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float>>& C,
-        const TA& A,
-        const float alpha = float(1),
-        const float beta = float(0))
-    {
+    arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) {
         herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
     }
 
     template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double>>& C,
-        const TA& A,
-        const double alpha = double(1),
-        const double beta = double(0))
-    {
+    arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) {
         herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
     }
 };
