@@ -75,9 +75,9 @@ public:
     typename unordered_map<unsigned, shared_ptr<T>>::iterator end() { return pond.end(); }
 
     bool insert(const shared_ptr<T>& I) {
-        auto flag = pond.insert({ I->get_tag(), I });
-        if(!flag.second) suanpan_warning("insert() fails to insert %s %u.\n", type_string, I->get_tag());
-        return flag.second;
+        auto flag = pond.insert({ I->get_tag(), I }).second;
+        if(!flag) suanpan_warning("insert() fails to insert %s %u.\n", type_string, I->get_tag());
+        return flag;
     }
     shared_ptr<T>& operator[](const unsigned& L) { return pond[L]; }
     const shared_ptr<T>& at(const unsigned& L) const { return pond.at(L); }

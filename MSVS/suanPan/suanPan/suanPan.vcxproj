@@ -244,6 +244,7 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\operator_times.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
+    <ClInclude Include="..\..\..\Domain\Storage.hpp" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Domain\Workshop.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />

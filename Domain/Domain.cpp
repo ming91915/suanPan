@@ -69,6 +69,7 @@ int Domain::initialize() {
     auto idx_rcm = RCM(adjacency_sorted, num_degree);
     uvec idx_sorted = sort_index(idx_rcm);
 
+    // GET BANDWODTH
     auto low_bw = 1, up_bw = 1;
     for(unsigned i = 0; i < dof_counter; ++i) {
         for(const auto& j : adjacency[idx_rcm(i)]) {
@@ -112,6 +113,7 @@ void Domain::process(const unsigned& ST) {
     constrained_dofs.clear();
 
     get_trial_load(workroom).zeros();
+    get_trial_load(factory).zeros();
 
     for(const auto& I : load_pond.get())
         if(I->get_step_tag() <= ST) I->process(shared_from_this());
@@ -233,16 +235,22 @@ bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(
 void Domain::update_resistance() const {
     workroom->clear_resistance();
     for(const auto& I : element_pond.get()) workroom->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    factory->clear_resistance();
+    for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::update_mass() const {
     workroom->clear_mass();
     for(const auto& I : element_pond.get()) workroom->assemble_mass(I->get_mass(), I->get_dof_encoding());
+    factory->clear_mass();
+    for(const auto& I : element_pond.get()) factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::update_initial_stiffness() const {
     workroom->clear_stiffness();
     for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
+    factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_stiffness() const {
@@ -255,11 +263,19 @@ void Domain::update_stiffness() const {
 void Domain::update_damping() const {
     workroom->clear_damping();
     for(const auto& I : element_pond.get()) workroom->assemble_damping(I->get_damping(), I->get_dof_encoding());
+    factory->clear_damping();
+    for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
-void Domain::update_trial_time(const double& T) const { workroom->update_trial_time(T); }
+void Domain::update_trial_time(const double& T) const {
+    workroom->update_trial_time(T);
+    factory->update_trial_time(T);
+}
 
-void Domain::update_incre_time(const double& T) const { workroom->update_incre_time(T); }
+void Domain::update_incre_time(const double& T) const {
+    workroom->update_incre_time(T);
+    factory->update_incre_time(T);
+}
 
 void Domain::update_trial_status() const {
     auto& trial_dsp = workroom->get_trial_displacement();
@@ -329,6 +345,7 @@ void Domain::update_incre_status() const {
 
 void Domain::commit_status() const {
     workroom->commit_status();
+    factory->commit_status();
 
 #ifdef SUANPAN_OPENMP
     auto& tmp_pond_n = node_pond.get();
@@ -346,6 +363,7 @@ void Domain::commit_status() const {
 
 void Domain::clear_status() const {
     workroom->clear_status();
+    factory->clear_status();
 
 #ifdef SUANPAN_OPENMP
     auto& tmp_pond_n = node_pond.get();
@@ -369,6 +387,7 @@ void Domain::clear_status() const {
 
 void Domain::reset_status() const {
     workroom->reset_status();
+    factory->reset_status();
 
 #ifdef SUANPAN_OPENMP
     auto& tmp_pond_n = node_pond.get();
@@ -389,20 +408,11 @@ void Domain::reset_status() const {
 #endif
 }
 
-bool Domain::insert_loaded_dof(const unsigned& T) {
-    auto R = loaded_dofs.insert(T);
-    return R.second;
-}
+bool Domain::insert_loaded_dof(const unsigned& T) { return loaded_dofs.insert(T).second; }
 
-bool Domain::insert_restrained_dof(const unsigned& T) {
-    auto R = restrained_dofs.insert(T);
-    return R.second;
-}
+bool Domain::insert_restrained_dof(const unsigned& T) { return restrained_dofs.insert(T).second; }
 
-bool Domain::insert_constrained_dof(const unsigned& T) {
-    auto R = constrained_dofs.insert(T);
-    return R.second;
-}
+bool Domain::insert_constrained_dof(const unsigned& T) { return constrained_dofs.insert(T).second; }
 
 const unordered_set<unsigned>& Domain::get_loaded_dof() const { return loaded_dofs; }
 

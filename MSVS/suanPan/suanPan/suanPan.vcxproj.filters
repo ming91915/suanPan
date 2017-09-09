@@ -413,5 +413,8 @@
     <ClInclude Include="..\..\..\Domain\Factory.hpp">
       <Filter>Template</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Storage.hpp">
+      <Filter>Template</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
