@@ -284,11 +284,11 @@ void Node::reset_status() {
 }
 
 /**
-* \brief The method tests each status variable before filling it by
-* zeros. For any of
-* them, empty means it is not used in analysis, then just keeps it
-* unchanged.
-*/
+ * \brief The method tests each status variable before filling it by
+ * zeros. For any of
+ * them, empty means it is not used in analysis, then just keeps it
+ * unchanged.
+ */
 void Node::clear_status() {
     if(!current_displacement.is_empty()) {
         current_displacement.zeros();

@@ -1,14 +1,14 @@
 /**
-* @class NodeRecorder
-* @brief A NodeRecorder class.
-*
-* @author T
-* @date 24/08/2017
-* @version 0.1.0
-* @file NodeRecorder.h
-* @addtogroup Recorder
-* @{
-*/
+ * @class NodeRecorder
+ * @brief A NodeRecorder class.
+ *
+ * @author T
+ * @date 24/08/2017
+ * @version 0.1.0
+ * @file NodeRecorder.h
+ * @addtogroup Recorder
+ * @{
+ */
 
 #ifndef NODERECORDER_H
 #define NODERECORDER_H

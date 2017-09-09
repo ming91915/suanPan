@@ -1,14 +1,14 @@
 /**
-* @class CP3
-* @brief The CP3 class defines CPS3 CPE3 elements.
-* @author T
-* @date 05/09/2017
-* @version 0.1.1
-* @file CP3.h
-* @addtogroup Membrane
-* @ingroup Element
-* @{
-*/
+ * @class CP3
+ * @brief The CP3 class defines CPS3 CPE3 elements.
+ * @author T
+ * @date 05/09/2017
+ * @version 0.1.1
+ * @file CP3.h
+ * @addtogroup Membrane
+ * @ingroup Element
+ * @{
+ */
 
 #ifndef CP3_H
 #define CP3_H

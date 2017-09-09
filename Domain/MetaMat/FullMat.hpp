@@ -1,14 +1,14 @@
 /**
-* @class FullMat
-* @brief A FullMat class that holds matrices.
-*
-* @author T
-* @date 06/09/2017
-* @version 0.1.0
-* @file FullMat.hpp
-* @addtogroup MetaMat
-* @{
-*/
+ * @class FullMat
+ * @brief A FullMat class that holds matrices.
+ *
+ * @author T
+ * @date 06/09/2017
+ * @version 0.1.0
+ * @file FullMat.hpp
+ * @addtogroup MetaMat
+ * @{
+ */
 
 #ifndef FULLMAT_HPP
 #define FULLMAT_HPP

@@ -1,14 +1,14 @@
 /**
-* @class SymmPackMat
-* @brief A SymmPackMat class that holds matrices.
-*
-* @author T
-* @date 06/09/2017
-* @version 0.1.0
-* @file SymmPackMat.hpp
-* @addtogroup MetaMat
-* @{
-*/
+ * @class SymmPackMat
+ * @brief A SymmPackMat class that holds matrices.
+ *
+ * @author T
+ * @date 06/09/2017
+ * @version 0.1.0
+ * @file SymmPackMat.hpp
+ * @addtogroup MetaMat
+ * @{
+ */
 
 #ifndef SYMMPACKMAT_HPP
 #define SYMMPACKMAT_HPP

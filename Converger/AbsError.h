@@ -1,20 +1,20 @@
 /**
-* @class AbsError
-* @brief The AbsError class that handles converger test to indicate if the iteration converges.
-*
-* The criterion:
-* \f{gather}{
-* e<E,
-* \f}
-* where \f$E\f$ is the tolerance and \f$e\f$ is the error provided by the Workshop.
-*
-* @author T
-* @date 08/08/2017
-* @version 0.2.0
-* @file AbsError.h
-* @addtogroup Converger
-* @{
-*/
+ * @class AbsError
+ * @brief The AbsError class that handles converger test to indicate if the iteration converges.
+ *
+ * The criterion:
+ * \f{gather}{
+ * e<E,
+ * \f}
+ * where \f$E\f$ is the tolerance and \f$e\f$ is the error provided by the Workshop.
+ *
+ * @author T
+ * @date 08/08/2017
+ * @version 0.2.0
+ * @file AbsError.h
+ * @addtogroup Converger
+ * @{
+ */
 
 #ifndef ABSERROR_H
 #define ABSERROR_H

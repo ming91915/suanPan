@@ -1,13 +1,13 @@
 /**
-* @class RelIncreDisp
-* @brief The RelIncreDisp class that handles converger test to indicate if the iteration converges.
-* @author T
-* @date 08/08/2017
-* @version 0.2.0
-* @file RelIncreDisp.h
-* @addtogroup Converger
-* @{
-*/
+ * @class RelIncreDisp
+ * @brief The RelIncreDisp class that handles converger test to indicate if the iteration converges.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.2.0
+ * @file RelIncreDisp.h
+ * @addtogroup Converger
+ * @{
+ */
 
 #ifndef RELINCREDISP_H
 #define RELINCREDISP_H

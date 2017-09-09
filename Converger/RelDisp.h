@@ -1,13 +1,13 @@
 /**
-* @class RelDisp
-* @brief The RelDisp class that handles converger test to indicate if the iteration converges.
-* @author T
-* @date 08/08/2017
-* @version 0.2.0
-* @file RelDisp.h
-* @addtogroup Converger
-* @{
-*/
+ * @class RelDisp
+ * @brief The RelDisp class that handles converger test to indicate if the iteration converges.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.2.0
+ * @file RelDisp.h
+ * @addtogroup Converger
+ * @{
+ */
 
 #ifndef RELDISP_H
 #define RELDISP_H

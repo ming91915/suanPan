@@ -1,13 +1,13 @@
 /**
-* @class Material
-* @brief A Material abstract base class.
-* @author T
-* @date 27/07/2017
-* @version 0.1.0
-* @file Material.h
-* @addtogroup Material
-* @{
-*/
+ * @class Material
+ * @brief A Material abstract base class.
+ * @author T
+ * @date 27/07/2017
+ * @version 0.1.0
+ * @file Material.h
+ * @addtogroup Material
+ * @{
+ */
 
 #ifndef MATERIAL_H
 #define MATERIAL_H

@@ -1,11 +1,11 @@
 /**
-* @class Bead
-* @brief A Bead class is a top level container.
-* @author T
-* @date 27/08/2017
-* @version 0.2.1
-* @file Bead.h
-*/
+ * @class Bead
+ * @brief A Bead class is a top level container.
+ * @author T
+ * @date 27/08/2017
+ * @version 0.2.1
+ * @file Bead.h
+ */
 
 #ifndef BEAD_H
 #define BEAD_H
@@ -19,8 +19,8 @@ class Solver;
 class Converger;
 class Step;
 
-using std::unordered_map;
 using std::map;
+using std::unordered_map;
 
 class Bead {
     unsigned current_domain = 1;

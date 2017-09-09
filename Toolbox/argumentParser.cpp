@@ -4,8 +4,8 @@
 #include <Toolbox/utility.h>
 #include <suanPan.h>
 
-using std::string;
 using std::ofstream;
+using std::string;
 
 void argument_parser(int argc, char** argv) {
     string input_file_name = "";

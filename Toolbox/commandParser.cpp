@@ -16,8 +16,8 @@
 #include <Step/Static.h>
 #include <Toolbox/utility.h>
 
-using std::string;
 using std::ifstream;
+using std::string;
 using std::vector;
 
 int process_command(const shared_ptr<Bead>& model, istringstream& command) {

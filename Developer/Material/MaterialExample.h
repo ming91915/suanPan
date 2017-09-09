@@ -1,14 +1,14 @@
 ﻿/**
-* @class MaterialExample
-* @brief A MaterialExample material class.
-* @author T
-* @date 23/08/2017
-* @version 0.1.0
-* @file MaterialExample.h
-* @addtogroup Material-1D
-* @ingroup Material
-* @{
-*/
+ * @class MaterialExample
+ * @brief A MaterialExample material class.
+ * @author T
+ * @date 23/08/2017
+ * @version 0.1.0
+ * @file MaterialExample.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef MaterialExample_H
 #define MaterialExample_H

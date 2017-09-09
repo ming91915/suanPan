@@ -257,8 +257,9 @@ void BandMat<eT>::init_warm(const uword& in_size, const uword& in_l, const uword
     if(old_n_elem == new_n_elem) {
         arma_extra_debug_print("BandMat::init(): reusing memory");
     } else {
-        arma_debug_check(t_mem_state == 2, "BandMat::init(): mismatch between size of "
-                                           "auxiliary memory and requested size");
+        arma_debug_check(t_mem_state == 2,
+            "BandMat::init(): mismatch between size of "
+            "auxiliary memory and requested size");
 
         if(new_n_elem < old_n_elem) {
             if(t_mem_state == 0 && new_n_elem <= arma_config::mat_prealloc) {

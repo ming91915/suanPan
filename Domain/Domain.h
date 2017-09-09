@@ -1,12 +1,12 @@
 /**
-* @class Domain
-* @brief A Domain class holds all FE model components.
-* @author T
-* @date 27/07/2017
-* @version 0.2.0
-* @file Domain.h
-* @{
-*/
+ * @class Domain
+ * @brief A Domain class holds all FE model components.
+ * @author T
+ * @date 27/07/2017
+ * @version 0.2.0
+ * @file Domain.h
+ * @{
+ */
 
 #ifndef DOMAIN_H
 #define DOMAIN_H

@@ -1,13 +1,13 @@
 /**
-* @class RelError
-* @brief The RelError class that handles converger test to indicate if the iteration converges.
-* @author T
-* @date 08/08/2017
-* @version 0.2.0
-* @file RelError.h
-* @addtogroup Converger
-* @{
-*/
+ * @class RelError
+ * @brief The RelError class that handles converger test to indicate if the iteration converges.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.2.0
+ * @file RelError.h
+ * @addtogroup Converger
+ * @{
+ */
 
 #ifndef RELERROR_H
 #define RELERROR_H

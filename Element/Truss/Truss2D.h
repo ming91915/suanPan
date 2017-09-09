@@ -1,17 +1,17 @@
 /**
-* @class Truss2D
-* @brief The Truss2D class handles both linear and nonlinear problems by
-* using a
-* corotational
-* transformation.
-* @author T
-* @date 14/08/2017
-* @version 0.1.1
-* @file Truss2D.h
-* @addtogroup Truss
-* @ingroup Element
-* @{
-*/
+ * @class Truss2D
+ * @brief The Truss2D class handles both linear and nonlinear problems by
+ * using a
+ * corotational
+ * transformation.
+ * @author T
+ * @date 14/08/2017
+ * @version 0.1.1
+ * @file Truss2D.h
+ * @addtogroup Truss
+ * @ingroup Element
+ * @{
+ */
 
 #ifndef TRUSS2D_H
 #define TRUSS2D_H

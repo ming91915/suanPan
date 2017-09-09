@@ -1,13 +1,13 @@
 /**
-* @class Elastic1D
-* @brief A 1-D Elastic class.
-* @author T
-* @date 27/07/2017
-* @file Elastic1D.h
-* @addtogroup Material-1D
-* @ingroup Material
-* @{
-*/
+ * @class Elastic1D
+ * @brief A 1-D Elastic class.
+ * @author T
+ * @date 27/07/2017
+ * @file Elastic1D.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef ELASTIC1D_H
 #define ELASTIC1D_H

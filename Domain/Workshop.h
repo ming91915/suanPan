@@ -55,10 +55,10 @@ class Workshop final {
     vec incre_load;         /**< global incremental load vector */
     vec incre_resistance;   /**< global incremental resistance vector */
     vec incre_displacement; /**< global incremental displacement vector
-                               */
+                             */
     vec incre_velocity;     /**< global incremental velocity vector */
     vec incre_acceleration; /**< global incremental acceleration vector
-                               */
+                             */
     vec incre_temperature;  /**< global incremental temperature vector */
 
     vec current_load;         /**< global current load vector */

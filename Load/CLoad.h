@@ -1,13 +1,13 @@
 /**
-* @class CLoad
-* @brief A CLoad class.
-*
-* The CLoad class is in charge of handling concentrated load.
-*
-* @author T
-* @date 23/07/2017
-* @file CLoad.h
-*/
+ * @class CLoad
+ * @brief A CLoad class.
+ *
+ * The CLoad class is in charge of handling concentrated load.
+ *
+ * @author T
+ * @date 23/07/2017
+ * @file CLoad.h
+ */
 
 #ifndef CLOAD_H
 #define CLOAD_H

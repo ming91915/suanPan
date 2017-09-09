@@ -1,18 +1,18 @@
 /**
-* @class ODE_Solver
-* @brief A ODE_Solver class.
-*
-* The ODE_Solver object stores ODE system status and calls an ODE object
-* to get trial
-* status.
-*
-* @author T
-* @date 16/07/2017
-* @version 0.1.0
-* @file ODE_Solver.h
-* @addtogroup ODE_Solver
-* @{
-*/
+ * @class ODE_Solver
+ * @brief A ODE_Solver class.
+ *
+ * The ODE_Solver object stores ODE system status and calls an ODE object
+ * to get trial
+ * status.
+ *
+ * @author T
+ * @date 16/07/2017
+ * @version 0.1.0
+ * @file ODE_Solver.h
+ * @addtogroup ODE_Solver
+ * @{
+ */
 
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H

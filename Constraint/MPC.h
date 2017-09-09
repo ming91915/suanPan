@@ -1,14 +1,14 @@
 /**
-* @class MPC
-* @brief A MPC class.
-*
-* @author T
-* @date 05/09/2017
-* @version 0.1.0
-* @file MPC.h
-* @addtogroup Constraint
-* @{
-*/
+ * @class MPC
+ * @brief A MPC class.
+ *
+ * @author T
+ * @date 05/09/2017
+ * @version 0.1.0
+ * @file MPC.h
+ * @addtogroup Constraint
+ * @{
+ */
 
 #ifndef MPC_H
 #define MPC_H

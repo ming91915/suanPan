@@ -1,17 +1,17 @@
 /**
-* @class QE2
-* @brief A QE2 class.
-*
-* [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
-*
-* @author T
-* @date 30/07/2017
-* @version 0.1.0
-* @file QE2.h
-* @addtogroup Membrane
-* @ingroup Element
-* @{
-*/
+ * @class QE2
+ * @brief A QE2 class.
+ *
+ * [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
+ *
+ * @author T
+ * @date 30/07/2017
+ * @version 0.1.0
+ * @file QE2.h
+ * @addtogroup Membrane
+ * @ingroup Element
+ * @{
+ */
 
 #ifndef QE2_H
 #define QE2_H

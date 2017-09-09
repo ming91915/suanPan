@@ -51,15 +51,15 @@ void Converger::set_max_iteration(const unsigned& M) { max_iteration = M; }
 const unsigned& Converger::get_max_iteration() const { return max_iteration; }
 
 /**
-* \brief Method to set `domain`.
-* \param D `domain`
-*/
+ * \brief Method to set `domain`.
+ * \param D `domain`
+ */
 void Converger::set_domain(const shared_ptr<Domain>& D) { database = D; }
 
 /**
-* \brief Method to return `domain`.
-* \return `domain`
-*/
+ * \brief Method to return `domain`.
+ * \return `domain`
+ */
 const shared_ptr<Domain>& Converger::get_domain() const { return database; }
 
 /**

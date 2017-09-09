@@ -1,23 +1,23 @@
 /**
-* @class Newmark
-* @brief A Newmark class defines a solver using Newmark algorithm.
-*
-* `Newmark` algorithm is unconditionally stable if
-* \f{gather}{\alpha\geq\dfrac{1}{4}\left(\dfrac{1}{2}+\beta\right)^2,\qquad\beta\geq\dfrac{1}{2}\f}.
-*
-* There are several choices for solver parameters.
-*
-* Constant Acceleration:
-* \f{gather}{\alpha=\dfrac{1}{4},\qquad\beta=\dfrac{1}{2}\f}.
-*
-* Linear Acceleration:
-* \f{gather}{\alpha=\dfrac{1}{6},\qquad\beta=\dfrac{1}{2}\f}.
-*
-* @author T
-* @date 25/08/2017
-* @version 0.1.1
-* @file Newmark.h
-*/
+ * @class Newmark
+ * @brief A Newmark class defines a solver using Newmark algorithm.
+ *
+ * `Newmark` algorithm is unconditionally stable if
+ * \f{gather}{\alpha\geq\dfrac{1}{4}\left(\dfrac{1}{2}+\beta\right)^2,\qquad\beta\geq\dfrac{1}{2}\f}.
+ *
+ * There are several choices for solver parameters.
+ *
+ * Constant Acceleration:
+ * \f{gather}{\alpha=\dfrac{1}{4},\qquad\beta=\dfrac{1}{2}\f}.
+ *
+ * Linear Acceleration:
+ * \f{gather}{\alpha=\dfrac{1}{6},\qquad\beta=\dfrac{1}{2}\f}.
+ *
+ * @author T
+ * @date 25/08/2017
+ * @version 0.1.1
+ * @file Newmark.h
+ */
 
 #ifndef NEWMARK_H
 #define NEWMARK_H

@@ -1,14 +1,14 @@
 /**
-* @class ExternalModule
-* @brief A ExternalModule class handles communication between the main program and external library.
-*
-* @author T
-* @date 14/08/2017
-* @version 0.1.0
-* @file ExternalModule.h
-* @addtogroup Utility
-* @{
-*/
+ * @class ExternalModule
+ * @brief A ExternalModule class handles communication between the main program and external library.
+ *
+ * @author T
+ * @date 14/08/2017
+ * @version 0.1.0
+ * @file ExternalModule.h
+ * @addtogroup Utility
+ * @{
+ */
 
 #ifndef EXTERNALMODULE_H
 #define EXTERNALMODULE_H
@@ -23,8 +23,8 @@
 class Element;
 class Material;
 
-using std::string;
 using std::istringstream;
+using std::string;
 
 class ExternalModule {
     string library_name;

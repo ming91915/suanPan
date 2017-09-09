@@ -1,12 +1,12 @@
 /**
-* @class Storage
-* @brief A candidate Storage class that stores FEM objects.
-* @author T
-* @date 05/09/2017
-* @version 0.2.1
-* @file Storage.hpp
-* @{
-*/
+ * @class Storage
+ * @brief A candidate Storage class that stores FEM objects.
+ * @author T
+ * @date 05/09/2017
+ * @version 0.2.1
+ * @file Storage.hpp
+ * @{
+ */
 
 #ifndef STORAGE_H
 #define STORAGE_H
@@ -15,9 +15,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
-using std::vector;
 using std::unordered_map;
 using std::unordered_set;
+using std::vector;
 
 template <typename T>
 const char* StorageType() {

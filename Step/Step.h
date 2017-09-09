@@ -1,13 +1,13 @@
 /**
-* @class Step
-* @brief A Step class.
-* @author T
-* @date 27/08/2017
-* @version 0.2.1
-* @file Step.h
-* @addtogroup Step
-* @{
-*/
+ * @class Step
+ * @brief A Step class.
+ * @author T
+ * @date 27/08/2017
+ * @version 0.2.1
+ * @file Step.h
+ * @addtogroup Step
+ * @{
+ */
 
 #ifndef STEP_H
 #define STEP_H

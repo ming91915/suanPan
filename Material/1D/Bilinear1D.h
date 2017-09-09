@@ -1,14 +1,14 @@
 ﻿/**
-* @class Bilinear1D
-* @brief A Bilinear1D material class.
-* @author T
-* @date 08/08/2017
-* @version 0.1.0
-* @file Bilinear1D.h
-* @addtogroup Material-1D
-* @ingroup Material
-* @{
-*/
+ * @class Bilinear1D
+ * @brief A Bilinear1D material class.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.1.0
+ * @file Bilinear1D.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef BILINEAR1D_H
 #define BILINEAR1D_H

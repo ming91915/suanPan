@@ -18,8 +18,8 @@ T sign(const T& I) {
     return (I > 0.) - (I < 0.);
 }
 
-using std::string;
 using std::istringstream;
+using std::string;
 
 template <typename T>
 bool get_input(istringstream& I, T& O) {

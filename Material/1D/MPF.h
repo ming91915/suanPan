@@ -1,14 +1,14 @@
 /**
-* @class MPF
-* @brief A 1-D Elastic class.
-* @author T
-* @date 11/08/2017
-* @version 0.1.0
-* @file MPF.h
-* @addtogroup Material-1D
-* @ingroup Material
-* @{
-*/
+ * @class MPF
+ * @brief A 1-D Elastic class.
+ * @author T
+ * @date 11/08/2017
+ * @version 0.1.0
+ * @file MPF.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef MPF_H
 #define MPF_H

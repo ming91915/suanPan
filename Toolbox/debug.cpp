@@ -3,8 +3,8 @@
 #include <iostream>
 #include <vector>
 
-using std::vector;
 using std::cout;
+using std::vector;
 
 void suanpan_info(const char* M, ...) {
     va_list arguments_a, arguments_b;

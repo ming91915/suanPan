@@ -1,21 +1,21 @@
 /**
-* @class Gap01
-* @brief The Gap01 class defines a gap material. The material does not
-* response to the
-* compression, but show bilinear elastic-perfectly plastic response with
-* the elastic
-* modulus of \f$E\f$ and the yield stress of \f$\sigma_y\f$. The
-* material also shows a gap
-* feature during reloading stage, i.e., from zero stress to tension
-* stress.
-* @author T
-* @date 15/08/2017
-* @version 0.1.0
-* @file Gap01.h
-* @addtogroup Material-1D
-* @ingroup Material
-* @{
-*/
+ * @class Gap01
+ * @brief The Gap01 class defines a gap material. The material does not
+ * response to the
+ * compression, but show bilinear elastic-perfectly plastic response with
+ * the elastic
+ * modulus of \f$E\f$ and the yield stress of \f$\sigma_y\f$. The
+ * material also shows a gap
+ * feature during reloading stage, i.e., from zero stress to tension
+ * stress.
+ * @author T
+ * @date 15/08/2017
+ * @version 0.1.0
+ * @file Gap01.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef GAP01_H
 #define GAP01_H

@@ -1,12 +1,12 @@
 /**
-* @class Recorder
-* @brief A Recorder class.
-* @author T
-* @date 27/07/2017
-* @version 0.1.0
-* @file Recorder.h
-* @{
-*/
+ * @class Recorder
+ * @brief A Recorder class.
+ * @author T
+ * @date 27/07/2017
+ * @version 0.1.0
+ * @file Recorder.h
+ * @{
+ */
 
 #ifndef RECORDER_H
 #define RECORDER_H

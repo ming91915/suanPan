@@ -1,18 +1,18 @@
 /**
-* @class Converger
-* @brief The Converger class handles converger test to indicate if the iteration converges according to various rules.
-*
-* The class stores a pointer `factory` pointed to the Workshop and get information from this Workshop. The `tolerance` and `error` are stored independently so that the Workshop will not be modified.
-*
-* The class further provides a `print_flag` to indicate if the test information should be printed out.
-*
-* @author T
-* @date 25/08/2017
-* @version 0.2.1
-* @file Converger.h
-* @addtogroup Converger
-* @{
-*/
+ * @class Converger
+ * @brief The Converger class handles converger test to indicate if the iteration converges according to various rules.
+ *
+ * The class stores a pointer `factory` pointed to the Workshop and get information from this Workshop. The `tolerance` and `error` are stored independently so that the Workshop will not be modified.
+ *
+ * The class further provides a `print_flag` to indicate if the test information should be printed out.
+ *
+ * @author T
+ * @date 25/08/2017
+ * @version 0.2.1
+ * @file Converger.h
+ * @addtogroup Converger
+ * @{
+ */
 
 #ifndef CONVERGER_H
 #define CONVERGER_H

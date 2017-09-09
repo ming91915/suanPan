@@ -1,16 +1,16 @@
 /**
-* @class Bilinear3D
-* @brief The Bilinear3D class defines a bilinear hardening material with
-* mixed hardening
-* (isotropic and kinematic) based on J2 plasticity rule.
-* @author T
-* @date 08/08/2017
-* @version 0.1.0
-* @file Bilinear3D.h
-* @addtogroup Material-3D
-* @ingroup Material
-* @{
-*/
+ * @class Bilinear3D
+ * @brief The Bilinear3D class defines a bilinear hardening material with
+ * mixed hardening
+ * (isotropic and kinematic) based on J2 plasticity rule.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.1.0
+ * @file Bilinear3D.h
+ * @addtogroup Material-3D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef BILINEAR3D_H
 #define BILINEAR3D_H

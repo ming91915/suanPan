@@ -1,17 +1,17 @@
 /**
-* @class Proto01
-* @brief A Proto01 class.
-*
-* [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
-*
-* @author T
-* @date 30/07/2017
-* @version 0.1.0
-* @file Proto01.h
-* @addtogroup Membrane
-* @ingroup Element
-* @{
-*/
+ * @class Proto01
+ * @brief A Proto01 class.
+ *
+ * [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
+ *
+ * @author T
+ * @date 30/07/2017
+ * @version 0.1.0
+ * @file Proto01.h
+ * @addtogroup Membrane
+ * @ingroup Element
+ * @{
+ */
 
 #ifndef Proto01_H
 #define Proto01_H

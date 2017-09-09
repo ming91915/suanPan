@@ -3,23 +3,23 @@
 #include <Domain/Workshop.h>
 
 /**
-* \brief The default constructor.
-* \param T `unique_tag`
-* \param D `domain`
-* \param E `tolerance`
-* \param M `max_itertation`
-* \param P `print_flag`
-*/
+ * \brief The default constructor.
+ * \param T `unique_tag`
+ * \param D `domain`
+ * \param E `tolerance`
+ * \param M `max_itertation`
+ * \param P `print_flag`
+ */
 AbsError::AbsError(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_ABSERROR, D, E, M, P) {}
 
 /**
-* \brief No tag version.
-* \param D `domain`
-* \param E `tolerance`
-* \param M `max_itertation`
-* \param P `print_flag`
-*/
+ * \brief No tag version.
+ * \param D `domain`
+ * \param E `tolerance`
+ * \param M `max_itertation`
+ * \param P `print_flag`
+ */
 AbsError::AbsError(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_ABSERROR, D, E, M, P) {}
 
