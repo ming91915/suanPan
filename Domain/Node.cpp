@@ -11,8 +11,7 @@ Node::Node(const unsigned& T)
 }
 
 /**
- * \brief Initialize `coordinate` and set `num_dof` to the size of
- * `coordinate`.
+ * \brief Initialize `coordinate` and set `num_dof` to the size of `coordinate`.
  * \param T `unique_tag`
  * \param C `coordinate`
  */
@@ -24,8 +23,7 @@ Node::Node(const unsigned& T, const vec& C)
 }
 
 /**
- * \brief Initialize `num_dof` and set the size of `coordinate` to
- * `num_dof`.
+ * \brief Initialize `num_dof` and set the size of `coordinate` to `num_dof`.
  * \param T `unique_tag`
  * \param D `num_dof`
  */
@@ -57,7 +55,7 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
 /**
  * \brief This method should be called after Element objects are set. Element objects will set the minimum number of DoFs for all related Node objects. This method initialize all member variables with the size of `num_dof` and fill `original_dof` with `-1` to indicated it should be omitted from the system. Finally check if the size of `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be necessary for beam/plate/shell problems which have more DoFs than coordinates.
  */
-void Node::initialize(const shared_ptr<Domain> D) {
+void Node::initialize(const shared_ptr<Domain>& D) {
     if(!is_active()) return;
 
     if(num_dof != 0) {
@@ -264,9 +262,7 @@ void Node::commit_status() {
 }
 
 /**
- * \brief Method to reset the status, there is no need to call this
- * method as those
- * variables can be directly overwritten.
+ * \brief Method to reset the status, there is no need to call this method as those variables can be directly overwritten.
  */
 void Node::reset_status() {
     if(!current_displacement.is_empty()) {
@@ -284,10 +280,7 @@ void Node::reset_status() {
 }
 
 /**
- * \brief The method tests each status variable before filling it by
- * zeros. For any of
- * them, empty means it is not used in analysis, then just keeps it
- * unchanged.
+ * \brief The method tests each status variable before filling it by zeros. For any of them, empty means it is not used in analysis, then just keeps it unchanged.
  */
 void Node::clear_status() {
     if(!current_displacement.is_empty()) {
@@ -318,9 +311,7 @@ void Node::update_trial_status(const vec& D) {
 }
 
 /**
- * \brief Method to update velocity and call previous method to further
- * update
- * displacement. This is used in Dynamic analysis.
+ * \brief Method to update velocity and call previous method to further update displacement. This is used in Dynamic analysis.
  * \param D `trial_displacement`
  * \param V `trial_velocity`
  */
@@ -332,9 +323,7 @@ void Node::update_trial_status(const vec& D, const vec& V) {
 }
 
 /**
- * \brief Method to update acceleration and call previous method to
- * further update
- * velocity and displacement. This is used in Dynamic analysis.
+ * \brief Method to update acceleration and call previous method to further update velocity and displacement. This is used in Dynamic analysis.
  * \param D `trial_displacement`
  * \param V `trial_velocity`
  * \param A `trial_acceleration`
@@ -357,9 +346,7 @@ void Node::update_incre_status(const vec& D) {
 }
 
 /**
- * \brief Method to update velocity and call previous method to further
- * update
- * displacement. This is used in Dynamic analysis.
+ * \brief Method to update velocity and call previous method to further update displacement. This is used in Dynamic analysis.
  * \param D `incre_displacement`
  * \param V `incre_velocity`
  */
@@ -371,9 +358,7 @@ void Node::update_incre_status(const vec& D, const vec& V) {
 }
 
 /**
- * \brief Method to update acceleration and call previous method to
- * further update
- * velocity and displacement. This is used in Dynamic analysis.
+ * \brief Method to update acceleration and call previous method to further update velocity and displacement. This is used in Dynamic analysis.
  * \param D `incre_displacement`
  * \param V `incre_velocity`
  * \param A `incre_acceleration`

@@ -36,6 +36,9 @@ template <> inline const char* StorageType<Node>() { return "Node"; }
 template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
 
 template <typename T> class Storage {
+    using const_storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::const_iterator;
+    using storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::iterator;
+
     typedef T object_type;
 
     const char* type_string = StorageType<object_type>();
@@ -47,10 +50,10 @@ public:
     Storage();
     ~Storage();
 
-    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin() const;
-    typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend() const;
-    typename unordered_map<unsigned, shared_ptr<T>>::iterator begin();
-    typename unordered_map<unsigned, shared_ptr<T>>::iterator end();
+    const_storage_iterator cbegin() const;
+    const_storage_iterator cend() const;
+    storage_iterator begin();
+    storage_iterator end();
 
     bool insert(const shared_ptr<T>&);
     shared_ptr<T>& operator[](const unsigned&);
@@ -75,13 +78,13 @@ template <typename T> Storage<T>::Storage() { suanpan_debug("Storage of %s ctor(
 
 template <typename T> Storage<T>::~Storage() { suanpan_debug("Storage of %s dtor() called.\n", type_string); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator Storage<T>::cbegin() const { return pond.cbegin(); }
+template <typename T> typename Storage<T>::const_storage_iterator Storage<T>::cbegin() const { return pond.cbegin(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator Storage<T>::cend() const { return pond.cend(); }
+template <typename T> typename Storage<T>::const_storage_iterator Storage<T>::cend() const { return pond.cend(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator Storage<T>::begin() { return pond.begin(); }
+template <typename T> typename Storage<T>::storage_iterator Storage<T>::begin() { return pond.begin(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator Storage<T>::end() { return pond.end(); }
+template <typename T> typename Storage<T>::storage_iterator Storage<T>::end() { return pond.end(); }
 
 template <typename T> bool Storage<T>::insert(const shared_ptr<T>& I) {
     auto flag = pond.insert({ I->get_tag(), I }).second;
@@ -133,13 +136,13 @@ template <typename T> void Storage<T>::clear() {
 
 template <typename T> size_t Storage<T>::size() const { return pond.size(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
+template <typename T> typename Storage<T>::const_storage_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::const_iterator cend(const Storage<T>& S) { return S.cend(); }
+template <typename T> typename Storage<T>::const_storage_iterator cend(const Storage<T>& S) { return S.cend(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator begin(Storage<T>& S) { return S.begin(); }
+template <typename T> typename Storage<T>::storage_iterator begin(Storage<T>& S) { return S.begin(); }
 
-template <typename T> typename unordered_map<unsigned, shared_ptr<T>>::iterator end(Storage<T>& S) { return S.end(); }
+template <typename T> typename Storage<T>::storage_iterator end(Storage<T>& S) { return S.end(); }
 
 #endif
 

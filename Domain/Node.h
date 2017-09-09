@@ -1,21 +1,8 @@
 /**
  * @class Node
- * @brief The Node class holds the number of DoFs, coordinate,
- * displacement, velocity and
- * acceleration.
+ * @brief The Node class holds the number of DoFs, coordinate, displacement, velocity and acceleration.
  *
- * The current/committed, incremental and trial status of displacement,
- * velocity and
- * acceleration are stored. These variables will be the communication
- * bridge(s) between
- * Domain, Workshop and Element objects. That is, Element objects do not
- * directly get
- * information from the Workshop. Instead, Workshop passes information
- * to Node objects
- * through the Domain, Element objects acquire new status from
- * associated Node objects
- * only. In this manner, the relationship between those modules remains
- * simple.
+ * The current/committed, incremental and trial status of displacement, velocity and acceleration are stored. These variables will be the communication bridge(s) between Domain, Workshop and Element objects. That is, Element objects do not directly get information from the Workshop. Instead, Workshop passes information to Node objects through the Domain, Element objects acquire new status from associated Node objects only. In this manner, the relationship between those modules remains simple.
  *
  * @author T
  * @date 22/07/2017
@@ -62,7 +49,7 @@ public:
     Node(Node&&) noexcept { suanpan_debug("Node move ctor() called.\n"); }
     ~Node();
 
-    void initialize(const shared_ptr<Domain>);
+    void initialize(const shared_ptr<Domain>&);
 
     const unsigned& get_dof_number() const;
 

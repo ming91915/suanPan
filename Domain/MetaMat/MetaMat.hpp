@@ -187,10 +187,10 @@ template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_sgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)B.memptr(), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &INCY);
+            arma_fortran(arma_sgemv)(&TRAN, &M, &N, (E*)&ALPHA, (E*)memptr(), &LDA, (E*)B.memptr(), &INCX, (E*)&BETA, (E*)C.memptr(), &INCY);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dgemv)(&TRAN, &M, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)B.memptr(), &INCX, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &INCY);
+            arma_fortran(arma_dgemv)(&TRAN, &M, &N, (E*)&ALPHA, (E*)memptr(), &LDA, (E*)B.memptr(), &INCX, (E*)&BETA, (E*)C.memptr(), &INCY);
         }
     } else {
         int M = n_rows;
@@ -204,10 +204,10 @@ template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)B.memptr(), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+            arma_fortran(arma_sgemm)(&TRAN, &TRAN, &M, &N, &K, (E*)&ALPHA, (E*)memptr(), &LDA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(memptr()), &LDA, (E*)B.memptr(), &LDB, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(C.memptr()), &LDC);
+            arma_fortran(arma_dgemm)(&TRAN, &TRAN, &M, &N, &K, (E*)&ALPHA, (E*)memptr(), &LDA, (E*)B.memptr(), &LDB, (E*)&BETA, (E*)C.memptr(), &LDC);
         }
     }
 
