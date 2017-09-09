@@ -8,8 +8,6 @@ ODE_Solver::ODE_Solver(const unsigned& T, const unsigned& CT, const shared_ptr<O
     , ode_system(E)
     , factory(W) {}
 
-ODE_Solver::~ODE_Solver() {}
-
 int ODE_Solver::initialize() {
     if(ode_system == nullptr) {
         suanpan_error("initialize() needs a valid ODE.\n");
@@ -36,7 +34,7 @@ int ODE_Solver::initialize() {
 
 int ODE_Solver::update_status() { return -1; }
 
-int ODE_Solver::analyze(const unsigned& T) {
+int ODE_Solver::analyze(const unsigned&) {
     auto& tmp_converger = get_converger();
 
     auto factor = .2;
@@ -52,7 +50,7 @@ int ODE_Solver::analyze(const unsigned& T) {
         break;
     }
 
-    auto time_left = 1.;
+    auto time_left = factory->get_incre_time();
     auto step = time_left;
 
     while(time_left > 0.) {

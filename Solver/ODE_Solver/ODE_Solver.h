@@ -28,11 +28,10 @@ class ODE_Solver : public Solver {
 
 public:
     explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
-    virtual ~ODE_Solver();
 
     int initialize() override;
 
-    int analyze(const unsigned& = 1.) override final;
+    int analyze(const unsigned& = 0) final;
 
     int update_status() override = 0;
 

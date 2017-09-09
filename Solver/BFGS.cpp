@@ -43,11 +43,11 @@ int BFGS::analyze(const unsigned& ST) {
         if(counter == 0) {
             G->update_stiffness();
             G->process(ST);
-            hist_residual.push_back(W->get_trial_load() - W->get_trial_resistance());
-            hist_ninja.push_back(solve(W->get_stiffness(), *hist_residual.crbegin()));
+            hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
+            hist_ninja.emplace_back(solve(W->get_stiffness(), *hist_residual.crbegin()));
             ninja = *hist_ninja.crbegin(); // for updating status
         } else {
-            hist_residual.push_back(W->get_trial_load() - W->get_trial_resistance());
+            hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
             ninja = *hist_residual.crbegin();
             const auto S = hist_factor.size() - 1; // intermediate factor
             for(auto I = 0; I <= S; ++I) {

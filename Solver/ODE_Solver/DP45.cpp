@@ -11,8 +11,6 @@ DP45::DP45(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converg
 DP45::DP45(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
     : ODE_Solver(0, CT_DP45, D, C, W) {}
 
-DP45::~DP45() {}
-
 int DP45::update_status() {
     auto& D = get_ode();
     auto& W = get_workroom();

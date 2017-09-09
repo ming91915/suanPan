@@ -173,7 +173,7 @@ MetaMat<T> SymmPackMat<T>::i() {
         return X;
     }
 
-    const auto WORK = new double[N];
+    const auto WORK = new T[N];
 
     if(std::is_same<T, float>::value) {
         using E = float;

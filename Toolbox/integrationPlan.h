@@ -23,8 +23,7 @@
  *     |   1   | X_1 | Y_1 | ... |  WEIGHT_1 |    |
  *     |   2   | X_2 | Y_2 | ... |  WEIGHT_2 |    |
  *     |   3   | X_3 | Y_3 | ... |  WEIGHT_3 |    |
- *     |   .   |  .  |  .  |  .  |     .     |
- * |---ROWS=intOrder^intDimension
+ *     |   .   |  .  |  .  |  .  |     .     |    |---ROWS=intOrder^intDimension
  *     |   .   |  .  |  .  |  .  |     .     |    |
  *     |   .   |  .  |  .  |  .  |     .     |    |
  *     |   N   | X_N | Y_N | ... |  WEIGHT_N |    |

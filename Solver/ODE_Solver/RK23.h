@@ -28,7 +28,6 @@ class RK23 final : public ODE_Solver {
 public:
     explicit RK23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
     explicit RK23(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
-    ~RK23();
 
     int update_status() override;
 

@@ -23,7 +23,7 @@ const unsigned ElementTemplate::m_dof = 2;
  * In our example, CT and F will be constants, NN is 3 and ND is 2. So we have three parameters plus thickness for our derived element. Except for initializing private member variables, we do not have to do anything. All other initializations will be handled by the Element and Domain class. As simple as this.
  */
 ElementTemplate::ElementTemplate(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
-    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec({ MT }), false)
+    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, false)
     , thickness(TH) {}
 
 /**
@@ -50,7 +50,7 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D) {
     //! This will be used for the computation of the shape function.
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto i = 0; i < m_node; ++i) {
-        auto& tmp_coor = node_ptr.at(i).lock()->get_coordinate();
+        auto& tmp_coor = node_ptr[i].lock()->get_coordinate();
         for(auto j = 0; j < 2; ++j) ele_coor(i, j + 1) = tmp_coor(j);
     }
 
@@ -81,7 +81,7 @@ int ElementTemplate::update_status() {
     vec trial_disp(m_node * m_dof);
     auto idx = 0;
     for(auto i = 0; i < m_node; ++i) {
-        auto& tmp_disp = node_ptr.at(i).lock()->get_trial_displacement();
+        auto& tmp_disp = node_ptr[i].lock()->get_trial_displacement();
         for(const auto& j : tmp_disp) trial_disp(idx++) = j;
     }
     m_material->update_trial_status(strain_mat * trial_disp);

@@ -2,9 +2,9 @@
 #include <cstring>
 #include <suanPan.h>
 
-bool if_equal(const string& A, const char* B) { return _strcmpi(A.c_str(), B) == 0; }
-
 bool if_equal(const char* A, const char* B) { return _strcmpi(A, B) == 0; }
+
+bool if_equal(const string& A, const char* B) { return if_equal(A.c_str(), B); }
 
 bool if_true(const string& S) { return if_true(S.c_str()); }
 

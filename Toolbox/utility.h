@@ -33,8 +33,8 @@ T get_input(istringstream& I) {
     return O;
 }
 
-bool if_equal(const string&, const char*);
 bool if_equal(const char*, const char*);
+bool if_equal(const string&, const char*);
 
 bool if_true(const string&);
 bool if_false(const string&);

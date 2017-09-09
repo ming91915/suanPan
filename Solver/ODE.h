@@ -44,12 +44,10 @@
 #include "User_Function.h"
 
 class ODE : public User_Function {
-    unsigned num_dim; /**< The dimension of the problem. */
+    unsigned n_size; /**< The dimension of the problem. */
 public:
     //! Default ctor.
     explicit ODE(const unsigned& = 0, const unsigned& = CT_ODE, const unsigned& = 1);
-    //! Default dtor.
-    virtual ~ODE();
 
     //! Method to set dimension of the problem.
     virtual void set_dimension(const unsigned&);

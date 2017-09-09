@@ -59,6 +59,7 @@ int Step::initialize() {
     switch(get_class_tag()) {
     case CT_STATIC:
         workroom->set_analysis_type(AnalysisType::STATICS);
+        factory->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<Integrator>();
         modifier->set_domain(database);
         break;
@@ -69,9 +70,11 @@ int Step::initialize() {
         }
         modifier->set_domain(database);
         workroom->set_analysis_type(AnalysisType::DYNAMICS);
+        factory->set_analysis_type(AnalysisType::DYNAMICS);
         break;
     case CT_FREQUENCE:
         workroom->set_analysis_type(AnalysisType::EIGEN);
+        factory->set_analysis_type(AnalysisType::EIGEN);
         break;
     default:
         suanpan_error("initialize() needs a valid Step.\n");

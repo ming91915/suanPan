@@ -2,16 +2,14 @@
 
 ODE::ODE(const unsigned& T, const unsigned& CT, const unsigned& D)
     : User_Function(T, CT)
-    , num_dim(D) {}
+    , n_size(D) {}
 
-ODE::~ODE() {}
+void ODE::set_dimension(const unsigned& D) { n_size = D; }
 
-void ODE::set_dimension(const unsigned& D) { num_dim = D; }
-
-const unsigned& ODE::get_dimension() const { return num_dim; }
+const unsigned& ODE::get_dimension() const { return n_size; }
 
 void ODE::print() { suanpan_info("ODE::print() is unimplemented.\n"); }
 
-void ODE::operator()(const unsigned& D) { num_dim = D; }
+void ODE::operator()(const unsigned& D) { n_size = D; }
 
-unsigned ODE::operator()() { return num_dim; }
+unsigned ODE::operator()() { return n_size; }

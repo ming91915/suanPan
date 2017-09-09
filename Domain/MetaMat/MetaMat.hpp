@@ -340,7 +340,7 @@ MetaMat<T> MetaMat<T>::i() {
     }
 
     auto LWORK = 8 * M;
-    const auto WORK = new double[LWORK];
+    const auto WORK = new T[LWORK];
 
     if(std::is_same<T, float>::value) {
         using E = float;
