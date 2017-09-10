@@ -37,7 +37,9 @@
 #endif
 
 #ifdef SUANPAN_WIN
+#ifndef NOMINMAX
 #define NOMINMAX
+#endif
 #endif
 
 // SUANPAN_UNIX

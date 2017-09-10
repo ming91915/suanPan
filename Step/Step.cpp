@@ -116,11 +116,29 @@ void Step::set_integrator(const shared_ptr<Integrator>& G) {
 
 const shared_ptr<Integrator>& Step::get_integrator() const { return modifier; }
 
-void Step::set_time_perid(const double& T) { time_period = T; }
+void Step::set_time_perid(const double& T) {
+    time_period = T;
+    const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
+    if(tmp_iteration > max_increment && max_increment != 0)
+        if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
+            suanpan_warning("set_ini_step_size() exceeds limits.\n");
+            set_max_iteration(std::numeric_limits<unsigned>::max());
+        } else
+            set_max_iteration(tmp_iteration);
+}
 
 const double& Step::get_time_period() const { return time_period; }
 
-void Step::set_ini_step_size(const double& T) { ini_step_size = T; }
+void Step::set_ini_step_size(const double& T) {
+    ini_step_size = T;
+    const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
+    if(tmp_iteration > max_increment && max_increment != 0)
+        if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
+            suanpan_warning("set_ini_step_size() exceeds limits.\n");
+            set_max_iteration(std::numeric_limits<unsigned>::max());
+        } else
+            set_max_iteration(tmp_iteration);
+}
 
 void Step::set_min_step_size(const double& T) { min_step_size = T; }
 

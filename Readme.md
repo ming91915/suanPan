@@ -33,7 +33,7 @@ How to Compile
 cmake . && make
 ```
 
-to compile. The package is tested with `Intel C++` and `MSVC` under Windows and `GCC` under both Windows and Ubuntu. As `suanPan` uses new features introduced in C++11 and C++14, please use `Visual Studio 2015` and/or later version, `GCC 5.0` and/or later version.
+to compile the program. The package is tested with `Intel C++` and `MSVC` under Windows and `GCC` under both Windows and Ubuntu. As `suanPan` uses new features introduced in C++11 and C++14, please use `Visual Studio 2015` and/or later version, `GCC 5.0` and/or later version.
 
 Dependency
 ----------
