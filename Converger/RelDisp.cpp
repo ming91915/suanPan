@@ -1,6 +1,6 @@
 #include "RelDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 
 RelDisp::RelDisp(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_RELDISP, D, E, M, P) {}
@@ -9,7 +9,7 @@ RelDisp::RelDisp(const shared_ptr<Domain>& D, const double& E, const unsigned& M
     : Converger(0, CT_RELDISP, D, E, M, P) {}
 
 const bool& RelDisp::if_converged() {
-    auto& tmp_workroom = get_domain()->get_workshop();
+    auto& tmp_workroom = get_domain()->get_factory();
 
     set_error(norm(tmp_workroom->get_incre_displacement() / tmp_workroom->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());

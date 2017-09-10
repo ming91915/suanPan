@@ -28,7 +28,6 @@
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
-    <ClCompile Include="..\..\..\Domain\Workshop.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />

@@ -1,6 +1,6 @@
 #include "AbsError.h"
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 
 /**
  * \brief The default constructor.
@@ -28,7 +28,7 @@ AbsError::AbsError(const shared_ptr<Domain>& D, const double& E, const unsigned&
  * \return `conv_flag`
  */
 const bool& AbsError::if_converged() {
-    set_error(get_domain()->get_workshop()->get_error());
+    set_error(get_domain()->get_factory()->get_error());
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("absolute error: %.5E.\n", get_error());

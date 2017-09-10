@@ -15,8 +15,8 @@ element	Truss2D	3	3	1	1	10	1	1	1
 step static 1
 set ini_step_size 1
 set fixed_step_size true
-set symm_mat false
-set band_mat false
+set symm_mat true
+set band_mat true
 
 fix	1	P	1
 fix	2	1	3

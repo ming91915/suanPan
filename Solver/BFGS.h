@@ -39,8 +39,6 @@ public:
     explicit BFGS(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
     explicit BFGS(const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
 
-    int initialize() override;
-
     int update_status() override;
 
     int analyze(const unsigned&) override;

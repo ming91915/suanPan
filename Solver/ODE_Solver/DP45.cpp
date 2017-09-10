@@ -1,19 +1,18 @@
 #include "DP45.h"
-#include <Domain/Workshop.h>
 #include <Solver/ODE.h>
 #include <array>
 
 const std::array<double, 29> DP45::F = { .2, .3, .075, .225, .8, 44. / 45., -56. / 15., 32. / 9., 8. / 9., 19372. / 6561., -25360. / 2187., 64448. / 6561., -212. / 729., 9017. / 3168., -355. / 33., 46732. / 5247., 49. / 176., -5103. / 18656., 35. / 384., 500. / 1113., 125. / 192., -2187. / 6784., 11. / 84., 71. / 57600., -71. / 16695., 71. / 1920., -17253. / 339200., 22. / 525., -1. / 40. };
 
-DP45::DP45(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
+DP45::DP45(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
     : ODE_Solver(T, CT_DP45, D, C, W) {}
 
-DP45::DP45(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Workshop>& W)
+DP45::DP45(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
     : ODE_Solver(0, CT_DP45, D, C, W) {}
 
 int DP45::update_status() {
     auto& D = get_ode();
-    auto& W = get_workroom();
+    auto& W = get_factory();
 
     S1 = D->eval(W->get_current_time(), W->get_current_displacement());
     S2 = D->eval(W->get_current_time() + F[0] * W->get_incre_time(), W->get_current_displacement() + W->get_incre_time() * F[0] * S1);

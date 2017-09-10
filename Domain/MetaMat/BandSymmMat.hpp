@@ -14,6 +14,7 @@
 #define BANDSYMMMAT_HPP
 
 template <typename T> class BandSymmMat : public MetaMat<T> {
+    static T bin;
     using MetaMat<T>::i;
     using MetaMat<T>::inv;
 
@@ -46,6 +47,8 @@ template <typename T> struct is_BandSymm { static const bool value = false; };
 
 template <typename T> struct is_BandSymm<BandSymmMat<T>> { static const bool value = true; };
 
+template <typename T> T BandSymmMat<T>::bin = 0.;
+
 template <typename T>
 BandSymmMat<T>::BandSymmMat()
     : MetaMat<T>()
@@ -60,9 +63,15 @@ template <typename T> const T& BandSymmMat<T>::operator()(const uword& in_row, c
 
 template <typename T> const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
 
-template <typename T> T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]); }
+template <typename T> T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) {
+    if(in_row < in_col) return bin;
+    return access::rw(memory[in_row - in_col + in_col * n_rows]);
+}
 
-template <typename T> T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]); }
+template <typename T> T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) {
+    if(in_row < in_col) return bin;
+    return access::rw(memory[in_row - in_col + in_col * n_rows]);
+}
 
 template <typename T> Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {

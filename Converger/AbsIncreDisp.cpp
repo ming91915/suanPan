@@ -1,6 +1,6 @@
 #include "AbsIncreDisp.h"
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 
 /**
  * \brief The default constructor.
@@ -28,7 +28,7 @@ AbsIncreDisp::AbsIncreDisp(const shared_ptr<Domain>& D, const double& E, const u
  * \return `conv_flag`
  */
 const bool& AbsIncreDisp::if_converged() {
-    set_error(norm(get_domain()->get_workshop()->get_ninja()));
+    set_error(norm(get_domain()->get_factory()->get_ninja()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("absolute incremental displacement error: %.5E.\n", get_error());

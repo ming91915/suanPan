@@ -14,6 +14,7 @@
 #define SYMMPACKMAT_HPP
 
 template <typename T> class SymmPackMat : public MetaMat<T> {
+    static T bin;
     const char SIDE = 'R';
     const char UPLO = 'U';
 
@@ -47,6 +48,8 @@ template <typename T> struct is_SymmPack { static const bool value = false; };
 
 template <typename T> struct is_SymmPack<SymmPackMat<T>> { static const bool value = true; };
 
+template <typename T> T SymmPackMat<T>::bin = 0.;
+
 template <typename T>
 SymmPackMat<T>::SymmPackMat()
     : MetaMat<T>() {}
@@ -59,9 +62,15 @@ template <typename T> const T& SymmPackMat<T>::operator()(const uword& in_row, c
 
 template <typename T> const T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
 
-template <typename T> T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]); }
+template <typename T> T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) {
+    if(in_col < in_row) return bin;
+    return access::rw(memory[(in_col * in_col + in_col) / 2 + in_row]);
+}
 
-template <typename T> T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]); }
+template <typename T> T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) {
+    if(in_col < in_row) return bin;
+    return access::rw(memory[(in_col * in_col + in_col) / 2 + in_row]);
+}
 
 template <const char S, const char T, typename T1> Mat<T1> spmm(const SymmPackMat<T1>& A, const Mat<T1>& B);
 

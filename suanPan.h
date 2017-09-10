@@ -36,6 +36,10 @@
 #endif
 #endif
 
+#ifdef SUANPAN_WIN
+#define NOMINMAX
+#endif
+
 // SUANPAN_UNIX
 #if defined(unix) || defined(__unix__) || defined(__linux__) || defined(linux)
 #ifndef SUANPAN_UNIX

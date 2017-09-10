@@ -48,8 +48,5 @@
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Workshop.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

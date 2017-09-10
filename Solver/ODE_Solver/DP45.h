@@ -31,8 +31,8 @@ class DP45 final : public ODE_Solver {
     static const std::array<double, 29> F; /**< constants array */
     vec S1, S2, S3, S4, S5, S6, S7;        /**< intermediate variables */
 public:
-    explicit DP45(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
-    explicit DP45(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
+    explicit DP45(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
+    explicit DP45(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
 
     int update_status() override;
 

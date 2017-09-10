@@ -1,7 +1,7 @@
 #include "NodeRecorder.h"
 #include <Domain/Domain.h>
+#include <Domain/Factory.hpp>
 #include <Domain/Node.h>
-#include <Domain/Workshop.h>
 
 NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
     : Recorder(T, CT_NODERECORDER, B, L, R) {
@@ -13,7 +13,7 @@ void NodeRecorder::record(const shared_ptr<Domain>& D) {
 
     insert(tmp_obj->record(get_variable_type()));
 
-    if(if_record_time()) insert(D->get_workshop()->get_current_time());
+    if(if_record_time()) insert(D->get_factory()->get_current_time());
 }
 
 void NodeRecorder::print() {

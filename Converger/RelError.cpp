@@ -1,6 +1,6 @@
 #include "RelError.h"
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 
 /**
  * \brief The default constructor.
@@ -28,7 +28,7 @@ RelError::RelError(const shared_ptr<Domain>& D, const double& E, const unsigned&
  * \return `conv_flag`
  */
 const bool& RelError::if_converged() {
-    auto& tmp_workroom = get_domain()->get_workshop();
+    auto& tmp_workroom = get_domain()->get_factory();
 
     set_error(tmp_workroom->get_error() / norm(tmp_workroom->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());

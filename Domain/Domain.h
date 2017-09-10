@@ -21,8 +21,6 @@ using std::unordered_map;
 using std::unordered_set;
 using std::vector;
 
-class Workshop;
-
 template <typename T> class Storage;
 template <typename T> class Factory;
 class Constraint;
@@ -43,10 +41,8 @@ using std::enable_shared_from_this;
 
 class Domain : public Tag, public enable_shared_from_this<Domain> {
     bool updated = false;
-    bool initialized = false;
 
     shared_ptr<Factory<double>> factory; /**< working room */
-    shared_ptr<Workshop> workroom;       /**< working room */
 
     ConstraintStorage constraint_pond;
     ElementStorage element_pond;
@@ -63,16 +59,12 @@ public:
     ~Domain();
 
     const bool& is_updated() const;
-    const bool& is_initialized() const;
 
     int initialize();
 
     void process(const unsigned& = 0);
 
     void record();
-
-    void set_workshop(const shared_ptr<Workshop>&);
-    const shared_ptr<Workshop>& get_workshop() const;
 
     void set_factory(const shared_ptr<Factory<double>>&);
     const shared_ptr<Factory<double>>& get_factory() const;

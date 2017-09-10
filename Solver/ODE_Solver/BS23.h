@@ -28,8 +28,8 @@ class BS23 final : public ODE_Solver {
     vec S1, S2, S3, S4; /**< intermediate variables */
 
 public:
-    explicit BS23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
-    explicit BS23(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
+    explicit BS23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
+    explicit BS23(const shared_ptr<ODE>&, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
 
     int update_status() override;
 

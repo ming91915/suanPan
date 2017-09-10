@@ -1,6 +1,6 @@
 #include "Frequence.h"
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 
 Frequence::Frequence(const unsigned& T, const unsigned& N)
     : Step(T, CT_FREQUENCE, 0.)
@@ -16,14 +16,20 @@ int Frequence::initialize() {
         return -1;
     }
 
-    if(get_workshop() == nullptr) set_workshop(make_shared<Workshop>());
+    if(get_factory() == nullptr) set_factory(make_shared<Factory<double>>());
 
-    auto& tmp_workroom = get_workshop();
+    auto& tmp_workroom = get_factory();
 
-    tmp_workroom->set_symm(is_symm());
-    tmp_workroom->set_band(is_band());
+    if(is_symm() && is_band())
+        tmp_workroom->set_storage_scheme(StorageScheme::BANDSYMM);
+    else if(!is_symm() && is_band())
+        tmp_workroom->set_storage_scheme(StorageScheme::BAND);
+    else if(is_symm() && !is_band())
+        tmp_workroom->set_storage_scheme(StorageScheme::SYMMPACK);
+    else if(!is_symm() && !is_band())
+        tmp_workroom->set_storage_scheme(StorageScheme::FULL);
 
-    tmp_domain->set_workshop(tmp_workroom);
+    tmp_domain->set_factory(tmp_workroom);
     tmp_domain->initialize();
 
     tmp_workroom->set_analysis_type(AnalysisType::EIGEN);

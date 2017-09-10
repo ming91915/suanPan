@@ -177,7 +177,6 @@
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
-    <ClCompile Include="..\..\..\Domain\Workshop.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp" />
@@ -246,7 +245,6 @@
     <ClInclude Include="..\..\..\Domain\Node.h" />
     <ClInclude Include="..\..\..\Domain\Storage.hpp" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
-    <ClInclude Include="..\..\..\Domain\Workshop.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Ramp.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Tabular.h" />

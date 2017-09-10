@@ -2,7 +2,6 @@
 #include <Constraint/Constraint.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
-#include <Domain/Workshop.h>
 #include <Element/Element.h>
 #include <Load/Load.h>
 #include <Material/Material.h>
@@ -18,11 +17,7 @@ Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
 
 const bool& Domain::is_updated() const { return updated; }
 
-const bool& Domain::is_initialized() const { return initialized; }
-
 int Domain::initialize() {
-    if(!initialized) initialized = true;
-
     if(updated) return 0;
 
     updated = true;
@@ -41,12 +36,14 @@ int Domain::initialize() {
         t_node.second->set_original_dof(dof_counter);
     }
 
+    // ACTIVE FLAG IS NOW PROPERLY SET FOR NODE AND ELEMENT
     constraint_pond.update();
     element_pond.update();
     load_pond.update();
     node_pond.update();
 
     // RCM OPTIMIZATION
+    // COLLECT CONNECTIVITY
     vector<unordered_set<uword>> adjacency(dof_counter);
     for(const auto& t_element : element_pond.get()) {
         t_element->update_dof_encoding();
@@ -55,9 +52,11 @@ int Domain::initialize() {
             for(const auto& j : t_encoding) adjacency[i].insert(j);
     }
 
+    // COUNT NUMBER OF DEGREE
     uvec num_degree(dof_counter);
     for(unsigned i = 0; i < dof_counter; ++i) num_degree(i) = adjacency[i].size();
 
+    // SORT EACH COLUMN ACCORDING TO ITS DEGREE
     vector<uvec> adjacency_sorted(dof_counter);
     for(unsigned i = 0; i < dof_counter; ++i) {
         uvec t_vec(num_degree(i));
@@ -90,13 +89,6 @@ int Domain::initialize() {
         t_element->update_dof_encoding();
     }
 
-    if(workroom == nullptr)
-        workroom = make_shared<Workshop>(dof_counter);
-    else
-        workroom->set_dof_number(dof_counter);
-
-    workroom->set_bandwidth(static_cast<unsigned>(low_bw), static_cast<unsigned>(-up_bw));
-
     if(factory == nullptr)
         factory = make_shared<Factory<double>>(dof_counter);
     else
@@ -112,7 +104,6 @@ void Domain::process(const unsigned& ST) {
     restrained_dofs.clear();
     constrained_dofs.clear();
 
-    get_trial_load(workroom).zeros();
     get_trial_load(factory).zeros();
 
     for(const auto& I : load_pond.get())
@@ -125,13 +116,6 @@ void Domain::record() {
     for(const auto& I : recorder_pond.get()) I->record(shared_from_this());
 }
 
-void Domain::set_workshop(const shared_ptr<Workshop>& W) {
-    workroom = W;
-    updated = false;
-}
-
-const shared_ptr<Workshop>& Domain::get_workshop() const { return workroom; }
-
 void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
     factory = F;
     updated = false;
@@ -139,43 +123,98 @@ void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
 
 const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
 
-bool Domain::insert(const shared_ptr<Constraint>& C) { return constraint_pond.insert(C); }
+bool Domain::insert(const shared_ptr<Constraint>& C) {
+    if(updated) updated = false;
+    return constraint_pond.insert(C);
+}
 
-bool Domain::insert(const shared_ptr<Element>& E) { return element_pond.insert(E); }
+bool Domain::insert(const shared_ptr<Element>& E) {
+    if(updated) updated = false;
+    return element_pond.insert(E);
+}
 
-bool Domain::insert(const shared_ptr<Load>& L) { return load_pond.insert(L); }
+bool Domain::insert(const shared_ptr<Load>& L) {
+    if(updated) updated = false;
+    return load_pond.insert(L);
+}
 
-bool Domain::insert(const shared_ptr<Material>& M) { return material_pond.insert(M); }
+bool Domain::insert(const shared_ptr<Material>& M) {
+    if(updated) updated = false;
+    return material_pond.insert(M);
+}
 
-bool Domain::insert(const shared_ptr<Node>& N) { return node_pond.insert(N); }
+bool Domain::insert(const shared_ptr<Node>& N) {
+    if(updated) updated = false;
+    return node_pond.insert(N);
+}
 
-bool Domain::insert(const shared_ptr<Recorder>& R) { return recorder_pond.insert(R); }
+bool Domain::insert(const shared_ptr<Recorder>& R) {
+    if(updated) updated = false;
+    return recorder_pond.insert(R);
+}
 
-bool Domain::erase_constraint(const unsigned& T) { return constraint_pond.erase(T); }
+bool Domain::erase_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    return constraint_pond.erase(T);
+}
 
-bool Domain::erase_element(const unsigned& T) { return element_pond.erase(T); }
+bool Domain::erase_element(const unsigned& T) {
+    if(updated) updated = false;
+    return element_pond.erase(T);
+}
 
-bool Domain::erase_load(const unsigned& T) { return load_pond.erase(T); }
+bool Domain::erase_load(const unsigned& T) {
+    if(updated) updated = false;
+    return load_pond.erase(T);
+}
 
-bool Domain::erase_material(const unsigned& T) { return material_pond.erase(T); }
+bool Domain::erase_material(const unsigned& T) {
+    if(updated) updated = false;
+    return material_pond.erase(T);
+}
 
-bool Domain::erase_node(const unsigned& T) { return node_pond.erase(T); }
+bool Domain::erase_node(const unsigned& T) {
+    if(updated) updated = false;
+    return node_pond.erase(T);
+}
 
-bool Domain::erase_recorder(const unsigned& T) { return recorder_pond.erase(T); }
+bool Domain::erase_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    return recorder_pond.erase(T);
+}
 
-void Domain::disable_constraint(const unsigned& T) { constraint_pond.disable(T); }
+void Domain::disable_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    constraint_pond.disable(T);
+}
 
-void Domain::disable_element(const unsigned& T) { element_pond.disable(T); }
+void Domain::disable_element(const unsigned& T) {
+    if(updated) updated = false;
+    element_pond.disable(T);
+}
 
-void Domain::disable_load(const unsigned& T) { load_pond.disable(T); }
+void Domain::disable_load(const unsigned& T) {
+    if(updated) updated = false;
+    load_pond.disable(T);
+}
 
-void Domain::disable_material(const unsigned& T) { material_pond.disable(T); }
+void Domain::disable_material(const unsigned& T) {
+    if(updated) updated = false;
+    material_pond.disable(T);
+}
 
-void Domain::disable_node(const unsigned& T) { node_pond.disable(T); }
+void Domain::disable_node(const unsigned& T) {
+    if(updated) updated = false;
+    node_pond.disable(T);
+}
 
-void Domain::disable_recorder(const unsigned& T) { recorder_pond.disable(T); }
+void Domain::disable_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    recorder_pond.disable(T);
+}
 
 void Domain::enable_all() {
+    if(updated) updated = false;
     constraint_pond.enable();
     element_pond.enable();
     load_pond.enable();
@@ -184,17 +223,35 @@ void Domain::enable_all() {
     recorder_pond.enable();
 }
 
-void Domain::enable_constraint(const unsigned& T) { constraint_pond.enable(T); }
+void Domain::enable_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    constraint_pond.enable(T);
+}
 
-void Domain::enable_element(const unsigned& T) { element_pond.enable(T); }
+void Domain::enable_element(const unsigned& T) {
+    if(updated) updated = false;
+    element_pond.enable(T);
+}
 
-void Domain::enable_load(const unsigned& T) { load_pond.enable(T); }
+void Domain::enable_load(const unsigned& T) {
+    if(updated) updated = false;
+    load_pond.enable(T);
+}
 
-void Domain::enable_material(const unsigned& T) { material_pond.enable(T); }
+void Domain::enable_material(const unsigned& T) {
+    if(updated) updated = false;
+    material_pond.enable(T);
+}
 
-void Domain::enable_node(const unsigned& T) { node_pond.enable(T); }
+void Domain::enable_node(const unsigned& T) {
+    if(updated) updated = false;
+    node_pond.enable(T);
+}
 
-void Domain::enable_recorder(const unsigned& T) { recorder_pond.enable(T); }
+void Domain::enable_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    recorder_pond.enable(T);
+}
 
 const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
 
@@ -233,54 +290,38 @@ bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
 bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
 
 void Domain::update_resistance() const {
-    workroom->clear_resistance();
-    for(const auto& I : element_pond.get()) workroom->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
     factory->clear_resistance();
     for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::update_mass() const {
-    workroom->clear_mass();
-    for(const auto& I : element_pond.get()) workroom->assemble_mass(I->get_mass(), I->get_dof_encoding());
     factory->clear_mass();
     for(const auto& I : element_pond.get()) factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::update_initial_stiffness() const {
-    workroom->clear_stiffness();
-    for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
     factory->clear_stiffness();
     for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_stiffness() const {
-    workroom->clear_stiffness();
-    for(const auto& I : element_pond.get()) workroom->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
     factory->clear_stiffness();
     for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::update_damping() const {
-    workroom->clear_damping();
-    for(const auto& I : element_pond.get()) workroom->assemble_damping(I->get_damping(), I->get_dof_encoding());
     factory->clear_damping();
     for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
-void Domain::update_trial_time(const double& T) const {
-    workroom->update_trial_time(T);
-    factory->update_trial_time(T);
-}
+void Domain::update_trial_time(const double& T) const { factory->update_trial_time(T); }
 
-void Domain::update_incre_time(const double& T) const {
-    workroom->update_incre_time(T);
-    factory->update_incre_time(T);
-}
+void Domain::update_incre_time(const double& T) const { factory->update_incre_time(T); }
 
 void Domain::update_trial_status() const {
-    auto& trial_dsp = workroom->get_trial_displacement();
-    auto& trial_vel = workroom->get_trial_velocity();
-    auto& trial_acc = workroom->get_trial_acceleration();
+    auto& trial_dsp = factory->get_trial_displacement();
+    auto& trial_vel = factory->get_trial_velocity();
+    auto& trial_acc = factory->get_trial_acceleration();
 
     if(!trial_dsp.is_empty()) {
         if(!trial_acc.is_empty() && !trial_vel.is_empty()) {
@@ -311,9 +352,9 @@ void Domain::update_trial_status() const {
 }
 
 void Domain::update_incre_status() const {
-    auto& incre_dsp = workroom->get_incre_displacement();
-    auto& incre_vel = workroom->get_incre_velocity();
-    auto& incre_acc = workroom->get_incre_acceleration();
+    auto& incre_dsp = factory->get_incre_displacement();
+    auto& incre_vel = factory->get_incre_velocity();
+    auto& incre_acc = factory->get_incre_acceleration();
 
     if(!incre_dsp.is_empty()) {
         if(!incre_acc.is_empty() && !incre_vel.is_empty()) {
@@ -344,7 +385,6 @@ void Domain::update_incre_status() const {
 }
 
 void Domain::commit_status() const {
-    workroom->commit_status();
     factory->commit_status();
 
 #ifdef SUANPAN_OPENMP
@@ -362,7 +402,6 @@ void Domain::commit_status() const {
 }
 
 void Domain::clear_status() const {
-    workroom->clear_status();
     factory->clear_status();
 
 #ifdef SUANPAN_OPENMP
@@ -386,7 +425,6 @@ void Domain::clear_status() const {
 }
 
 void Domain::reset_status() const {
-    workroom->reset_status();
     factory->reset_status();
 
 #ifdef SUANPAN_OPENMP

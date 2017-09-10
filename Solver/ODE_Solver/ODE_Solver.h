@@ -17,17 +17,17 @@
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H
 
+#include <Domain/Factory.hpp>
 #include <Solver/Solver.h>
 
 class ODE;
-class Workshop;
 
 class ODE_Solver : public Solver {
     shared_ptr<ODE> ode_system = nullptr;
-    shared_ptr<Workshop> factory = nullptr;
+    shared_ptr<Factory<double>> factory = nullptr;
 
 public:
-    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Workshop>& = nullptr);
+    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
 
     int initialize() override;
 
@@ -38,8 +38,8 @@ public:
     void set_ode(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& get_ode() const;
 
-    void set_workroom(const shared_ptr<Workshop>&);
-    const shared_ptr<Workshop>& get_workroom() const;
+    void set_factory(const shared_ptr<Factory<double>>&);
+    const shared_ptr<Factory<double>>& get_factory() const;
 };
 
 #endif

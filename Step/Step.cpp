@@ -2,7 +2,6 @@
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
-#include <Domain/Workshop.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 
@@ -34,13 +33,6 @@ int Step::initialize() {
         return -1;
     }
 
-    if(workroom == nullptr) workroom = make_shared<Workshop>();
-
-    workroom->set_symm(symm_mat);
-    workroom->set_band(band_mat);
-
-    database->set_workshop(workroom);
-
     if(factory == nullptr) factory = make_shared<Factory<double>>();
 
     if(symm_mat && band_mat)
@@ -58,7 +50,6 @@ int Step::initialize() {
 
     switch(get_class_tag()) {
     case CT_STATIC:
-        workroom->set_analysis_type(AnalysisType::STATICS);
         factory->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<Integrator>();
         modifier->set_domain(database);
@@ -69,11 +60,9 @@ int Step::initialize() {
             return -1;
         }
         modifier->set_domain(database);
-        workroom->set_analysis_type(AnalysisType::DYNAMICS);
         factory->set_analysis_type(AnalysisType::DYNAMICS);
         break;
     case CT_FREQUENCE:
-        workroom->set_analysis_type(AnalysisType::EIGEN);
         factory->set_analysis_type(AnalysisType::EIGEN);
         break;
     default:
@@ -81,7 +70,6 @@ int Step::initialize() {
         return -1;
     }
 
-    workroom->initialize();
     factory->initialize();
 
     tester->set_domain(database);
@@ -93,12 +81,12 @@ int Step::initialize() {
 
 int Step::analyze() { return -1; }
 
-void Step::set_workshop(const shared_ptr<Workshop>& F) {
-    workroom = F;
+void Step::set_factory(const shared_ptr<Factory<double>>& F) {
+    factory = F;
     updated = false;
 }
 
-const shared_ptr<Workshop>& Step::get_workshop() const { return workroom; }
+const shared_ptr<Factory<double>>& Step::get_factory() const { return factory; }
 
 void Step::set_domain(const shared_ptr<Domain>& D) {
     database = D;

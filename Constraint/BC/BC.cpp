@@ -1,7 +1,7 @@
 #include "BC.h"
 #include <Domain/Domain.h>
+#include <Domain/Factory.hpp>
 #include <Domain/Node.h>
-#include <Domain/Workshop.h>
 #include <Toolbox/utility.h>
 
 /**
@@ -118,50 +118,69 @@ const uvec& BC::get_dof() const { return dofs; }
  * \return 0
  */
 int BC::process(const shared_ptr<Domain>& D) {
-    auto& W = D->get_workshop();
-    auto& t_matrix = get_stiffness(W);
+    // auto& W = D->get_workshop();
+    // auto& t_matrix = get_stiffness(W);
 
-    if(!W->is_band()) {
-        for(const auto& I : nodes) {
-            auto& t_node = D->get_node(static_cast<unsigned>(I));
-            if(t_node->is_active()) {
-                auto& t_dof = t_node->get_reordered_dof();
-                for(const auto& J : dofs)
-                    if(J <= t_dof.n_elem) {
-                        auto& t_idx = t_dof(J - 1);
-                        if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
-                            if(t_matrix(t_idx, t_idx) == 0) {
-                                auto& t_set = D->get_restrained_dof();
-                                t_matrix(t_idx, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
-                            } else
-                                t_matrix(t_idx, t_idx) *= 1E6;
-                        }
-                    }
-            }
-        }
-    } else {
-        unsigned t_zero = 0;
-        if(!W->is_symm()) {
-            unsigned L, U;
-            W->get_bandwidth(L, U);
-            t_zero = L + U;
-        }
-        for(const auto& I : nodes) {
-            auto& t_node = D->get_node(static_cast<unsigned>(I));
-            if(t_node->is_active()) {
-                auto& t_dof = t_node->get_reordered_dof();
-                for(const auto& J : dofs)
-                    if(J <= t_dof.n_elem) {
-                        auto& t_idx = t_dof(J - 1);
-                        if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
-                            if(t_matrix(t_zero, t_idx) == 0) {
-                                auto& t_set = D->get_restrained_dof();
-                                t_matrix(t_zero, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : t_matrix(t_zero, *t_set.cbegin() == t_idx ? *++t_set.cbegin() : *t_set.cbegin());
-                            } else
-                                t_matrix(t_zero, t_idx) *= 1E6;
-                        }
-                    }
-            }
+    // if(!W->is_band()) {
+    //    for(const auto& I : nodes) {
+    //        auto& t_node = D->get_node(static_cast<unsigned>(I));
+    //        if(t_node->is_active()) {
+    //            auto& t_dof = t_node->get_reordered_dof();
+    //            for(const auto& J : dofs)
+    //                if(J <= t_dof.n_elem) {
+    //                    auto& t_idx = t_dof(J - 1);
+    //                    if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
+    //                        if(t_matrix(t_idx, t_idx) == 0) {
+    //                            auto& t_set = D->get_restrained_dof();
+    //                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
+    //                        } else
+    //                            t_matrix(t_idx, t_idx) *= 1E6;
+    //                    }
+    //                }
+    //        }
+    //    }
+    //} else {
+    //    unsigned t_zero = 0;
+    //    if(!W->is_symm()) {
+    //        unsigned L, U;
+    //        W->get_bandwidth(L, U);
+    //        t_zero = L + U;
+    //    }
+    //    for(const auto& I : nodes) {
+    //        auto& t_node = D->get_node(static_cast<unsigned>(I));
+    //        if(t_node->is_active()) {
+    //            auto& t_dof = t_node->get_reordered_dof();
+    //            for(const auto& J : dofs)
+    //                if(J <= t_dof.n_elem) {
+    //                    auto& t_idx = t_dof(J - 1);
+    //                    if(D->insert_restrained_dof(static_cast<unsigned>(t_idx))) {
+    //                        if(t_matrix(t_zero, t_idx) == 0) {
+    //                            auto& t_set = D->get_restrained_dof();
+    //                            t_matrix(t_zero, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : t_matrix(t_zero, *t_set.cbegin() == t_idx ? *++t_set.cbegin() : *t_set.cbegin());
+    //                        } else
+    //                            t_matrix(t_zero, t_idx) *= 1E6;
+    //                    }
+    //                }
+    //        }
+    //    }
+    //}
+
+    auto& t_matrix = *get_stiffness(D->get_factory());
+
+    for(const auto& I : nodes) {
+        auto& t_node = D->get_node(static_cast<unsigned>(I));
+        if(t_node->is_active()) {
+            auto& t_dof = t_node->get_reordered_dof();
+            for(const auto& J : dofs)
+                if(J <= t_dof.n_elem) {
+                    auto& t_idx = t_dof(J - 1);
+                    if(D->insert_restrained_dof(static_cast<unsigned>(t_idx)))
+                        if(t_matrix(t_idx, t_idx) == 0) {
+                            auto& t_set = D->get_restrained_dof();
+                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
+                        } else
+                            t_matrix(t_idx, t_idx) *= 1E6;
+                }
         }
     }
 

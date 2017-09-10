@@ -201,9 +201,6 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Workshop.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -388,9 +385,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h">
       <Filter>Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Workshop.h">
-      <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp">
       <Filter>Template</Filter>

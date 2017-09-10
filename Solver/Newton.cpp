@@ -2,34 +2,36 @@
 #include "lapack_wrapper.h"
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
-#include <Domain/Workshop.h>
+#include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
 Newton::Newton(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Solver(T, CT_NEWTON, C, G) {}
 
 int Newton::update_status() {
-    auto& W = get_integrator()->get_domain()->get_workshop();
+    auto& W = get_integrator()->get_domain()->get_factory();
 
-    if(W->is_symm() && W->is_band()) return pb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
+    return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
 
-    if(W->is_symm() && !W->is_band()) return sy_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
+    // if(W->is_symm() && W->is_band()) return pb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
 
-    if(!W->is_symm() && !W->is_band()) return ge_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
+    // if(W->is_symm() && !W->is_band()) return sy_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
 
-    if(!W->is_symm() && W->is_band()) {
-        unsigned L, U;
-        W->get_bandwidth(L, U);
-        return gb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance(), L, U);
-    }
+    // if(!W->is_symm() && !W->is_band()) return ge_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
 
-    return -1;
+    // if(!W->is_symm() && W->is_band()) {
+    //    unsigned L, U;
+    //    W->get_bandwidth(L, U);
+    //    return gb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance(), L, U);
+    //}
+
+    // return -1;
 }
 
 int Newton::analyze(const unsigned& ST) {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& W = G->get_domain()->get_workshop();
+    auto& W = G->get_domain()->get_factory();
 
     unsigned counter = 0;
 

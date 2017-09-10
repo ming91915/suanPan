@@ -1,14 +1,14 @@
-#pragma once
 
-#include "Workshop.h"
+#ifndef FACTORY_HPP
+#define FACTORY_HPP
+
 #include <Domain/MetaMat/MetaMat>
 #include <suanPan.h>
 
+enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
 
 template <typename T> class Factory final {
-    bool initialized = false;
-
     unsigned n_size = 0; /**< number of DoFs */
     unsigned n_lobw = 0; /**< low bandwidth */
     unsigned n_upbw = 0; /**< up bandwidth */
@@ -17,14 +17,14 @@ template <typename T> class Factory final {
     AnalysisType analysis_type = AnalysisType::NONE;  /**< type of analysis */
     StorageScheme storage_type = StorageScheme::FULL; /**< type of analysis */
 
+    T error = 0.; /**< error produced by certain solvers */
+
+    Col<T> ninja; /**< the result from A*X=B */
+
     T trial_time = 0.;   /**< global trial (pseudo) time */
     T incre_time = 0.;   /**< global incremental (pseudo) time */
     T current_time = 0.; /**< global current (pseudo) time */
     T pre_time = 0.;     /**< global previous (pseudo) time */
-
-    T error = 0.; /**< error produced by certain solvers */
-
-    Col<T> ninja; /**< the result from A*X=B */
 
     Col<T> trial_load;         /**< global trial load vector */
     Col<T> trial_resistance;   /**< global trial resistance vector */
@@ -78,8 +78,6 @@ public:
 
     void set_error(const T&);
     const T& get_error() const;
-
-    const bool& is_initialized() const;
 
     int initialize();
 
@@ -256,12 +254,12 @@ public:
     void clear_damping();
     void clear_stiffness();
 
-    void print() const;
-
     void assemble_resistance(const Mat<T>&, const uvec&);
     void assemble_mass(const Mat<T>&, const uvec&);
     void assemble_damping(const Mat<T>&, const uvec&);
     void assemble_stiffness(const Mat<T>&, const uvec&);
+
+    void print() const;
 };
 
 template <typename T>
@@ -297,13 +295,10 @@ template <typename T> void Factory<T>::set_error(const T& E) { error = E; }
 
 template <typename T> const T& Factory<T>::get_error() const { return error; }
 
-template <typename T> const bool& Factory<T>::is_initialized() const { return initialized; }
-
 template <typename T> int Factory<T>::initialize() {
-    if(!initialized) initialized = true;
-
     if(n_size != 0) {
         ninja.zeros(n_size);
+
         switch(analysis_type) {
         case AnalysisType::DISP:
             initialize_displacement(n_size);
@@ -684,7 +679,7 @@ template <typename T> void Factory<T>::commit_pre_acceleration() { pre_accelerat
 template <typename T> void Factory<T>::commit_pre_temperature() { pre_temperature = current_temperature; }
 
 template <typename T> void Factory<T>::clear_status() {
-    if(!initialized) return;
+    ninja.zeros();
 
     clear_time();
     clear_load();
@@ -826,17 +821,17 @@ template <typename T> void Factory<T>::assemble_resistance(const Mat<T>& ER, con
 
 template <typename T> void Factory<T>::assemble_mass(const Mat<T>& EM, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) global_mass->operator()(EI(J), EI(I)) += EM(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) (*global_mass)(EI(J), EI(I)) += EM(J, I);
 }
 
 template <typename T> void Factory<T>::assemble_damping(const Mat<T>& EC, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) global_damping->operator()(EI(J), EI(I)) += EC(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) (*global_damping)(EI(J), EI(I)) += EC(J, I);
 }
 
 template <typename T> void Factory<T>::assemble_stiffness(const Mat<T>& EK, const uvec& EI) {
     for(unsigned I = 0; I < EI.n_elem; ++I)
-        for(unsigned J = 0; J < EI.n_elem; ++J) global_stiffness->operator()(EI(J), EI(I)) += EK(J, I);
+        for(unsigned J = 0; J < EI.n_elem; ++J) (*global_stiffness)(EI(J), EI(I)) += EK(J, I);
 }
 
 template <typename T> Col<T>& get_ninja(const shared_ptr<Factory<T>>& W) { return W->ninja; }
@@ -906,3 +901,5 @@ template <typename T> shared_ptr<MetaMat<T>>& get_stiffness(const shared_ptr<Fac
 template <typename T> Col<T>& get_eigenvalue(const shared_ptr<Factory<T>>& W) { return W->eigenvalue; }
 
 template <typename T> Mat<T>& get_eigenvector(const shared_ptr<Factory<T>>& W) { return W->eigenvector; }
+
+#endif // FACTORY_HPP
