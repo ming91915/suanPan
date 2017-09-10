@@ -1,5 +1,4 @@
 #include "Newton.h"
-#include "lapack_wrapper.h"
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
@@ -12,20 +11,6 @@ int Newton::update_status() {
     auto& W = get_integrator()->get_domain()->get_factory();
 
     return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
-
-    // if(W->is_symm() && W->is_band()) return pb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
-
-    // if(W->is_symm() && !W->is_band()) return sy_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
-
-    // if(!W->is_symm() && !W->is_band()) return ge_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance());
-
-    // if(!W->is_symm() && W->is_band()) {
-    //    unsigned L, U;
-    //    W->get_bandwidth(L, U);
-    //    return gb_solve(get_ninja(W), get_stiffness(W), W->get_trial_load() - W->get_trial_resistance(), L, U);
-    //}
-
-    // return -1;
 }
 
 int Newton::analyze(const unsigned& ST) {
