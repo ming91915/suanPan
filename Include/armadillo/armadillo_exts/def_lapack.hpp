@@ -47,6 +47,15 @@
 #define arma_ssptri SSPTRI
 #define arma_dsptri DSPTRI
 
+#define arma_sppsv SPPSV
+#define arma_dppsv DPPSV
+#define arma_spptrf SPPTRF
+#define arma_dpptrf DPPTRF
+#define arma_spptrs SPPTRS
+#define arma_dpptrs DPPTRS
+#define arma_spptri SPPTRI
+#define arma_dpptri DPPTRI
+
 #else
 
 #define arma_sgbmv sgbmv
@@ -95,6 +104,15 @@
 #define arma_dsptrs dsptrs
 #define arma_ssptri ssptri
 #define arma_dsptri dsptri
+
+#define arma_sppsv sppsv
+#define arma_dppsv dppsv
+#define arma_spptrf spptrf
+#define arma_dpptrf dpptrf
+#define arma_spptrs spptrs
+#define arma_dpptrs dpptrs
+#define arma_spptri spptri
+#define arma_dpptri dpptri
 
 #endif
 
@@ -178,4 +196,20 @@ void arma_fortran(arma_dsptrs)(const char* UPLO, const int* N, const int* NRHS, 
 void arma_fortran(arma_ssptri)(const char* UPLO, const int* N, float* AP, const int* IPIV, float* WORK, int* INFO);
 
 void arma_fortran(arma_dsptri)(const char* UPLO, const int* N, double* AP, const int* IPIV, double* WORK, int* INFO);
+
+void arma_fortran(arma_sppsv)(const char* UPLO, const int* N, const int* NRHS, float* AP, float* B, const int* LDB, int* INFO);
+
+void arma_fortran(arma_dppsv)(const char* UPLO, const int* N, const int* NRHS, double* AP, double* B, const int* LDB, int* INFO);
+
+void arma_fortran(arma_spptrf)(const char* UPLO, const int* N, float* AP, int* INFO);
+
+void arma_fortran(arma_dpptrf)(const char* UPLO, const int* N, double* AP, int* INFO);
+
+void arma_fortran(arma_spptrs)(const char* UPLO, const int* N, const int* NRHS, const float* AP, float* B, const int* LDB, int* INFO);
+
+void arma_fortran(arma_dpptrs)(const char* UPLO, const int* N, const int* NRHS, const double* AP, double* B, const int* LDB, int* INFO);
+
+void arma_fortran(arma_spptri)(const char* UPLO, const int* N, float* AP, float* WORK, int* INFO);
+
+void arma_fortran(arma_dpptri)(const char* UPLO, const int* N, double* AP, double* WORK, int* INFO);
 }
