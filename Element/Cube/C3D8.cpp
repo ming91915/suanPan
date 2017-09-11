@@ -1,4 +1,6 @@
 #include "C3D8.h"
+#include "Toolbox/integrationPlan.h"
+#include "Toolbox/shapeFunction.hpp"
 
 const unsigned C3D8::c_node = 8;
 const unsigned C3D8::c_dof = 3;
@@ -7,9 +9,78 @@ C3D8::C3D8(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, c
     : Element(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
     , reduced_scheme(R) {}
 
-void C3D8::initialize(const shared_ptr<Domain>&) {}
+void C3D8::initialize(const shared_ptr<Domain>& D) {
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
-int C3D8::update_status() { return 0; }
+    const unsigned order = reduced_scheme ? 1 : 2;
+    const integrationPlan plan(3, order, 1);
+
+    int_pt.clear();
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
+        int_pt.push_back(make_unique<IntegrationPoint>());
+        int_pt[I]->coor.zeros(c_dof);
+        for(auto J = 0; J < c_dof; ++J) int_pt[I]->coor(J) = plan(I, J);
+        int_pt[I]->weight = plan(I, c_dof);
+        int_pt[I]->c_material = material_proto->get_copy();
+    }
+
+    mat ele_coor(c_node, c_dof);
+    for(unsigned I = 0; I < c_node; ++I) {
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
+        for(unsigned J = 0; J < c_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+    }
+
+    for(const auto& I : int_pt) {
+        const auto pn = shapeFunctionCube(I->coor, 1);
+        const mat jacob = pn * ele_coor;
+        I->jacob_det = det(jacob);
+        I->pn_pxy = solve(jacob, pn);
+    }
+
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter();
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
+            const auto n_int = shapeFunctionCube(I->coor, 0);
+            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            for(auto J = 0; J < c_node; ++J)
+                for(auto K = J; K < c_node; ++K) mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
+
+        for(auto I = 0; I < c_node * c_dof; I += c_dof) {
+            mass(I + 1, I + 1) = mass(I, I);
+            mass(I + 2, I + 2) = mass(I, I);
+            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(I + 2, J + 2) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
+                mass(J + 2, I + 2) = mass(I, J);
+            }
+        }
+    }
+}
+
+int C3D8::update_status() {
+    auto code = 0;
+
+    vec t_strain(6);
+    for(const auto& I : int_pt) {
+        t_strain.zeros();
+        for(auto J = 0; J < c_node; ++J) {
+            const auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
+            t_strain(0) += t_disp(0) * I->pn_pxy(0, J);
+            t_strain(1) += t_disp(1) * I->pn_pxy(1, J);
+            t_strain(2) += t_disp(2) * I->pn_pxy(2, J);
+            t_strain(3) += t_disp(0) * I->pn_pxy(1, J) + t_disp(1) * I->pn_pxy(0, J);
+            t_strain(4) += t_disp(1) * I->pn_pxy(2, J) + t_disp(2) * I->pn_pxy(1, J);
+            t_strain(5) += t_disp(0) * I->pn_pxy(2, J) + t_disp(2) * I->pn_pxy(0, J);
+        }
+        code += I->c_material->update_trial_status(t_strain);
+    }
+
+    return code;
+}
 
 int C3D8::commit_status() {
     auto code = 0;

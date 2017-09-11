@@ -31,43 +31,38 @@ void CP4::initialize(const shared_ptr<Domain>& D) {
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mass.zeros();
     for(const auto& I : int_pt) {
         const auto pn = shapeFunctionQuad(I->coor, 1);
         const mat jacob = pn * ele_coor;
         I->jacob_det = det(jacob);
         I->pn_pxy = solve(jacob, pn);
-
-        const auto n_int = shapeFunctionQuad(I->coor, 0);
-
-        auto tmp_density = I->m_material->get_parameter();
-        if(tmp_density != 0.) {
-            tmp_density *= I->jacob_det * I->weight * thickness;
-            for(auto J = 0; J < 4; ++J)
-                for(auto K = J; K < 4; ++K) mass(2 * J, 2 * K) += tmp_density * n_int(J) * n_int(K);
-        }
     }
 
-    if(mass(0, 0) != 0.)
-        for(auto I = 0; I < 8; I += 2) {
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter();
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
+            const auto n_int = shapeFunctionQuad(I->coor, 0);
+            const auto tmp_a = tmp_density * I->jacob_det * I->weight * thickness;
+            for(auto J = 0; J < m_node * m_dof; ++J)
+                for(auto K = J; K < m_node * m_dof; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
+
+        for(auto I = 0; I < 8; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + 2; J < 8; J += 2) {
+            for(auto J = I + m_dof; J < 8; J += m_dof) {
                 mass(J, I) = mass(I, J);
                 mass(I + 1, J + 1) = mass(I, J);
                 mass(J + 1, I + 1) = mass(I, J);
             }
         }
+    }
 }
 
 int CP4::update_status() {
     auto code = 0;
 
-    auto& TD0 = node_ptr.at(0).lock()->get_trial_displacement();
-    auto& TD1 = node_ptr.at(1).lock()->get_trial_displacement();
-    auto& TD2 = node_ptr.at(2).lock()->get_trial_displacement();
-    auto& TD3 = node_ptr.at(3).lock()->get_trial_displacement();
-
-    vec tmp_strain(3);
+    vec t_strain(3);
 
     stiffness.zeros();
     resistance.zeros();
@@ -81,11 +76,14 @@ int CP4::update_status() {
         const auto& NX4 = I->pn_pxy(0, 3);
         const auto& NY4 = I->pn_pxy(1, 3);
 
-        tmp_strain(0) = NX1 * TD0(0) + NX2 * TD1(0) + NX3 * TD2(0) + NX4 * TD3(0);
-        tmp_strain(1) = NY1 * TD0(1) + NY2 * TD1(1) + NY3 * TD2(1) + NY4 * TD3(1);
-        tmp_strain(2) = NX1 * TD0(1) + NX2 * TD1(1) + NX3 * TD2(1) + NX4 * TD3(1) + NY1 * TD0(0) + NY2 * TD1(0) + NY3 * TD2(0) + NY4 * TD3(0);
-
-        code += I->m_material->update_trial_status(tmp_strain);
+        t_strain.zeros();
+        for(auto J = 0; J < m_node; ++J) {
+            const auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
+            t_strain(0) += t_disp(0) * I->pn_pxy(0, J);
+            t_strain(1) += t_disp(1) * I->pn_pxy(1, J);
+            t_strain(2) += t_disp(0) * I->pn_pxy(1, J) + t_disp(1) * I->pn_pxy(0, J);
+        }
+        code += I->m_material->update_trial_status(t_strain);
 
         // OPTIMIZED STIFFNESS MATRRIX FORMULATION B'*D*B
         // MATLAB SYMBOLIC COMPUTATION CODE:
@@ -99,7 +97,7 @@ int CP4::update_status() {
         // R=N'*S;
         // FOR EACH INTEGRATION POINT DIRECTLY COMPUTING B'*D*B IS OF
         // COMPLEXITY OF
-        // 8*3*3*8*3*8=13824
+        // 8*3*3+8*3*8=264
         // FOLLOWING CODES ONLY HAVE 117 MULTIPLICATIONS AND 95 ADDTIONS
         // AND COPY OF UPPER
         // TRIANGLE TO LOWER PART
@@ -176,9 +174,9 @@ int CP4::update_status() {
         stiffness(4, 6) += NX4 * MM + NY4 * WW;
         stiffness(4, 7) += NX4 * WW + NY4 * XX;
         stiffness(5, 5) += NX3 * YY + NY3 * LL;
-        stiffness(5, 6) += NX4 * (EE + D01 * NY3) + NY4 * YY;
+        stiffness(5, 6) += NY4 * YY + NX4 * (EE + D01 * NY3);
         stiffness(5, 7) += NX4 * YY + NY4 * LL;
-        stiffness(6, 6) += NX4 * (D00 * NX4 + D02 * NY4) + NY4 * NN;
+        stiffness(6, 6) += NY4 * NN + NX4 * (D00 * NX4 + D02 * NY4);
         stiffness(6, 7) += NX4 * NN + NY4 * (D01 * NX4 + GG);
         stiffness(7, 7) += NX4 * (D22 * NX4 + GG) + NY4 * (D12 * NX4 + D11 * NY4);
 

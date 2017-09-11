@@ -23,8 +23,7 @@ class C3D8 final : public Element {
         unique_ptr<Material> c_material;
     };
 
-    static const unsigned c_node;
-    static const unsigned c_dof;
+    static const unsigned c_node, c_dof;
 
     const bool reduced_scheme;
 
