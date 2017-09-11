@@ -166,58 +166,58 @@ int CP4::update_status() {
         const auto D12NX4D23NY4 = D12NX4 + D23NY4;
         const auto D23NX4D22NY4 = D23NX4 + D22NY4;
 
-        stiffness(0, 0) = NX1 * D11NX1D13NY1 + NY1 * D13NX1D33NY1;
-        stiffness(0, 1) = NX1 * D13NX1D33NY1 + NY1 * D12NX1D23NY1;
-        stiffness(0, 2) = NX2 * D11NX1D13NY1 + NY2 * D13NX1D33NY1;
-        stiffness(0, 3) = NX2 * D13NX1D33NY1 + NY2 * D12NX1D23NY1;
-        stiffness(0, 4) = NX3 * D11NX1D13NY1 + NY3 * D13NX1D33NY1;
-        stiffness(0, 5) = NX3 * D13NX1D33NY1 + NY3 * D12NX1D23NY1;
-        stiffness(0, 6) = NX4 * D11NX1D13NY1 + NY4 * D13NX1D33NY1;
-        stiffness(0, 7) = NX4 * D13NX1D33NY1 + NY4 * D12NX1D23NY1;
+        stiffness(0, 0) += NX1 * D11NX1D13NY1 + NY1 * D13NX1D33NY1;
+        stiffness(0, 1) += NX1 * D13NX1D33NY1 + NY1 * D12NX1D23NY1;
+        stiffness(0, 2) += NX2 * D11NX1D13NY1 + NY2 * D13NX1D33NY1;
+        stiffness(0, 3) += NX2 * D13NX1D33NY1 + NY2 * D12NX1D23NY1;
+        stiffness(0, 4) += NX3 * D11NX1D13NY1 + NY3 * D13NX1D33NY1;
+        stiffness(0, 5) += NX3 * D13NX1D33NY1 + NY3 * D12NX1D23NY1;
+        stiffness(0, 6) += NX4 * D11NX1D13NY1 + NY4 * D13NX1D33NY1;
+        stiffness(0, 7) += NX4 * D13NX1D33NY1 + NY4 * D12NX1D23NY1;
 
-        stiffness(1, 1) = NX1 * D33NX1D23NY1 + NY1 * D23NX1D22NY1;
-        stiffness(1, 2) = NX2 * D13NX1D12NY1 + NY2 * D33NX1D23NY1;
-        stiffness(1, 3) = NX2 * D33NX1D23NY1 + NY2 * D23NX1D22NY1;
-        stiffness(1, 4) = NX3 * D13NX1D12NY1 + NY3 * D33NX1D23NY1;
-        stiffness(1, 5) = NX3 * D33NX1D23NY1 + NY3 * D23NX1D22NY1;
-        stiffness(1, 6) = NX4 * D13NX1D12NY1 + NY4 * D33NX1D23NY1;
-        stiffness(1, 7) = NX4 * D33NX1D23NY1 + NY4 * D23NX1D22NY1;
+        stiffness(1, 1) += NX1 * D33NX1D23NY1 + NY1 * D23NX1D22NY1;
+        stiffness(1, 2) += NX2 * D13NX1D12NY1 + NY2 * D33NX1D23NY1;
+        stiffness(1, 3) += NX2 * D33NX1D23NY1 + NY2 * D23NX1D22NY1;
+        stiffness(1, 4) += NX3 * D13NX1D12NY1 + NY3 * D33NX1D23NY1;
+        stiffness(1, 5) += NX3 * D33NX1D23NY1 + NY3 * D23NX1D22NY1;
+        stiffness(1, 6) += NX4 * D13NX1D12NY1 + NY4 * D33NX1D23NY1;
+        stiffness(1, 7) += NX4 * D33NX1D23NY1 + NY4 * D23NX1D22NY1;
 
-        stiffness(2, 2) = NX2 * D11NX2D13NY2 + NY2 * D13NX2D33NY2;
-        stiffness(2, 3) = NX2 * D13NX2D33NY2 + NY2 * D12NX2D23NY2;
-        stiffness(2, 4) = NX3 * D11NX2D13NY2 + NY3 * D13NX2D33NY2;
-        stiffness(2, 5) = NX3 * D13NX2D33NY2 + NY3 * D12NX2D23NY2;
-        stiffness(2, 6) = NX4 * D11NX2D13NY2 + NY4 * D13NX2D33NY2;
-        stiffness(2, 7) = NX4 * D13NX2D33NY2 + NY4 * D12NX2D23NY2;
+        stiffness(2, 2) += NX2 * D11NX2D13NY2 + NY2 * D13NX2D33NY2;
+        stiffness(2, 3) += NX2 * D13NX2D33NY2 + NY2 * D12NX2D23NY2;
+        stiffness(2, 4) += NX3 * D11NX2D13NY2 + NY3 * D13NX2D33NY2;
+        stiffness(2, 5) += NX3 * D13NX2D33NY2 + NY3 * D12NX2D23NY2;
+        stiffness(2, 6) += NX4 * D11NX2D13NY2 + NY4 * D13NX2D33NY2;
+        stiffness(2, 7) += NX4 * D13NX2D33NY2 + NY4 * D12NX2D23NY2;
 
-        stiffness(3, 3) = NX2 * D33NX2D23NY2 + NY2 * D23NX2D22NY2;
-        stiffness(3, 4) = NX3 * D13NX2D12NY2 + NY3 * D33NX2D23NY2;
-        stiffness(3, 5) = NX3 * D33NX2D23NY2 + NY3 * D23NX2D22NY2;
-        stiffness(3, 6) = NX4 * D13NX2D12NY2 + NY4 * D33NX2D23NY2;
-        stiffness(3, 7) = NX4 * D33NX2D23NY2 + NY4 * D23NX2D22NY2;
+        stiffness(3, 3) += NX2 * D33NX2D23NY2 + NY2 * D23NX2D22NY2;
+        stiffness(3, 4) += NX3 * D13NX2D12NY2 + NY3 * D33NX2D23NY2;
+        stiffness(3, 5) += NX3 * D33NX2D23NY2 + NY3 * D23NX2D22NY2;
+        stiffness(3, 6) += NX4 * D13NX2D12NY2 + NY4 * D33NX2D23NY2;
+        stiffness(3, 7) += NX4 * D33NX2D23NY2 + NY4 * D23NX2D22NY2;
 
-        stiffness(4, 4) = NX3 * D11NX3D13NY3 + NY3 * D13NX3D33NY3;
-        stiffness(4, 5) = NX3 * D13NX3D33NY3 + NY3 * D12NX3D23NY3;
-        stiffness(4, 6) = NX4 * D11NX3D13NY3 + NY4 * D13NX3D33NY3;
-        stiffness(4, 7) = NX4 * D13NX3D33NY3 + NY4 * D12NX3D23NY3;
+        stiffness(4, 4) += NX3 * D11NX3D13NY3 + NY3 * D13NX3D33NY3;
+        stiffness(4, 5) += NX3 * D13NX3D33NY3 + NY3 * D12NX3D23NY3;
+        stiffness(4, 6) += NX4 * D11NX3D13NY3 + NY4 * D13NX3D33NY3;
+        stiffness(4, 7) += NX4 * D13NX3D33NY3 + NY4 * D12NX3D23NY3;
 
-        stiffness(5, 5) = NX3 * D33NX3D23NY3 + NY3 * D23NX3D22NY3;
-        stiffness(5, 6) = NX4 * D13NX3D12NY3 + NY4 * D33NX3D23NY3;
-        stiffness(5, 7) = NX4 * D33NX3D23NY3 + NY4 * D23NX3D22NY3;
+        stiffness(5, 5) += NX3 * D33NX3D23NY3 + NY3 * D23NX3D22NY3;
+        stiffness(5, 6) += NX4 * D13NX3D12NY3 + NY4 * D33NX3D23NY3;
+        stiffness(5, 7) += NX4 * D33NX3D23NY3 + NY4 * D23NX3D22NY3;
 
-        stiffness(6, 6) = NX4 * D11NX4D13NY4 + NY4 * D13NX4D33NY4;
-        stiffness(6, 7) = NX4 * D13NX4D33NY4 + NY4 * D12NX4D23NY4;
+        stiffness(6, 6) += NX4 * D11NX4D13NY4 + NY4 * D13NX4D33NY4;
+        stiffness(6, 7) += NX4 * D13NX4D33NY4 + NY4 * D12NX4D23NY4;
 
-        stiffness(7, 7) = NX4 * D33NX4D23NY4 + NY4 * D23NX4D22NY4;
+        stiffness(7, 7) += NX4 * D33NX4D23NY4 + NY4 * D23NX4D22NY4;
 
-        resistance(0) = NX1 * S1 + NY1 * S3;
-        resistance(1) = NX1 * S3 + NY1 * S2;
-        resistance(2) = NX2 * S1 + NY2 * S3;
-        resistance(3) = NX2 * S3 + NY2 * S2;
-        resistance(4) = NX3 * S1 + NY3 * S3;
-        resistance(5) = NX3 * S3 + NY3 * S2;
-        resistance(6) = NX4 * S1 + NY4 * S3;
-        resistance(7) = NX4 * S3 + NY4 * S2;
+        resistance(0) += NX1 * S1 + NY1 * S3;
+        resistance(1) += NX1 * S3 + NY1 * S2;
+        resistance(2) += NX2 * S1 + NY2 * S3;
+        resistance(3) += NX2 * S3 + NY2 * S2;
+        resistance(4) += NX3 * S1 + NY3 * S3;
+        resistance(5) += NX3 * S3 + NY3 * S2;
+        resistance(6) += NX4 * S1 + NY4 * S3;
+        resistance(7) += NX4 * S3 + NY4 * S2;
     }
 
     for(auto I = 0; I < 7; ++I)
