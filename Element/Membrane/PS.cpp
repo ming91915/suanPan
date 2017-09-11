@@ -1,6 +1,6 @@
 #include "PS.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunction.h>
+#include <Toolbox/shapeFunction.hpp>
 
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;
@@ -35,7 +35,7 @@ void PS::initialize(const shared_ptr<Domain>& D) {
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mat jacob_center = shapeFunctionQuad(zeros(2), 1) * ele_coor;
+    mat jacob_center = shapeFunctionQuad(vec(2, fill::zeros), 1) * ele_coor;
 
     const auto jacob_a = jacob_center(0, 0) * jacob_center(0, 0);
     const auto jacob_b = jacob_center(1, 0) * jacob_center(1, 0);

@@ -1,6 +1,6 @@
 #include "Proto01.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunction.h>
+#include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>
 
 const unsigned Proto01::m_node = 4;

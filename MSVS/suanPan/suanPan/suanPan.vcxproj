@@ -212,7 +212,6 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp" />
-    <ClCompile Include="..\..\..\Toolbox\shapeFunction.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
     <ClCompile Include="..\..\..\Toolbox\utility.cpp" />
   </ItemGroup>
@@ -281,7 +280,7 @@
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h" />
     <ClInclude Include="..\..\..\Toolbox\RCM.h" />
-    <ClInclude Include="..\..\..\Toolbox\shapeFunction.h" />
+    <ClInclude Include="..\..\..\Toolbox\shapeFunction.hpp" />
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h" />
     <ClInclude Include="..\..\..\Toolbox\utility.h" />
   </ItemGroup>

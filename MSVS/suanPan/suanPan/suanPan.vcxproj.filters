@@ -198,9 +198,6 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\shapeFunction.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -401,7 +398,7 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\shapeFunction.h">
+    <ClInclude Include="..\..\..\Toolbox\shapeFunction.hpp">
       <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "GQ12.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunction.h>
+#include <Toolbox/shapeFunction.hpp>
 
 const unsigned GQ12::m_node = 4;
 const unsigned GQ12::m_dof = 3;

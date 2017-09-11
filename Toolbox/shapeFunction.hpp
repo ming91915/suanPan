@@ -1,15 +1,33 @@
-#include "shapeFunction.h"
+/**
+ * @fn shapeFunction
+ * @brief An shapeFunction function.
+ *
+ * The function is designed to return the shape function for four- and eight-node quad elements.
+ *
+ * @author T
+ * @date 11/09/2017
+ * @version 0.1.1
+ * @file shapeFunction.hpp
+ * @addtogroup Utility
+ * @{
+ */
 
-template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM) {
+#ifndef SHAPEFUNCTION_HPP
+#define SHAPEFUNCTION_HPP
+
+#include <armadillo>
+
+using namespace arma;
+
+template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 4) {
+    Mat<T> N;
+
+    if(ORDER != 0 && ORDER != 1) return N;
+
+    N.zeros(ORDER + 1, NODENUM);
+
     const auto& X = INTPTS(0);
     const auto& Y = INTPTS(1);
-
-    Mat<T> N(ORDER + 1, NODENUM, fill::zeros);
-
-    if(ORDER != 0 && ORDER != 1) {
-        N.reset();
-        return N;
-    }
 
     const auto XP = 1. + X;
     const auto XM = 1. - X;
@@ -17,7 +35,6 @@ template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsig
     const auto YM = 1. - Y;
 
     if(NODENUM == 4) {
-
         if(ORDER == 0) {
             N(0, 3) = XM * YP;
             N(0, 2) = XP * YP;
@@ -75,4 +92,8 @@ template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsig
     }
 
     return N;
-};
+}
+
+#endif
+
+//! @}

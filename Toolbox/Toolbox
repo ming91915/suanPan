@@ -5,6 +5,6 @@
 #include "integrationPlan.h"
 #include "PropertyType.h"
 #include "RCM.h"
-#include "shapeFunction.h"
+#include "shapeFunction.hpp"
 #include "tensorToolbox.h"
 #include "utility.h"
