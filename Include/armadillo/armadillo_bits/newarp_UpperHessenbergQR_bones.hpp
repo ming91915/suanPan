@@ -16,8 +16,7 @@
 namespace newarp {
 
 //! Perform the QR decomposition of an upper Hessenberg matrix.
-template <typename eT>
-class UpperHessenbergQR {
+template <typename eT> class UpperHessenbergQR {
 protected:
     uword n;
     Mat<eT> mat_T;
@@ -50,8 +49,7 @@ public:
 
 //! Perform the QR decomposition of a tridiagonal matrix, a special
 //! case of upper Hessenberg matrices.
-template <typename eT>
-class TridiagQR : public UpperHessenbergQR<eT> {
+template <typename eT> class TridiagQR : public UpperHessenbergQR<eT> {
 public:
     //! Default constructor. Computation can
     //! be performed later by calling the compute() method.

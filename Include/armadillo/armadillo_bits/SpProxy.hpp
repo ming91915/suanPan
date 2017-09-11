@@ -16,8 +16,7 @@
 //! \addtogroup SpProxy
 //! @{
 
-template <typename eT>
-class SpProxy<SpMat<eT>> {
+template <typename eT> class SpProxy<SpMat<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -60,14 +59,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>& X) const {
-        return (void_ptr(&Q) == void_ptr(&X));
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>& X) const { return (void_ptr(&Q) == void_ptr(&X)); }
 };
 
-template <typename eT>
-class SpProxy<SpCol<eT>> {
+template <typename eT> class SpProxy<SpCol<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -110,14 +105,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>& X) const {
-        return (void_ptr(&Q) == void_ptr(&X));
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>& X) const { return (void_ptr(&Q) == void_ptr(&X)); }
 };
 
-template <typename eT>
-class SpProxy<SpRow<eT>> {
+template <typename eT> class SpProxy<SpRow<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -160,14 +151,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>& X) const {
-        return (void_ptr(&Q) == void_ptr(&X));
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>& X) const { return (void_ptr(&Q) == void_ptr(&X)); }
 };
 
-template <typename eT>
-class SpProxy<SpSubview<eT>> {
+template <typename eT> class SpProxy<SpSubview<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -210,14 +197,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>& X) const {
-        return (void_ptr(&Q.m) == void_ptr(&X));
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>& X) const { return (void_ptr(&Q.m) == void_ptr(&X)); }
 };
 
-template <typename eT>
-class SpProxy<spdiagview<eT>> {
+template <typename eT> class SpProxy<spdiagview<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -259,14 +242,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>&) const {
-        return false;
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>&) const { return false; }
 };
 
-template <typename T1, typename spop_type>
-class SpProxy<SpOp<T1, spop_type>> {
+template <typename T1, typename spop_type> class SpProxy<SpOp<T1, spop_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename T1::elem_type eT;
@@ -309,14 +288,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>&) const {
-        return false;
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>&) const { return false; }
 };
 
-template <typename T1, typename T2, typename spglue_type>
-class SpProxy<SpGlue<T1, T2, spglue_type>> {
+template <typename T1, typename T2, typename spglue_type> class SpProxy<SpGlue<T1, T2, spglue_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename T1::elem_type eT;
@@ -359,14 +334,10 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>&) const {
-        return false;
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>&) const { return false; }
 };
 
-template <typename out_eT, typename T1, typename spop_type>
-class SpProxy<mtSpOp<out_eT, T1, spop_type>> {
+template <typename out_eT, typename T1, typename spop_type> class SpProxy<mtSpOp<out_eT, T1, spop_type>> {
 public:
     typedef out_eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -408,10 +379,7 @@ public:
     arma_inline const_row_iterator_type end_row() const { return Q.end_row(); }
     arma_inline const_row_iterator_type end_row(const uword row_num) const { return Q.end_row(row_num); }
 
-    template <typename eT2>
-    arma_inline bool is_alias(const SpMat<eT2>&) const {
-        return false;
-    }
+    template <typename eT2> arma_inline bool is_alias(const SpMat<eT2>&) const { return false; }
 };
 
 //! @}

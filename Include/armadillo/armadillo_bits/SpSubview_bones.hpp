@@ -16,8 +16,7 @@
 //! \addtogroup SpSubview
 //! @{
 
-template <typename eT>
-class SpSubview : public SpBase<eT, SpSubview<eT>> {
+template <typename eT> class SpSubview : public SpBase<eT, SpSubview<eT>> {
 public:
     const SpMat<eT>& m;
 
@@ -51,34 +50,21 @@ public:
 
     inline const SpSubview& operator=(const SpSubview& x);
 
-    template <typename T1>
-    inline const SpSubview& operator=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator+=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator-=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator*=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator%=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator/=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator+=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator-=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator*=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator%=(const Base<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator/=(const Base<eT, T1>& x);
 
-    template <typename T1>
-    inline const SpSubview& operator_equ_common(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator_equ_common(const SpBase<eT, T1>& x);
 
-    template <typename T1>
-    inline const SpSubview& operator=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator+=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator-=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator*=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator%=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline const SpSubview& operator/=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator+=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator-=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator*=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator%=(const SpBase<eT, T1>& x);
+    template <typename T1> inline const SpSubview& operator/=(const SpBase<eT, T1>& x);
 
     /*
     inline static void extract(SpMat<eT>& out, const SpSubview& in);

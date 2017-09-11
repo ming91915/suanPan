@@ -80,17 +80,14 @@ static const gmm_seed_random_spread random_spread;
 
 namespace gmm_priv {
 
-template <typename eT>
-class gmm_diag;
-template <typename eT>
-class gmm_full;
+template <typename eT> class gmm_diag;
+template <typename eT> class gmm_full;
 
 struct gmm_empty_arg {};
 
 // running_mean_scalar
 
-template <typename eT>
-class running_mean_scalar {
+template <typename eT> class running_mean_scalar {
 public:
     inline running_mean_scalar();
     inline running_mean_scalar(const running_mean_scalar& in_rms);
@@ -111,18 +108,11 @@ private:
 
 // distance
 
-template <typename eT, uword dist_id>
-struct distance {};
+template <typename eT, uword dist_id> struct distance {};
 
-template <typename eT>
-struct distance<eT, uword(1)> {
-    arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT*);
-};
+template <typename eT> struct distance<eT, uword(1)> { arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT*); };
 
-template <typename eT>
-struct distance<eT, uword(2)> {
-    arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT* C);
-};
+template <typename eT> struct distance<eT, uword(2)> { arma_inline arma_hot static eT eval(const uword N, const eT* A, const eT* B, const eT* C); };
 }
 
 //! @}

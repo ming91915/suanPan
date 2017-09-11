@@ -16,8 +16,7 @@
 //! \addtogroup fn_pinv
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_real<typename T1::pod_type>::value, const Op<T1, op_pinv>>::result pinv(const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const char* method = "dc") {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_real<typename T1::pod_type>::value, const Op<T1, op_pinv>>::result pinv(const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const char* method = "dc") {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -29,8 +28,7 @@ arma_warn_unused inline typename enable_if2<is_real<typename T1::pod_type>::valu
     return (sig == 'd') ? Op<T1, op_pinv>(X.get_ref(), eT(tol), 1, 0) : Op<T1, op_pinv>(X.get_ref(), eT(tol), 0, 0);
 }
 
-template <typename T1>
-inline typename enable_if2<is_real<typename T1::pod_type>::value, bool>::result pinv(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const char* method = "dc") {
+template <typename T1> inline typename enable_if2<is_real<typename T1::pod_type>::value, bool>::result pinv(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X, const typename T1::pod_type tol = 0.0, const char* method = "dc") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);

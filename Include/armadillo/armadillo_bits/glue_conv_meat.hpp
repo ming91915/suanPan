@@ -17,8 +17,7 @@
 //! @{
 
 // TODO: this implementation of conv() is rudimentary; replace with faster version
-template <typename eT>
-inline void glue_conv::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const bool A_is_col) {
+template <typename eT> inline void glue_conv::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const bool A_is_col) {
     arma_extra_debug_sigprint();
 
     const Mat<eT>& h = (A.n_elem <= B.n_elem) ? A : B;
@@ -150,8 +149,7 @@ inline void glue_conv::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, c
 //     }
 //   }
 
-template <typename T1, typename T2>
-inline void glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_conv>& expr) {
+template <typename T1, typename T2> inline void glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_conv>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -190,8 +188,7 @@ inline void glue_conv::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2
 ///
 
 // TODO: this implementation of conv2() is rudimentary; replace with faster version
-template <typename eT>
-inline void glue_conv2::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) {
+template <typename eT> inline void glue_conv2::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const Mat<eT>& G = (A.n_elem <= B.n_elem) ? A : B; // unflipped filter coefficients
@@ -245,8 +242,7 @@ inline void glue_conv2::apply(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) 
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_conv2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_conv2>& expr) {
+template <typename T1, typename T2> inline void glue_conv2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_conv2>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup op_shift
 //! @{
 
-template <typename T1>
-inline void op_shift_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift_default>& in) {
+template <typename T1> inline void op_shift_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift_default>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -29,8 +28,7 @@ inline void op_shift_default::apply(Mat<typename T1::elem_type>& out, const Op<T
     op_shift::apply_direct(out, U.M, len, neg, dim);
 }
 
-template <typename T1>
-inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift>& in) {
+template <typename T1> inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shift>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -44,8 +42,7 @@ inline void op_shift::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sh
     op_shift::apply_direct(out, U.M, len, neg, dim);
 }
 
-template <typename eT>
-inline void op_shift::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
+template <typename eT> inline void op_shift::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((dim == 0) && (len >= X.n_rows)), "shift(): shift amount out of bounds");
@@ -58,8 +55,7 @@ inline void op_shift::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword l
     }
 }
 
-template <typename eT>
-inline void op_shift::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
+template <typename eT> inline void op_shift::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
     out.copy_size(X);
@@ -118,8 +114,7 @@ inline void op_shift::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword 
     }
 }
 
-template <typename eT>
-inline void op_shift::apply_alias(Mat<eT>& X, const uword len, const uword neg, const uword dim) {
+template <typename eT> inline void op_shift::apply_alias(Mat<eT>& X, const uword len, const uword neg, const uword dim) {
     arma_extra_debug_sigprint();
 
     // TODO: replace with better implementation

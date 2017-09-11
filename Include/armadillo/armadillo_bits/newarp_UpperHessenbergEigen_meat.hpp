@@ -31,8 +31,7 @@ inline UpperHessenbergEigen<eT>::UpperHessenbergEigen(const Mat<eT>& mat_obj)
     compute(mat_obj);
 }
 
-template <typename eT>
-inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj) {
+template <typename eT> inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((mat_obj.is_square() == false), "newarp::UpperHessenbergEigen::compute(): matrix must be square");
@@ -84,8 +83,7 @@ inline void UpperHessenbergEigen<eT>::compute(const Mat<eT>& mat_obj) {
     computed = true;
 }
 
-template <typename eT>
-inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues() {
+template <typename eT> inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::UpperHessenbergEigen::eigenvalues(): need to call compute() first");
@@ -93,8 +91,7 @@ inline Col<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvalues() {
     return evals;
 }
 
-template <typename eT>
-inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors() {
+template <typename eT> inline Mat<std::complex<eT>> UpperHessenbergEigen<eT>::eigenvectors() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::UpperHessenbergEigen::eigenvectors(): need to call compute() first");

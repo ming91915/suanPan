@@ -26,23 +26,13 @@ inline subview_each_common<parent, mode>::subview_each_common(const parent& in_P
     arma_extra_debug_sigprint();
 }
 
-template <typename parent, unsigned int mode>
-arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref_helper(const Mat<typename parent::elem_type>& X) const {
-    return X;
-}
+template <typename parent, unsigned int mode> arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref_helper(const Mat<typename parent::elem_type>& X) const { return X; }
 
-template <typename parent, unsigned int mode>
-arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref_helper(const subview<typename parent::elem_type>& X) const {
-    return X.m;
-}
+template <typename parent, unsigned int mode> arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref_helper(const subview<typename parent::elem_type>& X) const { return X.m; }
 
-template <typename parent, unsigned int mode>
-arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref() const {
-    return get_mat_ref_helper(P);
-}
+template <typename parent, unsigned int mode> arma_inline const Mat<typename parent::elem_type>& subview_each_common<parent, mode>::get_mat_ref() const { return get_mat_ref_helper(P); }
 
-template <typename parent, unsigned int mode>
-inline void subview_each_common<parent, mode>::check_size(const Mat<typename parent::elem_type>& A) const {
+template <typename parent, unsigned int mode> inline void subview_each_common<parent, mode>::check_size(const Mat<typename parent::elem_type>& A) const {
     if(arma_config::debug == true) {
         if(mode == 0) {
             if((A.n_rows != P.n_rows) || (A.n_cols != 1)) { arma_stop_logic_error(incompat_size_string(A)); }
@@ -52,8 +42,7 @@ inline void subview_each_common<parent, mode>::check_size(const Mat<typename par
     }
 }
 
-template <typename parent, unsigned int mode>
-arma_cold inline const std::string subview_each_common<parent, mode>::incompat_size_string(const Mat<typename parent::elem_type>& A) const {
+template <typename parent, unsigned int mode> arma_cold inline const std::string subview_each_common<parent, mode>::incompat_size_string(const Mat<typename parent::elem_type>& A) const {
     std::stringstream tmp;
 
     if(mode == 0) {
@@ -70,10 +59,7 @@ arma_cold inline const std::string subview_each_common<parent, mode>::incompat_s
 //
 // subview_each1
 
-template <typename parent, unsigned int mode>
-inline subview_each1<parent, mode>::~subview_each1() {
-    arma_extra_debug_sigprint();
-}
+template <typename parent, unsigned int mode> inline subview_each1<parent, mode>::~subview_each1() { arma_extra_debug_sigprint(); }
 
 template <typename parent, unsigned int mode>
 inline subview_each1<parent, mode>::subview_each1(const parent& in_P)
@@ -81,9 +67,7 @@ inline subview_each1<parent, mode>::subview_each1(const parent& in_P)
     arma_extra_debug_sigprint();
 }
 
-template <typename parent, unsigned int mode>
-template <typename T1>
-inline void subview_each1<parent, mode>::operator=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode> template <typename T1> inline void subview_each1<parent, mode>::operator=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -106,9 +90,7 @@ inline void subview_each1<parent, mode>::operator=(const Base<eT, T1>& in) {
     }
 }
 
-template <typename parent, unsigned int mode>
-template <typename T1>
-inline void subview_each1<parent, mode>::operator+=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode> template <typename T1> inline void subview_each1<parent, mode>::operator+=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -131,9 +113,7 @@ inline void subview_each1<parent, mode>::operator+=(const Base<eT, T1>& in) {
     }
 }
 
-template <typename parent, unsigned int mode>
-template <typename T1>
-inline void subview_each1<parent, mode>::operator-=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode> template <typename T1> inline void subview_each1<parent, mode>::operator-=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -156,9 +136,7 @@ inline void subview_each1<parent, mode>::operator-=(const Base<eT, T1>& in) {
     }
 }
 
-template <typename parent, unsigned int mode>
-template <typename T1>
-inline void subview_each1<parent, mode>::operator%=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode> template <typename T1> inline void subview_each1<parent, mode>::operator%=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -181,9 +159,7 @@ inline void subview_each1<parent, mode>::operator%=(const Base<eT, T1>& in) {
     }
 }
 
-template <typename parent, unsigned int mode>
-template <typename T1>
-inline void subview_each1<parent, mode>::operator/=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode> template <typename T1> inline void subview_each1<parent, mode>::operator/=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -210,10 +186,7 @@ inline void subview_each1<parent, mode>::operator/=(const Base<eT, T1>& in) {
 //
 // subview_each2
 
-template <typename parent, unsigned int mode, typename TB>
-inline subview_each2<parent, mode, TB>::~subview_each2() {
-    arma_extra_debug_sigprint();
-}
+template <typename parent, unsigned int mode, typename TB> inline subview_each2<parent, mode, TB>::~subview_each2() { arma_extra_debug_sigprint(); }
 
 template <typename parent, unsigned int mode, typename TB>
 inline subview_each2<parent, mode, TB>::subview_each2(const parent& in_P, const Base<uword, TB>& in_indices)
@@ -222,8 +195,7 @@ inline subview_each2<parent, mode, TB>::subview_each2(const parent& in_P, const 
     arma_extra_debug_sigprint();
 }
 
-template <typename parent, unsigned int mode, typename TB>
-inline void subview_each2<parent, mode, TB>::check_indices(const Mat<uword>& indices) const {
+template <typename parent, unsigned int mode, typename TB> inline void subview_each2<parent, mode, TB>::check_indices(const Mat<uword>& indices) const {
     if(mode == 0) {
         arma_debug_check(((indices.is_vec() == false) && (indices.is_empty() == false)), "each_col(): list of indices must be a vector");
     } else {
@@ -231,9 +203,7 @@ inline void subview_each2<parent, mode, TB>::check_indices(const Mat<uword>& ind
     }
 }
 
-template <typename parent, unsigned int mode, typename TB>
-template <typename T1>
-inline void subview_each2<parent, mode, TB>::operator=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode, typename TB> template <typename T1> inline void subview_each2<parent, mode, TB>::operator=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -275,9 +245,7 @@ inline void subview_each2<parent, mode, TB>::operator=(const Base<eT, T1>& in) {
     }
 }
 
-template <typename parent, unsigned int mode, typename TB>
-template <typename T1>
-inline void subview_each2<parent, mode, TB>::operator+=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode, typename TB> template <typename T1> inline void subview_each2<parent, mode, TB>::operator+=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -320,9 +288,7 @@ inline void subview_each2<parent, mode, TB>::operator+=(const Base<eT, T1>& in) 
     }
 }
 
-template <typename parent, unsigned int mode, typename TB>
-template <typename T1>
-inline void subview_each2<parent, mode, TB>::operator-=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode, typename TB> template <typename T1> inline void subview_each2<parent, mode, TB>::operator-=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -365,9 +331,7 @@ inline void subview_each2<parent, mode, TB>::operator-=(const Base<eT, T1>& in) 
     }
 }
 
-template <typename parent, unsigned int mode, typename TB>
-template <typename T1>
-inline void subview_each2<parent, mode, TB>::operator%=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode, typename TB> template <typename T1> inline void subview_each2<parent, mode, TB>::operator%=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -410,9 +374,7 @@ inline void subview_each2<parent, mode, TB>::operator%=(const Base<eT, T1>& in) 
     }
 }
 
-template <typename parent, unsigned int mode, typename TB>
-template <typename T1>
-inline void subview_each2<parent, mode, TB>::operator/=(const Base<eT, T1>& in) {
+template <typename parent, unsigned int mode, typename TB> template <typename T1> inline void subview_each2<parent, mode, TB>::operator/=(const Base<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     parent& p = access::rw(subview_each_common<parent, mode>::P);
@@ -459,8 +421,7 @@ inline void subview_each2<parent, mode, TB>::operator/=(const Base<eT, T1>& in) 
 //
 // subview_each1_aux
 
-template <typename parent, unsigned int mode, typename T2>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_plus(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> inline Mat<typename parent::elem_type> subview_each1_aux::operator_plus(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -504,8 +465,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_plus(const su
     return out;
 }
 
-template <typename parent, unsigned int mode, typename T2>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -549,8 +509,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const s
     return out;
 }
 
-template <typename T1, typename parent, unsigned int mode>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
+template <typename T1, typename parent, unsigned int mode> inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -594,8 +553,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_minus(const B
     return out;
 }
 
-template <typename parent, unsigned int mode, typename T2>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_schur(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> inline Mat<typename parent::elem_type> subview_each1_aux::operator_schur(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -639,8 +597,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_schur(const s
     return out;
 }
 
-template <typename parent, unsigned int mode, typename T2>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -684,8 +641,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const sub
     return out;
 }
 
-template <typename T1, typename parent, unsigned int mode>
-inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
+template <typename T1, typename parent, unsigned int mode> inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -733,8 +689,7 @@ inline Mat<typename parent::elem_type> subview_each1_aux::operator_div(const Bas
 //
 // subview_each2_aux
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_plus(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> inline Mat<typename parent::elem_type> subview_each2_aux::operator_plus(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -784,8 +739,7 @@ inline Mat<typename parent::elem_type> subview_each2_aux::operator_plus(const su
     return out;
 }
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -835,8 +789,7 @@ inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const s
     return out;
 }
 
-template <typename T1, typename parent, unsigned int mode, typename TB>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
+template <typename T1, typename parent, unsigned int mode, typename TB> inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -889,8 +842,7 @@ inline Mat<typename parent::elem_type> subview_each2_aux::operator_minus(const B
     return out;
 }
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_schur(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> inline Mat<typename parent::elem_type> subview_each2_aux::operator_schur(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -940,8 +892,7 @@ inline Mat<typename parent::elem_type> subview_each2_aux::operator_schur(const s
     return out;
 }
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_div(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> inline Mat<typename parent::elem_type> subview_each2_aux::operator_div(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;
@@ -991,8 +942,7 @@ inline Mat<typename parent::elem_type> subview_each2_aux::operator_div(const sub
     return out;
 }
 
-template <typename T1, typename parent, unsigned int mode, typename TB>
-inline Mat<typename parent::elem_type> subview_each2_aux::operator_div(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
+template <typename T1, typename parent, unsigned int mode, typename TB> inline Mat<typename parent::elem_type> subview_each2_aux::operator_div(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename parent::elem_type eT;

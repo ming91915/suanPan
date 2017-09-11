@@ -16,8 +16,7 @@
 //! \addtogroup spglue_times
 //! @{
 
-template <typename T1, typename T2>
-inline void spglue_times::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times>& X) {
+template <typename T1, typename T2> inline void spglue_times::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -42,8 +41,7 @@ inline void spglue_times::apply(SpMat<typename T1::elem_type>& out, const SpGlue
     }
 }
 
-template <typename eT, typename T1, typename T2>
-arma_hot inline void spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
+template <typename eT, typename T1, typename T2> arma_hot inline void spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     arma_extra_debug_sigprint();
 
     const uword x_n_rows = pa.get_n_rows();
@@ -224,8 +222,7 @@ arma_hot inline void spglue_times::apply_noalias(SpMat<eT>& c, const SpProxy<T1>
 //
 // spglue_times2: scalar*(A * B)
 
-template <typename T1, typename T2>
-inline void spglue_times2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times2>& X) {
+template <typename T1, typename T2> inline void spglue_times2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_times2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup glue_max
 //! @{
 
-template <typename T1, typename T2>
-inline void glue_max::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_max>& X) {
+template <typename T1, typename T2> inline void glue_max::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_max>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -36,8 +35,7 @@ inline void glue_max::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2,
     }
 }
 
-template <typename eT, typename T1, typename T2>
-inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
+template <typename eT, typename T1, typename T2> inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = PA.get_n_rows();
@@ -66,8 +64,7 @@ inline void glue_max::apply(Mat<eT>& out, const Proxy<T1>& PA, const Proxy<T2>& 
     }
 }
 
-template <typename T, typename T1, typename T2>
-inline void glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
+template <typename T, typename T1, typename T2> inline void glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -106,8 +103,7 @@ inline void glue_max::apply(Mat<std::complex<T>>& out, const Proxy<T1>& PA, cons
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_max::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_max>& X) {
+template <typename T1, typename T2> inline void glue_max::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_max>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -126,8 +122,7 @@ inline void glue_max::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1
     }
 }
 
-template <typename eT, typename T1, typename T2>
-inline void glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
+template <typename eT, typename T1, typename T2> inline void glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = PA.get_n_rows();
@@ -158,8 +153,7 @@ inline void glue_max::apply(Cube<eT>& out, const ProxyCube<T1>& PA, const ProxyC
     }
 }
 
-template <typename T, typename T1, typename T2>
-inline void glue_max::apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
+template <typename T, typename T1, typename T2> inline void glue_max::apply(Cube<std::complex<T>>& out, const ProxyCube<T1>& PA, const ProxyCube<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;

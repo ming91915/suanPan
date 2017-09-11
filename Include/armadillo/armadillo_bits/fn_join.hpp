@@ -16,29 +16,25 @@
 //! \addtogroup fn_join
 //! @{
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_cols>>::result join_cols(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_cols>>::result join_cols(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_join_cols>(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_cols>>::result join_vert(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_cols>>::result join_vert(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_join_cols>(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_rows>>::result join_rows(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_rows>>::result join_rows(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_join_rows>(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_rows>>::result join_horiz(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_join_rows>>::result join_horiz(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_join_rows>(A, B);
@@ -47,15 +43,13 @@ arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_arma_
 //
 // for cubes
 
-template <typename T1, typename T2>
-arma_warn_unused inline const GlueCube<T1, T2, glue_join_slices> join_slices(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline const GlueCube<T1, T2, glue_join_slices> join_slices(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return GlueCube<T1, T2, glue_join_slices>(A.get_ref(), B.get_ref());
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -73,8 +67,7 @@ arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<type
     return out;
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -86,8 +79,7 @@ arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const Base<type
     return join_slices(M, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const BaseCube<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const BaseCube<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -102,29 +94,25 @@ arma_warn_unused inline Cube<typename T1::elem_type> join_slices(const BaseCube<
 //
 // for sparse matrices
 
-template <typename T1, typename T2>
-arma_warn_unused inline const SpGlue<T1, T2, spglue_join_cols> join_cols(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline const SpGlue<T1, T2, spglue_join_cols> join_cols(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_join_cols>(A.get_ref(), B.get_ref());
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline const SpGlue<T1, T2, spglue_join_cols> join_vert(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline const SpGlue<T1, T2, spglue_join_cols> join_vert(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_join_cols>(A.get_ref(), B.get_ref());
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline const SpGlue<T1, T2, spglue_join_rows> join_rows(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline const SpGlue<T1, T2, spglue_join_rows> join_rows(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_join_rows>(A.get_ref(), B.get_ref());
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline const SpGlue<T1, T2, spglue_join_rows> join_horiz(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
+template <typename T1, typename T2> arma_warn_unused inline const SpGlue<T1, T2, spglue_join_rows> join_horiz(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     return SpGlue<T1, T2, spglue_join_rows>(A.get_ref(), B.get_ref());

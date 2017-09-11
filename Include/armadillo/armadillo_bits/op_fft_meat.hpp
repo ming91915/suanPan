@@ -19,8 +19,7 @@
 //
 // op_fft_real
 
-template <typename T1>
-inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out, const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in) {
+template <typename T1> inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out, const mtOp<std::complex<typename T1::pod_type>, T1, op_fft_real>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type in_eT;
@@ -111,8 +110,7 @@ inline void op_fft_real::apply(Mat<std::complex<typename T1::pod_type>>& out, co
 //
 // op_fft_cx
 
-template <typename T1>
-inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_fft_cx>& in) {
+template <typename T1> inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_fft_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -130,8 +128,7 @@ inline void op_fft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_f
     }
 }
 
-template <typename T1, bool inverse>
-inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword a, const uword b) {
+template <typename T1, bool inverse> inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword a, const uword b) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -226,8 +223,7 @@ inline void op_fft_cx::apply_noalias(Mat<typename T1::elem_type>& out, const Pro
     }
 }
 
-template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
+template <typename T1> arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     if(is_Mat<typename Proxy<T1>::stored_type>::value == true) {
@@ -237,8 +233,7 @@ arma_hot inline void op_fft_cx::copy_vec(typename Proxy<T1>::elem_type* dest, co
     }
 }
 
-template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
+template <typename T1> arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     const unwrap<typename Proxy<T1>::stored_type> tmp(P.Q);
@@ -246,8 +241,7 @@ arma_hot inline void op_fft_cx::copy_vec_unwrap(typename Proxy<T1>::elem_type* d
     arrayops::copy(dest, tmp.M.memptr(), N);
 }
 
-template <typename T1>
-arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
+template <typename T1> arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* dest, const Proxy<T1>& P, const uword N) {
     arma_extra_debug_sigprint();
 
     if(Proxy<T1>::use_at == false) {
@@ -266,8 +260,7 @@ arma_hot inline void op_fft_cx::copy_vec_proxy(typename Proxy<T1>::elem_type* de
 //
 // op_ifft_cx
 
-template <typename T1>
-inline void op_ifft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_ifft_cx>& in) {
+template <typename T1> inline void op_ifft_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_ifft_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

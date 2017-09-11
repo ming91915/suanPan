@@ -17,11 +17,9 @@
 //! @{
 
 //! for tiny square matrices, size <= 4x4
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_emul_tinysq {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class gemm_emul_tinysq {
 public:
-    template <typename eT, typename TA, typename TB>
-    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA, typename TB> arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         switch(A.n_rows) {
@@ -40,11 +38,9 @@ public:
 
 //! emulation of gemm(), for non-complex matrices only, as it assumes only simple
 //! transposes (ie. doesn't do hermitian transposes)
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_emul_large {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm_emul_large {
 public:
-    template <typename eT, typename TA, typename TB>
-    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA, typename TB> arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         const uword A_n_rows = A.n_rows;
@@ -132,19 +128,16 @@ public:
     }
 };
 
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_emul {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm_emul {
 public:
-    template <typename eT, typename TA, typename TB>
-    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_not_cx<eT>::result* junk = 0) {
+    template <typename eT, typename TA, typename TB> arma_hot inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_not_cx<eT>::result* junk = 0) {
         arma_extra_debug_sigprint();
         arma_ignore(junk);
 
         gemm_emul_large<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C, A, B, alpha, beta);
     }
 
-    template <typename eT>
-    arma_hot inline static void apply(Mat<eT>& C, const Mat<eT>& A, const Mat<eT>& B, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_cx_only<eT>::result* junk = 0) {
+    template <typename eT> arma_hot inline static void apply(Mat<eT>& C, const Mat<eT>& A, const Mat<eT>& B, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_cx_only<eT>::result* junk = 0) {
         arma_extra_debug_sigprint();
         arma_ignore(junk);
 
@@ -170,11 +163,9 @@ public:
 //! Matrix 'C' is assumed to have been set to the correct size (i.e. taking into account
 //! transposes)
 
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm {
 public:
-    template <typename eT, typename TA, typename TB>
-    inline static void apply_blas_type(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA, typename TB> inline static void apply_blas_type(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         if((A.n_rows <= 4) && (A.n_rows == A.n_cols) && (A.n_rows == B.n_rows) && (B.n_rows == B.n_cols) && (is_cx<eT>::no)) {
@@ -228,30 +219,15 @@ public:
     }
 
     //! immediate multiplication of matrices A and B, storing the result in C
-    template <typename eT, typename TA, typename TB>
-    inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) {
-        gemm_emul<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C, A, B, alpha, beta);
-    }
+    template <typename eT, typename TA, typename TB> inline static void apply(Mat<eT>& C, const TA& A, const TB& B, const eT alpha = eT(1), const eT beta = eT(0)) { gemm_emul<do_trans_A, do_trans_B, use_alpha, use_beta>::apply(C, A, B, alpha, beta); }
 
-    template <typename TA, typename TB>
-    arma_inline static void apply(Mat<float>& C, const TA& A, const TB& B, const float alpha = float(1), const float beta = float(0)) {
-        gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta);
-    }
+    template <typename TA, typename TB> arma_inline static void apply(Mat<float>& C, const TA& A, const TB& B, const float alpha = float(1), const float beta = float(0)) { gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta); }
 
-    template <typename TA, typename TB>
-    arma_inline static void apply(Mat<double>& C, const TA& A, const TB& B, const double alpha = double(1), const double beta = double(0)) {
-        gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta);
-    }
+    template <typename TA, typename TB> arma_inline static void apply(Mat<double>& C, const TA& A, const TB& B, const double alpha = double(1), const double beta = double(0)) { gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta); }
 
-    template <typename TA, typename TB>
-    arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const TB& B, const std::complex<float> alpha = std::complex<float>(1), const std::complex<float> beta = std::complex<float>(0)) {
-        gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta);
-    }
+    template <typename TA, typename TB> arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const TB& B, const std::complex<float> alpha = std::complex<float>(1), const std::complex<float> beta = std::complex<float>(0)) { gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta); }
 
-    template <typename TA, typename TB>
-    arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const TB& B, const std::complex<double> alpha = std::complex<double>(1), const std::complex<double> beta = std::complex<double>(0)) {
-        gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta);
-    }
+    template <typename TA, typename TB> arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const TB& B, const std::complex<double> alpha = std::complex<double>(1), const std::complex<double> beta = std::complex<double>(0)) { gemm<do_trans_A, do_trans_B, use_alpha, use_beta>::apply_blas_type(C, A, B, alpha, beta); }
 };
 
 //! @}

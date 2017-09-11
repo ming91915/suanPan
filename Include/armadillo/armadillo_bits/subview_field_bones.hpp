@@ -19,8 +19,7 @@
 //! Class for storing data required to construct or apply operations to a subfield
 //! (i.e. where the subfield starts and ends as well as a reference/pointer to the
 //! original field),
-template <typename oT>
-class subview_field {
+template <typename oT> class subview_field {
 public:
     typedef oT object_type;
 
@@ -70,10 +69,8 @@ public:
     inline void print(const std::string extra_text = "") const;
     inline void print(std::ostream& user_stream, const std::string extra_text = "") const;
 
-    template <typename functor>
-    inline void for_each(functor F);
-    template <typename functor>
-    inline void for_each(functor F) const;
+    template <typename functor> inline void for_each(functor F);
+    template <typename functor> inline void for_each(functor F) const;
 
     inline void fill(const oT& x);
 

@@ -16,16 +16,14 @@
 //! \addtogroup fn_eps
 //! @{
 
-template <typename T1>
-arma_warn_unused inline const eOp<T1, eop_eps> eps(const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline const eOp<T1, eop_eps> eps(const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return eOp<T1, eop_eps>(X.get_ref());
 }
 
-template <typename T1>
-arma_warn_unused inline Mat<typename T1::pod_type> eps(const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Mat<typename T1::pod_type> eps(const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -47,21 +45,14 @@ arma_warn_unused inline Mat<typename T1::pod_type> eps(const Base<std::complex<t
     return out;
 }
 
-template <typename eT>
-arma_warn_unused arma_inline typename arma_integral_only<eT>::result eps(const eT& x) {
+template <typename eT> arma_warn_unused arma_inline typename arma_integral_only<eT>::result eps(const eT& x) {
     arma_ignore(x);
 
     return eT(0);
 }
 
-template <typename eT>
-arma_warn_unused arma_inline typename arma_real_only<eT>::result eps(const eT& x) {
-    return eop_aux::direct_eps(x);
-}
+template <typename eT> arma_warn_unused arma_inline typename arma_real_only<eT>::result eps(const eT& x) { return eop_aux::direct_eps(x); }
 
-template <typename T>
-arma_warn_unused arma_inline typename arma_real_only<T>::result eps(const std::complex<T>& x) {
-    return eop_aux::direct_eps(x);
-}
+template <typename T> arma_warn_unused arma_inline typename arma_real_only<T>::result eps(const std::complex<T>& x) { return eop_aux::direct_eps(x); }
 
 //! @}

@@ -18,42 +18,33 @@
 
 class op_trimat {
 public:
-    template <typename eT>
-    inline static void fill_zeros(Mat<eT>& A, const bool upper);
+    template <typename eT> inline static void fill_zeros(Mat<eT>& A, const bool upper);
 
     //
 
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimat>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimat>& in);
 
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_htrans>, op_trimat>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_htrans>, op_trimat>& in);
 
     //
 
-    template <typename eT>
-    inline static void apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_not_cx<eT>::result* junk = 0);
+    template <typename eT> inline static void apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_not_cx<eT>::result* junk = 0);
 
-    template <typename eT>
-    inline static void apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_cx_only<eT>::result* junk = 0);
+    template <typename eT> inline static void apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_cx_only<eT>::result* junk = 0);
 };
 
 class op_trimatu_ext {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatu_ext>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatu_ext>& in);
 
-    template <typename eT>
-    inline static void fill_zeros(Mat<eT>& A, const uword row_offset, const uword col_offset);
+    template <typename eT> inline static void fill_zeros(Mat<eT>& A, const uword row_offset, const uword col_offset);
 };
 
 class op_trimatl_ext {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatl_ext>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatl_ext>& in);
 
-    template <typename eT>
-    inline static void fill_zeros(Mat<eT>& A, const uword row_offset, const uword col_offset);
+    template <typename eT> inline static void fill_zeros(Mat<eT>& A, const uword row_offset, const uword col_offset);
 };
 
 //! @}

@@ -112,57 +112,49 @@
         }                                                                                                                            \
     }
 
-template <typename T1, typename T2>
-inline void glue_rel_lt::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_lt>& X) {
+template <typename T1, typename T2> inline void glue_rel_lt::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_lt>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(<, "operator<");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_gt::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_gt>& X) {
+template <typename T1, typename T2> inline void glue_rel_gt::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_gt>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(>, "operator>");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_lteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_lteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_lteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_lteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(<=, "operator<=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_gteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_gteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_gteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_gteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(>=, "operator>=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_eq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_eq>& X) {
+template <typename T1, typename T2> inline void glue_rel_eq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_eq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(==, "operator==");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_noteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_noteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_noteq::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_noteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(!=, "operator!=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_and::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_and>& X) {
+template <typename T1, typename T2> inline void glue_rel_and::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_and>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(&&, "operator&&");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_or::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_or>& X) {
+template <typename T1, typename T2> inline void glue_rel_or::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_rel_or>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_mat(||, "operator||");
@@ -172,57 +164,49 @@ inline void glue_rel_or::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue
 //
 //
 
-template <typename T1, typename T2>
-inline void glue_rel_lt::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_lt>& X) {
+template <typename T1, typename T2> inline void glue_rel_lt::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_lt>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(<, "operator<");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_gt::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_gt>& X) {
+template <typename T1, typename T2> inline void glue_rel_gt::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_gt>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(>, "operator>");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_lteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_lteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_lteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_lteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(<=, "operator<=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_gteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_gteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_gteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_gteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(>=, "operator>=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_eq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_eq>& X) {
+template <typename T1, typename T2> inline void glue_rel_eq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_eq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(==, "operator==");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_noteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_noteq>& X) {
+template <typename T1, typename T2> inline void glue_rel_noteq::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_noteq>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(!=, "operator!=");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_and::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_and>& X) {
+template <typename T1, typename T2> inline void glue_rel_and::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_and>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(&&, "operator&&");
 }
 
-template <typename T1, typename T2>
-inline void glue_rel_or::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_or>& X) {
+template <typename T1, typename T2> inline void glue_rel_or::apply(Cube<uword>& out, const mtGlueCube<uword, T1, T2, glue_rel_or>& X) {
     arma_extra_debug_sigprint();
 
     arma_applier_cube(||, "operator||");

@@ -23,13 +23,9 @@ arma_inline Gen<T1, gen_type>::Gen(const uword in_n_rows, const uword in_n_cols)
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename gen_type>
-arma_inline Gen<T1, gen_type>::~Gen() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename gen_type> arma_inline Gen<T1, gen_type>::~Gen() { arma_extra_debug_sigprint(); }
 
-template <typename T1, typename gen_type>
-arma_inline typename T1::elem_type Gen<T1, gen_type>::operator[](const uword ii) const {
+template <typename T1, typename gen_type> arma_inline typename T1::elem_type Gen<T1, gen_type>::operator[](const uword ii) const {
     typedef typename T1::elem_type eT;
 
     if(is_same_type<gen_type, gen_eye>::yes) {
@@ -39,8 +35,7 @@ arma_inline typename T1::elem_type Gen<T1, gen_type>::operator[](const uword ii)
     }
 }
 
-template <typename T1, typename gen_type>
-arma_inline typename T1::elem_type Gen<T1, gen_type>::at(const uword row, const uword col) const {
+template <typename T1, typename gen_type> arma_inline typename T1::elem_type Gen<T1, gen_type>::at(const uword row, const uword col) const {
     typedef typename T1::elem_type eT;
 
     if(is_same_type<gen_type, gen_eye>::yes) {
@@ -50,13 +45,9 @@ arma_inline typename T1::elem_type Gen<T1, gen_type>::at(const uword row, const 
     }
 }
 
-template <typename T1, typename gen_type>
-arma_inline typename T1::elem_type Gen<T1, gen_type>::at_alt(const uword ii) const {
-    return operator[](ii);
-}
+template <typename T1, typename gen_type> arma_inline typename T1::elem_type Gen<T1, gen_type>::at_alt(const uword ii) const { return operator[](ii); }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply(Mat<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply(Mat<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     // NOTE: we're assuming that the matrix has already been set to the correct size;
@@ -75,8 +66,7 @@ inline void Gen<T1, gen_type>::apply(Mat<typename T1::elem_type>& out) const {
     }
 }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply_inplace_plus(Mat<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply_inplace_plus(Mat<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, n_rows, n_cols, "addition");
@@ -104,8 +94,7 @@ inline void Gen<T1, gen_type>::apply_inplace_plus(Mat<typename T1::elem_type>& o
     }
 }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply_inplace_minus(Mat<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply_inplace_minus(Mat<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, n_rows, n_cols, "subtraction");
@@ -133,8 +122,7 @@ inline void Gen<T1, gen_type>::apply_inplace_minus(Mat<typename T1::elem_type>& 
     }
 }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply_inplace_schur(Mat<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply_inplace_schur(Mat<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, n_rows, n_cols, "element-wise multiplication");
@@ -165,8 +153,7 @@ inline void Gen<T1, gen_type>::apply_inplace_schur(Mat<typename T1::elem_type>& 
     }
 }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply_inplace_div(Mat<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply_inplace_div(Mat<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, n_rows, n_cols, "element-wise division");
@@ -199,8 +186,7 @@ inline void Gen<T1, gen_type>::apply_inplace_div(Mat<typename T1::elem_type>& ou
     }
 }
 
-template <typename T1, typename gen_type>
-inline void Gen<T1, gen_type>::apply(subview<typename T1::elem_type>& out) const {
+template <typename T1, typename gen_type> inline void Gen<T1, gen_type>::apply(subview<typename T1::elem_type>& out) const {
     arma_extra_debug_sigprint();
 
     // NOTE: we're assuming that the submatrix has the same dimensions as the Gen object

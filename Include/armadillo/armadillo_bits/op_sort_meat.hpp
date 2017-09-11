@@ -16,8 +16,7 @@
 //! \addtogroup op_sort
 //! @{
 
-template <typename eT>
-inline void op_sort::direct_sort(eT* X, const uword n_elem, const uword sort_type) {
+template <typename eT> inline void op_sort::direct_sort(eT* X, const uword n_elem, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     if(sort_type == 0) {
@@ -31,8 +30,7 @@ inline void op_sort::direct_sort(eT* X, const uword n_elem, const uword sort_typ
     }
 }
 
-template <typename eT>
-inline void op_sort::direct_sort_ascending(eT* X, const uword n_elem) {
+template <typename eT> inline void op_sort::direct_sort_ascending(eT* X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     arma_ascend_sort_helper<eT> comparator;
@@ -40,8 +38,7 @@ inline void op_sort::direct_sort_ascending(eT* X, const uword n_elem) {
     std::sort(&X[0], &X[n_elem], comparator);
 }
 
-template <typename eT>
-inline void op_sort::copy_row(eT* X, const Mat<eT>& A, const uword row) {
+template <typename eT> inline void op_sort::copy_row(eT* X, const Mat<eT>& A, const uword row) {
     const uword N = A.n_cols;
 
     uword i, j;
@@ -54,8 +51,7 @@ inline void op_sort::copy_row(eT* X, const Mat<eT>& A, const uword row) {
     if(i < N) { X[i] = A.at(row, i); }
 }
 
-template <typename eT>
-inline void op_sort::copy_row(Mat<eT>& A, const eT* X, const uword row) {
+template <typename eT> inline void op_sort::copy_row(Mat<eT>& A, const eT* X, const uword row) {
     const uword N = A.n_cols;
 
     uword i, j;
@@ -68,8 +64,7 @@ inline void op_sort::copy_row(Mat<eT>& A, const eT* X, const uword row) {
     if(i < N) { A.at(row, i) = X[i]; }
 }
 
-template <typename eT>
-inline void op_sort::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword sort_type, const uword dim) {
+template <typename eT> inline void op_sort::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword sort_type, const uword dim) {
     arma_extra_debug_sigprint();
 
     if((X.n_rows * X.n_cols) <= 1) {
@@ -120,8 +115,7 @@ inline void op_sort::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword s
     }
 }
 
-template <typename T1>
-inline void op_sort::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sort>& in) {
+template <typename T1> inline void op_sort::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sort>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -144,8 +138,7 @@ inline void op_sort::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sor
     }
 }
 
-template <typename T1>
-inline void op_sort_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sort_default>& in) {
+template <typename T1> inline void op_sort_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sort_default>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

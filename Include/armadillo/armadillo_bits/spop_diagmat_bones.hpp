@@ -18,20 +18,16 @@
 
 class spop_diagmat {
 public:
-    template <typename T1>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat>& in);
+    template <typename T1> inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat>& in);
 
-    template <typename T1>
-    inline static void apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p);
+    template <typename T1> inline static void apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p);
 };
 
 class spop_diagmat2 {
 public:
-    template <typename T1>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat2>& in);
+    template <typename T1> inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat2>& in);
 
-    template <typename eT>
-    inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword row_offset, const uword col_offset);
+    template <typename eT> inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword row_offset, const uword col_offset);
 };
 
 //! @}

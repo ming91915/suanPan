@@ -16,8 +16,7 @@
 //! \addtogroup glue_join
 //! @{
 
-template <typename T1, typename T2>
-inline void glue_join_cols::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B) {
+template <typename T1, typename T2> inline void glue_join_cols::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.get_n_rows();
@@ -37,8 +36,7 @@ inline void glue_join_cols::apply_noalias(Mat<typename T1::elem_type>& out, cons
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_join_cols::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_cols>& X) {
+template <typename T1, typename T2> inline void glue_join_cols::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_cols>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -57,8 +55,7 @@ inline void glue_join_cols::apply(Mat<typename T1::elem_type>& out, const Glue<T
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_join_rows::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B) {
+template <typename T1, typename T2> inline void glue_join_rows::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& A, const Proxy<T2>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.get_n_rows();
@@ -78,8 +75,7 @@ inline void glue_join_rows::apply_noalias(Mat<typename T1::elem_type>& out, cons
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_join_rows::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_rows>& X) {
+template <typename T1, typename T2> inline void glue_join_rows::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_join_rows>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -98,8 +94,7 @@ inline void glue_join_rows::apply(Mat<typename T1::elem_type>& out, const Glue<T
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_join_slices::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_join_slices>& X) {
+template <typename T1, typename T2> inline void glue_join_slices::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_join_slices>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

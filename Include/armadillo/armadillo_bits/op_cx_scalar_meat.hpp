@@ -16,8 +16,7 @@
 //! \addtogroup op_cx_scalar
 //! @{
 
-template <typename T1>
-inline void op_cx_scalar_times::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
+template <typename T1> inline void op_cx_scalar_times::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -45,8 +44,7 @@ inline void op_cx_scalar_times::apply(Mat<typename std::complex<typename T1::pod
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_plus::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
+template <typename T1> inline void op_cx_scalar_plus::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -74,8 +72,7 @@ inline void op_cx_scalar_plus::apply(Mat<typename std::complex<typename T1::pod_
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_minus_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
+template <typename T1> inline void op_cx_scalar_minus_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -103,8 +100,7 @@ inline void op_cx_scalar_minus_pre::apply(Mat<typename std::complex<typename T1:
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_minus_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
+template <typename T1> inline void op_cx_scalar_minus_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -132,8 +128,7 @@ inline void op_cx_scalar_minus_post::apply(Mat<typename std::complex<typename T1
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_div_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
+template <typename T1> inline void op_cx_scalar_div_pre::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -161,8 +156,7 @@ inline void op_cx_scalar_div_pre::apply(Mat<typename std::complex<typename T1::p
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_div_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
+template <typename T1> inline void op_cx_scalar_div_post::apply(Mat<typename std::complex<typename T1::pod_type>>& out, const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -194,8 +188,7 @@ inline void op_cx_scalar_div_post::apply(Mat<typename std::complex<typename T1::
 //
 //
 
-template <typename T1>
-inline void op_cx_scalar_times::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
+template <typename T1> inline void op_cx_scalar_times::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -224,8 +217,7 @@ inline void op_cx_scalar_times::apply(Cube<typename std::complex<typename T1::po
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_plus::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
+template <typename T1> inline void op_cx_scalar_plus::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -254,8 +246,7 @@ inline void op_cx_scalar_plus::apply(Cube<typename std::complex<typename T1::pod
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_minus_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
+template <typename T1> inline void op_cx_scalar_minus_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -284,8 +275,7 @@ inline void op_cx_scalar_minus_pre::apply(Cube<typename std::complex<typename T1
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_minus_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
+template <typename T1> inline void op_cx_scalar_minus_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_minus_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -314,8 +304,7 @@ inline void op_cx_scalar_minus_post::apply(Cube<typename std::complex<typename T
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_div_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
+template <typename T1> inline void op_cx_scalar_div_pre::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;
@@ -344,8 +333,7 @@ inline void op_cx_scalar_div_pre::apply(Cube<typename std::complex<typename T1::
     }
 }
 
-template <typename T1>
-inline void op_cx_scalar_div_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
+template <typename T1> inline void op_cx_scalar_div_post::apply(Cube<typename std::complex<typename T1::pod_type>>& out, const mtOpCube<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<typename T1::pod_type> eT;

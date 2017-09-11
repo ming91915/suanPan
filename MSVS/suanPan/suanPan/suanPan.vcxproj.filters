@@ -84,9 +84,6 @@
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -201,6 +198,9 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\shapeFunction.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -264,9 +264,6 @@
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h">
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Node.h">
@@ -404,11 +401,8 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp">
       <Filter>Template</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Storage.hpp">
-      <Filter>Template</Filter>
+    <ClInclude Include="..\..\..\Toolbox\shapeFunction.h">
+      <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

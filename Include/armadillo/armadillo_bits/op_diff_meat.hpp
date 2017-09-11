@@ -16,8 +16,7 @@
 //! \addtogroup op_diff
 //! @{
 
-template <typename eT>
-inline void op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uword dim) {
+template <typename eT> inline void op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k, const uword dim) {
     arma_extra_debug_sigprint();
 
     uword n_rows = X.n_rows;
@@ -122,8 +121,7 @@ inline void op_diff::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword k
     }
 }
 
-template <typename T1>
-inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff>& in) {
+template <typename T1> inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -151,8 +149,7 @@ inline void op_diff::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_dif
     }
 }
 
-template <typename T1>
-inline void op_diff_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff_default>& in) {
+template <typename T1> inline void op_diff_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diff_default>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

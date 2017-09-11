@@ -16,10 +16,7 @@
 //! \addtogroup running_stat_vec
 //! @{
 
-template <typename obj_type>
-inline running_stat_vec<obj_type>::~running_stat_vec() {
-    arma_extra_debug_sigprint_this(this);
-}
+template <typename obj_type> inline running_stat_vec<obj_type>::~running_stat_vec() { arma_extra_debug_sigprint_this(this); }
 
 template <typename obj_type>
 inline running_stat_vec<obj_type>::running_stat_vec(const bool in_calc_cov)
@@ -41,8 +38,7 @@ inline running_stat_vec<obj_type>::running_stat_vec(const running_stat_vec<obj_t
     arma_extra_debug_sigprint_this(this);
 }
 
-template <typename obj_type>
-inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(const running_stat_vec<obj_type>& in_rsv) {
+template <typename obj_type> inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(const running_stat_vec<obj_type>& in_rsv) {
     arma_extra_debug_sigprint();
 
     access::rw(calc_cov) = in_rsv.calc_cov;
@@ -60,9 +56,7 @@ inline running_stat_vec<obj_type>& running_stat_vec<obj_type>::operator=(const r
 }
 
 //! update statistics to reflect new sample
-template <typename obj_type>
-template <typename T1>
-arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<typename running_stat_vec<obj_type>::T, T1>& X) {
+template <typename obj_type> template <typename T1> arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<typename running_stat_vec<obj_type>::T, T1>& X) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> tmp(X.get_ref());
@@ -78,9 +72,7 @@ arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<typename 
     running_stat_vec_aux::update_stats(*this, sample);
 }
 
-template <typename obj_type>
-template <typename T1>
-arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<std::complex<typename running_stat_vec<obj_type>::T>, T1>& X) {
+template <typename obj_type> template <typename T1> arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<std::complex<typename running_stat_vec<obj_type>::T>, T1>& X) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> tmp(X.get_ref());
@@ -98,8 +90,7 @@ arma_hot inline void running_stat_vec<obj_type>::operator()(const Base<std::comp
 }
 
 //! set all statistics to zero
-template <typename obj_type>
-inline void running_stat_vec<obj_type>::reset() {
+template <typename obj_type> inline void running_stat_vec<obj_type>::reset() {
     arma_extra_debug_sigprint();
 
     counter.reset();
@@ -122,16 +113,14 @@ inline void running_stat_vec<obj_type>::reset() {
 }
 
 //! mean or average value
-template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::mean() const {
+template <typename obj_type> inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::mean() const {
     arma_extra_debug_sigprint();
 
     return r_mean;
 }
 
 //! variance
-template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type2& running_stat_vec<obj_type>::var(const uword norm_type) {
+template <typename obj_type> inline const typename running_stat_vec<obj_type>::return_type2& running_stat_vec<obj_type>::var(const uword norm_type) {
     arma_extra_debug_sigprint();
 
     const T N = counter.value();
@@ -154,8 +143,7 @@ inline const typename running_stat_vec<obj_type>::return_type2& running_stat_vec
 }
 
 //! standard deviation
-template <typename obj_type>
-inline typename running_stat_vec<obj_type>::return_type2 running_stat_vec<obj_type>::stddev(const uword norm_type) const {
+template <typename obj_type> inline typename running_stat_vec<obj_type>::return_type2 running_stat_vec<obj_type>::stddev(const uword norm_type) const {
     arma_extra_debug_sigprint();
 
     const T N = counter.value();
@@ -175,8 +163,7 @@ inline typename running_stat_vec<obj_type>::return_type2 running_stat_vec<obj_ty
 }
 
 //! covariance
-template <typename obj_type>
-inline const Mat<typename running_stat_vec<obj_type>::eT>& running_stat_vec<obj_type>::cov(const uword norm_type) {
+template <typename obj_type> inline const Mat<typename running_stat_vec<obj_type>::eT>& running_stat_vec<obj_type>::cov(const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(calc_cov == true) {
@@ -207,31 +194,27 @@ inline const Mat<typename running_stat_vec<obj_type>::eT>& running_stat_vec<obj_
 }
 
 //! vector with minimum values
-template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::min() const {
+template <typename obj_type> inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::min() const {
     arma_extra_debug_sigprint();
 
     return min_val;
 }
 
 //! vector with maximum values
-template <typename obj_type>
-inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::max() const {
+template <typename obj_type> inline const typename running_stat_vec<obj_type>::return_type1& running_stat_vec<obj_type>::max() const {
     arma_extra_debug_sigprint();
 
     return max_val;
 }
 
-template <typename obj_type>
-inline typename running_stat_vec<obj_type>::return_type1 running_stat_vec<obj_type>::range() const {
+template <typename obj_type> inline typename running_stat_vec<obj_type>::return_type1 running_stat_vec<obj_type>::range() const {
     arma_extra_debug_sigprint();
 
     return (max_val - min_val);
 }
 
 //! number of samples so far
-template <typename obj_type>
-inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count() const {
+template <typename obj_type> inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count() const {
     arma_extra_debug_sigprint();
 
     return counter.value();
@@ -240,8 +223,7 @@ inline typename running_stat_vec<obj_type>::T running_stat_vec<obj_type>::count(
 //
 
 //! update statistics to reflect new sample (version for non-complex numbers)
-template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
+template <typename obj_type> inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -325,8 +307,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, co
 
 //! update statistics to reflect new sample (version for non-complex numbers, complex
 //! sample)
-template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
+template <typename obj_type> inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<std::complex<typename running_stat_vec<obj_type>::T>>& sample, const typename arma_not_cx<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -337,8 +318,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, co
 
 //! update statistics to reflect new sample (version for complex numbers, non-complex
 //! sample)
-template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::T>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
+template <typename obj_type> inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::T>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -348,8 +328,7 @@ inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, co
 }
 
 //! alter statistics to reflect new sample (version for complex numbers, complex sample)
-template <typename obj_type>
-inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
+template <typename obj_type> inline void running_stat_vec_aux::update_stats(running_stat_vec<obj_type>& x, const Mat<typename running_stat_vec<obj_type>::eT>& sample, const typename arma_cx_only<typename running_stat_vec<obj_type>::eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

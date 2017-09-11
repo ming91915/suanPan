@@ -16,8 +16,7 @@
 //! \addtogroup op_toeplitz
 //! @{
 
-template <typename T1>
-inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz>& in) {
+template <typename T1> inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -45,8 +44,7 @@ inline void op_toeplitz::apply(Mat<typename T1::elem_type>& out, const Op<T1, op
     }
 }
 
-template <typename T1>
-inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz_c>& in) {
+template <typename T1> inline void op_toeplitz_c::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_toeplitz_c>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

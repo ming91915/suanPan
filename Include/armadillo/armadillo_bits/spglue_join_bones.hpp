@@ -18,20 +18,16 @@
 
 class spglue_join_cols {
 public:
-    template <typename T1, typename T2>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_cols>& X);
+    template <typename T1, typename T2> inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_cols>& X);
 
-    template <typename eT>
-    inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B);
+    template <typename eT> inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B);
 };
 
 class spglue_join_rows {
 public:
-    template <typename T1, typename T2>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_rows>& X);
+    template <typename T1, typename T2> inline static void apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_rows>& X);
 
-    template <typename eT>
-    inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B);
+    template <typename eT> inline static void apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B);
 };
 
 //! @}

@@ -24,8 +24,7 @@
 //! ISSN 1360-1725
 //! http://www.maths.manchester.ac.uk/~higham/narep/narep336.ps.gz
 
-template <typename T1>
-inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out, const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in) {
+template <typename T1> inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out, const mtOp<std::complex<typename T1::elem_type>, T1, op_sqrtmat>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat::apply_direct(out, in.m);
@@ -33,8 +32,7 @@ inline void op_sqrtmat::apply(Mat<std::complex<typename T1::elem_type>>& out, co
     if(status == false) { arma_debug_warn("sqrtmat(): given matrix seems singular; may not have a square root"); }
 }
 
-template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Op<T1, op_diagmat>& expr) {
+template <typename T1> inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Op<T1, op_diagmat>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type T;
@@ -64,8 +62,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
     return (singular) ? false : true;
 }
 
-template <typename T1>
-inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_T;
@@ -110,8 +107,7 @@ inline bool op_sqrtmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& 
     return status;
 }
 
-template <typename T1>
-inline void op_sqrtmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_cx>& in) {
+template <typename T1> inline void op_sqrtmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat_cx::apply_direct(out, in.m);
@@ -119,8 +115,7 @@ inline void op_sqrtmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, 
     if(status == false) { arma_debug_warn("sqrtmat(): given matrix seems singular; may not have a square root"); }
 }
 
-template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& expr) {
+template <typename T1> inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -142,8 +137,7 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const 
     return status;
 }
 
-template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out, const diagmat_proxy<T1>& P) {
+template <typename T1> inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out, const diagmat_proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -169,8 +163,7 @@ inline bool op_sqrtmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out
     return (singular) ? false : true;
 }
 
-template <typename T1>
-inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -204,8 +197,7 @@ inline bool op_sqrtmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const 
     return status;
 }
 
-template <typename T>
-inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S) {
+template <typename T> inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S) {
     typedef typename std::complex<T> eT;
 
     if(S.is_empty()) { return true; }
@@ -244,8 +236,7 @@ inline bool op_sqrtmat_cx::helper(Mat<std::complex<T>>& S) {
     return (singular) ? false : true;
 }
 
-template <typename T1>
-inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_sympd>& in) {
+template <typename T1> inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_sqrtmat_sympd>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_sqrtmat_sympd::apply_direct(out, in.m);
@@ -256,8 +247,7 @@ inline void op_sqrtmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T
     }
 }
 
-template <typename T1>
-inline bool op_sqrtmat_sympd::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_sqrtmat_sympd::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)

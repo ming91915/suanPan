@@ -17,8 +17,7 @@
 //! @{
 
 //! find the solution of the Sylvester equation AX + XB = C
-template <typename T1, typename T2, typename T3>
-inline bool syl(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& in_A, const Base<typename T1::elem_type, T2>& in_B, const Base<typename T1::elem_type, T3>& in_C, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2, typename T3> inline bool syl(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& in_A, const Base<typename T1::elem_type, T2>& in_B, const Base<typename T1::elem_type, T3>& in_C, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -42,8 +41,7 @@ inline bool syl(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_t
     return status;
 }
 
-template <typename T1, typename T2, typename T3>
-arma_warn_unused inline Mat<typename T1::elem_type> syl(const Base<typename T1::elem_type, T1>& in_A, const Base<typename T1::elem_type, T2>& in_B, const Base<typename T1::elem_type, T3>& in_C, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2, typename T3> arma_warn_unused inline Mat<typename T1::elem_type> syl(const Base<typename T1::elem_type, T1>& in_A, const Base<typename T1::elem_type, T2>& in_B, const Base<typename T1::elem_type, T3>& in_C, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

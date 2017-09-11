@@ -22,8 +22,7 @@ arma_warn_unused arma_inline const Gen<vec, gen_zeros> zeros(const uword n_elem)
     return Gen<vec, gen_zeros>(n_elem, 1);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const uword n_elem, const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const uword n_elem, const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -47,8 +46,7 @@ arma_warn_unused arma_inline const Gen<mat, gen_zeros> zeros(const SizeMat& s) {
     return Gen<mat, gen_zeros>(s.n_rows, s.n_cols);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -61,8 +59,7 @@ arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const uword n_
     return Gen<obj_type, gen_zeros>(n_rows, n_cols);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_zeros> zeros(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -81,24 +78,21 @@ arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_zeros> zeros(con
     return GenCube<cube::elem_type, gen_zeros>(s.n_rows, s.n_cols, s.n_slices);
 }
 
-template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_zeros> zeros(const uword n_rows, const uword n_cols, const uword n_slices, const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_zeros> zeros(const uword n_rows, const uword n_cols, const uword n_slices, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return GenCube<typename cube_type::elem_type, gen_zeros>(n_rows, n_cols, n_slices);
 }
 
-template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_zeros> zeros(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_zeros> zeros(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return GenCube<typename cube_type::elem_type, gen_zeros>(s.n_rows, s.n_cols, s.n_slices);
 }
 
-template <typename sp_obj_type>
-arma_warn_unused inline sp_obj_type zeros(const uword n_rows, const uword n_cols, const typename arma_SpMat_SpCol_SpRow_only<sp_obj_type>::result* junk = 0) {
+template <typename sp_obj_type> arma_warn_unused inline sp_obj_type zeros(const uword n_rows, const uword n_cols, const typename arma_SpMat_SpCol_SpRow_only<sp_obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -111,8 +105,7 @@ arma_warn_unused inline sp_obj_type zeros(const uword n_rows, const uword n_cols
     return sp_obj_type(n_rows, n_cols);
 }
 
-template <typename sp_obj_type>
-arma_warn_unused inline sp_obj_type zeros(const SizeMat& s, const typename arma_SpMat_SpCol_SpRow_only<sp_obj_type>::result* junk = 0) {
+template <typename sp_obj_type> arma_warn_unused inline sp_obj_type zeros(const SizeMat& s, const typename arma_SpMat_SpCol_SpRow_only<sp_obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

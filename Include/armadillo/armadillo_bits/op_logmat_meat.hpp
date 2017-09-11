@@ -23,8 +23,7 @@
 // SIAM, 2008.
 // ISBN 978-0-89871-646-7
 
-template <typename T1>
-inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type>>& out, const mtOp<std::complex<typename T1::elem_type>, T1, op_logmat>& in) {
+template <typename T1> inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type>>& out, const mtOp<std::complex<typename T1::elem_type>, T1, op_logmat>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_logmat::apply_direct(out, in.m, in.aux_uword_a);
@@ -35,8 +34,7 @@ inline void op_logmat::apply(Mat<std::complex<typename T1::elem_type>>& out, con
     }
 }
 
-template <typename T1>
-inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Op<T1, op_diagmat>& expr, const uword) {
+template <typename T1> inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Op<T1, op_diagmat>& expr, const uword) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type T;
@@ -62,8 +60,7 @@ inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& o
     return true;
 }
 
-template <typename T1>
-inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Base<typename T1::elem_type, T1>& expr, const uword n_iters) {
+template <typename T1> inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& out, const Base<typename T1::elem_type, T1>& expr, const uword n_iters) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_T;
@@ -96,8 +93,7 @@ inline bool op_logmat::apply_direct(Mat<std::complex<typename T1::elem_type>>& o
     return op_logmat_cx::apply_common(out, S, n_iters);
 }
 
-template <typename T1>
-inline void op_logmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_logmat_cx>& in) {
+template <typename T1> inline void op_logmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_logmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_logmat_cx::apply_direct(out, in.m, in.aux_uword_a);
@@ -108,8 +104,7 @@ inline void op_logmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, o
     }
 }
 
-template <typename T1>
-inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& expr, const uword) {
+template <typename T1> inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& expr, const uword) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -131,8 +126,7 @@ inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const O
     return status;
 }
 
-template <typename T1>
-inline bool op_logmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out, const diagmat_proxy<T1>& P) {
+template <typename T1> inline bool op_logmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out, const diagmat_proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((P.n_rows != P.n_cols), "logmat(): given matrix must be square sized");
@@ -146,8 +140,7 @@ inline bool op_logmat_cx::apply_direct_noalias(Mat<typename T1::elem_type>& out,
     return true;
 }
 
-template <typename T1>
-inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, const uword n_iters) {
+template <typename T1> inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, const uword n_iters) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -168,8 +161,7 @@ inline bool op_logmat_cx::apply_direct(Mat<typename T1::elem_type>& out, const B
     return op_logmat_cx::apply_common(out, S, n_iters);
 }
 
-template <typename T>
-inline bool op_logmat_cx::apply_common(Mat<std::complex<T>>& out, Mat<std::complex<T>>& S, const uword n_iters) {
+template <typename T> inline bool op_logmat_cx::apply_common(Mat<std::complex<T>>& out, Mat<std::complex<T>>& S, const uword n_iters) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -253,8 +245,7 @@ inline bool op_logmat_cx::apply_common(Mat<std::complex<T>>& out, Mat<std::compl
     return true;
 }
 
-template <typename eT>
-inline bool op_logmat_cx::helper(Mat<eT>& A, const uword m) {
+template <typename eT> inline bool op_logmat_cx::helper(Mat<eT>& A, const uword m) {
     arma_extra_debug_sigprint();
 
     if(A.is_finite() == false) { return false; }
@@ -305,8 +296,7 @@ inline bool op_logmat_cx::helper(Mat<eT>& A, const uword m) {
     return true;
 }
 
-template <typename T1>
-inline void op_logmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_logmat_sympd>& in) {
+template <typename T1> inline void op_logmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_logmat_sympd>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_logmat_sympd::apply_direct(out, in.m);
@@ -317,8 +307,7 @@ inline void op_logmat_sympd::apply(Mat<typename T1::elem_type>& out, const Op<T1
     }
 }
 
-template <typename T1>
-inline bool op_logmat_sympd::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_logmat_sympd::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)

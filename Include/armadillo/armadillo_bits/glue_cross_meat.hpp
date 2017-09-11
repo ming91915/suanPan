@@ -16,8 +16,7 @@
 //! \addtogroup glue_cross
 //! @{
 
-template <typename T1, typename T2>
-inline void glue_cross::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cross>& X) {
+template <typename T1, typename T2> inline void glue_cross::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cross>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

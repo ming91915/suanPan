@@ -16,16 +16,14 @@
 //! \addtogroup op_htrans
 //! @{
 
-template <typename eT>
-arma_hot arma_inline void op_htrans::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& A, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> arma_hot arma_inline void op_htrans::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& A, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_strans::apply_mat_noalias(out, A);
 }
 
-template <typename eT>
-arma_hot inline void op_htrans::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& A, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> arma_hot inline void op_htrans::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& A, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -57,16 +55,14 @@ arma_hot inline void op_htrans::apply_mat_noalias(Mat<eT>& out, const Mat<eT>& A
     }
 }
 
-template <typename eT>
-arma_hot arma_inline void op_htrans::apply_mat_inplace(Mat<eT>& out, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> arma_hot arma_inline void op_htrans::apply_mat_inplace(Mat<eT>& out, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_strans::apply_mat_inplace(out);
 }
 
-template <typename eT>
-arma_hot inline void op_htrans::apply_mat_inplace(Mat<eT>& out, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> arma_hot inline void op_htrans::apply_mat_inplace(Mat<eT>& out, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -98,16 +94,14 @@ arma_hot inline void op_htrans::apply_mat_inplace(Mat<eT>& out, const typename a
     }
 }
 
-template <typename eT>
-arma_hot arma_inline void op_htrans::apply_mat(Mat<eT>& out, const Mat<eT>& A, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> arma_hot arma_inline void op_htrans::apply_mat(Mat<eT>& out, const Mat<eT>& A, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_strans::apply_mat(out, A);
 }
 
-template <typename eT>
-arma_hot inline void op_htrans::apply_mat(Mat<eT>& out, const Mat<eT>& A, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> arma_hot inline void op_htrans::apply_mat(Mat<eT>& out, const Mat<eT>& A, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -118,8 +112,7 @@ arma_hot inline void op_htrans::apply_mat(Mat<eT>& out, const Mat<eT>& A, const 
     }
 }
 
-template <typename T1>
-arma_hot inline void op_htrans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X) {
+template <typename T1> arma_hot inline void op_htrans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -195,24 +188,21 @@ arma_hot inline void op_htrans::apply_proxy(Mat<typename T1::elem_type>& out, co
     }
 }
 
-template <typename T1>
-arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans>& in, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans>& in, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_strans::apply_proxy(out, in.m);
 }
 
-template <typename T1>
-arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans>& in, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans>& in, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_htrans::apply_proxy(out, in.m);
 }
 
-template <typename T1>
-arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_trimat>, op_htrans>& in) {
+template <typename T1> arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_trimat>, op_htrans>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -228,8 +218,7 @@ arma_hot inline void op_htrans::apply(Mat<typename T1::elem_type>& out, const Op
 //
 // op_htrans2
 
-template <typename eT>
-arma_hot arma_inline void op_htrans2::apply_noalias(Mat<eT>& out, const Mat<eT>& A, const eT val) {
+template <typename eT> arma_hot arma_inline void op_htrans2::apply_noalias(Mat<eT>& out, const Mat<eT>& A, const eT val) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.n_rows;
@@ -260,8 +249,7 @@ arma_hot arma_inline void op_htrans2::apply_noalias(Mat<eT>& out, const Mat<eT>&
     }
 }
 
-template <typename eT>
-arma_hot inline void op_htrans2::apply(Mat<eT>& out, const Mat<eT>& A, const eT val) {
+template <typename eT> arma_hot inline void op_htrans2::apply(Mat<eT>& out, const Mat<eT>& A, const eT val) {
     arma_extra_debug_sigprint();
 
     if(&out != &A) {
@@ -299,8 +287,7 @@ arma_hot inline void op_htrans2::apply(Mat<eT>& out, const Mat<eT>& A, const eT 
     }
 }
 
-template <typename T1>
-arma_hot inline void op_htrans2::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X, const typename T1::elem_type val) {
+template <typename T1> arma_hot inline void op_htrans2::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X, const typename T1::elem_type val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -376,16 +363,14 @@ arma_hot inline void op_htrans2::apply_proxy(Mat<typename T1::elem_type>& out, c
     }
 }
 
-template <typename T1>
-arma_hot inline void op_htrans2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans2>& in, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline void op_htrans2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans2>& in, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     op_strans2::apply_proxy(out, in.m, in.aux);
 }
 
-template <typename T1>
-arma_hot inline void op_htrans2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans2>& in, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline void op_htrans2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_htrans2>& in, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

@@ -15,8 +15,7 @@
 
 namespace newarp {
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k, uword to_m, const Col<eT>& fk) {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k, uword to_m, const Col<eT>& fk) {
     arma_extra_debug_sigprint();
 
     if(to_m <= from_k) { return; }
@@ -101,8 +100,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_
     }
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
     arma_extra_debug_sigprint();
 
     if(k >= ncv) { return; }
@@ -144,8 +142,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
     retrieve_ritzpair();
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword SymEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
+template <typename eT, int SelectionRule, typename OpType> inline uword SymEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
     arma_extra_debug_sigprint();
 
     // thresh = tol * max(approx0, abs(theta)), theta for ritz value
@@ -159,8 +156,7 @@ inline uword SymEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
     return std::count(ritz_conv.begin(), ritz_conv.end(), true);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword SymEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv) {
+template <typename eT, int SelectionRule, typename OpType> inline uword SymEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv) {
     arma_extra_debug_sigprint();
 
     uword nev_new = nev;
@@ -180,8 +176,7 @@ inline uword SymEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv)
     return nev_new;
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
     arma_extra_debug_sigprint();
 
     TridiagEigen<eT> decomp(fac_H);
@@ -220,8 +215,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
     for(uword i = 0; i < nev; i++) { ritz_vec.col(i) = evecs.col(ind[i]); }
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair() {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair() {
     arma_extra_debug_sigprint();
 
     // SortEigenvalue<eT, EigsSelect::LARGEST_MAGN> sorting(ritz_val.memptr(), nev);
@@ -268,8 +262,7 @@ inline SymEigsSolver<eT, SelectionRule, OpType>::SymEigsSolver(const OpType& op_
         "size of matrix");
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
     arma_extra_debug_sigprint();
 
     // Reset all matrices/vectors to zero
@@ -299,8 +292,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
     fac_f = w - v * fac_H(0, 0);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void SymEigsSolver<eT, SelectionRule, OpType>::init() {
+template <typename eT, int SelectionRule, typename OpType> inline void SymEigsSolver<eT, SelectionRule, OpType>::init() {
     arma_extra_debug_sigprint();
 
     podarray<eT> init_resid(dim_n);
@@ -311,8 +303,7 @@ inline void SymEigsSolver<eT, SelectionRule, OpType>::init() {
     init(init_resid.memptr());
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword SymEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol) {
+template <typename eT, int SelectionRule, typename OpType> inline uword SymEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol) {
     arma_extra_debug_sigprint();
 
     // The m-step Arnoldi factorisation
@@ -335,8 +326,7 @@ inline uword SymEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT t
     return std::min(nev, nconv);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline Col<eT> SymEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
+template <typename eT, int SelectionRule, typename OpType> inline Col<eT> SymEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);
@@ -355,8 +345,7 @@ inline Col<eT> SymEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
     return res;
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline Mat<eT> SymEigsSolver<eT, SelectionRule, OpType>::eigenvectors(uword nvec) {
+template <typename eT, int SelectionRule, typename OpType> inline Mat<eT> SymEigsSolver<eT, SelectionRule, OpType>::eigenvectors(uword nvec) {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);

@@ -23,8 +23,7 @@ struct field_prealloc_n_elem {
 //! A lightweight 1D/2D/3D container for arbitrary objects
 //! (the objects must have a copy constructor)
 
-template <typename oT>
-class field {
+template <typename oT> class field {
 public:
     typedef oT object_type;
 
@@ -70,8 +69,7 @@ public:
     inline field& operator=(field&& X);
 #endif
 
-    template <typename oT2>
-    inline void copy_size(const field<oT2>& x);
+    template <typename oT2> inline void copy_size(const field<oT2>& x);
 
     arma_inline oT& operator[](const uword i);
     arma_inline const oT& operator[](const uword i) const;
@@ -152,10 +150,8 @@ public:
     inline const field& for_each(const std::function<void(oT&)>& F);
     inline const field& for_each(const std::function<void(const oT&)>& F) const;
 #else
-    template <typename functor>
-    inline const field& for_each(functor F);
-    template <typename functor>
-    inline const field& for_each(functor F) const;
+    template <typename functor> inline const field& for_each(functor F);
+    template <typename functor> inline const field& for_each(functor F) const;
 #endif
 
     inline const field& fill(const oT& x);
@@ -267,62 +263,37 @@ public:
 
 class field_aux {
 public:
-    template <typename oT>
-    inline static void reset_objects(field<oT>& x);
-    template <typename eT>
-    inline static void reset_objects(field<Mat<eT>>& x);
-    template <typename eT>
-    inline static void reset_objects(field<Col<eT>>& x);
-    template <typename eT>
-    inline static void reset_objects(field<Row<eT>>& x);
-    template <typename eT>
-    inline static void reset_objects(field<Cube<eT>>& x);
+    template <typename oT> inline static void reset_objects(field<oT>& x);
+    template <typename eT> inline static void reset_objects(field<Mat<eT>>& x);
+    template <typename eT> inline static void reset_objects(field<Col<eT>>& x);
+    template <typename eT> inline static void reset_objects(field<Row<eT>>& x);
+    template <typename eT> inline static void reset_objects(field<Cube<eT>>& x);
     inline static void reset_objects(field<std::string>& x);
 
-    template <typename oT>
-    inline static bool save(const field<oT>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename oT>
-    inline static bool save(const field<oT>& x, std::ostream& os, const file_type type, std::string& err_msg);
-    template <typename oT>
-    inline static bool load(field<oT>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename oT>
-    inline static bool load(field<oT>& x, std::istream& is, const file_type type, std::string& err_msg);
+    template <typename oT> inline static bool save(const field<oT>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename oT> inline static bool save(const field<oT>& x, std::ostream& os, const file_type type, std::string& err_msg);
+    template <typename oT> inline static bool load(field<oT>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename oT> inline static bool load(field<oT>& x, std::istream& is, const file_type type, std::string& err_msg);
 
-    template <typename eT>
-    inline static bool save(const field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool save(const field<Mat<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Mat<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Mat<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Mat<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
 
-    template <typename eT>
-    inline static bool save(const field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool save(const field<Col<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Col<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Col<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Col<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
 
-    template <typename eT>
-    inline static bool save(const field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool save(const field<Row<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Row<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Row<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Row<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
 
-    template <typename eT>
-    inline static bool save(const field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool save(const field<Cube<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
-    template <typename eT>
-    inline static bool load(field<Cube<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool save(const field<Cube<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg);
+    template <typename eT> inline static bool load(field<Cube<eT>>& x, std::istream& is, const file_type type, std::string& err_msg);
 
     inline static bool save(const field<std::string>& x, const std::string& name, const file_type type, std::string& err_msg);
     inline static bool save(const field<std::string>& x, std::ostream& os, const file_type type, std::string& err_msg);

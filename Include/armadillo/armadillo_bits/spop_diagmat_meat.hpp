@@ -16,8 +16,7 @@
 //! \addtogroup spop_diagmat
 //! @{
 
-template <typename T1>
-inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat>& in) {
+template <typename T1> inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -35,8 +34,7 @@ inline void spop_diagmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T
     }
 }
 
-template <typename T1>
-inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p) {
+template <typename T1> inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = p.get_n_rows();
@@ -92,8 +90,7 @@ inline void spop_diagmat::apply_noalias(SpMat<typename T1::elem_type>& out, cons
     }
 }
 
-template <typename T1>
-inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat2>& in) {
+template <typename T1> inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_diagmat2>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -114,8 +111,7 @@ inline void spop_diagmat2::apply(SpMat<typename T1::elem_type>& out, const SpOp<
     }
 }
 
-template <typename eT>
-inline void spop_diagmat2::apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword row_offset, const uword col_offset) {
+template <typename eT> inline void spop_diagmat2::apply_noalias(SpMat<eT>& out, const SpMat<eT>& X, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = X.n_rows;

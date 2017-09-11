@@ -34,8 +34,7 @@ inline UpperHessenbergQR<eT>::UpperHessenbergQR(const Mat<eT>& mat_obj)
     compute(mat_obj);
 }
 
-template <typename eT>
-void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_obj) {
+template <typename eT> void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     n = mat_obj.n_rows;
@@ -85,8 +84,7 @@ void UpperHessenbergQR<eT>::compute(const Mat<eT>& mat_obj) {
     computed = true;
 }
 
-template <typename eT>
-Mat<eT> UpperHessenbergQR<eT>::matrix_RQ() {
+template <typename eT> Mat<eT> UpperHessenbergQR<eT>::matrix_RQ() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::UpperHessenbergQR::matrix_RQ(): need to call compute() first");
@@ -117,8 +115,7 @@ Mat<eT> UpperHessenbergQR<eT>::matrix_RQ() {
     return RQ;
 }
 
-template <typename eT>
-inline void UpperHessenbergQR<eT>::apply_YQ(Mat<eT>& Y) {
+template <typename eT> inline void UpperHessenbergQR<eT>::apply_YQ(Mat<eT>& Y) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::UpperHessenbergQR::apply_YQ(): need to call compute() first");
@@ -152,8 +149,7 @@ inline TridiagQR<eT>::TridiagQR(const Mat<eT>& mat_obj)
     this->compute(mat_obj);
 }
 
-template <typename eT>
-inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj) {
+template <typename eT> inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     this->n = mat_obj.n_rows;
@@ -213,8 +209,7 @@ inline void TridiagQR<eT>::compute(const Mat<eT>& mat_obj) {
     this->computed = true;
 }
 
-template <typename eT>
-Mat<eT> TridiagQR<eT>::matrix_RQ() {
+template <typename eT> Mat<eT> TridiagQR<eT>::matrix_RQ() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((this->computed == false), "newarp::TridiagQR::matrix_RQ(): need to call compute() first");

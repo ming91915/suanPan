@@ -19,8 +19,7 @@
 //! Class for storing data required to construct or apply operations to a submatrix
 //! (i.e. where the submatrix starts and ends as well as a reference/pointer to the
 //! original matrix),
-template <typename eT>
-class subview : public Base<eT, subview<eT>> {
+template <typename eT> class subview : public Base<eT, subview<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -43,12 +42,9 @@ protected:
 public:
     inline ~subview();
 
-    template <typename op_type>
-    inline void inplace_op(const eT val);
-    template <typename op_type, typename T1>
-    inline void inplace_op(const Base<eT, T1>& x, const char* identifier);
-    template <typename op_type>
-    inline void inplace_op(const subview<eT>& x, const char* identifier);
+    template <typename op_type> inline void inplace_op(const eT val);
+    template <typename op_type, typename T1> inline void inplace_op(const Base<eT, T1>& x, const char* identifier);
+    template <typename op_type> inline void inplace_op(const subview<eT>& x, const char* identifier);
 
     // deliberately returning void
 
@@ -64,30 +60,19 @@ public:
     inline void operator%=(const subview& x);
     inline void operator/=(const subview& x);
 
-    template <typename T1>
-    inline void operator=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator+=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator-=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator%=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator/=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator+=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator-=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator%=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator/=(const Base<eT, T1>& x);
 
-    template <typename T1>
-    inline void operator=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline void operator+=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline void operator-=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline void operator%=(const SpBase<eT, T1>& x);
-    template <typename T1>
-    inline void operator/=(const SpBase<eT, T1>& x);
+    template <typename T1> inline void operator=(const SpBase<eT, T1>& x);
+    template <typename T1> inline void operator+=(const SpBase<eT, T1>& x);
+    template <typename T1> inline void operator-=(const SpBase<eT, T1>& x);
+    template <typename T1> inline void operator%=(const SpBase<eT, T1>& x);
+    template <typename T1> inline void operator/=(const SpBase<eT, T1>& x);
 
-    template <typename T1, typename gen_type>
-    inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
+    template <typename T1, typename gen_type> inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
 
     inline static void extract(Mat<eT>& out, const subview& in);
 
@@ -96,15 +81,11 @@ public:
     inline static void schur_inplace(Mat<eT>& out, const subview& in);
     inline static void div_inplace(Mat<eT>& out, const subview& in);
 
-    template <typename functor>
-    inline void for_each(functor F);
-    template <typename functor>
-    inline void for_each(functor F) const;
+    template <typename functor> inline void for_each(functor F);
+    template <typename functor> inline void for_each(functor F) const;
 
-    template <typename functor>
-    inline void transform(functor F);
-    template <typename functor>
-    inline void imbue(functor F);
+    template <typename functor> inline void transform(functor F);
+    template <typename functor> inline void imbue(functor F);
 
     inline void replace(const eT old_val, const eT new_val);
 
@@ -173,10 +154,8 @@ public:
     inline subview_each1<subview<eT>, 0> each_col();
     inline subview_each1<subview<eT>, 1> each_row();
 
-    template <typename T1>
-    inline subview_each2<subview<eT>, 0, T1> each_col(const Base<uword, T1>& indices);
-    template <typename T1>
-    inline subview_each2<subview<eT>, 1, T1> each_row(const Base<uword, T1>& indices);
+    template <typename T1> inline subview_each2<subview<eT>, 0, T1> each_col(const Base<uword, T1>& indices);
+    template <typename T1> inline subview_each2<subview<eT>, 1, T1> each_row(const Base<uword, T1>& indices);
 
 #if defined(ARMA_USE_CXX11)
     inline void each_col(const std::function<void(Col<eT>&)>& F);
@@ -197,8 +176,7 @@ private:
     subview();
 };
 
-template <typename eT>
-class subview_col : public subview<eT> {
+template <typename eT> class subview_col : public subview<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -212,11 +190,9 @@ public:
     inline void operator=(const subview_col& x);
     inline void operator=(const eT val);
 
-    template <typename T1>
-    inline void operator=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator=(const Base<eT, T1>& x);
 
-    template <typename T1, typename gen_type>
-    inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
+    template <typename T1, typename gen_type> inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
 
     arma_inline const Op<subview_col<eT>, op_htrans> t() const;
     arma_inline const Op<subview_col<eT>, op_htrans> ht() const;
@@ -279,8 +255,7 @@ private:
     subview_col();
 };
 
-template <typename eT>
-class subview_row : public subview<eT> {
+template <typename eT> class subview_row : public subview<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -292,11 +267,9 @@ public:
     inline void operator=(const subview_row& x);
     inline void operator=(const eT val);
 
-    template <typename T1>
-    inline void operator=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator=(const Base<eT, T1>& x);
 
-    template <typename T1, typename gen_type>
-    inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
+    template <typename T1, typename gen_type> inline typename enable_if2<is_same_type<typename T1::elem_type, eT>::value, void>::result operator=(const Gen<T1, gen_type>& x);
 
     arma_inline const Op<subview_row<eT>, op_htrans> t() const;
     arma_inline const Op<subview_row<eT>, op_htrans> ht() const;
@@ -346,8 +319,7 @@ private:
     subview_row();
 };
 
-template <typename eT>
-class subview_row_strans : public Base<eT, subview_row_strans<eT>> {
+template <typename eT> class subview_row_strans : public Base<eT, subview_row_strans<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -374,8 +346,7 @@ public:
     inline eT at(const uword in_row, const uword in_col) const;
 };
 
-template <typename eT>
-class subview_row_htrans : public Base<eT, subview_row_htrans<eT>> {
+template <typename eT> class subview_row_htrans : public Base<eT, subview_row_htrans<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

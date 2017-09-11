@@ -16,8 +16,7 @@
 //! \addtogroup op_clamp
 //! @{
 
-template <typename T1>
-inline void op_clamp::apply(Mat<typename T1::elem_type>& out, const mtOp<typename T1::elem_type, T1, op_clamp>& in) {
+template <typename T1> inline void op_clamp::apply(Mat<typename T1::elem_type>& out, const mtOp<typename T1::elem_type, T1, op_clamp>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -35,8 +34,7 @@ inline void op_clamp::apply(Mat<typename T1::elem_type>& out, const mtOp<typenam
     }
 }
 
-template <typename T1>
-inline void op_clamp::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const typename T1::elem_type min_val, const typename T1::elem_type max_val) {
+template <typename T1> inline void op_clamp::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const typename T1::elem_type min_val, const typename T1::elem_type max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -89,8 +87,7 @@ inline void op_clamp::apply_noalias(Mat<typename T1::elem_type>& out, const Prox
     }
 }
 
-template <typename T1>
-inline void op_clamp::apply(Cube<typename T1::elem_type>& out, const mtOpCube<typename T1::elem_type, T1, op_clamp>& in) {
+template <typename T1> inline void op_clamp::apply(Cube<typename T1::elem_type>& out, const mtOpCube<typename T1::elem_type, T1, op_clamp>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -108,8 +105,7 @@ inline void op_clamp::apply(Cube<typename T1::elem_type>& out, const mtOpCube<ty
     }
 }
 
-template <typename T1>
-inline void op_clamp::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const typename T1::elem_type min_val, const typename T1::elem_type max_val) {
+template <typename T1> inline void op_clamp::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P, const typename T1::elem_type min_val, const typename T1::elem_type max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

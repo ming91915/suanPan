@@ -16,8 +16,7 @@
 //! \addtogroup xtrans_mat
 //! @{
 
-template <typename eT, bool do_conj>
-class xtrans_mat : public Base<eT, xtrans_mat<eT, do_conj>> {
+template <typename eT, bool do_conj> class xtrans_mat : public Base<eT, xtrans_mat<eT, do_conj>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

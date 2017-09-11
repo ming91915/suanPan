@@ -212,7 +212,7 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
     <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp" />
-    <ClCompile Include="..\..\..\Toolbox\shapeFunctionQuad.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\shapeFunction.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
     <ClCompile Include="..\..\..\Toolbox\utility.cpp" />
   </ItemGroup>
@@ -235,7 +235,6 @@
     <ClInclude Include="..\..\..\Database\SQL.h" />
     <ClInclude Include="..\..\..\Domain\Domain.h" />
     <ClInclude Include="..\..\..\Domain\ExternalModule.h" />
-    <ClInclude Include="..\..\..\Domain\Factory.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\BandMat.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\BandSymmMat.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\FullMat.hpp" />
@@ -243,7 +242,6 @@
     <ClInclude Include="..\..\..\Domain\MetaMat\operator_times.hpp" />
     <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
-    <ClInclude Include="..\..\..\Domain\Storage.hpp" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Ramp.h" />
@@ -283,7 +281,7 @@
     <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h" />
     <ClInclude Include="..\..\..\Toolbox\RCM.h" />
-    <ClInclude Include="..\..\..\Toolbox\shapeFunctionQuad.h" />
+    <ClInclude Include="..\..\..\Toolbox\shapeFunction.h" />
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h" />
     <ClInclude Include="..\..\..\Toolbox\utility.h" />
   </ItemGroup>

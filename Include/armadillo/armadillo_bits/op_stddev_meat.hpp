@@ -21,8 +21,7 @@
 //! The result is stored in a dense matrix that has either one column or one row.
 //! The dimension for which the standard deviations are found is set via the stddev()
 //! function.
-template <typename T1>
-inline void op_stddev::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_stddev>& in) {
+template <typename T1> inline void op_stddev::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_stddev>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT;

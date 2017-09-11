@@ -16,10 +16,7 @@
 //! \addtogroup subview_field
 //! @{
 
-template <typename oT>
-inline subview_field<oT>::~subview_field() {
-    arma_extra_debug_sigprint();
-}
+template <typename oT> inline subview_field<oT>::~subview_field() { arma_extra_debug_sigprint(); }
 
 template <typename oT>
 arma_inline subview_field<oT>::subview_field(const field<oT>& in_f, const uword in_row1, const uword in_col1, const uword in_n_rows, const uword in_n_cols)
@@ -47,8 +44,7 @@ arma_inline subview_field<oT>::subview_field(const field<oT>& in_f, const uword 
     arma_extra_debug_sigprint();
 }
 
-template <typename oT>
-inline void subview_field<oT>::operator=(const field<oT>& x) {
+template <typename oT> inline void subview_field<oT>::operator=(const field<oT>& x) {
     arma_extra_debug_sigprint();
 
     subview_field<oT>& t = *this;
@@ -66,8 +62,7 @@ inline void subview_field<oT>::operator=(const field<oT>& x) {
 }
 
 //! x.subfield(...) = y.subfield(...)
-template <typename oT>
-inline void subview_field<oT>::operator=(const subview_field<oT>& x) {
+template <typename oT> inline void subview_field<oT>::operator=(const subview_field<oT>& x) {
     arma_extra_debug_sigprint();
 
     if(check_overlap(x)) {
@@ -92,8 +87,7 @@ inline void subview_field<oT>::operator=(const subview_field<oT>& x) {
     }
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::operator[](const uword i) {
+template <typename oT> arma_inline oT& subview_field<oT>::operator[](const uword i) {
     uword index;
 
     if(n_slices == 1) {
@@ -117,8 +111,7 @@ arma_inline oT& subview_field<oT>::operator[](const uword i) {
     return *((const_cast<field<oT>&>(f)).mem[index]);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::operator[](const uword i) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::operator[](const uword i) const {
     uword index;
 
     if(n_slices == 1) {
@@ -142,22 +135,19 @@ arma_inline const oT& subview_field<oT>::operator[](const uword i) const {
     return *(f.mem[index]);
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::operator()(const uword i) {
+template <typename oT> arma_inline oT& subview_field<oT>::operator()(const uword i) {
     arma_debug_check((i >= n_elem), "subview_field::operator(): index out of bounds");
 
     return operator[](i);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::operator()(const uword i) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::operator()(const uword i) const {
     arma_debug_check((i >= n_elem), "subview_field::operator(): index out of bounds");
 
     return operator[](i);
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in_col) {
+template <typename oT> arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in_col) {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (0 >= n_slices)), "subview_field::operator(): index out of bounds");
 
     const uword index = (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
@@ -165,8 +155,7 @@ arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in
     return *((const_cast<field<oT>&>(f)).mem[index]);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uword in_col) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uword in_col) const {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (0 >= n_slices)), "subview_field::operator(): index out of bounds");
 
     const uword index = (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
@@ -174,8 +163,7 @@ arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uw
     return *(f.mem[index]);
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) {
+template <typename oT> arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (in_slice >= n_slices)), "subview_field::operator(): index out of bounds");
 
     const uword index = (in_slice + aux_slice1) * (f.n_rows * f.n_cols) + (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
@@ -183,8 +171,7 @@ arma_inline oT& subview_field<oT>::operator()(const uword in_row, const uword in
     return *((const_cast<field<oT>&>(f)).mem[index]);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) const {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (in_slice >= n_slices)), "subview_field::operator(): index out of bounds");
 
     const uword index = (in_slice + aux_slice1) * (f.n_rows * f.n_cols) + (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
@@ -192,41 +179,33 @@ arma_inline const oT& subview_field<oT>::operator()(const uword in_row, const uw
     return *(f.mem[index]);
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::at(const uword in_row, const uword in_col) {
+template <typename oT> arma_inline oT& subview_field<oT>::at(const uword in_row, const uword in_col) {
     const uword index = (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
 
     return *((const_cast<field<oT>&>(f)).mem[index]);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::at(const uword in_row, const uword in_col) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::at(const uword in_row, const uword in_col) const {
     const uword index = (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
 
     return *(f.mem[index]);
 }
 
-template <typename oT>
-arma_inline oT& subview_field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) {
+template <typename oT> arma_inline oT& subview_field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) {
     const uword index = (in_slice + aux_slice1) * (f.n_rows * f.n_cols) + (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
 
     return *((const_cast<field<oT>&>(f)).mem[index]);
 }
 
-template <typename oT>
-arma_inline const oT& subview_field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) const {
+template <typename oT> arma_inline const oT& subview_field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) const {
     const uword index = (in_slice + aux_slice1) * (f.n_rows * f.n_cols) + (in_col + aux_col1) * f.n_rows + aux_row1 + in_row;
 
     return *(f.mem[index]);
 }
 
-template <typename oT>
-arma_inline bool subview_field<oT>::is_empty() const {
-    return (n_elem == 0);
-}
+template <typename oT> arma_inline bool subview_field<oT>::is_empty() const { return (n_elem == 0); }
 
-template <typename oT>
-inline bool subview_field<oT>::check_overlap(const subview_field<oT>& x) const {
+template <typename oT> inline bool subview_field<oT>::check_overlap(const subview_field<oT>& x) const {
     const subview_field<oT>& t = *this;
 
     if(&t.f != &x.f) {
@@ -262,8 +241,7 @@ inline bool subview_field<oT>::check_overlap(const subview_field<oT>& x) const {
     }
 }
 
-template <typename oT>
-inline void subview_field<oT>::print(const std::string extra_text) const {
+template <typename oT> inline void subview_field<oT>::print(const std::string extra_text) const {
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
@@ -277,8 +255,7 @@ inline void subview_field<oT>::print(const std::string extra_text) const {
     arma_ostream::print(get_cout_stream(), *this);
 }
 
-template <typename oT>
-inline void subview_field<oT>::print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename oT> inline void subview_field<oT>::print(std::ostream& user_stream, const std::string extra_text) const {
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
@@ -292,9 +269,7 @@ inline void subview_field<oT>::print(std::ostream& user_stream, const std::strin
     arma_ostream::print(user_stream, *this);
 }
 
-template <typename oT>
-template <typename functor>
-inline void subview_field<oT>::for_each(functor F) {
+template <typename oT> template <typename functor> inline void subview_field<oT>::for_each(functor F) {
     arma_extra_debug_sigprint();
 
     subview_field<oT>& t = *this;
@@ -309,9 +284,7 @@ inline void subview_field<oT>::for_each(functor F) {
     }
 }
 
-template <typename oT>
-template <typename functor>
-inline void subview_field<oT>::for_each(functor F) const {
+template <typename oT> template <typename functor> inline void subview_field<oT>::for_each(functor F) const {
     arma_extra_debug_sigprint();
 
     const subview_field<oT>& t = *this;
@@ -326,8 +299,7 @@ inline void subview_field<oT>::for_each(functor F) const {
     }
 }
 
-template <typename oT>
-inline void subview_field<oT>::fill(const oT& x) {
+template <typename oT> inline void subview_field<oT>::fill(const oT& x) {
     arma_extra_debug_sigprint();
 
     subview_field<oT>& t = *this;
@@ -343,8 +315,7 @@ inline void subview_field<oT>::fill(const oT& x) {
 }
 
 //! X = Y.subfield(...)
-template <typename oT>
-inline void subview_field<oT>::extract(field<oT>& actual_out, const subview_field<oT>& in) {
+template <typename oT> inline void subview_field<oT>::extract(field<oT>& actual_out, const subview_field<oT>& in) {
     arma_extra_debug_sigprint();
 
     //

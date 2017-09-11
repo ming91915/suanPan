@@ -18,8 +18,7 @@
 
 class syrk_helper {
 public:
-    template <typename eT>
-    inline static void inplace_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
+    template <typename eT> inline static void inplace_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
         // under the assumption that C is a square matrix
 
         const uword N = C.n_rows;
@@ -42,11 +41,9 @@ public:
 };
 
 //! partial emulation of BLAS function syrk(), specialised for A being a vector
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class syrk_vec {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class syrk_vec {
 public:
-    template <typename eT, typename TA>
-    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA> arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         const uword A_n1 = (do_trans_A == false) ? A.n_rows : A.n_cols;
@@ -134,11 +131,9 @@ public:
 };
 
 //! partial emulation of BLAS function syrk()
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class syrk_emul {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class syrk_emul {
 public:
-    template <typename eT, typename TA>
-    arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA> arma_hot inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         // do_trans_A == false  ->   C = alpha * A   * A^T + beta*C
@@ -185,11 +180,9 @@ public:
     }
 };
 
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class syrk {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class syrk {
 public:
-    template <typename eT, typename TA>
-    inline static void apply_blas_type(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA> inline static void apply_blas_type(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         arma_extra_debug_sigprint();
 
         if(A.is_vec()) {
@@ -270,8 +263,7 @@ public:
         }
     }
 
-    template <typename eT, typename TA>
-    inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
+    template <typename eT, typename TA> inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0)) {
         if(is_cx<eT>::no) {
             if(A.is_vec()) {
                 syrk_vec<do_trans_A, use_alpha, use_beta>::apply(C, A, alpha, beta);
@@ -284,18 +276,11 @@ public:
         }
     }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<float>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) {
-        syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
-    }
+    template <typename TA> arma_inline static void apply(Mat<float>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) { syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta); }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<double>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) {
-        syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
-    }
+    template <typename TA> arma_inline static void apply(Mat<double>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) { syrk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta); }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const std::complex<float> alpha = std::complex<float>(1), const std::complex<float> beta = std::complex<float>(0)) {
+    template <typename TA> arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const std::complex<float> alpha = std::complex<float>(1), const std::complex<float> beta = std::complex<float>(0)) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);
@@ -305,8 +290,7 @@ public:
         return;
     }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const std::complex<double> alpha = std::complex<double>(1), const std::complex<double> beta = std::complex<double>(0)) {
+    template <typename TA> arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const std::complex<double> alpha = std::complex<double>(1), const std::complex<double> beta = std::complex<double>(0)) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);

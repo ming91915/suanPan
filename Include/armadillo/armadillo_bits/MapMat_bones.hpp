@@ -17,8 +17,7 @@
 //! @{
 
 // this class is for internal use only; subject to change and/or removal without notice
-template <typename eT>
-class MapMat {
+template <typename eT> class MapMat {
 public:
     typedef eT elem_type;                               //!< the type of elements stored in the matrix
     typedef typename get_pod_type<eT>::result pod_type; //!< if eT is std::complex<T>, pod_type is T; otherwise pod_type is eT
@@ -119,8 +118,7 @@ private:
     friend class SpMat<eT>;
 };
 
-template <typename eT>
-class MapMat_val {
+template <typename eT> class MapMat_val {
 private:
     arma_aligned MapMat<eT>& parent;
 
@@ -147,8 +145,7 @@ public:
     arma_inline void operator--(int);
 };
 
-template <typename eT>
-class MapMat_elem {
+template <typename eT> class MapMat_elem {
 private:
     arma_aligned MapMat<eT>& parent;
 
@@ -178,8 +175,7 @@ public:
     arma_inline eT operator--(int);
 };
 
-template <typename eT>
-class MapMat_svel {
+template <typename eT> class MapMat_svel {
 private:
     arma_aligned MapMat<eT>& parent;
 

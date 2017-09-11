@@ -16,8 +16,7 @@
 //! \addtogroup op_pinv
 //! @{
 
-template <typename T1>
-inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pinv>& in) {
+template <typename T1> inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pinv>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -31,8 +30,7 @@ inline void op_pinv::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pin
     if(status == false) { arma_stop_runtime_error("pinv(): svd failed"); }
 }
 
-template <typename T1>
-inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol, const bool use_divide_and_conquer) {
+template <typename T1> inline bool op_pinv::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr, typename T1::pod_type tol, const bool use_divide_and_conquer) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

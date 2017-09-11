@@ -17,8 +17,7 @@
 //! @{
 
 //! support class for generator functions (eg. zeros, randu, randn, ...)
-template <typename eT, typename gen_type>
-class GenCube : public BaseCube<eT, GenCube<eT, gen_type>>, public GenSpecialiser<eT, is_same_type<gen_type, gen_zeros>::yes, is_same_type<gen_type, gen_ones>::yes, is_same_type<gen_type, gen_randu>::yes, is_same_type<gen_type, gen_randn>::yes> {
+template <typename eT, typename gen_type> class GenCube : public BaseCube<eT, GenCube<eT, gen_type>>, public GenSpecialiser<eT, is_same_type<gen_type, gen_zeros>::yes, is_same_type<gen_type, gen_ones>::yes, is_same_type<gen_type, gen_randu>::yes, is_same_type<gen_type, gen_randn>::yes> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

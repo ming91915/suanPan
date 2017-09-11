@@ -18,11 +18,9 @@
 
 class glue_polyval {
 public:
-    template <typename eT>
-    inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& P, const Mat<eT>& X);
+    template <typename eT> inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& P, const Mat<eT>& X);
 
-    template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyval>& expr);
+    template <typename T1, typename T2> inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyval>& expr);
 };
 
 //! @}

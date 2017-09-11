@@ -19,8 +19,7 @@
 //! Solve a system of linear equations, i.e., A*X = B, where X is unknown,
 //! A is sparse, and B is dense.  X will be dense too.
 
-template <typename T1, typename T2>
-inline bool spsolve_helper(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver, const spsolve_opts_base& settings, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2> inline bool spsolve_helper(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver, const spsolve_opts_base& settings, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -82,8 +81,7 @@ inline bool spsolve_helper(Mat<typename T1::elem_type>& out, const SpBase<typena
     return status;
 }
 
-template <typename T1, typename T2>
-inline bool spsolve(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2> inline bool spsolve(Mat<typename T1::elem_type>& out, const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -92,8 +90,7 @@ inline bool spsolve(Mat<typename T1::elem_type>& out, const SpBase<typename T1::
     return status;
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline Mat<typename T1::elem_type> spsolve(const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2> arma_warn_unused inline Mat<typename T1::elem_type> spsolve(const SpBase<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* solver = "superlu", const spsolve_opts_base& settings = spsolve_opts_none(), const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

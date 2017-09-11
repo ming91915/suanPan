@@ -20,8 +20,7 @@ namespace arpack {
 
 // If real, then eT == eeT; otherwise, eT == std::complex<eeT>.
 // For real calls, rwork is ignored; it's only necessary in the complex case.
-template <typename eT, typename eeT>
-inline void naupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, eeT* rwork, blas_int* info) {
+template <typename eT, typename eeT> inline void naupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, eeT* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -44,8 +43,7 @@ inline void naupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int*
 //! The use of two template types is necessary here because the compiler will
 //! instantiate this method for complex types (where eT != eeT) but that in
 //! practice that is never actually used.
-template <typename eT, typename eeT>
-inline void saupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, blas_int* info) {
+template <typename eT, typename eeT> inline void saupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -57,8 +55,7 @@ inline void saupd(blas_int* ido, char* bmat, blas_int* n, char* which, blas_int*
     }
 }
 
-template <typename eT>
-inline void seupd(blas_int* rvec, char* howmny, blas_int* select, eT* d, eT* z, blas_int* ldz, eT* sigma, char* bmat, blas_int* n, char* which, blas_int* nev, eT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, blas_int* info) {
+template <typename eT> inline void seupd(blas_int* rvec, char* howmny, blas_int* select, eT* d, eT* z, blas_int* ldz, eT* sigma, char* bmat, blas_int* n, char* which, blas_int* nev, eT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -72,8 +69,7 @@ inline void seupd(blas_int* rvec, char* howmny, blas_int* select, eT* d, eT* z, 
 
 // for complex versions, pass d for dr, and null for di; pass sigma for
 // sigmar, and null for sigmai; rwork isn't used for non-complex versions
-template <typename eT, typename eeT>
-inline void neupd(blas_int* rvec, char* howmny, blas_int* select, eT* dr, eT* di, eT* z, blas_int* ldz, eT* sigmar, eT* sigmai, eT* workev, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, eeT* rwork, blas_int* info) {
+template <typename eT, typename eeT> inline void neupd(blas_int* rvec, char* howmny, blas_int* select, eT* dr, eT* di, eT* z, blas_int* ldz, eT* sigmar, eT* sigmai, eT* workev, char* bmat, blas_int* n, char* which, blas_int* nev, eeT* tol, eT* resid, blas_int* ncv, eT* v, blas_int* ldv, blas_int* iparam, blas_int* ipntr, eT* workd, eT* workl, blas_int* lworkl, eeT* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {

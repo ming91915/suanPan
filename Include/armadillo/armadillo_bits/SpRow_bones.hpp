@@ -17,8 +17,7 @@
 //! @{
 
 //! Class for sparse row vectors (sparse matrices with only one row)
-template <typename eT>
-class SpRow : public SpMat<eT> {
+template <typename eT> class SpRow : public SpMat<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -38,18 +37,13 @@ public:
 
     inline SpRow& operator=(const eT val);
 
-    template <typename T1>
-    inline SpRow(const Base<eT, T1>& X);
-    template <typename T1>
-    inline SpRow& operator=(const Base<eT, T1>& X);
+    template <typename T1> inline SpRow(const Base<eT, T1>& X);
+    template <typename T1> inline SpRow& operator=(const Base<eT, T1>& X);
 
-    template <typename T1>
-    inline SpRow(const SpBase<eT, T1>& X);
-    template <typename T1>
-    inline SpRow& operator=(const SpBase<eT, T1>& X);
+    template <typename T1> inline SpRow(const SpBase<eT, T1>& X);
+    template <typename T1> inline SpRow& operator=(const SpBase<eT, T1>& X);
 
-    template <typename T1, typename T2>
-    inline explicit SpRow(const SpBase<pod_type, T1>& A, const SpBase<pod_type, T2>& B);
+    template <typename T1, typename T2> inline explicit SpRow(const SpBase<pod_type, T1>& A, const SpBase<pod_type, T2>& B);
 
     inline void shed_col(const uword col_num);
     inline void shed_cols(const uword in_col1, const uword in_col2);

@@ -16,8 +16,7 @@
 //! \addtogroup op_resize
 //! @{
 
-template <typename T1>
-inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out, const Op<T1, op_resize>& in) {
+template <typename T1> inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out, const Op<T1, op_resize>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -59,8 +58,7 @@ inline void op_resize::apply(Mat<typename T1::elem_type>& actual_out, const Op<T
     if(alias) { actual_out.steal_mem(B); }
 }
 
-template <typename T1>
-inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out, const OpCube<T1, op_resize>& in) {
+template <typename T1> inline void op_resize::apply(Cube<typename T1::elem_type>& actual_out, const OpCube<T1, op_resize>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

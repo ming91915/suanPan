@@ -16,10 +16,7 @@
 //! \addtogroup running_stat
 //! @{
 
-template <typename eT>
-inline arma_counter<eT>::~arma_counter() {
-    arma_extra_debug_sigprint_this(this);
-}
+template <typename eT> inline arma_counter<eT>::~arma_counter() { arma_extra_debug_sigprint_this(this); }
 
 template <typename eT>
 inline arma_counter<eT>::arma_counter()
@@ -28,8 +25,7 @@ inline arma_counter<eT>::arma_counter()
     arma_extra_debug_sigprint_this(this);
 }
 
-template <typename eT>
-inline const arma_counter<eT>& arma_counter<eT>::operator++() {
+template <typename eT> inline const arma_counter<eT>& arma_counter<eT>::operator++() {
     if(i_count < ARMA_MAX_UWORD) {
         i_count++;
     } else {
@@ -40,24 +36,16 @@ inline const arma_counter<eT>& arma_counter<eT>::operator++() {
     return *this;
 }
 
-template <typename eT>
-inline void arma_counter<eT>::operator++(int) {
-    operator++();
-}
+template <typename eT> inline void arma_counter<eT>::operator++(int) { operator++(); }
 
-template <typename eT>
-inline void arma_counter<eT>::reset() {
+template <typename eT> inline void arma_counter<eT>::reset() {
     d_count = eT(0);
     i_count = uword(0);
 }
 
-template <typename eT>
-inline eT arma_counter<eT>::value() const {
-    return d_count + eT(i_count);
-}
+template <typename eT> inline eT arma_counter<eT>::value() const { return d_count + eT(i_count); }
 
-template <typename eT>
-inline eT arma_counter<eT>::value_plus_1() const {
+template <typename eT> inline eT arma_counter<eT>::value_plus_1() const {
     if(i_count < ARMA_MAX_UWORD) {
         return d_count + eT(i_count + 1);
     } else {
@@ -65,8 +53,7 @@ inline eT arma_counter<eT>::value_plus_1() const {
     }
 }
 
-template <typename eT>
-inline eT arma_counter<eT>::value_minus_1() const {
+template <typename eT> inline eT arma_counter<eT>::value_minus_1() const {
     if(i_count > 0) {
         return d_count + eT(i_count - 1);
     } else {
@@ -76,10 +63,7 @@ inline eT arma_counter<eT>::value_minus_1() const {
 
 //
 
-template <typename eT>
-inline running_stat<eT>::~running_stat() {
-    arma_extra_debug_sigprint_this(this);
-}
+template <typename eT> inline running_stat<eT>::~running_stat() { arma_extra_debug_sigprint_this(this); }
 
 template <typename eT>
 inline running_stat<eT>::running_stat()
@@ -93,8 +77,7 @@ inline running_stat<eT>::running_stat()
 }
 
 //! update statistics to reflect new sample
-template <typename eT>
-inline void running_stat<eT>::operator()(const typename running_stat<eT>::T sample) {
+template <typename eT> inline void running_stat<eT>::operator()(const typename running_stat<eT>::T sample) {
     arma_extra_debug_sigprint();
 
     if(arma_isfinite(sample) == false) {
@@ -106,8 +89,7 @@ inline void running_stat<eT>::operator()(const typename running_stat<eT>::T samp
 }
 
 //! update statistics to reflect new sample (version for complex numbers)
-template <typename eT>
-inline void running_stat<eT>::operator()(const std::complex<typename running_stat<eT>::T>& sample) {
+template <typename eT> inline void running_stat<eT>::operator()(const std::complex<typename running_stat<eT>::T>& sample) {
     arma_extra_debug_sigprint();
 
     if(arma_isfinite(sample) == false) {
@@ -119,8 +101,7 @@ inline void running_stat<eT>::operator()(const std::complex<typename running_sta
 }
 
 //! set all statistics to zero
-template <typename eT>
-inline void running_stat<eT>::reset() {
+template <typename eT> inline void running_stat<eT>::reset() {
     arma_extra_debug_sigprint();
 
     // typedef typename running_stat<eT>::T T;
@@ -138,16 +119,14 @@ inline void running_stat<eT>::reset() {
 }
 
 //! mean or average value
-template <typename eT>
-inline eT running_stat<eT>::mean() const {
+template <typename eT> inline eT running_stat<eT>::mean() const {
     arma_extra_debug_sigprint();
 
     return r_mean;
 }
 
 //! variance
-template <typename eT>
-inline typename running_stat<eT>::T running_stat<eT>::var(const uword norm_type) const {
+template <typename eT> inline typename running_stat<eT>::T running_stat<eT>::var(const uword norm_type) const {
     arma_extra_debug_sigprint();
 
     const T N = counter.value();
@@ -165,39 +144,34 @@ inline typename running_stat<eT>::T running_stat<eT>::var(const uword norm_type)
 }
 
 //! standard deviation
-template <typename eT>
-inline typename running_stat<eT>::T running_stat<eT>::stddev(const uword norm_type) const {
+template <typename eT> inline typename running_stat<eT>::T running_stat<eT>::stddev(const uword norm_type) const {
     arma_extra_debug_sigprint();
 
     return std::sqrt((*this).var(norm_type));
 }
 
 //! minimum value
-template <typename eT>
-inline eT running_stat<eT>::min() const {
+template <typename eT> inline eT running_stat<eT>::min() const {
     arma_extra_debug_sigprint();
 
     return min_val;
 }
 
 //! maximum value
-template <typename eT>
-inline eT running_stat<eT>::max() const {
+template <typename eT> inline eT running_stat<eT>::max() const {
     arma_extra_debug_sigprint();
 
     return max_val;
 }
 
-template <typename eT>
-inline eT running_stat<eT>::range() const {
+template <typename eT> inline eT running_stat<eT>::range() const {
     arma_extra_debug_sigprint();
 
     return (max_val - min_val);
 }
 
 //! number of samples so far
-template <typename eT>
-inline typename get_pod_type<eT>::result running_stat<eT>::count() const {
+template <typename eT> inline typename get_pod_type<eT>::result running_stat<eT>::count() const {
     arma_extra_debug_sigprint();
 
     return counter.value();
@@ -205,8 +179,7 @@ inline typename get_pod_type<eT>::result running_stat<eT>::count() const {
 
 //! update statistics to reflect new sample (version for non-complex numbers, non-complex
 //! sample)
-template <typename eT>
-inline void running_stat_aux::update_stats(running_stat<eT>& x, const eT sample, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline void running_stat_aux::update_stats(running_stat<eT>& x, const eT sample, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -245,8 +218,7 @@ inline void running_stat_aux::update_stats(running_stat<eT>& x, const eT sample,
 
 //! update statistics to reflect new sample (version for non-complex numbers, complex
 //! sample)
-template <typename eT>
-inline void running_stat_aux::update_stats(running_stat<eT>& x, const std::complex<eT>& sample, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline void running_stat_aux::update_stats(running_stat<eT>& x, const std::complex<eT>& sample, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -255,8 +227,7 @@ inline void running_stat_aux::update_stats(running_stat<eT>& x, const std::compl
 
 //! update statistics to reflect new sample (version for complex numbers, non-complex
 //! sample)
-template <typename eT>
-inline void running_stat_aux::update_stats(running_stat<eT>& x, const typename eT::value_type sample, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> inline void running_stat_aux::update_stats(running_stat<eT>& x, const typename eT::value_type sample, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -266,8 +237,7 @@ inline void running_stat_aux::update_stats(running_stat<eT>& x, const typename e
 }
 
 //! alter statistics to reflect new sample (version for complex numbers, complex sample)
-template <typename eT>
-inline void running_stat_aux::update_stats(running_stat<eT>& x, const eT& sample, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> inline void running_stat_aux::update_stats(running_stat<eT>& x, const eT& sample, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

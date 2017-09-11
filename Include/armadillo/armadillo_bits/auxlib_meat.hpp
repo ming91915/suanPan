@@ -17,8 +17,7 @@
 //! @{
 
 //! matrix inverse
-template <typename eT, typename T1>
-inline bool auxlib::inv(Mat<eT>& out, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::inv(Mat<eT>& out, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     out = X.get_ref();
@@ -42,8 +41,7 @@ inline bool auxlib::inv(Mat<eT>& out, const Base<eT, T1>& X) {
     return auxlib::inv_inplace_lapack(out);
 }
 
-template <typename eT>
-inline bool auxlib::inv(Mat<eT>& out, const Mat<eT>& X) {
+template <typename eT> inline bool auxlib::inv(Mat<eT>& out, const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((X.is_square() == false), "inv(): given matrix must be square sized");
@@ -75,8 +73,7 @@ inline bool auxlib::inv(Mat<eT>& out, const Mat<eT>& X) {
     return auxlib::inv_inplace_lapack(out);
 }
 
-template <typename eT>
-inline bool auxlib::inv_noalias_tinymat(Mat<eT>& out, const Mat<eT>& X, const uword N) {
+template <typename eT> inline bool auxlib::inv_noalias_tinymat(Mat<eT>& out, const Mat<eT>& X, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -175,8 +172,7 @@ inline bool auxlib::inv_noalias_tinymat(Mat<eT>& out, const Mat<eT>& X, const uw
     return calc_ok;
 }
 
-template <typename eT>
-inline bool auxlib::inv_inplace_lapack(Mat<eT>& out) {
+template <typename eT> inline bool auxlib::inv_inplace_lapack(Mat<eT>& out) {
     arma_extra_debug_sigprint();
 
     if(out.is_empty()) { return true; }
@@ -244,8 +240,7 @@ inline bool auxlib::inv_inplace_lapack(Mat<eT>& out) {
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::inv_tr(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
+template <typename eT, typename T1> inline bool auxlib::inv_tr(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -287,8 +282,7 @@ inline bool auxlib::inv_tr(Mat<eT>& out, const Base<eT, T1>& X, const uword layo
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::inv_sym(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
+template <typename eT, typename T1> inline bool auxlib::inv_sym(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -341,8 +335,7 @@ inline bool auxlib::inv_sym(Mat<eT>& out, const Base<eT, T1>& X, const uword lay
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::inv_sympd(Mat<eT>& out, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::inv_sympd(Mat<eT>& out, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -383,8 +376,7 @@ inline bool auxlib::inv_sympd(Mat<eT>& out, const Base<eT, T1>& X) {
 #endif
 }
 
-template <typename eT, typename T1>
-inline eT auxlib::det(const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline eT auxlib::det(const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -409,8 +401,7 @@ inline eT auxlib::det(const Base<eT, T1>& X) {
     return auxlib::det_lapack(A, make_copy);
 }
 
-template <typename eT>
-inline eT auxlib::det_tinymat(const Mat<eT>& X, const uword N) {
+template <typename eT> inline eT auxlib::det_tinymat(const Mat<eT>& X, const uword N) {
     arma_extra_debug_sigprint();
 
     switch(N) {
@@ -462,8 +453,7 @@ inline eT auxlib::det_tinymat(const Mat<eT>& X, const uword N) {
 }
 
 //! determinant of a matrix
-template <typename eT>
-inline eT auxlib::det_lapack(const Mat<eT>& X, const bool make_copy) {
+template <typename eT> inline eT auxlib::det_lapack(const Mat<eT>& X, const bool make_copy) {
     arma_extra_debug_sigprint();
 
     Mat<eT> X_copy;
@@ -537,8 +527,7 @@ inline eT auxlib::det_lapack(const Mat<eT>& X, const bool make_copy) {
 }
 
 //! log determinant of a matrix
-template <typename eT, typename T1>
-inline bool auxlib::log_det(eT& out_val, typename get_pod_type<eT>::result& out_sign, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::log_det(eT& out_val, typename get_pod_type<eT>::result& out_sign, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -653,8 +642,7 @@ inline bool auxlib::log_det(eT& out_val, typename get_pod_type<eT>::result& out_
 }
 
 //! LU decomposition of a matrix
-template <typename eT, typename T1>
-inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, podarray<blas_int>& ipiv, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, podarray<blas_int>& ipiv, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     U = X.get_ref();
@@ -726,8 +714,7 @@ inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, podarray<blas_int>& ipiv, const B
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, Mat<eT>& P, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, Mat<eT>& P, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     podarray<blas_int> ipiv1;
@@ -768,8 +755,7 @@ inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, Mat<eT>& P, const Base<eT, T1>& X
     return true;
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     podarray<blas_int> ipiv1;
@@ -809,8 +795,7 @@ inline bool auxlib::lu(Mat<eT>& L, Mat<eT>& U, const Base<eT, T1>& X) {
 }
 
 //! eigen decomposition of general square matrix (real)
-template <typename T1>
-inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<typename T1::pod_type, T1>& expr) {
+template <typename T1> inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<typename T1::pod_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -899,8 +884,7 @@ inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<
 }
 
 //! eigen decomposition of general square matrix (complex)
-template <typename T1>
-inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<std::complex<typename T1::pod_type>, T1>& expr) {
+template <typename T1> inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<std::complex<typename T1::pod_type>, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -960,8 +944,7 @@ inline bool auxlib::eig_gen(Mat<std::complex<typename T1::pod_type>>& vals, Mat<
 }
 
 //! eigendecomposition of general square real matrix pair (real)
-template <typename T1, typename T2>
-inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<typename T1::pod_type, T1>& A_expr, const Base<typename T1::pod_type, T2>& B_expr) {
+template <typename T1, typename T2> inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<typename T1::pod_type, T1>& A_expr, const Base<typename T1::pod_type, T2>& B_expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1078,8 +1061,7 @@ inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat
 }
 
 //! eigendecomposition of general square real matrix pair (complex)
-template <typename T1, typename T2>
-inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<std::complex<typename T1::pod_type>, T1>& A_expr, const Base<std::complex<typename T1::pod_type>, T2>& B_expr) {
+template <typename T1, typename T2> inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat<std::complex<typename T1::pod_type>>& vecs, const bool vecs_on, const Base<std::complex<typename T1::pod_type>, T1>& A_expr, const Base<std::complex<typename T1::pod_type>, T2>& B_expr) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -1176,8 +1158,7 @@ inline bool auxlib::eig_pair(Mat<std::complex<typename T1::pod_type>>& vals, Mat
 }
 
 //! eigenvalues of a symmetric real matrix
-template <typename eT, typename T1>
-inline bool auxlib::eig_sym(Col<eT>& eigval, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::eig_sym(Col<eT>& eigval, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1220,8 +1201,7 @@ inline bool auxlib::eig_sym(Col<eT>& eigval, const Base<eT, T1>& X) {
 }
 
 //! eigenvalues of a hermitian complex matrix
-template <typename T, typename T1>
-inline bool auxlib::eig_sym(Col<T>& eigval, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::eig_sym(Col<T>& eigval, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1267,8 +1247,7 @@ inline bool auxlib::eig_sym(Col<T>& eigval, const Base<std::complex<T>, T1>& X) 
 }
 
 //! eigenvalues and eigenvectors of a symmetric real matrix
-template <typename eT, typename T1>
-inline bool auxlib::eig_sym(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::eig_sym(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1313,8 +1292,7 @@ inline bool auxlib::eig_sym(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>
 }
 
 //! eigenvalues and eigenvectors of a hermitian complex matrix
-template <typename T, typename T1>
-inline bool auxlib::eig_sym(Col<T>& eigval, Mat<std::complex<T>>& eigvec, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::eig_sym(Col<T>& eigval, Mat<std::complex<T>>& eigvec, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1362,8 +1340,7 @@ inline bool auxlib::eig_sym(Col<T>& eigval, Mat<std::complex<T>>& eigvec, const 
 }
 
 //! eigenvalues and eigenvectors of a symmetric real matrix (divide and conquer algorithm)
-template <typename eT, typename T1>
-inline bool auxlib::eig_sym_dc(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::eig_sym_dc(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1411,8 +1388,7 @@ inline bool auxlib::eig_sym_dc(Col<eT>& eigval, Mat<eT>& eigvec, const Base<eT, 
 
 //! eigenvalues and eigenvectors of a hermitian complex matrix (divide and conquer
 //! algorithm)
-template <typename T, typename T1>
-inline bool auxlib::eig_sym_dc(Col<T>& eigval, Mat<std::complex<T>>& eigvec, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::eig_sym_dc(Col<T>& eigval, Mat<std::complex<T>>& eigvec, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1462,8 +1438,7 @@ inline bool auxlib::eig_sym_dc(Col<T>& eigval, Mat<std::complex<T>>& eigvec, con
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::chol(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
+template <typename eT, typename T1> inline bool auxlib::chol(Mat<eT>& out, const Base<eT, T1>& X, const uword layout) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1515,8 +1490,7 @@ inline bool auxlib::chol(Mat<eT>& out, const Base<eT, T1>& X, const uword layout
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::qr(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::qr(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1593,8 +1567,7 @@ inline bool auxlib::qr(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::qr_econ(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::qr_econ(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1681,8 +1654,7 @@ inline bool auxlib::qr_econ(Mat<eT>& Q, Mat<eT>& R, const Base<eT, T1>& X) {
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, uword& X_n_cols) {
+template <typename eT, typename T1> inline bool auxlib::svd(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, uword& X_n_cols) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1748,8 +1720,7 @@ inline bool auxlib::svd(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, uwor
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd(Col<T>& S, const Base<std::complex<T>, T1>& X, uword& X_n_rows, uword& X_n_cols) {
+template <typename T, typename T1> inline bool auxlib::svd(Col<T>& S, const Base<std::complex<T>, T1>& X, uword& X_n_rows, uword& X_n_cols) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1820,24 +1791,21 @@ inline bool auxlib::svd(Col<T>& S, const Base<std::complex<T>, T1>& X, uword& X_
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd(Col<eT>& S, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::svd(Col<eT>& S, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     uword junk;
     return auxlib::svd(S, X, junk, junk);
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd(Col<T>& S, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::svd(Col<T>& S, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
     uword junk;
     return auxlib::svd(S, X, junk, junk);
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::svd(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1907,8 +1875,7 @@ inline bool auxlib::svd(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& 
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::svd(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -1981,8 +1948,7 @@ inline bool auxlib::svd(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X, const char mode) {
+template <typename eT, typename T1> inline bool auxlib::svd_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X, const char mode) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2085,8 +2051,7 @@ inline bool auxlib::svd_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, 
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X, const char mode) {
+template <typename T, typename T1> inline bool auxlib::svd_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X, const char mode) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2192,8 +2157,7 @@ inline bool auxlib::svd_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::comple
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd_dc(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, uword& X_n_cols) {
+template <typename eT, typename T1> inline bool auxlib::svd_dc(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, uword& X_n_cols) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2246,8 +2210,7 @@ inline bool auxlib::svd_dc(Col<eT>& S, const Base<eT, T1>& X, uword& X_n_rows, u
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd_dc(Col<T>& S, const Base<std::complex<T>, T1>& X, uword& X_n_rows, uword& X_n_cols) {
+template <typename T, typename T1> inline bool auxlib::svd_dc(Col<T>& S, const Base<std::complex<T>, T1>& X, uword& X_n_rows, uword& X_n_cols) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -2311,24 +2274,21 @@ inline bool auxlib::svd_dc(Col<T>& S, const Base<std::complex<T>, T1>& X, uword&
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd_dc(Col<eT>& S, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::svd_dc(Col<eT>& S, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     uword junk;
     return auxlib::svd_dc(S, X, junk, junk);
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd_dc(Col<T>& S, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::svd_dc(Col<T>& S, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
     uword junk;
     return auxlib::svd_dc(S, X, junk, junk);
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2387,8 +2347,7 @@ inline bool auxlib::svd_dc(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd_dc(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::svd_dc(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -2457,8 +2416,7 @@ inline bool auxlib::svd_dc(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
+template <typename eT, typename T1> inline bool auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2518,8 +2476,7 @@ inline bool auxlib::svd_dc_econ(Mat<eT>& U, Col<eT>& S, Mat<eT>& V, const Base<e
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::svd_dc_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
+template <typename T, typename T1> inline bool auxlib::svd_dc_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::complex<T>>& V, const Base<std::complex<T>, T1>& X) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -2591,8 +2548,7 @@ inline bool auxlib::svd_dc_econ(Mat<std::complex<T>>& U, Col<T>& S, Mat<std::com
 }
 
 //! solve a system of linear equations via LU decomposition
-template <typename T1>
-inline bool auxlib::solve_square_fast(Mat<typename T1::elem_type>& out, Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr) {
+template <typename T1> inline bool auxlib::solve_square_fast(Mat<typename T1::elem_type>& out, Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -2684,8 +2640,7 @@ inline bool auxlib::solve_square_fast(Mat<typename T1::elem_type>& out, Mat<type
 
 //! solve a system of linear equations via LU decomposition with refinement (real
 //! matrices)
-template <typename T1>
-inline bool auxlib::solve_square_refine(Mat<typename T1::pod_type>& out, typename T1::pod_type& out_rcond, Mat<typename T1::pod_type>& A, const Base<typename T1::pod_type, T1>& B_expr, const bool equilibrate) {
+template <typename T1> inline bool auxlib::solve_square_refine(Mat<typename T1::pod_type>& out, typename T1::pod_type& out_rcond, Mat<typename T1::pod_type>& A, const Base<typename T1::pod_type, T1>& B_expr, const bool equilibrate) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2755,8 +2710,7 @@ inline bool auxlib::solve_square_refine(Mat<typename T1::pod_type>& out, typenam
 
 //! solve a system of linear equations via LU decomposition with refinement (complex
 //! matrices)
-template <typename T1>
-inline bool auxlib::solve_square_refine(Mat<std::complex<typename T1::pod_type>>& out, typename T1::pod_type& out_rcond, Mat<std::complex<typename T1::pod_type>>& A, const Base<std::complex<typename T1::pod_type>, T1>& B_expr, const bool equilibrate) {
+template <typename T1> inline bool auxlib::solve_square_refine(Mat<std::complex<typename T1::pod_type>>& out, typename T1::pod_type& out_rcond, Mat<std::complex<typename T1::pod_type>>& A, const Base<std::complex<typename T1::pod_type>, T1>& B_expr, const bool equilibrate) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -2835,8 +2789,7 @@ inline bool auxlib::solve_square_refine(Mat<std::complex<typename T1::pod_type>>
 }
 
 //! solve a non-square full-rank system via QR or LQ decomposition
-template <typename T1>
-inline bool auxlib::solve_approx_fast(Mat<typename T1::elem_type>& out, Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr) {
+template <typename T1> inline bool auxlib::solve_approx_fast(Mat<typename T1::elem_type>& out, Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -2900,8 +2853,7 @@ inline bool auxlib::solve_approx_fast(Mat<typename T1::elem_type>& out, Mat<type
 #endif
 }
 
-template <typename T1>
-inline bool auxlib::solve_approx_svd(Mat<typename T1::pod_type>& out, Mat<typename T1::pod_type>& A, const Base<typename T1::pod_type, T1>& B_expr) {
+template <typename T1> inline bool auxlib::solve_approx_svd(Mat<typename T1::pod_type>& out, Mat<typename T1::pod_type>& A, const Base<typename T1::pod_type, T1>& B_expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -3000,8 +2952,7 @@ inline bool auxlib::solve_approx_svd(Mat<typename T1::pod_type>& out, Mat<typena
 #endif
 }
 
-template <typename T1>
-inline bool auxlib::solve_approx_svd(Mat<std::complex<typename T1::pod_type>>& out, Mat<std::complex<typename T1::pod_type>>& A, const Base<std::complex<typename T1::pod_type>, T1>& B_expr) {
+template <typename T1> inline bool auxlib::solve_approx_svd(Mat<std::complex<typename T1::pod_type>>& out, Mat<std::complex<typename T1::pod_type>>& A, const Base<std::complex<typename T1::pod_type>, T1>& B_expr) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -3113,8 +3064,7 @@ inline bool auxlib::solve_approx_svd(Mat<std::complex<typename T1::pod_type>>& o
 #endif
 }
 
-template <typename T1>
-inline bool auxlib::solve_tri(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr, const uword layout) {
+template <typename T1> inline bool auxlib::solve_tri(Mat<typename T1::elem_type>& out, const Mat<typename T1::elem_type>& A, const Base<typename T1::elem_type, T1>& B_expr, const uword layout) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -3160,8 +3110,7 @@ inline bool auxlib::solve_tri(Mat<typename T1::elem_type>& out, const Mat<typena
 //
 // Schur decomposition
 
-template <typename eT, typename T1>
-inline bool auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT, T1>& X, const bool calc_U) {
+template <typename eT, typename T1> inline bool auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT, T1>& X, const bool calc_U) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -3217,8 +3166,7 @@ inline bool auxlib::schur(Mat<eT>& U, Mat<eT>& S, const Base<eT, T1>& X, const b
 #endif
 }
 
-template <typename T, typename T1>
-inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const Base<std::complex<T>, T1>& X, const bool calc_U) {
+template <typename T, typename T1> inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const Base<std::complex<T>, T1>& X, const bool calc_U) {
     arma_extra_debug_sigprint();
 
     S = X.get_ref();
@@ -3228,8 +3176,7 @@ inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, cons
     return auxlib::schur(U, S, calc_U);
 }
 
-template <typename T>
-inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const bool calc_U) {
+template <typename T> inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, const bool calc_U) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -3293,8 +3240,7 @@ inline bool auxlib::schur(Mat<std::complex<T>>& U, Mat<std::complex<T>>& S, cons
 //
 // syl (solution of the Sylvester equation AX + XB = C)
 
-template <typename eT>
-inline bool auxlib::syl(Mat<eT>& X, const Mat<eT>& A, const Mat<eT>& B, const Mat<eT>& C) {
+template <typename eT> inline bool auxlib::syl(Mat<eT>& X, const Mat<eT>& A, const Mat<eT>& B, const Mat<eT>& C) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -3353,8 +3299,7 @@ inline bool auxlib::syl(Mat<eT>& X, const Mat<eT>& A, const Mat<eT>& B, const Ma
 //
 // QZ decomposition of general square real matrix pair
 
-template <typename T, typename T1, typename T2>
-inline bool auxlib::qz(Mat<T>& A, Mat<T>& B, Mat<T>& vsl, Mat<T>& vsr, const Base<T, T1>& X_expr, const Base<T, T2>& Y_expr, const char mode) {
+template <typename T, typename T1, typename T2> inline bool auxlib::qz(Mat<T>& A, Mat<T>& B, Mat<T>& vsl, Mat<T>& vsr, const Base<T, T1>& X_expr, const Base<T, T2>& Y_expr, const char mode) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)
@@ -3437,8 +3382,7 @@ inline bool auxlib::qz(Mat<T>& A, Mat<T>& B, Mat<T>& vsl, Mat<T>& vsr, const Bas
 //
 // QZ decomposition of general square complex matrix pair
 
-template <typename T, typename T1, typename T2>
-inline bool auxlib::qz(Mat<std::complex<T>>& A, Mat<std::complex<T>>& B, Mat<std::complex<T>>& vsl, Mat<std::complex<T>>& vsr, const Base<std::complex<T>, T1>& X_expr, const Base<std::complex<T>, T2>& Y_expr, const char mode) {
+template <typename T, typename T1, typename T2> inline bool auxlib::qz(Mat<std::complex<T>>& A, Mat<std::complex<T>>& B, Mat<std::complex<T>>& vsl, Mat<std::complex<T>>& vsr, const Base<std::complex<T>, T1>& X_expr, const Base<std::complex<T>, T2>& Y_expr, const char mode) {
     arma_extra_debug_sigprint();
 
 #if(defined(ARMA_USE_LAPACK) && defined(ARMA_CRIPPLED_LAPACK))
@@ -3531,8 +3475,7 @@ inline bool auxlib::qz(Mat<std::complex<T>>& A, Mat<std::complex<T>>& B, Mat<std
 #endif
 }
 
-template <typename T1>
-inline typename T1::pod_type auxlib::rcond(const Base<typename T1::pod_type, T1>& A_expr) {
+template <typename T1> inline typename T1::pod_type auxlib::rcond(const Base<typename T1::pod_type, T1>& A_expr) {
     typedef typename T1::pod_type T;
 
 #if defined(ARMA_USE_LAPACK)
@@ -3581,8 +3524,7 @@ inline typename T1::pod_type auxlib::rcond(const Base<typename T1::pod_type, T1>
     return T(0);
 }
 
-template <typename T1>
-inline typename T1::pod_type auxlib::rcond(const Base<std::complex<typename T1::pod_type>, T1>& A_expr) {
+template <typename T1> inline typename T1::pod_type auxlib::rcond(const Base<std::complex<typename T1::pod_type>, T1>& A_expr) {
     typedef typename T1::pod_type T;
 
 #if defined(ARMA_USE_LAPACK)
@@ -3641,8 +3583,7 @@ namespace qz_helper {
 // select(alpha_real, alpha_imag, beta)
 // where the eigenvalue is defined as complex(alpha_real, alpha_imag) / beta
 
-template <typename T>
-inline blas_int select_lhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
+template <typename T> inline blas_int select_lhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "select_lhp(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3659,8 +3600,7 @@ inline blas_int select_lhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     return ((x / z) < T(0)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int select_rhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
+template <typename T> inline blas_int select_rhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "select_rhp(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3677,8 +3617,7 @@ inline blas_int select_rhp(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     return ((x / z) > T(0)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int select_iuc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
+template <typename T> inline blas_int select_iuc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "select_iuc(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3695,8 +3634,7 @@ inline blas_int select_iuc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     return (std::sqrt(x * x + y * y) < std::abs(z)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int select_ouc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
+template <typename T> inline blas_int select_ouc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "select_ouc(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3719,8 +3657,7 @@ inline blas_int select_ouc(const T* x_ptr, const T* y_ptr, const T* z_ptr) {
 // select(alpha, beta)
 // where the complex eigenvalue is defined as (alpha / beta)
 
-template <typename T>
-inline blas_int cx_select_lhp(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
+template <typename T> inline blas_int cx_select_lhp(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "cx_select_lhp(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3734,8 +3671,7 @@ inline blas_int cx_select_lhp(const std::complex<T>* x_ptr, const std::complex<T
     return (std::real(x / y) < T(0)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int cx_select_rhp(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
+template <typename T> inline blas_int cx_select_rhp(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "cx_select_rhp(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3749,8 +3685,7 @@ inline blas_int cx_select_rhp(const std::complex<T>* x_ptr, const std::complex<T
     return (std::real(x / y) > T(0)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int cx_select_iuc(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
+template <typename T> inline blas_int cx_select_iuc(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "cx_select_iuc(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3764,8 +3699,7 @@ inline blas_int cx_select_iuc(const std::complex<T>* x_ptr, const std::complex<T
     return (std::abs(x / y) < T(1)) ? blas_int(1) : blas_int(0);
 }
 
-template <typename T>
-inline blas_int cx_select_ouc(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
+template <typename T> inline blas_int cx_select_ouc(const std::complex<T>* x_ptr, const std::complex<T>* y_ptr) {
     arma_extra_debug_sigprint();
 
     // cout << "cx_select_ouc(): (*x_ptr) = " << (*x_ptr) << endl;
@@ -3789,8 +3723,7 @@ inline blas_int cx_select_ouc(const std::complex<T>* x_ptr, const std::complex<T
 // - the extension is essentially mandatory on POSIX systems
 // - some compilers will complain about the extension in pedantic mode
 
-template <typename T>
-inline void_ptr ptr_cast(blas_int (*function)(const T*, const T*, const T*)) {
+template <typename T> inline void_ptr ptr_cast(blas_int (*function)(const T*, const T*, const T*)) {
     union converter {
         blas_int (*fn)(const T*, const T*, const T*);
         void_ptr obj;
@@ -3804,8 +3737,7 @@ inline void_ptr ptr_cast(blas_int (*function)(const T*, const T*, const T*)) {
     return tmp.obj;
 }
 
-template <typename T>
-inline void_ptr ptr_cast(blas_int (*function)(const std::complex<T>*, const std::complex<T>*)) {
+template <typename T> inline void_ptr ptr_cast(blas_int (*function)(const std::complex<T>*, const std::complex<T>*)) {
     union converter {
         blas_int (*fn)(const std::complex<T>*, const std::complex<T>*);
         void_ptr obj;

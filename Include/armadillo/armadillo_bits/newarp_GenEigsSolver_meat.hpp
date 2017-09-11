@@ -15,8 +15,7 @@
 
 namespace newarp {
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k, uword to_m, const Col<eT>& fk) {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_k, uword to_m, const Col<eT>& fk) {
     arma_extra_debug_sigprint();
 
     if(to_m <= from_k) { return; }
@@ -96,8 +95,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::factorise_from(uword from_
     }
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
     arma_extra_debug_sigprint();
 
     if(k >= ncv) { return; }
@@ -158,8 +156,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::restart(uword k) {
     retrieve_ritzpair();
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
+template <typename eT, int SelectionRule, typename OpType> inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
     arma_extra_debug_sigprint();
 
     // thresh = tol * max(prec, abs(theta)), theta for ritz value
@@ -173,8 +170,7 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::num_converged(eT tol) {
     return std::count(ritz_conv.begin(), ritz_conv.end(), true);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv) {
+template <typename eT, int SelectionRule, typename OpType> inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv) {
     arma_extra_debug_sigprint();
 
     uword nev_new = nev;
@@ -199,8 +195,7 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::nev_adjusted(uword nconv)
     return nev_new;
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
     arma_extra_debug_sigprint();
 
     UpperHessenbergEigen<eT> decomp(fac_H);
@@ -219,8 +214,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::retrieve_ritzpair() {
     for(uword i = 0; i < nev; i++) { ritz_vec.col(i) = evecs.col(ind[i]); }
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair() {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::sort_ritzpair() {
     arma_extra_debug_sigprint();
 
     // SortEigenvalue< std::complex<eT>, EigsSelect::LARGEST_MAGN >
@@ -268,8 +262,7 @@ inline GenEigsSolver<eT, SelectionRule, OpType>::GenEigsSolver(const OpType& op_
         "is the size of matrix");
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
     arma_extra_debug_sigprint();
 
     // Reset all matrices/vectors to zero
@@ -299,8 +292,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::init(eT* init_resid) {
     fac_f = w - v * fac_H(0, 0);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline void GenEigsSolver<eT, SelectionRule, OpType>::init() {
+template <typename eT, int SelectionRule, typename OpType> inline void GenEigsSolver<eT, SelectionRule, OpType>::init() {
     arma_extra_debug_sigprint();
 
     podarray<eT> init_resid(dim_n);
@@ -311,8 +303,7 @@ inline void GenEigsSolver<eT, SelectionRule, OpType>::init() {
     init(init_resid.memptr());
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol) {
+template <typename eT, int SelectionRule, typename OpType> inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT tol) {
     arma_extra_debug_sigprint();
 
     // The m-step Arnoldi factorisation
@@ -335,8 +326,7 @@ inline uword GenEigsSolver<eT, SelectionRule, OpType>::compute(uword maxit, eT t
     return std::min(nev, nconv);
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
+template <typename eT, int SelectionRule, typename OpType> inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalues() {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);
@@ -355,8 +345,7 @@ inline Col<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvalu
     return res;
 }
 
-template <typename eT, int SelectionRule, typename OpType>
-inline Mat<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(uword nvec) {
+template <typename eT, int SelectionRule, typename OpType> inline Mat<std::complex<eT>> GenEigsSolver<eT, SelectionRule, OpType>::eigenvectors(uword nvec) {
     arma_extra_debug_sigprint();
 
     uword nconv = std::count(ritz_conv.begin(), ritz_conv.end(), true);

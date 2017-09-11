@@ -16,8 +16,7 @@
 //! \addtogroup glue_cov
 //! @{
 
-template <typename eT>
-inline void glue_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type) {
+template <typename eT> inline void glue_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(A.is_vec() && B.is_vec()) {
@@ -60,8 +59,7 @@ inline void glue_cov::direct_cov(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& 
     }
 }
 
-template <typename T>
-inline void glue_cov::direct_cov(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<std::complex<T>>& B, const uword norm_type) {
+template <typename T> inline void glue_cov::direct_cov(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<std::complex<T>>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -106,8 +104,7 @@ inline void glue_cov::direct_cov(Mat<std::complex<T>>& out, const Mat<std::compl
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_cov::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cov>& X) {
+template <typename T1, typename T2> inline void glue_cov::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cov>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

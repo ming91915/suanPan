@@ -16,31 +16,19 @@
 //! \addtogroup SpBase
 //! @{
 
-template <typename elem_type, typename derived>
-struct SpBase_eval_SpMat {
-    inline const derived& eval() const;
-};
+template <typename elem_type, typename derived> struct SpBase_eval_SpMat { inline const derived& eval() const; };
 
-template <typename elem_type, typename derived>
-struct SpBase_eval_expr {
+template <typename elem_type, typename derived> struct SpBase_eval_expr {
     inline SpMat<elem_type> eval() const; //!< force the immediate evaluation of a delayed expression
 };
 
-template <typename elem_type, typename derived, bool condition>
-struct SpBase_eval {};
+template <typename elem_type, typename derived, bool condition> struct SpBase_eval {};
 
-template <typename elem_type, typename derived>
-struct SpBase_eval<elem_type, derived, true> {
-    typedef SpBase_eval_SpMat<elem_type, derived> result;
-};
+template <typename elem_type, typename derived> struct SpBase_eval<elem_type, derived, true> { typedef SpBase_eval_SpMat<elem_type, derived> result; };
 
-template <typename elem_type, typename derived>
-struct SpBase_eval<elem_type, derived, false> {
-    typedef SpBase_eval_expr<elem_type, derived> result;
-};
+template <typename elem_type, typename derived> struct SpBase_eval<elem_type, derived, false> { typedef SpBase_eval_expr<elem_type, derived> result; };
 
-template <typename elem_type, typename derived>
-struct SpBase : public SpBase_eval<elem_type, derived, is_SpMat<derived>::value>::result {
+template <typename elem_type, typename derived> struct SpBase : public SpBase_eval<elem_type, derived, is_SpMat<derived>::value>::result {
     arma_inline const derived& get_ref() const;
 
     inline const SpOp<derived, spop_htrans> t() const;  //!< Hermitian transpose

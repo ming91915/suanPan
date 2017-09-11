@@ -17,8 +17,7 @@
 //! @{
 
 //! Generate a sparse matrix with the values along the main diagonal set to one
-template <typename obj_type>
-arma_warn_unused inline obj_type speye(const uword n_rows, const uword n_cols, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
+template <typename obj_type> arma_warn_unused inline obj_type speye(const uword n_rows, const uword n_cols, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -35,8 +34,7 @@ arma_warn_unused inline obj_type speye(const uword n_rows, const uword n_cols, c
     return out;
 }
 
-template <typename obj_type>
-arma_warn_unused inline obj_type speye(const SizeMat& s, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
+template <typename obj_type> arma_warn_unused inline obj_type speye(const SizeMat& s, const typename arma_SpMat_SpCol_SpRow_only<obj_type>::result* junk = NULL) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

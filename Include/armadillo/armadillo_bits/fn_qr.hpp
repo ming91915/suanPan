@@ -17,8 +17,7 @@
 //! @{
 
 //! QR decomposition
-template <typename T1>
-inline bool qr(Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& R, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool qr(Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& R, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -36,8 +35,7 @@ inline bool qr(Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& R, c
 }
 
 //! economical QR decomposition
-template <typename T1>
-inline bool qr_econ(Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& R, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool qr_econ(Mat<typename T1::elem_type>& Q, Mat<typename T1::elem_type>& R, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

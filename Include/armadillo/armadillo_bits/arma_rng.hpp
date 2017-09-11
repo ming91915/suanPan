@@ -50,12 +50,9 @@ public:
     inline static void set_seed(const seed_type val);
     inline static void set_seed_random();
 
-    template <typename eT>
-    struct randi;
-    template <typename eT>
-    struct randu;
-    template <typename eT>
-    struct randn;
+    template <typename eT> struct randi;
+    template <typename eT> struct randu;
+    template <typename eT> struct randn;
 };
 
 inline void arma_rng::set_seed(const arma_rng::seed_type val) {
@@ -142,8 +139,7 @@ arma_cold inline void arma_rng::set_seed_random() {
     arma_rng::set_seed(seed1 + seed2 + seed3 + seed4 + seed5);
 }
 
-template <typename eT>
-struct arma_rng::randi {
+template <typename eT> struct arma_rng::randi {
     arma_inline operator eT() {
 #if defined(ARMA_RNG_ALT)
         { return eT(arma_rng_alt::randi_val()); }
@@ -175,8 +171,7 @@ struct arma_rng::randi {
     }
 };
 
-template <typename eT>
-struct arma_rng::randu {
+template <typename eT> struct arma_rng::randu {
     arma_inline operator eT() {
 #if defined(ARMA_RNG_ALT)
         { return eT(arma_rng_alt::randu_val()); }
@@ -204,8 +199,7 @@ struct arma_rng::randu {
     }
 };
 
-template <typename T>
-struct arma_rng::randu<std::complex<T>> {
+template <typename T> struct arma_rng::randu<std::complex<T>> {
     arma_inline operator std::complex<T>() {
         const T a = T(arma_rng::randu<T>());
         const T b = T(arma_rng::randu<T>());
@@ -223,8 +217,7 @@ struct arma_rng::randu<std::complex<T>> {
     }
 };
 
-template <typename eT>
-struct arma_rng::randn {
+template <typename eT> struct arma_rng::randn {
     inline operator eT() const {
 #if defined(ARMA_RNG_ALT)
         { return eT(arma_rng_alt::randn_val()); }
@@ -298,8 +291,7 @@ struct arma_rng::randn {
     }
 };
 
-template <typename T>
-struct arma_rng::randn<std::complex<T>> {
+template <typename T> struct arma_rng::randn<std::complex<T>> {
     inline operator std::complex<T>() const {
         T a, b;
 

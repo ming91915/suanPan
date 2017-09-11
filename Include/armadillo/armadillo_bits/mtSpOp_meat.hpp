@@ -30,7 +30,4 @@ inline mtSpOp<out_eT, T1, op_type>::mtSpOp(const T1& in_m, const uword in_aux_uw
     arma_extra_debug_sigprint();
 }
 
-template <typename out_eT, typename T1, typename op_type>
-inline mtSpOp<out_eT, T1, op_type>::~mtSpOp() {
-    arma_extra_debug_sigprint();
-}
+template <typename out_eT, typename T1, typename op_type> inline mtSpOp<out_eT, T1, op_type>::~mtSpOp() { arma_extra_debug_sigprint(); }

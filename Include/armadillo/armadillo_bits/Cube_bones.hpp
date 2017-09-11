@@ -23,8 +23,7 @@ struct Cube_prealloc {
 
 //! Dense cube class
 
-template <typename eT>
-class Cube : public BaseCube<eT, Cube<eT>> {
+template <typename eT> class Cube : public BaseCube<eT, Cube<eT>> {
 public:
     typedef eT elem_type;                               //!< the type of elements stored in the cube
     typedef typename get_pod_type<eT>::result pod_type; //!< if eT is std::complex<T>, pod_type is T; otherwise pod_type is eT
@@ -57,10 +56,8 @@ public:
     inline explicit Cube(const uword in_rows, const uword in_cols, const uword in_slices);
     inline explicit Cube(const SizeCube& s);
 
-    template <typename fill_type>
-    inline Cube(const uword in_rows, const uword in_cols, const uword in_slices, const fill::fill_class<fill_type>& f);
-    template <typename fill_type>
-    inline Cube(const SizeCube& s, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> inline Cube(const uword in_rows, const uword in_cols, const uword in_slices, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> inline Cube(const SizeCube& s, const fill::fill_class<fill_type>& f);
 
 #if defined(ARMA_USE_CXX11)
     inline Cube(Cube&& m);
@@ -83,8 +80,7 @@ public:
     inline Cube& operator%=(const Cube& m);
     inline Cube& operator/=(const Cube& m);
 
-    template <typename T1, typename T2>
-    inline explicit Cube(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
+    template <typename T1, typename T2> inline explicit Cube(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
 
     inline Cube(const subview_cube<eT>& X);
     inline Cube& operator=(const subview_cube<eT>& X);
@@ -132,23 +128,17 @@ public:
     inline subview_cube<eT> tail_slices(const uword N);
     inline const subview_cube<eT> tail_slices(const uword N) const;
 
-    template <typename T1>
-    arma_inline subview_elem1<eT, T1> elem(const Base<uword, T1>& a);
-    template <typename T1>
-    arma_inline const subview_elem1<eT, T1> elem(const Base<uword, T1>& a) const;
+    template <typename T1> arma_inline subview_elem1<eT, T1> elem(const Base<uword, T1>& a);
+    template <typename T1> arma_inline const subview_elem1<eT, T1> elem(const Base<uword, T1>& a) const;
 
-    template <typename T1>
-    arma_inline subview_elem1<eT, T1> operator()(const Base<uword, T1>& a);
-    template <typename T1>
-    arma_inline const subview_elem1<eT, T1> operator()(const Base<uword, T1>& a) const;
+    template <typename T1> arma_inline subview_elem1<eT, T1> operator()(const Base<uword, T1>& a);
+    template <typename T1> arma_inline const subview_elem1<eT, T1> operator()(const Base<uword, T1>& a) const;
 
     arma_inline subview_cube_each1<eT> each_slice();
     arma_inline const subview_cube_each1<eT> each_slice() const;
 
-    template <typename T1>
-    inline subview_cube_each2<eT, T1> each_slice(const Base<uword, T1>& indices);
-    template <typename T1>
-    inline const subview_cube_each2<eT, T1> each_slice(const Base<uword, T1>& indices) const;
+    template <typename T1> inline subview_cube_each2<eT, T1> each_slice(const Base<uword, T1>& indices);
+    template <typename T1> inline const subview_cube_each2<eT, T1> each_slice(const Base<uword, T1>& indices) const;
 
 #if defined(ARMA_USE_CXX11)
     inline const Cube& each_slice(const std::function<void(Mat<eT>&)>& F);
@@ -164,99 +154,56 @@ public:
 
     inline void insert_slices(const uword slice_num, const uword N, const bool set_to_zero = true);
 
-    template <typename T1>
-    inline void insert_slices(const uword row_num, const BaseCube<eT, T1>& X);
+    template <typename T1> inline void insert_slices(const uword row_num, const BaseCube<eT, T1>& X);
 
-    template <typename gen_type>
-    inline Cube(const GenCube<eT, gen_type>& X);
-    template <typename gen_type>
-    inline Cube& operator=(const GenCube<eT, gen_type>& X);
-    template <typename gen_type>
-    inline Cube& operator+=(const GenCube<eT, gen_type>& X);
-    template <typename gen_type>
-    inline Cube& operator-=(const GenCube<eT, gen_type>& X);
-    template <typename gen_type>
-    inline Cube& operator%=(const GenCube<eT, gen_type>& X);
-    template <typename gen_type>
-    inline Cube& operator/=(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube& operator=(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube& operator+=(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube& operator-=(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube& operator%=(const GenCube<eT, gen_type>& X);
+    template <typename gen_type> inline Cube& operator/=(const GenCube<eT, gen_type>& X);
 
-    template <typename T1, typename op_type>
-    inline Cube(const OpCube<T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator=(const OpCube<T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator+=(const OpCube<T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator-=(const OpCube<T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator%=(const OpCube<T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator/=(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator=(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator+=(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator-=(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator%=(const OpCube<T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator/=(const OpCube<T1, op_type>& X);
 
-    template <typename T1, typename eop_type>
-    inline Cube(const eOpCube<T1, eop_type>& X);
-    template <typename T1, typename eop_type>
-    inline Cube& operator=(const eOpCube<T1, eop_type>& X);
-    template <typename T1, typename eop_type>
-    inline Cube& operator+=(const eOpCube<T1, eop_type>& X);
-    template <typename T1, typename eop_type>
-    inline Cube& operator-=(const eOpCube<T1, eop_type>& X);
-    template <typename T1, typename eop_type>
-    inline Cube& operator%=(const eOpCube<T1, eop_type>& X);
-    template <typename T1, typename eop_type>
-    inline Cube& operator/=(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube& operator=(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube& operator+=(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube& operator-=(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube& operator%=(const eOpCube<T1, eop_type>& X);
+    template <typename T1, typename eop_type> inline Cube& operator/=(const eOpCube<T1, eop_type>& X);
 
-    template <typename T1, typename op_type>
-    inline Cube(const mtOpCube<eT, T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator=(const mtOpCube<eT, T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator+=(const mtOpCube<eT, T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator-=(const mtOpCube<eT, T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator%=(const mtOpCube<eT, T1, op_type>& X);
-    template <typename T1, typename op_type>
-    inline Cube& operator/=(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator=(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator+=(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator-=(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator%=(const mtOpCube<eT, T1, op_type>& X);
+    template <typename T1, typename op_type> inline Cube& operator/=(const mtOpCube<eT, T1, op_type>& X);
 
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube(const GlueCube<T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator=(const GlueCube<T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator+=(const GlueCube<T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator-=(const GlueCube<T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator%=(const GlueCube<T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator/=(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator=(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator+=(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator-=(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator%=(const GlueCube<T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator/=(const GlueCube<T1, T2, glue_type>& X);
 
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube(const eGlueCube<T1, T2, eglue_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube& operator=(const eGlueCube<T1, T2, eglue_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube& operator+=(const eGlueCube<T1, T2, eglue_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube& operator-=(const eGlueCube<T1, T2, eglue_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube& operator%=(const eGlueCube<T1, T2, eglue_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Cube& operator/=(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube& operator=(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube& operator+=(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube& operator-=(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube& operator%=(const eGlueCube<T1, T2, eglue_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Cube& operator/=(const eGlueCube<T1, T2, eglue_type>& X);
 
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube(const mtGlueCube<eT, T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator=(const mtGlueCube<eT, T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator+=(const mtGlueCube<eT, T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator-=(const mtGlueCube<eT, T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator%=(const mtGlueCube<eT, T1, T2, glue_type>& X);
-    template <typename T1, typename T2, typename glue_type>
-    inline Cube& operator/=(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator=(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator+=(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator-=(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator%=(const mtGlueCube<eT, T1, T2, glue_type>& X);
+    template <typename T1, typename T2, typename glue_type> inline Cube& operator/=(const mtGlueCube<eT, T1, T2, glue_type>& X);
 
     arma_inline arma_warn_unused const eT& at_alt(const uword i) const;
 
@@ -322,18 +269,13 @@ public:
     arma_deprecated inline void reshape(const uword in_rows, const uword in_cols, const uword in_slices,
         const uword dim); //!< NOTE: don't use this form: it will be removed
 
-    template <typename eT2>
-    inline void copy_size(const Cube<eT2>& m);
+    template <typename eT2> inline void copy_size(const Cube<eT2>& m);
 
-    template <typename functor>
-    inline const Cube& for_each(functor F);
-    template <typename functor>
-    inline const Cube& for_each(functor F) const;
+    template <typename functor> inline const Cube& for_each(functor F);
+    template <typename functor> inline const Cube& for_each(functor F) const;
 
-    template <typename functor>
-    inline const Cube& transform(functor F);
-    template <typename functor>
-    inline const Cube& imbue(functor F);
+    template <typename functor> inline const Cube& transform(functor F);
+    template <typename functor> inline const Cube& imbue(functor F);
 
     inline const Cube& replace(const eT old_val, const eT new_val);
 
@@ -358,10 +300,8 @@ public:
     inline void reset();
     inline void soft_reset();
 
-    template <typename T1>
-    inline void set_real(const BaseCube<pod_type, T1>& X);
-    template <typename T1>
-    inline void set_imag(const BaseCube<pod_type, T1>& X);
+    template <typename T1> inline void set_real(const BaseCube<pod_type, T1>& X);
+    template <typename T1> inline void set_imag(const BaseCube<pod_type, T1>& X);
 
     inline arma_warn_unused eT min() const;
     inline arma_warn_unused eT max() const;
@@ -418,15 +358,13 @@ public:
 
     inline void steal_mem(Cube& X); //!< don't use this unless you're writing code internal to Armadillo
 
-    template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
-    class fixed;
+    template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices> class fixed;
 
 protected:
     inline void init_cold();
     inline void init_warm(const uword in_rows, const uword in_cols, const uword in_slices);
 
-    template <typename T1, typename T2>
-    inline void init(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
+    template <typename T1, typename T2> inline void init(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
 
     inline void delete_mat();
     inline void create_mat();
@@ -442,9 +380,7 @@ public:
 #endif
 };
 
-template <typename eT>
-template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices>
-class Cube<eT>::fixed : public Cube<eT> {
+template <typename eT> template <uword fixed_n_rows, uword fixed_n_cols, uword fixed_n_slices> class Cube<eT>::fixed : public Cube<eT> {
 private:
     static const uword fixed_n_elem = fixed_n_rows * fixed_n_cols * fixed_n_slices;
     static const uword fixed_n_elem_slice = fixed_n_rows * fixed_n_cols;
@@ -460,12 +396,9 @@ public:
     inline fixed();
     inline fixed(const fixed<fixed_n_rows, fixed_n_cols, fixed_n_slices>& X);
 
-    template <typename fill_type>
-    inline fixed(const fill::fill_class<fill_type>& f);
-    template <typename T1>
-    inline fixed(const BaseCube<eT, T1>& A);
-    template <typename T1, typename T2>
-    inline fixed(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
+    template <typename fill_type> inline fixed(const fill::fill_class<fill_type>& f);
+    template <typename T1> inline fixed(const BaseCube<eT, T1>& A);
+    template <typename T1, typename T2> inline fixed(const BaseCube<pod_type, T1>& A, const BaseCube<pod_type, T2>& B);
 
     using Cube<eT>::operator=;
     using Cube<eT>::operator();
@@ -490,35 +423,23 @@ public:
 
 class Cube_aux {
 public:
-    template <typename eT>
-    arma_inline static void prefix_pp(Cube<eT>& x);
-    template <typename T>
-    arma_inline static void prefix_pp(Cube<std::complex<T>>& x);
+    template <typename eT> arma_inline static void prefix_pp(Cube<eT>& x);
+    template <typename T> arma_inline static void prefix_pp(Cube<std::complex<T>>& x);
 
-    template <typename eT>
-    arma_inline static void postfix_pp(Cube<eT>& x);
-    template <typename T>
-    arma_inline static void postfix_pp(Cube<std::complex<T>>& x);
+    template <typename eT> arma_inline static void postfix_pp(Cube<eT>& x);
+    template <typename T> arma_inline static void postfix_pp(Cube<std::complex<T>>& x);
 
-    template <typename eT>
-    arma_inline static void prefix_mm(Cube<eT>& x);
-    template <typename T>
-    arma_inline static void prefix_mm(Cube<std::complex<T>>& x);
+    template <typename eT> arma_inline static void prefix_mm(Cube<eT>& x);
+    template <typename T> arma_inline static void prefix_mm(Cube<std::complex<T>>& x);
 
-    template <typename eT>
-    arma_inline static void postfix_mm(Cube<eT>& x);
-    template <typename T>
-    arma_inline static void postfix_mm(Cube<std::complex<T>>& x);
+    template <typename eT> arma_inline static void postfix_mm(Cube<eT>& x);
+    template <typename T> arma_inline static void postfix_mm(Cube<std::complex<T>>& x);
 
-    template <typename eT, typename T1>
-    inline static void set_real(Cube<eT>& out, const BaseCube<eT, T1>& X);
-    template <typename eT, typename T1>
-    inline static void set_imag(Cube<eT>& out, const BaseCube<eT, T1>& X);
+    template <typename eT, typename T1> inline static void set_real(Cube<eT>& out, const BaseCube<eT, T1>& X);
+    template <typename eT, typename T1> inline static void set_imag(Cube<eT>& out, const BaseCube<eT, T1>& X);
 
-    template <typename T, typename T1>
-    inline static void set_real(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
-    template <typename T, typename T1>
-    inline static void set_imag(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
+    template <typename T, typename T1> inline static void set_real(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
+    template <typename T, typename T1> inline static void set_imag(Cube<std::complex<T>>& out, const BaseCube<T, T1>& X);
 };
 
 //! @}

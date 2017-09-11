@@ -16,8 +16,7 @@
 //! \addtogroup fn_schur
 //! @{
 
-template <typename T1>
-inline bool schur(Mat<typename T1::elem_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool schur(Mat<typename T1::elem_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -35,8 +34,7 @@ inline bool schur(Mat<typename T1::elem_type>& S, const Base<typename T1::elem_t
     return status;
 }
 
-template <typename T1>
-arma_warn_unused inline Mat<typename T1::elem_type> schur(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Mat<typename T1::elem_type> schur(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -55,8 +53,7 @@ arma_warn_unused inline Mat<typename T1::elem_type> schur(const Base<typename T1
     return S;
 }
 
-template <typename T1>
-inline bool schur(Mat<typename T1::elem_type>& U, Mat<typename T1::elem_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool schur(Mat<typename T1::elem_type>& U, Mat<typename T1::elem_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

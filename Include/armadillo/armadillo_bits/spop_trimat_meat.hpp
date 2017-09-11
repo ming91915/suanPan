@@ -16,8 +16,7 @@
 //! \addtogroup spop_trimat
 //! @{
 
-template <typename T1>
-inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& P, const bool upper) {
+template <typename T1> inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& P, const bool upper) {
     arma_extra_debug_sigprint();
 
     typename SpProxy<T1>::const_iterator_type it = P.begin();
@@ -89,8 +88,7 @@ inline void spop_trimat::apply_noalias(SpMat<typename T1::elem_type>& out, const
     for(uword i = 0; i < n_cols; ++i) { access::rw(out.col_ptrs[i + 1]) += out.col_ptrs[i]; }
 }
 
-template <typename T1>
-inline void spop_trimat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_trimat>& in) {
+template <typename T1> inline void spop_trimat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_trimat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

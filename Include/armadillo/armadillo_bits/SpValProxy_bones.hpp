@@ -22,8 +22,7 @@
  * is probably coming.  This class only uses T1::add_element() and
  * T1::delete_element().
  */
-template <typename T1>
-class SpValProxy {
+template <typename T1> class SpValProxy {
 public:
     typedef typename T1::elem_type eT; // Convenience typedef
 
@@ -38,8 +37,7 @@ public:
 
     //! For swapping operations.
     arma_inline SpValProxy& operator=(const SpValProxy& rhs);
-    template <typename T2>
-    arma_inline SpValProxy& operator=(const SpValProxy<T2>& rhs);
+    template <typename T2> arma_inline SpValProxy& operator=(const SpValProxy<T2>& rhs);
 
     //! Overload all of the potential operators.
 

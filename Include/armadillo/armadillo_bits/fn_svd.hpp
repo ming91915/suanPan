@@ -16,8 +16,7 @@
 //! \addtogroup fn_svd
 //! @{
 
-template <typename T1>
-inline bool svd(Col<typename T1::pod_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svd(Col<typename T1::pod_type>& S, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -33,8 +32,7 @@ inline bool svd(Col<typename T1::pod_type>& S, const Base<typename T1::elem_type
     return status;
 }
 
-template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> svd(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Col<typename T1::pod_type> svd(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -50,8 +48,7 @@ arma_warn_unused inline Col<typename T1::pod_type> svd(const Base<typename T1::e
     return out;
 }
 
-template <typename T1>
-inline bool svd(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svd(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -74,8 +71,7 @@ inline bool svd(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, M
     return status;
 }
 
-template <typename T1>
-inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char mode, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char mode, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -99,8 +95,7 @@ inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>&
     return status;
 }
 
-template <typename T1>
-inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* mode = "both", const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svd_econ(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const Base<typename T1::elem_type, T1>& X, const char* mode = "both", const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

@@ -16,8 +16,7 @@
 //! \addtogroup fn_index_max
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_index_max> index_max(const T1& X, const uword dim = 0, const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0, const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0) {
+template <typename T1> arma_warn_unused arma_inline const mtOp<uword, T1, op_index_max> index_max(const T1& X, const uword dim = 0, const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0, const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -25,16 +24,14 @@ arma_warn_unused arma_inline const mtOp<uword, T1, op_index_max> index_max(const
     return mtOp<uword, T1, op_index_max>(X, dim, 0);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_index_max> index_max(const T1& X, const uword dim, const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0) {
+template <typename T1> arma_warn_unused arma_inline const mtOp<uword, T1, op_index_max> index_max(const T1& X, const uword dim, const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return mtOp<uword, T1, op_index_max>(X, dim, 0);
 }
 
-template <typename T1>
-arma_warn_unused inline uword index_max(const T1& X, const arma_empty_class junk1 = arma_empty_class(), const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0) {
+template <typename T1> arma_warn_unused inline uword index_max(const T1& X, const arma_empty_class junk1 = arma_empty_class(), const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -42,15 +39,13 @@ arma_warn_unused inline uword index_max(const T1& X, const arma_empty_class junk
     return X.index_max();
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) && (resolves_to_sparse_vector<T1>::value == true), typename T1::elem_type>::result index_max(const T1& x) {
+template <typename T1> arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) && (resolves_to_sparse_vector<T1>::value == true), typename T1::elem_type>::result index_max(const T1& x) {
     arma_extra_debug_sigprint();
 
     return x.index_max();
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) && (resolves_to_sparse_vector<T1>::value == false), Mat<uword>>::result index_max(const T1& X, const uword dim = 0) {
+template <typename T1> arma_warn_unused inline typename enable_if2<(is_arma_sparse_type<T1>::value == true) && (resolves_to_sparse_vector<T1>::value == false), Mat<uword>>::result index_max(const T1& X, const uword dim = 0) {
     arma_extra_debug_sigprint();
 
     Mat<uword> out;

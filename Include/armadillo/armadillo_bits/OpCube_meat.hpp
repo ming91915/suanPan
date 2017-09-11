@@ -66,9 +66,6 @@ OpCube<T1, op_type>::OpCube(const BaseCube<typename T1::elem_type, T1>& in_m, co
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename op_type>
-OpCube<T1, op_type>::~OpCube() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename op_type> OpCube<T1, op_type>::~OpCube() { arma_extra_debug_sigprint(); }
 
 //! @}

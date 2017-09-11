@@ -16,15 +16,13 @@
 //! \addtogroup fn_reshape
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result reshape(const T1& X, const uword in_n_rows, const uword in_n_cols) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result reshape(const T1& X, const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_reshape>(X, in_n_rows, in_n_cols);
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result reshape(const T1& X, const SizeMat& s) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_reshape>>::result reshape(const T1& X, const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_reshape>(X, s.n_rows, s.n_cols);
@@ -46,8 +44,7 @@ arma_deprecated inline const Op<T1, op_reshape_ext> reshape(const Base<typename 
     return Op<T1, op_reshape_ext>(X.get_ref(), in_n_rows, in_n_cols, dim, 'j');
 }
 
-template <typename T1>
-arma_warn_unused inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<typename T1::elem_type, T1>& X, const uword in_n_rows, const uword in_n_cols, const uword in_n_slices) {
+template <typename T1> arma_warn_unused inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<typename T1::elem_type, T1>& X, const uword in_n_rows, const uword in_n_cols, const uword in_n_slices) {
     arma_extra_debug_sigprint();
 
     return OpCube<T1, op_reshape_ext>(X.get_ref(), in_n_rows, in_n_cols, in_n_slices, uword(0), 'j');
@@ -70,8 +67,7 @@ arma_deprecated inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<t
     return OpCube<T1, op_reshape_ext>(X.get_ref(), in_n_rows, in_n_cols, in_n_slices, dim, 'j');
 }
 
-template <typename T1>
-arma_warn_unused inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<typename T1::elem_type, T1>& X, const SizeCube& s) {
+template <typename T1> arma_warn_unused inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<typename T1::elem_type, T1>& X, const SizeCube& s) {
     arma_extra_debug_sigprint();
 
     return OpCube<T1, op_reshape_ext>(X.get_ref(), s.n_rows, s.n_cols, s.n_slices, uword(0), 'j');
@@ -92,15 +88,13 @@ arma_deprecated inline const OpCube<T1, op_reshape_ext> reshape(const BaseCube<t
     return OpCube<T1, op_reshape_ext>(X.get_ref(), s.n_rows, s.n_cols, s.n_slices, dim, 'j');
 }
 
-template <typename T1>
-arma_warn_unused inline const SpOp<T1, spop_reshape> reshape(const SpBase<typename T1::elem_type, T1>& X, const uword in_n_rows, const uword in_n_cols) {
+template <typename T1> arma_warn_unused inline const SpOp<T1, spop_reshape> reshape(const SpBase<typename T1::elem_type, T1>& X, const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     return SpOp<T1, spop_reshape>(X.get_ref(), in_n_rows, in_n_cols);
 }
 
-template <typename T1>
-arma_warn_unused inline const SpOp<T1, spop_reshape> reshape(const SpBase<typename T1::elem_type, T1>& X, const SizeMat& s) {
+template <typename T1> arma_warn_unused inline const SpOp<T1, spop_reshape> reshape(const SpBase<typename T1::elem_type, T1>& X, const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     return SpOp<T1, spop_reshape>(X.get_ref(), s.n_rows, s.n_cols);

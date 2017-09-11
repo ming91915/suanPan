@@ -16,22 +16,19 @@
 //! \addtogroup fn_dot
 //! @{
 
-template <typename T1, typename T2>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::yes, typename T1::elem_type>::result dot(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::yes, typename T1::elem_type>::result dot(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return op_dot::apply(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::no, typename promote_type<typename T1::elem_type, typename T2::elem_type>::result>::result dot(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::no, typename promote_type<typename T1::elem_type, typename T2::elem_type>::result>::result dot(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return op_dot_mixed::apply(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value, typename T1::elem_type>::result norm_dot(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value, typename T1::elem_type>::result norm_dot(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return op_norm_dot::apply(A, B);
@@ -40,15 +37,13 @@ arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value && is_arma_t
 //
 // cdot
 
-template <typename T1, typename T2>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_not_complex<typename T1::elem_type>::value, typename T1::elem_type>::result cdot(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_not_complex<typename T1::elem_type>::value, typename T1::elem_type>::result cdot(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return op_dot::apply(A, B);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_complex<typename T1::elem_type>::value, typename T1::elem_type>::result cdot(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_complex<typename T1::elem_type>::value, typename T1::elem_type>::result cdot(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return op_cdot::apply(A, B);
@@ -56,8 +51,7 @@ arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value && is_a
 
 // convert dot(htrans(x), y) to cdot(x,y)
 
-template <typename T1, typename T2>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_complex<typename T1::elem_type>::value, typename T1::elem_type>::result dot(const Op<T1, op_htrans>& A, const T2& B) {
+template <typename T1, typename T2> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value && is_complex<typename T1::elem_type>::value, typename T1::elem_type>::result dot(const Op<T1, op_htrans>& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return cdot(A.m, B);
@@ -69,8 +63,7 @@ arma_warn_unused arma_inline typename enable_if2<is_arma_type<T2>::value && is_s
 
 namespace priv {
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type dot_helper(const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type dot_helper(const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     typedef typename T1::elem_type eT;
 
     // Iterate over both objects and see when they are the same
@@ -102,8 +95,7 @@ arma_hot inline typename T1::elem_type dot_helper(const SpProxy<T1>& pa, const S
 }
 
 //! dot product of two sparse objects
-template <typename T1, typename T2>
-arma_warn_unused arma_hot inline typename enable_if2<(is_arma_sparse_type<T1>::value) && (is_arma_sparse_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
+template <typename T1, typename T2> arma_warn_unused arma_hot inline typename enable_if2<(is_arma_sparse_type<T1>::value) && (is_arma_sparse_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> pa(x);
@@ -135,8 +127,7 @@ arma_warn_unused arma_hot inline typename enable_if2<(is_arma_sparse_type<T1>::v
 }
 
 //! dot product of one dense and one sparse object
-template <typename T1, typename T2>
-arma_warn_unused arma_hot inline typename enable_if2<(is_arma_type<T1>::value) && (is_arma_sparse_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
+template <typename T1, typename T2> arma_warn_unused arma_hot inline typename enable_if2<(is_arma_type<T1>::value) && (is_arma_sparse_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> pa(x);
@@ -161,8 +152,7 @@ arma_warn_unused arma_hot inline typename enable_if2<(is_arma_type<T1>::value) &
 }
 
 //! dot product of one sparse and one dense object
-template <typename T1, typename T2>
-arma_warn_unused arma_hot inline typename enable_if2<(is_arma_sparse_type<T1>::value) && (is_arma_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
+template <typename T1, typename T2> arma_warn_unused arma_hot inline typename enable_if2<(is_arma_sparse_type<T1>::value) && (is_arma_type<T2>::value) && (is_same_type<typename T1::elem_type, typename T2::elem_type>::value), typename T1::elem_type>::result dot(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     // this is commutative

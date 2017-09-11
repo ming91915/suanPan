@@ -16,8 +16,7 @@
 //! \addtogroup op_hist
 //! @{
 
-template <typename eT>
-inline void op_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& A, const uword n_bins, const bool A_is_row) {
+template <typename eT> inline void op_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& A, const uword n_bins, const bool A_is_row) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((A.is_vec() == false) && (A.is_empty() == false)), "hist(): only vectors are supported when automatically determining bin centers");
@@ -69,8 +68,7 @@ inline void op_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& A, const uwor
     glue_hist::apply_noalias(out, A, c, dim);
 }
 
-template <typename T1>
-inline void op_hist::apply(Mat<uword>& out, const mtOp<uword, T1, op_hist>& X) {
+template <typename T1> inline void op_hist::apply(Mat<uword>& out, const mtOp<uword, T1, op_hist>& X) {
     arma_extra_debug_sigprint();
 
     const uword n_bins = X.aux_uword_a;

@@ -16,8 +16,7 @@
 //! \addtogroup op_shuffle
 //! @{
 
-template <typename eT>
-inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
+template <typename eT> inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     if(X.is_empty()) {
@@ -148,8 +147,7 @@ inline void op_shuffle::apply_direct(Mat<eT>& out, const Mat<eT>& X, const uword
     }
 }
 
-template <typename T1>
-inline void op_shuffle::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle>& in) {
+template <typename T1> inline void op_shuffle::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);
@@ -161,8 +159,7 @@ inline void op_shuffle::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_
     op_shuffle::apply_direct(out, U.M, dim);
 }
 
-template <typename T1>
-inline void op_shuffle_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle_default>& in) {
+template <typename T1> inline void op_shuffle_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_shuffle_default>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> U(in.m);

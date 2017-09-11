@@ -16,8 +16,7 @@
 //! \addtogroup mp_misc
 //! @{
 
-template <typename eT, const bool use_smaller_thresh = false>
-struct mp_gate {
+template <typename eT, const bool use_smaller_thresh = false> struct mp_gate {
     arma_inline static bool eval(const uword n_elem) {
 #if defined(ARMA_USE_OPENMP)
         {

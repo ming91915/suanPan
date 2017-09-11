@@ -16,8 +16,7 @@
 //! \addtogroup fn_all
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_all> all(const T1& X, const uword dim = 0, const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0, const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0) {
+template <typename T1> arma_warn_unused arma_inline const mtOp<uword, T1, op_all> all(const T1& X, const uword dim = 0, const typename enable_if<is_arma_type<T1>::value == true>::result* junk1 = 0, const typename enable_if<resolves_to_vector<T1>::value == false>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -25,16 +24,14 @@ arma_warn_unused arma_inline const mtOp<uword, T1, op_all> all(const T1& X, cons
     return mtOp<uword, T1, op_all>(X, dim, 0);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline const mtOp<uword, T1, op_all> all(const T1& X, const uword dim, const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0) {
+template <typename T1> arma_warn_unused arma_inline const mtOp<uword, T1, op_all> all(const T1& X, const uword dim, const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return mtOp<uword, T1, op_all>(X, dim, 0);
 }
 
-template <typename T1>
-arma_warn_unused inline bool all(const T1& X, const arma_empty_class junk1 = arma_empty_class(), const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0) {
+template <typename T1> arma_warn_unused inline bool all(const T1& X, const arma_empty_class junk1 = arma_empty_class(), const typename enable_if<resolves_to_vector<T1>::value == true>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -42,16 +39,14 @@ arma_warn_unused inline bool all(const T1& X, const arma_empty_class junk1 = arm
     return op_all::all_vec(X);
 }
 
-template <typename T1>
-arma_warn_unused inline bool all(const mtOp<uword, T1, op_all>& in) {
+template <typename T1> arma_warn_unused inline bool all(const mtOp<uword, T1, op_all>& in) {
     arma_extra_debug_sigprint();
     arma_extra_debug_print("all(): two consecutive calls to all() detected");
 
     return op_all::all_vec(in.m);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline const Op<mtOp<uword, T1, op_all>, op_all> all(const mtOp<uword, T1, op_all>& in, const uword dim) {
+template <typename T1> arma_warn_unused arma_inline const Op<mtOp<uword, T1, op_all>, op_all> all(const mtOp<uword, T1, op_all>& in, const uword dim) {
     arma_extra_debug_sigprint();
 
     return mtOp<uword, mtOp<uword, T1, op_all>, op_all>(in, dim, 0);

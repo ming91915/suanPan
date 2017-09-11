@@ -16,13 +16,9 @@
 //! \addtogroup Base
 //! @{
 
-template <typename elem_type, typename derived>
-arma_inline const derived& Base<elem_type, derived>::get_ref() const {
-    return static_cast<const derived&>(*this);
-}
+template <typename elem_type, typename derived> arma_inline const derived& Base<elem_type, derived>::get_ref() const { return static_cast<const derived&>(*this); }
 
-template <typename elem_type, typename derived>
-inline void Base<elem_type, derived>::print(const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void Base<elem_type, derived>::print(const std::string extra_text) const {
     if(is_op_strans<derived>::value || is_op_htrans<derived>::value) {
         const Proxy<derived> P((*this).get_ref());
 
@@ -36,8 +32,7 @@ inline void Base<elem_type, derived>::print(const std::string extra_text) const 
     }
 }
 
-template <typename elem_type, typename derived>
-inline void Base<elem_type, derived>::print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void Base<elem_type, derived>::print(std::ostream& user_stream, const std::string extra_text) const {
     if(is_op_strans<derived>::value || is_op_htrans<derived>::value) {
         const Proxy<derived> P((*this).get_ref());
 
@@ -51,8 +46,7 @@ inline void Base<elem_type, derived>::print(std::ostream& user_stream, const std
     }
 }
 
-template <typename elem_type, typename derived>
-inline void Base<elem_type, derived>::raw_print(const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void Base<elem_type, derived>::raw_print(const std::string extra_text) const {
     if(is_op_strans<derived>::value || is_op_htrans<derived>::value) {
         const Proxy<derived> P((*this).get_ref());
 
@@ -66,8 +60,7 @@ inline void Base<elem_type, derived>::raw_print(const std::string extra_text) co
     }
 }
 
-template <typename elem_type, typename derived>
-inline void Base<elem_type, derived>::raw_print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void Base<elem_type, derived>::raw_print(std::ostream& user_stream, const std::string extra_text) const {
     if(is_op_strans<derived>::value || is_op_htrans<derived>::value) {
         const Proxy<derived> P((*this).get_ref());
 
@@ -81,32 +74,23 @@ inline void Base<elem_type, derived>::raw_print(std::ostream& user_stream, const
     }
 }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused elem_type Base<elem_type, derived>::min() const {
-    return op_min::min((*this).get_ref());
-}
+template <typename elem_type, typename derived> inline arma_warn_unused elem_type Base<elem_type, derived>::min() const { return op_min::min((*this).get_ref()); }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused elem_type Base<elem_type, derived>::max() const {
-    return op_max::max((*this).get_ref());
-}
+template <typename elem_type, typename derived> inline arma_warn_unused elem_type Base<elem_type, derived>::max() const { return op_max::max((*this).get_ref()); }
 
-template <typename elem_type, typename derived>
-inline elem_type Base<elem_type, derived>::min(uword& index_of_min_val) const {
+template <typename elem_type, typename derived> inline elem_type Base<elem_type, derived>::min(uword& index_of_min_val) const {
     const Proxy<derived> P((*this).get_ref());
 
     return op_min::min_with_index(P, index_of_min_val);
 }
 
-template <typename elem_type, typename derived>
-inline elem_type Base<elem_type, derived>::max(uword& index_of_max_val) const {
+template <typename elem_type, typename derived> inline elem_type Base<elem_type, derived>::max(uword& index_of_max_val) const {
     const Proxy<derived> P((*this).get_ref());
 
     return op_max::max_with_index(P, index_of_max_val);
 }
 
-template <typename elem_type, typename derived>
-inline elem_type Base<elem_type, derived>::min(uword& row_of_min_val, uword& col_of_min_val) const {
+template <typename elem_type, typename derived> inline elem_type Base<elem_type, derived>::min(uword& row_of_min_val, uword& col_of_min_val) const {
     const Proxy<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -121,8 +105,7 @@ inline elem_type Base<elem_type, derived>::min(uword& row_of_min_val, uword& col
     return val;
 }
 
-template <typename elem_type, typename derived>
-inline elem_type Base<elem_type, derived>::max(uword& row_of_max_val, uword& col_of_max_val) const {
+template <typename elem_type, typename derived> inline elem_type Base<elem_type, derived>::max(uword& row_of_max_val, uword& col_of_max_val) const {
     const Proxy<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -137,8 +120,7 @@ inline elem_type Base<elem_type, derived>::max(uword& row_of_max_val, uword& col
     return val;
 }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused uword Base<elem_type, derived>::index_min() const {
+template <typename elem_type, typename derived> inline arma_warn_unused uword Base<elem_type, derived>::index_min() const {
     const Proxy<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -152,8 +134,7 @@ inline arma_warn_unused uword Base<elem_type, derived>::index_min() const {
     return index;
 }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused uword Base<elem_type, derived>::index_max() const {
+template <typename elem_type, typename derived> inline arma_warn_unused uword Base<elem_type, derived>::index_max() const {
     const Proxy<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -170,10 +151,7 @@ inline arma_warn_unused uword Base<elem_type, derived>::index_max() const {
 //
 // extra functions defined in Base_inv_yes
 
-template <typename derived>
-arma_inline const Op<derived, op_inv> Base_inv_yes<derived>::i() const {
-    return Op<derived, op_inv>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_inv> Base_inv_yes<derived>::i() const { return Op<derived, op_inv>(static_cast<const derived&>(*this)); }
 
 template <typename derived>
 arma_deprecated inline const Op<derived, op_inv> Base_inv_yes<derived>::i(const bool) const // argument kept only for compatibility with old user code
@@ -194,8 +172,7 @@ arma_deprecated inline const Op<derived, op_inv> Base_inv_yes<derived>::i(const 
 //
 // extra functions defined in Base_eval_Mat
 
-template <typename elem_type, typename derived>
-arma_inline const derived& Base_eval_Mat<elem_type, derived>::eval() const {
+template <typename elem_type, typename derived> arma_inline const derived& Base_eval_Mat<elem_type, derived>::eval() const {
     arma_extra_debug_sigprint();
 
     return static_cast<const derived&>(*this);
@@ -204,8 +181,7 @@ arma_inline const derived& Base_eval_Mat<elem_type, derived>::eval() const {
 //
 // extra functions defined in Base_eval_expr
 
-template <typename elem_type, typename derived>
-arma_inline Mat<elem_type> Base_eval_expr<elem_type, derived>::eval() const {
+template <typename elem_type, typename derived> arma_inline Mat<elem_type> Base_eval_expr<elem_type, derived>::eval() const {
     arma_extra_debug_sigprint();
 
     return Mat<elem_type>(static_cast<const derived&>(*this));
@@ -214,37 +190,19 @@ arma_inline Mat<elem_type> Base_eval_expr<elem_type, derived>::eval() const {
 //
 // extra functions defined in Base_trans_cx
 
-template <typename derived>
-arma_inline const Op<derived, op_htrans> Base_trans_cx<derived>::t() const {
-    return Op<derived, op_htrans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_htrans> Base_trans_cx<derived>::t() const { return Op<derived, op_htrans>(static_cast<const derived&>(*this)); }
 
-template <typename derived>
-arma_inline const Op<derived, op_htrans> Base_trans_cx<derived>::ht() const {
-    return Op<derived, op_htrans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_htrans> Base_trans_cx<derived>::ht() const { return Op<derived, op_htrans>(static_cast<const derived&>(*this)); }
 
-template <typename derived>
-arma_inline const Op<derived, op_strans> Base_trans_cx<derived>::st() const {
-    return Op<derived, op_strans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_strans> Base_trans_cx<derived>::st() const { return Op<derived, op_strans>(static_cast<const derived&>(*this)); }
 
 //
 // extra functions defined in Base_trans_default
 
-template <typename derived>
-arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::t() const {
-    return Op<derived, op_htrans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::t() const { return Op<derived, op_htrans>(static_cast<const derived&>(*this)); }
 
-template <typename derived>
-arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::ht() const {
-    return Op<derived, op_htrans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::ht() const { return Op<derived, op_htrans>(static_cast<const derived&>(*this)); }
 
-template <typename derived>
-arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::st() const {
-    return Op<derived, op_htrans>(static_cast<const derived&>(*this));
-}
+template <typename derived> arma_inline const Op<derived, op_htrans> Base_trans_default<derived>::st() const { return Op<derived, op_htrans>(static_cast<const derived&>(*this)); }
 
 //! @}

@@ -16,8 +16,7 @@
 //! \addtogroup op_cumsum
 //! @{
 
-template <typename eT>
-inline void op_cumsum::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
+template <typename eT> inline void op_cumsum::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     uword n_rows = X.n_rows;
@@ -79,8 +78,7 @@ inline void op_cumsum::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword
     }
 }
 
-template <typename T1>
-inline void op_cumsum::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum>& in) {
+template <typename T1> inline void op_cumsum::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -102,8 +100,7 @@ inline void op_cumsum::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_c
     }
 }
 
-template <typename T1>
-inline void op_cumsum_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum_default>& in) {
+template <typename T1> inline void op_cumsum_default::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_cumsum_default>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup op_range
 //! @{
 
-template <typename T1>
-inline void op_range::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_range>& in) {
+template <typename T1> inline void op_range::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_range>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -39,8 +38,7 @@ inline void op_range::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_ra
     }
 }
 
-template <typename eT>
-inline void op_range::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
+template <typename eT> inline void op_range::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     // TODO: replace with dedicated implementation which finds min and max at the same
@@ -48,8 +46,7 @@ inline void op_range::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword 
     out = max(X, dim) - min(X, dim);
 }
 
-template <typename T1>
-inline typename T1::elem_type op_range::vector_range(const T1& expr) {
+template <typename T1> inline typename T1::elem_type op_range::vector_range(const T1& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

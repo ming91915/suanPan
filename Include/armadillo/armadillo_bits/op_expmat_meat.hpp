@@ -22,8 +22,7 @@
 //! SIAM Review, Vol. 45, No. 1, 2003, pp. 3-49.
 //! http://dx.doi.org/10.1137/S00361445024180
 
-template <typename T1>
-inline void op_expmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat>& expr) {
+template <typename T1> inline void op_expmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat>& expr) {
     arma_extra_debug_sigprint();
 
     const bool status = op_expmat::apply_direct(out, expr.m);
@@ -34,8 +33,7 @@ inline void op_expmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_e
     }
 }
 
-template <typename T1>
-inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -106,8 +104,7 @@ inline bool op_expmat::apply_direct(Mat<typename T1::elem_type>& out, const Base
     return true;
 }
 
-template <typename T1>
-inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat_sym>& in) {
+template <typename T1> inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_expmat_sym>& in) {
     arma_extra_debug_sigprint();
 
     const bool status = op_expmat_sym::apply_direct(out, in.m);
@@ -118,8 +115,7 @@ inline void op_expmat_sym::apply(Mat<typename T1::elem_type>& out, const Op<T1, 
     }
 }
 
-template <typename T1>
-inline bool op_expmat_sym::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline bool op_expmat_sym::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_LAPACK)

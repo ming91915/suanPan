@@ -16,8 +16,7 @@
 //! \addtogroup op_sort_index
 //! @{
 
-template <typename T1, bool sort_stable>
-inline bool arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
+template <typename T1, bool sort_stable> inline bool arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -91,15 +90,13 @@ inline bool arma_sort_index_helper(Mat<uword>& out, const Proxy<T1>& P, const uw
     return true;
 }
 
-template <typename T1>
-inline bool op_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
+template <typename T1> inline bool op_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     return arma_sort_index_helper<T1, false>(out, P, sort_type);
 }
 
-template <typename T1>
-inline void op_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_sort_index>& in) {
+template <typename T1> inline void op_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_sort_index>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -126,15 +123,13 @@ inline void op_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_sort_
     arma_debug_check((all_non_nan == false), "sort_index(): detected NaN");
 }
 
-template <typename T1>
-inline bool op_stable_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
+template <typename T1> inline bool op_stable_sort_index::apply_noalias(Mat<uword>& out, const Proxy<T1>& P, const uword sort_type) {
     arma_extra_debug_sigprint();
 
     return arma_sort_index_helper<T1, true>(out, P, sort_type);
 }
 
-template <typename T1>
-inline void op_stable_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_stable_sort_index>& in) {
+template <typename T1> inline void op_stable_sort_index::apply(Mat<uword>& out, const mtOp<uword, T1, op_stable_sort_index>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

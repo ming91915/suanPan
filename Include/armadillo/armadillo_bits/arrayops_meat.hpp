@@ -16,8 +16,7 @@
 //! \addtogroup arrayops
 //! @{
 
-template <typename eT>
-arma_hot arma_inline void arrayops::copy(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot arma_inline void arrayops::copy(eT* dest, const eT* src, const uword n_elem) {
     if((n_elem <= 9) && (is_cx<eT>::no)) {
         arrayops::copy_small(dest, src, n_elem);
     } else {
@@ -25,8 +24,7 @@ arma_hot arma_inline void arrayops::copy(eT* dest, const eT* src, const uword n_
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::copy_small(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::copy_small(eT* dest, const eT* src, const uword n_elem) {
     switch(n_elem) {
     case 9:
         dest[8] = src[8];
@@ -50,8 +48,7 @@ arma_hot inline void arrayops::copy_small(eT* dest, const eT* src, const uword n
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::copy_forwards(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::copy_forwards(eT* dest, const eT* src, const uword n_elem) {
     // can't use std::memcpy(), as we don't know how it copies data
     uword j;
 
@@ -70,8 +67,7 @@ arma_hot inline void arrayops::copy_forwards(eT* dest, const eT* src, const uwor
     if((j - 1) < n_elem) { (*dest) = (*src); }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::copy_backwards(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::copy_backwards(eT* dest, const eT* src, const uword n_elem) {
     // can't use std::memcpy(), as we don't know how it copies data
 
     // for(uword i=0; i < n_elem; ++i)
@@ -102,13 +98,9 @@ arma_hot inline void arrayops::copy_backwards(eT* dest, const eT* src, const uwo
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::fill_zeros(eT* dest, const uword n_elem) {
-    arrayops::inplace_set(dest, eT(0), n_elem);
-}
+template <typename eT> arma_hot inline void arrayops::fill_zeros(eT* dest, const uword n_elem) { arrayops::inplace_set(dest, eT(0), n_elem); }
 
-template <typename eT>
-arma_hot inline void arrayops::replace(eT* mem, const uword n_elem, const eT old_val, const eT new_val) {
+template <typename eT> arma_hot inline void arrayops::replace(eT* mem, const uword n_elem, const eT old_val, const eT new_val) {
     if(arma_isnan(old_val)) {
         for(uword i = 0; i < n_elem; ++i) {
             eT& val = mem[i];
@@ -124,30 +116,26 @@ arma_hot inline void arrayops::replace(eT* mem, const uword n_elem, const eT old
     }
 }
 
-template <typename out_eT, typename in_eT>
-arma_hot arma_inline void arrayops::convert_cx_scalar(out_eT& out, const in_eT& in, const typename arma_not_cx<out_eT>::result* junk1, const typename arma_not_cx<in_eT>::result* junk2) {
+template <typename out_eT, typename in_eT> arma_hot arma_inline void arrayops::convert_cx_scalar(out_eT& out, const in_eT& in, const typename arma_not_cx<out_eT>::result* junk1, const typename arma_not_cx<in_eT>::result* junk2) {
     arma_ignore(junk1);
     arma_ignore(junk2);
 
     out = out_eT(in);
 }
 
-template <typename out_eT, typename in_T>
-arma_hot arma_inline void arrayops::convert_cx_scalar(out_eT& out, const std::complex<in_T>& in, const typename arma_not_cx<out_eT>::result* junk) {
+template <typename out_eT, typename in_T> arma_hot arma_inline void arrayops::convert_cx_scalar(out_eT& out, const std::complex<in_T>& in, const typename arma_not_cx<out_eT>::result* junk) {
     arma_ignore(junk);
 
     out = out_eT(in.real());
 }
 
-template <typename out_T, typename in_T>
-arma_hot arma_inline void arrayops::convert_cx_scalar(std::complex<out_T>& out, const std::complex<in_T>& in) {
+template <typename out_T, typename in_T> arma_hot arma_inline void arrayops::convert_cx_scalar(std::complex<out_T>& out, const std::complex<in_T>& in) {
     typedef std::complex<out_T> out_eT;
 
     out = out_eT(in);
 }
 
-template <typename out_eT, typename in_eT>
-arma_hot inline void arrayops::convert(out_eT* dest, const in_eT* src, const uword n_elem) {
+template <typename out_eT, typename in_eT> arma_hot inline void arrayops::convert(out_eT* dest, const in_eT* src, const uword n_elem) {
     if(is_same_type<out_eT, in_eT>::value) {
         const out_eT* src2 = (const out_eT*)src;
 
@@ -184,8 +172,7 @@ arma_hot inline void arrayops::convert(out_eT* dest, const in_eT* src, const uwo
     }
 }
 
-template <typename out_eT, typename in_eT>
-arma_hot inline void arrayops::convert_cx(out_eT* dest, const in_eT* src, const uword n_elem) {
+template <typename out_eT, typename in_eT> arma_hot inline void arrayops::convert_cx(out_eT* dest, const in_eT* src, const uword n_elem) {
     uword j;
 
     for(j = 1; j < n_elem; j += 2) {
@@ -200,8 +187,7 @@ arma_hot inline void arrayops::convert_cx(out_eT* dest, const in_eT* src, const 
     if((j - 1) < n_elem) { arrayops::convert_cx_scalar((*dest), (*src)); }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_plus(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_plus(eT* dest, const eT* src, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -223,8 +209,7 @@ arma_hot inline void arrayops::inplace_plus(eT* dest, const eT* src, const uword
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_minus(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_minus(eT* dest, const eT* src, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -246,8 +231,7 @@ arma_hot inline void arrayops::inplace_minus(eT* dest, const eT* src, const uwor
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_mul(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_mul(eT* dest, const eT* src, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -269,8 +253,7 @@ arma_hot inline void arrayops::inplace_mul(eT* dest, const eT* src, const uword 
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_div(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_div(eT* dest, const eT* src, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -292,8 +275,7 @@ arma_hot inline void arrayops::inplace_div(eT* dest, const eT* src, const uword 
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT* src, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] += src[i]; }
@@ -315,8 +297,7 @@ arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT* src, const 
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT* src, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] -= src[i]; }
@@ -338,8 +319,7 @@ arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT* src, const
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT* src, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] *= src[i]; }
@@ -361,8 +341,7 @@ arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT* src, const u
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT* src, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] /= src[i]; }
@@ -384,8 +363,7 @@ arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT* src, const u
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_set(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_set(eT* dest, const eT val, const uword n_elem) {
     typedef typename get_pod_type<eT>::result pod_type;
 
     if((n_elem <= 9) && (is_cx<eT>::no)) {
@@ -405,8 +383,7 @@ arma_hot inline void arrayops::inplace_set(eT* dest, const eT val, const uword n
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_set_base(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_set_base(eT* dest, const eT val, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] = val; }
@@ -425,8 +402,7 @@ arma_hot inline void arrayops::inplace_set_base(eT* dest, const eT val, const uw
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_set_small(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_set_small(eT* dest, const eT val, const uword n_elem) {
     switch(n_elem) {
     case 9:
         dest[8] = val;
@@ -450,13 +426,11 @@ arma_hot inline void arrayops::inplace_set_small(eT* dest, const eT val, const u
     }
 }
 
-template <typename eT, const uword n_elem>
-arma_hot inline void arrayops::inplace_set_fixed(eT* dest, const eT val) {
+template <typename eT, const uword n_elem> arma_hot inline void arrayops::inplace_set_fixed(eT* dest, const eT val) {
     for(uword i = 0; i < n_elem; ++i) { dest[i] = val; }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_plus(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_plus(eT* dest, const eT val, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -466,8 +440,7 @@ arma_hot inline void arrayops::inplace_plus(eT* dest, const eT val, const uword 
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_minus(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_minus(eT* dest, const eT val, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -477,8 +450,7 @@ arma_hot inline void arrayops::inplace_minus(eT* dest, const eT val, const uword
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_mul(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_mul(eT* dest, const eT val, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -488,8 +460,7 @@ arma_hot inline void arrayops::inplace_mul(eT* dest, const eT val, const uword n
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_div(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_div(eT* dest, const eT val, const uword n_elem) {
     if(memory::is_aligned(dest)) {
         memory::mark_as_aligned(dest);
 
@@ -499,8 +470,7 @@ arma_hot inline void arrayops::inplace_div(eT* dest, const eT val, const uword n
     }
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT val, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] += val; }
@@ -519,8 +489,7 @@ arma_hot inline void arrayops::inplace_plus_base(eT* dest, const eT val, const u
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT val, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] -= val; }
@@ -539,8 +508,7 @@ arma_hot inline void arrayops::inplace_minus_base(eT* dest, const eT val, const 
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT val, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] *= val; }
@@ -559,8 +527,7 @@ arma_hot inline void arrayops::inplace_mul_base(eT* dest, const eT val, const uw
 #endif
 }
 
-template <typename eT>
-arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT val, const uword n_elem) {
+template <typename eT> arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT val, const uword n_elem) {
 #if defined(ARMA_SIMPLE_LOOPS)
     {
         for(uword i = 0; i < n_elem; ++i) { dest[i] /= val; }
@@ -579,8 +546,7 @@ arma_hot inline void arrayops::inplace_div_base(eT* dest, const eT val, const uw
 #endif
 }
 
-template <typename eT>
-arma_hot inline eT arrayops::accumulate(const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline eT arrayops::accumulate(const eT* src, const uword n_elem) {
 #if defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0)
     {
         eT acc = eT(0);
@@ -615,8 +581,7 @@ arma_hot inline eT arrayops::accumulate(const eT* src, const uword n_elem) {
 #endif
 }
 
-template <typename eT>
-arma_hot inline eT arrayops::product(const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline eT arrayops::product(const eT* src, const uword n_elem) {
     eT val1 = eT(1);
     eT val2 = eT(1);
 
@@ -632,8 +597,7 @@ arma_hot inline eT arrayops::product(const eT* src, const uword n_elem) {
     return val1 * val2;
 }
 
-template <typename eT>
-arma_hot inline bool arrayops::is_finite(const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline bool arrayops::is_finite(const eT* src, const uword n_elem) {
     uword j;
 
     for(j = 1; j < n_elem; j += 2) {
@@ -652,8 +616,7 @@ arma_hot inline bool arrayops::is_finite(const eT* src, const uword n_elem) {
     return true;
 }
 
-template <typename eT>
-arma_hot inline bool arrayops::has_inf(const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline bool arrayops::has_inf(const eT* src, const uword n_elem) {
     uword j;
 
     for(j = 1; j < n_elem; j += 2) {
@@ -672,8 +635,7 @@ arma_hot inline bool arrayops::has_inf(const eT* src, const uword n_elem) {
     return false;
 }
 
-template <typename eT>
-arma_hot inline bool arrayops::has_nan(const eT* src, const uword n_elem) {
+template <typename eT> arma_hot inline bool arrayops::has_nan(const eT* src, const uword n_elem) {
     uword j;
 
     for(j = 1; j < n_elem; j += 2) {

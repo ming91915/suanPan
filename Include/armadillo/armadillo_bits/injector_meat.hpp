@@ -24,8 +24,7 @@ inline mat_injector_row<eT>::mat_injector_row()
     A.set_size(podarray_prealloc_n_elem::val);
 }
 
-template <typename eT>
-inline void mat_injector_row<eT>::insert(const eT val) const {
+template <typename eT> inline void mat_injector_row<eT>::insert(const eT val) const {
     arma_extra_debug_sigprint();
 
     if(n_cols < A.n_elem) {
@@ -89,8 +88,7 @@ inline mat_injector<T1>::mat_injector(T1& in_X, const injector_end_of_row<>& x)
     (*this).end_of_row();
 }
 
-template <typename T1>
-inline mat_injector<T1>::~mat_injector() {
+template <typename T1> inline mat_injector<T1>::~mat_injector() {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -158,8 +156,7 @@ inline mat_injector<T1>::~mat_injector() {
     delete BB;
 }
 
-template <typename T1>
-inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type val) const {
+template <typename T1> inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type val) const {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -169,8 +166,7 @@ inline void mat_injector<T1>::insert(const typename mat_injector<T1>::elem_type 
     (*(A[n_rows - 1])).insert(val);
 }
 
-template <typename T1>
-inline void mat_injector<T1>::end_of_row() const {
+template <typename T1> inline void mat_injector<T1>::end_of_row() const {
     arma_extra_debug_sigprint();
 
     typedef typename mat_injector<T1>::elem_type eT;
@@ -189,8 +185,7 @@ inline void mat_injector<T1>::end_of_row() const {
     n_rows += 1;
 }
 
-template <typename T1>
-arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const typename mat_injector<T1>::elem_type val) {
+template <typename T1> arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const typename mat_injector<T1>::elem_type val) {
     arma_extra_debug_sigprint();
 
     ref.insert(val);
@@ -198,8 +193,7 @@ arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, cons
     return ref;
 }
 
-template <typename T1>
-arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const injector_end_of_row<>& x) {
+template <typename T1> arma_inline const mat_injector<T1>& operator<<(const mat_injector<T1>& ref, const injector_end_of_row<>& x) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 
@@ -255,16 +249,14 @@ inline field_injector_row<oT>::field_injector_row()
     A.set_size(field_prealloc_n_elem::val);
 }
 
-template <typename oT>
-inline field_injector_row<oT>::~field_injector_row() {
+template <typename oT> inline field_injector_row<oT>::~field_injector_row() {
     arma_extra_debug_sigprint();
 
     delete AA;
     delete BB;
 }
 
-template <typename oT>
-inline void field_injector_row<oT>::insert(const oT& val) const {
+template <typename oT> inline void field_injector_row<oT>::insert(const oT& val) const {
     arma_extra_debug_sigprint();
 
     field<oT>& A = *AA;
@@ -330,8 +322,7 @@ inline field_injector<T1>::field_injector(T1& in_X, const injector_end_of_row<>&
     (*this).end_of_row();
 }
 
-template <typename T1>
-inline field_injector<T1>::~field_injector() {
+template <typename T1> inline field_injector<T1>::~field_injector() {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -369,8 +360,7 @@ inline field_injector<T1>::~field_injector() {
     delete BB;
 }
 
-template <typename T1>
-inline void field_injector<T1>::insert(const typename field_injector<T1>::object_type& val) const {
+template <typename T1> inline void field_injector<T1>::insert(const typename field_injector<T1>::object_type& val) const {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -380,8 +370,7 @@ inline void field_injector<T1>::insert(const typename field_injector<T1>::object
     (*(A[n_rows - 1])).insert(val);
 }
 
-template <typename T1>
-inline void field_injector<T1>::end_of_row() const {
+template <typename T1> inline void field_injector<T1>::end_of_row() const {
     arma_extra_debug_sigprint();
 
     typedef typename field_injector<T1>::object_type oT;
@@ -400,8 +389,7 @@ inline void field_injector<T1>::end_of_row() const {
     n_rows += 1;
 }
 
-template <typename T1>
-arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const typename field_injector<T1>::object_type& val) {
+template <typename T1> arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const typename field_injector<T1>::object_type& val) {
     arma_extra_debug_sigprint();
 
     ref.insert(val);
@@ -409,8 +397,7 @@ arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, 
     return ref;
 }
 
-template <typename T1>
-arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const injector_end_of_row<>& x) {
+template <typename T1> arma_inline const field_injector<T1>& operator<<(const field_injector<T1>& ref, const injector_end_of_row<>& x) {
     arma_extra_debug_sigprint();
     arma_ignore(x);
 

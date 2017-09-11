@@ -16,8 +16,7 @@
 //! \addtogroup spop_min
 //! @{
 
-template <typename T1>
-inline void spop_min::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_min>& in) {
+template <typename T1> inline void spop_min::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_min>& in) {
     arma_extra_debug_sigprint();
 
     const uword dim = in.aux_uword_a;
@@ -38,8 +37,7 @@ inline void spop_min::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, s
     spop_min::apply_proxy(out, p, dim);
 }
 
-template <typename T1>
-inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -90,8 +88,7 @@ inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpPr
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -136,8 +133,7 @@ inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename a
     }
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -181,8 +177,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min(const 
     }
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min_with_index(const SpProxy<T1>& P, uword& index_of_min_val) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min_with_index(const SpProxy<T1>& P, uword& index_of_min_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -267,8 +262,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_min::min_with_i
     return min_val;
 }
 
-template <typename T1>
-inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -350,8 +344,7 @@ inline void spop_min::apply_proxy(SpMat<typename T1::elem_type>& out, const SpPr
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -410,8 +403,7 @@ inline typename T1::elem_type spop_min::vector_min(const T1& x, const typename a
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result spop_min::min(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result spop_min::min(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -463,8 +455,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result spop_min::min(const
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result spop_min::min_with_index(const SpProxy<T1>& P, uword& index_of_min_val) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result spop_min::min_with_index(const SpProxy<T1>& P, uword& index_of_min_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

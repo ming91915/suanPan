@@ -16,8 +16,7 @@
 //! \addtogroup glue_toeplitz
 //! @{
 
-template <typename T1, typename T2>
-inline void glue_toeplitz::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_toeplitz>& in) {
+template <typename T1, typename T2> inline void glue_toeplitz::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_toeplitz>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

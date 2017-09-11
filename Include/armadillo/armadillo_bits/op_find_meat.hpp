@@ -16,8 +16,7 @@
 //! \addtogroup op_find
 //! @{
 
-template <typename T1>
-inline uword op_find::helper(Mat<uword>& indices, const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline uword op_find::helper(Mat<uword>& indices, const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -60,8 +59,7 @@ inline uword op_find::helper(Mat<uword>& indices, const Base<typename T1::elem_t
     return n_nz;
 }
 
-template <typename T1, typename op_type>
-inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>& X, const typename arma_op_rel_only<op_type>::result junk1, const typename arma_not_cx<typename T1::elem_type>::result junk2) {
+template <typename T1, typename op_type> inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>& X, const typename arma_op_rel_only<op_type>::result junk1, const typename arma_not_cx<typename T1::elem_type>::result junk2) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -230,8 +228,7 @@ inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>
     return n_nz;
 }
 
-template <typename T1, typename op_type>
-inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>& X, const typename arma_op_rel_only<op_type>::result junk1, const typename arma_cx_only<typename T1::elem_type>::result junk2) {
+template <typename T1, typename op_type> inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>& X, const typename arma_op_rel_only<op_type>::result junk1, const typename arma_cx_only<typename T1::elem_type>::result junk2) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -302,8 +299,7 @@ inline uword op_find::helper(Mat<uword>& indices, const mtOp<uword, T1, op_type>
     return n_nz;
 }
 
-template <typename T1, typename T2, typename glue_type>
-inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, glue_type>& X, const typename arma_glue_rel_only<glue_type>::result junk1, const typename arma_not_cx<typename T1::elem_type>::result junk2, const typename arma_not_cx<typename T2::elem_type>::result junk3) {
+template <typename T1, typename T2, typename glue_type> inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, glue_type>& X, const typename arma_glue_rel_only<glue_type>::result junk1, const typename arma_not_cx<typename T1::elem_type>::result junk2, const typename arma_not_cx<typename T2::elem_type>::result junk3) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -365,8 +361,7 @@ inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, gl
     return n_nz;
 }
 
-template <typename T1, typename T2, typename glue_type>
-inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, glue_type>& X, const typename arma_glue_rel_only<glue_type>::result junk1, const typename arma_cx_only<typename T1::elem_type>::result junk2, const typename arma_cx_only<typename T2::elem_type>::result junk3) {
+template <typename T1, typename T2, typename glue_type> inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, glue_type>& X, const typename arma_glue_rel_only<glue_type>::result junk1, const typename arma_cx_only<typename T1::elem_type>::result junk2, const typename arma_cx_only<typename T2::elem_type>::result junk3) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -437,8 +432,7 @@ inline uword op_find::helper(Mat<uword>& indices, const mtGlue<uword, T1, T2, gl
     return n_nz;
 }
 
-template <typename T1>
-inline void op_find::apply(Mat<uword>& out, const mtOp<uword, T1, op_find>& X) {
+template <typename T1> inline void op_find::apply(Mat<uword>& out, const mtOp<uword, T1, op_find>& X) {
     arma_extra_debug_sigprint();
 
     const uword k = X.aux_uword_a;
@@ -462,8 +456,7 @@ inline void op_find::apply(Mat<uword>& out, const mtOp<uword, T1, op_find>& X) {
 
 //
 
-template <typename T1>
-inline void op_find_simple::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_simple>& X) {
+template <typename T1> inline void op_find_simple::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_simple>& X) {
     arma_extra_debug_sigprint();
 
     Mat<uword> indices;
@@ -474,8 +467,7 @@ inline void op_find_simple::apply(Mat<uword>& out, const mtOp<uword, T1, op_find
 
 //
 
-template <typename T1>
-inline void op_find_finite::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_finite>& X) {
+template <typename T1> inline void op_find_finite::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_finite>& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(X.m);
@@ -516,8 +508,7 @@ inline void op_find_finite::apply(Mat<uword>& out, const mtOp<uword, T1, op_find
     out.steal_mem_col(indices, count);
 }
 
-template <typename T1>
-inline void op_find_nonfinite::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_nonfinite>& X) {
+template <typename T1> inline void op_find_nonfinite::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_nonfinite>& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(X.m);

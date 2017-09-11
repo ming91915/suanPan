@@ -20,8 +20,7 @@
 //! For each row or for each column, find the variance.
 //! The result is stored in a dense matrix that has either one column or one row.
 //! The dimension, for which the variances are found, is set via the var() function.
-template <typename T1>
-inline void op_var::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_var>& in) {
+template <typename T1> inline void op_var::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_var>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT;
@@ -69,8 +68,7 @@ inline void op_var::apply(Mat<typename T1::pod_type>& out, const mtOp<typename T
     }
 }
 
-template <typename T1>
-inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type) {
+template <typename T1> inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, T1>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -84,8 +82,7 @@ inline typename T1::pod_type op_var::var_vec(const Base<typename T1::elem_type, 
     return op_var::direct_var(tmp.memptr(), tmp.n_elem, norm_type);
 }
 
-template <typename eT>
-inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& X, const uword norm_type) {
+template <typename eT> inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1");
@@ -93,8 +90,7 @@ inline typename get_pod_type<eT>::result op_var::var_vec(const subview_col<eT>& 
     return op_var::direct_var(X.colptr(0), X.n_rows, norm_type);
 }
 
-template <typename eT>
-inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& X, const uword norm_type) {
+template <typename eT> inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1");
@@ -115,8 +111,7 @@ inline typename get_pod_type<eT>::result op_var::var_vec(const subview_row<eT>& 
 }
 
 //! find the variance of an array
-template <typename eT>
-inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type) {
+template <typename eT> inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(n_elem >= 2) {
@@ -157,8 +152,7 @@ inline eT op_var::direct_var(const eT* const X, const uword n_elem, const uword 
 }
 
 //! find the variance of an array (robust but slow)
-template <typename eT>
-inline eT op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword norm_type) {
+template <typename eT> inline eT op_var::direct_var_robust(const eT* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(n_elem > 1) {
@@ -181,8 +175,7 @@ inline eT op_var::direct_var_robust(const eT* const X, const uword n_elem, const
 }
 
 //! find the variance of an array (version for complex numbers)
-template <typename T>
-inline T op_var::direct_var(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
+template <typename T> inline T op_var::direct_var(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -210,8 +203,7 @@ inline T op_var::direct_var(const std::complex<T>* const X, const uword n_elem, 
 }
 
 //! find the variance of an array (version for complex numbers) (robust but slow)
-template <typename T>
-inline T op_var::direct_var_robust(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
+template <typename T> inline T op_var::direct_var_robust(const std::complex<T>* const X, const uword n_elem, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;

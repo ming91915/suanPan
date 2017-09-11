@@ -24,28 +24,15 @@ arma_inline GenCube<eT, gen_type>::GenCube(const uword in_n_rows, const uword in
     arma_extra_debug_sigprint();
 }
 
-template <typename eT, typename gen_type>
-arma_inline GenCube<eT, gen_type>::~GenCube() {
-    arma_extra_debug_sigprint();
-}
+template <typename eT, typename gen_type> arma_inline GenCube<eT, gen_type>::~GenCube() { arma_extra_debug_sigprint(); }
 
-template <typename eT, typename gen_type>
-arma_inline eT GenCube<eT, gen_type>::operator[](const uword) const {
-    return (*this).generate();
-}
+template <typename eT, typename gen_type> arma_inline eT GenCube<eT, gen_type>::operator[](const uword) const { return (*this).generate(); }
 
-template <typename eT, typename gen_type>
-arma_inline eT GenCube<eT, gen_type>::at(const uword, const uword, const uword) const {
-    return (*this).generate();
-}
+template <typename eT, typename gen_type> arma_inline eT GenCube<eT, gen_type>::at(const uword, const uword, const uword) const { return (*this).generate(); }
 
-template <typename eT, typename gen_type>
-arma_inline eT GenCube<eT, gen_type>::at_alt(const uword) const {
-    return (*this).generate();
-}
+template <typename eT, typename gen_type> arma_inline eT GenCube<eT, gen_type>::at_alt(const uword) const { return (*this).generate(); }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply(Cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply(Cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     // NOTE: we're assuming that the cube has already been set to the correct size;
@@ -62,8 +49,7 @@ inline void GenCube<eT, gen_type>::apply(Cube<eT>& out) const {
     }
 }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply_inplace_plus(Cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply_inplace_plus(Cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, out.n_slices, n_rows, n_cols, n_slices, "addition");
@@ -84,8 +70,7 @@ inline void GenCube<eT, gen_type>::apply_inplace_plus(Cube<eT>& out) const {
     if(i < n_elem) { out_mem[i] += (*this).generate(); }
 }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply_inplace_minus(Cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply_inplace_minus(Cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, out.n_slices, n_rows, n_cols, n_slices, "subtraction");
@@ -106,8 +91,7 @@ inline void GenCube<eT, gen_type>::apply_inplace_minus(Cube<eT>& out) const {
     if(i < n_elem) { out_mem[i] -= (*this).generate(); }
 }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply_inplace_schur(Cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply_inplace_schur(Cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, out.n_slices, n_rows, n_cols, n_slices, "element-wise multiplication");
@@ -128,8 +112,7 @@ inline void GenCube<eT, gen_type>::apply_inplace_schur(Cube<eT>& out) const {
     if(i < n_elem) { out_mem[i] *= (*this).generate(); }
 }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply_inplace_div(Cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply_inplace_div(Cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, out.n_slices, n_rows, n_cols, n_slices, "element-wise division");
@@ -150,8 +133,7 @@ inline void GenCube<eT, gen_type>::apply_inplace_div(Cube<eT>& out) const {
     if(i < n_elem) { out_mem[i] /= (*this).generate(); }
 }
 
-template <typename eT, typename gen_type>
-inline void GenCube<eT, gen_type>::apply(subview_cube<eT>& out) const {
+template <typename eT, typename gen_type> inline void GenCube<eT, gen_type>::apply(subview_cube<eT>& out) const {
     arma_extra_debug_sigprint();
 
     // NOTE: we're assuming that the subcube has the same dimensions as the GenCube object

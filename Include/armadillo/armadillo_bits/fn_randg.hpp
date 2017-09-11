@@ -16,8 +16,7 @@
 //! \addtogroup fn_randg
 //! @{
 
-template <typename obj_type>
-arma_warn_unused inline obj_type randg(const uword n_rows, const uword n_cols, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused inline obj_type randg(const uword n_rows, const uword n_cols, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -76,16 +75,14 @@ arma_warn_unused inline obj_type randg(const uword n_rows, const uword n_cols, c
 #endif
 }
 
-template <typename obj_type>
-arma_warn_unused inline obj_type randg(const SizeMat& s, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused inline obj_type randg(const SizeMat& s, const distr_param& param = distr_param(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return randg<obj_type>(s.n_rows, s.n_cols, param);
 }
 
-template <typename obj_type>
-arma_warn_unused inline obj_type randg(const uword n_elem, const distr_param& param = distr_param(), const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
+template <typename obj_type> arma_warn_unused inline obj_type randg(const uword n_elem, const distr_param& param = distr_param(), const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -115,8 +112,7 @@ arma_warn_unused inline vec randg(const uword n_elem, const distr_param& param =
     return randg<vec>(n_elem, param);
 }
 
-template <typename cube_type>
-arma_warn_unused inline cube_type randg(const uword n_rows, const uword n_cols, const uword n_slices, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused inline cube_type randg(const uword n_rows, const uword n_cols, const uword n_slices, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -170,8 +166,7 @@ arma_warn_unused inline cube_type randg(const uword n_rows, const uword n_cols, 
 #endif
 }
 
-template <typename cube_type>
-arma_warn_unused inline cube_type randg(const SizeCube& s, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused inline cube_type randg(const SizeCube& s, const distr_param& param = distr_param(), const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

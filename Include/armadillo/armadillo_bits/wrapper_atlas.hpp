@@ -18,18 +18,11 @@
 //! \namespace atlas namespace for ATLAS functions (imported from the global namespace)
 namespace atlas {
 
-template <typename eT>
-inline static const eT& tmp_real(const eT& X) {
-    return X;
-}
+template <typename eT> inline static const eT& tmp_real(const eT& X) { return X; }
 
-template <typename T>
-inline static const T tmp_real(const std::complex<T>& X) {
-    return X.real();
-}
+template <typename T> inline static const T tmp_real(const std::complex<T>& X) { return X.real(); }
 
-template <typename eT>
-arma_inline eT cblas_asum(const int N, const eT* X) {
+template <typename eT> arma_inline eT cblas_asum(const int N, const eT* X) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -43,8 +36,7 @@ arma_inline eT cblas_asum(const int N, const eT* X) {
     }
 }
 
-template <typename eT>
-arma_inline eT cblas_nrm2(const int N, const eT* X) {
+template <typename eT> arma_inline eT cblas_nrm2(const int N, const eT* X) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -58,8 +50,7 @@ arma_inline eT cblas_nrm2(const int N, const eT* X) {
     }
 }
 
-template <typename eT>
-arma_inline eT cblas_dot(const int N, const eT* X, const eT* Y) {
+template <typename eT> arma_inline eT cblas_dot(const int N, const eT* X, const eT* Y) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -73,8 +64,7 @@ arma_inline eT cblas_dot(const int N, const eT* X, const eT* Y) {
     }
 }
 
-template <typename eT>
-arma_inline eT cblas_cx_dot(const int N, const eT* X, const eT* Y) {
+template <typename eT> arma_inline eT cblas_cx_dot(const int N, const eT* X, const eT* Y) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -96,8 +86,7 @@ arma_inline eT cblas_cx_dot(const int N, const eT* X, const eT* Y) {
     }
 }
 
-template <typename eT>
-inline void cblas_gemv(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA, const int M, const int N, const eT alpha, const eT* A, const int lda, const eT* X, const int incX, const eT beta, eT* Y, const int incY) {
+template <typename eT> inline void cblas_gemv(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA, const int M, const int N, const eT alpha, const eT* A, const int lda, const eT* X, const int incX, const eT beta, eT* Y, const int incY) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -115,8 +104,7 @@ inline void cblas_gemv(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE 
     }
 }
 
-template <typename eT>
-inline void cblas_gemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA, const enum CBLAS_TRANSPOSE TransB, const int M, const int N, const int K, const eT alpha, const eT* A, const int lda, const eT* B, const int ldb, const eT beta, eT* C, const int ldc) {
+template <typename eT> inline void cblas_gemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE TransA, const enum CBLAS_TRANSPOSE TransB, const int M, const int N, const int K, const eT alpha, const eT* A, const int lda, const eT* B, const int ldb, const eT beta, eT* C, const int ldc) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -134,8 +122,7 @@ inline void cblas_gemm(const enum CBLAS_ORDER Order, const enum CBLAS_TRANSPOSE 
     }
 }
 
-template <typename eT>
-inline void cblas_syrk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans, const int N, const int K, const eT alpha, const eT* A, const int lda, const eT beta, eT* C, const int ldc) {
+template <typename eT> inline void cblas_syrk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans, const int N, const int K, const eT alpha, const eT* A, const int lda, const eT beta, eT* C, const int ldc) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -147,8 +134,7 @@ inline void cblas_syrk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo,
     }
 }
 
-template <typename T>
-inline void cblas_herk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans, const int N, const int K, const T alpha, const std::complex<T>* A, const int lda, const T beta, std::complex<T>* C, const int ldc) {
+template <typename T> inline void cblas_herk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo, const enum CBLAS_TRANSPOSE Trans, const int N, const int K, const T alpha, const std::complex<T>* A, const int lda, const T beta, std::complex<T>* C, const int ldc) {
     arma_type_check((is_supported_blas_type<T>::value == false));
 
     if(is_float<T>::value) {
@@ -164,8 +150,7 @@ inline void cblas_herk(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo,
     }
 }
 
-template <typename eT>
-inline int clapack_getrf(const enum CBLAS_ORDER Order, const int M, const int N, eT* A, const int lda, int* ipiv) {
+template <typename eT> inline int clapack_getrf(const enum CBLAS_ORDER Order, const int M, const int N, eT* A, const int lda, int* ipiv) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -185,8 +170,7 @@ inline int clapack_getrf(const enum CBLAS_ORDER Order, const int M, const int N,
     }
 }
 
-template <typename eT>
-inline int clapack_getri(const enum CBLAS_ORDER Order, const int N, eT* A, const int lda, const int* ipiv) {
+template <typename eT> inline int clapack_getri(const enum CBLAS_ORDER Order, const int N, eT* A, const int lda, const int* ipiv) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -206,8 +190,7 @@ inline int clapack_getri(const enum CBLAS_ORDER Order, const int N, eT* A, const
     }
 }
 
-template <typename eT>
-inline int clapack_gesv(const enum CBLAS_ORDER Order, const int N, const int NRHS, eT* A, const int lda, int* ipiv, eT* B, const int ldb) {
+template <typename eT> inline int clapack_gesv(const enum CBLAS_ORDER Order, const int N, const int NRHS, eT* A, const int lda, int* ipiv, eT* B, const int ldb) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {

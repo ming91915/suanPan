@@ -16,8 +16,7 @@
 //! \addtogroup fn_norm
 //! @{
 
-template <typename T1>
-inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -63,8 +62,7 @@ inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1
     return T(0); // prevent erroneous compiler warnings
 }
 
-template <typename T1>
-inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -106,8 +104,7 @@ inline arma_warn_unused typename enable_if2<is_arma_type<T1>::value, typename T1
 //
 // norms for sparse matrices
 
-template <typename T1>
-inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const uword k = uword(2), const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -160,8 +157,7 @@ inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, type
     }
 }
 
-template <typename T1>
-inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline arma_warn_unused typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::pod_type>::result norm(const T1& X, const char* method, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

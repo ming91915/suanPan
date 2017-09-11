@@ -21,8 +21,7 @@
 // for new code, use the Datum class instead
 // eg. instead of math::pi(), use datum::pi
 
-template <typename eT>
-class Math {
+template <typename eT> class Math {
 public:
     // the long lengths of the constants are for future support of "long double"
     // and any smart compiler that does high-precision computation at compile-time
@@ -69,8 +68,7 @@ public:
 //! http://physics.nist.gov/cuu/Constants
 //! http://www.wolframalpha.com
 //! See also http://en.wikipedia.org/wiki/Physical_constant
-template <typename eT>
-class Phy {
+template <typename eT> class Phy {
 public:
     //! atomic mass constant (in kg)
     arma_deprecated static eT m_u() { return eT(1.660539040e-27); }

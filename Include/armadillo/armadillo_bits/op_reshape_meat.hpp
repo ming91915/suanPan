@@ -16,8 +16,7 @@
 //! \addtogroup op_reshape
 //! @{
 
-template <typename eT>
-inline void op_reshape::apply_unwrap(Mat<eT>& out, const Mat<eT>& A, const uword in_n_rows, const uword in_n_cols, const uword in_dim) {
+template <typename eT> inline void op_reshape::apply_unwrap(Mat<eT>& out, const Mat<eT>& A, const uword in_n_rows, const uword in_n_cols, const uword in_dim) {
     arma_extra_debug_sigprint();
 
     const bool is_alias = (&out == &A);
@@ -98,8 +97,7 @@ inline void op_reshape::apply_unwrap(Mat<eT>& out, const Mat<eT>& A, const uword
     }
 }
 
-template <typename T1>
-inline void op_reshape::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword in_n_rows, const uword in_n_cols) {
+template <typename T1> inline void op_reshape::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword in_n_rows, const uword in_n_cols) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -167,8 +165,7 @@ inline void op_reshape::apply_proxy(Mat<typename T1::elem_type>& out, const Prox
     }
 }
 
-template <typename T1>
-inline void op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_reshape>& in) {
+template <typename T1> inline void op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_reshape>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -197,8 +194,7 @@ inline void op_reshape::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_
     }
 }
 
-template <typename T1>
-inline void op_reshape_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_reshape_ext>& in) {
+template <typename T1> inline void op_reshape_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_reshape_ext>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> tmp(in.m);
@@ -210,8 +206,7 @@ inline void op_reshape_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1,
     op_reshape::apply_unwrap(out, tmp.M, in_n_rows, in_n_cols, in_dim);
 }
 
-template <typename T1>
-inline void op_reshape_ext::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_reshape_ext>& in) {
+template <typename T1> inline void op_reshape_ext::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_reshape_ext>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

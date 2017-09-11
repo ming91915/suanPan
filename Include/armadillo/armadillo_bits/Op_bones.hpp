@@ -27,8 +27,7 @@
 //! For example, we could have:
 //! Op< Glue< Mat, Mat, glue_times >, op_htrans >
 
-template <typename T1, typename op_type>
-class Op : public Base<typename T1::elem_type, Op<T1, op_type>> {
+template <typename T1, typename op_type> class Op : public Base<typename T1::elem_type, Op<T1, op_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

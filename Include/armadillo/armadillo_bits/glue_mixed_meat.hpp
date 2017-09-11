@@ -17,8 +17,7 @@
 //! @{
 
 //! matrix multiplication with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times>& X) {
+template <typename T1, typename T2> inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -38,8 +37,7 @@ inline void glue_mixed_times::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, 
 }
 
 //! matrix addition with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
+template <typename T1, typename T2> inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -85,8 +83,7 @@ inline void glue_mixed_plus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, c
 }
 
 //! matrix subtraction with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
+template <typename T1, typename T2> inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -132,8 +129,7 @@ inline void glue_mixed_minus::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, 
 }
 
 //! element-wise matrix division with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
+template <typename T1, typename T2> inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -179,8 +175,7 @@ inline void glue_mixed_div::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, co
 }
 
 //! element-wise matrix multiplication with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
+template <typename T1, typename T2> inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, const mtGlue<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -230,8 +225,7 @@ inline void glue_mixed_schur::apply(Mat<typename eT_promoter<T1, T2>::eT>& out, 
 //
 
 //! cube addition with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
+template <typename T1, typename T2> inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_plus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -273,8 +267,7 @@ inline void glue_mixed_plus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, 
 }
 
 //! cube subtraction with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
+template <typename T1, typename T2> inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -316,8 +309,7 @@ inline void glue_mixed_minus::apply(Cube<typename eT_promoter<T1, T2>::eT>& out,
 }
 
 //! element-wise cube division with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
+template <typename T1, typename T2> inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_div>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -359,8 +351,7 @@ inline void glue_mixed_div::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, c
 }
 
 //! element-wise cube multiplication with different element types
-template <typename T1, typename T2>
-inline void glue_mixed_schur::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
+template <typename T1, typename T2> inline void glue_mixed_schur::apply(Cube<typename eT_promoter<T1, T2>::eT>& out, const mtGlueCube<typename eT_promoter<T1, T2>::eT, T1, T2, glue_mixed_schur>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;

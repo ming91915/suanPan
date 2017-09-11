@@ -16,8 +16,7 @@
 //! \addtogroup xvec_htrans
 //! @{
 
-template <typename eT>
-class xvec_htrans : public Base<eT, xvec_htrans<eT>> {
+template <typename eT> class xvec_htrans : public Base<eT, xvec_htrans<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

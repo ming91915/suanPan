@@ -63,9 +63,6 @@ inline mtOp<out_eT, T1, op_type>::mtOp(const mtOp_dual_aux_indicator&, const T1&
     arma_extra_debug_sigprint();
 }
 
-template <typename out_eT, typename T1, typename op_type>
-inline mtOp<out_eT, T1, op_type>::~mtOp() {
-    arma_extra_debug_sigprint();
-}
+template <typename out_eT, typename T1, typename op_type> inline mtOp<out_eT, T1, op_type>::~mtOp() { arma_extra_debug_sigprint(); }
 
 //! @}

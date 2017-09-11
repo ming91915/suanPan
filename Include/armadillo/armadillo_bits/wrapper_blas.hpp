@@ -18,8 +18,7 @@
 //! \namespace blas namespace for BLAS functions
 namespace blas {
 
-template <typename eT>
-inline void gemv(const char* transA, const blas_int* m, const blas_int* n, const eT* alpha, const eT* A, const blas_int* ldA, const eT* x, const blas_int* incx, const eT* beta, eT* y, const blas_int* incy) {
+template <typename eT> inline void gemv(const char* transA, const blas_int* m, const blas_int* n, const eT* alpha, const eT* A, const blas_int* ldA, const eT* x, const blas_int* incx, const eT* beta, eT* y, const blas_int* incy) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -37,8 +36,7 @@ inline void gemv(const char* transA, const blas_int* m, const blas_int* n, const
     }
 }
 
-template <typename eT>
-inline void gemm(const char* transA, const char* transB, const blas_int* m, const blas_int* n, const blas_int* k, const eT* alpha, const eT* A, const blas_int* ldA, const eT* B, const blas_int* ldB, const eT* beta, eT* C, const blas_int* ldC) {
+template <typename eT> inline void gemm(const char* transA, const char* transB, const blas_int* m, const blas_int* n, const blas_int* k, const eT* alpha, const eT* A, const blas_int* ldA, const eT* B, const blas_int* ldB, const eT* beta, eT* C, const blas_int* ldC) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -56,8 +54,7 @@ inline void gemm(const char* transA, const char* transB, const blas_int* m, cons
     }
 }
 
-template <typename eT>
-inline void syrk(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const eT* alpha, const eT* A, const blas_int* ldA, const eT* beta, eT* C, const blas_int* ldC) {
+template <typename eT> inline void syrk(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const eT* alpha, const eT* A, const blas_int* ldA, const eT* beta, eT* C, const blas_int* ldC) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -69,8 +66,7 @@ inline void syrk(const char* uplo, const char* transA, const blas_int* n, const 
     }
 }
 
-template <typename T>
-inline void herk(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const T* alpha, const std::complex<T>* A, const blas_int* ldA, const T* beta, std::complex<T>* C, const blas_int* ldC) {
+template <typename T> inline void herk(const char* uplo, const char* transA, const blas_int* n, const blas_int* k, const T* alpha, const std::complex<T>* A, const blas_int* ldA, const T* beta, std::complex<T>* C, const blas_int* ldC) {
     arma_type_check((is_supported_blas_type<T>::value == false));
 
     if(is_float<T>::value) {
@@ -86,8 +82,7 @@ inline void herk(const char* uplo, const char* transA, const blas_int* n, const 
     }
 }
 
-template <typename eT>
-inline eT dot(const uword n_elem, const eT* x, const eT* y) {
+template <typename eT> inline eT dot(const uword n_elem, const eT* x, const eT* y) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -154,8 +149,7 @@ inline eT dot(const uword n_elem, const eT* x, const eT* y) {
     }
 }
 
-template <typename eT>
-arma_inline eT asum(const uword n_elem, const eT* x) {
+template <typename eT> arma_inline eT asum(const uword n_elem, const eT* x) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -175,8 +169,7 @@ arma_inline eT asum(const uword n_elem, const eT* x) {
     }
 }
 
-template <typename eT>
-arma_inline eT nrm2(const uword n_elem, const eT* x) {
+template <typename eT> arma_inline eT nrm2(const uword n_elem, const eT* x) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {

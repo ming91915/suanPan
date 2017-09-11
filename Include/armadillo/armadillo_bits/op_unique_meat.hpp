@@ -16,8 +16,7 @@
 //! \addtogroup op_unique
 //! @{
 
-template <typename T1>
-inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
+template <typename T1> inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -130,8 +129,7 @@ inline bool op_unique::apply_helper(Mat<typename T1::elem_type>& out, const Prox
     return true;
 }
 
-template <typename T1>
-inline void op_unique::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_unique>& in) {
+template <typename T1> inline void op_unique::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_unique>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

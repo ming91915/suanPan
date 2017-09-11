@@ -15,8 +15,7 @@
 
 namespace newarp {
 
-template <typename eT>
-class DoubleShiftQR {
+template <typename eT> class DoubleShiftQR {
 private:
     uword n;                    // Dimension of the matrix
     Mat<eT> mat_H;              // A copy of the matrix to be factorised

@@ -16,8 +16,7 @@
 //! \addtogroup fn_accu
 //! @{
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_proxy_linear(const Proxy<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_proxy_linear(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -89,8 +88,7 @@ arma_hot inline typename T1::elem_type accu_proxy_linear(const Proxy<T1>& P) {
     return val;
 }
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_proxy_at(const Proxy<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_proxy_at(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -124,8 +122,7 @@ arma_hot inline typename T1::elem_type accu_proxy_at(const Proxy<T1>& P) {
     return val;
 }
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_proxy_at_mp(const Proxy<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_proxy_at_mp(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -211,8 +208,7 @@ arma_hot inline typename T1::elem_type accu_proxy_at_mp(const Proxy<T1>& P) {
 }
 
 //! accumulate the elements of a matrix
-template <typename T1>
-arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result accu(const T1& X) {
+template <typename T1> arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result accu(const T1& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(X);
@@ -227,8 +223,7 @@ arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, ty
 }
 
 //! explicit handling of multiply-and-accumulate
-template <typename T1, typename T2>
-arma_warn_unused inline typename T1::elem_type accu(const eGlue<T1, T2, eglue_schur>& expr) {
+template <typename T1, typename T2> arma_warn_unused inline typename T1::elem_type accu(const eGlue<T1, T2, eglue_schur>& expr) {
     arma_extra_debug_sigprint();
 
     typedef eGlue<T1, T2, eglue_schur> expr_type;
@@ -252,8 +247,7 @@ arma_warn_unused inline typename T1::elem_type accu(const eGlue<T1, T2, eglue_sc
 }
 
 //! explicit handling of Hamming norm (also known as zero norm)
-template <typename T1>
-arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_noteq>& X) {
+template <typename T1> arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_noteq>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -286,8 +280,7 @@ arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_noteq>& X) {
     return n_nonzero;
 }
 
-template <typename T1>
-arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_eq>& X) {
+template <typename T1> arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_eq>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -321,8 +314,7 @@ arma_warn_unused inline uword accu(const mtOp<uword, T1, op_rel_eq>& X) {
 }
 
 //! accumulate the elements of a subview (submatrix)
-template <typename eT>
-arma_warn_unused arma_hot inline eT accu(const subview<eT>& X) {
+template <typename eT> arma_warn_unused arma_hot inline eT accu(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword X_n_rows = X.n_rows;
@@ -347,8 +339,7 @@ arma_warn_unused arma_hot inline eT accu(const subview<eT>& X) {
     return val;
 }
 
-template <typename eT>
-arma_warn_unused arma_hot inline eT accu(const subview_col<eT>& X) {
+template <typename eT> arma_warn_unused arma_hot inline eT accu(const subview_col<eT>& X) {
     arma_extra_debug_sigprint();
 
     return arrayops::accumulate(X.colptr(0), X.n_rows);
@@ -356,8 +347,7 @@ arma_warn_unused arma_hot inline eT accu(const subview_col<eT>& X) {
 
 //
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_cube_proxy_linear(const ProxyCube<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_cube_proxy_linear(const ProxyCube<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -429,8 +419,7 @@ arma_hot inline typename T1::elem_type accu_cube_proxy_linear(const ProxyCube<T1
     return val;
 }
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_cube_proxy_at(const ProxyCube<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_cube_proxy_at(const ProxyCube<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -458,8 +447,7 @@ arma_hot inline typename T1::elem_type accu_cube_proxy_at(const ProxyCube<T1>& P
     return (val1 + val2);
 }
 
-template <typename T1>
-arma_hot inline typename T1::elem_type accu_cube_proxy_at_mp(const ProxyCube<T1>& P) {
+template <typename T1> arma_hot inline typename T1::elem_type accu_cube_proxy_at_mp(const ProxyCube<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -502,8 +490,7 @@ arma_hot inline typename T1::elem_type accu_cube_proxy_at_mp(const ProxyCube<T1>
 }
 
 //! accumulate the elements of a cube
-template <typename T1>
-arma_warn_unused arma_hot inline typename T1::elem_type accu(const BaseCube<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused arma_hot inline typename T1::elem_type accu(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     const ProxyCube<T1> P(X.get_ref());
@@ -518,8 +505,7 @@ arma_warn_unused arma_hot inline typename T1::elem_type accu(const BaseCube<type
 }
 
 //! explicit handling of multiply-and-accumulate (cube version)
-template <typename T1, typename T2>
-arma_warn_unused inline typename T1::elem_type accu(const eGlueCube<T1, T2, eglue_schur>& expr) {
+template <typename T1, typename T2> arma_warn_unused inline typename T1::elem_type accu(const eGlueCube<T1, T2, eglue_schur>& expr) {
     arma_extra_debug_sigprint();
 
     typedef eGlueCube<T1, T2, eglue_schur> expr_type;
@@ -541,14 +527,10 @@ arma_warn_unused inline typename T1::elem_type accu(const eGlueCube<T1, T2, eglu
 
 //
 
-template <typename T>
-arma_warn_unused inline const typename arma_scalar_only<T>::result& accu(const T& x) {
-    return x;
-}
+template <typename T> arma_warn_unused inline const typename arma_scalar_only<T>::result& accu(const T& x) { return x; }
 
 //! accumulate values in a sparse object
-template <typename T1>
-arma_warn_unused arma_hot inline typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result accu(const T1& x) {
+template <typename T1> arma_warn_unused arma_hot inline typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result accu(const T1& x) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup op_flip
 //! @{
 
-template <typename T1>
-inline void op_flipud::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_flipud>& in) {
+template <typename T1> inline void op_flipud::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_flipud>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -49,8 +48,7 @@ inline void op_flipud::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_f
     }
 }
 
-template <typename T1>
-inline void op_fliplr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_fliplr>& in) {
+template <typename T1> inline void op_fliplr::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_fliplr>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -17,8 +17,7 @@
 //! @{
 
 namespace priv {
-template <typename eT>
-struct functor_scalar_times {
+template <typename eT> struct functor_scalar_times {
     const eT k;
 
     functor_scalar_times(const eT in_k)
@@ -28,8 +27,7 @@ struct functor_scalar_times {
 };
 }
 
-template <typename T1>
-inline void spop_scalar_times::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_scalar_times>& in) {
+template <typename T1> inline void spop_scalar_times::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_scalar_times>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -45,15 +43,11 @@ inline void spop_scalar_times::apply(SpMat<typename T1::elem_type>& out, const S
 
 namespace priv {
 struct functor_square {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return val * val;
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return val * val; }
 };
 }
 
-template <typename T1>
-inline void spop_square::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_square>& in) {
+template <typename T1> inline void spop_square::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_square>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_square());
@@ -61,15 +55,11 @@ inline void spop_square::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1
 
 namespace priv {
 struct functor_sqrt {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::sqrt(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::sqrt(val); }
 };
 }
 
-template <typename T1>
-inline void spop_sqrt::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sqrt>& in) {
+template <typename T1> inline void spop_sqrt::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sqrt>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_sqrt());
@@ -77,15 +67,11 @@ inline void spop_sqrt::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, 
 
 namespace priv {
 struct functor_abs {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::arma_abs(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::arma_abs(val); }
 };
 }
 
-template <typename T1>
-inline void spop_abs::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_abs>& in) {
+template <typename T1> inline void spop_abs::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_abs>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_abs());
@@ -93,15 +79,11 @@ inline void spop_abs::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, s
 
 namespace priv {
 struct functor_cx_abs {
-    template <typename T>
-    arma_inline T operator()(const std::complex<T>& val) const {
-        return std::abs(val);
-    }
+    template <typename T> arma_inline T operator()(const std::complex<T>& val) const { return std::abs(val); }
 };
 }
 
-template <typename T1>
-inline void spop_cx_abs::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_cx_abs>& in) {
+template <typename T1> inline void spop_cx_abs::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_cx_abs>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform_mt(in.m, priv::functor_cx_abs());
@@ -109,15 +91,11 @@ inline void spop_cx_abs::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<t
 
 namespace priv {
 struct functor_arg {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return arma_arg<eT>::eval(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return arma_arg<eT>::eval(val); }
 };
 }
 
-template <typename T1>
-inline void spop_arg::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_arg>& in) {
+template <typename T1> inline void spop_arg::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_arg>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_arg());
@@ -125,15 +103,11 @@ inline void spop_arg::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, s
 
 namespace priv {
 struct functor_cx_arg {
-    template <typename T>
-    arma_inline T operator()(const std::complex<T>& val) const {
-        return std::arg(val);
-    }
+    template <typename T> arma_inline T operator()(const std::complex<T>& val) const { return std::arg(val); }
 };
 }
 
-template <typename T1>
-inline void spop_cx_arg::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_cx_arg>& in) {
+template <typename T1> inline void spop_cx_arg::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_cx_arg>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform_mt(in.m, priv::functor_cx_arg());
@@ -141,15 +115,11 @@ inline void spop_cx_arg::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<t
 
 namespace priv {
 struct functor_real {
-    template <typename T>
-    arma_inline T operator()(const std::complex<T>& val) const {
-        return val.real();
-    }
+    template <typename T> arma_inline T operator()(const std::complex<T>& val) const { return val.real(); }
 };
 }
 
-template <typename T1>
-inline void spop_real::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_real>& in) {
+template <typename T1> inline void spop_real::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_real>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform_mt(in.m, priv::functor_real());
@@ -157,15 +127,11 @@ inline void spop_real::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typ
 
 namespace priv {
 struct functor_imag {
-    template <typename T>
-    arma_inline T operator()(const std::complex<T>& val) const {
-        return val.imag();
-    }
+    template <typename T> arma_inline T operator()(const std::complex<T>& val) const { return val.imag(); }
 };
 }
 
-template <typename T1>
-inline void spop_imag::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_imag>& in) {
+template <typename T1> inline void spop_imag::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_imag>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform_mt(in.m, priv::functor_imag());
@@ -173,22 +139,17 @@ inline void spop_imag::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typ
 
 namespace priv {
 struct functor_conj {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::conj(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::conj(val); }
 };
 }
 
-template <typename T1>
-inline void spop_conj::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_conj>& in) {
+template <typename T1> inline void spop_conj::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_conj>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_conj());
 }
 
-template <typename T1>
-inline void spop_repmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_repmat>& in) {
+template <typename T1> inline void spop_repmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_repmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -234,8 +195,7 @@ inline void spop_repmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1
     }
 }
 
-template <typename T1>
-inline void spop_reshape::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_reshape>& in) {
+template <typename T1> inline void spop_reshape::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_reshape>& in) {
     arma_extra_debug_sigprint();
 
     out = in.m;
@@ -243,8 +203,7 @@ inline void spop_reshape::apply(SpMat<typename T1::elem_type>& out, const SpOp<T
     out.reshape(in.aux_uword_a, in.aux_uword_b);
 }
 
-template <typename T1>
-inline void spop_resize::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_resize>& in) {
+template <typename T1> inline void spop_resize::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_resize>& in) {
     arma_extra_debug_sigprint();
 
     out = in.m;
@@ -254,15 +213,11 @@ inline void spop_resize::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1
 
 namespace priv {
 struct functor_floor {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::floor(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::floor(val); }
 };
 }
 
-template <typename T1>
-inline void spop_floor::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_floor>& in) {
+template <typename T1> inline void spop_floor::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_floor>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_floor());
@@ -270,15 +225,11 @@ inline void spop_floor::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1,
 
 namespace priv {
 struct functor_ceil {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::ceil(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::ceil(val); }
 };
 }
 
-template <typename T1>
-inline void spop_ceil::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_ceil>& in) {
+template <typename T1> inline void spop_ceil::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_ceil>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_ceil());
@@ -286,15 +237,11 @@ inline void spop_ceil::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, 
 
 namespace priv {
 struct functor_round {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::round(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::round(val); }
 };
 }
 
-template <typename T1>
-inline void spop_round::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_round>& in) {
+template <typename T1> inline void spop_round::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_round>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_round());
@@ -302,15 +249,11 @@ inline void spop_round::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1,
 
 namespace priv {
 struct functor_trunc {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::trunc(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::trunc(val); }
 };
 }
 
-template <typename T1>
-inline void spop_trunc::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_trunc>& in) {
+template <typename T1> inline void spop_trunc::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_trunc>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_trunc());
@@ -318,15 +261,11 @@ inline void spop_trunc::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1,
 
 namespace priv {
 struct functor_sign {
-    template <typename eT>
-    arma_inline eT operator()(const eT val) const {
-        return eop_aux::sign(val);
-    }
+    template <typename eT> arma_inline eT operator()(const eT val) const { return eop_aux::sign(val); }
 };
 }
 
-template <typename T1>
-inline void spop_sign::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sign>& in) {
+template <typename T1> inline void spop_sign::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sign>& in) {
     arma_extra_debug_sigprint();
 
     out.init_xform(in.m, priv::functor_sign());

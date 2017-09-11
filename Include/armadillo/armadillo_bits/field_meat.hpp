@@ -16,8 +16,7 @@
 //! \addtogroup field
 //! @{
 
-template <typename oT>
-inline field<oT>::~field() {
+template <typename oT> inline field<oT>::~field() {
     arma_extra_debug_sigprint_this(this);
 
     delete_objects();
@@ -52,8 +51,7 @@ inline field<oT>::field(const field& x)
 }
 
 //! construct a field from a given field
-template <typename oT>
-inline field<oT>& field<oT>::operator=(const field& x) {
+template <typename oT> inline field<oT>& field<oT>::operator=(const field& x) {
     arma_extra_debug_sigprint();
 
     init(x);
@@ -76,8 +74,7 @@ inline field<oT>::field(const subview_field<oT>& X)
 
 //! construct a field from subview_field (e.g. construct a field from a delayed subfield
 //! operation)
-template <typename oT>
-inline field<oT>& field<oT>::operator=(const subview_field<oT>& X) {
+template <typename oT> inline field<oT>& field<oT>::operator=(const subview_field<oT>& X) {
     arma_extra_debug_sigprint();
 
     subview_field<oT>::extract(*this, X);
@@ -150,38 +147,29 @@ inline field<oT>::field(const SizeCube& s)
 
 //! change the field to have the specified number of elements,
 //! assuming a column-major layout (data is not preserved)
-template <typename oT>
-inline void field<oT>::set_size(const uword n_elem_in) {
+template <typename oT> inline void field<oT>::set_size(const uword n_elem_in) {
     arma_extra_debug_sigprint(arma_str::format("n_elem_in = %d") % n_elem_in);
 
     init(n_elem_in, 1);
 }
 
 //! change the field to have the specified dimensions (data is not preserved)
-template <typename oT>
-inline void field<oT>::set_size(const uword n_rows_in, const uword n_cols_in) {
+template <typename oT> inline void field<oT>::set_size(const uword n_rows_in, const uword n_cols_in) {
     arma_extra_debug_sigprint(arma_str::format("n_rows_in = %d, n_cols_in = %d") % n_rows_in % n_cols_in);
 
     init(n_rows_in, n_cols_in);
 }
 
 //! change the field to have the specified dimensions (data is not preserved)
-template <typename oT>
-inline void field<oT>::set_size(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in) {
+template <typename oT> inline void field<oT>::set_size(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in) {
     arma_extra_debug_sigprint(arma_str::format("n_rows_in = %d, n_cols_in = %d, n_slices_in = %d") % n_rows_in % n_cols_in % n_slices_in);
 
     init(n_rows_in, n_cols_in, n_slices_in);
 }
 
-template <typename oT>
-inline void field<oT>::set_size(const SizeMat& s) {
-    init(s.n_rows, s.n_cols);
-}
+template <typename oT> inline void field<oT>::set_size(const SizeMat& s) { init(s.n_rows, s.n_cols); }
 
-template <typename oT>
-inline void field<oT>::set_size(const SizeCube& s) {
-    init(s.n_rows, s.n_cols, s.n_slices);
-}
+template <typename oT> inline void field<oT>::set_size(const SizeCube& s) { init(s.n_rows, s.n_cols, s.n_slices); }
 
 #if defined(ARMA_USE_CXX11)
 
@@ -196,8 +184,7 @@ inline field<oT>::field(const std::initializer_list<oT>& list)
     (*this).operator=(list);
 }
 
-template <typename oT>
-inline field<oT>& field<oT>::operator=(const std::initializer_list<oT>& list) {
+template <typename oT> inline field<oT>& field<oT>::operator=(const std::initializer_list<oT>& list) {
     arma_extra_debug_sigprint();
 
     const uword N = uword(list.size());
@@ -222,8 +209,7 @@ inline field<oT>::field(const std::initializer_list<std::initializer_list<oT>>& 
     (*this).operator=(list);
 }
 
-template <typename oT>
-inline field<oT>& field<oT>::operator=(const std::initializer_list<std::initializer_list<oT>>& list) {
+template <typename oT> inline field<oT>& field<oT>::operator=(const std::initializer_list<std::initializer_list<oT>>& list) {
     arma_extra_debug_sigprint();
 
     uword x_n_rows = uword(list.size());
@@ -291,8 +277,7 @@ inline field<oT>::field(field<oT>&& X)
     access::rw(X.mem) = 0;
 }
 
-template <typename oT>
-inline field<oT>& field<oT>::operator=(field<oT>&& X) {
+template <typename oT> inline field<oT>& field<oT>::operator=(field<oT>&& X) {
     arma_extra_debug_sigprint(arma_str::format("this = %x   X = %x") % this % &X);
 
     reset();
@@ -321,119 +306,80 @@ inline field<oT>& field<oT>::operator=(field<oT>&& X) {
 #endif
 
 //! change the field to have the specified dimensions (data is not preserved)
-template <typename oT>
-template <typename oT2>
-inline void field<oT>::copy_size(const field<oT2>& x) {
+template <typename oT> template <typename oT2> inline void field<oT>::copy_size(const field<oT2>& x) {
     arma_extra_debug_sigprint();
 
     init(x.n_rows, x.n_cols, x.n_slices);
 }
 
 //! linear element accessor (treats the field as a vector); no bounds check
-template <typename oT>
-arma_inline oT& field<oT>::operator[](const uword i) {
-    return (*mem[i]);
-}
+template <typename oT> arma_inline oT& field<oT>::operator[](const uword i) { return (*mem[i]); }
 
 //! linear element accessor (treats the field as a vector); no bounds check
-template <typename oT>
-arma_inline const oT& field<oT>::operator[](const uword i) const {
-    return (*mem[i]);
-}
+template <typename oT> arma_inline const oT& field<oT>::operator[](const uword i) const { return (*mem[i]); }
 
 //! linear element accessor (treats the field as a vector); no bounds check
-template <typename oT>
-arma_inline oT& field<oT>::at(const uword i) {
-    return (*mem[i]);
-}
+template <typename oT> arma_inline oT& field<oT>::at(const uword i) { return (*mem[i]); }
 
 //! linear element accessor (treats the field as a vector); no bounds check
-template <typename oT>
-arma_inline const oT& field<oT>::at(const uword i) const {
-    return (*mem[i]);
-}
+template <typename oT> arma_inline const oT& field<oT>::at(const uword i) const { return (*mem[i]); }
 
 //! linear element accessor (treats the field as a vector); bounds checking not done when
 //! ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline oT& field<oT>::operator()(const uword i) {
+template <typename oT> arma_inline oT& field<oT>::operator()(const uword i) {
     arma_debug_check((i >= n_elem), "field::operator(): index out of bounds");
     return (*mem[i]);
 }
 
 //! linear element accessor (treats the field as a vector); bounds checking not done when
 //! ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline const oT& field<oT>::operator()(const uword i) const {
+template <typename oT> arma_inline const oT& field<oT>::operator()(const uword i) const {
     arma_debug_check((i >= n_elem), "field::operator(): index out of bounds");
     return (*mem[i]);
 }
 
 //! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline oT& field<oT>::operator()(const uword in_row, const uword in_col) {
+template <typename oT> arma_inline oT& field<oT>::operator()(const uword in_row, const uword in_col) {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (0 >= n_slices)), "field::operator(): index out of bounds");
     return (*mem[in_row + in_col * n_rows]);
 }
 
 //! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline const oT& field<oT>::operator()(const uword in_row, const uword in_col) const {
+template <typename oT> arma_inline const oT& field<oT>::operator()(const uword in_row, const uword in_col) const {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (0 >= n_slices)), "field::operator(): index out of bounds");
     return (*mem[in_row + in_col * n_rows]);
 }
 
 //! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline oT& field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) {
+template <typename oT> arma_inline oT& field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (in_slice >= n_slices)), "field::operator(): index out of bounds");
     return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]);
 }
 
 //! element accessor; bounds checking not done when ARMA_NO_DEBUG is defined
-template <typename oT>
-arma_inline const oT& field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) const {
+template <typename oT> arma_inline const oT& field<oT>::operator()(const uword in_row, const uword in_col, const uword in_slice) const {
     arma_debug_check(((in_row >= n_rows) || (in_col >= n_cols) || (in_slice >= n_slices)), "field::operator(): index out of bounds");
     return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]);
 }
 
 //! element accessor; no bounds check
-template <typename oT>
-arma_inline oT& field<oT>::at(const uword in_row, const uword in_col) {
-    return (*mem[in_row + in_col * n_rows]);
-}
+template <typename oT> arma_inline oT& field<oT>::at(const uword in_row, const uword in_col) { return (*mem[in_row + in_col * n_rows]); }
 
 //! element accessor; no bounds check
-template <typename oT>
-arma_inline const oT& field<oT>::at(const uword in_row, const uword in_col) const {
-    return (*mem[in_row + in_col * n_rows]);
-}
+template <typename oT> arma_inline const oT& field<oT>::at(const uword in_row, const uword in_col) const { return (*mem[in_row + in_col * n_rows]); }
 
 //! element accessor; no bounds check
-template <typename oT>
-arma_inline oT& field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) {
-    return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]);
-}
+template <typename oT> arma_inline oT& field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) { return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]); }
 
 //! element accessor; no bounds check
-template <typename oT>
-arma_inline const oT& field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) const {
-    return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]);
-}
+template <typename oT> arma_inline const oT& field<oT>::at(const uword in_row, const uword in_col, const uword in_slice) const { return (*mem[in_row + in_col * n_rows + in_slice * (n_rows * n_cols)]); }
 
-template <typename oT>
-inline field_injector<field<oT>> field<oT>::operator<<(const oT& val) {
-    return field_injector<field<oT>>(*this, val);
-}
+template <typename oT> inline field_injector<field<oT>> field<oT>::operator<<(const oT& val) { return field_injector<field<oT>>(*this, val); }
 
-template <typename oT>
-inline field_injector<field<oT>> field<oT>::operator<<(const injector_end_of_row<>& x) {
-    return field_injector<field<oT>>(*this, x);
-}
+template <typename oT> inline field_injector<field<oT>> field<oT>::operator<<(const injector_end_of_row<>& x) { return field_injector<field<oT>>(*this, x); }
 
 //! creation of subview_field (row of a field)
-template <typename oT>
-inline subview_field<oT> field<oT>::row(const uword row_num) {
+template <typename oT> inline subview_field<oT> field<oT>::row(const uword row_num) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::row(): field must be 2D");
@@ -444,8 +390,7 @@ inline subview_field<oT> field<oT>::row(const uword row_num) {
 }
 
 //! creation of subview_field (row of a field)
-template <typename oT>
-inline const subview_field<oT> field<oT>::row(const uword row_num) const {
+template <typename oT> inline const subview_field<oT> field<oT>::row(const uword row_num) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::row(): field must be 2D");
@@ -456,8 +401,7 @@ inline const subview_field<oT> field<oT>::row(const uword row_num) const {
 }
 
 //! creation of subview_field (column of a field)
-template <typename oT>
-inline subview_field<oT> field<oT>::col(const uword col_num) {
+template <typename oT> inline subview_field<oT> field<oT>::col(const uword col_num) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::col(): field must be 2D");
@@ -468,8 +412,7 @@ inline subview_field<oT> field<oT>::col(const uword col_num) {
 }
 
 //! creation of subview_field (column of a field)
-template <typename oT>
-inline const subview_field<oT> field<oT>::col(const uword col_num) const {
+template <typename oT> inline const subview_field<oT> field<oT>::col(const uword col_num) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::col(): field must be 2D");
@@ -480,8 +423,7 @@ inline const subview_field<oT> field<oT>::col(const uword col_num) const {
 }
 
 //! creation of subview_field (slice of a field)
-template <typename oT>
-inline subview_field<oT> field<oT>::slice(const uword slice_num) {
+template <typename oT> inline subview_field<oT> field<oT>::slice(const uword slice_num) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((slice_num >= n_slices), "field::slice(): out of bounds");
@@ -490,8 +432,7 @@ inline subview_field<oT> field<oT>::slice(const uword slice_num) {
 }
 
 //! creation of subview_field (slice of a field)
-template <typename oT>
-inline const subview_field<oT> field<oT>::slice(const uword slice_num) const {
+template <typename oT> inline const subview_field<oT> field<oT>::slice(const uword slice_num) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((slice_num >= n_slices), "field::slice(): out of bounds");
@@ -500,8 +441,7 @@ inline const subview_field<oT> field<oT>::slice(const uword slice_num) const {
 }
 
 //! creation of subview_field (subfield comprised of specified rows)
-template <typename oT>
-inline subview_field<oT> field<oT>::rows(const uword in_row1, const uword in_row2) {
+template <typename oT> inline subview_field<oT> field<oT>::rows(const uword in_row1, const uword in_row2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::rows(): field must be 2D");
@@ -514,8 +454,7 @@ inline subview_field<oT> field<oT>::rows(const uword in_row1, const uword in_row
 }
 
 //! creation of subview_field (subfield comprised of specified rows)
-template <typename oT>
-inline const subview_field<oT> field<oT>::rows(const uword in_row1, const uword in_row2) const {
+template <typename oT> inline const subview_field<oT> field<oT>::rows(const uword in_row1, const uword in_row2) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::rows(): field must be 2D");
@@ -528,8 +467,7 @@ inline const subview_field<oT> field<oT>::rows(const uword in_row1, const uword 
 }
 
 //! creation of subview_field (subfield comprised of specified columns)
-template <typename oT>
-inline subview_field<oT> field<oT>::cols(const uword in_col1, const uword in_col2) {
+template <typename oT> inline subview_field<oT> field<oT>::cols(const uword in_col1, const uword in_col2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::cols(): field must be 2D");
@@ -542,8 +480,7 @@ inline subview_field<oT> field<oT>::cols(const uword in_col1, const uword in_col
 }
 
 //! creation of subview_field (subfield comprised of specified columns)
-template <typename oT>
-inline const subview_field<oT> field<oT>::cols(const uword in_col1, const uword in_col2) const {
+template <typename oT> inline const subview_field<oT> field<oT>::cols(const uword in_col1, const uword in_col2) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::cols(): field must be 2D");
@@ -556,8 +493,7 @@ inline const subview_field<oT> field<oT>::cols(const uword in_col1, const uword 
 }
 
 //! creation of subview_field (subfield comprised of specified slices)
-template <typename oT>
-inline subview_field<oT> field<oT>::slices(const uword in_slice1, const uword in_slice2) {
+template <typename oT> inline subview_field<oT> field<oT>::slices(const uword in_slice1, const uword in_slice2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((in_slice1 > in_slice2) || (in_slice2 >= n_slices)), "field::slices(): indicies out of bounds or incorrectly used");
@@ -568,8 +504,7 @@ inline subview_field<oT> field<oT>::slices(const uword in_slice1, const uword in
 }
 
 //! creation of subview_field (subfield comprised of specified slices)
-template <typename oT>
-inline const subview_field<oT> field<oT>::slices(const uword in_slice1, const uword in_slice2) const {
+template <typename oT> inline const subview_field<oT> field<oT>::slices(const uword in_slice1, const uword in_slice2) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((in_slice1 > in_slice2) || (in_slice2 >= n_slices)), "field::slices(): indicies out of bounds or incorrectly used");
@@ -580,8 +515,7 @@ inline const subview_field<oT> field<oT>::slices(const uword in_slice1, const uw
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -595,8 +529,7 @@ inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_row2, const uword in_col2) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -610,8 +543,7 @@ inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uw
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const uword in_row2, const uword in_col2, const uword in_slice2) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const uword in_row2, const uword in_col2, const uword in_slice2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((in_row1 > in_row2) || (in_col1 > in_col2) || (in_slice1 > in_slice2) || (in_row2 >= n_rows) || (in_col2 >= n_cols) || (in_slice2 >= n_slices), "field::subfield(): indices out of bounds or incorrectly used");
@@ -624,8 +556,7 @@ inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const uword in_row2, const uword in_col2, const uword in_slice2) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const uword in_row2, const uword in_col2, const uword in_slice2) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((in_row1 > in_row2) || (in_col1 > in_col2) || (in_slice1 > in_slice2) || (in_row2 >= n_rows) || (in_col2 >= n_cols) || (in_slice2 >= n_slices), "field::subfield(): indices out of bounds or incorrectly used");
@@ -638,8 +569,7 @@ inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uw
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const SizeMat& s) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -656,8 +586,7 @@ inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const SizeMat& s) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const SizeMat& s) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -674,8 +603,7 @@ inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uw
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) {
     arma_extra_debug_sigprint();
 
     const uword l_n_rows = n_rows;
@@ -692,8 +620,7 @@ inline subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) const {
     arma_extra_debug_sigprint();
 
     const uword l_n_rows = n_rows;
@@ -710,8 +637,7 @@ inline const subview_field<oT> field<oT>::subfield(const uword in_row1, const uw
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -736,8 +662,7 @@ inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& c
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span) const {
     arma_extra_debug_sigprint();
 
     arma_debug_check((n_slices >= 2), "field::subfield(): field must be 2D");
@@ -762,8 +687,7 @@ inline const subview_field<oT> field<oT>::subfield(const span& row_span, const s
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span, const span& slice_span) {
+template <typename oT> inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span, const span& slice_span) {
     arma_extra_debug_sigprint();
 
     const bool row_all = row_span.whole;
@@ -792,8 +716,7 @@ inline subview_field<oT> field<oT>::subfield(const span& row_span, const span& c
 }
 
 //! creation of subview_field (subfield with arbitrary dimensions)
-template <typename oT>
-inline const subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span, const span& slice_span) const {
+template <typename oT> inline const subview_field<oT> field<oT>::subfield(const span& row_span, const span& col_span, const span& slice_span) const {
     arma_extra_debug_sigprint();
 
     const bool row_all = row_span.whole;
@@ -821,57 +744,49 @@ inline const subview_field<oT> field<oT>::subfield(const span& row_span, const s
     return subview_field<oT>(*this, in_row1, in_col1, in_slice1, sub_n_rows, sub_n_cols, sub_n_slices);
 }
 
-template <typename oT>
-inline subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span) {
+template <typename oT> inline subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span) {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(row_span, col_span);
 }
 
-template <typename oT>
-inline const subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span) const {
+template <typename oT> inline const subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span) const {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(row_span, col_span);
 }
 
-template <typename oT>
-inline subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span, const span& slice_span) {
+template <typename oT> inline subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span, const span& slice_span) {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(row_span, col_span, slice_span);
 }
 
-template <typename oT>
-inline const subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span, const span& slice_span) const {
+template <typename oT> inline const subview_field<oT> field<oT>::operator()(const span& row_span, const span& col_span, const span& slice_span) const {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(row_span, col_span, slice_span);
 }
 
-template <typename oT>
-inline subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const SizeMat& s) {
+template <typename oT> inline subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const SizeMat& s) {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(in_row1, in_col1, s);
 }
 
-template <typename oT>
-inline const subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const SizeMat& s) const {
+template <typename oT> inline const subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const SizeMat& s) const {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(in_row1, in_col1, s);
 }
 
-template <typename oT>
-inline subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) {
+template <typename oT> inline subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(in_row1, in_col1, in_slice1, s);
 }
 
-template <typename oT>
-inline const subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) const {
+template <typename oT> inline const subview_field<oT> field<oT>::operator()(const uword in_row1, const uword in_col1, const uword in_slice1, const SizeCube& s) const {
     arma_extra_debug_sigprint();
 
     return (*this).subfield(in_row1, in_col1, in_slice1, s);
@@ -886,8 +801,7 @@ inline const subview_field<oT> field<oT>::operator()(const uword in_row1, const 
 //! i.e. the function "std::ostream& operator<< (std::ostream&, const oT&)"
 //! has been defined.
 
-template <typename oT>
-inline void field<oT>::print(const std::string extra_text) const {
+template <typename oT> inline void field<oT>::print(const std::string extra_text) const {
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
@@ -910,8 +824,7 @@ inline void field<oT>::print(const std::string extra_text) const {
 //! i.e. the function "std::ostream& operator<< (std::ostream&, const oT&)"
 //! has been defined.
 
-template <typename oT>
-inline void field<oT>::print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename oT> inline void field<oT>::print(std::ostream& user_stream, const std::string extra_text) const {
     arma_extra_debug_sigprint();
 
     if(extra_text.length() != 0) {
@@ -928,8 +841,7 @@ inline void field<oT>::print(std::ostream& user_stream, const std::string extra_
 #if defined(ARMA_USE_CXX11)
 
 //! apply a lambda function to each object
-template <typename oT>
-inline const field<oT>& field<oT>::for_each(const std::function<void(oT&)>& F) {
+template <typename oT> inline const field<oT>& field<oT>::for_each(const std::function<void(oT&)>& F) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < n_elem; ++i) { F(operator[](i)); }
@@ -937,8 +849,7 @@ inline const field<oT>& field<oT>::for_each(const std::function<void(oT&)>& F) {
     return *this;
 }
 
-template <typename oT>
-inline const field<oT>& field<oT>::for_each(const std::function<void(const oT&)>& F) const {
+template <typename oT> inline const field<oT>& field<oT>::for_each(const std::function<void(const oT&)>& F) const {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < n_elem; ++i) { F(operator[](i)); }
@@ -949,9 +860,7 @@ inline const field<oT>& field<oT>::for_each(const std::function<void(const oT&)>
 #else
 
 //! apply a functor to each object
-template <typename oT>
-template <typename functor>
-inline const field<oT>& field<oT>::for_each(functor F) {
+template <typename oT> template <typename functor> inline const field<oT>& field<oT>::for_each(functor F) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < n_elem; ++i) { F(operator[](i)); }
@@ -959,9 +868,7 @@ inline const field<oT>& field<oT>::for_each(functor F) {
     return *this;
 }
 
-template <typename oT>
-template <typename functor>
-inline const field<oT>& field<oT>::for_each(functor F) const {
+template <typename oT> template <typename functor> inline const field<oT>& field<oT>::for_each(functor F) const {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < n_elem; ++i) { F(operator[](i)); }
@@ -972,8 +879,7 @@ inline const field<oT>& field<oT>::for_each(functor F) const {
 #endif
 
 //! fill the field with an object
-template <typename oT>
-inline const field<oT>& field<oT>::fill(const oT& x) {
+template <typename oT> inline const field<oT>& field<oT>::fill(const oT& x) {
     arma_extra_debug_sigprint();
 
     field<oT>& t = *this;
@@ -984,36 +890,27 @@ inline const field<oT>& field<oT>::fill(const oT& x) {
 }
 
 //! reset the field to an empty state (i.e. the field will have no objects)
-template <typename oT>
-inline void field<oT>::reset() {
+template <typename oT> inline void field<oT>::reset() {
     arma_extra_debug_sigprint();
 
     init(0, 0, 0);
 }
 
 //! reset each object
-template <typename oT>
-inline void field<oT>::reset_objects() {
+template <typename oT> inline void field<oT>::reset_objects() {
     arma_extra_debug_sigprint();
 
     field_aux::reset_objects(*this);
 }
 
 //! returns true if the field has no objects
-template <typename oT>
-arma_inline bool field<oT>::is_empty() const {
-    return (n_elem == 0);
-}
+template <typename oT> arma_inline bool field<oT>::is_empty() const { return (n_elem == 0); }
 
 //! returns true if the given index is currently in range
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword i) const {
-    return (i < n_elem);
-}
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword i) const { return (i < n_elem); }
 
 //! returns true if the given start and end indices are currently in range
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const span& x) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const span& x) const {
     arma_extra_debug_sigprint();
 
     if(x.whole == true) {
@@ -1027,13 +924,9 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const span& x) const {
 }
 
 //! returns true if the given location is currently in range
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col) const {
-    return ((in_row < n_rows) && (in_col < n_cols));
-}
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col) const { return ((in_row < n_rows) && (in_col < n_cols)); }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const uword in_col) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const uword in_col) const {
     arma_extra_debug_sigprint();
 
     if(row_span.whole == true) {
@@ -1046,8 +939,7 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, cons
     }
 }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const span& col_span) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const span& col_span) const {
     arma_extra_debug_sigprint();
 
     if(col_span.whole == true) {
@@ -1060,8 +952,7 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const 
     }
 }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const span& col_span) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const span& col_span) const {
     arma_extra_debug_sigprint();
 
     const uword in_row1 = row_span.a;
@@ -1076,8 +967,7 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, cons
     return ((rows_ok == true) && (cols_ok == true));
 }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const SizeMat& s) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const SizeMat& s) const {
     const uword l_n_rows = n_rows;
     const uword l_n_cols = n_cols;
 
@@ -1088,13 +978,9 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const 
     }
 }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const uword in_slice) const {
-    return ((in_row < n_rows) && (in_col < n_cols) && (in_slice < n_slices));
-}
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const uword in_slice) const { return ((in_row < n_rows) && (in_col < n_cols) && (in_slice < n_slices)); }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const span& col_span, const span& slice_span) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, const span& col_span, const span& slice_span) const {
     arma_extra_debug_sigprint();
 
     const uword in_row1 = row_span.a;
@@ -1113,8 +999,7 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const span& row_span, cons
     return ((rows_ok == true) && (cols_ok == true) && (slices_ok == true));
 }
 
-template <typename oT>
-arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const uword in_slice, const SizeCube& s) const {
+template <typename oT> arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const uword in_col, const uword in_slice, const SizeCube& s) const {
     const uword l_n_rows = n_rows;
     const uword l_n_cols = n_cols;
     const uword l_n_slices = n_slices;
@@ -1126,8 +1011,7 @@ arma_inline arma_warn_unused bool field<oT>::in_range(const uword in_row, const 
     }
 }
 
-template <typename oT>
-inline bool field<oT>::save(const std::string name, const file_type type, const bool print_status) const {
+template <typename oT> inline bool field<oT>::save(const std::string name, const file_type type, const bool print_status) const {
     arma_extra_debug_sigprint();
 
     std::string err_msg;
@@ -1144,8 +1028,7 @@ inline bool field<oT>::save(const std::string name, const file_type type, const 
     return save_okay;
 }
 
-template <typename oT>
-inline bool field<oT>::save(std::ostream& os, const file_type type, const bool print_status) const {
+template <typename oT> inline bool field<oT>::save(std::ostream& os, const file_type type, const bool print_status) const {
     arma_extra_debug_sigprint();
 
     std::string err_msg;
@@ -1162,8 +1045,7 @@ inline bool field<oT>::save(std::ostream& os, const file_type type, const bool p
     return save_okay;
 }
 
-template <typename oT>
-inline bool field<oT>::load(const std::string name, const file_type type, const bool print_status) {
+template <typename oT> inline bool field<oT>::load(const std::string name, const file_type type, const bool print_status) {
     arma_extra_debug_sigprint();
 
     std::string err_msg;
@@ -1182,8 +1064,7 @@ inline bool field<oT>::load(const std::string name, const file_type type, const 
     return load_okay;
 }
 
-template <typename oT>
-inline bool field<oT>::load(std::istream& is, const file_type type, const bool print_status) {
+template <typename oT> inline bool field<oT>::load(std::istream& is, const file_type type, const bool print_status) {
     arma_extra_debug_sigprint();
 
     std::string err_msg;
@@ -1202,37 +1083,32 @@ inline bool field<oT>::load(std::istream& is, const file_type type, const bool p
     return load_okay;
 }
 
-template <typename oT>
-inline bool field<oT>::quiet_save(const std::string name, const file_type type) const {
+template <typename oT> inline bool field<oT>::quiet_save(const std::string name, const file_type type) const {
     arma_extra_debug_sigprint();
 
     return (*this).save(name, type, false);
 }
 
-template <typename oT>
-inline bool field<oT>::quiet_save(std::ostream& os, const file_type type) const {
+template <typename oT> inline bool field<oT>::quiet_save(std::ostream& os, const file_type type) const {
     arma_extra_debug_sigprint();
 
     return (*this).save(os, type, false);
 }
 
-template <typename oT>
-inline bool field<oT>::quiet_load(const std::string name, const file_type type) {
+template <typename oT> inline bool field<oT>::quiet_load(const std::string name, const file_type type) {
     arma_extra_debug_sigprint();
 
     return (*this).load(name, type, false);
 }
 
-template <typename oT>
-inline bool field<oT>::quiet_load(std::istream& is, const file_type type) {
+template <typename oT> inline bool field<oT>::quiet_load(std::istream& is, const file_type type) {
     arma_extra_debug_sigprint();
 
     return (*this).load(is, type, false);
 }
 
 //! construct a field from a given field
-template <typename oT>
-inline void field<oT>::init(const field<oT>& x) {
+template <typename oT> inline void field<oT>::init(const field<oT>& x) {
     arma_extra_debug_sigprint();
 
     if(this != &x) {
@@ -1255,13 +1131,9 @@ inline void field<oT>::init(const field<oT>& x) {
     }
 }
 
-template <typename oT>
-inline void field<oT>::init(const uword n_rows_in, const uword n_cols_in) {
-    (*this).init(n_rows_in, n_cols_in, 1);
-}
+template <typename oT> inline void field<oT>::init(const uword n_rows_in, const uword n_cols_in) { (*this).init(n_rows_in, n_cols_in, 1); }
 
-template <typename oT>
-inline void field<oT>::init(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in) {
+template <typename oT> inline void field<oT>::init(const uword n_rows_in, const uword n_cols_in, const uword n_slices_in) {
     arma_extra_debug_sigprint(arma_str::format("n_rows_in = %d, n_cols_in = %d, n_slices_in = %d") % n_rows_in % n_cols_in % n_slices_in);
 
 #if(defined(ARMA_USE_CXX11) || defined(ARMA_64BIT_WORD))
@@ -1306,8 +1178,7 @@ inline void field<oT>::init(const uword n_rows_in, const uword n_cols_in, const 
     }
 }
 
-template <typename oT>
-inline void field<oT>::delete_objects() {
+template <typename oT> inline void field<oT>::delete_objects() {
     arma_extra_debug_sigprint(arma_str::format("n_elem = %d") % n_elem);
 
     for(uword i = 0; i < n_elem; ++i) {
@@ -1318,8 +1189,7 @@ inline void field<oT>::delete_objects() {
     }
 }
 
-template <typename oT>
-inline void field<oT>::create_objects() {
+template <typename oT> inline void field<oT>::create_objects() {
     arma_extra_debug_sigprint(arma_str::format("n_elem = %d") % n_elem);
 
     for(uword i = 0; i < n_elem; ++i) { mem[i] = new oT; }
@@ -1332,44 +1202,27 @@ inline field<oT>::iterator::iterator(field<oT>& in_M, const bool at_end)
     arma_extra_debug_sigprint();
 }
 
-template <typename oT>
-inline oT& field<oT>::iterator::operator*() {
-    return M[i];
-}
+template <typename oT> inline oT& field<oT>::iterator::operator*() { return M[i]; }
 
-template <typename oT>
-inline typename field<oT>::iterator& field<oT>::iterator::operator++() {
+template <typename oT> inline typename field<oT>::iterator& field<oT>::iterator::operator++() {
     ++i;
 
     return *this;
 }
 
-template <typename oT>
-inline void field<oT>::iterator::operator++(int) {
-    operator++();
-}
+template <typename oT> inline void field<oT>::iterator::operator++(int) { operator++(); }
 
-template <typename oT>
-inline typename field<oT>::iterator& field<oT>::iterator::operator--() {
+template <typename oT> inline typename field<oT>::iterator& field<oT>::iterator::operator--() {
     if(i > 0) { --i; }
 
     return *this;
 }
 
-template <typename oT>
-inline void field<oT>::iterator::operator--(int) {
-    operator--();
-}
+template <typename oT> inline void field<oT>::iterator::operator--(int) { operator--(); }
 
-template <typename oT>
-inline bool field<oT>::iterator::operator!=(const typename field<oT>::iterator& X) const {
-    return (i != X.i);
-}
+template <typename oT> inline bool field<oT>::iterator::operator!=(const typename field<oT>::iterator& X) const { return (i != X.i); }
 
-template <typename oT>
-inline bool field<oT>::iterator::operator==(const typename field<oT>::iterator& X) const {
-    return (i == X.i);
-}
+template <typename oT> inline bool field<oT>::iterator::operator==(const typename field<oT>::iterator& X) const { return (i == X.i); }
 
 template <typename oT>
 inline field<oT>::const_iterator::const_iterator(const field<oT>& in_M, const bool at_end)
@@ -1385,137 +1238,100 @@ inline field<oT>::const_iterator::const_iterator(const typename field<oT>::itera
     arma_extra_debug_sigprint();
 }
 
-template <typename oT>
-inline const oT& field<oT>::const_iterator::operator*() const {
-    return M[i];
-}
+template <typename oT> inline const oT& field<oT>::const_iterator::operator*() const { return M[i]; }
 
-template <typename oT>
-inline typename field<oT>::const_iterator& field<oT>::const_iterator::operator++() {
+template <typename oT> inline typename field<oT>::const_iterator& field<oT>::const_iterator::operator++() {
     ++i;
 
     return *this;
 }
 
-template <typename oT>
-inline void field<oT>::const_iterator::operator++(int) {
-    operator++();
-}
+template <typename oT> inline void field<oT>::const_iterator::operator++(int) { operator++(); }
 
-template <typename oT>
-inline typename field<oT>::const_iterator& field<oT>::const_iterator::operator--() {
+template <typename oT> inline typename field<oT>::const_iterator& field<oT>::const_iterator::operator--() {
     if(i > 0) { --i; }
 
     return *this;
 }
 
-template <typename oT>
-inline void field<oT>::const_iterator::operator--(int) {
-    operator--();
-}
+template <typename oT> inline void field<oT>::const_iterator::operator--(int) { operator--(); }
 
-template <typename oT>
-inline bool field<oT>::const_iterator::operator!=(const typename field<oT>::const_iterator& X) const {
-    return (i != X.i);
-}
+template <typename oT> inline bool field<oT>::const_iterator::operator!=(const typename field<oT>::const_iterator& X) const { return (i != X.i); }
 
-template <typename oT>
-inline bool field<oT>::const_iterator::operator==(const typename field<oT>::const_iterator& X) const {
-    return (i == X.i);
-}
+template <typename oT> inline bool field<oT>::const_iterator::operator==(const typename field<oT>::const_iterator& X) const { return (i == X.i); }
 
-template <typename oT>
-inline typename field<oT>::iterator field<oT>::begin() {
+template <typename oT> inline typename field<oT>::iterator field<oT>::begin() {
     arma_extra_debug_sigprint();
 
     return field<oT>::iterator(*this);
 }
 
-template <typename oT>
-inline typename field<oT>::const_iterator field<oT>::begin() const {
+template <typename oT> inline typename field<oT>::const_iterator field<oT>::begin() const {
     arma_extra_debug_sigprint();
 
     return field<oT>::const_iterator(*this);
 }
 
-template <typename oT>
-inline typename field<oT>::const_iterator field<oT>::cbegin() const {
+template <typename oT> inline typename field<oT>::const_iterator field<oT>::cbegin() const {
     arma_extra_debug_sigprint();
 
     return field<oT>::const_iterator(*this);
 }
 
-template <typename oT>
-inline typename field<oT>::iterator field<oT>::end() {
+template <typename oT> inline typename field<oT>::iterator field<oT>::end() {
     arma_extra_debug_sigprint();
 
     return field<oT>::iterator(*this, true);
 }
 
-template <typename oT>
-inline typename field<oT>::const_iterator field<oT>::end() const {
+template <typename oT> inline typename field<oT>::const_iterator field<oT>::end() const {
     arma_extra_debug_sigprint();
 
     return field<oT>::const_iterator(*this, true);
 }
 
-template <typename oT>
-inline typename field<oT>::const_iterator field<oT>::cend() const {
+template <typename oT> inline typename field<oT>::const_iterator field<oT>::cend() const {
     arma_extra_debug_sigprint();
 
     return field<oT>::const_iterator(*this, true);
 }
 
-template <typename oT>
-inline void field<oT>::clear() {
-    reset();
-}
+template <typename oT> inline void field<oT>::clear() { reset(); }
 
-template <typename oT>
-inline bool field<oT>::empty() const {
-    return (n_elem == 0);
-}
+template <typename oT> inline bool field<oT>::empty() const { return (n_elem == 0); }
 
-template <typename oT>
-inline uword field<oT>::size() const {
-    return n_elem;
-}
+template <typename oT> inline uword field<oT>::size() const { return n_elem; }
 
 //
 //
 //
 
-template <typename oT>
-inline void field_aux::reset_objects(field<oT>& x) {
+template <typename oT> inline void field_aux::reset_objects(field<oT>& x) {
     arma_extra_debug_sigprint();
 
     x.delete_objects();
     x.create_objects();
 }
 
-template <typename eT>
-inline void field_aux::reset_objects(field<Mat<eT>>& x) {
+template <typename eT> inline void field_aux::reset_objects(field<Mat<eT>>& x) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < x.n_elem; ++i) { (*(x.mem[i])).reset(); }
 }
 
-template <typename eT>
-inline void field_aux::reset_objects(field<Col<eT>>& x) {
+template <typename eT> inline void field_aux::reset_objects(field<Col<eT>>& x) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < x.n_elem; ++i) { (*(x.mem[i])).reset(); }
 }
 
-template <typename eT>
-inline void field_aux::reset_objects(field<Row<eT>>& x) {
+template <typename eT> inline void field_aux::reset_objects(field<Row<eT>>& x) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < x.n_elem; ++i) { (*(x.mem[i])).reset(); }
 }
 
-template <typename eT>
-inline void field_aux::reset_objects(field<Cube<eT>>& x) {
+template <typename eT> inline void field_aux::reset_objects(field<Cube<eT>>& x) {
     arma_extra_debug_sigprint();
 
     for(uword i = 0; i < x.n_elem; ++i) { (*(x.mem[i])).reset(); }
@@ -1531,8 +1347,7 @@ inline void field_aux::reset_objects(field<std::string>& x) {
 //
 //
 
-template <typename oT>
-inline bool field_aux::save(const field<oT>&, const std::string&, const file_type, std::string& err_msg) {
+template <typename oT> inline bool field_aux::save(const field<oT>&, const std::string&, const file_type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     err_msg = " [saving/loading this type of field is currently not supported] filename = ";
@@ -1540,8 +1355,7 @@ inline bool field_aux::save(const field<oT>&, const std::string&, const file_typ
     return false;
 }
 
-template <typename oT>
-inline bool field_aux::save(const field<oT>&, std::ostream&, const file_type, std::string& err_msg) {
+template <typename oT> inline bool field_aux::save(const field<oT>&, std::ostream&, const file_type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     err_msg = " [saving/loading this type of field is currently not supported] filename = ";
@@ -1549,8 +1363,7 @@ inline bool field_aux::save(const field<oT>&, std::ostream&, const file_type, st
     return false;
 }
 
-template <typename oT>
-inline bool field_aux::load(field<oT>&, const std::string&, const file_type, std::string& err_msg) {
+template <typename oT> inline bool field_aux::load(field<oT>&, const std::string&, const file_type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     err_msg = " [saving/loading this type of field is currently not supported] filename = ";
@@ -1558,8 +1371,7 @@ inline bool field_aux::load(field<oT>&, const std::string&, const file_type, std
     return false;
 }
 
-template <typename oT>
-inline bool field_aux::load(field<oT>&, std::istream&, const file_type, std::string& err_msg) {
+template <typename oT> inline bool field_aux::load(field<oT>&, std::istream&, const file_type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     err_msg = " [saving/loading this type of field is currently not supported] filename = ";
@@ -1567,8 +1379,7 @@ inline bool field_aux::load(field<oT>&, std::istream&, const file_type, std::str
     return false;
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1586,8 +1397,7 @@ inline bool field_aux::save(const field<Mat<eT>>& x, const std::string& name, co
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Mat<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Mat<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1605,8 +1415,7 @@ inline bool field_aux::save(const field<Mat<eT>>& x, std::ostream& os, const fil
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Mat<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1628,8 +1437,7 @@ inline bool field_aux::load(field<Mat<eT>>& x, const std::string& name, const fi
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Mat<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Mat<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1651,8 +1459,7 @@ inline bool field_aux::load(field<Mat<eT>>& x, std::istream& is, const file_type
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1670,8 +1477,7 @@ inline bool field_aux::save(const field<Col<eT>>& x, const std::string& name, co
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Col<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Col<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1689,8 +1495,7 @@ inline bool field_aux::save(const field<Col<eT>>& x, std::ostream& os, const fil
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Col<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1712,8 +1517,7 @@ inline bool field_aux::load(field<Col<eT>>& x, const std::string& name, const fi
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Col<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Col<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1735,8 +1539,7 @@ inline bool field_aux::load(field<Col<eT>>& x, std::istream& is, const file_type
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1754,8 +1557,7 @@ inline bool field_aux::save(const field<Row<eT>>& x, const std::string& name, co
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Row<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Row<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1773,8 +1575,7 @@ inline bool field_aux::save(const field<Row<eT>>& x, std::ostream& os, const fil
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Row<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1796,8 +1597,7 @@ inline bool field_aux::load(field<Row<eT>>& x, const std::string& name, const fi
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Row<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Row<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1819,8 +1619,7 @@ inline bool field_aux::load(field<Row<eT>>& x, std::istream& is, const file_type
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1834,8 +1633,7 @@ inline bool field_aux::save(const field<Cube<eT>>& x, const std::string& name, c
     }
 }
 
-template <typename eT>
-inline bool field_aux::save(const field<Cube<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::save(const field<Cube<eT>>& x, std::ostream& os, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1849,8 +1647,7 @@ inline bool field_aux::save(const field<Cube<eT>>& x, std::ostream& os, const fi
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Cube<eT>>& x, const std::string& name, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {
@@ -1865,8 +1662,7 @@ inline bool field_aux::load(field<Cube<eT>>& x, const std::string& name, const f
     }
 }
 
-template <typename eT>
-inline bool field_aux::load(field<Cube<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
+template <typename eT> inline bool field_aux::load(field<Cube<eT>>& x, std::istream& is, const file_type type, std::string& err_msg) {
     arma_extra_debug_sigprint();
 
     switch(type) {

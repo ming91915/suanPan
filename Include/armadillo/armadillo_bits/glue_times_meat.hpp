@@ -16,9 +16,7 @@
 //! \addtogroup glue_times
 //! @{
 
-template <bool do_inv_detect>
-template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
+template <bool do_inv_detect> template <typename T1, typename T2> arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -45,8 +43,7 @@ arma_hot inline void glue_times_redirect2_helper<do_inv_detect>::apply(Mat<typen
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
+template <typename T1, typename T2> arma_hot inline void glue_times_redirect2_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -81,9 +78,7 @@ arma_hot inline void glue_times_redirect2_helper<true>::apply(Mat<typename T1::e
     glue_times_redirect2_helper<false>::apply(out, X);
 }
 
-template <bool do_inv_detect>
-template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
+template <bool do_inv_detect> template <typename T1, typename T2, typename T3> arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -115,8 +110,7 @@ arma_hot inline void glue_times_redirect3_helper<do_inv_detect>::apply(Mat<typen
     }
 }
 
-template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
+template <typename T1, typename T2, typename T3> arma_hot inline void glue_times_redirect3_helper<true>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -200,9 +194,7 @@ arma_hot inline void glue_times_redirect3_helper<true>::apply(Mat<typename T1::e
     glue_times_redirect3_helper<false>::apply(out, X);
 }
 
-template <uword N>
-template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
+template <uword N> template <typename T1, typename T2> arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -229,8 +221,7 @@ arma_hot inline void glue_times_redirect<N>::apply(Mat<typename T1::elem_type>& 
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
+template <typename T1, typename T2> arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -238,8 +229,7 @@ arma_hot inline void glue_times_redirect<2>::apply(Mat<typename T1::elem_type>& 
     glue_times_redirect2_helper<is_supported_blas_type<eT>::value>::apply(out, X);
 }
 
-template <typename T1, typename T2, typename T3>
-arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
+template <typename T1, typename T2, typename T3> arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -247,8 +237,7 @@ arma_hot inline void glue_times_redirect<3>::apply(Mat<typename T1::elem_type>& 
     glue_times_redirect3_helper<is_supported_blas_type<eT>::value>::apply(out, X);
 }
 
-template <typename T1, typename T2, typename T3, typename T4>
-arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<Glue<T1, T2, glue_times>, T3, glue_times>, T4, glue_times>& X) {
+template <typename T1, typename T2, typename T3, typename T4> arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& out, const Glue<Glue<Glue<T1, T2, glue_times>, T3, glue_times>, T4, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -282,8 +271,7 @@ arma_hot inline void glue_times_redirect<4>::apply(Mat<typename T1::elem_type>& 
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
+template <typename T1, typename T2> arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     const sword N_mat = 1 + depth_lhs<glue_times, Glue<T1, T2, glue_times>>::num;
@@ -293,15 +281,13 @@ arma_hot inline void glue_times::apply(Mat<typename T1::elem_type>& out, const G
     glue_times_redirect<N_mat>::apply(out, X);
 }
 
-template <typename T1>
-arma_hot inline void glue_times::apply_inplace(Mat<typename T1::elem_type>& out, const T1& X) {
+template <typename T1> arma_hot inline void glue_times::apply_inplace(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     out = out * X;
 }
 
-template <typename T1, typename T2>
-arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X, const sword sign) {
+template <typename T1, typename T2> arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times>& X, const sword sign) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -425,16 +411,14 @@ arma_hot inline void glue_times::apply_inplace_plus(Mat<typename T1::elem_type>&
     }
 }
 
-template <typename eT, const bool do_trans_A, const bool do_trans_B, typename TA, typename TB>
-arma_inline uword glue_times::mul_storage_cost(const TA& A, const TB& B) {
+template <typename eT, const bool do_trans_A, const bool do_trans_B, typename TA, typename TB> arma_inline uword glue_times::mul_storage_cost(const TA& A, const TB& B) {
     const uword final_A_n_rows = (do_trans_A == false) ? (TA::is_row ? 1 : A.n_rows) : (TA::is_col ? 1 : A.n_cols);
     const uword final_B_n_cols = (do_trans_B == false) ? (TB::is_col ? 1 : B.n_cols) : (TB::is_row ? 1 : B.n_rows);
 
     return final_A_n_rows * final_B_n_cols;
 }
 
-template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool use_alpha, typename TA, typename TB>
-arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const eT alpha) {
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool use_alpha, typename TA, typename TB> arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const eT alpha) {
     arma_extra_debug_sigprint();
 
     // arma_debug_assert_mul_size(A, B, do_trans_A, do_trans_B, "matrix multiplication");
@@ -529,8 +513,7 @@ arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, c
     }
 }
 
-template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool use_alpha, typename TA, typename TB, typename TC>
-arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const eT alpha) {
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool use_alpha, typename TA, typename TB, typename TC> arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const eT alpha) {
     arma_extra_debug_sigprint();
 
     Mat<eT> tmp;
@@ -551,8 +534,7 @@ arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, c
     }
 }
 
-template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool do_trans_D, const bool use_alpha, typename TA, typename TB, typename TC, typename TD>
-arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const TD& D, const eT alpha) {
+template <typename eT, const bool do_trans_A, const bool do_trans_B, const bool do_trans_C, const bool do_trans_D, const bool use_alpha, typename TA, typename TB, typename TC, typename TD> arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, const TC& C, const TD& D, const eT alpha) {
     arma_extra_debug_sigprint();
 
     Mat<eT> tmp;
@@ -578,8 +560,7 @@ arma_hot inline void glue_times::apply(Mat<eT>& out, const TA& A, const TB& B, c
 //
 // glue_times_diag
 
-template <typename T1, typename T2>
-arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times_diag>& X) {
+template <typename T1, typename T2> arma_hot inline void glue_times_diag::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_times_diag>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

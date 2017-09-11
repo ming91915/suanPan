@@ -17,48 +17,42 @@
 //! @{
 
 //! Base / scalar
-template <typename T1>
-arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_div_post>>::result operator/(const T1& X, const typename T1::elem_type k) {
+template <typename T1> arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_div_post>>::result operator/(const T1& X, const typename T1::elem_type k) {
     arma_extra_debug_sigprint();
 
     return eOp<T1, eop_scalar_div_post>(X, k);
 }
 
 //! scalar / Base
-template <typename T1>
-arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_div_pre>>::result operator/(const typename T1::elem_type k, const T1& X) {
+template <typename T1> arma_inline typename enable_if2<is_arma_type<T1>::value, const eOp<T1, eop_scalar_div_pre>>::result operator/(const typename T1::elem_type k, const T1& X) {
     arma_extra_debug_sigprint();
 
     return eOp<T1, eop_scalar_div_pre>(X, k);
 }
 
 //! complex scalar / non-complex Base
-template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>>::result operator/(const std::complex<typename T1::pod_type>& k, const T1& X) {
+template <typename T1> arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>>::result operator/(const std::complex<typename T1::pod_type>& k, const T1& X) {
     arma_extra_debug_sigprint();
 
     return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_pre>('j', X, k);
 }
 
 //! non-complex Base / complex scalar
-template <typename T1>
-arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>>::result operator/(const T1& X, const std::complex<typename T1::pod_type>& k) {
+template <typename T1> arma_inline typename enable_if2<(is_arma_type<T1>::value && is_cx<typename T1::elem_type>::no), const mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>>::result operator/(const T1& X, const std::complex<typename T1::pod_type>& k) {
     arma_extra_debug_sigprint();
 
     return mtOp<typename std::complex<typename T1::pod_type>, T1, op_cx_scalar_div_post>('j', X, k);
 }
 
 //! element-wise division of Base objects with same element type
-template <typename T1, typename T2>
-arma_inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const eGlue<T1, T2, eglue_div>>::result operator/(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const eGlue<T1, T2, eglue_div>>::result operator/(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     return eGlue<T1, T2, eglue_div>(X, Y);
 }
 
 //! element-wise division of Base objects with different element types
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)), const mtGlue<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result, T1, T2, glue_mixed_div>>::result operator/(const T1& X, const T2& Y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)), const mtGlue<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result, T1, T2, glue_mixed_div>>::result operator/(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -72,8 +66,7 @@ inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &
 }
 
 //! element-wise division of sparse matrix by scalar
-template <typename T1>
-inline typename enable_if2<is_arma_sparse_type<T1>::value, SpMat<typename T1::elem_type>>::result operator/(const T1& X, const typename T1::elem_type y) {
+template <typename T1> inline typename enable_if2<is_arma_sparse_type<T1>::value, SpMat<typename T1::elem_type>>::result operator/(const T1& X, const typename T1::elem_type y) {
     arma_extra_debug_sigprint();
 
     SpMat<typename T1::elem_type> result(X);
@@ -84,8 +77,7 @@ inline typename enable_if2<is_arma_sparse_type<T1>::value, SpMat<typename T1::el
 }
 
 //! element-wise division of one sparse and one dense object
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator/(const T1& x, const T2& y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator/(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -132,8 +124,7 @@ inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::
 }
 
 //! element-wise division of one dense and one sparse object
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), Mat<typename T1::elem_type>>::result operator/(const T1& x, const T2& y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), Mat<typename T1::elem_type>>::result operator/(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -154,29 +145,25 @@ inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::
     return result;
 }
 
-template <typename parent, unsigned int mode, typename T2>
-arma_inline Mat<typename parent::elem_type> operator/(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> arma_inline Mat<typename parent::elem_type> operator/(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each1_aux::operator_div(X, Y.get_ref());
 }
 
-template <typename T1, typename parent, unsigned int mode>
-arma_inline Mat<typename parent::elem_type> operator/(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
+template <typename T1, typename parent, unsigned int mode> arma_inline Mat<typename parent::elem_type> operator/(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each1_aux::operator_div(X.get_ref(), Y);
 }
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-arma_inline Mat<typename parent::elem_type> operator/(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> arma_inline Mat<typename parent::elem_type> operator/(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each2_aux::operator_div(X, Y.get_ref());
 }
 
-template <typename T1, typename parent, unsigned int mode, typename TB>
-arma_inline Mat<typename parent::elem_type> operator/(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
+template <typename T1, typename parent, unsigned int mode, typename TB> arma_inline Mat<typename parent::elem_type> operator/(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each2_aux::operator_div(X.get_ref(), Y);

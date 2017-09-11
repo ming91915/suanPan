@@ -16,8 +16,7 @@
 //! \addtogroup op_index_max
 //! @{
 
-template <typename T1>
-inline void op_index_max::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_max>& in) {
+template <typename T1> inline void op_index_max::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_max>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -39,8 +38,7 @@ inline void op_index_max::apply(Mat<uword>& out, const mtOp<uword, T1, op_index_
     }
 }
 
-template <typename eT>
-inline void op_index_max::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim) {
+template <typename eT> inline void op_index_max::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     const uword X_n_rows = X.n_rows;
@@ -69,8 +67,7 @@ inline void op_index_max::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const
     }
 }
 
-template <typename T1>
-inline void op_index_max::apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim) {
+template <typename T1> inline void op_index_max::apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

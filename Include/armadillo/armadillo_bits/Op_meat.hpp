@@ -55,9 +55,6 @@ inline Op<T1, op_type>::Op(const T1& in_m, const uword in_aux_uword_a, const uwo
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename op_type>
-inline Op<T1, op_type>::~Op() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename op_type> inline Op<T1, op_type>::~Op() { arma_extra_debug_sigprint(); }
 
 //! @}

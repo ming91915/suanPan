@@ -17,8 +17,7 @@
 //! @{
 
 //! eigenvalues of symmetric real sparse matrix X
-template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> eigs_sym(const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Col<typename T1::pod_type> eigs_sym(const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -36,8 +35,7 @@ arma_warn_unused inline Col<typename T1::pod_type> eigs_sym(const SpBase<typenam
 }
 
 //! eigenvalues of symmetric real sparse matrix X
-template <typename T1>
-inline bool eigs_sym(Col<typename T1::pod_type>& eigval, const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool eigs_sym(Col<typename T1::pod_type>& eigval, const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -54,8 +52,7 @@ inline bool eigs_sym(Col<typename T1::pod_type>& eigval, const SpBase<typename T
 }
 
 //! eigenvalues and eigenvectors of symmetric real sparse matrix X
-template <typename T1>
-inline bool eigs_sym(Col<typename T1::pod_type>& eigval, Mat<typename T1::elem_type>& eigvec, const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool eigs_sym(Col<typename T1::pod_type>& eigval, Mat<typename T1::elem_type>& eigvec, const SpBase<typename T1::elem_type, T1>& X, const uword n_eigvals, const char* form = "lm", const typename T1::elem_type tol = 0.0, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

@@ -19,8 +19,7 @@
 //! Class for storing data required to construct or apply operations to a subcube
 //! (i.e. where the subcube starts and ends as well as a reference/pointer to the original
 //! cube),
-template <typename eT>
-class subview_cube : public BaseCube<eT, subview_cube<eT>> {
+template <typename eT> class subview_cube : public BaseCube<eT, subview_cube<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -50,16 +49,11 @@ public:
     inline void operator/=(const eT val);
 
     // deliberately returning void
-    template <typename T1>
-    inline void operator=(const BaseCube<eT, T1>& x);
-    template <typename T1>
-    inline void operator+=(const BaseCube<eT, T1>& x);
-    template <typename T1>
-    inline void operator-=(const BaseCube<eT, T1>& x);
-    template <typename T1>
-    inline void operator%=(const BaseCube<eT, T1>& x);
-    template <typename T1>
-    inline void operator/=(const BaseCube<eT, T1>& x);
+    template <typename T1> inline void operator=(const BaseCube<eT, T1>& x);
+    template <typename T1> inline void operator+=(const BaseCube<eT, T1>& x);
+    template <typename T1> inline void operator-=(const BaseCube<eT, T1>& x);
+    template <typename T1> inline void operator%=(const BaseCube<eT, T1>& x);
+    template <typename T1> inline void operator/=(const BaseCube<eT, T1>& x);
 
     inline void operator=(const subview_cube& x);
     inline void operator+=(const subview_cube& x);
@@ -67,19 +61,13 @@ public:
     inline void operator%=(const subview_cube& x);
     inline void operator/=(const subview_cube& x);
 
-    template <typename T1>
-    inline void operator=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator+=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator-=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator%=(const Base<eT, T1>& x);
-    template <typename T1>
-    inline void operator/=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator+=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator-=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator%=(const Base<eT, T1>& x);
+    template <typename T1> inline void operator/=(const Base<eT, T1>& x);
 
-    template <typename gen_type>
-    inline void operator=(const GenCube<eT, gen_type>& x);
+    template <typename gen_type> inline void operator=(const GenCube<eT, gen_type>& x);
 
     inline static void extract(Cube<eT>& out, const subview_cube& in);
     inline static void plus_inplace(Cube<eT>& out, const subview_cube& in);
@@ -93,15 +81,11 @@ public:
     inline static void schur_inplace(Mat<eT>& out, const subview_cube& in);
     inline static void div_inplace(Mat<eT>& out, const subview_cube& in);
 
-    template <typename functor>
-    inline void for_each(functor F);
-    template <typename functor>
-    inline void for_each(functor F) const;
+    template <typename functor> inline void for_each(functor F);
+    template <typename functor> inline void for_each(functor F) const;
 
-    template <typename functor>
-    inline void transform(functor F);
-    template <typename functor>
-    inline void imbue(functor F);
+    template <typename functor> inline void transform(functor F);
+    template <typename functor> inline void imbue(functor F);
 
 #if defined(ARMA_USE_CXX11)
     inline void each_slice(const std::function<void(Mat<eT>&)>& F);

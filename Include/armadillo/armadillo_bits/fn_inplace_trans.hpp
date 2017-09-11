@@ -16,15 +16,13 @@
 //! \addtogroup fn_inplace_trans
 //! @{
 
-template <typename eT>
-inline typename enable_if2<is_cx<eT>::no, void>::result inplace_htrans(Mat<eT>& X, const char* method = "std") {
+template <typename eT> inline typename enable_if2<is_cx<eT>::no, void>::result inplace_htrans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     inplace_strans(X, method);
 }
 
-template <typename eT>
-inline typename enable_if2<is_cx<eT>::yes, void>::result inplace_htrans(Mat<eT>& X, const char* method = "std") {
+template <typename eT> inline typename enable_if2<is_cx<eT>::yes, void>::result inplace_htrans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);
@@ -42,8 +40,7 @@ inline typename enable_if2<is_cx<eT>::yes, void>::result inplace_htrans(Mat<eT>&
     }
 }
 
-template <typename eT>
-inline typename enable_if2<is_cx<eT>::no, void>::result inplace_trans(Mat<eT>& X, const char* method = "std") {
+template <typename eT> inline typename enable_if2<is_cx<eT>::no, void>::result inplace_trans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);
@@ -53,8 +50,7 @@ inline typename enable_if2<is_cx<eT>::no, void>::result inplace_trans(Mat<eT>& X
     inplace_strans(X, method);
 }
 
-template <typename eT>
-inline typename enable_if2<is_cx<eT>::yes, void>::result inplace_trans(Mat<eT>& X, const char* method = "std") {
+template <typename eT> inline typename enable_if2<is_cx<eT>::yes, void>::result inplace_trans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);

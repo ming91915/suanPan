@@ -18,14 +18,12 @@
 
 struct span_alt {};
 
-template <typename Dummy = int>
-class span_base {
+template <typename Dummy = int> class span_base {
 public:
     static const span_alt all;
 };
 
-template <typename Dummy>
-const span_alt span_base<Dummy>::all = span_alt();
+template <typename Dummy> const span_alt span_base<Dummy>::all = span_alt();
 
 class span : public span_base<> {
 public:

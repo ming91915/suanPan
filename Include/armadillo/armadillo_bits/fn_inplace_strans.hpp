@@ -16,8 +16,7 @@
 //! \addtogroup fn_inplace_strans
 //! @{
 
-template <typename eT>
-inline void inplace_strans(Mat<eT>& X, const char* method = "std") {
+template <typename eT> inline void inplace_strans(Mat<eT>& X, const char* method = "std") {
     arma_extra_debug_sigprint();
 
     const char sig = (method != NULL) ? method[0] : char(0);

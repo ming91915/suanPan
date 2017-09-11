@@ -21,8 +21,7 @@ struct podarray_prealloc_n_elem {
 };
 
 //! A lightweight array for POD types. For internal use only!
-template <typename eT>
-class podarray {
+template <typename eT> class podarray {
 public:
     arma_aligned const uword n_elem; //!< number of elements held
     arma_aligned eT* mem;            //!< pointer to memory used by the object
@@ -42,8 +41,7 @@ public:
 
     arma_inline explicit podarray(const eT* X, const uword new_N);
 
-    template <typename T1>
-    inline explicit podarray(const Proxy<T1>& P);
+    template <typename T1> inline explicit podarray(const Proxy<T1>& P);
 
     arma_inline eT& operator[](const uword i);
     arma_inline eT operator[](const uword i) const;

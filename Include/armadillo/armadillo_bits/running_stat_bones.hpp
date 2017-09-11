@@ -16,8 +16,7 @@
 //! \addtogroup running_stat
 //! @{
 
-template <typename eT>
-class arma_counter {
+template <typename eT> class arma_counter {
 public:
     inline ~arma_counter();
     inline arma_counter();
@@ -39,8 +38,7 @@ private:
 //! Useful if the storage of individual samples is not necessary or desired.
 //! Also useful if the number of samples is not known beforehand or exceeds
 //! available memory.
-template <typename eT>
-class running_stat {
+template <typename eT> class running_stat {
 public:
     typedef typename get_pod_type<eT>::result T;
 
@@ -83,17 +81,13 @@ private:
 
 class running_stat_aux {
 public:
-    template <typename eT>
-    inline static void update_stats(running_stat<eT>& x, const eT sample, const typename arma_not_cx<eT>::result* junk = 0);
+    template <typename eT> inline static void update_stats(running_stat<eT>& x, const eT sample, const typename arma_not_cx<eT>::result* junk = 0);
 
-    template <typename eT>
-    inline static void update_stats(running_stat<eT>& x, const std::complex<eT>& sample, const typename arma_not_cx<eT>::result* junk = 0);
+    template <typename eT> inline static void update_stats(running_stat<eT>& x, const std::complex<eT>& sample, const typename arma_not_cx<eT>::result* junk = 0);
 
-    template <typename eT>
-    inline static void update_stats(running_stat<eT>& x, const typename eT::value_type sample, const typename arma_cx_only<eT>::result* junk = 0);
+    template <typename eT> inline static void update_stats(running_stat<eT>& x, const typename eT::value_type sample, const typename arma_cx_only<eT>::result* junk = 0);
 
-    template <typename eT>
-    inline static void update_stats(running_stat<eT>& x, const eT& sample, const typename arma_cx_only<eT>::result* junk = 0);
+    template <typename eT> inline static void update_stats(running_stat<eT>& x, const eT& sample, const typename arma_cx_only<eT>::result* junk = 0);
 };
 
 //! @}

@@ -21,8 +21,7 @@
 //! This is very useful for determining the amount of memory necessary before
 //! a sparse matrix operation on two matrices.
 
-template <typename T1, typename T2, typename op_n_unique_type>
-inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x, const SpBase<typename T2::elem_type, T2>& y, const op_n_unique_type junk) {
+template <typename T1, typename T2, typename op_n_unique_type> inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x, const SpBase<typename T2::elem_type, T2>& y, const op_n_unique_type junk) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> pa(x.get_ref());
@@ -31,8 +30,7 @@ inline uword n_unique(const SpBase<typename T1::elem_type, T1>& x, const SpBase<
     return n_unique(pa, pb, junk);
 }
 
-template <typename T1, typename T2, typename op_n_unique_type>
-arma_hot inline uword n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type junk) {
+template <typename T1, typename T2, typename op_n_unique_type> arma_hot inline uword n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, const op_n_unique_type junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -70,31 +68,19 @@ arma_hot inline uword n_unique(const SpProxy<T1>& pa, const SpProxy<T2>& pb, con
 
 // Simple operators.
 struct op_n_unique_add {
-    template <typename eT>
-    inline static eT eval(const eT& l, const eT& r) {
-        return (l + r);
-    }
+    template <typename eT> inline static eT eval(const eT& l, const eT& r) { return (l + r); }
 };
 
 struct op_n_unique_sub {
-    template <typename eT>
-    inline static eT eval(const eT& l, const eT& r) {
-        return (l - r);
-    }
+    template <typename eT> inline static eT eval(const eT& l, const eT& r) { return (l - r); }
 };
 
 struct op_n_unique_mul {
-    template <typename eT>
-    inline static eT eval(const eT& l, const eT& r) {
-        return (l * r);
-    }
+    template <typename eT> inline static eT eval(const eT& l, const eT& r) { return (l * r); }
 };
 
 struct op_n_unique_count {
-    template <typename eT>
-    inline static eT eval(const eT&, const eT&) {
-        return eT(1);
-    }
+    template <typename eT> inline static eT eval(const eT&, const eT&) { return eT(1); }
 };
 
 //! @}

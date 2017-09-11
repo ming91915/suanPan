@@ -17,8 +17,7 @@
 //! @{
 
 //! for two arrays, generic version for non-complex values
-template <typename eT>
-arma_hot arma_inline typename arma_not_cx<eT>::result op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> arma_hot arma_inline typename arma_not_cx<eT>::result op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B) {
     arma_extra_debug_sigprint();
 
 #if defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0)
@@ -49,8 +48,7 @@ arma_hot arma_inline typename arma_not_cx<eT>::result op_dot::direct_dot_arma(co
 }
 
 //! for two arrays, generic version for complex values
-template <typename eT>
-arma_hot inline typename arma_cx_only<eT>::result op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> arma_hot inline typename arma_cx_only<eT>::result op_dot::direct_dot_arma(const uword n_elem, const eT* const A, const eT* const B) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -76,8 +74,7 @@ arma_hot inline typename arma_cx_only<eT>::result op_dot::direct_dot_arma(const 
 }
 
 //! for two arrays, float and double version
-template <typename eT>
-arma_hot inline typename arma_real_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> arma_hot inline typename arma_real_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) {
     arma_extra_debug_sigprint();
 
     if(n_elem <= 32u) {
@@ -102,8 +99,7 @@ arma_hot inline typename arma_real_only<eT>::result op_dot::direct_dot(const uwo
 }
 
 //! for two arrays, complex version
-template <typename eT>
-inline arma_hot typename arma_cx_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> inline arma_hot typename arma_cx_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) {
     if(n_elem <= 16u) {
         return op_dot::direct_dot_arma(n_elem, A, B);
     } else {
@@ -126,14 +122,10 @@ inline arma_hot typename arma_cx_only<eT>::result op_dot::direct_dot(const uword
 }
 
 //! for two arrays, integral version
-template <typename eT>
-arma_hot inline typename arma_integral_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) {
-    return op_dot::direct_dot_arma(n_elem, A, B);
-}
+template <typename eT> arma_hot inline typename arma_integral_only<eT>::result op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B) { return op_dot::direct_dot_arma(n_elem, A, B); }
 
 //! for three arrays
-template <typename eT>
-arma_hot inline eT op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B, const eT* C) {
+template <typename eT> arma_hot inline eT op_dot::direct_dot(const uword n_elem, const eT* const A, const eT* const B, const eT* C) {
     arma_extra_debug_sigprint();
 
     eT val = eT(0);
@@ -143,8 +135,7 @@ arma_hot inline eT op_dot::direct_dot(const uword n_elem, const eT* const A, con
     return val;
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type op_dot::apply(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type op_dot::apply(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     const bool use_at = (Proxy<T1>::use_at) || (Proxy<T2>::use_at);
@@ -191,8 +182,7 @@ arma_hot inline typename T1::elem_type op_dot::apply(const T1& X, const T2& Y) {
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename arma_not_cx<typename T1::elem_type>::result op_dot::apply_proxy(const Proxy<T1>& PA, const Proxy<T2>& PB) {
+template <typename T1, typename T2> arma_hot inline typename arma_not_cx<typename T1::elem_type>::result op_dot::apply_proxy(const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -219,8 +209,7 @@ arma_hot inline typename arma_not_cx<typename T1::elem_type>::result op_dot::app
     return val1 + val2;
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename arma_cx_only<typename T1::elem_type>::result op_dot::apply_proxy(const Proxy<T1>& PA, const Proxy<T2>& PB) {
+template <typename T1, typename T2> arma_hot inline typename arma_cx_only<typename T1::elem_type>::result op_dot::apply_proxy(const Proxy<T1>& PA, const Proxy<T2>& PB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -257,8 +246,7 @@ arma_hot inline typename arma_cx_only<typename T1::elem_type>::result op_dot::ap
 //
 // op_norm_dot
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type op_norm_dot::apply(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type op_norm_dot::apply(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -280,8 +268,7 @@ arma_hot inline typename T1::elem_type op_norm_dot::apply(const T1& X, const T2&
 //
 // op_cdot
 
-template <typename eT>
-arma_hot inline eT op_cdot::direct_cdot_arma(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> arma_hot inline eT op_cdot::direct_cdot_arma(const uword n_elem, const eT* const A, const eT* const B) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -306,8 +293,7 @@ arma_hot inline eT op_cdot::direct_cdot_arma(const uword n_elem, const eT* const
     return std::complex<T>(val_real, val_imag);
 }
 
-template <typename eT>
-arma_hot inline eT op_cdot::direct_cdot(const uword n_elem, const eT* const A, const eT* const B) {
+template <typename eT> arma_hot inline eT op_cdot::direct_cdot(const uword n_elem, const eT* const A, const eT* const B) {
     arma_extra_debug_sigprint();
 
     if(n_elem <= 32u) {
@@ -351,8 +337,7 @@ arma_hot inline eT op_cdot::direct_cdot(const uword n_elem, const eT* const A, c
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type op_cdot::apply(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type op_cdot::apply(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     if((is_Mat<T1>::value == true) && (is_Mat<T2>::value == true)) {
@@ -362,8 +347,7 @@ arma_hot inline typename T1::elem_type op_cdot::apply(const T1& X, const T2& Y) 
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type op_cdot::apply_unwrap(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type op_cdot::apply_unwrap(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -379,8 +363,7 @@ arma_hot inline typename T1::elem_type op_cdot::apply_unwrap(const T1& X, const 
     return op_cdot::direct_cdot(A.n_elem, A.mem, B.mem);
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type op_cdot::apply_proxy(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type op_cdot::apply_proxy(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -425,8 +408,7 @@ arma_hot inline typename T1::elem_type op_cdot::apply_proxy(const T1& X, const T
     }
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename promote_type<typename T1::elem_type, typename T2::elem_type>::result op_dot_mixed::apply(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_hot inline typename promote_type<typename T1::elem_type, typename T2::elem_type>::result op_dot_mixed::apply(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT1;

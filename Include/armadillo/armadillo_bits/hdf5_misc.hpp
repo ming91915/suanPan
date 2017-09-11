@@ -22,8 +22,7 @@ namespace hdf5_misc {
 //! Given a certain type, find the corresponding HDF5 datatype.  This can't be
 //! done entirely at compile time, unfortunately, because the H5T_* macros
 //! depend on function calls.
-template <typename eT>
-inline hid_t get_hdf5_type() {
+template <typename eT> inline hid_t get_hdf5_type() {
     return -1; // Return invalid.
 }
 
@@ -32,77 +31,39 @@ inline hid_t get_hdf5_type() {
 //! types.
 //! We can't use the actual u8/s8 typedefs because their relations to the H5T_... types
 //! are unclear.
-template <>
-inline hid_t get_hdf5_type<unsigned char>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_UCHAR);
-}
+template <> inline hid_t get_hdf5_type<unsigned char>() { return arma_H5Tcopy(arma_H5T_NATIVE_UCHAR); }
 
-template <>
-inline hid_t get_hdf5_type<char>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_CHAR);
-}
+template <> inline hid_t get_hdf5_type<char>() { return arma_H5Tcopy(arma_H5T_NATIVE_CHAR); }
 
-template <>
-inline hid_t get_hdf5_type<short>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_SHORT);
-}
+template <> inline hid_t get_hdf5_type<short>() { return arma_H5Tcopy(arma_H5T_NATIVE_SHORT); }
 
-template <>
-inline hid_t get_hdf5_type<unsigned short>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_USHORT);
-}
+template <> inline hid_t get_hdf5_type<unsigned short>() { return arma_H5Tcopy(arma_H5T_NATIVE_USHORT); }
 
-template <>
-inline hid_t get_hdf5_type<int>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_INT);
-}
+template <> inline hid_t get_hdf5_type<int>() { return arma_H5Tcopy(arma_H5T_NATIVE_INT); }
 
-template <>
-inline hid_t get_hdf5_type<unsigned int>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_UINT);
-}
+template <> inline hid_t get_hdf5_type<unsigned int>() { return arma_H5Tcopy(arma_H5T_NATIVE_UINT); }
 
-template <>
-inline hid_t get_hdf5_type<long>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_LONG);
-}
+template <> inline hid_t get_hdf5_type<long>() { return arma_H5Tcopy(arma_H5T_NATIVE_LONG); }
 
-template <>
-inline hid_t get_hdf5_type<unsigned long>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_ULONG);
-}
+template <> inline hid_t get_hdf5_type<unsigned long>() { return arma_H5Tcopy(arma_H5T_NATIVE_ULONG); }
 
 #if defined(ARMA_USE_U64S64) && defined(ULLONG_MAX)
-template <>
-inline hid_t get_hdf5_type<long long>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_LLONG);
-}
+template <> inline hid_t get_hdf5_type<long long>() { return arma_H5Tcopy(arma_H5T_NATIVE_LLONG); }
 
-template <>
-inline hid_t get_hdf5_type<unsigned long long>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_ULLONG);
-}
+template <> inline hid_t get_hdf5_type<unsigned long long>() { return arma_H5Tcopy(arma_H5T_NATIVE_ULLONG); }
 #endif
 
-template <>
-inline hid_t get_hdf5_type<float>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_FLOAT);
-}
+template <> inline hid_t get_hdf5_type<float>() { return arma_H5Tcopy(arma_H5T_NATIVE_FLOAT); }
 
-template <>
-inline hid_t get_hdf5_type<double>() {
-    return arma_H5Tcopy(arma_H5T_NATIVE_DOUBLE);
-}
+template <> inline hid_t get_hdf5_type<double>() { return arma_H5Tcopy(arma_H5T_NATIVE_DOUBLE); }
 
 //! Utility hid_t since HOFFSET() won't work with std::complex.
-template <typename eT>
-struct hdf5_complex_t {
+template <typename eT> struct hdf5_complex_t {
     eT real;
     eT imag;
 };
 
-template <>
-inline hid_t get_hdf5_type<std::complex<float>>() {
+template <> inline hid_t get_hdf5_type<std::complex<float>>() {
     hid_t type = arma_H5Tcreate(H5T_COMPOUND, sizeof(hdf5_complex_t<float>));
 
     arma_H5Tinsert(type, "real", HOFFSET(hdf5_complex_t<float>, real), arma_H5T_NATIVE_FLOAT);
@@ -111,8 +72,7 @@ inline hid_t get_hdf5_type<std::complex<float>>() {
     return type;
 }
 
-template <>
-inline hid_t get_hdf5_type<std::complex<double>>() {
+template <> inline hid_t get_hdf5_type<std::complex<double>>() {
     hid_t type = arma_H5Tcreate(H5T_COMPOUND, sizeof(hdf5_complex_t<double>));
 
     arma_H5Tinsert(type, "real", HOFFSET(hdf5_complex_t<double>, real), arma_H5T_NATIVE_DOUBLE);
@@ -384,8 +344,7 @@ inline hid_t search_hdf5_file(const std::vector<std::string>& names, hid_t hdf5_
 //! Load an HDF5 matrix into an array of type specified by datatype,
 //! then convert that into the desired array 'dest'.
 //! This should only be called when eT is not the datatype.
-template <typename eT>
-inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uword n_elem) {
+template <typename eT> inline hid_t load_and_convert_hdf5(eT* dest, hid_t dataset, hid_t datatype, uword n_elem) {
 
     // We can't use nice template specializations here
     // as the determination of the type of 'datatype' must be done at runtime.

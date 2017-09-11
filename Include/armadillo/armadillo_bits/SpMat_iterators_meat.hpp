@@ -44,10 +44,7 @@ inline SpMat<eT>::iterator_base::iterator_base(const SpMat<eT>& in_M, const uwor
     // Nothing to do.
 }
 
-template <typename eT>
-arma_inline eT SpMat<eT>::iterator_base::operator*() const {
-    return M->values[internal_pos];
-}
+template <typename eT> arma_inline eT SpMat<eT>::iterator_base::operator*() const { return M->values[internal_pos]; }
 
 ///////////////////////////////////////////////////////////////////////////////
 // SpMat::const_iterator implementation                                      //
@@ -97,8 +94,7 @@ inline SpMat<eT>::const_iterator::const_iterator(const typename SpMat<eT>::const
     // Nothing to do.
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator++() {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator++() {
     ++iterator_base::internal_pos;
 
     if(iterator_base::internal_pos == iterator_base::M->n_nonzero) {
@@ -112,8 +108,7 @@ inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::o
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator++(int) {
     typename SpMat<eT>::const_iterator tmp(*this);
 
     ++(*this);
@@ -121,8 +116,7 @@ inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::op
     return tmp;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator--() {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::operator--() {
     // iterator_base::M.print("M");
 
     // printf("decrement from %d, %d, %d\n", iterator_base::internal_pos,
@@ -144,8 +138,7 @@ inline arma_hot typename SpMat<eT>::const_iterator& SpMat<eT>::const_iterator::o
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::operator--(int) {
     typename SpMat<eT>::const_iterator tmp(*this);
 
     --(*this);
@@ -153,63 +146,34 @@ inline arma_hot typename SpMat<eT>::const_iterator SpMat<eT>::const_iterator::op
     return tmp;
 }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_iterator& rhs) const {
-    return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_iterator& rhs) const { return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_iterator& rhs) const {
-    return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_iterator& rhs) const { return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const {
-    return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const { return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const {
-    return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const { return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_row_iterator& rhs) const {
-    return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator==(const const_row_iterator& rhs) const { return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_row_iterator& rhs) const {
-    return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const const_row_iterator& rhs) const { return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const {
-    return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const { return (rhs.row() == (*this).row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const {
-    return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const { return (rhs.row() != (*this).row()) || (rhs.col() != iterator_base::internal_col); }
 
 ///////////////////////////////////////////////////////////////////////////////
 // SpMat::iterator implementation                                            //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::iterator::operator*() {
-    return SpValProxy<SpMat<eT>>(iterator_base::M->row_indices[iterator_base::internal_pos], iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[iterator_base::internal_pos]));
-}
+template <typename eT> inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::iterator::operator*() { return SpValProxy<SpMat<eT>>(iterator_base::M->row_indices[iterator_base::internal_pos], iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[iterator_base::internal_pos])); }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator++() {
+template <typename eT> inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator++() {
     const_iterator::operator++();
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int) {
     typename SpMat<eT>::iterator tmp(*this);
 
     const_iterator::operator++();
@@ -217,14 +181,12 @@ inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator++(int
     return tmp;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator--() {
+template <typename eT> inline arma_hot typename SpMat<eT>::iterator& SpMat<eT>::iterator::operator--() {
     const_iterator::operator--();
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator--(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::iterator SpMat<eT>::iterator::operator--(int) {
     typename SpMat<eT>::iterator tmp(*this);
 
     const_iterator::operator--();
@@ -341,8 +303,7 @@ inline SpMat<eT>::const_row_iterator::const_row_iterator(const typename SpMat<eT
 /**
  * Increment the row_iterator.
  */
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator++() {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator++() {
     // We just need to find the next nonzero element.
     iterator_base::internal_pos++;
 
@@ -383,8 +344,7 @@ inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_ite
 /**
  * Increment the row_iterator (but do not return anything.
  */
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator++(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator++(int) {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
     ++(*this);
@@ -395,8 +355,7 @@ inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iter
 /**
  * Decrement the row_iterator.
  */
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator--() {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_iterator::operator--() {
     iterator_base::internal_pos--;
 
     // We have to search backwards.
@@ -429,8 +388,7 @@ inline arma_hot typename SpMat<eT>::const_row_iterator& SpMat<eT>::const_row_ite
 /**
  * Decrement the row_iterator.
  */
-template <typename eT>
-inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator--(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iterator::operator--(int) {
     typename SpMat<eT>::const_row_iterator tmp(*this);
 
     --(*this);
@@ -438,63 +396,34 @@ inline arma_hot typename SpMat<eT>::const_row_iterator SpMat<eT>::const_row_iter
     return tmp;
 }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_iterator& rhs) const {
-    return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_iterator& rhs) const { return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_iterator& rhs) const {
-    return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_iterator& rhs) const { return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const {
-    return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_iterator& rhs) const { return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const {
-    return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_iterator& rhs) const { return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_row_iterator& rhs) const {
-    return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const const_row_iterator& rhs) const { return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_row_iterator& rhs) const {
-    return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const const_row_iterator& rhs) const { return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const {
-    return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator==(const typename SpSubview<eT>::const_row_iterator& rhs) const { return (rhs.row() == row()) && (rhs.col() == iterator_base::internal_col); }
 
-template <typename eT>
-inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const {
-    return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col);
-}
+template <typename eT> inline arma_hot bool SpMat<eT>::const_row_iterator::operator!=(const typename SpSubview<eT>::const_row_iterator& rhs) const { return (rhs.row() != row()) || (rhs.col() != iterator_base::internal_col); }
 
 ///////////////////////////////////////////////////////////////////////////////
 // SpMat::row_iterator implementation                                        //
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename eT>
-inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::row_iterator::operator*() {
-    return SpValProxy<SpMat<eT>>(const_row_iterator::internal_row, iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[const_row_iterator::actual_pos]));
-}
+template <typename eT> inline arma_hot SpValProxy<SpMat<eT>> SpMat<eT>::row_iterator::operator*() { return SpValProxy<SpMat<eT>>(const_row_iterator::internal_row, iterator_base::internal_col, access::rw(*iterator_base::M), &access::rw(iterator_base::M->values[const_row_iterator::actual_pos])); }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator++() {
+template <typename eT> inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator++() {
     const_row_iterator::operator++();
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator++(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator++(int) {
     typename SpMat<eT>::row_iterator tmp(*this);
 
     const_row_iterator::operator++();
@@ -502,14 +431,12 @@ inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operat
     return tmp;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator--() {
+template <typename eT> inline arma_hot typename SpMat<eT>::row_iterator& SpMat<eT>::row_iterator::operator--() {
     const_row_iterator::operator--();
     return *this;
 }
 
-template <typename eT>
-inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator--(int) {
+template <typename eT> inline arma_hot typename SpMat<eT>::row_iterator SpMat<eT>::row_iterator::operator--(int) {
     typename SpMat<eT>::row_iterator tmp(*this);
 
     const_row_iterator::operator--();

@@ -25,8 +25,7 @@ inline xvec_htrans<eT>::xvec_htrans(const eT* const in_mem, const uword in_n_row
     arma_extra_debug_sigprint();
 }
 
-template <typename eT>
-inline void xvec_htrans<eT>::extract(Mat<eT>& out) const {
+template <typename eT> inline void xvec_htrans<eT>::extract(Mat<eT>& out) const {
     arma_extra_debug_sigprint();
 
     // NOTE: this function assumes that matrix 'out' has already been set to the correct
@@ -40,18 +39,11 @@ inline void xvec_htrans<eT>::extract(Mat<eT>& out) const {
     for(uword ii = 0; ii < N; ++ii) { out_mem[ii] = access::alt_conj(in_mem[ii]); }
 }
 
-template <typename eT>
-inline eT xvec_htrans<eT>::operator[](const uword ii) const {
-    return access::alt_conj(mem[ii]);
-}
+template <typename eT> inline eT xvec_htrans<eT>::operator[](const uword ii) const { return access::alt_conj(mem[ii]); }
 
-template <typename eT>
-inline eT xvec_htrans<eT>::at_alt(const uword ii) const {
-    return access::alt_conj(mem[ii]);
-}
+template <typename eT> inline eT xvec_htrans<eT>::at_alt(const uword ii) const { return access::alt_conj(mem[ii]); }
 
-template <typename eT>
-inline eT xvec_htrans<eT>::at(const uword in_row, const uword in_col) const {
+template <typename eT> inline eT xvec_htrans<eT>::at(const uword in_row, const uword in_col) const {
     // return (n_rows == 1) ? access::alt_conj( mem[in_col] ) : access::alt_conj(
     // mem[in_row] );
 

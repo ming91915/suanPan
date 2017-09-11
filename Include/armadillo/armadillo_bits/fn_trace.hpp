@@ -16,8 +16,7 @@
 //! \addtogroup fn_trace
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result trace(const T1& X) {
+template <typename T1> arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, typename T1::elem_type>::result trace(const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -40,8 +39,7 @@ arma_warn_unused arma_hot inline typename enable_if2<is_arma_type<T1>::value, ty
     return val1 + val2;
 }
 
-template <typename T1>
-arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_diagmat>& X) {
+template <typename T1> arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_diagmat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -57,8 +55,7 @@ arma_warn_unused arma_hot inline typename T1::elem_type trace(const Op<T1, op_di
     return val;
 }
 
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, const T2& XB) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, const T2& XB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -108,8 +105,7 @@ arma_hot inline typename T1::elem_type trace_mul_unwrap(const Proxy<T1>& PA, con
 }
 
 //! speedup for trace(A*B), where the result of A*B is a square sized matrix
-template <typename T1, typename T2>
-arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, const T2& XB) {
+template <typename T1, typename T2> arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, const T2& XB) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -157,8 +153,7 @@ arma_hot inline typename T1::elem_type trace_mul_proxy(const Proxy<T1>& PA, cons
 }
 
 //! speedup for trace(A*B), where the result of A*B is a square sized matrix
-template <typename T1, typename T2>
-arma_warn_unused arma_hot inline typename T1::elem_type trace(const Glue<T1, T2, glue_times>& X) {
+template <typename T1, typename T2> arma_warn_unused arma_hot inline typename T1::elem_type trace(const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> PA(X.A);
@@ -167,8 +162,7 @@ arma_warn_unused arma_hot inline typename T1::elem_type trace(const Glue<T1, T2,
 }
 
 //! trace of sparse object
-template <typename T1>
-arma_warn_unused arma_hot inline typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result trace(const T1& x) {
+template <typename T1> arma_warn_unused arma_hot inline typename enable_if2<is_arma_sparse_type<T1>::value, typename T1::elem_type>::result trace(const T1& x) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> p(x);

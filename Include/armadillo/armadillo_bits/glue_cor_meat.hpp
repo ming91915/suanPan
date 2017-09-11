@@ -16,8 +16,7 @@
 //! \addtogroup glue_cor
 //! @{
 
-template <typename eT>
-inline void glue_cor::direct_cor(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type) {
+template <typename eT> inline void glue_cor::direct_cor(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(A.is_empty() || B.is_empty()) {
@@ -71,8 +70,7 @@ inline void glue_cor::direct_cor(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& 
     }
 }
 
-template <typename T>
-inline void glue_cor::direct_cor(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<std::complex<T>>& B, const uword norm_type) {
+template <typename T> inline void glue_cor::direct_cor(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<std::complex<T>>& B, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -128,8 +126,7 @@ inline void glue_cor::direct_cor(Mat<std::complex<T>>& out, const Mat<std::compl
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_cor::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cor>& X) {
+template <typename T1, typename T2> inline void glue_cor::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_cor>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

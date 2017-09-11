@@ -23,9 +23,6 @@ inline GlueCube<T1, T2, glue_type>::GlueCube(const BaseCube<typename T1::elem_ty
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename T2, typename glue_type>
-inline GlueCube<T1, T2, glue_type>::~GlueCube() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename T2, typename glue_type> inline GlueCube<T1, T2, glue_type>::~GlueCube() { arma_extra_debug_sigprint(); }
 
 //! @}

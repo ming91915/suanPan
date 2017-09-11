@@ -20,8 +20,7 @@
 //! For each row or for each column, find the median value.
 //! The result is stored in a dense matrix that has either one column or one row.
 //! The dimension, for which the medians are found, is set via the median() function.
-template <typename T1>
-inline void op_median::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_median>& in) {
+template <typename T1> inline void op_median::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_median>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -113,8 +112,7 @@ inline void op_median::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_m
 }
 
 //! Implementation for complex numbers
-template <typename T, typename T1>
-inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in) {
+template <typename T, typename T1> inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -179,8 +177,7 @@ inline void op_median::apply(Mat<std::complex<T>>& out, const Op<T1, op_median>&
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -230,8 +227,7 @@ inline typename T1::elem_type op_median::median_vec(const T1& X, const typename 
     return op_median::direct_median(tmp_vec);
 }
 
-template <typename T1>
-inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type op_median::median_vec(const T1& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -300,8 +296,7 @@ inline typename T1::elem_type op_median::median_vec(const T1& X, const typename 
 }
 
 //! find the median value of a std::vector (contents is modified)
-template <typename eT>
-inline eT op_median::direct_median(std::vector<eT>& X) {
+template <typename eT> inline eT op_median::direct_median(std::vector<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword n_elem = uword(X.size());
@@ -328,8 +323,7 @@ inline eT op_median::direct_median(std::vector<eT>& X) {
     }
 }
 
-template <typename T>
-inline void op_median::direct_cx_median_index(uword& out_index1, uword& out_index2, std::vector<arma_cx_median_packet<T>>& X) {
+template <typename T> inline void op_median::direct_cx_median_index(uword& out_index1, uword& out_index2, std::vector<arma_cx_median_packet<T>>& X) {
     arma_extra_debug_sigprint();
 
     typedef arma_cx_median_packet<T> eT;

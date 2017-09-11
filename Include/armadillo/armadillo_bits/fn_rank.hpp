@@ -16,8 +16,7 @@
 //! \addtogroup fn_rank
 //! @{
 
-template <typename T1>
-arma_warn_unused inline uword rank(const Base<typename T1::elem_type, T1>& X, typename T1::pod_type tol = 0.0, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline uword rank(const Base<typename T1::elem_type, T1>& X, typename T1::pod_type tol = 0.0, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

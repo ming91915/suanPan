@@ -16,41 +16,29 @@
 //! \addtogroup eop_core
 //! @{
 
-template <typename eop_type>
-class eop_core {
+template <typename eop_type> class eop_core {
 public:
     // matrices
 
-    template <typename outT, typename T1>
-    arma_hot inline static void apply(outT& out, const eOp<T1, eop_type>& x);
+    template <typename outT, typename T1> arma_hot inline static void apply(outT& out, const eOp<T1, eop_type>& x);
 
-    template <typename T1>
-    arma_hot inline static void apply_inplace_plus(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_minus(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_schur(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_div(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_plus(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_minus(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_schur(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_div(Mat<typename T1::elem_type>& out, const eOp<T1, eop_type>& x);
 
     // cubes
 
-    template <typename T1>
-    arma_hot inline static void apply(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
 
-    template <typename T1>
-    arma_hot inline static void apply_inplace_plus(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_minus(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_schur(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
-    template <typename T1>
-    arma_hot inline static void apply_inplace_div(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_plus(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_minus(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_schur(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
+    template <typename T1> arma_hot inline static void apply_inplace_div(Cube<typename T1::elem_type>& out, const eOpCube<T1, eop_type>& x);
 
     // common
 
-    template <typename eT>
-    arma_hot arma_inline static eT process(const eT val, const eT k);
+    template <typename eT> arma_hot arma_inline static eT process(const eT val, const eT k);
 };
 
 struct eop_use_mp_true {

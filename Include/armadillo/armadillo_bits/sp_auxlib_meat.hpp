@@ -43,8 +43,7 @@ inline sp_auxlib::form_type sp_auxlib::interpret_form_str(const char* form_str) 
 }
 
 //! immediate eigendecomposition of symmetric real sparse object
-template <typename eT, typename T1>
-inline bool sp_auxlib::eigs_sym(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
+template <typename eT, typename T1> inline bool sp_auxlib::eigs_sym(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_NEWARP)
@@ -66,8 +65,7 @@ inline bool sp_auxlib::eigs_sym(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<e
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool sp_auxlib::eigs_sym_newarp(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
+template <typename eT, typename T1> inline bool sp_auxlib::eigs_sym_newarp(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_NEWARP)
@@ -153,8 +151,7 @@ inline bool sp_auxlib::eigs_sym_newarp(Col<eT>& eigval, Mat<eT>& eigvec, const S
 #endif
 }
 
-template <typename eT, typename T1>
-inline bool sp_auxlib::eigs_sym_arpack(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
+template <typename eT, typename T1> inline bool sp_auxlib::eigs_sym_arpack(Col<eT>& eigval, Mat<eT>& eigvec, const SpBase<eT, T1>& X, const uword n_eigvals, const char* form_str, const eT default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_ARPACK)
@@ -257,8 +254,7 @@ inline bool sp_auxlib::eigs_sym_arpack(Col<eT>& eigval, Mat<eT>& eigvec, const S
 }
 
 //! immediate eigendecomposition of non-symmetric real sparse object
-template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
+template <typename T, typename T1> inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_NEWARP)
@@ -280,8 +276,7 @@ inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T
 #endif
 }
 
-template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
+template <typename T, typename T1> inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_NEWARP)
@@ -382,8 +377,7 @@ inline bool sp_auxlib::eigs_gen_newarp(Col<std::complex<T>>& eigval, Mat<std::co
 #endif
 }
 
-template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
+template <typename T, typename T1> inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<T, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_ARPACK)
@@ -524,8 +518,7 @@ inline bool sp_auxlib::eigs_gen_arpack(Col<std::complex<T>>& eigval, Mat<std::co
 }
 
 //! immediate eigendecomposition of non-symmetric complex sparse object
-template <typename T, typename T1>
-inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<std::complex<T>, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
+template <typename T, typename T1> inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T>>& eigvec, const SpBase<std::complex<T>, T1>& X, const uword n_eigvals, const char* form_str, const T default_tol) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_ARPACK)
@@ -642,8 +635,7 @@ inline bool sp_auxlib::eigs_gen(Col<std::complex<T>>& eigval, Mat<std::complex<T
 #endif
 }
 
-template <typename T1, typename T2>
-inline bool sp_auxlib::spsolve_simple(Mat<typename T1::elem_type>& X, const SpBase<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr, const superlu_opts& user_opts) {
+template <typename T1, typename T2> inline bool sp_auxlib::spsolve_simple(Mat<typename T1::elem_type>& X, const SpBase<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr, const superlu_opts& user_opts) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_SUPERLU)
@@ -767,8 +759,7 @@ inline bool sp_auxlib::spsolve_simple(Mat<typename T1::elem_type>& X, const SpBa
 #endif
 }
 
-template <typename T1, typename T2>
-inline bool sp_auxlib::spsolve_refine(Mat<typename T1::elem_type>& X, typename T1::pod_type& out_rcond, const SpBase<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr, const superlu_opts& user_opts) {
+template <typename T1, typename T2> inline bool sp_auxlib::spsolve_refine(Mat<typename T1::elem_type>& X, typename T1::pod_type& out_rcond, const SpBase<typename T1::elem_type, T1>& A_expr, const Base<typename T1::elem_type, T2>& B_expr, const superlu_opts& user_opts) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_USE_SUPERLU)
@@ -981,8 +972,7 @@ inline void sp_auxlib::set_superlu_opts(superlu::superlu_options_t& options, con
     if(user_opts.refine == superlu_opts::REF_EXTRA) { options.IterRefine = superlu::SLU_EXTRA; }
 }
 
-template <typename eT>
-inline bool sp_auxlib::copy_to_supermatrix(superlu::SuperMatrix& out, const SpMat<eT>& A) {
+template <typename eT> inline bool sp_auxlib::copy_to_supermatrix(superlu::SuperMatrix& out, const SpMat<eT>& A) {
     arma_extra_debug_sigprint();
 
     // We store in column-major CSC.
@@ -1033,8 +1023,7 @@ inline bool sp_auxlib::copy_to_supermatrix(superlu::SuperMatrix& out, const SpMa
     return true;
 }
 
-template <typename eT>
-inline bool sp_auxlib::wrap_to_supermatrix(superlu::SuperMatrix& out, const Mat<eT>& A) {
+template <typename eT> inline bool sp_auxlib::wrap_to_supermatrix(superlu::SuperMatrix& out, const Mat<eT>& A) {
     arma_extra_debug_sigprint();
 
     // NOTE: this function re-uses memory from matrix A
@@ -1113,8 +1102,7 @@ inline void sp_auxlib::destroy_supermatrix(superlu::SuperMatrix& out) {
 
 #endif
 
-template <typename eT, typename T, typename T1>
-inline void sp_auxlib::run_aupd(const uword n_eigvals, char* which, const SpProxy<T1>& p, const bool sym, blas_int& n, eT& tol, podarray<T>& resid, blas_int& ncv, podarray<T>& v, blas_int& ldv, podarray<blas_int>& iparam, podarray<blas_int>& ipntr, podarray<T>& workd, podarray<T>& workl, blas_int& lworkl, podarray<eT>& rwork, blas_int& info) {
+template <typename eT, typename T, typename T1> inline void sp_auxlib::run_aupd(const uword n_eigvals, char* which, const SpProxy<T1>& p, const bool sym, blas_int& n, eT& tol, podarray<T>& resid, blas_int& ncv, podarray<T>& v, blas_int& ldv, podarray<blas_int>& iparam, podarray<blas_int>& ipntr, podarray<T>& workd, podarray<T>& workl, blas_int& lworkl, podarray<eT>& rwork, blas_int& info) {
 #if defined(ARMA_USE_ARPACK)
     {
         // ARPACK provides a "reverse communication interface" which is an

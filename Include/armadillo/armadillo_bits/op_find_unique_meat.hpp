@@ -16,8 +16,7 @@
 //! \addtogroup op_find_unique
 //! @{
 
-template <typename T1>
-inline bool op_find_unique::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const bool ascending_indices) {
+template <typename T1> inline bool op_find_unique::apply_helper(Mat<uword>& out, const Proxy<T1>& P, const bool ascending_indices) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -94,8 +93,7 @@ inline bool op_find_unique::apply_helper(Mat<uword>& out, const Proxy<T1>& P, co
     return true;
 }
 
-template <typename T1>
-inline void op_find_unique::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_unique>& in) {
+template <typename T1> inline void op_find_unique::apply(Mat<uword>& out, const mtOp<uword, T1, op_find_unique>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);

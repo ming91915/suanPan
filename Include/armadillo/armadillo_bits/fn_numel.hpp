@@ -16,8 +16,7 @@
 //! \addtogroup fn_numel
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, uword>::result numel(const T1& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, uword>::result numel(const T1& X) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(X);
@@ -25,8 +24,7 @@ arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, uword>::res
     return P.get_n_elem();
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_cube_type<T1>::value, uword>::result numel(const T1& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_cube_type<T1>::value, uword>::result numel(const T1& X) {
     arma_extra_debug_sigprint();
 
     const ProxyCube<T1> P(X);
@@ -34,8 +32,7 @@ arma_warn_unused inline typename enable_if2<is_arma_cube_type<T1>::value, uword>
     return P.get_n_elem();
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value, uword>::result numel(const T1& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value, uword>::result numel(const T1& X) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> P(X);
@@ -43,15 +40,13 @@ arma_warn_unused inline typename enable_if2<is_arma_sparse_type<T1>::value, uwor
     return P.get_n_elem();
 }
 
-template <typename oT>
-arma_warn_unused inline uword numel(const field<oT>& X) {
+template <typename oT> arma_warn_unused inline uword numel(const field<oT>& X) {
     arma_extra_debug_sigprint();
 
     return X.n_elem;
 }
 
-template <typename oT>
-arma_warn_unused inline uword numel(const subview_field<oT>& X) {
+template <typename oT> arma_warn_unused inline uword numel(const subview_field<oT>& X) {
     arma_extra_debug_sigprint();
 
     return X.n_elem;

@@ -18,10 +18,7 @@
 
 arma_warn_unused inline double randu() { return arma_rng::randu<double>(); }
 
-template <typename eT>
-arma_warn_unused inline typename arma_scalar_only<eT>::result randu() {
-    return eT(arma_rng::randu<eT>());
-}
+template <typename eT> arma_warn_unused inline typename arma_scalar_only<eT>::result randu() { return eT(arma_rng::randu<eT>()); }
 
 //! Generate a vector with all elements set to random values in the [0,1] interval
 //! (uniform distribution)
@@ -31,8 +28,7 @@ arma_warn_unused arma_inline const Gen<vec, gen_randu> randu(const uword n_elem)
     return Gen<vec, gen_randu>(n_elem, 1);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const uword n_elem, const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const uword n_elem, const arma_empty_class junk1 = arma_empty_class(), const typename arma_Mat_Col_Row_only<obj_type>::result* junk2 = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -58,8 +54,7 @@ arma_warn_unused arma_inline const Gen<mat, gen_randu> randu(const SizeMat& s) {
     return Gen<mat, gen_randu>(s.n_rows, s.n_cols);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const uword n_rows, const uword n_cols, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -72,8 +67,7 @@ arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const uword n_
     return Gen<obj_type, gen_randu>(n_rows, n_cols);
 }
 
-template <typename obj_type>
-arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
+template <typename obj_type> arma_warn_unused arma_inline const Gen<obj_type, gen_randu> randu(const SizeMat& s, const typename arma_Mat_Col_Row_only<obj_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -92,16 +86,14 @@ arma_warn_unused arma_inline const GenCube<cube::elem_type, gen_randu> randu(con
     return GenCube<cube::elem_type, gen_randu>(s.n_rows, s.n_cols, s.n_slices);
 }
 
-template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_randu> randu(const uword n_rows, const uword n_cols, const uword n_slices, const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_randu> randu(const uword n_rows, const uword n_cols, const uword n_slices, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
     return GenCube<typename cube_type::elem_type, gen_randu>(n_rows, n_cols, n_slices);
 }
 
-template <typename cube_type>
-arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_randu> randu(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0) {
+template <typename cube_type> arma_warn_unused arma_inline const GenCube<typename cube_type::elem_type, gen_randu> randu(const SizeCube& s, const typename arma_Cube_only<cube_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

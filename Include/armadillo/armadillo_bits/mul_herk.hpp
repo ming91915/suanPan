@@ -18,8 +18,7 @@
 
 class herk_helper {
 public:
-    template <typename eT>
-    inline static void inplace_conj_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
+    template <typename eT> inline static void inplace_conj_copy_upper_tri_to_lower_tri(Mat<eT>& C) {
         // under the assumption that C is a square matrix
 
         const uword N = C.n_rows;
@@ -31,8 +30,7 @@ public:
         }
     }
 
-    template <typename eT>
-    static arma_hot inline eT dot_conj_row(const uword n_elem, const eT* const A, const Mat<eT>& B, const uword row) {
+    template <typename eT> static arma_hot inline eT dot_conj_row(const uword n_elem, const eT* const A, const Mat<eT>& B, const uword row) {
         arma_extra_debug_sigprint();
 
         typedef typename get_pod_type<eT>::result T;
@@ -58,11 +56,9 @@ public:
     }
 };
 
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class herk_vec {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class herk_vec {
 public:
-    template <typename T, typename TA>
-    arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
+    template <typename T, typename TA> arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         typedef std::complex<T> eT;
@@ -161,11 +157,9 @@ public:
     }
 };
 
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class herk_emul {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class herk_emul {
 public:
-    template <typename T, typename TA>
-    arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
+    template <typename T, typename TA> arma_hot inline static void apply(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         typedef std::complex<T> eT;
@@ -214,11 +208,9 @@ public:
     }
 };
 
-template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false>
-class herk {
+template <const bool do_trans_A = false, const bool use_alpha = false, const bool use_beta = false> class herk {
 public:
-    template <typename T, typename TA>
-    inline static void apply_blas_type(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
+    template <typename T, typename TA> inline static void apply_blas_type(Mat<std::complex<T>>& C, const TA& A, const T alpha = T(1), const T beta = T(0)) {
         arma_extra_debug_sigprint();
 
         const uword threshold = 16;
@@ -303,8 +295,7 @@ public:
         }
     }
 
-    template <typename eT, typename TA>
-    inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_not_cx<eT>::result* junk = 0) {
+    template <typename eT, typename TA> inline static void apply(Mat<eT>& C, const TA& A, const eT alpha = eT(1), const eT beta = eT(0), const typename arma_not_cx<eT>::result* junk = 0) {
         arma_ignore(C);
         arma_ignore(A);
         arma_ignore(alpha);
@@ -316,15 +307,9 @@ public:
         return;
     }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) {
-        herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
-    }
+    template <typename TA> arma_inline static void apply(Mat<std::complex<float>>& C, const TA& A, const float alpha = float(1), const float beta = float(0)) { herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta); }
 
-    template <typename TA>
-    arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) {
-        herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta);
-    }
+    template <typename TA> arma_inline static void apply(Mat<std::complex<double>>& C, const TA& A, const double alpha = double(1), const double beta = double(0)) { herk<do_trans_A, use_alpha, use_beta>::apply_blas_type(C, A, alpha, beta); }
 };
 
 //! @}

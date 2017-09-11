@@ -16,8 +16,7 @@
 //! \addtogroup spop_var
 //! @{
 
-template <typename T1>
-inline void spop_var::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_var>& in) {
+template <typename T1> inline void spop_var::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<typename T1::pod_type, T1, spop_var>& in) {
     arma_extra_debug_sigprint();
 
     // typedef typename T1::elem_type  in_eT;
@@ -42,8 +41,7 @@ inline void spop_var::apply(SpMat<typename T1::pod_type>& out, const mtSpOp<type
     }
 }
 
-template <typename T1>
-inline void spop_var::apply_noalias(SpMat<typename T1::pod_type>& out, const SpProxy<T1>& p, const uword norm_type, const uword dim) {
+template <typename T1> inline void spop_var::apply_noalias(SpMat<typename T1::pod_type>& out, const SpProxy<T1>& p, const uword norm_type, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type in_eT;
@@ -99,8 +97,7 @@ inline void spop_var::apply_noalias(SpMat<typename T1::pod_type>& out, const SpP
     }
 }
 
-template <typename T1>
-inline typename T1::pod_type spop_var::var_vec(const T1& X, const uword norm_type) {
+template <typename T1> inline typename T1::pod_type spop_var::var_vec(const T1& X, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((norm_type > 1), "var(): parameter 'norm_type' must be 0 or 1");
@@ -112,8 +109,7 @@ inline typename T1::pod_type spop_var::var_vec(const T1& X, const uword norm_typ
     return direct_var(tmp.M.values, tmp.M.n_nonzero, tmp.M.n_elem, norm_type);
 }
 
-template <typename eT>
-inline eT spop_var::direct_var(const eT* const X, const uword length, const uword N, const uword norm_type) {
+template <typename eT> inline eT spop_var::direct_var(const eT* const X, const uword length, const uword N, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     if(length >= 2 && N >= 2) {
@@ -169,8 +165,7 @@ inline eT spop_var::direct_var(const eT* const X, const uword length, const uwor
     }
 }
 
-template <typename T>
-inline T spop_var::direct_var(const std::complex<T>* const X, const uword length, const uword N, const uword norm_type) {
+template <typename T> inline T spop_var::direct_var(const std::complex<T>* const X, const uword length, const uword N, const uword norm_type) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -213,8 +208,7 @@ inline T spop_var::direct_var(const std::complex<T>* const X, const uword length
     }
 }
 
-template <typename T1, typename eT>
-inline eT spop_var::iterator_var(T1& it, const T1& end, const uword n_zero, const uword norm_type, const eT junk1, const typename arma_not_cx<eT>::result* junk2) {
+template <typename T1, typename eT> inline eT spop_var::iterator_var(T1& it, const T1& end, const uword n_zero, const uword norm_type, const eT junk1, const typename arma_not_cx<eT>::result* junk2) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);
@@ -254,8 +248,7 @@ inline eT spop_var::iterator_var(T1& it, const T1& end, const uword n_zero, cons
     return var_val;
 }
 
-template <typename T1, typename eT>
-inline typename get_pod_type<eT>::result spop_var::iterator_var(T1& it, const T1& end, const uword n_zero, const uword norm_type, const eT junk1, const typename arma_cx_only<eT>::result* junk2) {
+template <typename T1, typename eT> inline typename get_pod_type<eT>::result spop_var::iterator_var(T1& it, const T1& end, const uword n_zero, const uword norm_type, const eT junk1, const typename arma_cx_only<eT>::result* junk2) {
     arma_extra_debug_sigprint();
     arma_ignore(junk1);
     arma_ignore(junk2);

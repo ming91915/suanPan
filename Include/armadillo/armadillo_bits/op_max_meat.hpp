@@ -16,8 +16,7 @@
 //! \addtogroup op_max
 //! @{
 
-template <typename T1>
-inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>& in) {
+template <typename T1> inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -39,8 +38,7 @@ inline void op_max::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_max>
     }
 }
 
-template <typename eT>
-inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -80,8 +78,7 @@ inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword di
     }
 }
 
-template <typename eT>
-inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -111,8 +108,7 @@ inline void op_max::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword di
     }
 }
 
-template <typename T1>
-inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_max>& in) {
+template <typename T1> inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op_max>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -134,8 +130,7 @@ inline void op_max::apply(Cube<typename T1::elem_type>& out, const OpCube<T1, op
     }
 }
 
-template <typename eT>
-inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -202,8 +197,7 @@ inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword 
     }
 }
 
-template <typename eT>
-inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword dim, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -262,8 +256,7 @@ inline void op_max::apply_noalias(Cube<eT>& out, const Cube<eT>& X, const uword 
     }
 }
 
-template <typename eT>
-inline eT op_max::direct_max(const eT* const X, const uword n_elem) {
+template <typename eT> inline eT op_max::direct_max(const eT* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     eT max_val = priv::most_neg<eT>();
@@ -286,8 +279,7 @@ inline eT op_max::direct_max(const eT* const X, const uword n_elem) {
     return max_val;
 }
 
-template <typename eT>
-inline eT op_max::direct_max(const eT* const X, const uword n_elem, uword& index_of_max_val) {
+template <typename eT> inline eT op_max::direct_max(const eT* const X, const uword n_elem, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     eT max_val = priv::most_neg<eT>();
@@ -324,8 +316,7 @@ inline eT op_max::direct_max(const eT* const X, const uword n_elem, uword& index
     return max_val;
 }
 
-template <typename eT>
-inline eT op_max::direct_max(const Mat<eT>& X, const uword row) {
+template <typename eT> inline eT op_max::direct_max(const Mat<eT>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     const uword X_n_cols = X.n_cols;
@@ -350,8 +341,7 @@ inline eT op_max::direct_max(const Mat<eT>& X, const uword row) {
     return max_val;
 }
 
-template <typename eT>
-inline eT op_max::max(const subview<eT>& X) {
+template <typename eT> inline eT op_max::max(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     if(X.n_elem == 0) {
@@ -394,8 +384,7 @@ inline eT op_max::max(const subview<eT>& X) {
     return max_val;
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -474,8 +463,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const Ba
     return max_val;
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -529,8 +517,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max(const Ba
     return max_val;
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -603,8 +590,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_ind
     return best_val;
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -659,8 +645,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result op_max::max_with_ind
     return best_val;
 }
 
-template <typename T>
-inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem) {
+template <typename T> inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem) {
     arma_extra_debug_sigprint();
 
     uword index = 0;
@@ -678,8 +663,7 @@ inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const 
     return X[index];
 }
 
-template <typename T>
-inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem, uword& index_of_max_val) {
+template <typename T> inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const uword n_elem, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     uword index = 0;
@@ -699,8 +683,7 @@ inline std::complex<T> op_max::direct_max(const std::complex<T>* const X, const 
     return X[index];
 }
 
-template <typename T>
-inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const uword row) {
+template <typename T> inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const uword row) {
     arma_extra_debug_sigprint();
 
     const uword X_n_cols = X.n_cols;
@@ -720,8 +703,7 @@ inline std::complex<T> op_max::direct_max(const Mat<std::complex<T>>& X, const u
     return X.at(row, index);
 }
 
-template <typename T>
-inline std::complex<T> op_max::max(const subview<std::complex<T>>& X) {
+template <typename T> inline std::complex<T> op_max::max(const subview<std::complex<T>>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -777,8 +759,7 @@ inline std::complex<T> op_max::max(const subview<std::complex<T>>& X) {
     return A.at(best_row, best_col);
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -847,8 +828,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const B
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -906,8 +886,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result op_max::max(const B
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const Proxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -998,8 +977,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_in
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result op_max::max_with_index(const ProxyCube<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

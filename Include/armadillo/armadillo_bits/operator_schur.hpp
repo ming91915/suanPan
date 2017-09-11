@@ -20,8 +20,7 @@
 
 //! element-wise multiplication of user-accessible Armadillo objects with same element
 //! type
-template <typename T1, typename T2>
-arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value, const eGlue<T1, T2, eglue_schur>>::result operator%(const T1& X, const T2& Y) {
+template <typename T1, typename T2> arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value, const eGlue<T1, T2, eglue_schur>>::result operator%(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     return eGlue<T1, T2, eglue_schur>(X, Y);
@@ -29,8 +28,7 @@ arma_inline typename enable_if2<is_arma_type<T1>::value && is_arma_type<T2>::val
 
 //! element-wise multiplication of user-accessible Armadillo objects with different
 //! element types
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)), const mtGlue<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result, T1, T2, glue_mixed_schur>>::result operator%(const T1& X, const T2& Y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value && (is_same_type<typename T1::elem_type, typename T2::elem_type>::no)), const mtGlue<typename promote_type<typename T1::elem_type, typename T2::elem_type>::result, T1, T2, glue_mixed_schur>>::result operator%(const T1& X, const T2& Y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT1;
@@ -44,8 +42,7 @@ inline typename enable_if2<(is_arma_type<T1>::value && is_arma_type<T2>::value &
 }
 
 //! element-wise multiplication of two sparse matrices
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const SpBase<typename T1::elem_type, T1>& x, const SpBase<typename T2::elem_type, T2>& y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const SpBase<typename T1::elem_type, T1>& x, const SpBase<typename T2::elem_type, T2>& y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -106,8 +103,7 @@ inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_sparse_typ
 }
 
 //! element-wise multiplication of one dense and one sparse object
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const T1& x, const T2& y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -161,37 +157,32 @@ inline typename enable_if2<(is_arma_type<T1>::value && is_arma_sparse_type<T2>::
 }
 
 //! element-wise multiplication of one sparse and one dense object
-template <typename T1, typename T2>
-inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const T1& x, const T2& y) {
+template <typename T1, typename T2> inline typename enable_if2<(is_arma_sparse_type<T1>::value && is_arma_type<T2>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), SpMat<typename T1::elem_type>>::result operator%(const T1& x, const T2& y) {
     arma_extra_debug_sigprint();
 
     // This operation is commutative.
     return (y % x);
 }
 
-template <typename parent, unsigned int mode, typename T2>
-inline Mat<typename parent::elem_type> operator%(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename T2> inline Mat<typename parent::elem_type> operator%(const subview_each1<parent, mode>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each1_aux::operator_schur(X, Y.get_ref());
 }
 
-template <typename T1, typename parent, unsigned int mode>
-arma_inline Mat<typename parent::elem_type> operator%(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
+template <typename T1, typename parent, unsigned int mode> arma_inline Mat<typename parent::elem_type> operator%(const Base<typename parent::elem_type, T1>& X, const subview_each1<parent, mode>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each1_aux::operator_schur(Y, X.get_ref()); // NOTE: swapped order
 }
 
-template <typename parent, unsigned int mode, typename TB, typename T2>
-inline Mat<typename parent::elem_type> operator%(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
+template <typename parent, unsigned int mode, typename TB, typename T2> inline Mat<typename parent::elem_type> operator%(const subview_each2<parent, mode, TB>& X, const Base<typename parent::elem_type, T2>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each2_aux::operator_schur(X, Y.get_ref());
 }
 
-template <typename T1, typename parent, unsigned int mode, typename TB>
-arma_inline Mat<typename parent::elem_type> operator%(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
+template <typename T1, typename parent, unsigned int mode, typename TB> arma_inline Mat<typename parent::elem_type> operator%(const Base<typename parent::elem_type, T1>& X, const subview_each2<parent, mode, TB>& Y) {
     arma_extra_debug_sigprint();
 
     return subview_each2_aux::operator_schur(Y, X.get_ref()); // NOTE: swapped order

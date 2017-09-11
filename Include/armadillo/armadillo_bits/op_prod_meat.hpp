@@ -16,8 +16,7 @@
 //! \addtogroup op_prod
 //! @{
 
-template <typename eT>
-inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
+template <typename eT> inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     const uword X_n_rows = X.n_rows;
@@ -44,8 +43,7 @@ inline void op_prod::apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword d
     }
 }
 
-template <typename T1>
-inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in) {
+template <typename T1> inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -67,8 +65,7 @@ inline void op_prod::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_pro
     }
 }
 
-template <typename eT>
-inline eT op_prod::prod(const subview<eT>& X) {
+template <typename eT> inline eT op_prod::prod(const subview<eT>& X) {
     arma_extra_debug_sigprint();
 
     eT val = eT(1);
@@ -98,8 +95,7 @@ inline eT op_prod::prod(const subview<eT>& X) {
     return val;
 }
 
-template <typename T1>
-inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename T1::elem_type op_prod::prod(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

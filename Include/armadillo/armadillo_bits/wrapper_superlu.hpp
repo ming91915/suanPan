@@ -18,8 +18,7 @@
 //! \namespace superlu namespace for SuperLU functions
 namespace superlu {
 
-template <typename eT>
-inline void gssv(superlu_options_t* options, SuperMatrix* A, int* perm_c, int* perm_r, SuperMatrix* L, SuperMatrix* U, SuperMatrix* B, SuperLUStat_t* stat, int* info) {
+template <typename eT> inline void gssv(superlu_options_t* options, SuperMatrix* A, int* perm_c, int* perm_r, SuperMatrix* L, SuperMatrix* U, SuperMatrix* B, SuperLUStat_t* stat, int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -33,8 +32,7 @@ inline void gssv(superlu_options_t* options, SuperMatrix* A, int* perm_c, int* p
     }
 }
 
-template <typename eT>
-inline void gssvx(superlu_options_t* opts, SuperMatrix* A, int* perm_c, int* perm_r, int* etree, char* equed, typename get_pod_type<eT>::result* R, typename get_pod_type<eT>::result* C, SuperMatrix* L, SuperMatrix* U, void* work, int lwork, SuperMatrix* B, SuperMatrix* X, typename get_pod_type<eT>::result* rpg, typename get_pod_type<eT>::result* rcond, typename get_pod_type<eT>::result* ferr, typename get_pod_type<eT>::result* berr, GlobalLU_t* glu, mem_usage_t* mu, SuperLUStat_t* stat, int* info) {
+template <typename eT> inline void gssvx(superlu_options_t* opts, SuperMatrix* A, int* perm_c, int* perm_r, int* etree, char* equed, typename get_pod_type<eT>::result* R, typename get_pod_type<eT>::result* C, SuperMatrix* L, SuperMatrix* U, void* work, int lwork, SuperMatrix* B, SuperMatrix* X, typename get_pod_type<eT>::result* rpg, typename get_pod_type<eT>::result* rcond, typename get_pod_type<eT>::result* ferr, typename get_pod_type<eT>::result* berr, GlobalLU_t* glu, mem_usage_t* mu, SuperLUStat_t* stat, int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {

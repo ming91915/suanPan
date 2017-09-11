@@ -16,8 +16,7 @@
 //! \addtogroup glue_atan2
 //! @{
 
-template <typename T1, typename T2>
-inline void glue_atan2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_atan2>& expr) {
+template <typename T1, typename T2> inline void glue_atan2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_atan2>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -40,8 +39,7 @@ inline void glue_atan2::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2) {
+template <typename T1, typename T2> inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -88,8 +86,7 @@ inline void glue_atan2::apply_noalias(Mat<typename T1::elem_type>& out, const Pr
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_atan2::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_atan2>& expr) {
+template <typename T1, typename T2> inline void glue_atan2::apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_atan2>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -112,8 +109,7 @@ inline void glue_atan2::apply(Cube<typename T1::elem_type>& out, const GlueCube<
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2) {
+template <typename T1, typename T2> inline void glue_atan2::apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

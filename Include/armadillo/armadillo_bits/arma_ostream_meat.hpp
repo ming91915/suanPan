@@ -32,8 +32,7 @@ inline void arma_ostream_state::restore(std::ostream& o) const {
 //
 //
 
-template <typename eT>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem) {
+template <typename eT> inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const eT* data, const uword n_elem) {
     o.unsetf(ios::showbase);
     o.unsetf(ios::uppercase);
     o.unsetf(ios::showpos);
@@ -102,8 +101,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const eT* da
 }
 
 //! "better than nothing" settings for complex numbers
-template <typename T>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const std::complex<T>* data, const uword n_elem) {
+template <typename T> inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const std::complex<T>* data, const uword n_elem) {
     arma_ignore(data);
     arma_ignore(n_elem);
 
@@ -124,8 +122,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o, const std::c
     return cell_width;
 }
 
-template <typename eT>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<eT>::const_iterator begin, const uword n_elem, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<eT>::const_iterator begin, const uword n_elem, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -175,8 +172,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpM
 }
 
 //! "better than nothing" settings for complex numbers
-template <typename T>
-inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<T>::const_iterator begin, const uword n_elem, const typename arma_cx_only<T>::result* junk) {
+template <typename T> inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpMat<T>::const_iterator begin, const uword n_elem, const typename arma_cx_only<T>::result* junk) {
     arma_ignore(begin);
     arma_ignore(n_elem);
     arma_ignore(junk);
@@ -198,8 +194,7 @@ inline std::streamsize arma_ostream::modify_stream(std::ostream& o, typename SpM
     return cell_width;
 }
 
-template <typename eT>
-inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify) {
+template <typename eT> inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify) {
     if(modify == true) {
         const ios::fmtflags save_flags = o.flags();
         const std::streamsize save_precision = o.precision();
@@ -218,8 +213,7 @@ inline void arma_ostream::print_elem_zero(std::ostream& o, const bool modify) {
 }
 
 //! Print an element to the specified stream
-template <typename eT>
-arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bool modify) {
+template <typename eT> arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bool modify) {
     if(is_signed<eT>::value) {
         typedef typename promote_type<eT, s16>::result promoted_eT;
 
@@ -244,8 +238,7 @@ arma_inline void arma_ostream::print_elem(std::ostream& o, const eT& x, const bo
 }
 
 //! Print a complex element to the specified stream
-template <typename T>
-inline void arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, const bool modify) {
+template <typename T> inline void arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, const bool modify) {
     if((x.real() != T(0)) || (x.imag() != T(0)) || (modify == false)) {
         std::ostringstream ss;
         ss.flags(o.flags());
@@ -281,8 +274,7 @@ inline void arma_ostream::print_elem(std::ostream& o, const std::complex<T>& x, 
 }
 
 //! Print a matrix to the specified stream
-template <typename eT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const Mat<eT>& m, const bool modify) {
+template <typename eT> arma_cold inline void arma_ostream::print(std::ostream& o, const Mat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -327,8 +319,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const Mat<eT>& m, con
 }
 
 //! Print a cube to the specified stream
-template <typename eT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const Cube<eT>& x, const bool modify) {
+template <typename eT> arma_cold inline void arma_ostream::print(std::ostream& o, const Cube<eT>& x, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -351,8 +342,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const Cube<eT>& x, co
 //! Print a field to the specified stream
 //! Assumes type oT can be printed, i.e. oT has std::ostream& operator<< (std::ostream&,
 //! const oT&)
-template <typename oT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x) {
+template <typename oT> arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -404,8 +394,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const field<oT>& x) {
 //! Print a subfield to the specified stream
 //! Assumes type oT can be printed, i.e. oT has std::ostream& operator<< (std::ostream&,
 //! const oT&)
-template <typename oT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<oT>& x) {
+template <typename oT> arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<oT>& x) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -453,8 +442,7 @@ arma_cold inline void arma_ostream::print(std::ostream& o, const subview_field<o
     stream_state.restore(o);
 }
 
-template <typename eT>
-arma_cold inline void arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify) {
+template <typename eT> arma_cold inline void arma_ostream::print_dense(std::ostream& o, const SpMat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);
@@ -534,8 +522,7 @@ arma_cold inline void arma_ostream::print_dense(std::ostream& o, const SpMat<eT>
     stream_state.restore(o);
 }
 
-template <typename eT>
-arma_cold inline void arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify) {
+template <typename eT> arma_cold inline void arma_ostream::print(std::ostream& o, const SpMat<eT>& m, const bool modify) {
     arma_extra_debug_sigprint();
 
     const arma_ostream_state stream_state(o);

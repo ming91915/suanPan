@@ -20,19 +20,15 @@ class glue_atan2 {
 public:
     // matrices
 
-    template <typename T1, typename T2>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_atan2>& expr);
+    template <typename T1, typename T2> inline static void apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_atan2>& expr);
 
-    template <typename T1, typename T2>
-    inline static void apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2);
+    template <typename T1, typename T2> inline static void apply_noalias(Mat<typename T1::elem_type>& out, const Proxy<T1>& P1, const Proxy<T2>& P2);
 
     // cubes
 
-    template <typename T1, typename T2>
-    inline static void apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_atan2>& expr);
+    template <typename T1, typename T2> inline static void apply(Cube<typename T1::elem_type>& out, const GlueCube<T1, T2, glue_atan2>& expr);
 
-    template <typename T1, typename T2>
-    inline static void apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2);
+    template <typename T1, typename T2> inline static void apply_noalias(Cube<typename T1::elem_type>& out, const ProxyCube<T1>& P1, const ProxyCube<T2>& P2);
 };
 
 //! @}

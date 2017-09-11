@@ -19,8 +19,7 @@
 //
 // glue_solve_gen
 
-template <typename T1, typename T2>
-inline void glue_solve_gen::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_solve_gen>& X) {
+template <typename T1, typename T2> inline void glue_solve_gen::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_solve_gen>& X) {
     arma_extra_debug_sigprint();
 
     const bool status = glue_solve_gen::apply(out, X.A, X.B, X.aux_uword);
@@ -28,8 +27,7 @@ inline void glue_solve_gen::apply(Mat<typename T1::elem_type>& out, const Glue<T
     if(status == false) { arma_stop_runtime_error("solve(): solution not found"); }
 }
 
-template <typename eT, typename T1, typename T2>
-inline bool glue_solve_gen::apply(Mat<eT>& out, const Base<eT, T1>& A_expr, const Base<eT, T2>& B_expr, const uword flags) {
+template <typename eT, typename T1, typename T2> inline bool glue_solve_gen::apply(Mat<eT>& out, const Base<eT, T1>& A_expr, const Base<eT, T2>& B_expr, const uword flags) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -102,8 +100,7 @@ inline bool glue_solve_gen::apply(Mat<eT>& out, const Base<eT, T1>& A_expr, cons
 //
 // glue_solve_tri
 
-template <typename T1, typename T2>
-inline void glue_solve_tri::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_solve_tri>& X) {
+template <typename T1, typename T2> inline void glue_solve_tri::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_solve_tri>& X) {
     arma_extra_debug_sigprint();
 
     const bool status = glue_solve_tri::apply(out, X.A, X.B, X.aux_uword);
@@ -111,8 +108,7 @@ inline void glue_solve_tri::apply(Mat<typename T1::elem_type>& out, const Glue<T
     if(status == false) { arma_stop_runtime_error("solve(): solution not found"); }
 }
 
-template <typename eT, typename T1, typename T2>
-inline bool glue_solve_tri::apply(Mat<eT>& out, const Base<eT, T1>& A_expr, const Base<eT, T2>& B_expr, const uword flags) {
+template <typename eT, typename T1, typename T2> inline bool glue_solve_tri::apply(Mat<eT>& out, const Base<eT, T1>& A_expr, const Base<eT, T2>& B_expr, const uword flags) {
     arma_extra_debug_sigprint();
 
     const bool fast = bool(flags & solve_opts::flag_fast);

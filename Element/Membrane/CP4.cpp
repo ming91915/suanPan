@@ -1,6 +1,6 @@
 #include "CP4.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunctionQuad.h>
+#include <Toolbox/shapeFunction.h>
 
 const unsigned CP4::m_node = 4;
 const unsigned CP4::m_dof = 2;

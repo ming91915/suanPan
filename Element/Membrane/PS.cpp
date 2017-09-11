@@ -1,6 +1,6 @@
 #include "PS.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunctionQuad.h>
+#include <Toolbox/shapeFunction.h>
 
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;

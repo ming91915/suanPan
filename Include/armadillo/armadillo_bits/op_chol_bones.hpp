@@ -18,8 +18,7 @@
 
 class op_chol {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_chol>& X);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_chol>& X);
 };
 
 //! @}

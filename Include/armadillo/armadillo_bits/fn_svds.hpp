@@ -16,8 +16,7 @@
 //! \addtogroup fn_svds
 //! @{
 
-template <typename T1>
-inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_real_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -105,8 +104,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_typ
     return true;
 }
 
-template <typename T1>
-inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol, const bool calc_UV, const typename arma_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -204,8 +202,7 @@ inline bool svds_helper(Mat<typename T1::elem_type>& U, Col<typename T1::pod_typ
 
 //! find the k largest singular values and corresponding singular vectors of sparse matrix
 //! X
-template <typename T1>
-inline bool svds(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svds(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, Mat<typename T1::elem_type>& V, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -217,8 +214,7 @@ inline bool svds(Mat<typename T1::elem_type>& U, Col<typename T1::pod_type>& S, 
 }
 
 //! find the k largest singular values of sparse matrix X
-template <typename T1>
-inline bool svds(Col<typename T1::pod_type>& S, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool svds(Col<typename T1::pod_type>& S, const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -233,8 +229,7 @@ inline bool svds(Col<typename T1::pod_type>& S, const SpBase<typename T1::elem_t
 }
 
 //! find the k largest singular values of sparse matrix X
-template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> svds(const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Col<typename T1::pod_type> svds(const SpBase<typename T1::elem_type, T1>& X, const uword k, const typename T1::pod_type tol = 0.0, const typename arma_real_or_cx_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

@@ -18,8 +18,7 @@
 
 //! Class for row vectors (matrices with only one row)
 
-template <typename eT>
-class Row : public Mat<eT> {
+template <typename eT> class Row : public Mat<eT> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<eT>::result pod_type;
@@ -33,12 +32,9 @@ public:
     inline explicit Row(const uword in_rows, const uword in_cols);
     inline explicit Row(const SizeMat& s);
 
-    template <typename fill_type>
-    inline Row(const uword n_elem, const fill::fill_class<fill_type>& f);
-    template <typename fill_type>
-    inline Row(const uword in_rows, const uword in_cols, const fill::fill_class<fill_type>& f);
-    template <typename fill_type>
-    inline Row(const SizeMat& s, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> inline Row(const uword n_elem, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> inline Row(const uword in_rows, const uword in_cols, const fill::fill_class<fill_type>& f);
+    template <typename fill_type> inline Row(const SizeMat& s, const fill::fill_class<fill_type>& f);
 
     inline Row(const char* text);
     inline Row& operator=(const char* text);
@@ -62,21 +58,16 @@ public:
     inline Row& operator=(const eT val);
     inline Row& operator=(const Row& X);
 
-    template <typename T1>
-    inline Row(const Base<eT, T1>& X);
-    template <typename T1>
-    inline Row& operator=(const Base<eT, T1>& X);
+    template <typename T1> inline Row(const Base<eT, T1>& X);
+    template <typename T1> inline Row& operator=(const Base<eT, T1>& X);
 
     inline Row(eT* aux_mem, const uword aux_length, const bool copy_aux_mem = true, const bool strict = false);
     inline Row(const eT* aux_mem, const uword aux_length);
 
-    template <typename T1, typename T2>
-    inline explicit Row(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
+    template <typename T1, typename T2> inline explicit Row(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
 
-    template <typename T1>
-    inline Row(const BaseCube<eT, T1>& X);
-    template <typename T1>
-    inline Row& operator=(const BaseCube<eT, T1>& X);
+    template <typename T1> inline Row(const BaseCube<eT, T1>& X);
+    template <typename T1> inline Row& operator=(const BaseCube<eT, T1>& X);
 
     inline Row(const subview_cube<eT>& X);
     inline Row& operator=(const subview_cube<eT>& X);
@@ -127,8 +118,7 @@ public:
     inline void shed_cols(const uword in_col1, const uword in_col2);
 
     inline void insert_cols(const uword col_num, const uword N, const bool set_to_zero = true);
-    template <typename T1>
-    inline void insert_cols(const uword col_num, const Base<eT, T1>& X);
+    template <typename T1> inline void insert_cols(const uword col_num, const Base<eT, T1>& X);
 
     arma_inline arma_warn_unused eT& at(const uword i);
     arma_inline arma_warn_unused const eT& at(const uword i) const;
@@ -145,8 +135,7 @@ public:
     inline row_iterator end_row(const uword row_num);
     inline const_row_iterator end_row(const uword row_num) const;
 
-    template <uword fixed_n_elem>
-    class fixed;
+    template <uword fixed_n_elem> class fixed;
 
 protected:
     inline Row(const arma_fixed_indicator&, const uword in_n_elem, const eT* in_mem);
@@ -157,9 +146,7 @@ public:
 #endif
 };
 
-template <typename eT>
-template <uword fixed_n_elem>
-class Row<eT>::fixed : public Row<eT> {
+template <typename eT> template <uword fixed_n_elem> class Row<eT>::fixed : public Row<eT> {
 private:
     static const bool use_extra = (fixed_n_elem > arma_config::mat_prealloc);
 
@@ -182,20 +169,16 @@ public:
     arma_inline fixed(const fixed<fixed_n_elem>& X);
     inline fixed(const subview_cube<eT>& X);
 
-    template <typename fill_type>
-    inline fixed(const fill::fill_class<fill_type>& f);
-    template <typename T1>
-    inline fixed(const Base<eT, T1>& A);
-    template <typename T1, typename T2>
-    inline fixed(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
+    template <typename fill_type> inline fixed(const fill::fill_class<fill_type>& f);
+    template <typename T1> inline fixed(const Base<eT, T1>& A);
+    template <typename T1, typename T2> inline fixed(const Base<pod_type, T1>& A, const Base<pod_type, T2>& B);
 
     inline fixed(const eT* aux_mem);
 
     inline fixed(const char* text);
     inline fixed(const std::string& text);
 
-    template <typename T1>
-    inline Row& operator=(const Base<eT, T1>& A);
+    template <typename T1> inline Row& operator=(const Base<eT, T1>& A);
 
     inline Row& operator=(const eT val);
     inline Row& operator=(const char* text);
@@ -212,10 +195,8 @@ public:
     arma_inline Row& operator=(const fixed<fixed_n_elem>& X);
 
 #if defined(ARMA_GOOD_COMPILER)
-    template <typename T1, typename eop_type>
-    inline Row& operator=(const eOp<T1, eop_type>& X);
-    template <typename T1, typename T2, typename eglue_type>
-    inline Row& operator=(const eGlue<T1, T2, eglue_type>& X);
+    template <typename T1, typename eop_type> inline Row& operator=(const eOp<T1, eop_type>& X);
+    template <typename T1, typename T2, typename eglue_type> inline Row& operator=(const eGlue<T1, T2, eglue_type>& X);
 #endif
 
     arma_inline const Op<Row_fixed_type, op_htrans> t() const;

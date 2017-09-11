@@ -19,8 +19,7 @@
 //! Class for finding the standard deviation
 class op_stddev {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_stddev>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_stddev>& in);
 };
 
 //! @}

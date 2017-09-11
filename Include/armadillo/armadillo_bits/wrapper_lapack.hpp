@@ -18,8 +18,7 @@
 //! \namespace lapack namespace for LAPACK functions
 namespace lapack {
 
-template <typename eT>
-inline void getrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, blas_int* info) {
+template <typename eT> inline void getrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -37,8 +36,7 @@ inline void getrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv
     }
 }
 
-template <typename eT>
-inline void getri(blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void getri(blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -56,8 +54,7 @@ inline void getri(blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, b
     }
 }
 
-template <typename eT>
-inline void trtri(char* uplo, char* diag, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
+template <typename eT> inline void trtri(char* uplo, char* diag, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -75,8 +72,7 @@ inline void trtri(char* uplo, char* diag, blas_int* n, eT* a, blas_int* lda, bla
     }
 }
 
-template <typename eT>
-inline void geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda, eT* wr, eT* wi, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda, eT* wr, eT* wi, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -88,8 +84,7 @@ inline void geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda, eT
     }
 }
 
-template <typename eT>
-inline void cx_geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda, eT* w, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
+template <typename eT> inline void cx_geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda, eT* w, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -103,8 +98,7 @@ inline void cx_geev(char* jobvl, char* jobvr, blas_int* N, eT* a, blas_int* lda,
     }
 }
 
-template <typename eT>
-inline void syev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT* w, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void syev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT* w, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -116,8 +110,7 @@ inline void syev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT* 
     }
 }
 
-template <typename eT>
-inline void syevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT* w, eT* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
+template <typename eT> inline void syevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT* w, eT* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -129,8 +122,7 @@ inline void syevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, eT*
     }
 }
 
-template <typename eT>
-inline void heev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, typename eT::value_type* w, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
+template <typename eT> inline void heev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, typename eT::value_type* w, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -144,8 +136,7 @@ inline void heev(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, type
     }
 }
 
-template <typename eT>
-inline void heevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, typename eT::value_type* w, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* lrwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
+template <typename eT> inline void heevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, typename eT::value_type* w, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* lrwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -159,8 +150,7 @@ inline void heevd(char* jobz, char* uplo, blas_int* n, eT* a, blas_int* lda, typ
     }
 }
 
-template <typename eT>
-inline void ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* alphar, eT* alphai, eT* beta, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* alphar, eT* alphai, eT* beta, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -172,8 +162,7 @@ inline void ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda, eT
     }
 }
 
-template <typename eT>
-inline void cx_ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* alpha, eT* beta, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
+template <typename eT> inline void cx_ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* alpha, eT* beta, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, eT* work, blas_int* lwork, typename eT::value_type* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -187,8 +176,7 @@ inline void cx_ggev(char* jobvl, char* jobvr, blas_int* n, eT* a, blas_int* lda,
     }
 }
 
-template <typename eT>
-inline void potrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
+template <typename eT> inline void potrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -206,8 +194,7 @@ inline void potrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info)
     }
 }
 
-template <typename eT>
-inline void potri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
+template <typename eT> inline void potri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -225,8 +212,7 @@ inline void potri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* info)
     }
 }
 
-template <typename eT>
-inline void geqrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void geqrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -244,8 +230,7 @@ inline void geqrf(blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* tau, eT* w
     }
 }
 
-template <typename eT>
-inline void orgqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void orgqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -257,8 +242,7 @@ inline void orgqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, e
     }
 }
 
-template <typename eT>
-inline void ungqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void ungqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, eT* tau, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -270,8 +254,7 @@ inline void ungqr(blas_int* m, blas_int* n, blas_int* k, eT* a, blas_int* lda, e
     }
 }
 
-template <typename eT>
-inline void gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* s, eT* u, blas_int* ldu, eT* vt, blas_int* ldvt, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* s, eT* u, blas_int* ldu, eT* vt, blas_int* ldvt, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -283,8 +266,7 @@ inline void gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, eT* a, blas
     }
 }
 
-template <typename T>
-inline void cx_gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, std::complex<T>* a, blas_int* lda, T* s, std::complex<T>* u, blas_int* ldu, std::complex<T>* vt, blas_int* ldvt, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* info) {
+template <typename T> inline void cx_gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, std::complex<T>* a, blas_int* lda, T* s, std::complex<T>* u, blas_int* ldu, std::complex<T>* vt, blas_int* ldvt, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<T>::value == false));
     arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
@@ -297,8 +279,7 @@ inline void cx_gesvd(char* jobu, char* jobvt, blas_int* m, blas_int* n, std::com
     }
 }
 
-template <typename eT>
-inline void gesdd(char* jobz, blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* s, eT* u, blas_int* ldu, eT* vt, blas_int* ldvt, eT* work, blas_int* lwork, blas_int* iwork, blas_int* info) {
+template <typename eT> inline void gesdd(char* jobz, blas_int* m, blas_int* n, eT* a, blas_int* lda, eT* s, eT* u, blas_int* ldu, eT* vt, blas_int* ldvt, eT* work, blas_int* lwork, blas_int* iwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -310,8 +291,7 @@ inline void gesdd(char* jobz, blas_int* m, blas_int* n, eT* a, blas_int* lda, eT
     }
 }
 
-template <typename T>
-inline void cx_gesdd(char* jobz, blas_int* m, blas_int* n, std::complex<T>* a, blas_int* lda, T* s, std::complex<T>* u, blas_int* ldu, std::complex<T>* vt, blas_int* ldvt, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* iwork, blas_int* info) {
+template <typename T> inline void cx_gesdd(char* jobz, blas_int* m, blas_int* n, std::complex<T>* a, blas_int* lda, T* s, std::complex<T>* u, blas_int* ldu, std::complex<T>* vt, blas_int* ldvt, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* iwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<T>::value == false));
     arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
@@ -324,8 +304,7 @@ inline void cx_gesdd(char* jobz, blas_int* m, blas_int* n, std::complex<T>* a, b
     }
 }
 
-template <typename eT>
-inline void gesv(blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
+template <typename eT> inline void gesv(blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -343,8 +322,7 @@ inline void gesv(blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ip
     }
 }
 
-template <typename eT>
-inline void gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* af, blas_int* ldaf, blas_int* ipiv, char* equed, eT* r, eT* c, eT* b, blas_int* ldb, eT* x, blas_int* ldx, eT* rcond, eT* ferr, eT* berr, eT* work, blas_int* iwork, blas_int* info) {
+template <typename eT> inline void gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* af, blas_int* ldaf, blas_int* ipiv, char* equed, eT* r, eT* c, eT* b, blas_int* ldb, eT* x, blas_int* ldx, eT* rcond, eT* ferr, eT* berr, eT* work, blas_int* iwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -356,8 +334,7 @@ inline void gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a, b
     }
 }
 
-template <typename T, typename eT>
-inline void cx_gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* af, blas_int* ldaf, blas_int* ipiv, char* equed, T* r, T* c, eT* b, blas_int* ldb, eT* x, blas_int* ldx, T* rcond, T* ferr, T* berr, eT* work, T* rwork, blas_int* info) {
+template <typename T, typename eT> inline void cx_gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* af, blas_int* ldaf, blas_int* ipiv, char* equed, T* r, T* c, eT* b, blas_int* ldb, eT* x, blas_int* ldx, T* rcond, T* ferr, T* berr, eT* work, T* rwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -371,8 +348,7 @@ inline void cx_gesvx(char* fact, char* trans, blas_int* n, blas_int* nrhs, eT* a
     }
 }
 
-template <typename eT>
-inline void gels(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void gels(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -390,8 +366,7 @@ inline void gels(char* trans, blas_int* m, blas_int* n, blas_int* nrhs, eT* a, b
     }
 }
 
-template <typename eT>
-inline void gelsd(blas_int* m, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* S, eT* rcond, blas_int* rank, eT* work, blas_int* lwork, blas_int* iwork, blas_int* info) {
+template <typename eT> inline void gelsd(blas_int* m, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, eT* b, blas_int* ldb, eT* S, eT* rcond, blas_int* rank, eT* work, blas_int* lwork, blas_int* iwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -403,8 +378,7 @@ inline void gelsd(blas_int* m, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda
     }
 }
 
-template <typename T>
-inline void cx_gelsd(blas_int* m, blas_int* n, blas_int* nrhs, std::complex<T>* a, blas_int* lda, std::complex<T>* b, blas_int* ldb, T* S, T* rcond, blas_int* rank, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* iwork, blas_int* info) {
+template <typename T> inline void cx_gelsd(blas_int* m, blas_int* n, blas_int* nrhs, std::complex<T>* a, blas_int* lda, std::complex<T>* b, blas_int* ldb, T* S, T* rcond, blas_int* rank, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* iwork, blas_int* info) {
     typedef typename std::complex<T> eT;
 
     arma_type_check((is_supported_blas_type<eT>::value == false));
@@ -420,8 +394,7 @@ inline void cx_gelsd(blas_int* m, blas_int* n, blas_int* nrhs, std::complex<T>* 
     }
 }
 
-template <typename eT>
-inline void trtrs(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* info) {
+template <typename eT> inline void trtrs(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nrhs, const eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -439,8 +412,7 @@ inline void trtrs(char* uplo, char* trans, char* diag, blas_int* n, blas_int* nr
     }
 }
 
-template <typename eT>
-inline void gees(char* jobvs, char* sort, void* select, blas_int* n, eT* a, blas_int* lda, blas_int* sdim, eT* wr, eT* wi, eT* vs, blas_int* ldvs, eT* work, blas_int* lwork, blas_int* bwork, blas_int* info) {
+template <typename eT> inline void gees(char* jobvs, char* sort, void* select, blas_int* n, eT* a, blas_int* lda, blas_int* sdim, eT* wr, eT* wi, eT* vs, blas_int* ldvs, eT* work, blas_int* lwork, blas_int* bwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -452,8 +424,7 @@ inline void gees(char* jobvs, char* sort, void* select, blas_int* n, eT* a, blas
     }
 }
 
-template <typename T>
-inline void cx_gees(char* jobvs, char* sort, void* select, blas_int* n, std::complex<T>* a, blas_int* lda, blas_int* sdim, std::complex<T>* w, std::complex<T>* vs, blas_int* ldvs, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* bwork, blas_int* info) {
+template <typename T> inline void cx_gees(char* jobvs, char* sort, void* select, blas_int* n, std::complex<T>* a, blas_int* lda, blas_int* sdim, std::complex<T>* w, std::complex<T>* vs, blas_int* ldvs, std::complex<T>* work, blas_int* lwork, T* rwork, blas_int* bwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<T>::value == false));
     arma_type_check((is_supported_blas_type<std::complex<T>>::value == false));
 
@@ -468,8 +439,7 @@ inline void cx_gees(char* jobvs, char* sort, void* select, blas_int* n, std::com
     }
 }
 
-template <typename eT>
-inline void trsyl(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const eT* a, blas_int* lda, const eT* b, blas_int* ldb, eT* c, blas_int* ldc, eT* scale, blas_int* info) {
+template <typename eT> inline void trsyl(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_int* n, const eT* a, blas_int* lda, const eT* b, blas_int* ldb, eT* c, blas_int* ldc, eT* scale, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -487,8 +457,7 @@ inline void trsyl(char* transa, char* transb, blas_int* isgn, blas_int* m, blas_
     }
 }
 
-template <typename eT>
-inline void sytrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* lwork, blas_int* info) {
+template <typename eT> inline void sytrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* lwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -506,8 +475,7 @@ inline void sytrf(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv,
     }
 }
 
-template <typename eT>
-inline void sytri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* info) {
+template <typename eT> inline void sytri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv, eT* work, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -525,8 +493,7 @@ inline void sytri(char* uplo, blas_int* n, eT* a, blas_int* lda, blas_int* ipiv,
     }
 }
 
-template <typename eT>
-inline void gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim, eT* alphar, eT* alphai, eT* beta, eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr, eT* work, blas_int* lwork, eT* bwork, blas_int* info) {
+template <typename eT> inline void gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim, eT* alphar, eT* alphai, eT* beta, eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr, eT* work, blas_int* lwork, eT* bwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -538,8 +505,7 @@ inline void gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int*
     }
 }
 
-template <typename eT>
-inline void cx_gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim, eT* alpha, eT* beta, eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr, eT* work, blas_int* lwork, typename eT::value_type* rwork, typename eT::value_type* bwork, blas_int* info) {
+template <typename eT> inline void cx_gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_int* n, eT* a, blas_int* lda, eT* b, blas_int* ldb, blas_int* sdim, eT* alpha, eT* beta, eT* vsl, blas_int* ldvsl, eT* vsr, blas_int* ldvsr, eT* work, blas_int* lwork, typename eT::value_type* rwork, typename eT::value_type* bwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_supported_complex_float<eT>::value) {
@@ -553,8 +519,7 @@ inline void cx_gges(char* jobvsl, char* jobvsr, char* sort, void* selctg, blas_i
     }
 }
 
-template <typename eT>
-inline typename get_pod_type<eT>::result lange(char* norm, blas_int* m, blas_int* n, eT* a, blas_int* lda, typename get_pod_type<eT>::result* work) {
+template <typename eT> inline typename get_pod_type<eT>::result lange(char* norm, blas_int* m, blas_int* n, eT* a, blas_int* lda, typename get_pod_type<eT>::result* work) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     typedef typename get_pod_type<eT>::result out_T;
@@ -578,8 +543,7 @@ inline typename get_pod_type<eT>::result lange(char* norm, blas_int* m, blas_int
     }
 }
 
-template <typename eT>
-inline void gecon(char* norm, blas_int* n, eT* a, blas_int* lda, eT* anorm, eT* rcond, eT* work, blas_int* iwork, blas_int* info) {
+template <typename eT> inline void gecon(char* norm, blas_int* n, eT* a, blas_int* lda, eT* anorm, eT* rcond, eT* work, blas_int* iwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -591,8 +555,7 @@ inline void gecon(char* norm, blas_int* n, eT* a, blas_int* lda, eT* anorm, eT* 
     }
 }
 
-template <typename T>
-inline void cx_gecon(char* norm, blas_int* n, std::complex<T>* a, blas_int* lda, T* anorm, T* rcond, std::complex<T>* work, T* rwork, blas_int* info) {
+template <typename T> inline void cx_gecon(char* norm, blas_int* n, std::complex<T>* a, blas_int* lda, T* anorm, T* rcond, std::complex<T>* work, T* rwork, blas_int* info) {
     typedef typename std::complex<T> eT;
 
     arma_type_check((is_supported_blas_type<eT>::value == false));
@@ -610,8 +573,7 @@ inline void cx_gecon(char* norm, blas_int* n, std::complex<T>* a, blas_int* lda,
 
 inline blas_int laenv(blas_int* ispec, char* name, char* opts, blas_int* n1, blas_int* n2, blas_int* n3, blas_int* n4) { return arma_fortran(arma_ilaenv)(ispec, name, opts, n1, n2, n3, n4); }
 
-template <typename eT>
-inline void sytrs(char* uplo, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
+template <typename eT> inline void sytrs(char* uplo, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -629,8 +591,7 @@ inline void sytrs(char* uplo, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda,
     }
 }
 
-template <typename eT>
-inline void getrs(char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
+template <typename eT> inline void getrs(char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda, blas_int* ipiv, eT* b, blas_int* ldb, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -648,8 +609,7 @@ inline void getrs(char* trans, blas_int* n, blas_int* nrhs, eT* a, blas_int* lda
     }
 }
 
-template <typename eT>
-inline void lahqr(blas_int* wantt, blas_int* wantz, blas_int* n, blas_int* ilo, blas_int* ihi, eT* h, blas_int* ldh, eT* wr, eT* wi, blas_int* iloz, blas_int* ihiz, eT* z, blas_int* ldz, blas_int* info) {
+template <typename eT> inline void lahqr(blas_int* wantt, blas_int* wantz, blas_int* n, blas_int* ilo, blas_int* ihi, eT* h, blas_int* ldh, eT* wr, eT* wi, blas_int* iloz, blas_int* ihiz, eT* z, blas_int* ldz, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -661,8 +621,7 @@ inline void lahqr(blas_int* wantt, blas_int* wantz, blas_int* n, blas_int* ilo, 
     }
 }
 
-template <typename eT>
-inline void stedc(char* compz, blas_int* n, eT* d, eT* e, eT* z, blas_int* ldz, eT* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
+template <typename eT> inline void stedc(char* compz, blas_int* n, eT* d, eT* e, eT* z, blas_int* ldz, eT* work, blas_int* lwork, blas_int* iwork, blas_int* liwork, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -674,8 +633,7 @@ inline void stedc(char* compz, blas_int* n, eT* d, eT* e, eT* z, blas_int* ldz, 
     }
 }
 
-template <typename eT>
-inline void trevc(char* side, char* howmny, blas_int* select, blas_int* n, eT* t, blas_int* ldt, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, blas_int* mm, blas_int* m, eT* work, blas_int* info) {
+template <typename eT> inline void trevc(char* side, char* howmny, blas_int* select, blas_int* n, eT* t, blas_int* ldt, eT* vl, blas_int* ldvl, eT* vr, blas_int* ldvr, blas_int* mm, blas_int* m, eT* work, blas_int* info) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {
@@ -687,8 +645,7 @@ inline void trevc(char* side, char* howmny, blas_int* select, blas_int* n, eT* t
     }
 }
 
-template <typename eT>
-inline void larnv(blas_int* idist, blas_int* iseed, blas_int* n, eT* x) {
+template <typename eT> inline void larnv(blas_int* idist, blas_int* iseed, blas_int* n, eT* x) {
     arma_type_check((is_supported_blas_type<eT>::value == false));
 
     if(is_float<eT>::value) {

@@ -16,51 +16,37 @@
 //! \addtogroup BaseCube
 //! @{
 
-template <typename elem_type, typename derived>
-arma_inline const derived& BaseCube<elem_type, derived>::get_ref() const {
-    return static_cast<const derived&>(*this);
-}
+template <typename elem_type, typename derived> arma_inline const derived& BaseCube<elem_type, derived>::get_ref() const { return static_cast<const derived&>(*this); }
 
-template <typename elem_type, typename derived>
-inline void BaseCube<elem_type, derived>::print(const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void BaseCube<elem_type, derived>::print(const std::string extra_text) const {
     const unwrap_cube<derived> tmp((*this).get_ref());
 
     tmp.M.impl_print(extra_text);
 }
 
-template <typename elem_type, typename derived>
-inline void BaseCube<elem_type, derived>::print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void BaseCube<elem_type, derived>::print(std::ostream& user_stream, const std::string extra_text) const {
     const unwrap_cube<derived> tmp((*this).get_ref());
 
     tmp.M.impl_print(user_stream, extra_text);
 }
 
-template <typename elem_type, typename derived>
-inline void BaseCube<elem_type, derived>::raw_print(const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void BaseCube<elem_type, derived>::raw_print(const std::string extra_text) const {
     const unwrap_cube<derived> tmp((*this).get_ref());
 
     tmp.M.impl_raw_print(extra_text);
 }
 
-template <typename elem_type, typename derived>
-inline void BaseCube<elem_type, derived>::raw_print(std::ostream& user_stream, const std::string extra_text) const {
+template <typename elem_type, typename derived> inline void BaseCube<elem_type, derived>::raw_print(std::ostream& user_stream, const std::string extra_text) const {
     const unwrap_cube<derived> tmp((*this).get_ref());
 
     tmp.M.impl_raw_print(user_stream, extra_text);
 }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused elem_type BaseCube<elem_type, derived>::min() const {
-    return op_min::min((*this).get_ref());
-}
+template <typename elem_type, typename derived> inline arma_warn_unused elem_type BaseCube<elem_type, derived>::min() const { return op_min::min((*this).get_ref()); }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused elem_type BaseCube<elem_type, derived>::max() const {
-    return op_max::max((*this).get_ref());
-}
+template <typename elem_type, typename derived> inline arma_warn_unused elem_type BaseCube<elem_type, derived>::max() const { return op_max::max((*this).get_ref()); }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused uword BaseCube<elem_type, derived>::index_min() const {
+template <typename elem_type, typename derived> inline arma_warn_unused uword BaseCube<elem_type, derived>::index_min() const {
     const ProxyCube<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -74,8 +60,7 @@ inline arma_warn_unused uword BaseCube<elem_type, derived>::index_min() const {
     return index;
 }
 
-template <typename elem_type, typename derived>
-inline arma_warn_unused uword BaseCube<elem_type, derived>::index_max() const {
+template <typename elem_type, typename derived> inline arma_warn_unused uword BaseCube<elem_type, derived>::index_max() const {
     const ProxyCube<derived> P((*this).get_ref());
 
     uword index = 0;
@@ -92,8 +77,7 @@ inline arma_warn_unused uword BaseCube<elem_type, derived>::index_max() const {
 //
 // extra functions defined in BaseCube_eval_Cube
 
-template <typename elem_type, typename derived>
-arma_inline const derived& BaseCube_eval_Cube<elem_type, derived>::eval() const {
+template <typename elem_type, typename derived> arma_inline const derived& BaseCube_eval_Cube<elem_type, derived>::eval() const {
     arma_extra_debug_sigprint();
 
     return static_cast<const derived&>(*this);
@@ -102,8 +86,7 @@ arma_inline const derived& BaseCube_eval_Cube<elem_type, derived>::eval() const 
 //
 // extra functions defined in BaseCube_eval_expr
 
-template <typename elem_type, typename derived>
-arma_inline Cube<elem_type> BaseCube_eval_expr<elem_type, derived>::eval() const {
+template <typename elem_type, typename derived> arma_inline Cube<elem_type> BaseCube_eval_expr<elem_type, derived>::eval() const {
     arma_extra_debug_sigprint();
 
     return Cube<elem_type>(static_cast<const derived&>(*this));

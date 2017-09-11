@@ -18,8 +18,7 @@
 
 namespace gmm_priv {
 
-template <typename eT>
-class gmm_diag {
+template <typename eT> class gmm_diag {
 public:
     arma_aligned const Mat<eT> means;
     arma_aligned const Mat<eT> dcovs;
@@ -41,15 +40,11 @@ public:
     inline void reset(const uword in_n_dims, const uword in_n_gaus);
     inline void reset();
 
-    template <typename T1, typename T2, typename T3>
-    inline void set_params(const Base<eT, T1>& in_means, const Base<eT, T2>& in_dcovs, const Base<eT, T3>& in_hefts);
+    template <typename T1, typename T2, typename T3> inline void set_params(const Base<eT, T1>& in_means, const Base<eT, T2>& in_dcovs, const Base<eT, T3>& in_hefts);
 
-    template <typename T1>
-    inline void set_means(const Base<eT, T1>& in_means);
-    template <typename T1>
-    inline void set_dcovs(const Base<eT, T1>& in_dcovs);
-    template <typename T1>
-    inline void set_hefts(const Base<eT, T1>& in_hefts);
+    template <typename T1> inline void set_means(const Base<eT, T1>& in_means);
+    template <typename T1> inline void set_dcovs(const Base<eT, T1>& in_dcovs);
+    template <typename T1> inline void set_hefts(const Base<eT, T1>& in_hefts);
 
     inline uword n_dims() const;
     inline uword n_gaus() const;
@@ -60,41 +55,27 @@ public:
     inline Col<eT> generate() const;
     inline Mat<eT> generate(const uword N) const;
 
-    template <typename T1>
-    inline eT log_p(const T1& expr, const gmm_empty_arg& junk1 = gmm_empty_arg(), typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2 = 0) const;
-    template <typename T1>
-    inline eT log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2 = 0) const;
+    template <typename T1> inline eT log_p(const T1& expr, const gmm_empty_arg& junk1 = gmm_empty_arg(), typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2 = 0) const;
+    template <typename T1> inline eT log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk2 = 0) const;
 
-    template <typename T1>
-    inline Row<eT> log_p(const T1& expr, const gmm_empty_arg& junk1 = gmm_empty_arg(), typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2 = 0) const;
-    template <typename T1>
-    inline Row<eT> log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2 = 0) const;
+    template <typename T1> inline Row<eT> log_p(const T1& expr, const gmm_empty_arg& junk1 = gmm_empty_arg(), typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2 = 0) const;
+    template <typename T1> inline Row<eT> log_p(const T1& expr, const uword gaus_id, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk2 = 0) const;
 
-    template <typename T1>
-    inline eT sum_log_p(const Base<eT, T1>& expr) const;
-    template <typename T1>
-    inline eT sum_log_p(const Base<eT, T1>& expr, const uword gaus_id) const;
+    template <typename T1> inline eT sum_log_p(const Base<eT, T1>& expr) const;
+    template <typename T1> inline eT sum_log_p(const Base<eT, T1>& expr, const uword gaus_id) const;
 
-    template <typename T1>
-    inline eT avg_log_p(const Base<eT, T1>& expr) const;
-    template <typename T1>
-    inline eT avg_log_p(const Base<eT, T1>& expr, const uword gaus_id) const;
+    template <typename T1> inline eT avg_log_p(const Base<eT, T1>& expr) const;
+    template <typename T1> inline eT avg_log_p(const Base<eT, T1>& expr, const uword gaus_id) const;
 
-    template <typename T1>
-    inline uword assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk = 0) const;
-    template <typename T1>
-    inline urowvec assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk = 0) const;
+    template <typename T1> inline uword assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == true))>::result* junk = 0) const;
+    template <typename T1> inline urowvec assign(const T1& expr, const gmm_dist_mode& dist, typename enable_if<((is_arma_type<T1>::value) && (resolves_to_colvector<T1>::value == false))>::result* junk = 0) const;
 
-    template <typename T1>
-    inline urowvec raw_hist(const Base<eT, T1>& expr, const gmm_dist_mode& dist_mode) const;
-    template <typename T1>
-    inline Row<eT> norm_hist(const Base<eT, T1>& expr, const gmm_dist_mode& dist_mode) const;
+    template <typename T1> inline urowvec raw_hist(const Base<eT, T1>& expr, const gmm_dist_mode& dist_mode) const;
+    template <typename T1> inline Row<eT> norm_hist(const Base<eT, T1>& expr, const gmm_dist_mode& dist_mode) const;
 
-    template <typename T1>
-    inline bool learn(const Base<eT, T1>& data, const uword n_gaus, const gmm_dist_mode& dist_mode, const gmm_seed_mode& seed_mode, const uword km_iter, const uword em_iter, const eT var_floor, const bool print_mode);
+    template <typename T1> inline bool learn(const Base<eT, T1>& data, const uword n_gaus, const gmm_dist_mode& dist_mode, const gmm_seed_mode& seed_mode, const uword km_iter, const uword em_iter, const eT var_floor, const bool print_mode);
 
-    template <typename T1>
-    inline bool kmeans_wrapper(Mat<eT>& user_means, const Base<eT, T1>& data, const uword n_gaus, const gmm_seed_mode& seed_mode, const uword km_iter, const bool print_mode);
+    template <typename T1> inline bool kmeans_wrapper(Mat<eT>& user_means, const Base<eT, T1>& data, const uword n_gaus, const gmm_seed_mode& seed_mode, const uword km_iter, const bool print_mode);
 
     //
 
@@ -118,39 +99,28 @@ protected:
     inline eT internal_scalar_log_p(const eT* x) const;
     inline eT internal_scalar_log_p(const eT* x, const uword gaus_id) const;
 
-    template <typename T1>
-    inline Row<eT> internal_vec_log_p(const T1& X) const;
-    template <typename T1>
-    inline Row<eT> internal_vec_log_p(const T1& X, const uword gaus_id) const;
+    template <typename T1> inline Row<eT> internal_vec_log_p(const T1& X) const;
+    template <typename T1> inline Row<eT> internal_vec_log_p(const T1& X, const uword gaus_id) const;
 
-    template <typename T1>
-    inline eT internal_sum_log_p(const T1& X) const;
-    template <typename T1>
-    inline eT internal_sum_log_p(const T1& X, const uword gaus_id) const;
+    template <typename T1> inline eT internal_sum_log_p(const T1& X) const;
+    template <typename T1> inline eT internal_sum_log_p(const T1& X, const uword gaus_id) const;
 
-    template <typename T1>
-    inline eT internal_avg_log_p(const T1& X) const;
-    template <typename T1>
-    inline eT internal_avg_log_p(const T1& X, const uword gaus_id) const;
+    template <typename T1> inline eT internal_avg_log_p(const T1& X) const;
+    template <typename T1> inline eT internal_avg_log_p(const T1& X, const uword gaus_id) const;
 
-    template <typename T1>
-    inline uword internal_scalar_assign(const T1& X, const gmm_dist_mode& dist_mode) const;
+    template <typename T1> inline uword internal_scalar_assign(const T1& X, const gmm_dist_mode& dist_mode) const;
 
-    template <typename T1>
-    inline void internal_vec_assign(urowvec& out, const T1& X, const gmm_dist_mode& dist_mode) const;
+    template <typename T1> inline void internal_vec_assign(urowvec& out, const T1& X, const gmm_dist_mode& dist_mode) const;
 
     inline void internal_raw_hist(urowvec& hist, const Mat<eT>& X, const gmm_dist_mode& dist_mode) const;
 
     //
 
-    template <uword dist_id>
-    inline void generate_initial_means(const Mat<eT>& X, const gmm_seed_mode& seed);
+    template <uword dist_id> inline void generate_initial_means(const Mat<eT>& X, const gmm_seed_mode& seed);
 
-    template <uword dist_id>
-    inline void generate_initial_params(const Mat<eT>& X, const eT var_floor);
+    template <uword dist_id> inline void generate_initial_params(const Mat<eT>& X, const eT var_floor);
 
-    template <uword dist_id>
-    inline bool km_iterate(const Mat<eT>& X, const uword max_iter, const bool verbose, const char* signature);
+    template <uword dist_id> inline bool km_iterate(const Mat<eT>& X, const uword max_iter, const bool verbose, const char* signature);
 
     //
 

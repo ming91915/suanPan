@@ -16,8 +16,7 @@
 //! \addtogroup op_norm
 //! @{
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -78,8 +77,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, co
     return acc;
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -166,8 +164,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_1(const Proxy<T1>& P, co
     }
 }
 
-template <typename eT>
-arma_hot inline eT op_norm::vec_norm_1_direct_std(const Mat<eT>& X) {
+template <typename eT> arma_hot inline eT op_norm::vec_norm_1_direct_std(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -186,8 +183,7 @@ arma_hot inline eT op_norm::vec_norm_1_direct_std(const Mat<eT>& X) {
     }
 }
 
-template <typename eT>
-arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A) {
+template <typename eT> arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A) {
     arma_extra_debug_sigprint();
 
 #if defined(ARMA_SIMPLE_LOOPS) || (defined(__FINITE_MATH_ONLY__) && (__FINITE_MATH_ONLY__ > 0))
@@ -228,8 +224,7 @@ arma_hot inline eT op_norm::vec_norm_1_direct_mem(const uword N, const eT* A) {
 #endif
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -313,8 +308,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, co
     }
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -396,8 +390,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_2(const Proxy<T1>& P, co
     }
 }
 
-template <typename eT>
-arma_hot inline eT op_norm::vec_norm_2_direct_std(const Mat<eT>& X) {
+template <typename eT> arma_hot inline eT op_norm::vec_norm_2_direct_std(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -426,8 +419,7 @@ arma_hot inline eT op_norm::vec_norm_2_direct_std(const Mat<eT>& X) {
     }
 }
 
-template <typename eT>
-arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A) {
+template <typename eT> arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A) {
     arma_extra_debug_sigprint();
 
     eT acc;
@@ -482,8 +474,7 @@ arma_hot inline eT op_norm::vec_norm_2_direct_mem(const uword N, const eT* A) {
     return std::sqrt(acc);
 }
 
-template <typename eT>
-arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X) {
+template <typename eT> arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     const uword N = X.n_elem;
@@ -541,8 +532,7 @@ arma_hot inline eT op_norm::vec_norm_2_direct_robust(const Mat<eT>& X) {
     return (std::sqrt(acc1 + acc2) * max_val);
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, const int k) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, const int k) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -577,8 +567,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_k(const Proxy<T1>& P, co
     return std::pow(acc, T(1) / T(k));
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -627,8 +616,7 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_max(const Proxy<T1>& P) 
     return max_val;
 }
 
-template <typename T1>
-arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P) {
+template <typename T1> arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -677,16 +665,14 @@ arma_hot inline typename T1::pod_type op_norm::vec_norm_min(const Proxy<T1>& P) 
     return min_val;
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_1(const Proxy<T1>& P) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_1(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
     return as_scalar(max(sum(abs(P.Q), 0), 1));
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -697,8 +683,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const Proxy<T1>& P) {
     return (S.n_elem > 0) ? max(S) : T(0);
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
@@ -708,16 +693,14 @@ inline typename T1::pod_type op_norm::mat_norm_inf(const Proxy<T1>& P) {
 //
 // norms for sparse matrices
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_1(const SpProxy<T1>& P) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_1(const SpProxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation
     return as_scalar(max(sum(abs(P.Q), 0), 1));
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_real_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_real_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -739,8 +722,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typ
     return (eigval.n_elem > 0) ? std::sqrt(eigval[0]) : T(0);
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -762,8 +744,7 @@ inline typename T1::pod_type op_norm::mat_norm_2(const SpProxy<T1>& P, const typ
     // const Col<eT> eigval = eigs_gen(C, 1);
 }
 
-template <typename T1>
-inline typename T1::pod_type op_norm::mat_norm_inf(const SpProxy<T1>& P) {
+template <typename T1> inline typename T1::pod_type op_norm::mat_norm_inf(const SpProxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     // TODO: this can be sped up with a dedicated implementation

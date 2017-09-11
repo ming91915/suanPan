@@ -17,8 +17,7 @@
 //! @{
 
 //! for tiny square matrices (size <= 4x4)
-template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA& A) {
+template <typename eT, typename TA> arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA& A) {
     const eT* Am = A.memptr();
     eT* outm = out.memptr();
 
@@ -76,8 +75,7 @@ arma_hot inline void op_strans::apply_mat_noalias_tinysq(Mat<eT>& out, const TA&
 }
 
 //! Immediate transpose of a dense matrix
-template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A) {
+template <typename eT, typename TA> arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A) {
     arma_extra_debug_sigprint();
 
     const uword A_n_cols = A.n_cols;
@@ -119,8 +117,7 @@ arma_hot inline void op_strans::apply_mat_noalias(Mat<eT>& out, const TA& A) {
     }
 }
 
-template <typename eT>
-arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>& out) {
+template <typename eT> arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>& out) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = out.n_rows;
@@ -160,8 +157,7 @@ arma_hot inline void op_strans::apply_mat_inplace(Mat<eT>& out) {
     }
 }
 
-template <typename eT, typename TA>
-arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A) {
+template <typename eT, typename TA> arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A) {
     arma_extra_debug_sigprint();
 
     if(&out != &A) {
@@ -171,8 +167,7 @@ arma_hot inline void op_strans::apply_mat(Mat<eT>& out, const TA& A) {
     }
 }
 
-template <typename T1>
-arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X) {
+template <typename T1> arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -295,8 +290,7 @@ arma_hot inline void op_strans::apply_proxy(Mat<typename T1::elem_type>& out, co
     }
 }
 
-template <typename T1>
-arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_strans>& in) {
+template <typename T1> arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_strans>& in) {
     arma_extra_debug_sigprint();
 
     op_strans::apply_proxy(out, in.m);
@@ -306,8 +300,7 @@ arma_hot inline void op_strans::apply(Mat<typename T1::elem_type>& out, const Op
 // op_strans2
 
 //! for tiny square matrices (size <= 4x4)
-template <typename eT, typename TA>
-arma_hot inline void op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A, const eT val) {
+template <typename eT, typename TA> arma_hot inline void op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A, const eT val) {
     const eT* Am = A.memptr();
     eT* outm = out.memptr();
 
@@ -364,8 +357,7 @@ arma_hot inline void op_strans2::apply_noalias_tinysq(Mat<eT>& out, const TA& A,
     }
 }
 
-template <typename eT, typename TA>
-arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const eT val) {
+template <typename eT, typename TA> arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const eT val) {
     arma_extra_debug_sigprint();
 
     const uword A_n_cols = A.n_cols;
@@ -421,8 +413,7 @@ arma_hot inline void op_strans2::apply_noalias(Mat<eT>& out, const TA& A, const 
     }
 }
 
-template <typename eT, typename TA>
-arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val) {
+template <typename eT, typename TA> arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val) {
     arma_extra_debug_sigprint();
 
     if(&out != &A) {
@@ -461,8 +452,7 @@ arma_hot inline void op_strans2::apply(Mat<eT>& out, const TA& A, const eT val) 
     }
 }
 
-template <typename T1>
-arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X, const typename T1::elem_type val) {
+template <typename T1> arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out, const T1& X, const typename T1::elem_type val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -585,8 +575,7 @@ arma_hot inline void op_strans2::apply_proxy(Mat<typename T1::elem_type>& out, c
     }
 }
 
-template <typename eT>
-inline void op_strans_cube::apply_noalias(Cube<eT>& out, const Cube<eT>& X) {
+template <typename eT> inline void op_strans_cube::apply_noalias(Cube<eT>& out, const Cube<eT>& X) {
     out.set_size(X.n_cols, X.n_rows, X.n_slices);
 
     for(uword s = 0; s < X.n_slices; ++s) {

@@ -16,8 +16,7 @@
 //! \addtogroup fn_approx_equal
 //! @{
 
-template <typename eT>
-arma_inline bool internal_approx_equal_abs_diff(const eT& x, const eT& y, const typename get_pod_type<eT>::result tol) {
+template <typename eT> arma_inline bool internal_approx_equal_abs_diff(const eT& x, const eT& y, const typename get_pod_type<eT>::result tol) {
     typedef typename get_pod_type<eT>::result T;
 
     if(x != y) {
@@ -33,8 +32,7 @@ arma_inline bool internal_approx_equal_abs_diff(const eT& x, const eT& y, const 
     return true;
 }
 
-template <typename eT>
-arma_inline bool internal_approx_equal_rel_diff(const eT& a, const eT& b, const typename get_pod_type<eT>::result tol) {
+template <typename eT> arma_inline bool internal_approx_equal_rel_diff(const eT& a, const eT& b, const typename get_pod_type<eT>::result tol) {
     typedef typename get_pod_type<eT>::result T;
 
     if(a != b) {
@@ -70,8 +68,7 @@ arma_inline bool internal_approx_equal_rel_diff(const eT& a, const eT& b, const 
     return true;
 }
 
-template <bool use_abs_diff, bool use_rel_diff, typename T1, typename T2>
-inline bool internal_approx_equal_worker(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <bool use_abs_diff, bool use_rel_diff, typename T1, typename T2> inline bool internal_approx_equal_worker(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -135,8 +132,7 @@ inline bool internal_approx_equal_worker(const Base<typename T1::elem_type, T1>&
     return true;
 }
 
-template <bool use_abs_diff, bool use_rel_diff, typename T1, typename T2>
-inline bool internal_approx_equal_worker(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <bool use_abs_diff, bool use_rel_diff, typename T1, typename T2> inline bool internal_approx_equal_worker(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -202,8 +198,7 @@ inline bool internal_approx_equal_worker(const BaseCube<typename T1::elem_type, 
     return true;
 }
 
-template <typename T1, typename T2>
-inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <typename T1, typename T2> inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -227,8 +222,7 @@ inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* 
     return status;
 }
 
-template <typename T1, typename T2>
-inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* method, const typename T1::pod_type tol) {
+template <typename T1, typename T2> inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* method, const typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -254,36 +248,31 @@ inline bool internal_approx_equal_handler(const T1& A, const T2& B, const char* 
     return status;
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     return internal_approx_equal_handler(A.get_ref(), B.get_ref(), method, tol);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     return internal_approx_equal_handler(A.get_ref(), B.get_ref(), method, tol);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     return internal_approx_equal_handler(A.get_ref(), B.get_ref(), method, abs_tol, rel_tol);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const BaseCube<typename T1::elem_type, T1>& A, const BaseCube<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     return internal_approx_equal_handler(A.get_ref(), B.get_ref(), method, abs_tol, rel_tol);
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -326,8 +315,7 @@ arma_warn_unused inline bool approx_equal(const SpBase<typename T1::elem_type, T
     return true;
 }
 
-template <typename T1, typename T2>
-arma_warn_unused inline bool approx_equal(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
+template <typename T1, typename T2> arma_warn_unused inline bool approx_equal(const SpBase<typename T1::elem_type, T1>& A, const SpBase<typename T1::elem_type, T2>& B, const char* method, const typename T1::pod_type abs_tol, const typename T1::pod_type rel_tol) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;

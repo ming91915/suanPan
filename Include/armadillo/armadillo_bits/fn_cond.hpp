@@ -16,8 +16,7 @@
 //! \addtogroup fn_cond
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result cond(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result cond(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -39,8 +38,7 @@ arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::
     }
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result rcond(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::pod_type>::result rcond(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     return auxlib::rcond(X.get_ref());

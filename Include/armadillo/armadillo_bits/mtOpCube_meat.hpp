@@ -64,9 +64,6 @@ inline mtOpCube<out_eT, T1, op_type>::mtOpCube(const mtOpCube_dual_aux_indicator
     arma_extra_debug_sigprint();
 }
 
-template <typename out_eT, typename T1, typename op_type>
-inline mtOpCube<out_eT, T1, op_type>::~mtOpCube() {
-    arma_extra_debug_sigprint();
-}
+template <typename out_eT, typename T1, typename op_type> inline mtOpCube<out_eT, T1, op_type>::~mtOpCube() { arma_extra_debug_sigprint(); }
 
 //! @}

@@ -16,28 +16,23 @@
 //! \addtogroup GenSpecialiser
 //! @{
 
-template <typename elem_type, bool is_gen_zeros, bool is_gen_ones, bool is_gen_randu, bool is_gen_randn>
-struct GenSpecialiser {
+template <typename elem_type, bool is_gen_zeros, bool is_gen_ones, bool is_gen_randu, bool is_gen_randn> struct GenSpecialiser {
     arma_inline elem_type generate() const { return elem_type(); }
 };
 
-template <typename elem_type>
-struct GenSpecialiser<elem_type, true, false, false, false> {
+template <typename elem_type> struct GenSpecialiser<elem_type, true, false, false, false> {
     arma_inline elem_type generate() const { return elem_type(0); }
 };
 
-template <typename elem_type>
-struct GenSpecialiser<elem_type, false, true, false, false> {
+template <typename elem_type> struct GenSpecialiser<elem_type, false, true, false, false> {
     arma_inline elem_type generate() const { return elem_type(1); }
 };
 
-template <typename elem_type>
-struct GenSpecialiser<elem_type, false, false, true, false> {
+template <typename elem_type> struct GenSpecialiser<elem_type, false, false, true, false> {
     arma_inline elem_type generate() const { return elem_type(arma_rng::randu<elem_type>()); }
 };
 
-template <typename elem_type>
-struct GenSpecialiser<elem_type, false, false, false, true> {
+template <typename elem_type> struct GenSpecialiser<elem_type, false, false, false, true> {
     arma_inline elem_type generate() const { return elem_type(arma_rng::randn<elem_type>()); }
 };
 

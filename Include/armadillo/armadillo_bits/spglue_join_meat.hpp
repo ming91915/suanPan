@@ -16,8 +16,7 @@
 //! \addtogroup spglue_join
 //! @{
 
-template <typename T1, typename T2>
-inline void spglue_join_cols::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_cols>& X) {
+template <typename T1, typename T2> inline void spglue_join_cols::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_cols>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -39,8 +38,7 @@ inline void spglue_join_cols::apply(SpMat<typename T1::elem_type>& out, const Sp
     }
 }
 
-template <typename eT>
-inline void spglue_join_cols::apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B) {
+template <typename eT> inline void spglue_join_cols::apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.n_rows;
@@ -60,8 +58,7 @@ inline void spglue_join_cols::apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, 
     }
 }
 
-template <typename T1, typename T2>
-inline void spglue_join_rows::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_rows>& X) {
+template <typename T1, typename T2> inline void spglue_join_rows::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_join_rows>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -83,8 +80,7 @@ inline void spglue_join_rows::apply(SpMat<typename T1::elem_type>& out, const Sp
     }
 }
 
-template <typename eT>
-inline void spglue_join_rows::apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B) {
+template <typename eT> inline void spglue_join_rows::apply_noalias(SpMat<eT>& out, const SpMat<eT>& A, const SpMat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_n_rows = A.n_rows;

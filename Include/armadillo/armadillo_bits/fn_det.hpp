@@ -16,15 +16,13 @@
 //! \addtogroup fn_det
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::elem_type>::result det(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::elem_type>::result det(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     return auxlib::det(X.get_ref());
 }
 
-template <typename T1>
-arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_diagmat>& X) {
+template <typename T1> arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_diagmat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -49,8 +47,7 @@ arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_diagmat>& X) 
     return val1 * val2;
 }
 
-template <typename T1>
-arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_trimat>& X) {
+template <typename T1> arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_trimat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -76,8 +73,7 @@ arma_warn_unused inline typename T1::elem_type det(const Op<T1, op_trimat>& X) {
 }
 
 //! determinant of inv(A), without doing the inverse operation
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::elem_type>::result det(const Op<T1, op_inv>& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, typename T1::elem_type>::result det(const Op<T1, op_inv>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -114,9 +110,6 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return det(X.get_ref());
 }
 
-template <typename T>
-arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& det(const T& x) {
-    return x;
-}
+template <typename T> arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& det(const T& x) { return x; }
 
 //! @}

@@ -16,8 +16,7 @@
 //! \addtogroup glue_hist
 //! @{
 
-template <typename eT>
-inline void glue_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const Mat<eT>& C, const uword dim) {
+template <typename eT> inline void glue_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const Mat<eT>& C, const uword dim) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((C.is_vec() == false) && (C.is_empty() == false)), "hist(): parameter 'centers' must be a vector");
@@ -148,8 +147,7 @@ inline void glue_hist::apply_noalias(Mat<uword>& out, const Mat<eT>& X, const Ma
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_hist::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist>& expr) {
+template <typename T1, typename T2> inline void glue_hist::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist>& expr) {
     arma_extra_debug_sigprint();
 
     const uword dim = expr.aux_uword;
@@ -170,8 +168,7 @@ inline void glue_hist::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_h
     }
 }
 
-template <typename T1, typename T2>
-inline void glue_hist_default::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist_default>& expr) {
+template <typename T1, typename T2> inline void glue_hist_default::apply(Mat<uword>& out, const mtGlue<uword, T1, T2, glue_hist_default>& expr) {
     arma_extra_debug_sigprint();
 
     const quasi_unwrap<T1> UA(expr.A);

@@ -16,8 +16,7 @@
 //! \addtogroup op_vectorise
 //! @{
 
-template <typename T1>
-inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_col>& in) {
+template <typename T1> inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_col>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -31,8 +30,7 @@ inline void op_vectorise_col::apply(Mat<typename T1::elem_type>& out, const Op<T
     }
 }
 
-template <typename eT>
-inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv) {
+template <typename eT> inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv) {
     arma_extra_debug_sigprint();
 
     const bool is_alias = (&out == &(sv.m));
@@ -59,8 +57,7 @@ inline void op_vectorise_col::apply_subview(Mat<eT>& out, const subview<eT>& sv)
     }
 }
 
-template <typename T1>
-inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
+template <typename T1> inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -126,8 +123,7 @@ inline void op_vectorise_col::apply_proxy(Mat<typename T1::elem_type>& out, cons
     }
 }
 
-template <typename T1>
-inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_row>& in) {
+template <typename T1> inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_row>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -135,8 +131,7 @@ inline void op_vectorise_row::apply(Mat<typename T1::elem_type>& out, const Op<T
     op_vectorise_row::apply_proxy(out, P);
 }
 
-template <typename T1>
-inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
+template <typename T1> inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -179,8 +174,7 @@ inline void op_vectorise_row::apply_proxy(Mat<typename T1::elem_type>& out, cons
     }
 }
 
-template <typename T1>
-inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_all>& in) {
+template <typename T1> inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_vectorise_all>& in) {
     arma_extra_debug_sigprint();
 
     const Proxy<T1> P(in.m);
@@ -196,8 +190,7 @@ inline void op_vectorise_all::apply(Mat<typename T1::elem_type>& out, const Op<T
 
 //
 
-template <typename T1>
-inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out, const BaseCube<typename T1::elem_type, T1>& in) {
+template <typename T1> inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out, const BaseCube<typename T1::elem_type, T1>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -211,8 +204,7 @@ inline void op_vectorise_cube_col::apply(Mat<typename T1::elem_type>& out, const
     }
 }
 
-template <typename eT>
-inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cube<eT>& sv) {
+template <typename eT> inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cube<eT>& sv) {
     arma_extra_debug_sigprint();
 
     const uword sv_n_rows = sv.n_rows;
@@ -231,8 +223,7 @@ inline void op_vectorise_cube_col::apply_subview(Mat<eT>& out, const subview_cub
         }
 }
 
-template <typename T1>
-inline void op_vectorise_cube_col::apply_proxy(Mat<typename T1::elem_type>& out, const ProxyCube<T1>& P) {
+template <typename T1> inline void op_vectorise_cube_col::apply_proxy(Mat<typename T1::elem_type>& out, const ProxyCube<T1>& P) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

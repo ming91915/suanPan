@@ -187,9 +187,7 @@
 //
 // matrices
 
-template <typename eglue_type>
-template <typename outT, typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply(outT& out, const eGlue<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename outT, typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply(outT& out, const eGlue<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -296,9 +294,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(outT& out, const eGlue<T1, T2
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -403,9 +399,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Mat<typename T1:
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -510,9 +504,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Mat<typename T1
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -617,9 +609,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Mat<typename T1
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(Mat<typename T1::elem_type>& out, const eGlue<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -727,9 +717,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(Mat<typename T1::
 //
 // cubes
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -838,9 +826,7 @@ arma_hot inline void eglue_core<eglue_type>::apply(Cube<typename T1::elem_type>&
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -946,9 +932,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_plus(Cube<typename T1
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -1054,9 +1038,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_minus(Cube<typename T
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();
@@ -1162,9 +1144,7 @@ arma_hot inline void eglue_core<eglue_type>::apply_inplace_schur(Cube<typename T
     }
 }
 
-template <typename eglue_type>
-template <typename T1, typename T2>
-arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
+template <typename eglue_type> template <typename T1, typename T2> arma_hot inline void eglue_core<eglue_type>::apply_inplace_div(Cube<typename T1::elem_type>& out, const eGlueCube<T1, T2, eglue_type>& x) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = x.get_n_rows();

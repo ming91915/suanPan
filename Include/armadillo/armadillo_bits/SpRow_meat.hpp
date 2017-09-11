@@ -52,8 +52,7 @@ inline SpRow<eT>::SpRow(const char* text)
     arma_debug_check((SpMat<eT>::n_rows != 1), "SpRow::SpRow(): must have only one row");
 }
 
-template <typename eT>
-inline SpRow<eT>& SpRow<eT>::operator=(const char* text) {
+template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const char* text) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -73,8 +72,7 @@ inline SpRow<eT>::SpRow(const std::string& text)
     arma_debug_check((SpMat<eT>::n_rows != 1), "SpRow::SpRow(): must have only one row");
 }
 
-template <typename eT>
-inline SpRow<eT>& SpRow<eT>::operator=(const std::string& text) {
+template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const std::string& text) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(text);
@@ -82,8 +80,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const std::string& text) {
     return *this;
 }
 
-template <typename eT>
-inline SpRow<eT>& SpRow<eT>::operator=(const eT val) {
+template <typename eT> inline SpRow<eT>& SpRow<eT>::operator=(const eT val) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(val);
@@ -91,9 +88,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const eT val) {
     return *this;
 }
 
-template <typename eT>
-template <typename T1>
-inline SpRow<eT>::SpRow(const Base<eT, T1>& X) {
+template <typename eT> template <typename T1> inline SpRow<eT>::SpRow(const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -101,9 +96,7 @@ inline SpRow<eT>::SpRow(const Base<eT, T1>& X) {
     SpMat<eT>::operator=(X.get_ref());
 }
 
-template <typename eT>
-template <typename T1>
-inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X) {
+template <typename eT> template <typename T1> inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(X.get_ref());
@@ -111,9 +104,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const Base<eT, T1>& X) {
     return *this;
 }
 
-template <typename eT>
-template <typename T1>
-inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X) {
+template <typename eT> template <typename T1> inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -121,9 +112,7 @@ inline SpRow<eT>::SpRow(const SpBase<eT, T1>& X) {
     SpMat<eT>::operator=(X.get_ref());
 }
 
-template <typename eT>
-template <typename T1>
-inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X) {
+template <typename eT> template <typename T1> inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpMat<eT>::operator=(X.get_ref());
@@ -131,9 +120,7 @@ inline SpRow<eT>& SpRow<eT>::operator=(const SpBase<eT, T1>& X) {
     return *this;
 }
 
-template <typename eT>
-template <typename T1, typename T2>
-inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A, const SpBase<typename SpRow<eT>::pod_type, T2>& B) {
+template <typename eT> template <typename T1, typename T2> inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A, const SpBase<typename SpRow<eT>::pod_type, T2>& B) {
     arma_extra_debug_sigprint();
 
     access::rw(SpMat<eT>::vec_state) = 2;
@@ -142,8 +129,7 @@ inline SpRow<eT>::SpRow(const SpBase<typename SpRow<eT>::pod_type, T1>& A, const
 }
 
 //! remove specified columns
-template <typename eT>
-inline void SpRow<eT>::shed_col(const uword col_num) {
+template <typename eT> inline void SpRow<eT>::shed_col(const uword col_num) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(col_num >= SpMat<eT>::n_cols, "SpRow::shed_col(): out of bounds");
@@ -152,8 +138,7 @@ inline void SpRow<eT>::shed_col(const uword col_num) {
 }
 
 //! remove specified columns
-template <typename eT>
-inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2) {
+template <typename eT> inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((in_col1 > in_col2) || (in_col2 >= SpMat<eT>::n_cols), "SpRow::shed_cols(): indices out of bounds or incorrectly used");
@@ -248,8 +233,7 @@ inline void SpRow<eT>::shed_cols(const uword in_col1, const uword in_col2) {
 //   access::rw(SpMat<eT>::n_elem) += N;
 //   }
 
-template <typename eT>
-inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num) {
+template <typename eT> inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num) {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -259,8 +243,7 @@ inline typename SpRow<eT>::row_iterator SpRow<eT>::begin_row(const uword row_num
     return SpMat<eT>::begin();
 }
 
-template <typename eT>
-inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(const uword row_num) const {
+template <typename eT> inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(const uword row_num) const {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -270,8 +253,7 @@ inline typename SpRow<eT>::const_row_iterator SpRow<eT>::begin_row(const uword r
     return SpMat<eT>::begin();
 }
 
-template <typename eT>
-inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num) {
+template <typename eT> inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num) {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for
@@ -281,8 +263,7 @@ inline typename SpRow<eT>::row_iterator SpRow<eT>::end_row(const uword row_num) 
     return SpMat<eT>::end();
 }
 
-template <typename eT>
-inline typename SpRow<eT>::const_row_iterator SpRow<eT>::end_row(const uword row_num) const {
+template <typename eT> inline typename SpRow<eT>::const_row_iterator SpRow<eT>::end_row(const uword row_num) const {
     arma_extra_debug_sigprint();
 
     // Since this is a row, row_num can only be 0.  But the option is provided for

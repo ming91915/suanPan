@@ -23,8 +23,7 @@
 //! score_out    -> projected samples
 //! latent_out   -> eigenvalues of principal vectors
 //! tsquared_out -> Hotelling's T^2 statistic
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::elem_type>& latent_out, Col<typename T1::elem_type>& tsquared_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::elem_type>& latent_out, Col<typename T1::elem_type>& tsquared_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -103,8 +102,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
 //! coeff_out    -> principal component coefficients
 //! score_out    -> projected samples
 //! latent_out   -> eigenvalues of principal vectors
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::elem_type>& latent_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, Col<typename T1::elem_type>& latent_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -167,8 +165,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
 //! computation is done via singular value decomposition
 //! coeff_out    -> principal component coefficients
 //! score_out    -> projected samples
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, Mat<typename T1::elem_type>& score_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -222,8 +219,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
 //! principal component analysis -- 1 argument version
 //! computation is done via singular value decomposition
 //! coeff_out    -> principal component coefficients
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out, const Base<typename T1::elem_type, T1>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -257,8 +253,7 @@ inline bool op_princomp::direct_princomp(Mat<typename T1::elem_type>& coeff_out,
 //! score_out    -> projected samples
 //! latent_out   -> eigenvalues of principal vectors
 //! tsquared_out -> Hotelling's T^2 statistic
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, Col<typename T1::pod_type>& latent_out, Col<std::complex<typename T1::pod_type>>& tsquared_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, Col<typename T1::pod_type>& latent_out, Col<std::complex<typename T1::pod_type>>& tsquared_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -335,8 +330,7 @@ inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>
 //! coeff_out    -> principal component coefficients
 //! score_out    -> projected samples
 //! latent_out   -> eigenvalues of principal vectors
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, Col<typename T1::pod_type>& latent_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, Col<typename T1::pod_type>& latent_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -399,8 +393,7 @@ inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>
 //! computation is done via singular value decomposition
 //! coeff_out    -> principal component coefficients
 //! score_out    -> projected samples
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, Mat<std::complex<typename T1::pod_type>>& score_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -453,8 +446,7 @@ inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>
 //! principal component analysis -- 1 argument complex version
 //! computation is done via singular value decomposition
 //! coeff_out    -> principal component coefficients
-template <typename T1>
-inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>>& coeff_out, const Base<std::complex<typename T1::pod_type>, T1>& X, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -482,8 +474,7 @@ inline bool op_princomp::direct_princomp(Mat<std::complex<typename T1::pod_type>
     return true;
 }
 
-template <typename T1>
-inline void op_princomp::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_princomp>& in) {
+template <typename T1> inline void op_princomp::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_princomp>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

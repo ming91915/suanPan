@@ -20,8 +20,7 @@
 //! two types.
 //! values are upgraded only where necessary.
 
-template <typename T1, typename T2>
-struct upgrade_val {
+template <typename T1, typename T2> struct upgrade_val {
     typedef typename promote_type<T1, T2>::result T1_result;
     typedef typename promote_type<T1, T2>::result T2_result;
 
@@ -37,8 +36,7 @@ struct upgrade_val {
 };
 
 // template<>
-template <typename T>
-struct upgrade_val<T, T> {
+template <typename T> struct upgrade_val<T, T> {
     typedef T T1_result;
     typedef T T2_result;
 
@@ -48,8 +46,7 @@ struct upgrade_val<T, T> {
 //! upgrade a type to allow multiplication with a complex type
 //! e.g. the int in "int * complex<double>" is upgraded to a double
 // template<>
-template <typename T, typename T2>
-struct upgrade_val<std::complex<T>, T2> {
+template <typename T, typename T2> struct upgrade_val<std::complex<T>, T2> {
     typedef std::complex<T> T1_result;
     typedef T T2_result;
 
@@ -58,8 +55,7 @@ struct upgrade_val<std::complex<T>, T2> {
 };
 
 // template<>
-template <typename T1, typename T>
-struct upgrade_val<T1, std::complex<T>> {
+template <typename T1, typename T> struct upgrade_val<T1, std::complex<T>> {
     typedef T T1_result;
     typedef std::complex<T> T2_result;
 
@@ -69,8 +65,7 @@ struct upgrade_val<T1, std::complex<T>> {
 
 //! ensure we don't lose precision when multiplying a complex number with a higher
 //! precision real number
-template <>
-struct upgrade_val<std::complex<float>, double> {
+template <> struct upgrade_val<std::complex<float>, double> {
     typedef std::complex<double> T1_result;
     typedef double T2_result;
 
@@ -78,8 +73,7 @@ struct upgrade_val<std::complex<float>, double> {
     arma_inline static double apply(const double x) { return x; }
 };
 
-template <>
-struct upgrade_val<double, std::complex<float>> {
+template <> struct upgrade_val<double, std::complex<float>> {
     typedef double T1_result;
     typedef std::complex<float> T2_result;
 
@@ -89,8 +83,7 @@ struct upgrade_val<double, std::complex<float>> {
 
 //! ensure we don't lose precision when multiplying complex numbers with different
 //! underlying types
-template <>
-struct upgrade_val<std::complex<float>, std::complex<double>> {
+template <> struct upgrade_val<std::complex<float>, std::complex<double>> {
     typedef std::complex<double> T1_result;
     typedef std::complex<double> T2_result;
 
@@ -98,8 +91,7 @@ struct upgrade_val<std::complex<float>, std::complex<double>> {
     arma_inline static const std::complex<double>& apply(const std::complex<double>& x) { return x; }
 };
 
-template <>
-struct upgrade_val<std::complex<double>, std::complex<float>> {
+template <> struct upgrade_val<std::complex<double>, std::complex<float>> {
     typedef std::complex<double> T1_result;
     typedef std::complex<double> T2_result;
 
@@ -108,8 +100,7 @@ struct upgrade_val<std::complex<double>, std::complex<float>> {
 };
 
 //! work around limitations in the complex class (at least as present in gcc 4.1 & 4.3)
-template <>
-struct upgrade_val<std::complex<double>, float> {
+template <> struct upgrade_val<std::complex<double>, float> {
     typedef std::complex<double> T1_result;
     typedef double T2_result;
 
@@ -117,8 +108,7 @@ struct upgrade_val<std::complex<double>, float> {
     arma_inline static double apply(const float x) { return double(x); }
 };
 
-template <>
-struct upgrade_val<float, std::complex<double>> {
+template <> struct upgrade_val<float, std::complex<double>> {
     typedef double T1_result;
     typedef std::complex<double> T2_result;
 

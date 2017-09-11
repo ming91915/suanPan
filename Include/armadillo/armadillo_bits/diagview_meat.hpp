@@ -16,10 +16,7 @@
 //! \addtogroup diagview
 //! @{
 
-template <typename eT>
-inline diagview<eT>::~diagview() {
-    arma_extra_debug_sigprint();
-}
+template <typename eT> inline diagview<eT>::~diagview() { arma_extra_debug_sigprint(); }
 
 template <typename eT>
 arma_inline diagview<eT>::diagview(const Mat<eT>& in_m, const uword in_row_offset, const uword in_col_offset, const uword in_len)
@@ -32,8 +29,7 @@ arma_inline diagview<eT>::diagview(const Mat<eT>& in_m, const uword in_row_offse
 }
 
 //! set a diagonal of our matrix using a diagonal from a foreign matrix
-template <typename eT>
-inline void diagview<eT>::operator=(const diagview<eT>& x) {
+template <typename eT> inline void diagview<eT>::operator=(const diagview<eT>& x) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -68,8 +64,7 @@ inline void diagview<eT>::operator=(const diagview<eT>& x) {
     }
 }
 
-template <typename eT>
-inline void diagview<eT>::operator+=(const eT val) {
+template <typename eT> inline void diagview<eT>::operator+=(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& t_m = const_cast<Mat<eT>&>(m);
@@ -81,8 +76,7 @@ inline void diagview<eT>::operator+=(const eT val) {
     for(uword ii = 0; ii < t_n_elem; ++ii) { t_m.at(ii + t_row_offset, ii + t_col_offset) += val; }
 }
 
-template <typename eT>
-inline void diagview<eT>::operator-=(const eT val) {
+template <typename eT> inline void diagview<eT>::operator-=(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& t_m = const_cast<Mat<eT>&>(m);
@@ -94,8 +88,7 @@ inline void diagview<eT>::operator-=(const eT val) {
     for(uword ii = 0; ii < t_n_elem; ++ii) { t_m.at(ii + t_row_offset, ii + t_col_offset) -= val; }
 }
 
-template <typename eT>
-inline void diagview<eT>::operator*=(const eT val) {
+template <typename eT> inline void diagview<eT>::operator*=(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& t_m = const_cast<Mat<eT>&>(m);
@@ -107,8 +100,7 @@ inline void diagview<eT>::operator*=(const eT val) {
     for(uword ii = 0; ii < t_n_elem; ++ii) { t_m.at(ii + t_row_offset, ii + t_col_offset) *= val; }
 }
 
-template <typename eT>
-inline void diagview<eT>::operator/=(const eT val) {
+template <typename eT> inline void diagview<eT>::operator/=(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& t_m = const_cast<Mat<eT>&>(m);
@@ -121,9 +113,7 @@ inline void diagview<eT>::operator/=(const eT val) {
 }
 
 //! set a diagonal of our matrix using data from a foreign object
-template <typename eT>
-template <typename T1>
-inline void diagview<eT>::operator=(const Base<eT, T1>& o) {
+template <typename eT> template <typename T1> inline void diagview<eT>::operator=(const Base<eT, T1>& o) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -174,9 +164,7 @@ inline void diagview<eT>::operator=(const Base<eT, T1>& o) {
     }
 }
 
-template <typename eT>
-template <typename T1>
-inline void diagview<eT>::operator+=(const Base<eT, T1>& o) {
+template <typename eT> template <typename T1> inline void diagview<eT>::operator+=(const Base<eT, T1>& o) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -227,9 +215,7 @@ inline void diagview<eT>::operator+=(const Base<eT, T1>& o) {
     }
 }
 
-template <typename eT>
-template <typename T1>
-inline void diagview<eT>::operator-=(const Base<eT, T1>& o) {
+template <typename eT> template <typename T1> inline void diagview<eT>::operator-=(const Base<eT, T1>& o) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -280,9 +266,7 @@ inline void diagview<eT>::operator-=(const Base<eT, T1>& o) {
     }
 }
 
-template <typename eT>
-template <typename T1>
-inline void diagview<eT>::operator%=(const Base<eT, T1>& o) {
+template <typename eT> template <typename T1> inline void diagview<eT>::operator%=(const Base<eT, T1>& o) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -333,9 +317,7 @@ inline void diagview<eT>::operator%=(const Base<eT, T1>& o) {
     }
 }
 
-template <typename eT>
-template <typename T1>
-inline void diagview<eT>::operator/=(const Base<eT, T1>& o) {
+template <typename eT> template <typename T1> inline void diagview<eT>::operator/=(const Base<eT, T1>& o) {
     arma_extra_debug_sigprint();
 
     diagview<eT>& d = *this;
@@ -387,8 +369,7 @@ inline void diagview<eT>::operator/=(const Base<eT, T1>& o) {
 }
 
 //! extract a diagonal and store it as a column vector
-template <typename eT>
-inline void diagview<eT>::extract(Mat<eT>& out, const diagview<eT>& in) {
+template <typename eT> inline void diagview<eT>::extract(Mat<eT>& out, const diagview<eT>& in) {
     arma_extra_debug_sigprint();
 
     // NOTE: we're assuming that the matrix has already been set to the correct size and
@@ -416,8 +397,7 @@ inline void diagview<eT>::extract(Mat<eT>& out, const diagview<eT>& in) {
 }
 
 //! X += Y.diag()
-template <typename eT>
-inline void diagview<eT>::plus_inplace(Mat<eT>& out, const diagview<eT>& in) {
+template <typename eT> inline void diagview<eT>::plus_inplace(Mat<eT>& out, const diagview<eT>& in) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, in.n_rows, in.n_cols, "addition");
@@ -443,8 +423,7 @@ inline void diagview<eT>::plus_inplace(Mat<eT>& out, const diagview<eT>& in) {
 }
 
 //! X -= Y.diag()
-template <typename eT>
-inline void diagview<eT>::minus_inplace(Mat<eT>& out, const diagview<eT>& in) {
+template <typename eT> inline void diagview<eT>::minus_inplace(Mat<eT>& out, const diagview<eT>& in) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, in.n_rows, in.n_cols, "subtraction");
@@ -470,8 +449,7 @@ inline void diagview<eT>::minus_inplace(Mat<eT>& out, const diagview<eT>& in) {
 }
 
 //! X %= Y.diag()
-template <typename eT>
-inline void diagview<eT>::schur_inplace(Mat<eT>& out, const diagview<eT>& in) {
+template <typename eT> inline void diagview<eT>::schur_inplace(Mat<eT>& out, const diagview<eT>& in) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, in.n_rows, in.n_cols, "element-wise multiplication");
@@ -497,8 +475,7 @@ inline void diagview<eT>::schur_inplace(Mat<eT>& out, const diagview<eT>& in) {
 }
 
 //! X /= Y.diag()
-template <typename eT>
-inline void diagview<eT>::div_inplace(Mat<eT>& out, const diagview<eT>& in) {
+template <typename eT> inline void diagview<eT>::div_inplace(Mat<eT>& out, const diagview<eT>& in) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(out.n_rows, out.n_cols, in.n_rows, in.n_cols, "element-wise division");
@@ -523,86 +500,51 @@ inline void diagview<eT>::div_inplace(Mat<eT>& out, const diagview<eT>& in) {
     if(i < in_n_elem) { out_mem[i] /= in_m.at(i + in_row_offset, i + in_col_offset); }
 }
 
-template <typename eT>
-arma_inline eT diagview<eT>::at_alt(const uword ii) const {
-    return m.at(ii + row_offset, ii + col_offset);
-}
+template <typename eT> arma_inline eT diagview<eT>::at_alt(const uword ii) const { return m.at(ii + row_offset, ii + col_offset); }
 
-template <typename eT>
-arma_inline eT& diagview<eT>::operator[](const uword ii) {
-    return (const_cast<Mat<eT>&>(m)).at(ii + row_offset, ii + col_offset);
-}
+template <typename eT> arma_inline eT& diagview<eT>::operator[](const uword ii) { return (const_cast<Mat<eT>&>(m)).at(ii + row_offset, ii + col_offset); }
 
-template <typename eT>
-arma_inline eT diagview<eT>::operator[](const uword ii) const {
-    return m.at(ii + row_offset, ii + col_offset);
-}
+template <typename eT> arma_inline eT diagview<eT>::operator[](const uword ii) const { return m.at(ii + row_offset, ii + col_offset); }
 
-template <typename eT>
-arma_inline eT& diagview<eT>::at(const uword ii) {
-    return (const_cast<Mat<eT>&>(m)).at(ii + row_offset, ii + col_offset);
-}
+template <typename eT> arma_inline eT& diagview<eT>::at(const uword ii) { return (const_cast<Mat<eT>&>(m)).at(ii + row_offset, ii + col_offset); }
 
-template <typename eT>
-arma_inline eT diagview<eT>::at(const uword ii) const {
-    return m.at(ii + row_offset, ii + col_offset);
-}
+template <typename eT> arma_inline eT diagview<eT>::at(const uword ii) const { return m.at(ii + row_offset, ii + col_offset); }
 
-template <typename eT>
-arma_inline eT& diagview<eT>::operator()(const uword ii) {
+template <typename eT> arma_inline eT& diagview<eT>::operator()(const uword ii) {
     arma_debug_check((ii >= n_elem), "diagview::operator(): out of bounds");
 
     return (const_cast<Mat<eT>&>(m)).at(ii + row_offset, ii + col_offset);
 }
 
-template <typename eT>
-arma_inline eT diagview<eT>::operator()(const uword ii) const {
+template <typename eT> arma_inline eT diagview<eT>::operator()(const uword ii) const {
     arma_debug_check((ii >= n_elem), "diagview::operator(): out of bounds");
 
     return m.at(ii + row_offset, ii + col_offset);
 }
 
-template <typename eT>
-arma_inline eT& diagview<eT>::at(const uword row, const uword) {
-    return (const_cast<Mat<eT>&>(m)).at(row + row_offset, row + col_offset);
-}
+template <typename eT> arma_inline eT& diagview<eT>::at(const uword row, const uword) { return (const_cast<Mat<eT>&>(m)).at(row + row_offset, row + col_offset); }
 
-template <typename eT>
-arma_inline eT diagview<eT>::at(const uword row, const uword) const {
-    return m.at(row + row_offset, row + col_offset);
-}
+template <typename eT> arma_inline eT diagview<eT>::at(const uword row, const uword) const { return m.at(row + row_offset, row + col_offset); }
 
-template <typename eT>
-arma_inline eT& diagview<eT>::operator()(const uword row, const uword col) {
+template <typename eT> arma_inline eT& diagview<eT>::operator()(const uword row, const uword col) {
     arma_debug_check(((row >= n_elem) || (col > 0)), "diagview::operator(): out of bounds");
 
     return (const_cast<Mat<eT>&>(m)).at(row + row_offset, row + col_offset);
 }
 
-template <typename eT>
-arma_inline eT diagview<eT>::operator()(const uword row, const uword col) const {
+template <typename eT> arma_inline eT diagview<eT>::operator()(const uword row, const uword col) const {
     arma_debug_check(((row >= n_elem) || (col > 0)), "diagview::operator(): out of bounds");
 
     return m.at(row + row_offset, row + col_offset);
 }
 
-template <typename eT>
-arma_inline const Op<diagview<eT>, op_htrans> diagview<eT>::t() const {
-    return Op<diagview<eT>, op_htrans>(*this);
-}
+template <typename eT> arma_inline const Op<diagview<eT>, op_htrans> diagview<eT>::t() const { return Op<diagview<eT>, op_htrans>(*this); }
 
-template <typename eT>
-arma_inline const Op<diagview<eT>, op_htrans> diagview<eT>::ht() const {
-    return Op<diagview<eT>, op_htrans>(*this);
-}
+template <typename eT> arma_inline const Op<diagview<eT>, op_htrans> diagview<eT>::ht() const { return Op<diagview<eT>, op_htrans>(*this); }
 
-template <typename eT>
-arma_inline const Op<diagview<eT>, op_strans> diagview<eT>::st() const {
-    return Op<diagview<eT>, op_strans>(*this);
-}
+template <typename eT> arma_inline const Op<diagview<eT>, op_strans> diagview<eT>::st() const { return Op<diagview<eT>, op_strans>(*this); }
 
-template <typename eT>
-inline void diagview<eT>::replace(const eT old_val, const eT new_val) {
+template <typename eT> inline void diagview<eT>::replace(const eT old_val, const eT new_val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& x = const_cast<Mat<eT>&>(m);
@@ -624,8 +566,7 @@ inline void diagview<eT>::replace(const eT old_val, const eT new_val) {
     }
 }
 
-template <typename eT>
-inline void diagview<eT>::fill(const eT val) {
+template <typename eT> inline void diagview<eT>::fill(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& x = const_cast<Mat<eT>&>(m);
@@ -635,22 +576,19 @@ inline void diagview<eT>::fill(const eT val) {
     for(uword ii = 0; ii < local_n_elem; ++ii) { x.at(ii + row_offset, ii + col_offset) = val; }
 }
 
-template <typename eT>
-inline void diagview<eT>::zeros() {
+template <typename eT> inline void diagview<eT>::zeros() {
     arma_extra_debug_sigprint();
 
     (*this).fill(eT(0));
 }
 
-template <typename eT>
-inline void diagview<eT>::ones() {
+template <typename eT> inline void diagview<eT>::ones() {
     arma_extra_debug_sigprint();
 
     (*this).fill(eT(1));
 }
 
-template <typename eT>
-inline void diagview<eT>::randu() {
+template <typename eT> inline void diagview<eT>::randu() {
     arma_extra_debug_sigprint();
 
     Mat<eT>& x = const_cast<Mat<eT>&>(m);
@@ -660,8 +598,7 @@ inline void diagview<eT>::randu() {
     for(uword ii = 0; ii < local_n_elem; ++ii) { x.at(ii + row_offset, ii + col_offset) = eT(arma_rng::randu<eT>()); }
 }
 
-template <typename eT>
-inline void diagview<eT>::randn() {
+template <typename eT> inline void diagview<eT>::randn() {
     arma_extra_debug_sigprint();
 
     Mat<eT>& x = const_cast<Mat<eT>&>(m);

@@ -1,10 +1,11 @@
 #include "arpack_wrapper.h"
 
-int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, const unsigned& num, char* form) {
+int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, const unsigned& num, const char* form) {
     auto IDO = 0;
     auto BMAT = 'I'; // standard eigenvalue problem A*x=lambda*x
     auto N = static_cast<int>(K.n_rows);
-    const auto WHICH = form;
+    char WHICH[2];
+    for(int I = 0; I < 2; ++I) WHICH[I] = form[0];
     auto NEV = std::min(static_cast<int>(num), N - 2);
     auto TOL = 0.;
     auto NCV = std::min(std::min(NEV + 8, 2 * NEV + 1), N);
@@ -61,11 +62,12 @@ int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, const unsigned& num, char*
     return INFO;
 }
 
-int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, mat& M, const unsigned& num, char* form) {
+int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, mat& M, const unsigned& num, const char* form) {
     auto IDO = 0;
     auto BMAT = 'G'; // generalized eigenvalue problem A*x=lambda*B*x
     auto N = static_cast<int>(K.n_rows);
-    const auto WHICH = form;
+    char WHICH[2];
+    for(int I = 0; I < 2; ++I) WHICH[I] = form[0];
     auto NEV = std::min(static_cast<int>(num), N - 2);
     auto TOL = 0.;
     auto NCV = std::min(std::min(NEV + 8, 2 * NEV + 1), N);
@@ -124,11 +126,12 @@ int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, mat& M, const unsigned& nu
     return INFO;
 }
 
-int eig_solve(vec& eigval, mat& eigvec, mat& K, const unsigned& num, char* form) {
+int eig_solve(vec& eigval, mat& eigvec, mat& K, const unsigned& num, const char* form) {
     auto IDO = 0;
     auto BMAT = 'I'; // standard eigenvalue problem A*x=lambda*x
     auto N = static_cast<int>(K.n_rows);
-    const auto WHICH = form;
+    char WHICH[2];
+    for(int I = 0; I < 2; ++I) WHICH[I] = form[0];
     auto NEV = std::min(static_cast<int>(num), N - 1);
     auto TOL = 0.;
     auto NCV = std::min(std::min(NEV + 8, 2 * NEV + 1), N);
@@ -169,11 +172,12 @@ int eig_solve(vec& eigval, mat& eigvec, mat& K, const unsigned& num, char* form)
     return INFO;
 }
 
-int eig_solve(vec& eigval, mat& eigvec, mat& K, mat& M, const unsigned& num, char* form) {
+int eig_solve(vec& eigval, mat& eigvec, mat& K, mat& M, const unsigned& num, const char* form) {
     auto IDO = 0;
     auto BMAT = 'G'; // generalized eigenvalue problem A*x=lambda*M*x
     auto N = static_cast<int>(K.n_rows);
-    const auto WHICH = form;
+    char WHICH[2];
+    for(int I = 0; I < 2; ++I) WHICH[I] = form[0];
     auto NEV = std::min(static_cast<int>(num), N - 1);
     auto TOL = 0.;
     auto NCV = std::min(std::min(NEV + 8, 2 * NEV + 1), N);

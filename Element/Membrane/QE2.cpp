@@ -1,6 +1,6 @@
 #include "QE2.h"
 #include <Toolbox/integrationPlan.h>
-#include <Toolbox/shapeFunctionQuad.h>
+#include <Toolbox/shapeFunction.h>
 #include <Toolbox/tensorToolbox.h>
 
 const unsigned QE2::m_node = 4;

@@ -37,9 +37,6 @@ inline SpOp<T1, op_type>::SpOp(const T1& in_m, const uword in_aux_uword_a, const
     arma_extra_debug_sigprint();
 }
 
-template <typename T1, typename op_type>
-inline SpOp<T1, op_type>::~SpOp() {
-    arma_extra_debug_sigprint();
-}
+template <typename T1, typename op_type> inline SpOp<T1, op_type>::~SpOp() { arma_extra_debug_sigprint(); }
 
 //! @}

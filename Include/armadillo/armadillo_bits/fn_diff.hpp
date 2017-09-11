@@ -16,15 +16,13 @@
 //! \addtogroup fn_diff
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff_default>>::result diff(const T1& X, const uword k = 1) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff_default>>::result diff(const T1& X, const uword k = 1) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_diff_default>(X, k, 0);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff>>::result diff(const T1& X, const uword k, const uword dim) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_diff>>::result diff(const T1& X, const uword k, const uword dim) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_diff>(X, k, dim);

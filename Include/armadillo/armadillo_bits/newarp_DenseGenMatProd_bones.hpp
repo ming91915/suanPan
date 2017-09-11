@@ -16,8 +16,7 @@
 namespace newarp {
 
 //! Define matrix operations on existing matrix objects
-template <typename eT>
-class DenseGenMatProd {
+template <typename eT> class DenseGenMatProd {
 private:
     const Mat<eT>& op_mat;
 

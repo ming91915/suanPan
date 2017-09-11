@@ -18,8 +18,7 @@
 
 //! \brief
 //! both input matrices have the same element type
-template <typename eT>
-inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) {
+template <typename eT> inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_rows = A.n_rows;
@@ -39,8 +38,7 @@ inline void glue_kron::direct_kron(Mat<eT>& out, const Mat<eT>& A, const Mat<eT>
 //! \brief
 //! different types of input matrices
 //! A -> complex, B -> basic element type
-template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<T>& B) {
+template <typename T> inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<std::complex<T>>& A, const Mat<T>& B) {
     arma_extra_debug_sigprint();
 
     typedef typename std::complex<T> eT;
@@ -64,8 +62,7 @@ inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<std::com
 //! \brief
 //! different types of input matrices
 //! A -> basic element type, B -> complex
-template <typename T>
-inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<T>& A, const Mat<std::complex<T>>& B) {
+template <typename T> inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<T>& A, const Mat<std::complex<T>>& B) {
     arma_extra_debug_sigprint();
 
     const uword A_rows = A.n_rows;
@@ -84,8 +81,7 @@ inline void glue_kron::direct_kron(Mat<std::complex<T>>& out, const Mat<T>& A, c
 
 //! \brief
 //! apply Kronecker product for two objects with same element type
-template <typename T1, typename T2>
-inline void glue_kron::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_kron>& X) {
+template <typename T1, typename T2> inline void glue_kron::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_kron>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

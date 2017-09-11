@@ -16,8 +16,7 @@
 namespace newarp {
 
 //! This class implements the eigen solver for general real matrices.
-template <typename eT, int SelectionRule, typename OpType>
-class GenEigsSolver {
+template <typename eT, int SelectionRule, typename OpType> class GenEigsSolver {
 protected:
     const OpType& op;               // object to conduct matrix operation, e.g. matrix-vector product
     const uword nev;                // number of eigenvalues requested

@@ -16,8 +16,7 @@
 namespace newarp {
 
 //! Define matrix operations on existing matrix objects
-template <typename eT>
-class SparseGenMatProd {
+template <typename eT> class SparseGenMatProd {
 private:
     const SpMat<eT>& op_mat;
 

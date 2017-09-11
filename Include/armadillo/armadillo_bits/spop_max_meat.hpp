@@ -16,8 +16,7 @@
 //! \addtogroup spop_max
 //! @{
 
-template <typename T1>
-inline void spop_max::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_max>& in) {
+template <typename T1> inline void spop_max::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_max>& in) {
     arma_extra_debug_sigprint();
 
     const uword dim = in.aux_uword_a;
@@ -38,8 +37,7 @@ inline void spop_max::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, s
     spop_max::apply_proxy(out, p, dim);
 }
 
-template <typename T1>
-inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -90,8 +88,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpPr
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_not_cx<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -136,8 +133,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename a
     }
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -181,8 +177,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max(const 
     }
 }
 
-template <typename T1>
-inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -267,8 +262,7 @@ inline typename arma_not_cx<typename T1::elem_type>::result spop_max::max_with_i
     return max_val;
 }
 
-template <typename T1>
-inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -324,8 +318,7 @@ inline void spop_max::apply_proxy(SpMat<typename T1::elem_type>& out, const SpPr
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
+template <typename T1> inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename arma_cx_only<typename T1::elem_type>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -384,8 +377,7 @@ inline typename T1::elem_type spop_max::vector_max(const T1& x, const typename a
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -437,8 +429,7 @@ inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max(const
     }
 }
 
-template <typename T1>
-inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
+template <typename T1> inline typename arma_cx_only<typename T1::elem_type>::result spop_max::max_with_index(const SpProxy<T1>& P, uword& index_of_max_val) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

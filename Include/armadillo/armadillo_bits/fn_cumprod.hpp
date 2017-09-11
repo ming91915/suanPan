@@ -16,23 +16,18 @@
 //! \addtogroup fn_cumprod
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_cumprod_default>>::result cumprod(const T1& X) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_cumprod_default>>::result cumprod(const T1& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_cumprod_default>(X);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_cumprod>>::result cumprod(const T1& X, const uword dim) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_arma_type<T1>::value, const Op<T1, op_cumprod>>::result cumprod(const T1& X, const uword dim) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_cumprod>(X, dim, 0);
 }
 
-template <typename T>
-arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& cumprod(const T& x) {
-    return x;
-}
+template <typename T> arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& cumprod(const T& x) { return x; }
 
 //! @}

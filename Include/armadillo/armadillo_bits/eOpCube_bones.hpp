@@ -16,8 +16,7 @@
 //! \addtogroup eOpCube
 //! @{
 
-template <typename T1, typename eop_type>
-class eOpCube : public BaseCube<typename T1::elem_type, eOpCube<T1, eop_type>> {
+template <typename T1, typename eop_type> class eOpCube : public BaseCube<typename T1::elem_type, eOpCube<T1, eop_type>> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

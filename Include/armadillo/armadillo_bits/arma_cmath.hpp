@@ -19,15 +19,13 @@
 //
 // wrappers for isfinite
 
-template <typename eT>
-arma_inline bool arma_isfinite(eT val) {
+template <typename eT> arma_inline bool arma_isfinite(eT val) {
     arma_ignore(val);
 
     return true;
 }
 
-template <>
-arma_inline bool arma_isfinite(float x) {
+template <> arma_inline bool arma_isfinite(float x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isfinite(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -45,8 +43,7 @@ arma_inline bool arma_isfinite(float x) {
 #endif
 }
 
-template <>
-arma_inline bool arma_isfinite(double x) {
+template <> arma_inline bool arma_isfinite(double x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isfinite(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -64,8 +61,7 @@ arma_inline bool arma_isfinite(double x) {
 #endif
 }
 
-template <typename T>
-arma_inline bool arma_isfinite(const std::complex<T>& x) {
+template <typename T> arma_inline bool arma_isfinite(const std::complex<T>& x) {
     if((arma_isfinite(x.real()) == false) || (arma_isfinite(x.imag()) == false)) {
         return false;
     } else {
@@ -76,15 +72,13 @@ arma_inline bool arma_isfinite(const std::complex<T>& x) {
 //
 // wrappers for isinf
 
-template <typename eT>
-arma_inline bool arma_isinf(eT val) {
+template <typename eT> arma_inline bool arma_isinf(eT val) {
     arma_ignore(val);
 
     return false;
 }
 
-template <>
-arma_inline bool arma_isinf(float x) {
+template <> arma_inline bool arma_isinf(float x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isinf(x); }
 #elif defined(ARMA_HAVE_ISINF)
@@ -100,8 +94,7 @@ arma_inline bool arma_isinf(float x) {
 #endif
 }
 
-template <>
-arma_inline bool arma_isinf(double x) {
+template <> arma_inline bool arma_isinf(double x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isinf(x); }
 #elif defined(ARMA_HAVE_ISINF)
@@ -117,23 +110,18 @@ arma_inline bool arma_isinf(double x) {
 #endif
 }
 
-template <typename T>
-arma_inline bool arma_isinf(const std::complex<T>& x) {
-    return (arma_isinf(x.real()) || arma_isinf(x.imag()));
-}
+template <typename T> arma_inline bool arma_isinf(const std::complex<T>& x) { return (arma_isinf(x.real()) || arma_isinf(x.imag())); }
 
 //
 // wrappers for isnan
 
-template <typename eT>
-arma_inline bool arma_isnan(eT val) {
+template <typename eT> arma_inline bool arma_isnan(eT val) {
     arma_ignore(val);
 
     return false;
 }
 
-template <>
-arma_inline bool arma_isnan(float x) {
+template <> arma_inline bool arma_isnan(float x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isnan(x); }
 #elif defined(ARMA_HAVE_ISNAN)
@@ -147,8 +135,7 @@ arma_inline bool arma_isnan(float x) {
 #endif
 }
 
-template <>
-arma_inline bool arma_isnan(double x) {
+template <> arma_inline bool arma_isnan(double x) {
 #if defined(ARMA_USE_CXX11)
     { return std::isnan(x); }
 #elif defined(ARMA_HAVE_ISNAN)
@@ -162,10 +149,7 @@ arma_inline bool arma_isnan(double x) {
 #endif
 }
 
-template <typename T>
-arma_inline bool arma_isnan(const std::complex<T>& x) {
-    return (arma_isnan(x.real()) || arma_isnan(x.imag()));
-}
+template <typename T> arma_inline bool arma_isnan(const std::complex<T>& x) { return (arma_isnan(x.real()) || arma_isnan(x.imag())); }
 
 // rudimentary wrappers for log1p()
 
@@ -227,8 +211,7 @@ arma_inline double arma_log1p(const double x) {
 // real    asinh
 // real    atanh
 
-template <typename T>
-arma_inline std::complex<T> arma_acos(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_acos(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::acos(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -243,8 +226,7 @@ arma_inline std::complex<T> arma_acos(const std::complex<T>& x) {
 #endif
 }
 
-template <typename T>
-arma_inline std::complex<T> arma_asin(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_asin(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::asin(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -259,8 +241,7 @@ arma_inline std::complex<T> arma_asin(const std::complex<T>& x) {
 #endif
 }
 
-template <typename T>
-arma_inline std::complex<T> arma_atan(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_atan(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::atan(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -275,8 +256,7 @@ arma_inline std::complex<T> arma_atan(const std::complex<T>& x) {
 #endif
 }
 
-template <typename eT>
-arma_inline eT arma_acosh(const eT x) {
+template <typename eT> arma_inline eT arma_acosh(const eT x) {
 #if defined(ARMA_USE_CXX11)
     { return std::acosh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -297,8 +277,7 @@ arma_inline eT arma_acosh(const eT x) {
 #endif
 }
 
-template <typename eT>
-arma_inline eT arma_asinh(const eT x) {
+template <typename eT> arma_inline eT arma_asinh(const eT x) {
 #if defined(ARMA_USE_CXX11)
     { return std::asinh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -311,8 +290,7 @@ arma_inline eT arma_asinh(const eT x) {
 #endif
 }
 
-template <typename eT>
-arma_inline eT arma_atanh(const eT x) {
+template <typename eT> arma_inline eT arma_atanh(const eT x) {
 #if defined(ARMA_USE_CXX11)
     { return std::atanh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -333,8 +311,7 @@ arma_inline eT arma_atanh(const eT x) {
 #endif
 }
 
-template <typename T>
-arma_inline std::complex<T> arma_acosh(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_acosh(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::acosh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -349,8 +326,7 @@ arma_inline std::complex<T> arma_acosh(const std::complex<T>& x) {
 #endif
 }
 
-template <typename T>
-arma_inline std::complex<T> arma_asinh(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_asinh(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::asinh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -365,8 +341,7 @@ arma_inline std::complex<T> arma_asinh(const std::complex<T>& x) {
 #endif
 }
 
-template <typename T>
-arma_inline std::complex<T> arma_atanh(const std::complex<T>& x) {
+template <typename T> arma_inline std::complex<T> arma_atanh(const std::complex<T>& x) {
 #if defined(ARMA_USE_CXX11)
     { return std::atanh(x); }
 #elif defined(ARMA_HAVE_TR1)
@@ -384,8 +359,7 @@ arma_inline std::complex<T> arma_atanh(const std::complex<T>& x) {
 //
 // wrappers for hypot(x, y) = sqrt(x^2 + y^2)
 
-template <typename eT>
-inline eT arma_hypot_generic(const eT x, const eT y) {
+template <typename eT> inline eT arma_hypot_generic(const eT x, const eT y) {
 #if defined(ARMA_USE_CXX11)
     { return std::hypot(x, y); }
 #elif defined(ARMA_HAVE_TR1)
@@ -411,8 +385,7 @@ inline eT arma_hypot_generic(const eT x, const eT y) {
 #endif
 }
 
-template <typename eT>
-inline eT arma_hypot(const eT x, const eT y) {
+template <typename eT> inline eT arma_hypot(const eT x, const eT y) {
     arma_ignore(x);
     arma_ignore(y);
 
@@ -421,21 +394,14 @@ inline eT arma_hypot(const eT x, const eT y) {
     return eT(0);
 }
 
-template <>
-arma_inline float arma_hypot(const float x, const float y) {
-    return arma_hypot_generic(x, y);
-}
+template <> arma_inline float arma_hypot(const float x, const float y) { return arma_hypot_generic(x, y); }
 
-template <>
-arma_inline double arma_hypot(const double x, const double y) {
-    return arma_hypot_generic(x, y);
-}
+template <> arma_inline double arma_hypot(const double x, const double y) { return arma_hypot_generic(x, y); }
 
 //
 // wrappers for arg()
 
-template <typename eT>
-struct arma_arg {
+template <typename eT> struct arma_arg {
     static inline eT eval(const eT x) {
 #if defined(ARMA_USE_CXX11)
         { return eT(std::arg(x)); }
@@ -450,8 +416,7 @@ struct arma_arg {
     }
 };
 
-template <>
-struct arma_arg<float> {
+template <> struct arma_arg<float> {
     static arma_inline float eval(const float x) {
 #if defined(ARMA_USE_CXX11)
         { return std::arg(x); }
@@ -461,8 +426,7 @@ struct arma_arg<float> {
     }
 };
 
-template <>
-struct arma_arg<double> {
+template <> struct arma_arg<double> {
     static arma_inline double eval(const double x) {
 #if defined(ARMA_USE_CXX11)
         { return std::arg(x); }
@@ -472,13 +436,11 @@ struct arma_arg<double> {
     }
 };
 
-template <>
-struct arma_arg<std::complex<float>> {
+template <> struct arma_arg<std::complex<float>> {
     static arma_inline float eval(const std::complex<float>& x) { return std::arg(x); }
 };
 
-template <>
-struct arma_arg<std::complex<double>> {
+template <> struct arma_arg<std::complex<double>> {
     static arma_inline double eval(const std::complex<double>& x) { return std::arg(x); }
 };
 

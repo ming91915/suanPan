@@ -16,8 +16,7 @@
 //! \addtogroup diagmat_proxy
 //! @{
 
-template <typename T1>
-class diagmat_proxy_default {
+template <typename T1> class diagmat_proxy_default {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -68,8 +67,7 @@ public:
     const uword n_cols;
 };
 
-template <typename T1>
-class diagmat_proxy_fixed {
+template <typename T1> class diagmat_proxy_fixed {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -98,28 +96,19 @@ public:
     static const uword n_cols = P_is_vec ? T1::n_elem : T1::n_cols;
 };
 
-template <typename T1, bool condition>
-struct diagmat_proxy_redirect {};
+template <typename T1, bool condition> struct diagmat_proxy_redirect {};
 
-template <typename T1>
-struct diagmat_proxy_redirect<T1, false> {
-    typedef diagmat_proxy_default<T1> result;
-};
+template <typename T1> struct diagmat_proxy_redirect<T1, false> { typedef diagmat_proxy_default<T1> result; };
 
-template <typename T1>
-struct diagmat_proxy_redirect<T1, true> {
-    typedef diagmat_proxy_fixed<T1> result;
-};
+template <typename T1> struct diagmat_proxy_redirect<T1, true> { typedef diagmat_proxy_fixed<T1> result; };
 
-template <typename T1>
-class diagmat_proxy : public diagmat_proxy_redirect<T1, is_Mat_fixed<T1>::value>::result {
+template <typename T1> class diagmat_proxy : public diagmat_proxy_redirect<T1, is_Mat_fixed<T1>::value>::result {
 public:
     inline diagmat_proxy(const T1& X)
         : diagmat_proxy_redirect<T1, is_Mat_fixed<T1>::value>::result(X) {}
 };
 
-template <typename eT>
-class diagmat_proxy<Mat<eT>> {
+template <typename eT> class diagmat_proxy<Mat<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -143,8 +132,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy<Row<eT>> {
+template <typename eT> class diagmat_proxy<Row<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -168,8 +156,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy<Col<eT>> {
+template <typename eT> class diagmat_proxy<Col<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -193,8 +180,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy<subview_row<eT>> {
+template <typename eT> class diagmat_proxy<subview_row<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -218,8 +204,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy<subview_col<eT>> {
+template <typename eT> class diagmat_proxy<subview_col<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -247,8 +232,7 @@ public:
 //
 //
 
-template <typename T1>
-class diagmat_proxy_check_default {
+template <typename T1> class diagmat_proxy_check_default {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -270,8 +254,7 @@ public:
     const uword n_cols;
 };
 
-template <typename T1>
-class diagmat_proxy_check_fixed {
+template <typename T1> class diagmat_proxy_check_fixed {
 public:
     typedef typename T1::elem_type eT;
     typedef typename T1::elem_type elem_type;
@@ -293,28 +276,19 @@ public:
     static const uword n_cols = P_is_vec ? T1::n_elem : T1::n_cols;
 };
 
-template <typename T1, bool condition>
-struct diagmat_proxy_check_redirect {};
+template <typename T1, bool condition> struct diagmat_proxy_check_redirect {};
 
-template <typename T1>
-struct diagmat_proxy_check_redirect<T1, false> {
-    typedef diagmat_proxy_check_default<T1> result;
-};
+template <typename T1> struct diagmat_proxy_check_redirect<T1, false> { typedef diagmat_proxy_check_default<T1> result; };
 
-template <typename T1>
-struct diagmat_proxy_check_redirect<T1, true> {
-    typedef diagmat_proxy_check_fixed<T1> result;
-};
+template <typename T1> struct diagmat_proxy_check_redirect<T1, true> { typedef diagmat_proxy_check_fixed<T1> result; };
 
-template <typename T1>
-class diagmat_proxy_check : public diagmat_proxy_check_redirect<T1, is_Mat_fixed<T1>::value>::result {
+template <typename T1> class diagmat_proxy_check : public diagmat_proxy_check_redirect<T1, is_Mat_fixed<T1>::value>::result {
 public:
     inline diagmat_proxy_check(const T1& X, const Mat<typename T1::elem_type>& out)
         : diagmat_proxy_check_redirect<T1, is_Mat_fixed<T1>::value>::result(X, out) {}
 };
 
-template <typename eT>
-class diagmat_proxy_check<Mat<eT>> {
+template <typename eT> class diagmat_proxy_check<Mat<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -342,8 +316,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy_check<Row<eT>> {
+template <typename eT> class diagmat_proxy_check<Row<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -371,8 +344,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy_check<Col<eT>> {
+template <typename eT> class diagmat_proxy_check<Col<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -400,8 +372,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy_check<subview_row<eT>> {
+template <typename eT> class diagmat_proxy_check<subview_row<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;
@@ -423,8 +394,7 @@ public:
     const uword n_cols;
 };
 
-template <typename eT>
-class diagmat_proxy_check<subview_col<eT>> {
+template <typename eT> class diagmat_proxy_check<subview_col<eT>> {
 public:
     typedef eT elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

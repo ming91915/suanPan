@@ -26,19 +26,11 @@ arma_inline SpValProxy<T1>::SpValProxy(uword in_row, uword in_col, T1& in_parent
     // Nothing to do.
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const SpValProxy<T1>& rhs) {
-    return (*this).operator=(eT(rhs));
-}
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const SpValProxy<T1>& rhs) { return (*this).operator=(eT(rhs)); }
 
-template <typename T1>
-template <typename T2>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const SpValProxy<T2>& rhs) {
-    return (*this).operator=(eT(rhs));
-}
+template <typename T1> template <typename T2> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const SpValProxy<T2>& rhs) { return (*this).operator=(eT(rhs)); }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const eT rhs) {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const eT rhs) {
     if(rhs != eT(0)) // A nonzero element is being assigned.
     {
 
@@ -67,8 +59,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator=(const eT rhs) {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator+=(const eT rhs) {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator+=(const eT rhs) {
     if(val_ptr) {
         // The value already exists and merely needs to be updated.
         *val_ptr += rhs;
@@ -83,8 +74,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator+=(const eT rhs) {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator-=(const eT rhs) {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator-=(const eT rhs) {
     if(val_ptr) {
         // The value already exists and merely needs to be updated.
         *val_ptr -= rhs;
@@ -99,8 +89,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator-=(const eT rhs) {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator*=(const eT rhs) {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator*=(const eT rhs) {
     if(rhs != eT(0)) {
 
         if(val_ptr) {
@@ -121,8 +110,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator*=(const eT rhs) {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator/=(const eT rhs) {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator/=(const eT rhs) {
     if(rhs != eT(0)) // I hope this is true!
     {
 
@@ -155,8 +143,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator/=(const eT rhs) {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator++() {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator++() {
     if(val_ptr) {
         (*val_ptr) += eT(1);
         check_zero();
@@ -169,8 +156,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator++() {
     return *this;
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>& SpValProxy<T1>::operator--() {
+template <typename T1> arma_inline SpValProxy<T1>& SpValProxy<T1>::operator--() {
     if(val_ptr) {
         (*val_ptr) -= eT(1);
         check_zero();
@@ -183,8 +169,7 @@ arma_inline SpValProxy<T1>& SpValProxy<T1>::operator--() {
     return *this;
 }
 
-template <typename T1>
-arma_inline typename T1::elem_type SpValProxy<T1>::operator++(const int) {
+template <typename T1> arma_inline typename T1::elem_type SpValProxy<T1>::operator++(const int) {
     if(val_ptr) {
         (*val_ptr) += eT(1);
         check_zero();
@@ -202,8 +187,7 @@ arma_inline typename T1::elem_type SpValProxy<T1>::operator++(const int) {
     }
 }
 
-template <typename T1>
-arma_inline typename T1::elem_type SpValProxy<T1>::operator--(const int) {
+template <typename T1> arma_inline typename T1::elem_type SpValProxy<T1>::operator--(const int) {
     if(val_ptr) {
         (*val_ptr) -= eT(1);
         check_zero();
@@ -221,8 +205,7 @@ arma_inline typename T1::elem_type SpValProxy<T1>::operator--(const int) {
     }
 }
 
-template <typename T1>
-arma_inline SpValProxy<T1>::operator eT() const {
+template <typename T1> arma_inline SpValProxy<T1>::operator eT() const {
     if(val_ptr) {
         return *val_ptr;
     } else {
@@ -230,8 +213,7 @@ arma_inline SpValProxy<T1>::operator eT() const {
     }
 }
 
-template <typename T1>
-arma_inline arma_hot void SpValProxy<T1>::check_zero() {
+template <typename T1> arma_inline arma_hot void SpValProxy<T1>::check_zero() {
     if(*val_ptr == eT(0)) {
         parent.delete_element(row, col);
         val_ptr = NULL;

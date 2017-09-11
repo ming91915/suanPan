@@ -16,8 +16,7 @@
 //! \addtogroup op_diagmat
 //! @{
 
-template <typename T1>
-inline void op_diagmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& X) {
+template <typename T1> inline void op_diagmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -112,8 +111,7 @@ inline void op_diagmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_
     }
 }
 
-template <typename T1>
-inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset) {
+template <typename T1> inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = P.get_n_rows();
@@ -160,8 +158,7 @@ inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Proxy<T1>
     }
 }
 
-template <typename T1>
-inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat2>& X) {
+template <typename T1> inline void op_diagmat2::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagmat2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup op_trimat
 //! @{
 
-template <typename eT>
-inline void op_trimat::fill_zeros(Mat<eT>& out, const bool upper) {
+template <typename eT> inline void op_trimat::fill_zeros(Mat<eT>& out, const bool upper) {
     arma_extra_debug_sigprint();
 
     const uword N = out.n_rows;
@@ -41,8 +40,7 @@ inline void op_trimat::fill_zeros(Mat<eT>& out, const bool upper) {
     }
 }
 
-template <typename T1>
-inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimat>& in) {
+template <typename T1> inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -80,8 +78,7 @@ inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_t
     op_trimat::fill_zeros(out, upper);
 }
 
-template <typename T1>
-inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_htrans>, op_trimat>& in) {
+template <typename T1> inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, op_htrans>, op_trimat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -94,8 +91,7 @@ inline void op_trimat::apply(Mat<typename T1::elem_type>& out, const Op<Op<T1, o
     op_trimat::apply_htrans(out, A, upper);
 }
 
-template <typename eT>
-inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_not_cx<eT>::result* junk) {
+template <typename eT> inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_not_cx<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -139,8 +135,7 @@ inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool u
     op_trimat::fill_zeros(out, upper);
 }
 
-template <typename eT>
-inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_cx_only<eT>::result* junk) {
+template <typename eT> inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool upper, const typename arma_cx_only<eT>::result* junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -174,8 +169,7 @@ inline void op_trimat::apply_htrans(Mat<eT>& out, const Mat<eT>& A, const bool u
 
 //
 
-template <typename T1>
-inline void op_trimatu_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatu_ext>& in) {
+template <typename T1> inline void op_trimatu_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatu_ext>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -214,8 +208,7 @@ inline void op_trimatu_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1,
     op_trimatu_ext::fill_zeros(out, row_offset, col_offset);
 }
 
-template <typename eT>
-inline void op_trimatu_ext::fill_zeros(Mat<eT>& out, const uword row_offset, const uword col_offset) {
+template <typename eT> inline void op_trimatu_ext::fill_zeros(Mat<eT>& out, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = out.n_rows;
@@ -235,8 +228,7 @@ inline void op_trimatu_ext::fill_zeros(Mat<eT>& out, const uword row_offset, con
 
 //
 
-template <typename T1>
-inline void op_trimatl_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatl_ext>& in) {
+template <typename T1> inline void op_trimatl_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_trimatl_ext>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -272,8 +264,7 @@ inline void op_trimatl_ext::apply(Mat<typename T1::elem_type>& out, const Op<T1,
     op_trimatl_ext::fill_zeros(out, row_offset, col_offset);
 }
 
-template <typename eT>
-inline void op_trimatl_ext::fill_zeros(Mat<eT>& out, const uword row_offset, const uword col_offset) {
+template <typename eT> inline void op_trimatl_ext::fill_zeros(Mat<eT>& out, const uword row_offset, const uword col_offset) {
     arma_extra_debug_sigprint();
 
     const uword n_rows = out.n_rows;

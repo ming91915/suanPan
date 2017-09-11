@@ -16,8 +16,7 @@
 //! \addtogroup unwrap_cube
 //! @{
 
-template <typename T1>
-class unwrap_cube {
+template <typename T1> class unwrap_cube {
 public:
     typedef typename T1::elem_type eT;
 
@@ -29,8 +28,7 @@ public:
     const Cube<eT> M;
 };
 
-template <typename eT>
-class unwrap_cube<Cube<eT>> {
+template <typename eT> class unwrap_cube<Cube<eT>> {
 public:
     inline unwrap_cube(const Cube<eT>& A)
         : M(A) {
@@ -44,8 +42,7 @@ public:
 //
 //
 
-template <typename T1>
-class unwrap_cube_check {
+template <typename T1> class unwrap_cube_check {
 public:
     typedef typename T1::elem_type eT;
 
@@ -59,8 +56,7 @@ public:
     const Cube<eT> M;
 };
 
-template <typename eT>
-class unwrap_cube_check<Cube<eT>> {
+template <typename eT> class unwrap_cube_check<Cube<eT>> {
 public:
     inline unwrap_cube_check(const Cube<eT>& A, const Cube<eT>& B)
         : M_local((&A == &B) ? new Cube<eT>(A) : 0)

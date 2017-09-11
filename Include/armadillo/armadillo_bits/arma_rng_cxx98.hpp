@@ -26,11 +26,9 @@ public:
     arma_inline static double randu_val();
     inline static double randn_val();
 
-    template <typename eT>
-    inline static void randn_dual_val(eT& out1, eT& out2);
+    template <typename eT> inline static void randn_dual_val(eT& out1, eT& out2);
 
-    template <typename eT>
-    inline static void randi_fill(eT* mem, const uword N, const int a, const int b);
+    template <typename eT> inline static void randi_fill(eT* mem, const uword N, const int a, const int b);
 
     inline static int randi_max_val();
 };
@@ -73,8 +71,7 @@ inline double arma_rng_cxx98::randn_val() {
     return double(tmp1 * std::sqrt((double(-2) * std::log(w)) / w));
 }
 
-template <typename eT>
-inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& out2) {
+template <typename eT> inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& out2) {
     // make sure we are internally using at least floats
     typedef typename promote_type<eT, float>::result eTp;
 
@@ -95,8 +92,7 @@ inline void arma_rng_cxx98::randn_dual_val(eT& out1, eT& out2) {
     out2 = eT(tmp2 * k);
 }
 
-template <typename eT>
-inline void arma_rng_cxx98::randi_fill(eT* mem, const uword N, const int a, const int b) {
+template <typename eT> inline void arma_rng_cxx98::randi_fill(eT* mem, const uword N, const int a, const int b) {
     if((a == 0) && (b == RAND_MAX)) {
         for(uword i = 0; i < N; ++i) { mem[i] = eT(std::rand()); }
     } else {

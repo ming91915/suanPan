@@ -16,8 +16,7 @@
 //! \addtogroup spglue_minus
 //! @{
 
-template <typename T1, typename T2>
-arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus>& X) {
+template <typename T1, typename T2> arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -37,8 +36,7 @@ arma_hot inline void spglue_minus::apply(SpMat<typename T1::elem_type>& out, con
     }
 }
 
-template <typename eT, typename T1, typename T2>
-arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
+template <typename eT, typename T1, typename T2> arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result, const SpProxy<T1>& pa, const SpProxy<T2>& pb) {
     arma_extra_debug_sigprint();
 
     arma_debug_assert_same_size(pa.get_n_rows(), pa.get_n_cols(), pb.get_n_rows(), pb.get_n_cols(), "subtraction");
@@ -125,8 +123,7 @@ arma_hot inline void spglue_minus::apply_noalias(SpMat<eT>& result, const SpProx
 //
 // spglue_minus2: scalar*(A - B)
 
-template <typename T1, typename T2>
-arma_hot inline void spglue_minus2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus2>& X) {
+template <typename T1, typename T2> arma_hot inline void spglue_minus2::apply(SpMat<typename T1::elem_type>& out, const SpGlue<T1, T2, spglue_minus2>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup fn_inv
 //! @{
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value && is_Mat<T1>::value, const Op<T1, op_inv>>::result inv(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value && is_Mat<T1>::value, const Op<T1, op_inv>>::result inv(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_inv>(X.get_ref());
@@ -48,8 +47,7 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return Op<T1, op_inv>(X.get_ref());
 }
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, const Op<T1, op_inv_tr>>::result inv(const Op<T1, op_trimat>& X) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, const Op<T1, op_inv_tr>>::result inv(const Op<T1, op_trimat>& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_inv_tr>(X.m, X.aux_uword_a, 0);
@@ -80,8 +78,7 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return Op<T1, op_inv_tr>(X.m, X.aux_uword_a, 0);
 }
 
-template <typename T1>
-inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result inv(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result inv(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     try {
@@ -119,8 +116,7 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return inv(out, X);
 }
 
-template <typename T1>
-arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, const Op<T1, op_inv_sympd>>::result inv_sympd(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused arma_inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, const Op<T1, op_inv_sympd>>::result inv_sympd(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     return Op<T1, op_inv_sympd>(X.get_ref());
@@ -152,8 +148,7 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return Op<T1, op_inv_sympd>(X.get_ref());
 }
 
-template <typename T1>
-inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result inv_sympd(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result inv_sympd(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     try {

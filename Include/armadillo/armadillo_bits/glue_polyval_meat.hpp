@@ -16,8 +16,7 @@
 //! \addtogroup glue_polyval
 //! @{
 
-template <typename eT>
-inline void glue_polyval::apply_noalias(Mat<eT>& out, const Mat<eT>& P, const Mat<eT>& X) {
+template <typename eT> inline void glue_polyval::apply_noalias(Mat<eT>& out, const Mat<eT>& P, const Mat<eT>& X) {
     arma_extra_debug_sigprint();
 
     out.set_size(X.n_rows, X.n_cols);
@@ -30,8 +29,7 @@ inline void glue_polyval::apply_noalias(Mat<eT>& out, const Mat<eT>& P, const Ma
     for(uword i = 1; i < P_n_elem; ++i) { out = out % X + P_mem[i]; }
 }
 
-template <typename T1, typename T2>
-inline void glue_polyval::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyval>& expr) {
+template <typename T1, typename T2> inline void glue_polyval::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyval>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

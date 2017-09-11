@@ -32,8 +32,7 @@ inline running_mean_scalar<eT>::running_mean_scalar(const running_mean_scalar<eT
     arma_extra_debug_sigprint_this(this);
 }
 
-template <typename eT>
-inline const running_mean_scalar<eT>& running_mean_scalar<eT>::operator=(const running_mean_scalar<eT>& in) {
+template <typename eT> inline const running_mean_scalar<eT>& running_mean_scalar<eT>::operator=(const running_mean_scalar<eT>& in) {
     arma_extra_debug_sigprint();
 
     counter = in.counter;
@@ -42,8 +41,7 @@ inline const running_mean_scalar<eT>& running_mean_scalar<eT>::operator=(const r
     return *this;
 }
 
-template <typename eT>
-arma_hot inline void running_mean_scalar<eT>::operator()(const eT X) {
+template <typename eT> arma_hot inline void running_mean_scalar<eT>::operator()(const eT X) {
     arma_extra_debug_sigprint();
 
     counter++;
@@ -57,30 +55,22 @@ arma_hot inline void running_mean_scalar<eT>::operator()(const eT X) {
     }
 }
 
-template <typename eT>
-inline void running_mean_scalar<eT>::reset() {
+template <typename eT> inline void running_mean_scalar<eT>::reset() {
     arma_extra_debug_sigprint();
 
     counter = 0;
     r_mean = eT(0);
 }
 
-template <typename eT>
-inline uword running_mean_scalar<eT>::count() const {
-    return counter;
-}
+template <typename eT> inline uword running_mean_scalar<eT>::count() const { return counter; }
 
-template <typename eT>
-inline eT running_mean_scalar<eT>::mean() const {
-    return r_mean;
-}
+template <typename eT> inline eT running_mean_scalar<eT>::mean() const { return r_mean; }
 
 //
 //
 //
 
-template <typename eT>
-arma_inline arma_hot eT distance<eT, uword(1)>::eval(const uword N, const eT* A, const eT* B, const eT*) {
+template <typename eT> arma_inline arma_hot eT distance<eT, uword(1)>::eval(const uword N, const eT* A, const eT* B, const eT*) {
     eT acc1 = eT(0);
     eT acc2 = eT(0);
 
@@ -105,8 +95,7 @@ arma_inline arma_hot eT distance<eT, uword(1)>::eval(const uword N, const eT* A,
     return (acc1 + acc2);
 }
 
-template <typename eT>
-arma_inline arma_hot eT distance<eT, uword(2)>::eval(const uword N, const eT* A, const eT* B, const eT* C) {
+template <typename eT> arma_inline arma_hot eT distance<eT, uword(2)>::eval(const uword N, const eT* A, const eT* B, const eT* C) {
     eT acc1 = eT(0);
     eT acc2 = eT(0);
 

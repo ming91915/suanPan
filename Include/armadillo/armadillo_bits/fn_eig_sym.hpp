@@ -17,8 +17,7 @@
 //! @{
 
 //! Eigenvalues of real/complex symmetric/hermitian matrix X
-template <typename T1>
-inline bool eig_sym(Col<typename T1::pod_type>& eigval, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool eig_sym(Col<typename T1::pod_type>& eigval, const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -37,8 +36,7 @@ inline bool eig_sym(Col<typename T1::pod_type>& eigval, const Base<typename T1::
 }
 
 //! Eigenvalues of real/complex symmetric/hermitian matrix X
-template <typename T1>
-arma_warn_unused inline Col<typename T1::pod_type> eig_sym(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> arma_warn_unused inline Col<typename T1::pod_type> eig_sym(const Base<typename T1::elem_type, T1>& X, const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -54,8 +52,7 @@ arma_warn_unused inline Col<typename T1::pod_type> eig_sym(const Base<typename T
 }
 
 //! Eigenvalues and eigenvectors of real/complex symmetric/hermitian matrix X
-template <typename T1>
-inline bool eig_sym(Col<typename T1::pod_type>& eigval, Mat<typename T1::elem_type>& eigvec, const Base<typename T1::elem_type, T1>& X, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
+template <typename T1> inline bool eig_sym(Col<typename T1::pod_type>& eigval, Mat<typename T1::elem_type>& eigvec, const Base<typename T1::elem_type, T1>& X, const char* method = "dc", const typename arma_blas_type_only<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

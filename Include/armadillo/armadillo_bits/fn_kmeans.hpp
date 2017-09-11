@@ -16,8 +16,7 @@
 //! \addtogroup fn_kmeans
 //! @{
 
-template <typename T1>
-inline typename enable_if2<is_real<typename T1::elem_type>::value, bool>::result kmeans(Mat<typename T1::elem_type>& means, const Base<typename T1::elem_type, T1>& data, const uword k, const gmm_seed_mode& seed_mode, const uword n_iter, const bool print_mode) {
+template <typename T1> inline typename enable_if2<is_real<typename T1::elem_type>::value, bool>::result kmeans(Mat<typename T1::elem_type>& means, const Base<typename T1::elem_type, T1>& data, const uword k, const gmm_seed_mode& seed_mode, const uword n_iter, const bool print_mode) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

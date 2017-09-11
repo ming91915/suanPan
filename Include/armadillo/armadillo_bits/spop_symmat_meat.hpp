@@ -16,8 +16,7 @@
 //! \addtogroup spop_symmat
 //! @{
 
-template <typename T1>
-inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat>& in) {
+template <typename T1> inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -155,8 +154,7 @@ inline void spop_symmat::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1
     out.steal_mem(tmp);
 }
 
-template <typename T1>
-inline void spop_symmat_cx::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat_cx>& in) {
+template <typename T1> inline void spop_symmat_cx::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

@@ -16,8 +16,7 @@
 //! \addtogroup op_symmat
 //! @{
 
-template <typename T1>
-inline void op_symmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat>& in) {
+template <typename T1> inline void op_symmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -73,8 +72,7 @@ inline void op_symmat::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_s
     }
 }
 
-template <typename T1>
-inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat_cx>& in) {
+template <typename T1> inline void op_symmat_cx::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_symmat_cx>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

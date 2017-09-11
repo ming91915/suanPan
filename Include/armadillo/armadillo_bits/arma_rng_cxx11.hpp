@@ -28,16 +28,13 @@ public:
     arma_inline double randu_val();
     arma_inline double randn_val();
 
-    template <typename eT>
-    arma_inline void randn_dual_val(eT& out1, eT& out2);
+    template <typename eT> arma_inline void randn_dual_val(eT& out1, eT& out2);
 
-    template <typename eT>
-    inline void randi_fill(eT* mem, const uword N, const int a, const int b);
+    template <typename eT> inline void randi_fill(eT* mem, const uword N, const int a, const int b);
 
     inline static int randi_max_val();
 
-    template <typename eT>
-    inline void randg_fill(eT* mem, const uword N, const double a, const double b);
+    template <typename eT> inline void randg_fill(eT* mem, const uword N, const double a, const double b);
 
 private:
     arma_aligned std::mt19937_64 engine; // typedef for std::mersenne_twister_engine with preset parameters
@@ -63,14 +60,12 @@ arma_inline double arma_rng_cxx11::randu_val() { return u_distr(engine); }
 
 arma_inline double arma_rng_cxx11::randn_val() { return n_distr(engine); }
 
-template <typename eT>
-arma_inline void arma_rng_cxx11::randn_dual_val(eT& out1, eT& out2) {
+template <typename eT> arma_inline void arma_rng_cxx11::randn_dual_val(eT& out1, eT& out2) {
     out1 = eT(n_distr(engine));
     out2 = eT(n_distr(engine));
 }
 
-template <typename eT>
-inline void arma_rng_cxx11::randi_fill(eT* mem, const uword N, const int a, const int b) {
+template <typename eT> inline void arma_rng_cxx11::randi_fill(eT* mem, const uword N, const int a, const int b) {
     std::uniform_int_distribution<int> local_i_distr(a, b);
 
     for(uword i = 0; i < N; ++i) { mem[i] = eT(local_i_distr(engine)); }
@@ -78,8 +73,7 @@ inline void arma_rng_cxx11::randi_fill(eT* mem, const uword N, const int a, cons
 
 inline int arma_rng_cxx11::randi_max_val() { return std::numeric_limits<int>::max(); }
 
-template <typename eT>
-inline void arma_rng_cxx11::randg_fill(eT* mem, const uword N, const double a, const double b) {
+template <typename eT> inline void arma_rng_cxx11::randg_fill(eT* mem, const uword N, const double a, const double b) {
     std::gamma_distribution<double> g_distr(a, b);
 
     for(uword i = 0; i < N; ++i) { mem[i] = eT(g_distr(engine)); }

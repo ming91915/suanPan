@@ -17,8 +17,7 @@
 //! @{
 
 //! support class for generator functions (eg. zeros, randu, randn, ...)
-template <typename T1, typename gen_type>
-class Gen : public Base<typename T1::elem_type, Gen<T1, gen_type>>, public GenSpecialiser<typename T1::elem_type, is_same_type<gen_type, gen_zeros>::yes, is_same_type<gen_type, gen_ones>::yes, is_same_type<gen_type, gen_randu>::yes, is_same_type<gen_type, gen_randn>::yes> {
+template <typename T1, typename gen_type> class Gen : public Base<typename T1::elem_type, Gen<T1, gen_type>>, public GenSpecialiser<typename T1::elem_type, is_same_type<gen_type, gen_zeros>::yes, is_same_type<gen_type, gen_ones>::yes, is_same_type<gen_type, gen_randu>::yes, is_same_type<gen_type, gen_randn>::yes> {
 public:
     typedef typename T1::elem_type elem_type;
     typedef typename get_pod_type<elem_type>::result pod_type;

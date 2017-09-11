@@ -16,8 +16,7 @@
 //! \addtogroup fn_eig_gen
 //! @{
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, Col<std::complex<typename T1::pod_type>>>::result eig_gen(const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, Col<std::complex<typename T1::pod_type>>>::result eig_gen(const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -36,8 +35,7 @@ arma_warn_unused inline typename enable_if2<is_supported_blas_type<typename T1::
     return eigvals;
 }
 
-template <typename T1>
-inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_gen(Col<std::complex<typename T1::pod_type>>& eigvals, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_gen(Col<std::complex<typename T1::pod_type>>& eigvals, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::pod_type T;
@@ -55,8 +53,7 @@ inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value,
     return status;
 }
 
-template <typename T1>
-inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_gen(Col<std::complex<typename T1::pod_type>>& eigvals, Mat<std::complex<typename T1::pod_type>>& eigvecs, const Base<typename T1::elem_type, T1>& expr) {
+template <typename T1> inline typename enable_if2<is_supported_blas_type<typename T1::pod_type>::value, bool>::result eig_gen(Col<std::complex<typename T1::pod_type>>& eigvals, Mat<std::complex<typename T1::pod_type>>& eigvecs, const Base<typename T1::elem_type, T1>& expr) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((void_ptr(&eigvals) == void_ptr(&eigvecs)), "eig_gen(): parameter 'eigval' is an alias of parameter 'eigvec'");

@@ -16,8 +16,7 @@
 //! \addtogroup spop_mean
 //! @{
 
-template <typename T1>
-inline void spop_mean::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_mean>& in) {
+template <typename T1> inline void spop_mean::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_mean>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -38,8 +37,7 @@ inline void spop_mean::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, 
     }
 }
 
-template <typename T1>
-inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
+template <typename T1> inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -94,8 +92,7 @@ inline void spop_mean::apply_noalias_fast(SpMat<typename T1::elem_type>& out, co
     if(out.is_finite() == false) { spop_mean::apply_noalias_slow(out, p, dim); }
 }
 
-template <typename T1>
-inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
+template <typename T1> inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out, const SpProxy<T1>& p, const uword dim) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -144,8 +141,7 @@ inline void spop_mean::apply_noalias_slow(SpMat<typename T1::elem_type>& out, co
     }
 }
 
-template <typename eT>
-inline eT spop_mean::direct_mean(const eT* const X, const uword length, const uword N) {
+template <typename eT> inline eT spop_mean::direct_mean(const eT* const X, const uword length, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -155,8 +151,7 @@ inline eT spop_mean::direct_mean(const eT* const X, const uword length, const uw
     return arma_isfinite(result) ? result : spop_mean::direct_mean_robust(X, length, N);
 }
 
-template <typename eT>
-inline eT spop_mean::direct_mean_robust(const eT* const X, const uword length, const uword N) {
+template <typename eT> inline eT spop_mean::direct_mean_robust(const eT* const X, const uword length, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename get_pod_type<eT>::result T;
@@ -184,8 +179,7 @@ inline eT spop_mean::direct_mean_robust(const eT* const X, const uword length, c
     return r_mean;
 }
 
-template <typename T1>
-inline typename T1::elem_type spop_mean::mean_all(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename T1::elem_type spop_mean::mean_all(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     SpProxy<T1> p(X.get_ref());
@@ -201,8 +195,7 @@ inline typename T1::elem_type spop_mean::mean_all(const SpBase<typename T1::elem
     }
 }
 
-template <typename T1, typename eT>
-inline eT spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, const eT junk) {
+template <typename T1, typename eT> inline eT spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, const eT junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -226,8 +219,7 @@ inline eT spop_mean::iterator_mean(T1& it, const T1& end, const uword n_zero, co
     return arma_isfinite(result) ? result : spop_mean::iterator_mean_robust(backup_it, end, n_zero, eT(0));
 }
 
-template <typename T1, typename eT>
-inline eT spop_mean::iterator_mean_robust(T1& it, const T1& end, const uword n_zero, const eT junk) {
+template <typename T1, typename eT> inline eT spop_mean::iterator_mean_robust(T1& it, const T1& end, const uword n_zero, const eT junk) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 

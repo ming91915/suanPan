@@ -16,8 +16,7 @@
 //! \addtogroup op_diagvec
 //! @{
 
-template <typename T1>
-inline void op_diagvec::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagvec>& X) {
+template <typename T1> inline void op_diagvec::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_diagvec>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -52,8 +51,7 @@ inline void op_diagvec::apply(Mat<typename T1::elem_type>& out, const Op<T1, op_
     }
 }
 
-template <typename T1>
-arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out, const T1& X, const uword row_offset, const uword col_offset, const uword len) {
+template <typename T1> arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out, const T1& X, const uword row_offset, const uword col_offset, const uword len) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -77,8 +75,7 @@ arma_hot inline void op_diagvec::apply_unwrap(Mat<typename T1::elem_type>& out, 
     if(i < len) { out_mem[i] = A.at(i + row_offset, i + col_offset); }
 }
 
-template <typename T1>
-arma_hot inline void op_diagvec::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset, const uword len) {
+template <typename T1> arma_hot inline void op_diagvec::apply_proxy(Mat<typename T1::elem_type>& out, const Proxy<T1>& P, const uword row_offset, const uword col_offset, const uword len) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

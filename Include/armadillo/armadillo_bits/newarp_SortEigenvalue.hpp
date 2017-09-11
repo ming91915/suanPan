@@ -21,8 +21,7 @@ namespace newarp {
 // The minus sign is due to the fact that std::sort() sorts in ascending order.
 
 // default target: throw an exception
-template <typename eT, int SelectionRule>
-struct SortingTarget {
+template <typename eT, int SelectionRule> struct SortingTarget {
     arma_inline static typename get_pod_type<eT>::result get(const eT& val) {
         arma_ignore(val);
         arma_stop_logic_error("newarp::SortingTarget: incompatible selection rule");
@@ -33,70 +32,59 @@ struct SortingTarget {
 };
 
 // specialisation for LARGEST_MAGN: this covers [float, double, complex] x [LARGEST_MAGN]
-template <typename eT>
-struct SortingTarget<eT, EigsSelect::LARGEST_MAGN> {
+template <typename eT> struct SortingTarget<eT, EigsSelect::LARGEST_MAGN> {
     arma_inline static typename get_pod_type<eT>::result get(const eT& val) { return -std::abs(val); }
 };
 
 // specialisation for LARGEST_REAL: this covers [complex] x [LARGEST_REAL]
-template <typename T>
-struct SortingTarget<std::complex<T>, EigsSelect::LARGEST_REAL> {
+template <typename T> struct SortingTarget<std::complex<T>, EigsSelect::LARGEST_REAL> {
     arma_inline static T get(const std::complex<T>& val) { return -val.real(); }
 };
 
 // specialisation for LARGEST_IMAG: this covers [complex] x [LARGEST_IMAG]
-template <typename T>
-struct SortingTarget<std::complex<T>, EigsSelect::LARGEST_IMAG> {
+template <typename T> struct SortingTarget<std::complex<T>, EigsSelect::LARGEST_IMAG> {
     arma_inline static T get(const std::complex<T>& val) { return -std::abs(val.imag()); }
 };
 
 // specialisation for LARGEST_ALGE: this covers [float, double] x [LARGEST_ALGE]
-template <typename eT>
-struct SortingTarget<eT, EigsSelect::LARGEST_ALGE> {
+template <typename eT> struct SortingTarget<eT, EigsSelect::LARGEST_ALGE> {
     arma_inline static eT get(const eT& val) { return -val; }
 };
 
 // Here BOTH_ENDS is the same as LARGEST_ALGE, but we need some additional steps,
 // which are done in SymEigsSolver => retrieve_ritzpair().
 // There we move the smallest values to the proper locations.
-template <typename eT>
-struct SortingTarget<eT, EigsSelect::BOTH_ENDS> {
+template <typename eT> struct SortingTarget<eT, EigsSelect::BOTH_ENDS> {
     arma_inline static eT get(const eT& val) { return -val; }
 };
 
 // specialisation for SMALLEST_MAGN: this covers [float, double, complex] x
 // [SMALLEST_MAGN]
-template <typename eT>
-struct SortingTarget<eT, EigsSelect::SMALLEST_MAGN> {
+template <typename eT> struct SortingTarget<eT, EigsSelect::SMALLEST_MAGN> {
     arma_inline static typename get_pod_type<eT>::result get(const eT& val) { return std::abs(val); }
 };
 
 // specialisation for SMALLEST_REAL: this covers [complex] x [SMALLEST_REAL]
-template <typename T>
-struct SortingTarget<std::complex<T>, EigsSelect::SMALLEST_REAL> {
+template <typename T> struct SortingTarget<std::complex<T>, EigsSelect::SMALLEST_REAL> {
     arma_inline static T get(const std::complex<T>& val) { return val.real(); }
 };
 
 // specialisation for SMALLEST_IMAG: this covers [complex] x [SMALLEST_IMAG]
-template <typename T>
-struct SortingTarget<std::complex<T>, EigsSelect::SMALLEST_IMAG> {
+template <typename T> struct SortingTarget<std::complex<T>, EigsSelect::SMALLEST_IMAG> {
     arma_inline static T get(const std::complex<T>& val) { return std::abs(val.imag()); }
 };
 
 // specialisation for SMALLEST_ALGE: this covers [float, double] x [SMALLEST_ALGE]
-template <typename eT>
-struct SortingTarget<eT, EigsSelect::SMALLEST_ALGE> {
+template <typename eT> struct SortingTarget<eT, EigsSelect::SMALLEST_ALGE> {
     arma_inline static eT get(const eT& val) { return val; }
 };
 
 // Sort eigenvalues and return the order index
-template <typename PairType>
-struct PairComparator {
+template <typename PairType> struct PairComparator {
     arma_inline bool operator()(const PairType& v1, const PairType& v2) { return v1.first < v2.first; }
 };
 
-template <typename eT, int SelectionRule>
-class SortEigenvalue {
+template <typename eT, int SelectionRule> class SortEigenvalue {
 private:
     typedef typename get_pod_type<eT>::result TargetType; // type of the sorting target,
                                                           // will be a floating number

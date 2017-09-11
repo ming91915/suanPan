@@ -18,38 +18,30 @@
 
 class op_real {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_real>& X);
+    template <typename T1> inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_real>& X);
 
-    template <typename T1>
-    inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_real>& X);
+    template <typename T1> inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_real>& X);
 };
 
 class op_imag {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_imag>& X);
+    template <typename T1> inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_imag>& X);
 
-    template <typename T1>
-    inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_imag>& X);
+    template <typename T1> inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_imag>& X);
 };
 
 class op_abs {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_abs>& X);
+    template <typename T1> inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_abs>& X);
 
-    template <typename T1>
-    inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_abs>& X);
+    template <typename T1> inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_abs>& X);
 };
 
 class op_arg {
 public:
-    template <typename T1>
-    inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_arg>& X);
+    template <typename T1> inline static void apply(Mat<typename T1::pod_type>& out, const mtOp<typename T1::pod_type, T1, op_arg>& X);
 
-    template <typename T1>
-    inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_arg>& X);
+    template <typename T1> inline static void apply(Cube<typename T1::pod_type>& out, const mtOpCube<typename T1::pod_type, T1, op_arg>& X);
 };
 
 //! @}

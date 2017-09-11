@@ -16,8 +16,7 @@
 //! \addtogroup op_dotext
 //! @{
 
-template <typename eT>
-inline eT op_dotext::direct_rowvec_mat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
+template <typename eT> inline eT op_dotext::direct_rowvec_mat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
     arma_extra_debug_sigprint();
 
     const uword cost_AB = B.n_cols;
@@ -50,8 +49,7 @@ inline eT op_dotext::direct_rowvec_mat_colvec(const eT* A_mem, const Mat<eT>& B,
     }
 }
 
-template <typename eT>
-inline eT op_dotext::direct_rowvec_transmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
+template <typename eT> inline eT op_dotext::direct_rowvec_transmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
     arma_extra_debug_sigprint();
 
     const uword cost_AB = B.n_rows;
@@ -86,8 +84,7 @@ inline eT op_dotext::direct_rowvec_transmat_colvec(const eT* A_mem, const Mat<eT
     }
 }
 
-template <typename eT>
-inline eT op_dotext::direct_rowvec_diagmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
+template <typename eT> inline eT op_dotext::direct_rowvec_diagmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
     arma_extra_debug_sigprint();
 
     eT val = eT(0);
@@ -97,8 +94,7 @@ inline eT op_dotext::direct_rowvec_diagmat_colvec(const eT* A_mem, const Mat<eT>
     return val;
 }
 
-template <typename eT>
-inline eT op_dotext::direct_rowvec_invdiagmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
+template <typename eT> inline eT op_dotext::direct_rowvec_invdiagmat_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
     arma_extra_debug_sigprint();
 
     eT val = eT(0);
@@ -108,8 +104,7 @@ inline eT op_dotext::direct_rowvec_invdiagmat_colvec(const eT* A_mem, const Mat<
     return val;
 }
 
-template <typename eT>
-inline eT op_dotext::direct_rowvec_invdiagvec_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
+template <typename eT> inline eT op_dotext::direct_rowvec_invdiagvec_colvec(const eT* A_mem, const Mat<eT>& B, const eT* C_mem) {
     arma_extra_debug_sigprint();
 
     const eT* B_mem = B.mem;

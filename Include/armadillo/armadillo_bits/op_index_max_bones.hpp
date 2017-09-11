@@ -20,16 +20,13 @@ class op_index_max {
 public:
     // dense matrices
 
-    template <typename T1>
-    inline static void apply(Mat<uword>& out, const mtOp<uword, T1, op_index_max>& in);
+    template <typename T1> inline static void apply(Mat<uword>& out, const mtOp<uword, T1, op_index_max>& in);
 
-    template <typename eT>
-    inline static void apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim);
+    template <typename eT> inline static void apply_noalias(Mat<uword>& out, const Mat<eT>& X, const uword dim);
 
     // sparse matrices
 
-    template <typename T1>
-    inline static void apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim);
+    template <typename T1> inline static void apply(Mat<uword>& out, const SpBase<typename T1::elem_type, T1>& expr, const uword dim);
 };
 
 //! @}

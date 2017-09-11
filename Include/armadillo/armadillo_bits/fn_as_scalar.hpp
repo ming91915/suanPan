@@ -16,27 +16,13 @@
 //! \addtogroup fn_as_scalar
 //! @{
 
-template <uword N>
-struct as_scalar_redirect {
-    template <typename T1>
-    inline static typename T1::elem_type apply(const T1& X);
-};
+template <uword N> struct as_scalar_redirect { template <typename T1> inline static typename T1::elem_type apply(const T1& X); };
 
-template <>
-struct as_scalar_redirect<2> {
-    template <typename T1, typename T2>
-    inline static typename T1::elem_type apply(const Glue<T1, T2, glue_times>& X);
-};
+template <> struct as_scalar_redirect<2> { template <typename T1, typename T2> inline static typename T1::elem_type apply(const Glue<T1, T2, glue_times>& X); };
 
-template <>
-struct as_scalar_redirect<3> {
-    template <typename T1, typename T2, typename T3>
-    inline static typename T1::elem_type apply(const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X);
-};
+template <> struct as_scalar_redirect<3> { template <typename T1, typename T2, typename T3> inline static typename T1::elem_type apply(const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X); };
 
-template <uword N>
-template <typename T1>
-inline typename T1::elem_type as_scalar_redirect<N>::apply(const T1& X) {
+template <uword N> template <typename T1> inline typename T1::elem_type as_scalar_redirect<N>::apply(const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -52,8 +38,7 @@ inline typename T1::elem_type as_scalar_redirect<N>::apply(const T1& X) {
     return (Proxy<T1>::use_at) ? P.at(0, 0) : P[0];
 }
 
-template <typename T1, typename T2>
-inline typename T1::elem_type as_scalar_redirect<2>::apply(const Glue<T1, T2, glue_times>& X) {
+template <typename T1, typename T2> inline typename T1::elem_type as_scalar_redirect<2>::apply(const Glue<T1, T2, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -98,8 +83,7 @@ inline typename T1::elem_type as_scalar_redirect<2>::apply(const Glue<T1, T2, gl
     }
 }
 
-template <typename T1, typename T2, typename T3>
-inline typename T1::elem_type as_scalar_redirect<3>::apply(const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
+template <typename T1, typename T2, typename T3> inline typename T1::elem_type as_scalar_redirect<3>::apply(const Glue<Glue<T1, T2, glue_times>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -166,8 +150,7 @@ inline typename T1::elem_type as_scalar_redirect<3>::apply(const Glue<Glue<T1, T
     }
 }
 
-template <typename T1>
-inline typename T1::elem_type as_scalar_diag(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> inline typename T1::elem_type as_scalar_diag(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -184,8 +167,7 @@ inline typename T1::elem_type as_scalar_diag(const Base<typename T1::elem_type, 
     return A.mem[0];
 }
 
-template <typename T1, typename T2, typename T3>
-inline typename T1::elem_type as_scalar_diag(const Glue<Glue<T1, T2, glue_times_diag>, T3, glue_times>& X) {
+template <typename T1, typename T2, typename T3> inline typename T1::elem_type as_scalar_diag(const Glue<Glue<T1, T2, glue_times_diag>, T3, glue_times>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -227,8 +209,7 @@ inline typename T1::elem_type as_scalar_diag(const Glue<Glue<T1, T2, glue_times_
     }
 }
 
-template <typename T1, typename T2>
-arma_warn_unused arma_inline typename T1::elem_type as_scalar(const Glue<T1, T2, glue_times>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0) {
+template <typename T1, typename T2> arma_warn_unused arma_inline typename T1::elem_type as_scalar(const Glue<T1, T2, glue_times>& X, const typename arma_not_cx<typename T1::elem_type>::result* junk = 0) {
     arma_extra_debug_sigprint();
     arma_ignore(junk);
 
@@ -243,8 +224,7 @@ arma_warn_unused arma_inline typename T1::elem_type as_scalar(const Glue<T1, T2,
     }
 }
 
-template <typename T1>
-arma_warn_unused inline typename T1::elem_type as_scalar(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename T1::elem_type as_scalar(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -261,13 +241,10 @@ arma_warn_unused inline typename T1::elem_type as_scalar(const Base<typename T1:
 }
 
 // ensure the following two functions are aware of each other
-template <typename T1, typename eop_type>
-inline arma_warn_unused typename T1::elem_type as_scalar(const eOp<T1, eop_type>& X);
-template <typename T1, typename T2, typename eglue_type>
-inline arma_warn_unused typename T1::elem_type as_scalar(const eGlue<T1, T2, eglue_type>& X);
+template <typename T1, typename eop_type> inline arma_warn_unused typename T1::elem_type as_scalar(const eOp<T1, eop_type>& X);
+template <typename T1, typename T2, typename eglue_type> inline arma_warn_unused typename T1::elem_type as_scalar(const eGlue<T1, T2, eglue_type>& X);
 
-template <typename T1, typename eop_type>
-arma_warn_unused inline typename T1::elem_type as_scalar(const eOp<T1, eop_type>& X) {
+template <typename T1, typename eop_type> arma_warn_unused inline typename T1::elem_type as_scalar(const eOp<T1, eop_type>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -277,8 +254,7 @@ arma_warn_unused inline typename T1::elem_type as_scalar(const eOp<T1, eop_type>
     return eop_core<eop_type>::process(val, X.aux);
 }
 
-template <typename T1, typename T2, typename eglue_type>
-inline arma_warn_unused typename T1::elem_type as_scalar(const eGlue<T1, T2, eglue_type>& X) {
+template <typename T1, typename T2, typename eglue_type> inline arma_warn_unused typename T1::elem_type as_scalar(const eGlue<T1, T2, eglue_type>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -299,8 +275,7 @@ inline arma_warn_unused typename T1::elem_type as_scalar(const eGlue<T1, T2, egl
     }
 }
 
-template <typename T1>
-arma_warn_unused inline typename T1::elem_type as_scalar(const BaseCube<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename T1::elem_type as_scalar(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -316,13 +291,9 @@ arma_warn_unused inline typename T1::elem_type as_scalar(const BaseCube<typename
     return (ProxyCube<T1>::use_at) ? P.at(0, 0, 0) : P[0];
 }
 
-template <typename T>
-arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& as_scalar(const T& x) {
-    return x;
-}
+template <typename T> arma_warn_unused arma_inline const typename arma_scalar_only<T>::result& as_scalar(const T& x) { return x; }
 
-template <typename T1>
-arma_warn_unused inline typename T1::elem_type as_scalar(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline typename T1::elem_type as_scalar(const SpBase<typename T1::elem_type, T1>& X) {
     typedef typename T1::elem_type eT;
 
     const unwrap_spmat<T1> tmp(X.get_ref());

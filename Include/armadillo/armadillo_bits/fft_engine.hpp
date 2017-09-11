@@ -52,11 +52,9 @@
 //! \addtogroup fft_engine
 //! @{
 
-template <typename cx_type, uword fixed_N, bool>
-struct store {};
+template <typename cx_type, uword fixed_N, bool> struct store {};
 
-template <typename cx_type, uword fixed_N>
-struct store<cx_type, fixed_N, true> {
+template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, true> {
     static const uword N = fixed_N;
 
     arma_aligned cx_type coeffs_array[fixed_N];
@@ -68,8 +66,7 @@ struct store<cx_type, fixed_N, true> {
     arma_inline const cx_type* coeffs_ptr() const { return &coeffs_array[0]; }
 };
 
-template <typename cx_type, uword fixed_N>
-struct store<cx_type, fixed_N, false> {
+template <typename cx_type, uword fixed_N> struct store<cx_type, fixed_N, false> {
     const uword N;
 
     podarray<cx_type> coeffs_array;
@@ -85,8 +82,7 @@ struct store<cx_type, fixed_N, false> {
     arma_inline const cx_type* coeffs_ptr() const { return coeffs_array.memptr(); }
 };
 
-template <typename cx_type, bool inverse, uword fixed_N = 0>
-class fft_engine : public store<cx_type, fixed_N, (fixed_N > 0)> {
+template <typename cx_type, bool inverse, uword fixed_N = 0> class fft_engine : public store<cx_type, fixed_N, (fixed_N > 0)> {
 public:
     typedef typename get_pod_type<cx_type>::result T;
 
@@ -98,8 +94,7 @@ public:
 
     podarray<cx_type> tmp_array;
 
-    template <bool fill>
-    inline uword calc_radix() {
+    template <bool fill> inline uword calc_radix() {
         uword i = 0;
 
         for(uword n = N, r = 4; n >= 2; ++i) {

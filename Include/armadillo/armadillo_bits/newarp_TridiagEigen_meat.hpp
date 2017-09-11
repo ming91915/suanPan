@@ -31,8 +31,7 @@ inline TridiagEigen<eT>::TridiagEigen(const Mat<eT>& mat_obj)
     compute(mat_obj);
 }
 
-template <typename eT>
-inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_obj) {
+template <typename eT> inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_obj) {
     arma_extra_debug_sigprint();
 
     arma_debug_check((mat_obj.is_square() == false), "newarp::TridiagEigen::compute(): matrix must be square");
@@ -83,8 +82,7 @@ inline void TridiagEigen<eT>::compute(const Mat<eT>& mat_obj) {
     computed = true;
 }
 
-template <typename eT>
-inline Col<eT> TridiagEigen<eT>::eigenvalues() {
+template <typename eT> inline Col<eT> TridiagEigen<eT>::eigenvalues() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::TridiagEigen::eigenvalues(): need to call compute() first");
@@ -93,8 +91,7 @@ inline Col<eT> TridiagEigen<eT>::eigenvalues() {
     return main_diag;
 }
 
-template <typename eT>
-inline Mat<eT> TridiagEigen<eT>::eigenvectors() {
+template <typename eT> inline Mat<eT> TridiagEigen<eT>::eigenvectors() {
     arma_extra_debug_sigprint();
 
     arma_debug_check((computed == false), "newarp::TridiagEigen::eigenvectors(): need to call compute() first");

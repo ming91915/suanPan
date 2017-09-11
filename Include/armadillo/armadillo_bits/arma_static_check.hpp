@@ -16,13 +16,11 @@
 //! \addtogroup arma_static_check
 //! @{
 
-template <bool ERROR___INCORRECT_OR_UNSUPPORTED_TYPE>
-struct arma_type_check_cxx1998 {
+template <bool ERROR___INCORRECT_OR_UNSUPPORTED_TYPE> struct arma_type_check_cxx1998 {
     arma_inline static void apply() { static const char junk[ERROR___INCORRECT_OR_UNSUPPORTED_TYPE ? -1 : +1]; }
 };
 
-template <>
-struct arma_type_check_cxx1998<false> {
+template <> struct arma_type_check_cxx1998<false> {
     arma_inline static void apply() {}
 };
 

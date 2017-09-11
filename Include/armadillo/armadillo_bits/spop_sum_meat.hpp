@@ -16,8 +16,7 @@
 //! \addtogroup spop_sum
 //! @{
 
-template <typename T1>
-arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sum>& in) {
+template <typename T1> arma_hot inline void spop_sum::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_sum>& in) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

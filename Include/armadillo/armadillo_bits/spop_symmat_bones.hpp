@@ -18,14 +18,12 @@
 
 class spop_symmat {
 public:
-    template <typename T1>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat>& in);
+    template <typename T1> inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat>& in);
 };
 
 class spop_symmat_cx {
 public:
-    template <typename T1>
-    inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat_cx>& in);
+    template <typename T1> inline static void apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_symmat_cx>& in);
 };
 
 //! @}

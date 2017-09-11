@@ -16,8 +16,7 @@
 //! \addtogroup spop_strans
 //! @{
 
-template <typename eT>
-arma_hot inline void spop_strans::apply_spmat(SpMat<eT>& out, const SpMat<eT>& X) {
+template <typename eT> arma_hot inline void spop_strans::apply_spmat(SpMat<eT>& out, const SpMat<eT>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename umat::elem_type ueT;
@@ -49,8 +48,7 @@ arma_hot inline void spop_strans::apply_spmat(SpMat<eT>& out, const SpMat<eT>& X
     out.steal_mem(tmp);
 }
 
-template <typename T1>
-arma_hot inline void spop_strans::apply_proxy(SpMat<typename T1::elem_type>& out, const T1& X) {
+template <typename T1> arma_hot inline void spop_strans::apply_proxy(SpMat<typename T1::elem_type>& out, const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -89,8 +87,7 @@ arma_hot inline void spop_strans::apply_proxy(SpMat<typename T1::elem_type>& out
     out.steal_mem(tmp);
 }
 
-template <typename T1>
-arma_hot inline void spop_strans::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_strans>& in) {
+template <typename T1> arma_hot inline void spop_strans::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_strans>& in) {
     arma_extra_debug_sigprint();
 
     if(is_SpMat<T1>::value) {
@@ -103,8 +100,7 @@ arma_hot inline void spop_strans::apply(SpMat<typename T1::elem_type>& out, cons
 }
 
 //! for transpose of non-complex matrices, redirected from spop_htrans::apply()
-template <typename T1>
-arma_hot inline void spop_strans::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_htrans>& in) {
+template <typename T1> arma_hot inline void spop_strans::apply(SpMat<typename T1::elem_type>& out, const SpOp<T1, spop_htrans>& in) {
     arma_extra_debug_sigprint();
 
     if(is_SpMat<T1>::value) {

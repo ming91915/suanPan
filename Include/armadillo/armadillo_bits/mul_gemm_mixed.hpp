@@ -22,11 +22,9 @@
 //! Matrix 'C' is assumed to have been set to the correct size (i.e. taking into account
 //! transposes)
 
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_mixed_large {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm_mixed_large {
 public:
-    template <typename out_eT, typename in_eT1, typename in_eT2>
-    arma_hot inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
+    template <typename out_eT, typename in_eT1, typename in_eT2> arma_hot inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
         arma_extra_debug_sigprint();
 
         const uword A_n_rows = A.n_rows;
@@ -127,11 +125,9 @@ public:
 //! Simple version (no caching).
 //! Matrix 'C' is assumed to have been set to the correct size (i.e. taking into account
 //! transposes)
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_mixed_small {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm_mixed_small {
 public:
-    template <typename out_eT, typename in_eT1, typename in_eT2>
-    arma_hot inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
+    template <typename out_eT, typename in_eT1, typename in_eT2> arma_hot inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
         arma_extra_debug_sigprint();
 
         const uword A_n_rows = A.n_rows;
@@ -232,12 +228,10 @@ public:
 //! \brief
 //! Matrix multplication where the matrices have differing element types.
 
-template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false>
-class gemm_mixed {
+template <const bool do_trans_A = false, const bool do_trans_B = false, const bool use_alpha = false, const bool use_beta = false> class gemm_mixed {
 public:
     //! immediate multiplication of matrices A and B, storing the result in C
-    template <typename out_eT, typename in_eT1, typename in_eT2>
-    inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
+    template <typename out_eT, typename in_eT1, typename in_eT2> inline static void apply(Mat<out_eT>& C, const Mat<in_eT1>& A, const Mat<in_eT2>& B, const out_eT alpha = out_eT(1), const out_eT beta = out_eT(0)) {
         arma_extra_debug_sigprint();
 
         Mat<in_eT1> tmp_A;

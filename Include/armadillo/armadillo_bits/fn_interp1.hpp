@@ -16,8 +16,7 @@
 //! \addtogroup fn_interp1
 //! @{
 
-template <typename eT>
-inline void interp1_helper_nearest(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
+template <typename eT> inline void interp1_helper_nearest(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
     const eT XG_min = XG.min();
@@ -64,8 +63,7 @@ inline void interp1_helper_nearest(const Mat<eT>& XG, const Mat<eT>& YG, const M
     }
 }
 
-template <typename eT>
-inline void interp1_helper_linear(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
+template <typename eT> inline void interp1_helper_linear(const Mat<eT>& XG, const Mat<eT>& YG, const Mat<eT>& XI, Mat<eT>& YI, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
     const eT XG_min = XG.min();
@@ -132,8 +130,7 @@ inline void interp1_helper_linear(const Mat<eT>& XG, const Mat<eT>& YG, const Ma
     }
 }
 
-template <typename eT>
-inline void interp1_helper(const Mat<eT>& X, const Mat<eT>& Y, const Mat<eT>& XI, Mat<eT>& YI, const uword sig, const eT extrap_val) {
+template <typename eT> inline void interp1_helper(const Mat<eT>& X, const Mat<eT>& Y, const Mat<eT>& XI, Mat<eT>& YI, const uword sig, const eT extrap_val) {
     arma_extra_debug_sigprint();
 
     arma_debug_check(((X.is_vec() == false) || (Y.is_vec() == false) || (XI.is_vec() == false)), "interp1(): currently only vectors are supported");
@@ -233,8 +230,7 @@ inline void interp1_helper(const Mat<eT>& X, const Mat<eT>& Y, const Mat<eT>& XI
     }
 }
 
-template <typename T1, typename T2, typename T3>
-inline typename enable_if2<is_real<typename T1::elem_type>::value, void>::result interp1(const Base<typename T1::elem_type, T1>& X, const Base<typename T1::elem_type, T2>& Y, const Base<typename T1::elem_type, T3>& XI, Mat<typename T1::elem_type>& YI, const char* method = "linear", const typename T1::elem_type extrap_val = Datum<typename T1::elem_type>::nan) {
+template <typename T1, typename T2, typename T3> inline typename enable_if2<is_real<typename T1::elem_type>::value, void>::result interp1(const Base<typename T1::elem_type, T1>& X, const Base<typename T1::elem_type, T2>& Y, const Base<typename T1::elem_type, T3>& XI, Mat<typename T1::elem_type>& YI, const char* method = "linear", const typename T1::elem_type extrap_val = Datum<typename T1::elem_type>::nan) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;

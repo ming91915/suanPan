@@ -16,10 +16,7 @@
 //! \addtogroup subview_elem1
 //! @{
 
-template <typename eT, typename T1>
-inline subview_elem1<eT, T1>::~subview_elem1() {
-    arma_extra_debug_sigprint();
-}
+template <typename eT, typename T1> inline subview_elem1<eT, T1>::~subview_elem1() { arma_extra_debug_sigprint(); }
 
 template <typename eT, typename T1>
 arma_inline subview_elem1<eT, T1>::subview_elem1(const Mat<eT>& in_m, const Base<uword, T1>& in_a)
@@ -39,9 +36,7 @@ arma_inline subview_elem1<eT, T1>::subview_elem1(const Cube<eT>& in_q, const Bas
     arma_extra_debug_sigprint();
 }
 
-template <typename eT, typename T1>
-template <typename op_type>
-inline void subview_elem1<eT, T1>::inplace_op(const eT val) {
+template <typename eT, typename T1> template <typename op_type> inline void subview_elem1<eT, T1>::inplace_op(const eT val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -99,9 +94,7 @@ inline void subview_elem1<eT, T1>::inplace_op(const eT val) {
     }
 }
 
-template <typename eT, typename T1>
-template <typename op_type, typename T2>
-inline void subview_elem1<eT, T1>::inplace_op(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename op_type, typename T2> inline void subview_elem1<eT, T1>::inplace_op(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     subview_elem1<eT, T1>& s = *this;
@@ -188,9 +181,7 @@ inline void subview_elem1<eT, T1>::inplace_op(const subview_elem1<eT, T2>& x) {
     }
 }
 
-template <typename eT, typename T1>
-template <typename op_type, typename T2>
-inline void subview_elem1<eT, T1>::inplace_op(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename op_type, typename T2> inline void subview_elem1<eT, T1>::inplace_op(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -309,23 +300,13 @@ inline void subview_elem1<eT, T1>::inplace_op(const Base<eT, T2>& x) {
 //
 //
 
-template <typename eT, typename T1>
-arma_inline const Op<subview_elem1<eT, T1>, op_htrans> subview_elem1<eT, T1>::t() const {
-    return Op<subview_elem1<eT, T1>, op_htrans>(*this);
-}
+template <typename eT, typename T1> arma_inline const Op<subview_elem1<eT, T1>, op_htrans> subview_elem1<eT, T1>::t() const { return Op<subview_elem1<eT, T1>, op_htrans>(*this); }
 
-template <typename eT, typename T1>
-arma_inline const Op<subview_elem1<eT, T1>, op_htrans> subview_elem1<eT, T1>::ht() const {
-    return Op<subview_elem1<eT, T1>, op_htrans>(*this);
-}
+template <typename eT, typename T1> arma_inline const Op<subview_elem1<eT, T1>, op_htrans> subview_elem1<eT, T1>::ht() const { return Op<subview_elem1<eT, T1>, op_htrans>(*this); }
 
-template <typename eT, typename T1>
-arma_inline const Op<subview_elem1<eT, T1>, op_strans> subview_elem1<eT, T1>::st() const {
-    return Op<subview_elem1<eT, T1>, op_strans>(*this);
-}
+template <typename eT, typename T1> arma_inline const Op<subview_elem1<eT, T1>, op_strans> subview_elem1<eT, T1>::st() const { return Op<subview_elem1<eT, T1>, op_strans>(*this); }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::replace(const eT old_val, const eT new_val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::replace(const eT old_val, const eT new_val) {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -364,29 +345,25 @@ inline void subview_elem1<eT, T1>::replace(const eT old_val, const eT new_val) {
     }
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::fill(const eT val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::fill(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(val);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::zeros() {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::zeros() {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(eT(0));
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::ones() {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::ones() {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(eT(1));
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::randu() {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::randu() {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -425,8 +402,7 @@ inline void subview_elem1<eT, T1>::randu() {
     }
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::randn() {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::randn() {
     arma_extra_debug_sigprint();
 
     Mat<eT>& m_local = const_cast<Mat<eT>&>(m);
@@ -461,29 +437,25 @@ inline void subview_elem1<eT, T1>::randn() {
     }
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::operator+=(const eT val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::operator+=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(val);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::operator-=(const eT val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::operator-=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(val);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::operator*=(const eT val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::operator*=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(val);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::operator/=(const eT val) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::operator/=(const eT val) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(val);
@@ -492,97 +464,74 @@ inline void subview_elem1<eT, T1>::operator/=(const eT val) {
 //
 //
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator_equ(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator_equ(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator=(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator=(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     (*this).operator_equ(x);
 }
 
 //! work around compiler bugs
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::operator=(const subview_elem1<eT, T1>& x) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::operator=(const subview_elem1<eT, T1>& x) {
     arma_extra_debug_sigprint();
 
     (*this).operator_equ(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator+=(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator+=(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator-=(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator-=(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator%=(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator%=(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator/=(const subview_elem1<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator/=(const subview_elem1<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator=(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator=(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_equ>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator+=(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator+=(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_plus>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator-=(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator-=(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_minus>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator%=(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator%=(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_schur>(x);
 }
 
-template <typename eT, typename T1>
-template <typename T2>
-inline void subview_elem1<eT, T1>::operator/=(const Base<eT, T2>& x) {
+template <typename eT, typename T1> template <typename T2> inline void subview_elem1<eT, T1>::operator/=(const Base<eT, T2>& x) {
     arma_extra_debug_sigprint();
 
     inplace_op<op_internal_div>(x);
@@ -591,8 +540,7 @@ inline void subview_elem1<eT, T1>::operator/=(const Base<eT, T2>& x) {
 //
 //
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::extract(Mat<eT>& actual_out, const subview_elem1<eT, T1>& in) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::extract(Mat<eT>& actual_out, const subview_elem1<eT, T1>& in) {
     arma_extra_debug_sigprint();
 
     const unwrap_check_mixed<T1> tmp1(in.a.get_ref(), actual_out);
@@ -644,9 +592,7 @@ inline void subview_elem1<eT, T1>::extract(Mat<eT>& actual_out, const subview_el
     }
 }
 
-template <typename eT, typename T1>
-template <typename op_type>
-inline void subview_elem1<eT, T1>::mat_inplace_op(Mat<eT>& out, const subview_elem1& in) {
+template <typename eT, typename T1> template <typename op_type> inline void subview_elem1<eT, T1>::mat_inplace_op(Mat<eT>& out, const subview_elem1& in) {
     arma_extra_debug_sigprint();
 
     const unwrap<T1> tmp1(in.a.get_ref());
@@ -704,29 +650,25 @@ inline void subview_elem1<eT, T1>::mat_inplace_op(Mat<eT>& out, const subview_el
     }
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::plus_inplace(Mat<eT>& out, const subview_elem1& in) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::plus_inplace(Mat<eT>& out, const subview_elem1& in) {
     arma_extra_debug_sigprint();
 
     mat_inplace_op<op_internal_plus>(out, in);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::minus_inplace(Mat<eT>& out, const subview_elem1& in) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::minus_inplace(Mat<eT>& out, const subview_elem1& in) {
     arma_extra_debug_sigprint();
 
     mat_inplace_op<op_internal_minus>(out, in);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::schur_inplace(Mat<eT>& out, const subview_elem1& in) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::schur_inplace(Mat<eT>& out, const subview_elem1& in) {
     arma_extra_debug_sigprint();
 
     mat_inplace_op<op_internal_schur>(out, in);
 }
 
-template <typename eT, typename T1>
-inline void subview_elem1<eT, T1>::div_inplace(Mat<eT>& out, const subview_elem1& in) {
+template <typename eT, typename T1> inline void subview_elem1<eT, T1>::div_inplace(Mat<eT>& out, const subview_elem1& in) {
     arma_extra_debug_sigprint();
 
     mat_inplace_op<op_internal_div>(out, in);

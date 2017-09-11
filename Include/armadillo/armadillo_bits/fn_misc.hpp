@@ -16,8 +16,7 @@
 //! \addtogroup fn_misc
 //! @{
 
-template <typename out_type>
-arma_warn_unused inline typename enable_if2<is_Mat<out_type>::value, out_type>::result linspace(const typename out_type::pod_type start, const typename out_type::pod_type end, const uword num = 100u) {
+template <typename out_type> arma_warn_unused inline typename enable_if2<is_Mat<out_type>::value, out_type>::result linspace(const typename out_type::pod_type start, const typename out_type::pod_type end, const uword num = 100u) {
     arma_extra_debug_sigprint();
 
     typedef typename out_type::elem_type eT;
@@ -65,8 +64,7 @@ arma_warn_unused inline vec linspace(const double start, const double end, const
     return linspace<vec>(start, end, num);
 }
 
-template <typename out_type>
-arma_warn_unused inline typename enable_if2<(is_Mat<out_type>::value && is_real<typename out_type::pod_type>::value), out_type>::result logspace(const typename out_type::pod_type A, const typename out_type::pod_type B, const uword N = 50u) {
+template <typename out_type> arma_warn_unused inline typename enable_if2<(is_Mat<out_type>::value && is_real<typename out_type::pod_type>::value), out_type>::result logspace(const typename out_type::pod_type A, const typename out_type::pod_type B, const uword N = 50u) {
     arma_extra_debug_sigprint();
 
     typedef typename out_type::elem_type eT;
@@ -91,8 +89,7 @@ arma_warn_unused inline vec logspace(const double A, const double B, const uword
 //
 // log_exp_add
 
-template <typename eT>
-arma_warn_unused inline typename arma_real_only<eT>::result log_add_exp(eT log_a, eT log_b) {
+template <typename eT> arma_warn_unused inline typename arma_real_only<eT>::result log_add_exp(eT log_a, eT log_b) {
     if(log_a < log_b) { std::swap(log_a, log_b); }
 
     const eT negdelta = log_b - log_a;
@@ -105,20 +102,15 @@ arma_warn_unused inline typename arma_real_only<eT>::result log_add_exp(eT log_a
 }
 
 // for compatibility with earlier versions
-template <typename eT>
-arma_warn_unused inline typename arma_real_only<eT>::result log_add(eT log_a, eT log_b) {
-    return log_add_exp(log_a, log_b);
-}
+template <typename eT> arma_warn_unused inline typename arma_real_only<eT>::result log_add(eT log_a, eT log_b) { return log_add_exp(log_a, log_b); }
 
-template <typename eT>
-arma_warn_unused arma_inline bool is_finite(const eT x, const typename arma_scalar_only<eT>::result* junk = 0) {
+template <typename eT> arma_warn_unused arma_inline bool is_finite(const eT x, const typename arma_scalar_only<eT>::result* junk = 0) {
     arma_ignore(junk);
 
     return arma_isfinite(x);
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, bool>::result is_finite(const T1& X) {
+template <typename T1> arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, bool>::result is_finite(const T1& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -163,8 +155,7 @@ arma_warn_unused inline typename enable_if2<is_arma_type<T1>::value, bool>::resu
     return true;
 }
 
-template <typename T1>
-arma_warn_unused inline bool is_finite(const SpBase<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline bool is_finite(const SpBase<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     const SpProxy<T1> P(X.get_ref());
@@ -186,8 +177,7 @@ arma_warn_unused inline bool is_finite(const SpBase<typename T1::elem_type, T1>&
     return true;
 }
 
-template <typename T1>
-arma_warn_unused inline bool is_finite(const BaseCube<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_warn_unused inline bool is_finite(const BaseCube<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -199,8 +189,7 @@ arma_warn_unused inline bool is_finite(const BaseCube<typename T1::elem_type, T1
 }
 
 //! NOTE: don't use this function: it will be removed
-template <typename T1>
-arma_deprecated inline const T1& sympd(const Base<typename T1::elem_type, T1>& X) {
+template <typename T1> arma_deprecated inline const T1& sympd(const Base<typename T1::elem_type, T1>& X) {
     arma_extra_debug_sigprint();
 
     arma_debug_warn("sympd() is deprecated and will be removed; change inv(sympd(X)) to "
@@ -209,15 +198,13 @@ arma_deprecated inline const T1& sympd(const Base<typename T1::elem_type, T1>& X
     return X.get_ref();
 }
 
-template <typename eT>
-inline void swap(Mat<eT>& A, Mat<eT>& B) {
+template <typename eT> inline void swap(Mat<eT>& A, Mat<eT>& B) {
     arma_extra_debug_sigprint();
 
     A.swap(B);
 }
 
-template <typename eT>
-inline void swap(Cube<eT>& A, Cube<eT>& B) {
+template <typename eT> inline void swap(Cube<eT>& A, Cube<eT>& B) {
     arma_extra_debug_sigprint();
 
     A.swap(B);
@@ -243,8 +230,7 @@ arma_warn_unused inline uvec ind2sub(const SizeMat& s, const uword i) {
     return out;
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<uword, typename T1::elem_type>::yes), umat>::result ind2sub(const SizeMat& s, const T1& indices) {
+template <typename T1> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<uword, typename T1::elem_type>::yes), umat>::result ind2sub(const SizeMat& s, const T1& indices) {
     arma_extra_debug_sigprint();
 
     const uword s_n_rows = s.n_rows;
@@ -338,8 +324,7 @@ arma_warn_unused inline uvec ind2sub(const SizeCube& s, const uword i) {
     return out;
 }
 
-template <typename T1>
-arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<uword, typename T1::elem_type>::yes), umat>::result ind2sub(const SizeCube& s, const T1& indices) {
+template <typename T1> arma_warn_unused inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<uword, typename T1::elem_type>::yes), umat>::result ind2sub(const SizeCube& s, const T1& indices) {
     arma_extra_debug_sigprint();
 
     const uword s_n_rows = s.n_rows;
@@ -385,8 +370,7 @@ arma_warn_unused arma_inline uword sub2ind(const SizeMat& s, const uword row, co
     return uword(row + col * s_n_rows);
 }
 
-template <typename T1>
-arma_warn_unused inline uvec sub2ind(const SizeMat& s, const Base<uword, T1>& subscripts) {
+template <typename T1> arma_warn_unused inline uvec sub2ind(const SizeMat& s, const Base<uword, T1>& subscripts) {
     arma_extra_debug_sigprint();
 
     const uword s_n_rows = s.n_rows;
@@ -428,8 +412,7 @@ arma_warn_unused arma_inline uword sub2ind(const SizeCube& s, const uword row, c
     return uword((slice * s_n_rows * s_n_cols) + (col * s_n_rows) + row);
 }
 
-template <typename T1>
-arma_warn_unused inline uvec sub2ind(const SizeCube& s, const Base<uword, T1>& subscripts) {
+template <typename T1> arma_warn_unused inline uvec sub2ind(const SizeCube& s, const Base<uword, T1>& subscripts) {
     arma_extra_debug_sigprint();
 
     const uword s_n_rows = s.n_rows;
@@ -462,8 +445,7 @@ arma_warn_unused inline uvec sub2ind(const SizeCube& s, const Base<uword, T1>& s
     return out;
 }
 
-template <typename T1, typename T2>
-arma_inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_affmul>>::result affmul(const T1& A, const T2& B) {
+template <typename T1, typename T2> arma_inline typename enable_if2<(is_arma_type<T1>::value && is_same_type<typename T1::elem_type, typename T2::elem_type>::value), const Glue<T1, T2, glue_affmul>>::result affmul(const T1& A, const T2& B) {
     arma_extra_debug_sigprint();
 
     return Glue<T1, T2, glue_affmul>(A, B);

@@ -16,8 +16,7 @@
 //! \addtogroup glue_polyfit
 //! @{
 
-template <typename eT>
-inline bool glue_polyfit::apply_noalias(Mat<eT>& out, const Col<eT>& X, const Col<eT>& Y, const uword N) {
+template <typename eT> inline bool glue_polyfit::apply_noalias(Mat<eT>& out, const Col<eT>& X, const Col<eT>& Y, const uword N) {
     arma_extra_debug_sigprint();
 
     // create Vandermonde matrix
@@ -49,8 +48,7 @@ inline bool glue_polyfit::apply_noalias(Mat<eT>& out, const Col<eT>& X, const Co
     return true;
 }
 
-template <typename T1, typename T2>
-inline bool glue_polyfit::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X_expr, const Base<typename T1::elem_type, T2>& Y_expr, const uword N) {
+template <typename T1, typename T2> inline bool glue_polyfit::apply_direct(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& X_expr, const Base<typename T1::elem_type, T2>& Y_expr, const uword N) {
     arma_extra_debug_sigprint();
 
     typedef typename T1::elem_type eT;
@@ -88,8 +86,7 @@ inline bool glue_polyfit::apply_direct(Mat<typename T1::elem_type>& out, const B
     return status;
 }
 
-template <typename T1, typename T2>
-inline void glue_polyfit::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyfit>& expr) {
+template <typename T1, typename T2> inline void glue_polyfit::apply(Mat<typename T1::elem_type>& out, const Glue<T1, T2, glue_polyfit>& expr) {
     arma_extra_debug_sigprint();
 
     const bool status = glue_polyfit::apply_direct(out, expr.A, expr.B, expr.aux_uword);

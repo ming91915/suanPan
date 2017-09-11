@@ -18,17 +18,13 @@
 
 class op_prod {
 public:
-    template <typename eT>
-    inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
+    template <typename eT> inline static void apply_noalias(Mat<eT>& out, const Mat<eT>& X, const uword dim);
 
-    template <typename T1>
-    inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in);
+    template <typename T1> inline static void apply(Mat<typename T1::elem_type>& out, const Op<T1, op_prod>& in);
 
-    template <typename eT>
-    inline static eT prod(const subview<eT>& S);
+    template <typename eT> inline static eT prod(const subview<eT>& S);
 
-    template <typename T1>
-    inline static typename T1::elem_type prod(const Base<typename T1::elem_type, T1>& X);
+    template <typename T1> inline static typename T1::elem_type prod(const Base<typename T1::elem_type, T1>& X);
 };
 
 //! @}
