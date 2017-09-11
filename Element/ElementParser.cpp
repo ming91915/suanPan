@@ -80,6 +80,50 @@ void new_cp4(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<CP4>(tag, uvec(node_tag), material_tag, thickness, !!reduced_scheme, !!nonlinear);
 }
 
+void new_cp8(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if((command >> tag).fail()) {
+        suanpan_debug("new_cp8() needs a tag.\n");
+        return;
+    }
+
+    uword node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 8; ++I) {
+        if((command >> node).fail()) {
+            suanpan_debug("new_cp8() needs eight valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned material_tag;
+    if((command >> material_tag).fail()) {
+        suanpan_debug("new_cp8() needs a valid material tag.\n");
+        return;
+    }
+
+    auto thickness = 1.;
+    if(!command.eof() && (command >> thickness).fail()) {
+        suanpan_debug("new_cp8() needs a valid thickness.\n");
+        return;
+    }
+
+    unsigned reduced_scheme = 0;
+    if(!command.eof() && (command >> reduced_scheme).fail()) {
+        suanpan_debug("new_cp8() needs a valid reduced integration switch (0,1).\n");
+        return;
+    }
+
+    unsigned nonlinear = 0;
+    if(!command.eof() && (command >> nonlinear).fail()) {
+        suanpan_debug("new_cp8() needs a valid nonlinear geometry switch (0,1).\n");
+        return;
+    }
+
+    return_obj = make_unique<CP8>(tag, uvec(node_tag), material_tag, thickness, !!reduced_scheme, !!nonlinear);
+}
+
 void new_gq12(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if((command >> tag).fail()) {

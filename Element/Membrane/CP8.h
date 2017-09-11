@@ -1,38 +1,42 @@
 /**
- * @class C3D8
- * @brief The C3D8 class defines C3D8 C3D8R elements.
+ * @class CP8
+ * @brief The CP8 class handles CPS8, CPE8, CPS8R and CPE8R elements. It is a four node constant strain membrane element with optional reduced integration for both plane stress and plane strain problems.
  * @author T
- * @date 13/08/2017
- * @version 0.1.0
- * @file C3D8.h
- * @addtogroup Cube
+ * @date 12/09/2017
+ * @version 0.1.2
+ * @file CP8.h
+ * @addtogroup Membrane
  * @ingroup Element
  * @{
  */
 
-#ifndef C3D8_H
-#define C3D8_H
+#ifndef CP8_H
+#define CP8_H
 
 #include <Element/Element.h>
 
-class C3D8 final : public Element {
+class CP8 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
         mat pn_pxy;
-        unique_ptr<Material> c_material;
+        unique_ptr<Material> m_material;
     };
 
-    static const unsigned c_node, c_dof;
+    static const unsigned m_node;
+    static const unsigned m_dof;
+
+    const double thickness;
 
     const bool reduced_scheme;
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
 public:
-    C3D8(const unsigned&,     // tag
+    CP8(const unsigned&,      // tag
         const uvec&,          // node tags
         const unsigned&,      // material tag
+        const double& = 1.,   // thickness
         const bool& = false,  // reduced integration
         const bool& = false); // nonlinear geometry switch
 

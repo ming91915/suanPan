@@ -27,46 +27,30 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(command.fail()) return 0;
 
     if(command_id == "exit") return SUANPAN_EXIT;
-
     if(command_id == "quit") return SUANPAN_EXIT;
 
     if(command_id == "file") return process_file(model, command);
 
     if(command_id == "domain") return create_new_domain(model, command);
-
     if(command_id == "converger") return create_new_converger(model, command);
-
     if(command_id == "step") return create_new_step(model, command);
-
     if(command_id == "solver") return create_new_solver(model, command);
-
     if(command_id == "fix") return create_new_bc(model, command);
-
     if(command_id == "cload") return create_new_cload(model, command);
-
     if(command_id == "enable") return enable_object(model, command);
-
     if(command_id == "disable") return disable_object(model, command);
-
     if(command_id == "mute") return disable_object(model, command);
-
     if(command_id == "erase") return erase_object(model, command);
-
     if(command_id == "delete") return erase_object(model, command);
-
     if(command_id == "remove") return erase_object(model, command);
-
     if(command_id == "set") return set_property(model, command);
 
     const auto& domain = get_current_domain(model);
     if(domain == nullptr) return 0;
 
     if(command_id == "node") return create_new_node(domain, command);
-
     if(command_id == "material") return create_new_material(domain, command);
-
     if(command_id == "element") return create_new_element(domain, command);
-
     if(command_id == "recorder") return create_new_recorder(domain, command);
 
     if(command_id == "analyze") return model->analyze();
@@ -468,8 +452,14 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
 
     unique_ptr<Element> new_element = nullptr;
 
-    if(if_equal(element_id, "CP4"))
+    if(if_equal(element_id, "CP3"))
+        new_cp3(new_element, command);
+    else if(if_equal(element_id, "CP4"))
         new_cp4(new_element, command);
+    else if(if_equal(element_id, "CP8"))
+        new_cp8(new_element, command);
+    else if(if_equal(element_id, "C3D8"))
+        new_c3d8(new_element, command);
     else if(if_equal(element_id, "PS"))
         new_ps(new_element, command);
     else if(if_equal(element_id, "QE2"))

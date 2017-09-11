@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp" />
+    <ClCompile Include="..\..\..\Element\Membrane\CP8.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\GQ12.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\Proto01.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="..\..\..\Element\ElementTemplate.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP3.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP4.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\CP8.h" />
     <ClInclude Include="..\..\..\Element\Membrane\GQ12.h" />
     <ClInclude Include="..\..\..\Element\Membrane\Proto01.h" />
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
