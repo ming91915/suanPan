@@ -1,6 +1,7 @@
 #include "debug.h"
 #include <cstdarg>
 #include <iostream>
+#include <suanPan.h>
 #include <vector>
 
 using std::cout;
