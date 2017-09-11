@@ -2,10 +2,8 @@
  * @class Proto01
  * @brief A Proto01 class.
  *
- * [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
- *
  * @author T
- * @date 30/07/2017
+ * @date 12/09/2017
  * @version 0.1.0
  * @file Proto01.h
  * @addtogroup Membrane
@@ -27,8 +25,7 @@ class Proto01 : public Element {
         unique_ptr<Material> m_material;
     };
 
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof;
 
     static mat mapping;
 

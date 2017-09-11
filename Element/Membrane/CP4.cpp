@@ -48,9 +48,9 @@ void CP4::initialize(const shared_ptr<Domain>& D) {
                 for(auto K = J; K < m_node * m_dof; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
 
-        for(auto I = 0; I < 8; I += m_dof) {
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < 8; J += m_dof) {
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
                 mass(J, I) = mass(I, J);
                 mass(I + 1, J + 1) = mass(I, J);
                 mass(J + 1, I + 1) = mass(I, J);
@@ -76,10 +76,10 @@ int CP4::update_status() {
         }
         code += I->m_material->update_trial_status(t_strain);
 
-        const auto tmp_factor = I->jacob_det * I->weight * thickness;
+        const auto t_factor = I->jacob_det * I->weight * thickness;
 
-        auto& tmp_stiff = I->m_material->get_stiffness();
-        auto& tmp_stress = I->m_material->get_stress();
+        auto& t_stiff = I->m_material->get_stiffness();
+        auto& t_stress = I->m_material->get_stress();
 
         const auto& NX1 = I->pn_pxy(0, 0);
         const auto& NY1 = I->pn_pxy(1, 0);
@@ -90,16 +90,16 @@ int CP4::update_status() {
         const auto& NX4 = I->pn_pxy(0, 3);
         const auto& NY4 = I->pn_pxy(1, 3);
 
-        const auto D11 = tmp_factor * tmp_stiff(0, 0);
-        const auto D12 = tmp_factor * tmp_stiff(0, 1);
-        const auto D13 = tmp_factor * tmp_stiff(0, 2);
-        const auto D22 = tmp_factor * tmp_stiff(1, 1);
-        const auto D23 = tmp_factor * tmp_stiff(1, 2);
-        const auto D33 = tmp_factor * tmp_stiff(2, 2);
+        const auto D11 = t_factor * t_stiff(0, 0);
+        const auto D12 = t_factor * t_stiff(0, 1);
+        const auto D13 = t_factor * t_stiff(0, 2);
+        const auto D22 = t_factor * t_stiff(1, 1);
+        const auto D23 = t_factor * t_stiff(1, 2);
+        const auto D33 = t_factor * t_stiff(2, 2);
 
-        const auto S1 = tmp_factor * tmp_stress(0);
-        const auto S2 = tmp_factor * tmp_stress(1);
-        const auto S3 = tmp_factor * tmp_stress(2);
+        const auto S1 = t_factor * t_stress(0);
+        const auto S2 = t_factor * t_stress(1);
+        const auto S3 = t_factor * t_stress(2);
 
         // 111+59 (264+176)
         const auto D11NX1 = D11 * NX1;

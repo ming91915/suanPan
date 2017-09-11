@@ -23,7 +23,7 @@ class CP3 final : public Element {
 
     double area = 0.; /**< area */
 
-    mat strain_mat;
+    mat pn_pxy;
 
     unique_ptr<Material> m_material; /**< store material model */
 public:
@@ -36,6 +36,8 @@ public:
     int commit_status() override;
     int clear_status() override;
     int reset_status() override;
+
+    void print() override;
 };
 
 #endif
