@@ -4,7 +4,7 @@
 #include <Toolbox/tensorToolbox.h>
 
 const unsigned Proto01::m_node = 4;
-const unsigned Proto01::m_dof = 2;
+const unsigned Proto01::m_dof = 3;
 mat Proto01::mapping;
 
 Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
@@ -12,7 +12,6 @@ Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const doub
     , thickness(TH) {}
 
 void Proto01::initialize(const shared_ptr<Domain>& D) {
-    // ISOPARAMETRIC MAPPING
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
         mapping.fill(.25);
@@ -24,16 +23,13 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         mapping(3, 3) = -.25;
     }
 
-    // MATERIAL MODEL PROTOTYPE
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
-    // INITIAL FLEXIBILITY
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    // INTEGRATION POINTS INITIALIZATION
     const integrationPlan plan(2, 2, 1);
     int_pt.clear();
-    for(unsigned I = 0; I < 4; ++I) {
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
@@ -41,7 +37,6 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         int_pt[I]->m_material = material_proto->get_copy();
     }
 
-    // ELEMENT COORDINATES
     ele_coor.zeros(m_node, m_dof);
     for(auto I = 0; I < m_node; ++I) {
         auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
@@ -54,13 +49,13 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
     mass.zeros();
 
-    mat n(2, 8, fill::zeros);
+    mat n(2, m_node * m_dof, fill::zeros);
 
     const auto tmp_density = material_proto->get_parameter() * thickness;
 
-    mat H(7, 7, fill::zeros);
-    mat L(7, 8, fill::zeros);
-    mat LI(7, 2, fill::zeros);
+    mat H(11, 11, fill::zeros);
+    mat L(11, 12, fill::zeros);
+    mat LI(11, 2, fill::zeros);
     for(const auto& I : int_pt) {
         const auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;

@@ -33,7 +33,7 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
     // INTEGRATION POINTS INITIALIZATION
     const integrationPlan plan(2, 2, 1);
     int_pt.clear();
-    for(unsigned I = 0; I < 4; ++I) {
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
