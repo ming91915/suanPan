@@ -35,10 +35,8 @@ int Static::analyze() {
                 return -1;
             }
             step /= 2.;
-        } else { // FAILED SOLVER
-            suanpan_error("analyze() recieves error code %u from lapack subroutine.\n", code);
+        } else
             return -1;
-        }
     }
 
     if(num_increment > get_max_iteration()) {

@@ -11,28 +11,28 @@ Solver::Solver(const unsigned& T, const unsigned& CT, const shared_ptr<Converger
 
 Solver::~Solver() { suanpan_debug("Solver %u dtor() called.\n", get_tag()); }
 
-const bool& Solver::is_initialized() const { return initialized; }
-
 int Solver::initialize() {
-    if(!initialized) initialized = true;
-
     if(converger == nullptr) {
-        suanpan_error("initialize() needs a valid Converger.\n");
+        suanpan_error("initialize() needs a valid converger.\n");
         return -1;
     }
 
     if(modifier == nullptr) {
-        suanpan_error("initialize() needs a valid Integrator.\n");
+        suanpan_error("initialize() needs a valid integrator.\n");
         return -1;
     }
 
     return 0;
 }
 
-void Solver::set_converger(const shared_ptr<Converger>& C) { converger = C; }
+void Solver::set_converger(const shared_ptr<Converger>& C) {
+    if(converger != C) converger = C;
+}
 
 const shared_ptr<Converger>& Solver::get_converger() const { return converger; }
 
-void Solver::set_integrator(const shared_ptr<Integrator>& G) { modifier = G; }
+void Solver::set_integrator(const shared_ptr<Integrator>& G) {
+    if(modifier != G) modifier = G;
+}
 
 const shared_ptr<Integrator>& Solver::get_integrator() const { return modifier; }

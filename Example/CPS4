@@ -5106,8 +5106,8 @@ element	CP4	2500	2549	2550	2601	2600	1	1
 step static 1
 set ini_step_size 1
 set fixed_step_size true
-set symm_mat false
-set band_mat false
+set symm_mat true
+set band_mat true
 
 solver newton 1
 converger AbsResidual 1 1E-6 7 0

@@ -16,20 +16,18 @@ Step::~Step() { suanpan_debug("Step %u dtor() called.\n", get_tag()); }
 const bool& Step::is_updated() const { return updated; }
 
 int Step::initialize() {
-    if(updated) return 0;
-
     if(database == nullptr) {
-        suanpan_error("initialize() needs a valid Domain.\n");
+        suanpan_error("initialize() needs a valid domain.\n");
         return -1;
     }
 
     if(solver == nullptr) {
-        suanpan_error("initialize() needs a valid Solver.\n");
+        suanpan_error("initialize() needs a valid solver.\n");
         return -1;
     }
 
     if(tester == nullptr) {
-        suanpan_error("initialize() needs a valid Converger.\n");
+        suanpan_error("initialize() needs a valid converger.\n");
         return -1;
     }
 
@@ -56,7 +54,7 @@ int Step::initialize() {
         break;
     case CT_DYNAMIC:
         if(modifier == nullptr) {
-            suanpan_error("initialize() needs a valid Integrator.\n");
+            suanpan_error("initialize() needs a valid integrator.\n");
             return -1;
         }
         modifier->set_domain(database);
@@ -66,7 +64,7 @@ int Step::initialize() {
         factory->set_analysis_type(AnalysisType::EIGEN);
         break;
     default:
-        suanpan_error("initialize() needs a valid Step.\n");
+        suanpan_error("initialize() needs a valid step.\n");
         return -1;
     }
 
@@ -82,69 +80,100 @@ int Step::initialize() {
 int Step::analyze() { return -1; }
 
 void Step::set_factory(const shared_ptr<Factory<double>>& F) {
-    factory = F;
-    updated = false;
+    if(factory != F) {
+        factory = F;
+        updated = false;
+    }
 }
 
 const shared_ptr<Factory<double>>& Step::get_factory() const { return factory; }
 
 void Step::set_domain(const shared_ptr<Domain>& D) {
-    database = D;
-    updated = false;
+    if(database != D) {
+        database = D;
+        updated = false;
+    }
 }
 
 const shared_ptr<Domain>& Step::get_domain() const { return database; }
 
 void Step::set_solver(const shared_ptr<Solver>& S) {
-    solver = S;
-    updated = false;
+    if(solver != S) {
+        solver = S;
+        updated = false;
+    }
 }
 
 const shared_ptr<Solver>& Step::get_solver() const { return solver; }
 
 void Step::set_converger(const shared_ptr<Converger>& C) {
-    tester = C;
-    updated = false;
+    if(tester != C) {
+        tester = C;
+        updated = false;
+    }
 }
 
 const shared_ptr<Converger>& Step::get_converger() const { return tester; }
 
 void Step::set_integrator(const shared_ptr<Integrator>& G) {
-    modifier = G;
-    updated = false;
+    if(modifier != G) {
+        modifier = G;
+        updated = false;
+    }
 }
 
 const shared_ptr<Integrator>& Step::get_integrator() const { return modifier; }
 
 void Step::set_time_perid(const double& T) {
-    time_period = T;
-    const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
-    if(tmp_iteration > max_increment && max_increment != 0)
-        if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
-            suanpan_warning("set_ini_step_size() exceeds limits.\n");
-            set_max_iteration(std::numeric_limits<unsigned>::max());
-        } else
-            set_max_iteration(tmp_iteration);
+    if(time_period != T) {
+        time_period = T;
+        updated = false;
+        const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
+        if(tmp_iteration > max_increment && max_increment != 0)
+            if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
+                suanpan_warning("set_ini_step_size() exceeds limits.\n");
+                set_max_iteration(std::numeric_limits<unsigned>::max());
+            } else
+                set_max_iteration(tmp_iteration);
+    }
 }
 
 const double& Step::get_time_period() const { return time_period; }
 
 void Step::set_ini_step_size(const double& T) {
-    ini_step_size = T;
-    const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
-    if(tmp_iteration > max_increment && max_increment != 0)
-        if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
-            suanpan_warning("set_ini_step_size() exceeds limits.\n");
-            set_max_iteration(std::numeric_limits<unsigned>::max());
-        } else
-            set_max_iteration(tmp_iteration);
+    if(ini_step_size != T) {
+        ini_step_size = T;
+        updated = false;
+        const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
+        if(tmp_iteration > max_increment && max_increment != 0)
+            if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
+                suanpan_warning("set_ini_step_size() exceeds limits.\n");
+                set_max_iteration(std::numeric_limits<unsigned>::max());
+            } else
+                set_max_iteration(tmp_iteration);
+    }
 }
 
-void Step::set_min_step_size(const double& T) { min_step_size = T; }
+void Step::set_min_step_size(const double& T) {
+    if(min_step_size != T) {
+        min_step_size = T;
+        updated = false;
+    }
+}
 
-void Step::set_max_step_size(const double& T) { max_step_size = T; }
+void Step::set_max_step_size(const double& T) {
+    if(max_step_size != T) {
+        max_step_size = T;
+        updated = false;
+    }
+}
 
-void Step::set_max_iteration(const unsigned& M) { max_increment = M; }
+void Step::set_max_iteration(const unsigned& M) {
+    if(max_increment != M) {
+        max_increment = M;
+        updated = false;
+    }
+}
 
 const double& Step::get_ini_step_size() const { return ini_step_size; }
 

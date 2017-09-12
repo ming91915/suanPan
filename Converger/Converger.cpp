@@ -21,13 +21,9 @@ Converger::Converger(const unsigned& T, const unsigned& CT, const shared_ptr<Dom
  */
 Converger::~Converger() {}
 
-const bool& Converger::is_initialized() const { return initialized; }
-
 int Converger::initialize() {
-    if(!initialized) initialized = true;
-
     if(database == nullptr) {
-        suanpan_error("initialize() needs a valid Domain.\n");
+        suanpan_error("initialize() needs a valid domain.\n");
         return -1;
     }
 
@@ -54,7 +50,9 @@ const unsigned& Converger::get_max_iteration() const { return max_iteration; }
  * \brief Method to set `domain`.
  * \param D `domain`
  */
-void Converger::set_domain(const shared_ptr<Domain>& D) { database = D; }
+void Converger::set_domain(const shared_ptr<Domain>& D) {
+    if(database != D) database = D;
+}
 
 /**
  * \brief Method to return `domain`.

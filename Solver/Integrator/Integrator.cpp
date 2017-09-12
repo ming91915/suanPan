@@ -9,13 +9,9 @@ Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<D
 
 Integrator::~Integrator() { suanpan_debug("Integrator %u dtor() called.\n", get_tag()); }
 
-const bool& Integrator::is_initialized() const { return initialized; }
-
 int Integrator::initialize() {
-    if(!initialized) initialized = true;
-
     if(database == nullptr) {
-        suanpan_error("initialize() needs a valid Domain.\n");
+        suanpan_error("initialize() needs a valid domain.\n");
         return -1;
     }
 
@@ -44,6 +40,8 @@ void Integrator::clear_status() const { database->clear_status(); }
 
 void Integrator::reset_status() const { database->reset_status(); }
 
-void Integrator::set_domain(const shared_ptr<Domain>& D) { database = D; }
+void Integrator::set_domain(const shared_ptr<Domain>& D) {
+    if(database != D) database = D;
+}
 
 const shared_ptr<Domain>& Integrator::get_domain() const { return database; }

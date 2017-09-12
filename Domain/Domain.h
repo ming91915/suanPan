@@ -140,6 +140,7 @@ public:
     void update_incre_time(const double&) const;
     void update_trial_status() const;
     void update_incre_status() const;
+    void update_current_status() const;
 
     void commit_status() const;
     void clear_status() const;

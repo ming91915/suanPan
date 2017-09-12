@@ -40,7 +40,9 @@ int Domain::initialize() {
     constraint_pond.update();
     element_pond.update();
     load_pond.update();
+    material_pond.update();
     node_pond.update();
+    recorder_pond.update();
 
     // RCM OPTIMIZATION
     // COLLECT CONNECTIVITY
@@ -117,8 +119,10 @@ void Domain::record() {
 }
 
 void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
-    factory = F;
-    updated = false;
+    if(factory != F) {
+        factory = F;
+        updated = false;
+    }
 }
 
 const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
@@ -381,6 +385,36 @@ void Domain::update_incre_status() const {
 #else
         for(const auto& I : element_pond.get()) I->update_status();
 #endif
+    }
+}
+
+void Domain::update_current_status() const {
+    vec c_g_dsp(factory->get_size(), fill::zeros);
+    vec c_g_vel(factory->get_size(), fill::zeros);
+    vec c_g_acc(factory->get_size(), fill::zeros);
+
+    if(factory->get_analysis_type() == AnalysisType::STATICS) {
+        for(const auto& I : node_pond.get()) {
+            auto& t_dof = I->get_reordered_dof();
+            auto& current_dsp = I->get_current_displacement();
+            for(auto J = 0; J < t_dof.size(); ++J) c_g_dsp(t_dof(J)) = current_dsp(J);
+        }
+        factory->update_current_displacement(c_g_dsp);
+    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
+        for(const auto& I : node_pond.get()) {
+            auto& t_dof = I->get_reordered_dof();
+            auto& current_dsp = I->get_current_displacement();
+            auto& current_vel = I->get_current_velocity();
+            auto& current_acc = I->get_current_acceleration();
+            for(auto J = 0; J < t_dof.size(); ++J) {
+                c_g_dsp(t_dof(J)) = current_dsp(J);
+                c_g_vel(t_dof(J)) = current_vel(J);
+                c_g_acc(t_dof(J)) = current_acc(J);
+            }
+        }
+        factory->update_current_displacement(c_g_dsp);
+        factory->update_current_velocity(c_g_vel);
+        factory->update_current_acceleration(c_g_acc);
     }
 }
 

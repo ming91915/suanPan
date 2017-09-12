@@ -27,10 +27,7 @@ int Newton::analyze(const unsigned& ST) {
         G->process(ST);
         // CALL SOLVER
         const auto flag = update_status();
-        if(flag != 0) {
-            suanpan_error("analyze() recieves error code %u from base driver.\n", flag);
-            return flag;
-        }
+        if(flag != 0) return flag;
         // UPDATE TRIAL STATUS FOR WORKSHOP
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED

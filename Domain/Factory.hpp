@@ -803,15 +803,21 @@ template <typename T> void Factory<T>::reset_temperature() {
 }
 
 template <typename T> void Factory<T>::clear_eigen() {
-    eigenvalue.zeros();
-    eigenvector.zeros();
+    if(!eigenvalue.is_empty()) eigenvalue.zeros();
+    if(!eigenvector.is_empty()) eigenvector.zeros();
 }
 
-template <typename T> void Factory<T>::clear_mass() { global_mass->zeros(); }
+template <typename T> void Factory<T>::clear_mass() {
+    if(global_mass != nullptr && !global_mass->is_empty()) global_mass->zeros();
+}
 
-template <typename T> void Factory<T>::clear_damping() { global_damping->zeros(); }
+template <typename T> void Factory<T>::clear_damping() {
+    if(global_damping != nullptr && !global_damping->is_empty()) global_damping->zeros();
+}
 
-template <typename T> void Factory<T>::clear_stiffness() { global_stiffness->zeros(); }
+template <typename T> void Factory<T>::clear_stiffness() {
+    if(global_stiffness != nullptr && !global_stiffness->is_empty()) global_stiffness->zeros();
+}
 
 template <typename T> void Factory<T>::print() const { suanpan_info("This is a Factory object with size of %u.\n", n_size); }
 

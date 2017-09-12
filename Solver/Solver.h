@@ -19,16 +19,12 @@ class Converger;
 class Integrator;
 
 class Solver : public Tag {
-    bool initialized = false;
-
     shared_ptr<Converger> converger = nullptr;
     shared_ptr<Integrator> modifier = nullptr;
 
 public:
     explicit Solver(const unsigned& = 0, const unsigned& = CT_SOLVER, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
     virtual ~Solver();
-
-    const bool& is_initialized() const;
 
     virtual int initialize();
 

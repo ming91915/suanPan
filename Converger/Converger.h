@@ -33,14 +33,9 @@ class Converger : public Tag {
     double error = 0.; /**< current error */
 
     bool conv_flag = false; /**< converger flag */
-
-    bool initialized = false;
-
 public:
     explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 10, const bool& = false);
     virtual ~Converger();
-
-    const bool& is_initialized() const;
 
     virtual int initialize();
 

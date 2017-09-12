@@ -13,6 +13,8 @@
 #ifndef BANDSYMMMAT_HPP
 #define BANDSYMMMAT_HPP
 
+#include <Toolbox/debug.h>
+
 template <typename T> class BandSymmMat : public MetaMat<T> {
     static T bin;
     using MetaMat<T>::i;
@@ -116,6 +118,8 @@ template <typename T> int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dpbsv)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
     }
 
+    if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+
     return INFO;
 }
 
@@ -136,6 +140,8 @@ template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
         using E = double;
         arma_fortran(arma_dpbtrs)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
     }
+
+    if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
 
     return INFO;
 }

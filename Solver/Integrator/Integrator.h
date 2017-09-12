@@ -22,15 +22,11 @@
 class Domain;
 
 class Integrator : public Tag {
-    bool initialized = false;
-
     shared_ptr<Domain> database;
 
 public:
     explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR, const shared_ptr<Domain>& = nullptr);
     virtual ~Integrator();
-
-    const bool& is_initialized() const;
 
     virtual int initialize();
 

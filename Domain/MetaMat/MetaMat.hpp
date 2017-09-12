@@ -13,6 +13,7 @@
 #ifndef METAMAT_HPP
 #define METAMAT_HPP
 
+#include <Toolbox/debug.h>
 #include <armadillo>
 
 using namespace arma;
@@ -241,6 +242,8 @@ template <typename T> int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         using E = double;
         arma_fortran(arma_dgesv)(&N, &NRHS, (E*)memptr(), &LDA, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
+
+    if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
 
     return INFO;
 }
