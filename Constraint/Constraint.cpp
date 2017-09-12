@@ -13,7 +13,7 @@ Constraint::Constraint(const unsigned& T, const unsigned& CT, const unsigned& ST
 /**
  * \brief The default destructor.
  */
-Constraint::~Constraint() { suanpan_debug("Constraint %u dtor() Called.\n", get_tag()); }
+Constraint::~Constraint() { suanpan_debug("Constraint %u dtor() called.\n", get_tag()); }
 
 /**
  * \brief Method to set `step_tag`.

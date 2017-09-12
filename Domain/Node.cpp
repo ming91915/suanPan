@@ -56,31 +56,30 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
  * \brief This method should be called after Element objects are set. Element objects will set the minimum number of DoFs for all related Node objects. This method initialize all member variables with the size of `num_dof` and fill `original_dof` with `-1` to indicated it should be omitted from the system. Finally check if the size of `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be necessary for beam/plate/shell problems which have more DoFs than coordinates.
  */
 void Node::initialize(const shared_ptr<Domain>& D) {
-    if(!is_active()) return;
+    if(is_active())
+        if(num_dof != 0) {
+            original_dof.zeros(num_dof);
+            original_dof.fill(static_cast<uword>(-1));
 
-    if(num_dof != 0) {
-        original_dof.zeros(num_dof);
-        original_dof.fill(static_cast<uword>(-1));
+            reordered_dof.reset();
 
-        reordered_dof.reset();
+            current_displacement.resize(num_dof);
+            current_velocity.resize(num_dof);
+            current_acceleration.resize(num_dof);
 
-        current_displacement.resize(num_dof);
-        current_velocity.resize(num_dof);
-        current_acceleration.resize(num_dof);
+            incre_displacement.resize(num_dof);
+            incre_velocity.resize(num_dof);
+            incre_acceleration.resize(num_dof);
 
-        incre_displacement.resize(num_dof);
-        incre_velocity.resize(num_dof);
-        incre_acceleration.resize(num_dof);
+            trial_displacement.resize(num_dof);
+            trial_velocity.resize(num_dof);
+            trial_acceleration.resize(num_dof);
 
-        trial_displacement.resize(num_dof);
-        trial_velocity.resize(num_dof);
-        trial_acceleration.resize(num_dof);
-
-        // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
-    } else {
-        suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
-        D->disable_node(get_tag());
-    }
+            // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
+        } else {
+            suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
+            D->disable_node(get_tag());
+        }
 }
 
 /**
@@ -175,9 +174,8 @@ void Node::set_dof_number(const unsigned& D) { num_dof = D; }
  * \param F Current Index Counter
  */
 void Node::set_original_dof(unsigned& F) {
-    if(!is_active()) return;
-
-    for(unsigned i = 0; i < num_dof; ++i) original_dof(i) = F++;
+    if(is_active())
+        for(unsigned I = 0; I < num_dof; ++I) original_dof(I) = F++;
 }
 
 /**
@@ -305,7 +303,7 @@ void Node::clear_status() {
  * \param D `trial_displacement`
  */
 void Node::update_trial_status(const vec& D) {
-    for(unsigned I = 0; I < num_dof; I++) trial_displacement(I) = D(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) trial_displacement(I) = D(reordered_dof(I));
     // trial_displacement = D;
     incre_displacement = trial_displacement - current_displacement;
 }
@@ -316,7 +314,7 @@ void Node::update_trial_status(const vec& D) {
  * \param V `trial_velocity`
  */
 void Node::update_trial_status(const vec& D, const vec& V) {
-    for(unsigned I = 0; I < num_dof; I++) trial_velocity(I) = V(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) trial_velocity(I) = V(reordered_dof(I));
     // trial_velocity = V;
     incre_velocity = trial_velocity - current_velocity;
     update_trial_status(D);
@@ -329,7 +327,7 @@ void Node::update_trial_status(const vec& D, const vec& V) {
  * \param A `trial_acceleration`
  */
 void Node::update_trial_status(const vec& D, const vec& V, const vec& A) {
-    for(unsigned I = 0; I < num_dof; I++) trial_acceleration(I) = A(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) trial_acceleration(I) = A(reordered_dof(I));
     // trial_acceleration = A;
     incre_acceleration = trial_acceleration - current_acceleration;
     update_trial_status(D, V);
@@ -340,7 +338,7 @@ void Node::update_trial_status(const vec& D, const vec& V, const vec& A) {
  * \param D `incre_displacement`
  */
 void Node::update_incre_status(const vec& D) {
-    for(unsigned I = 0; I < num_dof; I++) incre_displacement(I) = D(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) incre_displacement(I) = D(reordered_dof(I));
     // incre_displacement = D;
     trial_displacement = current_displacement + incre_displacement;
 }
@@ -351,7 +349,7 @@ void Node::update_incre_status(const vec& D) {
  * \param V `incre_velocity`
  */
 void Node::update_incre_status(const vec& D, const vec& V) {
-    for(unsigned I = 0; I < num_dof; I++) incre_velocity(I) = V(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) incre_velocity(I) = V(reordered_dof(I));
     // incre_velocity = V;
     trial_velocity = current_velocity + incre_velocity;
     update_incre_status(D);
@@ -364,7 +362,7 @@ void Node::update_incre_status(const vec& D, const vec& V) {
  * \param A `incre_acceleration`
  */
 void Node::update_incre_status(const vec& D, const vec& V, const vec& A) {
-    for(unsigned I = 0; I < num_dof; I++) incre_acceleration(I) = A(reordered_dof(I));
+    for(unsigned I = 0; I < num_dof; ++I) incre_acceleration(I) = A(reordered_dof(I));
     // incre_acceleration = A;
     trial_acceleration = current_acceleration + incre_acceleration;
     update_incre_status(D, V);
