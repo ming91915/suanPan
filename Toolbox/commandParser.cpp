@@ -460,6 +460,8 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
         new_cp8(new_element, command);
     else if(if_equal(element_id, "C3D8"))
         new_c3d8(new_element, command);
+    else if(if_equal(element_id, "C3D20"))
+        new_c3d20(new_element, command);
     else if(if_equal(element_id, "PS"))
         new_ps(new_element, command);
     else if(if_equal(element_id, "QE2"))

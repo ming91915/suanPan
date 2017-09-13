@@ -1,0 +1,114 @@
+#include "C3D8.h"
+#include <Toolbox/integrationPlan.h>
+#include <Toolbox/shapeFunction.hpp>
+
+const unsigned C3D8::c_node = 8;
+const unsigned C3D8::c_dof = 3;
+
+C3D8::C3D8(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, const bool& F)
+    : Element(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
+    , reduced_scheme(R) {}
+
+void C3D8::initialize(const shared_ptr<Domain>& D) {
+    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+
+    const unsigned order = reduced_scheme ? 1 : 2;
+    const integrationPlan plan(3, order, 1);
+
+    int_pt.clear();
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
+        int_pt.push_back(make_unique<IntegrationPoint>());
+        int_pt[I]->coor.zeros(c_dof);
+        for(auto J = 0; J < c_dof; ++J) int_pt[I]->coor(J) = plan(I, J);
+        int_pt[I]->weight = plan(I, c_dof);
+        int_pt[I]->c_material = material_proto->get_copy();
+    }
+
+    mat ele_coor(c_node, c_dof);
+    for(unsigned I = 0; I < c_node; ++I) {
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
+        for(unsigned J = 0; J < c_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+    }
+
+    for(const auto& I : int_pt) {
+        const auto pn = shapeFunctionCube(I->coor, 1);
+        const mat jacob = pn * ele_coor;
+        I->jacob_det = det(jacob);
+        const mat pn_pxy = solve(jacob, pn);
+        I->strain_mat.zeros(6, c_node * c_dof);
+        for(auto J = 0; J < c_node; ++J) {
+            I->strain_mat(0, c_dof * J) = pn_pxy(0, J);
+            I->strain_mat(1, c_dof * J + 1) = pn_pxy(1, J);
+            I->strain_mat(2, c_dof * J + 2) = pn_pxy(2, J);
+            I->strain_mat(3, c_dof * J + 1) = pn_pxy(0, J);
+            I->strain_mat(5, c_dof * J + 2) = pn_pxy(0, J);
+            I->strain_mat(3, c_dof * J) = pn_pxy(1, J);
+            I->strain_mat(4, c_dof * J + 2) = pn_pxy(1, J);
+            I->strain_mat(4, c_dof * J + 1) = pn_pxy(2, J);
+            I->strain_mat(5, c_dof * J) = pn_pxy(2, J);
+        }
+    }
+
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter();
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
+            const auto n_int = shapeFunctionCube(I->coor, 0);
+            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            for(auto J = 0; J < c_node; ++J)
+                for(auto K = J; K < c_node; ++K) mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
+        for(auto I = 0; I < c_node * c_dof; I += c_dof) {
+            mass(I + 1, I + 1) = mass(I, I);
+            mass(I + 2, I + 2) = mass(I, I);
+            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(I + 2, J + 2) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
+                mass(J + 2, I + 2) = mass(I, J);
+            }
+        }
+    }
+}
+
+int C3D8::update_status() {
+    auto code = 0, idx = 0;
+
+    vec t_disp(24);
+    for(const auto& I : node_ptr) {
+        const auto& tmp_disp = I.lock()->get_trial_displacement();
+        for(auto J = 0; J < c_dof; ++J) t_disp(idx++) = tmp_disp(J);
+    }
+
+    stiffness.zeros();
+    resistance.zeros();
+    for(const auto& I : int_pt) {
+        code += I->c_material->update_trial_status(I->strain_mat * t_disp);
+        const mat t_factor = I->strain_mat.t() * I->jacob_det * I->weight;
+        stiffness += t_factor * I->c_material->get_stiffness() * I->strain_mat;
+        resistance += t_factor * I->c_material->get_stress();
+    }
+
+    return code;
+}
+
+int C3D8::commit_status() {
+    auto code = 0;
+    for(const auto& I : int_pt) code += I->c_material->commit_status();
+    return code;
+}
+
+int C3D8::clear_status() {
+    auto code = 0;
+    for(const auto& I : int_pt) code += I->c_material->clear_status();
+    return code;
+}
+
+int C3D8::reset_status() {
+    auto code = 0;
+    for(const auto& I : int_pt) code += I->c_material->reset_status();
+    return code;
+}
+
+void C3D8::print() { suanpan_info("C3D8(R) element.\n"); }

@@ -307,6 +307,44 @@ void new_c3d8(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<C3D8>(tag, uvec(node_tag), material_tag, !!reduced_scheme, !!nonlinear);
 }
 
+void new_c3d20(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if((command >> tag).fail()) {
+        suanpan_debug("new_c3d20() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 20; ++I) {
+        if((command >> node).fail()) {
+            suanpan_debug("new_c3d20() needs twenty valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned material_tag;
+    if((command >> material_tag).fail()) {
+        suanpan_debug("new_c3d20() needs a valid material tag.\n");
+        return;
+    }
+
+    unsigned reduced_scheme = 0;
+    if(!command.eof()) {
+        if((command >> reduced_scheme).fail()) suanpan_debug("new_c3d20() needs a valid reduced integration switch (0,1).\n");
+    } else
+        suanpan_debug("new_c3d20() assumes standard integration scheme (3*3).\n");
+
+    unsigned nonlinear = 0;
+    if(!command.eof()) {
+        if((command >> nonlinear).fail()) suanpan_debug("new_c3d20() needs a valid nonlinear geomtery switch (0,1).\n");
+    } else
+        suanpan_debug("new_c3d20() assumes linear geometry.\n");
+
+    return_obj = make_unique<C3D20>(tag, uvec(node_tag), material_tag, !!reduced_scheme, !!nonlinear);
+}
+
 void new_proto01(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {

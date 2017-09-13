@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\..\Element\Membrane\CP8.cpp">
       <Filter>Membrane</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp">
+      <Filter>Cube</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Membrane\CP8.h">
       <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Cube\C3D20.h">
+      <Filter>Cube</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,5 +28,8 @@
 #ifndef ET_CP8
 #define ET_CP8 2008
 #endif
+#ifndef ET_C3D20
+#define ET_C3D20 2009
+#endif
 
 #endif

@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Element\ElementParser.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Element\Cube\C3D20.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
     <ClInclude Include="..\..\..\Element\Element.h" />
     <ClInclude Include="..\..\..\Element\ElementParser.h" />
