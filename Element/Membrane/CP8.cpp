@@ -44,13 +44,13 @@ void CP8::initialize(const shared_ptr<Domain>& D) {
         for(const auto& I : int_pt) {
             const auto n_int = shapeFunctionQuad(I->coor, 0);
             const auto tmp_a = tmp_density * I->jacob_det * I->weight * thickness;
-            for(auto J = 0; J < m_node * m_dof; ++J)
-                for(auto K = J; K < m_node * m_dof; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+            for(auto J = 0; J < m_node; ++J)
+                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
 
-        for(auto I = 0; I < 16; I += m_dof) {
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < 16; J += m_dof) {
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
                 mass(J, I) = mass(I, J);
                 mass(I + 1, J + 1) = mass(I, J);
                 mass(J + 1, I + 1) = mass(I, J);

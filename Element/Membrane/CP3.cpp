@@ -22,34 +22,20 @@ void CP3::initialize(const shared_ptr<Domain>& D) {
     pn_pxy = inv_coor.rows(1, 2);
 
     mass.zeros();
-    auto tmp_density = m_material->get_parameter();
-    if(tmp_density != 0.) {
-        tmp_density *= area * thickness;
+    auto t_density = m_material->get_parameter();
+    if(t_density != 0.) {
+        t_density *= area * thickness;
         const vec n = mean(ele_coor) * inv_coor;
-        const auto tmp_a = n(0) * n(0) * tmp_density;
-        const auto tmp_b = n(1) * n(1) * tmp_density;
-        const auto tmp_c = n(2) * n(2) * tmp_density;
-        const auto tmp_d = n(0) * n(1) * tmp_density;
-        const auto tmp_e = n(1) * n(2) * tmp_density;
-        const auto tmp_f = n(2) * n(0) * tmp_density;
-        mass(0, 0) = tmp_a;
-        mass(1, 1) = tmp_a;
-        mass(2, 2) = tmp_b;
-        mass(3, 3) = tmp_b;
-        mass(4, 4) = tmp_c;
-        mass(5, 5) = tmp_c;
-        mass(0, 2) = tmp_d;
-        mass(1, 3) = tmp_d;
-        mass(2, 0) = tmp_d;
-        mass(3, 1) = tmp_d;
-        mass(0, 4) = tmp_f;
-        mass(1, 5) = tmp_f;
-        mass(4, 0) = tmp_f;
-        mass(5, 1) = tmp_f;
-        mass(2, 4) = tmp_e;
-        mass(3, 5) = tmp_e;
-        mass(4, 2) = tmp_e;
-        mass(5, 3) = tmp_e;
+        for(auto I = 0; I < m_node; ++I)
+            for(auto J = I; J < m_node; ++J) mass(m_dof * I, m_dof * J) += t_density * n(I) * n(J);
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
+            mass(I + 1, I + 1) = mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
+            }
+        }
     }
 }
 

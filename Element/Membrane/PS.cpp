@@ -85,9 +85,9 @@ void PS::initialize(const shared_ptr<Domain>& D) {
     }
 
     if(mass(0, 0) != 0.)
-        for(auto I = 0; I < 8; I += 2) {
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + 2; J < 8; J += 2) {
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
                 mass(J, I) = mass(I, J);
                 mass(I + 1, J + 1) = mass(I, J);
                 mass(J + 1, I + 1) = mass(I, J);

@@ -52,12 +52,6 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
 
     vec disp_mode(4, fill::zeros);
 
-    mass.zeros();
-
-    mat n(2, 8, fill::zeros);
-
-    const auto tmp_density = material_proto->get_parameter() * thickness;
-
     mat H(7, 7, fill::zeros);
     mat L(7, 8, fill::zeros);
     mat LI(7, 2, fill::zeros);
@@ -65,7 +59,7 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
         const auto pn = shapeFunctionQuad(I->coor, 1);
         I->jacob = pn * ele_coor;
         I->jacob_det = det(I->jacob);
-        if(!solve(I->pn_pxy, I->jacob, pn)) suanpan_warning("initialize() finds a badly shaped element.\n");
+        solve(I->pn_pxy, I->jacob, pn);
 
         disp_mode(1) = I->coor(0);
         disp_mode(2) = I->coor(1);
@@ -74,15 +68,15 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
         I->P = shapeStress7(tmp_const * disp_mode);
         const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
-        if(!solve(I->A, ini_stiffness, I->P)) suanpan_warning("initialize() finds a singular initial stiffness matrix.\n");
+        solve(I->A, ini_stiffness, I->P);
         H += tmp_mat * I->A;
 
         I->B = zeros(3, 8);
         for(unsigned K = 0; K < m_node; ++K) {
-            I->B(2, 2 * K + 1) = I->pn_pxy(0, K);
-            I->B(2, 2 * K) = I->pn_pxy(1, K);
-            I->B(1, 2 * K + 1) = I->pn_pxy(1, K);
-            I->B(0, 2 * K) = I->pn_pxy(0, K);
+            I->B(2, m_dof * K + 1) = I->pn_pxy(0, K);
+            I->B(2, m_dof * K) = I->pn_pxy(1, K);
+            I->B(1, m_dof * K + 1) = I->pn_pxy(1, K);
+            I->B(0, m_dof * K) = I->pn_pxy(0, K);
         }
         L += tmp_mat * I->B;
 
@@ -93,87 +87,94 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
         LI += tmp_mat * I->BI;
+    }
 
-        if(tmp_density != 0.) {
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter() * thickness;
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
             const auto n_int = shapeFunctionQuad(I->coor, 0);
-            for(unsigned K = 0; K < m_node; ++K) {
-                n(0, 2 * K) = n_int(0, K);
-                n(1, 2 * K + 1) = n_int(0, K);
+            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            for(auto J = 0; J < m_node; ++J)
+                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
+            mass(I + 1, I + 1) = mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
             }
-            mass += n.t() * n * I->jacob_det * I->weight * tmp_density;
         }
     }
 
     inv(HI, H);
     solve(HIL, H, L);
     solve(HILI, H, LI);
-    HT = H;
-    const mat tmp_mat = HILI.t() * HT;
+    trial_ht = H;
+    const mat tmp_mat = HILI.t() * trial_ht;
     QT = tmp_mat * HILI;
     TT = tmp_mat * HIL;
-
-    initial_stiffness = HIL.t() * HT * HIL - TT.t() * solve(QT, TT);
-    stiffness = initial_stiffness;
 
     initial_qtitt = solve(QT, TT);
     current_qtitt = initial_qtitt;
     trial_qtitt = initial_qtitt;
+
+    initial_stiffness = HIL.t() * trial_ht * HIL - TT.t() * initial_qtitt;
+    stiffness = initial_stiffness;
 
     current_qtifi.zeros(2);
     trial_qtifi.zeros(2);
 
     FI.zeros(2);
 
-    trial_disp.zeros(8);
     trial_lambda.zeros(2);
     trial_alpha.zeros(7);
     trial_beta.zeros(7);
 
-    current_disp.zeros(8);
     current_lambda.zeros(2);
     current_alpha.zeros(7);
     current_beta.zeros(7);
 }
 
 int QE2::update_status() {
-    current_disp = trial_disp;
+    vec incre_disp(m_node * m_dof);
 
     auto idx = 0;
-    for(const auto& tmp_ptr : node_ptr) {
-        auto& tmp_disp = tmp_ptr.lock()->get_trial_displacement();
-        for(auto pos = 0; pos < m_dof; ++pos) trial_disp(idx++) = tmp_disp(pos);
+    for(const auto& t_ptr : node_ptr) {
+        auto& t_disp = t_ptr.lock()->get_incre_displacement();
+        for(auto pos = 0; pos < m_dof; ++pos) incre_disp(idx++) = t_disp(pos);
     }
 
-    if(norm(trial_disp) < 1E-20) return 0; // quick return
+    if(norm(incre_disp) < 1E-10) return 0; // quick return
 
-    const vec incre_disp = trial_disp - current_disp;                 // eq. 46
     const vec incre_lambda = -trial_qtitt * incre_disp - trial_qtifi; // eq. 65
     const vec incre_alpha = HIL * incre_disp + HILI * incre_lambda;   // eq. 57
-    const vec incre_beta = HI * HT * incre_alpha;                     // eq. 58
+    const vec incre_beta = HI * trial_ht * incre_alpha;               // eq. 58
 
     trial_lambda += incre_lambda; // eq. 66
     trial_alpha += incre_alpha;   // eq. 46
     trial_beta += incre_beta;     // eq. 46
 
     resistance.zeros();
-    HT.zeros();
+    trial_ht.zeros();
     FI.zeros();
     auto code = 0;
-    for(const auto& tmp_pt : int_pt) {
-        code += tmp_pt->m_material->update_trial_status(tmp_pt->A * trial_alpha);
-        const auto tmp_factor = tmp_pt->jacob_det * tmp_pt->weight * thickness;
-        const vec tmp_vector = tmp_pt->P * trial_beta * tmp_factor;
-        HT += tmp_pt->A.t() * tmp_pt->m_material->get_stiffness() * tmp_pt->A * tmp_factor; // eq. 56
-        FI += tmp_pt->BI.t() * tmp_vector;                                                  // eq. 54
-        resistance += tmp_pt->B.t() * tmp_vector;                                           // eq. 54
+    for(const auto& t_pt : int_pt) {
+        code += t_pt->m_material->update_trial_status(t_pt->A * trial_alpha);
+        const auto t_factor = t_pt->jacob_det * t_pt->weight * thickness;
+        const vec t_vector = t_pt->P * trial_beta * t_factor;
+        trial_ht += t_pt->A.t() * t_pt->m_material->get_stiffness() * t_pt->A * t_factor; // eq. 56
+        FI += t_pt->BI.t() * t_vector;                                                    // eq. 54
+        resistance += t_pt->B.t() * t_vector;                                             // eq. 54
     }
 
-    QT = HILI.t() * HT * HILI;                             // eq. 60
-    TT = HILI.t() * HT * HIL;                              // eq. 60
-    solve(trial_qtitt, QT, TT);                            // eq. 65
-    solve(trial_qtifi, QT, FI);                            // eq. 65
-    resistance -= TT.t() * trial_qtifi;                    // eq. 64
-    stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
+    QT = HILI.t() * trial_ht * HILI;                             // eq. 60
+    TT = HILI.t() * trial_ht * HIL;                              // eq. 60
+    solve(trial_qtitt, QT, TT);                                  // eq. 65
+    solve(trial_qtifi, QT, FI);                                  // eq. 65
+    resistance -= TT.t() * trial_qtifi;                          // eq. 64
+    stiffness = HIL.t() * trial_ht * HIL - TT.t() * trial_qtitt; // eq. 61
 
     return code;
 }
@@ -200,8 +201,8 @@ int QE2::clear_status() {
     trial_alpha.zeros();
     trial_beta.zeros();
 
-    current_qtifi.zeros(2);
-    trial_qtifi.zeros(2);
+    current_qtifi.zeros();
+    trial_qtifi.zeros();
 
     stiffness = initial_stiffness;
 

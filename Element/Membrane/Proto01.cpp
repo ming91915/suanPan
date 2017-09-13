@@ -66,19 +66,19 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
-        I->P = shapeStress7(tmp_const * disp_mode);
+        I->P = shapeStress11(tmp_const * disp_mode);
         const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
         solve(I->A, ini_stiffness, I->P);
 
         H += tmp_mat * I->A;
 
-        I->B = zeros(3, 8);
+        I->B = zeros(3, m_node * m_dof);
         for(unsigned K = 0; K < m_node; ++K) {
-            I->B(2, 2 * K + 1) = I->pn_pxy(0, K);
-            I->B(2, 2 * K) = I->pn_pxy(1, K);
-            I->B(1, 2 * K + 1) = I->pn_pxy(1, K);
-            I->B(0, 2 * K) = I->pn_pxy(0, K);
+            I->B(2, m_dof * K + 1) = I->pn_pxy(0, K);
+            I->B(2, m_dof * K) = I->pn_pxy(1, K);
+            I->B(1, m_dof * K + 1) = I->pn_pxy(1, K);
+            I->B(0, m_dof * K) = I->pn_pxy(0, K);
         }
         L += tmp_mat * I->B;
 
@@ -93,8 +93,8 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         if(tmp_density != 0.) {
             const auto n_int = shapeFunctionQuad(I->coor, 0);
             for(unsigned K = 0; K < m_node; ++K) {
-                n(0, 2 * K) = n_int(0, K);
-                n(1, 2 * K + 1) = n_int(0, K);
+                n(0, m_dof * K) = n_int(0, K);
+                n(1, m_dof * K + 1) = n_int(0, K);
             }
             mass += n.t() * n * I->jacob_det * I->weight * tmp_density;
         }
@@ -108,27 +108,27 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
     QT = tmp_mat * HILI;
     TT = tmp_mat * HIL;
 
-    initial_stiffness = HIL.t() * HT * HIL - TT.t() * solve(QT, TT);
-    stiffness = initial_stiffness;
-
     initial_qtitt = solve(QT, TT);
     current_qtitt = initial_qtitt;
     trial_qtitt = initial_qtitt;
+
+    initial_stiffness = HIL.t() * HT * HIL - TT.t() * initial_qtitt;
+    stiffness = initial_stiffness;
 
     current_qtifi.zeros(2);
     trial_qtifi.zeros(2);
 
     FI.zeros(2);
 
-    trial_disp.zeros(8);
+    trial_disp.zeros(12);
     trial_lambda.zeros(2);
-    trial_alpha.zeros(7);
-    trial_beta.zeros(7);
+    trial_alpha.zeros(11);
+    trial_beta.zeros(11);
 
-    current_disp.zeros(8);
+    current_disp.zeros(12);
     current_lambda.zeros(2);
-    current_alpha.zeros(7);
-    current_beta.zeros(7);
+    current_alpha.zeros(11);
+    current_beta.zeros(11);
 }
 
 int Proto01::update_status() {
