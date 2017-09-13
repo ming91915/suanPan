@@ -22,9 +22,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Template">
-      <UniqueIdentifier>{0b4a335f-a2b9-4109-9d4d-5bba6edcd69d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
@@ -380,29 +377,8 @@
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h">
       <Filter>Header</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\MetaMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\BandMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\BandSymmMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\FullMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\operator_times.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\MetaMat\SymmPackMat.hpp">
-      <Filter>Template</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\shapeFunction.hpp">
       <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory.hpp">
-      <Filter>Template</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
