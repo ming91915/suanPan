@@ -22,7 +22,6 @@ class QE2 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat jacob, pn_pxy;
         mat P, A, B, BI;
         unique_ptr<Material> m_material;
     };
@@ -39,11 +38,9 @@ class QE2 : public Element {
 
     mat HI, HIL, HILI; // constant matrices
 
-    vec FI;     // variadic vectors
-    mat QT, TT; // variadic matrices
-
     mat trial_ht, current_ht;
 
+    vec trial_disp, current_disp;     // displacement
     vec trial_lambda, current_lambda; // enhanced strain
     vec trial_alpha, current_alpha;   // strain
     vec trial_beta, current_beta;     // stress

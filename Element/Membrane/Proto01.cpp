@@ -47,129 +47,133 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
     vec disp_mode(4, fill::zeros);
 
-    mass.zeros();
-
-    mat n(2, m_node * m_dof, fill::zeros);
-
-    const auto tmp_density = material_proto->get_parameter() * thickness;
-
     mat H(11, 11, fill::zeros);
     mat L(11, 12, fill::zeros);
     mat LI(11, 2, fill::zeros);
     for(const auto& I : int_pt) {
         const auto pn = shapeFunctionQuad(I->coor, 1);
-        I->jacob = pn * ele_coor;
-        I->jacob_det = det(I->jacob);
-        solve(I->pn_pxy, I->jacob, pn);
+
+        const mat jacob = pn * ele_coor;
+
+        I->jacob_det = det(jacob);
 
         disp_mode(1) = I->coor(0);
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
         I->P = shapeStress11(tmp_const * disp_mode);
-        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
 
-        solve(I->A, ini_stiffness, I->P);
-
-        H += tmp_mat * I->A;
+        I->A = solve(ini_stiffness, I->P);
 
         I->B = zeros(3, m_node * m_dof);
+        const mat pn_pxy = solve(jacob, pn);
         for(unsigned K = 0; K < m_node; ++K) {
-            I->B(2, m_dof * K + 1) = I->pn_pxy(0, K);
-            I->B(2, m_dof * K) = I->pn_pxy(1, K);
-            I->B(1, m_dof * K + 1) = I->pn_pxy(1, K);
-            I->B(0, m_dof * K) = I->pn_pxy(0, K);
+            I->B(2, m_dof * K + 1) = pn_pxy(0, K);
+            I->B(2, m_dof * K) = pn_pxy(1, K);
+            I->B(1, m_dof * K + 1) = pn_pxy(1, K);
+            I->B(0, m_dof * K) = pn_pxy(0, K);
         }
-        L += tmp_mat * I->B;
 
-        const vec tmp_vec = I->coor / I->jacob_det;
         I->BI = zeros(3, 2);
+        const vec tmp_vec = I->coor / I->jacob_det;
         I->BI(0, 0) = -tmp_const(1, 2) * tmp_vec(0) - tmp_const(1, 1) * tmp_vec(1);
         I->BI(1, 1) = tmp_const(0, 2) * tmp_vec(0) + tmp_const(0, 1) * tmp_vec(1);
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
-        LI += tmp_mat * I->BI;
 
-        if(tmp_density != 0.) {
+        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
+        H += tmp_mat * I->A;
+        L += tmp_mat * I->B;
+        LI += tmp_mat * I->BI;
+    }
+
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter() * thickness;
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
             const auto n_int = shapeFunctionQuad(I->coor, 0);
-            for(unsigned K = 0; K < m_node; ++K) {
-                n(0, m_dof * K) = n_int(0, K);
-                n(1, m_dof * K + 1) = n_int(0, K);
+            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            for(auto J = 0; J < m_node; ++J)
+                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
+        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
+            mass(I + 1, I + 1) = mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
+                mass(J, I) = mass(I, J);
+                mass(I + 1, J + 1) = mass(I, J);
+                mass(J + 1, I + 1) = mass(I, J);
             }
-            mass += n.t() * n * I->jacob_det * I->weight * tmp_density;
         }
     }
 
     inv(HI, H);
     solve(HIL, H, L);
     solve(HILI, H, LI);
-    HT = H;
-    const mat tmp_mat = HILI.t() * HT;
-    QT = tmp_mat * HILI;
-    TT = tmp_mat * HIL;
+
+    const mat QT = HILI.t() * H * HILI;
+    const mat TT = HILI.t() * H * HIL;
 
     initial_qtitt = solve(QT, TT);
     current_qtitt = initial_qtitt;
     trial_qtitt = initial_qtitt;
 
-    initial_stiffness = HIL.t() * HT * HIL - TT.t() * initial_qtitt;
+    current_ht = H;
+    trial_ht = H;
+
+    initial_stiffness = HIL.t() * H * HIL - TT.t() * initial_qtitt;
     stiffness = initial_stiffness;
 
     current_qtifi.zeros(2);
     trial_qtifi.zeros(2);
 
-    FI.zeros(2);
+    current_disp.zeros(12);
+    current_lambda.zeros(2);
+    current_alpha.zeros(11);
+    current_beta.zeros(11);
 
     trial_disp.zeros(12);
     trial_lambda.zeros(2);
     trial_alpha.zeros(11);
     trial_beta.zeros(11);
-
-    current_disp.zeros(12);
-    current_lambda.zeros(2);
-    current_alpha.zeros(11);
-    current_beta.zeros(11);
 }
 
 int Proto01::update_status() {
-    current_disp = trial_disp;
-
     auto idx = 0;
-    for(const auto& tmp_ptr : node_ptr) {
-        auto& tmp_disp = tmp_ptr.lock()->get_trial_displacement();
-        for(auto pos = 0; pos < m_dof; ++pos) trial_disp(idx++) = tmp_disp(pos);
+    for(const auto& t_ptr : node_ptr) {
+        auto& t_disp = t_ptr.lock()->get_trial_displacement();
+        for(auto pos = 0; pos < m_dof; ++pos) trial_disp(idx++) = t_disp(pos);
     }
 
-    if(norm(trial_disp) < 1E-20) return 0; // quick return
-
-    const vec incre_disp = trial_disp - current_disp;                 // eq. 46
+    const vec incre_disp = trial_disp - current_disp;
     const vec incre_lambda = -trial_qtitt * incre_disp - trial_qtifi; // eq. 65
     const vec incre_alpha = HIL * incre_disp + HILI * incre_lambda;   // eq. 57
-    const vec incre_beta = HI * HT * incre_alpha;                     // eq. 58
+    const vec incre_beta = HI * trial_ht * incre_alpha;               // eq. 58
 
     trial_lambda += incre_lambda; // eq. 66
     trial_alpha += incre_alpha;   // eq. 46
     trial_beta += incre_beta;     // eq. 46
 
+    trial_ht.zeros();
     resistance.zeros();
-    HT.zeros();
-    FI.zeros();
+    vec FI(2, fill::zeros);
     auto code = 0;
-    for(const auto& tmp_pt : int_pt) {
-        code += tmp_pt->m_material->update_trial_status(tmp_pt->A * trial_alpha);
-        const auto tmp_factor = tmp_pt->jacob_det * tmp_pt->weight * thickness;
-        const vec tmp_vector = tmp_pt->P * trial_beta * tmp_factor;
-        HT += tmp_pt->A.t() * tmp_pt->m_material->get_stiffness() * tmp_pt->A * tmp_factor; // eq. 56
-        FI += tmp_pt->BI.t() * tmp_vector;                                                  // eq. 54
-        resistance += tmp_pt->B.t() * tmp_vector;                                           // eq. 54
+    for(const auto& t_pt : int_pt) {
+        code += t_pt->m_material->update_trial_status(t_pt->A * trial_alpha);
+        const auto t_factor = t_pt->jacob_det * t_pt->weight * thickness;
+        const vec t_vector = t_pt->P * trial_beta * t_factor;
+        trial_ht += t_pt->A.t() * t_pt->m_material->get_stiffness() * t_pt->A * t_factor; // eq. 56
+        resistance += t_pt->B.t() * t_vector;                                             // eq. 54
+        FI += t_pt->BI.t() * t_vector;                                                    // eq. 54
     }
 
-    QT = HILI.t() * HT * HILI;                             // eq. 60
-    TT = HILI.t() * HT * HIL;                              // eq. 60
-    solve(trial_qtitt, QT, TT);                            // eq. 65
-    solve(trial_qtifi, QT, FI);                            // eq. 65
-    resistance -= TT.t() * trial_qtifi;                    // eq. 64
-    stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
+    const mat QT = HILI.t() * trial_ht * HILI;                   // eq. 60
+    const mat TT = HILI.t() * trial_ht * HIL;                    // eq. 60
+    solve(trial_qtitt, QT, TT);                                  // eq. 65
+    solve(trial_qtifi, QT, FI);                                  // eq. 65
+    resistance -= TT.t() * trial_qtifi;                          // eq. 64
+    stiffness = HIL.t() * trial_ht * HIL - TT.t() * trial_qtitt; // eq. 61
+
+    current_disp = trial_disp;
 
     return code;
 }
@@ -181,6 +185,8 @@ int Proto01::commit_status() {
 
     current_qtitt = trial_qtitt;
     current_qtifi = trial_qtifi;
+
+    current_ht = trial_ht;
 
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->commit_status();
@@ -196,13 +202,18 @@ int Proto01::clear_status() {
     trial_alpha.zeros();
     trial_beta.zeros();
 
-    current_qtifi.zeros(2);
-    trial_qtifi.zeros(2);
-
-    stiffness = initial_stiffness;
+    current_qtifi.zeros();
+    trial_qtifi.zeros();
 
     current_qtitt = initial_qtitt;
     trial_qtitt = initial_qtitt;
+
+    current_ht = inv(HI);
+    trial_ht = current_ht;
+
+    current_disp.zeros();
+
+    stiffness = initial_stiffness;
 
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->clear_status();
@@ -217,6 +228,14 @@ int Proto01::reset_status() {
     trial_qtitt = current_qtitt;
     trial_qtifi = current_qtifi;
 
+    trial_ht = current_ht;
+
+    auto idx = 0;
+    for(const auto& t_ptr : node_ptr) {
+        auto& t_disp = t_ptr.lock()->get_current_displacement();
+        for(auto pos = 0; pos < m_dof; ++pos) current_disp(idx++) = t_disp(pos);
+    }
+
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
@@ -226,10 +245,10 @@ vector<vec> Proto01::record(const OutputList& T) {
     vector<vec> data;
     switch(T) {
     case OutputList::E:
-        for(const auto& I : int_pt) data.push_back(I->m_material->get_strain());
+        for(const auto& I : int_pt) data.push_back(I->A * current_alpha);
         break;
     case OutputList::S:
-        for(const auto& I : int_pt) data.push_back(I->m_material->get_stress());
+        for(const auto& I : int_pt) data.push_back(I->P * current_beta);
         break;
     default:
         break;
@@ -238,7 +257,7 @@ vector<vec> Proto01::record(const OutputList& T) {
 }
 
 void Proto01::print() {
-    suanpan_info("Proto01 quad element %u connects nodes:\n", get_tag());
+    suanpan_info("Piltner's mixed quad element %u connects nodes:\n", get_tag());
     node_encoding.t().print();
     suanpan_info("Material model response:\n");
     for(auto I = 0; I < int_pt.size(); ++I) {
@@ -248,9 +267,9 @@ void Proto01::print() {
     suanpan_info("Element model response:\n");
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);
-        suanpan_info("Strain: ");
+        suanpan_info("Strain:\n");
         (int_pt[I]->A * current_alpha).t().print();
-        suanpan_info("Stress: ");
+        suanpan_info("Stress:\n");
         (int_pt[I]->P * current_beta).t().print();
     }
 }
