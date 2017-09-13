@@ -46,7 +46,6 @@ void C3D8::initialize(const shared_ptr<Domain>& D) {
             for(auto J = 0; J < c_node; ++J)
                 for(auto K = J; K < c_node; ++K) mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
-
         for(auto I = 0; I < c_node * c_dof; I += c_dof) {
             mass(I + 1, I + 1) = mass(I, I);
             mass(I + 2, I + 2) = mass(I, I);

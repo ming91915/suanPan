@@ -9,9 +9,6 @@ int Static::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    // FORM INITIAL TAGENT STIFFNESS AND RESISTANCE FOR ELEMENTS
-    G->update_trial_status();
-
     auto time_left = get_time_period();
     auto step = get_ini_step_size();
 

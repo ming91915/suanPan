@@ -62,23 +62,17 @@ int Truss2D::update_status() {
     const auto node_i = node_ptr.at(0).lock();
     const auto node_j = node_ptr.at(1).lock();
 
-    auto t_disp_i = node_i->get_trial_displacement();
-    auto t_disp_j = node_j->get_trial_displacement();
-
-    if(t_disp_i.size() != t_dof) t_disp_i.resize(t_dof);
-    if(t_disp_j.size() != t_dof) t_disp_j.resize(t_dof);
+    // in a truss-beam system a node may have either 2 or 3 dofs depends on the type of elements connected
+    // resize the displacement vectors to make sure they are compatiable with the truss formulation
+    vec disp_diff = node_j->get_trial_displacement().cols(0, 1) - node_i->get_trial_displacement().cols(0, 1);
 
     double trial_strain;
-
-    vec disp_diff = t_disp_j - t_disp_i;
 
     auto new_area = area;
     auto new_length = length;
 
     if(nlgeom) {
-        auto& coord_i = node_i->get_coordinate();
-        auto& coord_j = node_j->get_coordinate();
-        disp_diff += coord_j - coord_i;
+        disp_diff += node_j->get_coordinate() - node_i->get_coordinate();
 
         new_length = norm(disp_diff);
 

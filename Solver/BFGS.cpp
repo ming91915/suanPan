@@ -26,6 +26,7 @@ int BFGS::analyze(const unsigned& ST) {
     hist_factor.clear();
     while(true) {
         alpha.clear();
+        G->update_trial_status();
         G->update_resistance();
         if(counter == 0) {
             G->update_stiffness();
@@ -53,7 +54,6 @@ int BFGS::analyze(const unsigned& ST) {
             hist_factor.pop_front();
         }
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-        G->update_trial_status();
         if(C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;
     }

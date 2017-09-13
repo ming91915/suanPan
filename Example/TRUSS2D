@@ -13,7 +13,7 @@ element	Truss2D	3	3	1	1	10	1	1	1
 # recorder 1 node U 6
 
 step static 1
-set ini_step_size .1
+set ini_step_size .5
 set fixed_step_size true
 set symm_mat true
 set band_mat true
@@ -24,10 +24,10 @@ fix	3	2	3
 
 cload	1	2E4	2	2
 
-solver newton 1
-#solver BFGS 1
+#solver newton 1
+solver BFGS 1
 
-converger RelResidual 1 1E-5 10 0
+converger RelResidual 1 1E-5 10 1
 
 analyze
 
@@ -37,4 +37,4 @@ peek node 2
 
 # peek recorder 1
 
-# exit
+exit

@@ -327,32 +327,31 @@ void Domain::update_trial_status() const {
     auto& trial_vel = factory->get_trial_velocity();
     auto& trial_acc = factory->get_trial_acceleration();
 
-    if(!trial_dsp.is_empty()) {
-        if(!trial_acc.is_empty() && !trial_vel.is_empty()) {
+    if(factory->get_analysis_type() == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
-            auto& tmp_pond = node_pond.get();
+        auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
+        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp);
 #else
-            for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp, trial_vel, trial_acc);
+        for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
 #endif
-        } else {
+    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
-            auto& tmp_pond = node_pond.get();
+        auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp);
+        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #else
-            for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
-#endif
-        }
-#ifdef SUANPAN_OPENMP
-        auto& tmp_pond = element_pond.get();
-#pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
-#else
-        for(const auto& I : element_pond.get()) I->update_status();
+        for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #endif
     }
+
+#ifdef SUANPAN_OPENMP
+    auto& tmp_pond = element_pond.get();
+#pragma omp parallel for
+    for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
+#else
+    for(const auto& I : element_pond.get()) I->update_status();
+#endif
 }
 
 void Domain::update_incre_status() const {
@@ -360,32 +359,31 @@ void Domain::update_incre_status() const {
     auto& incre_vel = factory->get_incre_velocity();
     auto& incre_acc = factory->get_incre_acceleration();
 
-    if(!incre_dsp.is_empty()) {
-        if(!incre_acc.is_empty() && !incre_vel.is_empty()) {
+    if(factory->get_analysis_type() == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
-            auto& tmp_pond = node_pond.get();
+        auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
+        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp);
 #else
-            for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
+        for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
 #endif
-        } else {
+    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
-            auto& tmp_pond = node_pond.get();
+        auto& tmp_pond = node_pond.get();
 #pragma omp parallel for
-            for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp);
+        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
 #else
-            for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
-#endif
-        }
-#ifdef SUANPAN_OPENMP
-        auto& tmp_pond = element_pond.get();
-#pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
-#else
-        for(const auto& I : element_pond.get()) I->update_status();
+        for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
 #endif
     }
+
+#ifdef SUANPAN_OPENMP
+    auto& tmp_pond = element_pond.get();
+#pragma omp parallel for
+    for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
+#else
+    for(const auto& I : element_pond.get()) I->update_status();
+#endif
 }
 
 void Domain::update_current_status() const {

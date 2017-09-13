@@ -3,6 +3,9 @@
 const unsigned ElementTemplate::m_node = 3;
 const unsigned ElementTemplate::m_dof = 2;
 
+/**
+ * @brief Need a class tag to identify the type of the object. This attribute is rarely used in the analysis, the global solver is not interested in the type of the element. Hence it is okay to set it to zero, or directly pass zero to Element constructor in following constructor. You can use the class tag to check if the element is the one your want.
+ */
 #ifndef ET_ELEMENTTEMPLATE
 #define ET_ELEMENTTEMPLATE 0
 #endif
@@ -30,6 +33,8 @@ ElementTemplate::ElementTemplate(const unsigned& T, const uvec& NT, const unsign
  * @brief
  * As explained before, this method get all necessary information, which includes getting copies of Material objects and other operations, from the Domain object.
  *
+ * Please note that **we do not have to check the existance of any objects** which are used in the element. The validity of the connected node objects and the material models is checked before calling initialize(). The excution of this initialize() method means this is a valid Element object.
+ *
  * The displacement mode is
  * \f{gather}{\phi=\begin{bmatrix}1&x&y\end{bmatrix}.\f}
  *
@@ -42,9 +47,8 @@ ElementTemplate::ElementTemplate(const unsigned& T, const uvec& NT, const unsign
  */
 void ElementTemplate::initialize(const shared_ptr<Domain>& D) {
     //! As CPS3 is a constant stress/strain element, one integration point at the center of the element is enough. Hence we only have one material model defined. First we get a reference of the Material object from the Domain and then call the `get_copy()` method to get a local copy.
-    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     //! Direct assignment is allowed, the move semantics will automatically be invoked.
-    m_material = material_proto->get_copy();
+    m_material = D->get_material(unsigned(material_tag(0)))->get_copy();
 
     //! The node pointers are handled in the base Element class, we do not have to set it manually. Now we could fill in the `ele_coor` matrix. The area/natural coordinate is another version of implementation. Please refer to FEM textbooks for theories.
     //! This will be used for the computation of the shape function.
@@ -59,6 +63,7 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D) {
 
     mat inv_coor = inv(ele_coor);
 
+    //! A standerd way to construct the strain mat is to derive from the partial direvative of the shape function N. For CP3, as it is a constant stress/strain element, the direvatives are constants which can be directly obtained from above matrix.
     strain_mat.zeros(3, m_node * m_dof);
     for(auto i = 0; i < 3; ++i) {
         strain_mat(0, 2 * i) = inv_coor(1, i);
@@ -69,13 +74,23 @@ void ElementTemplate::initialize(const shared_ptr<Domain>& D) {
 
     const auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
+        //! Same as before, a quicker way to obtain shape function.
         vec n = mean(ele_coor) * inv_coor;
         mass = n * n.t() * tmp_density * area * thickness;
     }
 }
 
 /**
- * @brief Now we handle the status update method. We get trial displacement via pointers and pass trail strain to the material model. Then get updated stiffness and stress back to form element stiffness and resistance.
+ * @brief Now we handle the status update method. We get trial displacement via pointers and pass trial strain to the material model. Then get updated stiffness and stress back to form element stiffness and resistance.
+ *
+ * The pointers of related node objects are stored in a base member `node_ptr`, which is a `std::vector` of `weak_ptr`. (Why `weak_ptr`? To avoid potential wrong deallocation.) To access any methods in Node class, we use
+ * ```cpp
+ *     auto& my_ptr = node_ptr[i];
+ *     my_ptr.lock()->call_any_valid_method();
+ * ```
+ * Please note that the `weak_ptr` has to be locked to generate a valid shared_ptr before calling any methods.
+ *
+ * For a static analysis, **stiffness** and **resistance** have to be formulated. Apart from this, there is nothing you have to do. They will be send to global assembler by methods in base Element class, which can also be overridden to be customized.
  */
 int ElementTemplate::update_status() {
     vec trial_disp(m_node * m_dof);
@@ -93,6 +108,9 @@ int ElementTemplate::update_status() {
     return 0;
 }
 
+/**
+ * \brief Simply call corresponding methods in material objects. If the Element itself has history variables, they should also be updated/modified in following methods.
+ */
 int ElementTemplate::commit_status() { return m_material->commit_status(); }
 
 int ElementTemplate::clear_status() { return m_material->clear_status(); }

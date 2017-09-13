@@ -9,7 +9,6 @@ Newton::Newton(const unsigned& T, const shared_ptr<Converger>& C, const shared_p
 
 int Newton::update_status() {
     auto& W = get_integrator()->get_domain()->get_factory();
-
     return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
 }
 
@@ -21,6 +20,7 @@ int Newton::analyze(const unsigned& ST) {
     unsigned counter = 0;
 
     while(true) {
+        G->update_trial_status();
         G->update_resistance();
         G->update_stiffness();
         // PROCESS BC AND LOAD
@@ -30,8 +30,6 @@ int Newton::analyze(const unsigned& ST) {
         if(flag != 0) return flag;
         // UPDATE TRIAL STATUS FOR WORKSHOP
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-        // UPDATE FOR ELEMENTS AND CONTINUE THE LOOP IF NOT CONVERGED
-        G->update_trial_status();
 
         if(C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;

@@ -126,7 +126,6 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
     trial_ht = H;
 
     initial_stiffness = HIL.t() * H * HIL - TT.t() * initial_qtitt;
-    stiffness = initial_stiffness;
 
     current_qtifi.zeros(2);
     trial_qtifi.zeros(2);
@@ -217,8 +216,6 @@ int QE2::clear_status() {
     trial_ht = current_ht;
 
     current_disp.zeros();
-
-    stiffness = initial_stiffness;
 
     auto code = 0;
     for(const auto& I : int_pt) code += I->m_material->clear_status();
