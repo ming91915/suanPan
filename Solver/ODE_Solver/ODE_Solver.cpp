@@ -18,10 +18,12 @@ int ODE_Solver::initialize() {
 
     if(factory == nullptr)
         factory = make_shared<Factory<double>>(ode_size, AnalysisType::DISP);
-    else if(ode_size != factory->get_size())
+    else if(ode_size != factory->get_size()) {
+        factory->set_size(ode_size);
         factory->set_analysis_type(AnalysisType::DISP);
+    }
 
-    factory->initialize_displacement(ode_size);
+    factory->initialize_displacement();
 
     auto& tmp_converger = get_converger();
     if(tmp_converger == nullptr) {

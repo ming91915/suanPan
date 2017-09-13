@@ -23,7 +23,7 @@ int Tie::process(const shared_ptr<Domain>& D) {
     auto& tmp_dof_i = D->get_node(node_i)->get_reordered_dof().at(dof_i - 1);
     auto& tmp_dof_j = D->get_node(node_j)->get_reordered_dof().at(dof_j - 1);
 
-    auto& tmp_matrix = *get_stiffness(D->get_factory());
+    auto& tmp_matrix = get_stiffness(D->get_factory());
 
     tmp_matrix(tmp_dof_i, tmp_dof_i) += tmp_max;
     tmp_matrix(tmp_dof_j, tmp_dof_j) += tmp_max;

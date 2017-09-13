@@ -1,5 +1,6 @@
 #include "Integrator.h"
-#include "Domain/Domain.h"
+#include <Domain/Domain.h>
+#include <Domain/Factory.hpp>
 
 Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<Domain>& D)
     : Tag(T, CT)
@@ -22,13 +23,13 @@ void Integrator::process(const unsigned& ST) const { database->process(ST); }
 
 void Integrator::record() const { database->record(); }
 
-void Integrator::update_resistance() { database->update_resistance(); }
+void Integrator::update_resistance() { database->assemble_resistance(); }
 
-void Integrator::update_stiffness() { database->update_stiffness(); }
+void Integrator::update_stiffness() { database->assemble_stiffness(); }
 
-void Integrator::update_trial_time(const double& T) const { database->update_trial_time(T); }
+void Integrator::update_trial_time(const double& T) const { database->get_factory()->update_trial_time(T); }
 
-void Integrator::update_incre_time(const double& T) const { database->update_incre_time(T); }
+void Integrator::update_incre_time(const double& T) const { database->get_factory()->update_incre_time(T); }
 
 void Integrator::update_trial_status() { database->update_trial_status(); }
 

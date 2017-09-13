@@ -58,14 +58,6 @@ public:
     explicit Domain(const unsigned& = 0);
     ~Domain();
 
-    const bool& is_updated() const;
-
-    int initialize();
-
-    void process(const unsigned& = 0);
-
-    void record();
-
     void set_factory(const shared_ptr<Factory<double>>&);
     const shared_ptr<Factory<double>>& get_factory() const;
 
@@ -89,8 +81,6 @@ public:
     void disable_material(const unsigned&);
     void disable_node(const unsigned&);
     void disable_recorder(const unsigned&);
-
-    void enable_all();
 
     void enable_constraint(const unsigned&);
     void enable_element(const unsigned&);
@@ -130,22 +120,6 @@ public:
     friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>&);
     friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>&);
 
-    void update_resistance() const;
-    void update_mass() const;
-    void update_initial_stiffness() const;
-    void update_stiffness() const;
-    void update_damping() const;
-
-    void update_trial_time(const double&) const;
-    void update_incre_time(const double&) const;
-    void update_trial_status() const;
-    void update_incre_status() const;
-    void update_current_status() const;
-
-    void commit_status() const;
-    void clear_status() const;
-    void reset_status() const;
-
     bool insert_loaded_dof(const unsigned&);
     bool insert_restrained_dof(const unsigned&);
     bool insert_constrained_dof(const unsigned&);
@@ -154,7 +128,33 @@ public:
     const unordered_set<unsigned>& get_restrained_dof() const;
     const unordered_set<unsigned>& get_constrained_dof() const;
 
+    const bool& is_updated() const;
+
+    // initialize the domain
+    int initialize();
+    // process loads and constraints
+    void process(const unsigned& = 0);
+    // record response
+    void record();
+    // enable all objects
+    void enable_all();
+    // print out domain summary
     void summary() const;
+
+    void assemble_resistance() const;
+    void assemble_mass() const;
+    void assemble_initial_stiffness() const;
+    void assemble_stiffness() const;
+    void assemble_damping() const;
+
+    void set_current_status() const;
+
+    void update_trial_status() const;
+    void update_incre_status() const;
+
+    void commit_status() const;
+    void clear_status() const;
+    void reset_status() const;
 };
 
 #endif

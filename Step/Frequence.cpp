@@ -42,8 +42,8 @@ int Frequence::initialize() {
 int Frequence::analyze() {
     auto& tmp_domain = get_domain();
     tmp_domain->update_trial_status();
-    tmp_domain->update_mass();
-    tmp_domain->update_stiffness();
+    tmp_domain->assemble_mass();
+    tmp_domain->assemble_stiffness();
     tmp_domain->process(get_tag());
 
     return 0;

@@ -15,6 +15,183 @@ Domain::Domain(const unsigned& T)
 
 Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
 
+void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
+    if(factory != F) {
+        factory = F;
+        updated = false;
+    }
+}
+
+const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
+
+bool Domain::insert(const shared_ptr<Constraint>& C) {
+    if(updated) updated = false;
+    return constraint_pond.insert(C);
+}
+
+bool Domain::insert(const shared_ptr<Element>& E) {
+    if(updated) updated = false;
+    return element_pond.insert(E);
+}
+
+bool Domain::insert(const shared_ptr<Load>& L) {
+    if(updated) updated = false;
+    return load_pond.insert(L);
+}
+
+bool Domain::insert(const shared_ptr<Material>& M) {
+    if(updated) updated = false;
+    return material_pond.insert(M);
+}
+
+bool Domain::insert(const shared_ptr<Node>& N) {
+    if(updated) updated = false;
+    return node_pond.insert(N);
+}
+
+bool Domain::insert(const shared_ptr<Recorder>& R) {
+    if(updated) updated = false;
+    return recorder_pond.insert(R);
+}
+
+bool Domain::erase_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    return constraint_pond.erase(T);
+}
+
+bool Domain::erase_element(const unsigned& T) {
+    if(updated) updated = false;
+    return element_pond.erase(T);
+}
+
+bool Domain::erase_load(const unsigned& T) {
+    if(updated) updated = false;
+    return load_pond.erase(T);
+}
+
+bool Domain::erase_material(const unsigned& T) {
+    if(updated) updated = false;
+    return material_pond.erase(T);
+}
+
+bool Domain::erase_node(const unsigned& T) {
+    if(updated) updated = false;
+    return node_pond.erase(T);
+}
+
+bool Domain::erase_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    return recorder_pond.erase(T);
+}
+
+void Domain::disable_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    constraint_pond.disable(T);
+}
+
+void Domain::disable_element(const unsigned& T) {
+    if(updated) updated = false;
+    element_pond.disable(T);
+}
+
+void Domain::disable_load(const unsigned& T) {
+    if(updated) updated = false;
+    load_pond.disable(T);
+}
+
+void Domain::disable_material(const unsigned& T) {
+    if(updated) updated = false;
+    material_pond.disable(T);
+}
+
+void Domain::disable_node(const unsigned& T) {
+    if(updated) updated = false;
+    node_pond.disable(T);
+}
+
+void Domain::disable_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    recorder_pond.disable(T);
+}
+
+void Domain::enable_constraint(const unsigned& T) {
+    if(updated) updated = false;
+    constraint_pond.enable(T);
+}
+
+void Domain::enable_element(const unsigned& T) {
+    if(updated) updated = false;
+    element_pond.enable(T);
+}
+
+void Domain::enable_load(const unsigned& T) {
+    if(updated) updated = false;
+    load_pond.enable(T);
+}
+
+void Domain::enable_material(const unsigned& T) {
+    if(updated) updated = false;
+    material_pond.enable(T);
+}
+
+void Domain::enable_node(const unsigned& T) {
+    if(updated) updated = false;
+    node_pond.enable(T);
+}
+
+void Domain::enable_recorder(const unsigned& T) {
+    if(updated) updated = false;
+    recorder_pond.enable(T);
+}
+
+const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
+
+const shared_ptr<Element>& Domain::get_element(const unsigned& T) const { return element_pond.at(T); }
+
+const shared_ptr<Load>& Domain::get_load(const unsigned& T) const { return load_pond.at(T); }
+
+const shared_ptr<Material>& Domain::get_material(const unsigned& T) const { return material_pond.at(T); }
+
+const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_pond.at(T); }
+
+const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
+
+size_t Domain::get_constraint() const { return constraint_pond.size(); }
+
+size_t Domain::get_element() const { return element_pond.size(); }
+
+size_t Domain::get_load() const { return load_pond.size(); }
+
+size_t Domain::get_material() const { return material_pond.size(); }
+
+size_t Domain::get_node() const { return node_pond.size(); }
+
+size_t Domain::get_recorder() const { return recorder_pond.size(); }
+
+bool Domain::find_constraint(const unsigned& T) const { return constraint_pond.find(T); }
+
+bool Domain::find_element(const unsigned& T) const { return element_pond.find(T); }
+
+bool Domain::find_load(const unsigned& T) const { return load_pond.find(T); }
+
+bool Domain::find_material(const unsigned& T) const { return material_pond.find(T); }
+
+bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
+
+bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
+
+bool Domain::insert_loaded_dof(const unsigned& T) { return loaded_dofs.insert(T).second; }
+
+bool Domain::insert_restrained_dof(const unsigned& T) { return restrained_dofs.insert(T).second; }
+
+bool Domain::insert_constrained_dof(const unsigned& T) { return constrained_dofs.insert(T).second; }
+
+const unordered_set<unsigned>& Domain::get_loaded_dof() const { return loaded_dofs; }
+
+const unordered_set<unsigned>& Domain::get_restrained_dof() const { return restrained_dofs; }
+
+const unordered_set<unsigned>& Domain::get_constrained_dof() const { return constrained_dofs; }
+
 const bool& Domain::is_updated() const { return updated; }
 
 int Domain::initialize() {
@@ -118,105 +295,6 @@ void Domain::record() {
     for(const auto& I : recorder_pond.get()) I->record(shared_from_this());
 }
 
-void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
-    if(factory != F) {
-        factory = F;
-        updated = false;
-    }
-}
-
-const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
-
-bool Domain::insert(const shared_ptr<Constraint>& C) {
-    if(updated) updated = false;
-    return constraint_pond.insert(C);
-}
-
-bool Domain::insert(const shared_ptr<Element>& E) {
-    if(updated) updated = false;
-    return element_pond.insert(E);
-}
-
-bool Domain::insert(const shared_ptr<Load>& L) {
-    if(updated) updated = false;
-    return load_pond.insert(L);
-}
-
-bool Domain::insert(const shared_ptr<Material>& M) {
-    if(updated) updated = false;
-    return material_pond.insert(M);
-}
-
-bool Domain::insert(const shared_ptr<Node>& N) {
-    if(updated) updated = false;
-    return node_pond.insert(N);
-}
-
-bool Domain::insert(const shared_ptr<Recorder>& R) {
-    if(updated) updated = false;
-    return recorder_pond.insert(R);
-}
-
-bool Domain::erase_constraint(const unsigned& T) {
-    if(updated) updated = false;
-    return constraint_pond.erase(T);
-}
-
-bool Domain::erase_element(const unsigned& T) {
-    if(updated) updated = false;
-    return element_pond.erase(T);
-}
-
-bool Domain::erase_load(const unsigned& T) {
-    if(updated) updated = false;
-    return load_pond.erase(T);
-}
-
-bool Domain::erase_material(const unsigned& T) {
-    if(updated) updated = false;
-    return material_pond.erase(T);
-}
-
-bool Domain::erase_node(const unsigned& T) {
-    if(updated) updated = false;
-    return node_pond.erase(T);
-}
-
-bool Domain::erase_recorder(const unsigned& T) {
-    if(updated) updated = false;
-    return recorder_pond.erase(T);
-}
-
-void Domain::disable_constraint(const unsigned& T) {
-    if(updated) updated = false;
-    constraint_pond.disable(T);
-}
-
-void Domain::disable_element(const unsigned& T) {
-    if(updated) updated = false;
-    element_pond.disable(T);
-}
-
-void Domain::disable_load(const unsigned& T) {
-    if(updated) updated = false;
-    load_pond.disable(T);
-}
-
-void Domain::disable_material(const unsigned& T) {
-    if(updated) updated = false;
-    material_pond.disable(T);
-}
-
-void Domain::disable_node(const unsigned& T) {
-    if(updated) updated = false;
-    node_pond.disable(T);
-}
-
-void Domain::disable_recorder(const unsigned& T) {
-    if(updated) updated = false;
-    recorder_pond.disable(T);
-}
-
 void Domain::enable_all() {
     if(updated) updated = false;
     constraint_pond.enable();
@@ -227,100 +305,35 @@ void Domain::enable_all() {
     recorder_pond.enable();
 }
 
-void Domain::enable_constraint(const unsigned& T) {
-    if(updated) updated = false;
-    constraint_pond.enable(T);
+void Domain::summary() const {
+    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials,\n", get_tag(), get_node(), get_element(), get_material());
+    suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(), get_constraint(), get_recorder());
 }
 
-void Domain::enable_element(const unsigned& T) {
-    if(updated) updated = false;
-    element_pond.enable(T);
-}
-
-void Domain::enable_load(const unsigned& T) {
-    if(updated) updated = false;
-    load_pond.enable(T);
-}
-
-void Domain::enable_material(const unsigned& T) {
-    if(updated) updated = false;
-    material_pond.enable(T);
-}
-
-void Domain::enable_node(const unsigned& T) {
-    if(updated) updated = false;
-    node_pond.enable(T);
-}
-
-void Domain::enable_recorder(const unsigned& T) {
-    if(updated) updated = false;
-    recorder_pond.enable(T);
-}
-
-const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
-
-const shared_ptr<Element>& Domain::get_element(const unsigned& T) const { return element_pond.at(T); }
-
-const shared_ptr<Load>& Domain::get_load(const unsigned& T) const { return load_pond.at(T); }
-
-const shared_ptr<Material>& Domain::get_material(const unsigned& T) const { return material_pond.at(T); }
-
-const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_pond.at(T); }
-
-const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
-
-size_t Domain::get_constraint() const { return constraint_pond.size(); }
-
-size_t Domain::get_element() const { return element_pond.size(); }
-
-size_t Domain::get_load() const { return load_pond.size(); }
-
-size_t Domain::get_material() const { return material_pond.size(); }
-
-size_t Domain::get_node() const { return node_pond.size(); }
-
-size_t Domain::get_recorder() const { return recorder_pond.size(); }
-
-bool Domain::find_constraint(const unsigned& T) const { return constraint_pond.find(T); }
-
-bool Domain::find_element(const unsigned& T) const { return element_pond.find(T); }
-
-bool Domain::find_load(const unsigned& T) const { return load_pond.find(T); }
-
-bool Domain::find_material(const unsigned& T) const { return material_pond.find(T); }
-
-bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
-
-bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
-
-void Domain::update_resistance() const {
+void Domain::assemble_resistance() const {
     factory->clear_resistance();
     for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
-void Domain::update_mass() const {
+void Domain::assemble_mass() const {
     factory->clear_mass();
     for(const auto& I : element_pond.get()) factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
-void Domain::update_initial_stiffness() const {
+void Domain::assemble_initial_stiffness() const {
     factory->clear_stiffness();
     for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::update_stiffness() const {
+void Domain::assemble_stiffness() const {
     factory->clear_stiffness();
     for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
-void Domain::update_damping() const {
+void Domain::assemble_damping() const {
     factory->clear_damping();
     for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
-
-void Domain::update_trial_time(const double& T) const { factory->update_trial_time(T); }
-
-void Domain::update_incre_time(const double& T) const { factory->update_incre_time(T); }
 
 void Domain::update_trial_status() const {
     auto& trial_dsp = factory->get_trial_displacement();
@@ -386,7 +399,7 @@ void Domain::update_incre_status() const {
 #endif
 }
 
-void Domain::update_current_status() const {
+void Domain::set_current_status() const {
     vec c_g_dsp(factory->get_size(), fill::zeros);
     vec c_g_vel(factory->get_size(), fill::zeros);
     vec c_g_acc(factory->get_size(), fill::zeros);
@@ -397,7 +410,7 @@ void Domain::update_current_status() const {
             auto& current_dsp = I->get_current_displacement();
             for(auto J = 0; J < t_dof.size(); ++J) c_g_dsp(t_dof(J)) = current_dsp(J);
         }
-        factory->update_current_displacement(c_g_dsp);
+        factory->set_current_displacement(c_g_dsp);
     } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
         for(const auto& I : node_pond.get()) {
             auto& t_dof = I->get_reordered_dof();
@@ -410,9 +423,9 @@ void Domain::update_current_status() const {
                 c_g_acc(t_dof(J)) = current_acc(J);
             }
         }
-        factory->update_current_displacement(c_g_dsp);
-        factory->update_current_velocity(c_g_vel);
-        factory->update_current_acceleration(c_g_acc);
+        factory->set_current_displacement(c_g_dsp);
+        factory->set_current_velocity(c_g_vel);
+        factory->set_current_acceleration(c_g_acc);
     }
 }
 
@@ -476,23 +489,6 @@ void Domain::reset_status() const {
         I->update_status();
     }
 #endif
-}
-
-bool Domain::insert_loaded_dof(const unsigned& T) { return loaded_dofs.insert(T).second; }
-
-bool Domain::insert_restrained_dof(const unsigned& T) { return restrained_dofs.insert(T).second; }
-
-bool Domain::insert_constrained_dof(const unsigned& T) { return constrained_dofs.insert(T).second; }
-
-const unordered_set<unsigned>& Domain::get_loaded_dof() const { return loaded_dofs; }
-
-const unordered_set<unsigned>& Domain::get_restrained_dof() const { return restrained_dofs; }
-
-const unordered_set<unsigned>& Domain::get_constrained_dof() const { return constrained_dofs; }
-
-void Domain::summary() const {
-    suanpan_info("Domain %u contains:\n\t%u nodes, %u elements, %u materials,\n", get_tag(), get_node(), get_element(), get_material());
-    suanpan_info("\t%u loads, %u constraints and %u recorders.\n", get_load(), get_constraint(), get_recorder());
 }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T) { return D->constraint_pond[T]; }

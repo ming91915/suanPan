@@ -24,9 +24,9 @@ void Newmark::update_resistance() {
     auto& D = get_domain();
     auto& W = D->get_factory();
 
-    D->update_resistance();
+    D->assemble_resistance();
 
-    get_trial_resistance(W) -= *W->get_mass() * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) + *W->get_damping() * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
+    get_trial_resistance(W) -= get_mass(W) * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) + get_damping(W) * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
 }
 
 void Newmark::update_stiffness() {
@@ -35,11 +35,11 @@ void Newmark::update_stiffness() {
     auto& D = get_domain();
     auto& W = D->get_factory();
 
-    D->update_mass();
-    D->update_stiffness();
-    D->update_damping();
+    D->assemble_mass();
+    D->assemble_stiffness();
+    D->assemble_damping();
 
-    *W->get_stiffness() += C0 * *W->get_mass() + C1 * *W->get_damping();
+    get_stiffness(W) += C0 * get_mass(W) + C1 * get_damping(W);
 }
 
 void Newmark::commit_status() const {
