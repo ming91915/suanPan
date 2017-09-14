@@ -122,7 +122,7 @@ int BC::process(const shared_ptr<Domain>& D) {
 
     for(const auto& I : nodes) {
         auto& t_node = D->get_node(static_cast<unsigned>(I));
-        if(t_node->is_active()) {
+        if(t_node != nullptr && t_node->is_active()) {
             auto& t_dof = t_node->get_reordered_dof();
             for(const auto& J : dofs)
                 if(J <= t_dof.n_elem) {

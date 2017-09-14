@@ -20,11 +20,11 @@ class CP4 final : public Element {
         vec coor;
         double weight, jacob_det;
         mat pn_pxy;
+        mat BN, BG;
         unique_ptr<Material> m_material;
     };
 
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof;
 
     const double thickness;
 

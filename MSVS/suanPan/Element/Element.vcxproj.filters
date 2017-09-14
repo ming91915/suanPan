@@ -19,6 +19,9 @@
     <Filter Include="Cube">
       <UniqueIdentifier>{33b9a486-b7d8-42c7-84ec-96b32a9b6b7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Beam">
+      <UniqueIdentifier>{580a6752-6e34-4ac5-bc48-5ac90ca7cb6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp">
       <Filter>Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Beam\MVLEM.cpp">
+      <Filter>Beam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Cube\C3D20.h">
       <Filter>Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Beam\MVLEM.h">
+      <Filter>Beam</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

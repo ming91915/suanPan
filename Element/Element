@@ -2,6 +2,7 @@
 #include "Membrane/Membrane"
 #include "Section/Section"
 #include "Cube/Cube"
+#include "Beam/Beam"
 
 #include "Element.h"
 #include "ElementTag.h"
