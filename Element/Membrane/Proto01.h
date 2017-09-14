@@ -34,8 +34,6 @@ class Proto01 : public Element {
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
-    mat ele_coor;
-
     mat HI, HIL, HILI; // constant matrices
 
     mat trial_ht, current_ht;

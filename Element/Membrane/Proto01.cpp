@@ -27,7 +27,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    const integrationPlan plan(2, 2, 1);
+    const integrationPlan plan(2, 3, 1);
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
@@ -37,11 +37,22 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         int_pt[I]->m_material = material_proto->get_copy();
     }
 
-    ele_coor.zeros(m_node, m_dof);
+    mat ele_coor(m_node, 2);
     for(auto I = 0; I < m_node; ++I) {
         auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
-        for(auto J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+        for(auto J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
+
+    const auto LX1 = ele_coor(1, 1) - ele_coor(0, 1);
+    const auto LX2 = ele_coor(2, 1) - ele_coor(1, 1);
+    const auto LX3 = ele_coor(3, 1) - ele_coor(2, 1);
+    const auto LX4 = ele_coor(0, 1) - ele_coor(3, 1);
+    const auto LY1 = ele_coor(0, 0) - ele_coor(1, 0);
+    const auto LY2 = ele_coor(1, 0) - ele_coor(2, 0);
+    const auto LY3 = ele_coor(2, 0) - ele_coor(3, 0);
+    const auto LY4 = ele_coor(3, 0) - ele_coor(0, 0);
+
+    mat pnt(2, 8);
 
     const mat tmp_const = trans(mapping * ele_coor);
 
@@ -57,27 +68,63 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
         I->jacob_det = det(jacob);
 
-        disp_mode(1) = I->coor(0);
-        disp_mode(2) = I->coor(1);
-        disp_mode(3) = I->coor(0) * I->coor(1);
+        const auto& X = I->coor(0);
+        const auto& Y = I->coor(1);
+
+        disp_mode(1) = X;
+        disp_mode(2) = Y;
+        disp_mode(3) = X * Y;
 
         I->P = shapeStress11(tmp_const * disp_mode);
 
         I->A = solve(ini_stiffness, I->P);
 
         I->B = zeros(3, m_node * m_dof);
+
+        const auto X2 = 2. * X;
+        const auto Y2 = 2. * Y;
+        const auto XP = X + 1.;
+        const auto XM = X - 1.;
+        const auto YP = Y + 1.;
+        const auto YM = Y - 1.;
+
+        pnt(0, 0) = YM * (LX4 * YP - LX1 * X2);
+        pnt(0, 1) = YM * (LX2 * YP + LX1 * X2);
+        pnt(0, 2) = YP * (LX3 * X2 - LX2 * YM);
+        pnt(0, 3) = -YP * (LX3 * X2 + LX4 * YM);
+        pnt(0, 4) = YM * (LY4 * YP - LY1 * X2);
+        pnt(0, 5) = YM * (LY2 * YP + LY1 * X2);
+        pnt(0, 6) = YP * (LY3 * X2 - LY2 * YM);
+        pnt(0, 7) = -YP * (LY3 * X2 + LY4 * YM);
+        pnt(1, 0) = XM * (LX4 * Y2 - LX1 * XP);
+        pnt(1, 1) = XP * (LX1 * XM + LX2 * Y2);
+        pnt(1, 2) = XP * (LX3 * XM - LX2 * Y2);
+        pnt(1, 3) = -XM * (LX3 * XP + LX4 * Y2);
+        pnt(1, 4) = XM * (LY4 * Y2 - LY1 * XP);
+        pnt(1, 5) = XP * (LY1 * XM + LY2 * Y2);
+        pnt(1, 6) = XP * (LY3 * XM - LY2 * Y2);
+        pnt(1, 7) = -XM * (LY3 * XP + LY4 * Y2);
+
+        const mat pnt_pxy = solve(jacob, pnt / 16.);
+
         const mat pn_pxy = solve(jacob, pn);
-        for(unsigned K = 0; K < m_node; ++K) {
-            I->B(2, m_dof * K + 1) = pn_pxy(0, K);
-            I->B(2, m_dof * K) = pn_pxy(1, K);
-            I->B(1, m_dof * K + 1) = pn_pxy(1, K);
-            I->B(0, m_dof * K) = pn_pxy(0, K);
+        for(unsigned J = 0; J < m_node; ++J) {
+            I->B(2, m_dof * J + 1) = pn_pxy(0, J);
+            I->B(2, m_dof * J) = pn_pxy(1, J);
+            I->B(1, m_dof * J + 1) = pn_pxy(1, J);
+            I->B(0, m_dof * J) = pn_pxy(0, J);
+            I->B(0, m_dof * J + 2) = pnt_pxy(0, J);
+            I->B(1, m_dof * J + 2) = pnt_pxy(1, J + 4);
+            I->B(2, m_dof * J + 2) = pnt_pxy(0, J + 4) + pnt_pxy(1, J);
         }
 
         I->BI = zeros(3, 2);
-        const vec tmp_vec = I->coor / I->jacob_det;
-        I->BI(0, 0) = -tmp_const(1, 2) * tmp_vec(0) - tmp_const(1, 1) * tmp_vec(1);
-        I->BI(1, 1) = tmp_const(0, 2) * tmp_vec(0) + tmp_const(0, 1) * tmp_vec(1);
+        vec tmp_vec(2);
+        tmp_vec(0) = 3. * X * X - 1.;
+        tmp_vec(1) = 3. * Y * Y - 1.;
+        tmp_vec = solve(jacob, tmp_vec);
+        I->BI(0, 0) = tmp_vec(0);
+        I->BI(1, 1) = tmp_vec(1);
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
 

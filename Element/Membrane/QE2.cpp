@@ -42,10 +42,10 @@ void QE2::initialize(const shared_ptr<Domain>& D) {
     }
 
     // ELEMENT COORDINATES
-    ele_coor.zeros(m_node, m_dof);
+    mat ele_coor(m_node, 2);
     for(auto I = 0; I < m_node; ++I) {
         auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
-        for(auto J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+        for(auto J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
     const mat tmp_const = trans(mapping * ele_coor);
