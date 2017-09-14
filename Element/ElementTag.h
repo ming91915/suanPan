@@ -31,5 +31,8 @@
 #ifndef ET_C3D20
 #define ET_C3D20 2009
 #endif
+#ifndef ST_RECTANGLE
+#define ST_RECTANGLE 2010
+#endif
 
 #endif

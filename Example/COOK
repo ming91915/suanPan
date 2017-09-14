@@ -1,0 +1,42 @@
+node 1 0 0
+node 2 24 22
+node 3 48 44
+node 4 0 22
+node 5 24 37
+node 6 48 52
+node 7 0 44
+node 8 24 52
+node 9 48 60
+
+material Elastic2D 1 1 .333333333
+
+element Proto01 1 1 2 5 4 1 1
+element Proto01 2 2 3 6 5 1 1
+element Proto01 3 4 5 8 7 1 1
+element Proto01 4 5 6 9 8 1 1
+
+# recorder 1 node U 6
+
+step static 1
+set ini_step_size 1
+#set symm_mat false
+#set band_mat false
+
+fix 1 P 1 4 7
+
+cload 1 .25 2 3 9
+cload 2 .5 2 6
+
+solver newton 1
+
+converger AbsResidual 1 1E-6 7 1
+
+analyze
+
+peek node 6
+
+peek element 1
+
+# peek recorder 1
+
+exit
