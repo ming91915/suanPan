@@ -34,5 +34,8 @@
 #ifndef ST_RECTANGLE
 #define ST_RECTANGLE 2010
 #endif
+#ifndef ET_PROTO02
+#define ET_PROTO02 2011
+#endif
 
 #endif

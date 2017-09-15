@@ -72,6 +72,9 @@
     <ClCompile Include="..\..\..\Element\Section\Rectangle.cpp">
       <Filter>Section</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Membrane\Proto02.cpp">
+      <Filter>Membrane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Section\Rectangle.h">
       <Filter>Section</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\Proto02.h">
+      <Filter>Membrane</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

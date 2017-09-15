@@ -151,6 +151,7 @@
     <ClCompile Include="..\..\..\Element\Membrane\CP8.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\GQ12.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\Proto01.cpp" />
+    <ClCompile Include="..\..\..\Element\Membrane\Proto02.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Section\Rectangle.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="..\..\..\Element\Membrane\CP8.h" />
     <ClInclude Include="..\..\..\Element\Membrane\GQ12.h" />
     <ClInclude Include="..\..\..\Element\Membrane\Proto01.h" />
+    <ClInclude Include="..\..\..\Element\Membrane\Proto02.h" />
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
     <ClInclude Include="..\..\..\Element\Section\Rectangle.h" />
