@@ -1,7 +1,7 @@
 #include "ODE.h"
 
 ODE::ODE(const unsigned& T, const unsigned& CT, const unsigned& D)
-    : User_Function(T, CT)
+    : Tag(T, CT)
     , n_size(D) {}
 
 void ODE::set_dimension(const unsigned& D) { n_size = D; }

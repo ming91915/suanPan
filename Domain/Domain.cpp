@@ -156,6 +156,18 @@ const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_
 
 const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
 
+const vector<shared_ptr<Constraint>>& Domain::get_constraint_pool() const { return constraint_pond.get(); }
+
+const vector<shared_ptr<Element>>& Domain::get_element_pool() const { return element_pond.get(); }
+
+const vector<shared_ptr<Load>>& Domain::get_load_pool() const { return load_pond.get(); }
+
+const vector<shared_ptr<Material>>& Domain::get_material_pool() const { return material_pond.get(); }
+
+const vector<shared_ptr<Node>>& Domain::get_node_pool() const { return node_pond.get(); }
+
+const vector<shared_ptr<Recorder>>& Domain::get_recorder_pool() const { return recorder_pond.get(); }
+
 size_t Domain::get_constraint() const { return constraint_pond.size(); }
 
 size_t Domain::get_element() const { return element_pond.size(); }
@@ -504,10 +516,6 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { ret
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
-const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D) { return D->node_pond.get(); }
-
-const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>& D) { return D->element_pond.get(); }
-
 shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->constraint_pond[T]; }
 
 shared_ptr<Element>& get_element(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->element_pond[T]; }
@@ -519,7 +527,3 @@ shared_ptr<Material>& get_material(const shared_ptr<DomainBase>& D, const unsign
 shared_ptr<Node>& get_node(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->node_pond[T]; }
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->recorder_pond[T]; }
-
-const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<DomainBase>& D) { return std::dynamic_pointer_cast<Domain>(D)->node_pond.get(); }
-
-const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<DomainBase>& D) { return std::dynamic_pointer_cast<Domain>(D)->element_pond.get(); }

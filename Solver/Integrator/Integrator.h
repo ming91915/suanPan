@@ -1,8 +1,8 @@
 /**
  * @class Integrator
- * @brief The Integrator class is basically a warpper of the Domain class with regard to some status changing methods.
+ * @brief The Integrator class is basically a warpper of the DomainBase class with regard to some status changing methods.
  *
- * By default, the Step object calls Domain(Workshop) object to update displacement/resistance/stiffness independently. When it comes to dynamic analysis (time integration is invoved), it is necessary to compute the equivalent load/stiffness by combining several quantities.
+ * By default, the Step object calls DomainBase(Workshop) object to update displacement/resistance/stiffness independently. When it comes to dynamic analysis (time integration is invoved), it is necessary to compute the equivalent load/stiffness by combining several quantities.
  *
  * The Integrator object is acting like an agent between Workshop and Step, that can modify corresponding quantities to account for dynamic effect.
  *
@@ -19,13 +19,13 @@
 
 #include <Domain/Tag.h>
 
-class Domain;
+class DomainBase;
 
 class Integrator : public Tag {
-    shared_ptr<Domain> database;
+    shared_ptr<DomainBase> database;
 
 public:
-    explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR, const shared_ptr<Domain>& = nullptr);
+    explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR, const shared_ptr<DomainBase>& = nullptr);
     virtual ~Integrator();
 
     virtual int initialize();
@@ -46,8 +46,8 @@ public:
     virtual void clear_status() const;
     virtual void reset_status() const;
 
-    void set_domain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& get_domain() const;
+    void set_domain(const shared_ptr<DomainBase>&);
+    const shared_ptr<DomainBase>& get_domain() const;
 };
 
 #endif

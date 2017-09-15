@@ -1,7 +1,5 @@
 target_sources(${PROJECT_NAME} PRIVATE
-        "Solver/Integrator/Integrator.cpp"
-        "Solver/Integrator/CentralDifference.cpp"
-        "Solver/Integrator/Newmark.cpp"
+        "Integrator/Integrator.cpp"
+        "Integrator/CentralDifference.cpp"
+        "Integrator/Newmark.cpp"
         )
-
-#"Solver/Integrator/PlainIntegrator.cpp"

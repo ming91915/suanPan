@@ -69,6 +69,18 @@ const shared_ptr<Node>& DomainBase::get_node(const unsigned&) const { throw; }
 
 const shared_ptr<Recorder>& DomainBase::get_recorder(const unsigned&) const { throw; }
 
+const vector<shared_ptr<Constraint>>& DomainBase::get_constraint_pool() const { throw; }
+
+const vector<shared_ptr<Element>>& DomainBase::get_element_pool() const { throw; }
+
+const vector<shared_ptr<Load>>& DomainBase::get_load_pool() const { throw; }
+
+const vector<shared_ptr<Material>>& DomainBase::get_material_pool() const { throw; }
+
+const vector<shared_ptr<Node>>& DomainBase::get_node_pool() const { throw; }
+
+const vector<shared_ptr<Recorder>>& DomainBase::get_recorder_pool() const { throw; }
+
 size_t DomainBase::get_constraint() const { throw; }
 
 size_t DomainBase::get_element() const { throw; }

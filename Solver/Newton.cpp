@@ -1,6 +1,6 @@
 #include "Newton.h"
 #include <Converger/Converger.h>
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 

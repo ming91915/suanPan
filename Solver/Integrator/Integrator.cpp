@@ -1,8 +1,8 @@
 #include "Integrator.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<Domain>& D)
+Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<DomainBase>& D)
     : Tag(T, CT)
     , database(D) {
     suanpan_debug("Integrator %u ctor() called.\n", T);
@@ -41,8 +41,8 @@ void Integrator::clear_status() const { database->clear_status(); }
 
 void Integrator::reset_status() const { database->reset_status(); }
 
-void Integrator::set_domain(const shared_ptr<Domain>& D) {
+void Integrator::set_domain(const shared_ptr<DomainBase>& D) {
     if(database != D) database = D;
 }
 
-const shared_ptr<Domain>& Integrator::get_domain() const { return database; }
+const shared_ptr<DomainBase>& Integrator::get_domain() const { return database; }

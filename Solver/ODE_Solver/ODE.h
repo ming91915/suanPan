@@ -41,9 +41,9 @@
 #ifndef ODE_H
 #define ODE_H
 
-#include "User_Function.h"
+#include <Domain/Tag.h>
 
-class ODE : public User_Function {
+class ODE : public Tag {
     unsigned n_size; /**< The dimension of the problem. */
 public:
     //! Default ctor.

@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Solver">
-      <UniqueIdentifier>{038d868d-f52f-415f-8ecd-4b018ba46aed}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
@@ -81,39 +78,6 @@
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK45.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\RK23.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\BS23.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\DP45.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE_Solver.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Newton.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\BFGS.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Solver.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Ramm.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\User_Function.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\ODE.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -150,21 +114,6 @@
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\Integrator\Newmark.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\arpack_wrapper.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
-      <Filter>Solver</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Domain\DomainBase.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -178,42 +127,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Recorder\Recorder.h">
       <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\BFGS.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Newton.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_INSTANCE.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Ramm.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Solver.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\User_Function.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_Solver\BS23.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_Solver\DP45.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE_Solver.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_Solver\RK23.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\ODE_Solver\RK45.h">
-      <Filter>Solver</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Dynamic.h">
       <Filter>SRC</Filter>
@@ -304,21 +217,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\RCM.h">
       <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Integrator\Newmark.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\arpack_wrapper.h">
-      <Filter>Solver</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Solver\lapack_wrapper.h">
-      <Filter>Solver</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h">
       <Filter>Header</Filter>

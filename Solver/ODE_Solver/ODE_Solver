@@ -1,4 +1,5 @@
 #include "ODE_Solver.h"
+#include "ODE.h"
 
 #include "BS23.h"
 #include "DP45.h"

@@ -35,8 +35,8 @@ class CentralDifference : public Integrator {
     void update_parameter();
 
 public:
-    explicit CentralDifference(const unsigned& = 0, const shared_ptr<Domain>& = nullptr);
-    explicit CentralDifference(const shared_ptr<Domain>&);
+    explicit CentralDifference(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr);
+    explicit CentralDifference(const shared_ptr<DomainBase>&);
 
     int initialize() override;
 

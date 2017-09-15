@@ -80,6 +80,13 @@ public:
     const shared_ptr<Node>& get_node(const unsigned&) const override;
     const shared_ptr<Recorder>& get_recorder(const unsigned&) const override;
 
+    const vector<shared_ptr<Constraint>>& get_constraint_pool() const override;
+    const vector<shared_ptr<Element>>& get_element_pool() const override;
+    const vector<shared_ptr<Load>>& get_load_pool() const override;
+    const vector<shared_ptr<Material>>& get_material_pool() const override;
+    const vector<shared_ptr<Node>>& get_node_pool() const override;
+    const vector<shared_ptr<Recorder>>& get_recorder_pool() const override;
+
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Element>& get_element(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Load>& get_load(const shared_ptr<Domain>&, const unsigned&);
@@ -107,12 +114,6 @@ public:
     bool find_material(const unsigned&) const override;
     bool find_node(const unsigned&) const override;
     bool find_recorder(const unsigned&) const override;
-
-    friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>&);
-    friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>&);
-
-    friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<DomainBase>&);
-    friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<DomainBase>&);
 
     bool insert_loaded_dof(const unsigned&) override;
     bool insert_restrained_dof(const unsigned&) override;

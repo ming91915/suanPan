@@ -71,6 +71,13 @@ public:
     virtual const shared_ptr<Node>& get_node(const unsigned&) const;
     virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
 
+    virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const;
+    virtual const vector<shared_ptr<Element>>& get_element_pool() const;
+    virtual const vector<shared_ptr<Load>>& get_load_pool() const;
+    virtual const vector<shared_ptr<Material>>& get_material_pool() const;
+    virtual const vector<shared_ptr<Node>>& get_node_pool() const;
+    virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const;
+
     virtual size_t get_constraint() const;
     virtual size_t get_element() const;
     virtual size_t get_load() const;

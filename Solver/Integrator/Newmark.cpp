@@ -1,15 +1,15 @@
 #include "Newmark.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-Newmark::Newmark(const unsigned& T, const shared_ptr<Domain>& D, const double& A, const double& B)
+Newmark::Newmark(const unsigned& T, const shared_ptr<DomainBase>& D, const double& A, const double& B)
     : Integrator(T, CT_NEWMARK, D)
     , alpha(A)
     , beta(B) {
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta)) suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
-Newmark::Newmark(const shared_ptr<Domain>& D, const double& A, const double& B)
+Newmark::Newmark(const shared_ptr<DomainBase>& D, const double& A, const double& B)
     : Integrator(0, CT_NEWMARK, D)
     , alpha(A)
     , beta(B) {

@@ -1,12 +1,7 @@
 #include "Integrator/Integrator"
 #include "ODE_Solver/ODE_Solver"
 
-#include "ODE.h"
-#include "ODE_INSTANCE.h"
 #include "Solver.h"
-#include "User_Function.h"
 #include "Newton.h"
 #include "BFGS.h"
 #include "Ramm.h"
-#include "lapack_wrapper.h"
-#include "arpack_wrapper.h"

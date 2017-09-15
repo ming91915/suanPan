@@ -1,12 +1,12 @@
 #include "CentralDifference.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 
-CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<Domain>& D)
+CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<DomainBase>& D)
     : Integrator(T, CT_CENTRALDIFFERENCE, D) {}
 
-CentralDifference::CentralDifference(const shared_ptr<Domain>& D)
+CentralDifference::CentralDifference(const shared_ptr<DomainBase>& D)
     : Integrator(0, CT_CENTRALDIFFERENCE, D) {}
 
 int CentralDifference::initialize() {
@@ -75,7 +75,7 @@ void CentralDifference::commit_status() const {
 
     auto& tmp_velocity = W->get_current_velocity();
     auto& tmp_acceleration = W->get_current_acceleration();
-    for(const auto& I : get_node_pool(D)) {
+    for(const auto& I : D->get_node_pool()) {
         I->set_current_velocity(tmp_velocity(I->get_reordered_dof()));
         I->set_current_acceleration(tmp_acceleration(I->get_reordered_dof()));
     }
