@@ -13,13 +13,10 @@ env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-6 && CXX=g++-6"
 script:
   - mkdir cmake-build && cd cmake-build && cmake -DCMAKE_BUILD_TYPE=Debug ../ && make
+  - ./conv.sh
 before_install:
   - eval "${MATRIX_EVAL}"
 after_success:
-  - cd ${TRAVIS_BUILD_DIR}
-  - lcov --directory . --capture --output-file coverage.info
-  - lcov --remove coverage.info '/usr/*' --output-file coverage.info
-  - lcov --list coverage.info
   - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
