@@ -30,7 +30,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
     const integrationPlan plan(2, 3, 1);
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
-        int_pt.push_back(make_unique<IntegrationPoint>());
+        int_pt.emplace_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
@@ -39,8 +39,8 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
     mat ele_coor(m_node, 2);
     for(auto I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
-        for(auto J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
+        auto& t_coor = node_ptr[I].lock()->get_coordinate();
+        for(auto J = 0; J < 2; ++J) ele_coor(I, J) = t_coor(J);
     }
 
     const auto LX1 = ele_coor(1, 1) - ele_coor(0, 1);
@@ -54,7 +54,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
 
     mat pnt(2, 8);
 
-    const mat tmp_const = trans(mapping * ele_coor);
+    const mat t_factor = trans(mapping * ele_coor);
 
     vec disp_mode(4, fill::zeros);
 
@@ -75,7 +75,7 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         disp_mode(2) = Y;
         disp_mode(3) = X * Y;
 
-        I->P = shapeStress11(tmp_const * disp_mode);
+        I->P = shapeStress11(t_factor * disp_mode);
 
         I->A = solve(ini_stiffness, I->P);
 
@@ -119,27 +119,27 @@ void Proto01::initialize(const shared_ptr<Domain>& D) {
         }
 
         I->BI = zeros(3, 2);
-        vec tmp_vec(2);
-        tmp_vec(0) = 3. * X * X - 1.;
-        tmp_vec(1) = 3. * Y * Y - 1.;
-        tmp_vec = solve(jacob, tmp_vec);
-        I->BI(0, 0) = tmp_vec(0);
-        I->BI(1, 1) = tmp_vec(1);
+        vec t_vec(2);
+        t_vec(0) = 3. * X * X - 1.;
+        t_vec(1) = 3. * Y * Y - 1.;
+        t_vec = solve(jacob, t_vec);
+        I->BI(0, 0) = t_vec(0);
+        I->BI(1, 1) = t_vec(1);
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
 
-        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
-        H += tmp_mat * I->A;
-        L += tmp_mat * I->B;
-        LI += tmp_mat * I->BI;
+        const mat t_mat = I->P.t() * I->jacob_det * I->weight * thickness;
+        H += t_mat * I->A;
+        L += t_mat * I->B;
+        LI += t_mat * I->BI;
     }
 
     mass.zeros();
-    const auto tmp_density = material_proto->get_parameter() * thickness;
-    if(tmp_density != 0.) {
+    const auto t_density = material_proto->get_parameter() * thickness;
+    if(t_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shapeFunctionQuad(I->coor, 0);
-            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            const auto tmp_a = t_density * I->jacob_det * I->weight;
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
@@ -289,10 +289,10 @@ vector<vec> Proto01::record(const OutputList& T) {
     vector<vec> data;
     switch(T) {
     case OutputList::E:
-        for(const auto& I : int_pt) data.push_back(I->A * current_alpha);
+        for(const auto& I : int_pt) data.emplace_back(I->A * current_alpha);
         break;
     case OutputList::S:
-        for(const auto& I : int_pt) data.push_back(I->P * current_beta);
+        for(const auto& I : int_pt) data.emplace_back(I->P * current_beta);
         break;
     default:
         break;

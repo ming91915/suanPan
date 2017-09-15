@@ -17,7 +17,7 @@ void C3D20::initialize(const shared_ptr<Domain>& D) {
 
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
-        int_pt.push_back(make_unique<IntegrationPoint>());
+        int_pt.emplace_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(c_dof);
         for(auto J = 0; J < c_dof; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, c_dof);

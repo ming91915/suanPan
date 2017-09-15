@@ -16,8 +16,7 @@
 #include <Element/Element.h>
 
 class MVLEM final : public Element {
-    static const unsigned t_node;
-    static const unsigned t_dof;
+    static const unsigned b_node, b_dof;
 };
 
 #endif
