@@ -58,14 +58,14 @@ void argument_parser(int argc, char** argv) {
 }
 
 void print_header() {
-    suanpan_info("+------------------------------------------------------------+\n");
-    suanpan_info("|   __        __              suanPan is an open source      |\n");
-    suanpan_info("|  /  \\      |  \\                    FEM framework (%u-bit)  |\n", SUANPAN_ARCH);
-    suanpan_info("|  \\__       |__/  __   __                    Acrux (0.1.0)  |\n");
-    suanpan_info("|     \\ |  | |    |  \\ |  |                                  |\n");
-    suanpan_info("|  \\__/ |__| |    |__X |  |               maintained by tlc  |\n");
-    suanpan_info("|                                       all rights reserved  |\n");
-    suanpan_info("+------------------------------------------------------------+\n\n");
+    suanpan_info("+--------------------------------------------------+\n");
+    suanpan_info("|   __        __        suanPan is an open source  |\n");
+    suanpan_info("|  /  \\      |  \\          FEM framework (%u-bit)  |\n", SUANPAN_ARCH);
+    suanpan_info("|  \\__       |__/  __   __          Acrux (0.1.0)  |\n");
+    suanpan_info("|     \\ |  | |    |  \\ |  |                        |\n");
+    suanpan_info("|  \\__/ |__| |    |__X |  |     maintained by tlc  |\n");
+    suanpan_info("|                             all rights reserved  |\n");
+    suanpan_info("+--------------------------------------------------+\n\n");
 }
 
 void print_version() {
