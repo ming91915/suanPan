@@ -2,7 +2,7 @@
 #include <Converger/Converger.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
-#include <Solver/Integrator/Integrator.h>
+#include <Solver/Integrator/Newmark.h>
 #include <Solver/Solver.h>
 
 Step::Step(const unsigned& T, const unsigned& CT, const double& P)
@@ -59,6 +59,8 @@ int Step::initialize() {
         }
         modifier->set_domain(database);
         factory->set_analysis_type(AnalysisType::DYNAMICS);
+        if(modifier == nullptr) modifier = make_shared<Newmark>();
+        modifier->set_domain(database);
         break;
     case CT_FREQUENCE:
         factory->set_analysis_type(AnalysisType::EIGEN);

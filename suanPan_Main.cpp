@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 
     // E.print("\n");
 
-    cout << T.toc() << "\n";
+    cout << "elapsed time: " << T.toc() << "\n";
     return 0;
 }
 

@@ -1,15 +1,13 @@
 #include "integrationPlan.h"
 #include <cmath>
 #include <cstdio>
-#include <new>
 
 integrationPlan::integrationPlan(const unsigned& intDimension, const unsigned& intOrder, const unsigned& intType)
     : n_rows(static_cast<int>(pow(intOrder, intDimension) + .5))
     , n_cols(intDimension + 1)
     , n_elem(n_rows * n_cols) {
-    const auto PTL = new(std::nothrow) double[intOrder];
-    const auto PTW = new(std::nothrow) double[intOrder];
-    if(PTL == nullptr || PTW == nullptr) return;
+    const auto PTL = new double[intOrder];
+    const auto PTW = new double[intOrder];
 
     // GAUSS INTEGRATION
     if(intType == 1) {

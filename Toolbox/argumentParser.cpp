@@ -4,6 +4,16 @@
 #include <Toolbox/utility.h>
 #include <suanPan.h>
 
+#ifndef SUANPAN_DD
+#define SUANPAN_DD 16
+#endif
+#ifndef SUANPAN_MM
+#define SUANPAN_MM 9
+#endif
+#ifndef SUANPAN_YY
+#define SUANPAN_YY 2017
+#endif
+
 using std::ofstream;
 using std::string;
 
@@ -49,12 +59,12 @@ void argument_parser(int argc, char** argv) {
 
 void print_header() {
     suanpan_info("+------------------------------------------------------------+\n");
-    suanpan_info("|   __        __            |  suanPan is an open source     |\n");
-    suanpan_info("|  /  \\      |  \\           |        FEM framework (%u-bit)  |\n", SUANPAN_ARCH);
-    suanpan_info("|  \\__       |__/ __   __   |                 Acrux (0.1.0)  |\n");
-    suanpan_info("|     \\ |  | |   |  \\ |  |  |                                |\n");
-    suanpan_info("|  \\__/ |__| |   |__X |  |  |             maintained by tlc  |\n");
-    suanpan_info("|                           |           all rights reserved  |\n");
+    suanpan_info("|   __        __              suanPan is an open source      |\n");
+    suanpan_info("|  /  \\      |  \\                    FEM framework (%u-bit)  |\n", SUANPAN_ARCH);
+    suanpan_info("|  \\__       |__/ __   __                     Acrux (0.1.0)  |\n");
+    suanpan_info("|     \\ |  | |   |  \\ |  |                                   |\n");
+    suanpan_info("|  \\__/ |__| |   |__X |  |                maintained by tlc  |\n");
+    suanpan_info("|                                       all rights reserved  |\n");
     suanpan_info("+------------------------------------------------------------+\n\n");
 }
 
@@ -65,7 +75,7 @@ void print_version() {
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0, date 23/08/2017, compiled with %s %s\n", SUANPAN_COMPILER, version.c_str());
+    suanpan_info("\tversion Acrux 0.1.0, date $02u/$02u/$4u, compiled with %s %s\n", SUANPAN_DD, SUANPAN_MM, SUANPAN_YY, SUANPAN_COMPILER, version.c_str());
 }
 
 void print_helper() {
