@@ -36,13 +36,13 @@ const bool& AbsIncreEnergy::if_converged() {
     vec t_residual = W->get_trial_load() - W->get_trial_resistance();
 
     auto t_error = 0.;
-    for (const auto& I : D->get_loaded_dof()) t_error += t_ninja(I) * t_residual(I);
-    for (const auto& I : D->get_constrained_dof()) t_error -= t_ninja(I) * t_resistance(I);
+    for(const auto& I : D->get_loaded_dof()) t_error += t_ninja(I) * t_residual(I);
+    for(const auto& I : D->get_constrained_dof()) t_error -= t_ninja(I) * t_resistance(I);
 
     set_error(abs(t_error));
     set_conv_flag(get_tolerance() > get_error());
 
-    if (if_print()) suanpan_info("absolute energy increment error: %.5E.\n", get_error());
+    if(if_print()) suanpan_info("absolute energy increment error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }
