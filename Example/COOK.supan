@@ -29,9 +29,7 @@ fix 3 3 1 4 7
 cload 1 .25 2 3 9
 cload 2 .5 2 6
 
-solver newton 1
-
-converger AbsResidual 1 1E-6 7 0
+# converger AbsResidual 1 1E-6 7 0
 
 analyze
 

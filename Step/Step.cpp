@@ -1,9 +1,9 @@
 #include "Step.h"
-#include <Converger/Converger.h>
+#include <Converger/RelResidual.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Newmark.h>
-#include <Solver/Solver.h>
+#include <Solver/Newton.h>
 
 Step::Step(const unsigned& T, const unsigned& CT, const double& P)
     : Tag(T, CT)
@@ -21,17 +21,11 @@ int Step::initialize() {
         return -1;
     }
 
-    if(solver == nullptr) {
-        suanpan_error("initialize() needs a valid solver.\n");
-        return -1;
-    }
-
-    if(tester == nullptr) {
-        suanpan_error("initialize() needs a valid converger.\n");
-        return -1;
-    }
+    if(tester == nullptr) tester = make_shared<RelResidual>(1E-6, 10, false);
 
     if(factory == nullptr) factory = make_shared<Factory<double>>();
+
+    if(solver == nullptr) solver = make_shared<Newton>();
 
     if(symm_mat && band_mat)
         factory->set_storage_scheme(StorageScheme::BANDSYMM);

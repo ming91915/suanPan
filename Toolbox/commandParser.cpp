@@ -201,29 +201,24 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) 
         if(model->insert(make_shared<AbsResidual>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
-            suanpan_info("create_new_converger() fails to create the "
-                         "new converger.\n");
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelResidual")) {
         if(model->insert(make_shared<RelResidual>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
-            suanpan_info("create_new_converger() fails to create the "
-                         "new converger.\n");
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelIncreDisp")) {
         if(model->insert(make_shared<RelIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
-            suanpan_info("create_new_converger() fails to create the "
-                         "new converger.\n");
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "AbsIncreDisp")) {
         if(model->insert(make_shared<AbsIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
-            suanpan_info("create_new_converger() fails to create the "
-                         "new converger.\n");
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else
-        suanpan_info("create_new_converger() cannot identify the "
-                     "converger type.\n");
+        suanpan_info("create_new_converger() cannot identify the converger type.\n");
 
     return 0;
 }
