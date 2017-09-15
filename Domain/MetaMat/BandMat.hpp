@@ -36,10 +36,10 @@ public:
     BandMat();
     BandMat(const unsigned&, const unsigned&, const unsigned&);
 
-    inline const T& operator()(const uword&, const uword&) const override;
-    inline const T& at(const uword&, const uword&) const override;
-    inline T& operator()(const uword&, const uword&) override;
-    inline T& at(const uword&, const uword&) override;
+    const T& operator()(const uword&, const uword&) const override;
+    const T& at(const uword&, const uword&) const override;
+    T& operator()(const uword&, const uword&) override;
+    T& at(const uword&, const uword&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
 
@@ -65,13 +65,13 @@ BandMat<T>::BandMat(const unsigned& in_size, const unsigned& in_l, const unsigne
     , up_bw(in_u)
     , shift_bw(low_bw + up_bw) {}
 
-template <typename T> inline const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
+template <typename T> const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
 
-template <typename T> inline const T& BandMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
+template <typename T> const T& BandMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
 
-template <typename T> inline T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
+template <typename T> T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
 
-template <typename T> inline T& BandMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
+template <typename T> T& BandMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
 
 template <typename T> Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {

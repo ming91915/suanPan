@@ -26,8 +26,6 @@ element Proto01 5 5 6 12 11 1 1
 
 step static 1
 set ini_step_size 1
-#set symm_mat false
-#set band_mat false
 
 fix 1 1 1 7
 fix 2 2 1

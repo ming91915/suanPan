@@ -34,10 +34,10 @@ public:
     BandSymmMat();
     BandSymmMat(const unsigned&, const unsigned&);
 
-    inline const T& operator()(const uword&, const uword&) const override;
-    inline const T& at(const uword&, const uword&) const override;
-    inline T& operator()(const uword&, const uword&) override;
-    inline T& at(const uword&, const uword&) override;
+    const T& operator()(const uword&, const uword&) const override;
+    const T& at(const uword&, const uword&) const override;
+    T& operator()(const uword&, const uword&) override;
+    T& at(const uword&, const uword&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
 
@@ -61,16 +61,16 @@ BandSymmMat<T>::BandSymmMat(const unsigned& in_size, const unsigned& in_bandwidt
     : MetaMat<T>(in_bandwidth + 1, in_size, (in_bandwidth + 1) * in_size)
     , bw(in_bandwidth) {}
 
-template <typename T> inline const T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
+template <typename T> const T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
 
-template <typename T> inline const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
+template <typename T> const T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row > in_col ? in_row - in_col + in_col * n_rows : in_col - in_row + in_row * n_rows]; }
 
-template <typename T> inline T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) {
+template <typename T> T& BandSymmMat<T>::operator()(const uword& in_row, const uword& in_col) {
     if(in_row < in_col) return bin;
     return access::rw(memory[in_row - in_col + in_col * n_rows]);
 }
 
-template <typename T> inline T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) {
+template <typename T> T& BandSymmMat<T>::at(const uword& in_row, const uword& in_col) {
     if(in_row < in_col) return bin;
     return access::rw(memory[in_row - in_col + in_col * n_rows]);
 }

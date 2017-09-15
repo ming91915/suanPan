@@ -31,10 +31,10 @@ public:
     SymmPackMat();
     explicit SymmPackMat(const unsigned&);
 
-    inline const T& operator()(const uword&, const uword&) const override;
-    inline const T& at(const uword&, const uword&) const override;
-    inline T& operator()(const uword&, const uword&) override;
-    inline T& at(const uword&, const uword&) override;
+    const T& operator()(const uword&, const uword&) const override;
+    const T& at(const uword&, const uword&) const override;
+    T& operator()(const uword&, const uword&) override;
+    T& at(const uword&, const uword&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
 
@@ -58,16 +58,16 @@ template <typename T>
 SymmPackMat<T>::SymmPackMat(const unsigned& in_size)
     : MetaMat<T>(in_size, in_size, (in_size + 1) * in_size / 2) {}
 
-template <typename T> inline const T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
+template <typename T> const T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
 
-template <typename T> inline const T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
+template <typename T> const T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_col > in_row ? (in_col * in_col + in_col) / 2 + in_row : (in_row * in_row + in_row) / 2 + in_col]; }
 
-template <typename T> inline T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) {
+template <typename T> T& SymmPackMat<T>::operator()(const uword& in_row, const uword& in_col) {
     if(in_col < in_row) return bin;
     return access::rw(memory[(in_col * in_col + in_col) / 2 + in_row]);
 }
 
-template <typename T> inline T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) {
+template <typename T> T& SymmPackMat<T>::at(const uword& in_row, const uword& in_col) {
     if(in_col < in_row) return bin;
     return access::rw(memory[(in_col * in_col + in_col) / 2 + in_row]);
 }
