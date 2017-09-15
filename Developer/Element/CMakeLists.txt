@@ -12,14 +12,9 @@ include(${ROOT}/config.cmake)
 
 add_library(${PROJECT_NAME} SHARED
     "ElementExample.cpp"
-    "${ROOT}/Constraint/Constraint.cpp"
-    "${ROOT}/Domain/Domain.cpp"
+    "${ROOT}/Element/Element.cpp"
+    "${ROOT}/Domain/DomainBase.cpp"
     "${ROOT}/Domain/Node.cpp"
     "${ROOT}/Domain/Tag.cpp"
-    "${ROOT}/Domain/Factory.hpp"
-    "${ROOT}/Element/Element.cpp"
-    "${ROOT}/Load/Amplitude/Amplitude.cpp"
-    "${ROOT}/Load/Load.cpp"
-    "${ROOT}/Toolbox/RCM.cpp"
     "${ROOT}/Toolbox/debug.cpp"
     )

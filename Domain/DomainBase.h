@@ -117,13 +117,6 @@ public:
     virtual void reset_status() const;
 };
 
-shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>&, const unsigned&);
-shared_ptr<Element>& get_element(const shared_ptr<DomainBase>&, const unsigned&);
-shared_ptr<Load>& get_load(const shared_ptr<DomainBase>&, const unsigned&);
-shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
-shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
-shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
-
 #endif
 
 //! @}
