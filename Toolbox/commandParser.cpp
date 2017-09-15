@@ -207,13 +207,23 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) 
             tmp_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
+    } else if(if_equal(converger_id, "AbsIncreDisp")) {
+        if(model->insert(make_shared<AbsIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelIncreDisp")) {
         if(model->insert(make_shared<RelIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "AbsIncreDisp")) {
-        if(model->insert(make_shared<AbsIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
+    } else if(if_equal(converger_id, "AbsIncreEnergy")) {
+        if(model->insert(make_shared<AbsIncreEnergy>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
+            tmp_step->set_converger(model->get_converger(tag));
+        else
+            suanpan_info("create_new_converger() fails to create the new converger.\n");
+    } else if(if_equal(converger_id, "RelIncreEnergy")) {
+        if(model->insert(make_shared<RelIncreEnergy>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
             tmp_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");

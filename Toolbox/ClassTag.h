@@ -136,5 +136,11 @@
 #ifndef CT_RELRESIDUAL
 #define CT_RELRESIDUAL 45
 #endif
+#ifndef CT_ABSINCREENERGY
+#define CT_ABSINCREENERGY 46
+#endif
+#ifndef CT_RELINCREENERGY
+#define CT_RELINCREENERGY 47
+#endif
 
 #endif

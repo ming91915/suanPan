@@ -311,8 +311,9 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    factory->clear_resistance();
+    get_trial_resistance(factory).zeros();
     for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    factory->set_incre_resistance(factory->get_trial_resistance() - factory->get_current_resistance());
 }
 
 void Domain::assemble_mass() const {

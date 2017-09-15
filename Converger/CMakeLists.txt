@@ -3,8 +3,11 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Converger/AbsDisp.cpp"
         "Converger/AbsError.cpp"
         "Converger/AbsIncreDisp.cpp"
+        "Converger/AbsIncreEnergy.cpp"
         "Converger/AbsResidual.cpp"
         "Converger/RelDisp.cpp"
         "Converger/RelError.cpp"
         "Converger/RelIncreDisp.cpp"
-        "Converger/RelResidual.cpp")
+        "Converger/RelIncreEnergy.cpp"
+        "Converger/RelResidual.cpp"
+        )

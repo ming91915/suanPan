@@ -195,6 +195,12 @@
     <ClCompile Include="..\..\..\Solver\lapack_wrapper.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Converger\AbsIncreEnergy.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Converger\RelIncreEnergy.cpp">
+      <Filter>Converger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\suanPan.h">
@@ -379,6 +385,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\shapeFunction.hpp">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\AbsIncreEnergy.h">
+      <Filter>Converger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Converger\RelIncreEnergy.h">
+      <Filter>Converger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
