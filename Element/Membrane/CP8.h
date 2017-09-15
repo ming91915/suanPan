@@ -40,7 +40,7 @@ public:
         const bool& = false,  // reduced integration
         const bool& = false); // nonlinear geometry switch
 
-    void initialize(const shared_ptr<Domain>&) override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 

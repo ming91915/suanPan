@@ -15,7 +15,7 @@ Truss2D::Truss2D(const unsigned& T, const uvec& N, const unsigned& M, const doub
     , update_area(UA)
     , log_strain(LS) {}
 
-void Truss2D::initialize(const shared_ptr<Domain>& D) {
+void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
     auto& coord_j = node_ptr.at(1).lock()->get_coordinate();
 

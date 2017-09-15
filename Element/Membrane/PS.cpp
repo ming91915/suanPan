@@ -12,7 +12,7 @@ PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, co
     , tmp_a(5, 5)
     , tmp_c(5, 8) {}
 
-void PS::initialize(const shared_ptr<Domain>& D) {
+void PS::initialize(const shared_ptr<DomainBase>& D) {
     auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     inv_stiffness = inv(material_proto->get_initial_stiffness());

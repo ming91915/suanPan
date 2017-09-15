@@ -9,7 +9,7 @@
 #include <Toolbox/RCM.h>
 
 Domain::Domain(const unsigned& T)
-    : Tag(T, CT_DOMAIN) {
+    : DomainBase(T) {
     suanpan_debug("Domain %u ctor() called.\n", T);
 }
 
@@ -507,3 +507,19 @@ shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& 
 const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>& D) { return D->node_pond.get(); }
 
 const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>& D) { return D->element_pond.get(); }
+
+shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->constraint_pond[T]; }
+
+shared_ptr<Element>& get_element(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->element_pond[T]; }
+
+shared_ptr<Load>& get_load(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->load_pond[T]; }
+
+shared_ptr<Material>& get_material(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->material_pond[T]; }
+
+shared_ptr<Node>& get_node(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->node_pond[T]; }
+
+shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->recorder_pond[T]; }
+
+const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<DomainBase>& D) { return std::dynamic_pointer_cast<Domain>(D)->node_pond.get(); }
+
+const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<DomainBase>& D) { return std::dynamic_pointer_cast<Domain>(D)->element_pond.get(); }

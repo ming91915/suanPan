@@ -1,5 +1,5 @@
 #include "Converger.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 
 /**
  * \brief The complete constructor.
@@ -9,7 +9,7 @@
  * \param E `tolerance`
  * \param P `print_flag`
  */
-Converger::Converger(const unsigned& T, const unsigned& CT, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+Converger::Converger(const unsigned& T, const unsigned& CT, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Tag(T, CT)
     , database(D)
     , tolerance(E)
@@ -23,7 +23,7 @@ Converger::~Converger() {}
 
 int Converger::initialize() {
     if(database == nullptr) {
-        suanpan_error("initialize() needs a valid domain.\n");
+        suanpan_error("initialize() needs a valid DomainBase.\n");
         return -1;
     }
 
@@ -47,18 +47,18 @@ void Converger::set_max_iteration(const unsigned& M) { max_iteration = M; }
 const unsigned& Converger::get_max_iteration() const { return max_iteration; }
 
 /**
- * \brief Method to set `domain`.
- * \param D `domain`
+ * \brief Method to set `DomainBase`.
+ * \param D `DomainBase`
  */
-void Converger::set_domain(const shared_ptr<Domain>& D) {
+void Converger::set_domain(const shared_ptr<DomainBase>& D) {
     if(database != D) database = D;
 }
 
 /**
- * \brief Method to return `domain`.
- * \return `domain`
+ * \brief Method to return `DomainBase`.
+ * \return `DomainBase`
  */
-const shared_ptr<Domain>& Converger::get_domain() const { return database; }
+const shared_ptr<DomainBase>& Converger::get_domain() const { return database; }
 
 /**
  * \brief Method to set `error`.

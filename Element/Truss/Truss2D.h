@@ -40,7 +40,7 @@ public:
         const bool& = true,  // update area swicth
         const bool& = true); // log strain swicth
 
-    void initialize(const shared_ptr<Domain>&) override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 

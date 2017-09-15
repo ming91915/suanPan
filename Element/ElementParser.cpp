@@ -1,6 +1,6 @@
 #include "ElementParser.h"
-#include "Toolbox/utility.h"
 #include <Element/Element>
+#include <Toolbox/utility.h>
 
 using std::vector;
 

@@ -1,48 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Depend">
       <UniqueIdentifier>{6feb02dd-e544-4f7c-aa80-aabb1a292daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SRC">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Developer\Element\ElementExample.h">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Developer\Element\ElementExample.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Domain.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Domain\Node.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Element.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Constraint\Constraint.cpp">
+    <ClCompile Include="..\..\..\Domain\DomainBase.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Load\Load.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp">
+    <ClCompile Include="..\..\..\Domain\Node.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
-      <Filter>Depend</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
   </ItemGroup>

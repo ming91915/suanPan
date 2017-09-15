@@ -11,24 +11,8 @@
 #ifndef DOMAIN_H
 #define DOMAIN_H
 
+#include <Domain/DomainBase.h>
 #include <Domain/Storage.hpp>
-#include <Domain/Tag.h>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
-using std::unordered_map;
-using std::unordered_set;
-using std::vector;
-
-template <typename T> class Storage;
-template <typename T> class Factory;
-class Constraint;
-class Element;
-class Load;
-class Material;
-class Node;
-class Recorder;
 
 using ConstraintStorage = Storage<Constraint>;
 using ElementStorage = Storage<Element>;
@@ -39,7 +23,7 @@ using RecorderStorage = Storage<Recorder>;
 
 using std::enable_shared_from_this;
 
-class Domain : public Tag, public enable_shared_from_this<Domain> {
+class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     bool updated = false;
 
     shared_ptr<Factory<double>> factory; /**< working room */
@@ -58,43 +42,43 @@ public:
     explicit Domain(const unsigned& = 0);
     ~Domain();
 
-    void set_factory(const shared_ptr<Factory<double>>&);
-    const shared_ptr<Factory<double>>& get_factory() const;
+    void set_factory(const shared_ptr<Factory<double>>&) override;
+    const shared_ptr<Factory<double>>& get_factory() const override;
 
-    bool insert(const shared_ptr<Constraint>&);
-    bool insert(const shared_ptr<Element>&);
-    bool insert(const shared_ptr<Load>&);
-    bool insert(const shared_ptr<Material>&);
-    bool insert(const shared_ptr<Node>&);
-    bool insert(const shared_ptr<Recorder>&);
+    bool insert(const shared_ptr<Constraint>&) override;
+    bool insert(const shared_ptr<Element>&) override;
+    bool insert(const shared_ptr<Load>&) override;
+    bool insert(const shared_ptr<Material>&) override;
+    bool insert(const shared_ptr<Node>&) override;
+    bool insert(const shared_ptr<Recorder>&) override;
 
-    bool erase_constraint(const unsigned&);
-    bool erase_element(const unsigned&);
-    bool erase_load(const unsigned&);
-    bool erase_material(const unsigned&);
-    bool erase_node(const unsigned&);
-    bool erase_recorder(const unsigned&);
+    bool erase_constraint(const unsigned&) override;
+    bool erase_element(const unsigned&) override;
+    bool erase_load(const unsigned&) override;
+    bool erase_material(const unsigned&) override;
+    bool erase_node(const unsigned&) override;
+    bool erase_recorder(const unsigned&) override;
 
-    void disable_constraint(const unsigned&);
-    void disable_element(const unsigned&);
-    void disable_load(const unsigned&);
-    void disable_material(const unsigned&);
-    void disable_node(const unsigned&);
-    void disable_recorder(const unsigned&);
+    void disable_constraint(const unsigned&) override;
+    void disable_element(const unsigned&) override;
+    void disable_load(const unsigned&) override;
+    void disable_material(const unsigned&) override;
+    void disable_node(const unsigned&) override;
+    void disable_recorder(const unsigned&) override;
 
-    void enable_constraint(const unsigned&);
-    void enable_element(const unsigned&);
-    void enable_load(const unsigned&);
-    void enable_material(const unsigned&);
-    void enable_node(const unsigned&);
-    void enable_recorder(const unsigned&);
+    void enable_constraint(const unsigned&) override;
+    void enable_element(const unsigned&) override;
+    void enable_load(const unsigned&) override;
+    void enable_material(const unsigned&) override;
+    void enable_node(const unsigned&) override;
+    void enable_recorder(const unsigned&) override;
 
-    const shared_ptr<Constraint>& get_constraint(const unsigned&) const;
-    const shared_ptr<Element>& get_element(const unsigned&) const;
-    const shared_ptr<Load>& get_load(const unsigned&) const;
-    const shared_ptr<Material>& get_material(const unsigned&) const;
-    const shared_ptr<Node>& get_node(const unsigned&) const;
-    const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
+    const shared_ptr<Constraint>& get_constraint(const unsigned&) const override;
+    const shared_ptr<Element>& get_element(const unsigned&) const override;
+    const shared_ptr<Load>& get_load(const unsigned&) const override;
+    const shared_ptr<Material>& get_material(const unsigned&) const override;
+    const shared_ptr<Node>& get_node(const unsigned&) const override;
+    const shared_ptr<Recorder>& get_recorder(const unsigned&) const override;
 
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Element>& get_element(const shared_ptr<Domain>&, const unsigned&);
@@ -103,58 +87,68 @@ public:
     friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
 
-    size_t get_constraint() const;
-    size_t get_element() const;
-    size_t get_load() const;
-    size_t get_material() const;
-    size_t get_node() const;
-    size_t get_recorder() const;
+    friend shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Element>& get_element(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Load>& get_load(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
 
-    bool find_constraint(const unsigned&) const;
-    bool find_element(const unsigned&) const;
-    bool find_load(const unsigned&) const;
-    bool find_material(const unsigned&) const;
-    bool find_node(const unsigned&) const;
-    bool find_recorder(const unsigned&) const;
+    size_t get_constraint() const override;
+    size_t get_element() const override;
+    size_t get_load() const override;
+    size_t get_material() const override;
+    size_t get_node() const override;
+    size_t get_recorder() const override;
+
+    bool find_constraint(const unsigned&) const override;
+    bool find_element(const unsigned&) const override;
+    bool find_load(const unsigned&) const override;
+    bool find_material(const unsigned&) const override;
+    bool find_node(const unsigned&) const override;
+    bool find_recorder(const unsigned&) const override;
 
     friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<Domain>&);
     friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<Domain>&);
 
-    bool insert_loaded_dof(const unsigned&);
-    bool insert_restrained_dof(const unsigned&);
-    bool insert_constrained_dof(const unsigned&);
+    friend const vector<shared_ptr<Node>>& get_node_pool(const shared_ptr<DomainBase>&);
+    friend const vector<shared_ptr<Element>>& get_element_pool(const shared_ptr<DomainBase>&);
 
-    const unordered_set<unsigned>& get_loaded_dof() const;
-    const unordered_set<unsigned>& get_restrained_dof() const;
-    const unordered_set<unsigned>& get_constrained_dof() const;
+    bool insert_loaded_dof(const unsigned&) override;
+    bool insert_restrained_dof(const unsigned&) override;
+    bool insert_constrained_dof(const unsigned&) override;
 
-    const bool& is_updated() const;
+    const unordered_set<unsigned>& get_loaded_dof() const override;
+    const unordered_set<unsigned>& get_restrained_dof() const override;
+    const unordered_set<unsigned>& get_constrained_dof() const override;
+
+    const bool& is_updated() const override;
 
     // initialize the domain
-    int initialize();
+    int initialize() override;
     // process loads and constraints
-    void process(const unsigned& = 0);
+    void process(const unsigned& = 0) override;
     // record response
-    void record();
+    void record() override;
     // enable all objects
-    void enable_all();
+    void enable_all() override;
     // print out domain summary
-    void summary() const;
+    void summary() const override;
 
-    void assemble_resistance() const;
-    void assemble_mass() const;
-    void assemble_initial_stiffness() const;
-    void assemble_stiffness() const;
-    void assemble_damping() const;
+    void assemble_resistance() const override;
+    void assemble_mass() const override;
+    void assemble_initial_stiffness() const override;
+    void assemble_stiffness() const override;
+    void assemble_damping() const override;
 
-    void set_current_status() const;
+    void set_current_status() const override;
 
-    void update_trial_status() const;
-    void update_incre_status() const;
+    void update_trial_status() const override;
+    void update_incre_status() const override;
 
-    void commit_status() const;
-    void clear_status() const;
-    void reset_status() const;
+    void commit_status() const override;
+    void clear_status() const override;
+    void reset_status() const override;
 };
 
 #endif

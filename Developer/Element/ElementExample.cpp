@@ -45,7 +45,7 @@ ElementExample::ElementExample(const unsigned& T, const uvec& NT, const unsigned
     : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, false)
     , thickness(TH) {}
 
-void ElementExample::initialize(const shared_ptr<Domain>& D) {
+void ElementExample::initialize(const shared_ptr<DomainBase>& D) {
     auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
     m_material = material_proto->get_copy();
 

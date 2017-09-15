@@ -50,7 +50,7 @@ class QE2 : public Element {
 public:
     QE2(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
-    void initialize(const shared_ptr<Domain>&) override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 

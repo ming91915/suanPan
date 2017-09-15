@@ -1,11 +1,11 @@
 #include "RelIncreDisp.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-RelIncreDisp::RelIncreDisp(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+RelIncreDisp::RelIncreDisp(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_RELINCREDISP, D, E, M, P) {}
 
-RelIncreDisp::RelIncreDisp(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+RelIncreDisp::RelIncreDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_RELINCREDISP, D, E, M, P) {}
 
 const bool& RelIncreDisp::if_converged() {

@@ -1,5 +1,5 @@
 #include "Node.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 
 /**
  * \brief Empty constructor.
@@ -55,7 +55,7 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
 /**
  * \brief This method should be called after Element objects are set. Element objects will set the minimum number of DoFs for all related Node objects. This method initialize all member variables with the size of `num_dof` and fill `original_dof` with `-1` to indicated it should be omitted from the system. Finally check if the size of `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be necessary for beam/plate/shell problems which have more DoFs than coordinates.
  */
-void Node::initialize(const shared_ptr<Domain>& D) {
+void Node::initialize(const shared_ptr<DomainBase>& D) {
     if(is_active())
         if(num_dof != 0) {
             original_dof.zeros(num_dof);

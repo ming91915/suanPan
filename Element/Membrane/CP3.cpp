@@ -7,7 +7,7 @@ CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH
     : Element(T, ET_CP3, m_node, m_dof, NT, uvec{ MT }, false)
     , thickness(TH) {}
 
-void CP3::initialize(const shared_ptr<Domain>& D) {
+void CP3::initialize(const shared_ptr<DomainBase>& D) {
     m_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);

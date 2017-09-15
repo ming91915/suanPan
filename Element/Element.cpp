@@ -12,7 +12,7 @@ Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, cons
 
 Element::~Element() { suanpan_debug("Element %u dtor() called.\n", get_tag()); }
 
-void Element::initialize(const shared_ptr<Domain>& D) {
+void Element::initialize(const shared_ptr<DomainBase>& D) {
     const auto total_dof = num_node * num_dof;
 
     if(total_dof == 0) {
@@ -31,7 +31,7 @@ void Element::initialize(const shared_ptr<Domain>& D) {
     node_ptr.clear();
     node_ptr.reserve(num_node);
     for(const auto& tmp_tag : node_encoding) {
-        const auto& tmp_node = get_node(D, static_cast<unsigned>(tmp_tag));
+        auto& tmp_node = D->get_node(unsigned(tmp_tag));
         if(tmp_node == nullptr || !tmp_node->is_active()) {
             suanpan_debug("Element %u finds an invalid Node %u, now disable it.\n", get_tag(), tmp_tag);
             D->disable_element(get_tag());

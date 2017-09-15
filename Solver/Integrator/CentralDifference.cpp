@@ -1,7 +1,7 @@
 #include "CentralDifference.h"
-#include "Domain/Node.h"
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
+#include <Domain/Node.h>
 
 CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<Domain>& D)
     : Integrator(T, CT_CENTRALDIFFERENCE, D) {}

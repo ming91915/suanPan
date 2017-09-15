@@ -23,8 +23,8 @@
 
 class RelIncreEnergy final : public Converger {
 public:
-    explicit RelIncreEnergy(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit RelIncreEnergy(const shared_ptr<Domain>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelIncreEnergy(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelIncreEnergy(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

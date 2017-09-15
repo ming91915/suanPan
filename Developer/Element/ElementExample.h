@@ -4,8 +4,7 @@
 #include <Element/Element.h>
 
 class ElementExample : public Element {
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof;
 
     const double thickness;
 
@@ -18,7 +17,7 @@ class ElementExample : public Element {
 public:
     ElementExample(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
-    void initialize(const shared_ptr<Domain>&) override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 

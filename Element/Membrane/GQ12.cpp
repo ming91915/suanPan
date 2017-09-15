@@ -9,7 +9,7 @@ GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH
     : Element(T, ET_GQ12, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH) {}
 
-void GQ12::initialize(const shared_ptr<Domain>& D) {
+void GQ12::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const integrationPlan plan(2, 2, 1);

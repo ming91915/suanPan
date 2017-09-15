@@ -12,12 +12,12 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Node.h>
 #include <Domain/Tag.h>
 #include <Material/Material.h> // for derived class
 
-// class Domain;
+// class DomainBase;
 // class Material;
 // class Node;
 
@@ -49,7 +49,7 @@ public:
 
     virtual ~Element();
 
-    virtual void initialize(const shared_ptr<Domain>&) = 0;
+    virtual void initialize(const shared_ptr<DomainBase>&) = 0;
 
     void update_dof_encoding();
 

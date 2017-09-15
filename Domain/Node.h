@@ -18,7 +18,7 @@
 
 using std::vector;
 
-class Domain;
+class DomainBase;
 
 class Node final : public Tag {
     unsigned num_dof = 0; /**< number of DoFs */
@@ -49,7 +49,7 @@ public:
     Node(Node&&) noexcept { suanpan_debug("Node move ctor() called.\n"); }
     ~Node();
 
-    void initialize(const shared_ptr<Domain>&);
+    void initialize(const shared_ptr<DomainBase>&);
 
     const unsigned& get_dof_number() const;
 

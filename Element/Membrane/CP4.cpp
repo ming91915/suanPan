@@ -10,7 +10,7 @@ CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, 
     , thickness(TH)
     , reduced_scheme(R) {}
 
-void CP4::initialize(const shared_ptr<Domain>& D) {
+void CP4::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const unsigned order = reduced_scheme ? 1 : 2;

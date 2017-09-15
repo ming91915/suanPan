@@ -1,11 +1,11 @@
 #include "RelDisp.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-RelDisp::RelDisp(const unsigned& T, const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+RelDisp::RelDisp(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_RELDISP, D, E, M, P) {}
 
-RelDisp::RelDisp(const shared_ptr<Domain>& D, const double& E, const unsigned& M, const bool& P)
+RelDisp::RelDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_RELDISP, D, E, M, P) {}
 
 const bool& RelDisp::if_converged() {

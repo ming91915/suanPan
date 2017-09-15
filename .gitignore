@@ -21,6 +21,7 @@ $RECYCLE.BIN/
 /MSVS/Libs/*
 /MSVS/Release/*
 /MSVS/suanPan/.vs/*
+/MSVS/suanPan/Converger/x64/*
 /MSVS/suanPan/Element/x64/*
 /MSVS/suanPan/ElementExample/x64/*
 /MSVS/suanPan/Material/x64/*

@@ -115,7 +115,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>../../../Libs/msvc/;../../$(Configuration)/Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Material.lib;Element.lib;superlu.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Element.lib;Converger.lib;Material.lib;superlu.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/NODEFAULTLIB:MSVCRT %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -156,7 +156,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../Libs/msvc/;../../$(Configuration)/Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Material.lib;Element.lib;superlu.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Element.lib;Converger.lib;Material.lib;superlu.lib;lapack.lib;libhdf5.lib;libhdf5_cpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -164,21 +164,11 @@
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp" />
     <ClCompile Include="..\..\..\Constraint\MPC.cpp" />
     <ClCompile Include="..\..\..\Constraint\Tie.cpp" />
-    <ClCompile Include="..\..\..\Converger\AbsDisp.cpp" />
-    <ClCompile Include="..\..\..\Converger\AbsIncreEnergy.cpp" />
-    <ClCompile Include="..\..\..\Converger\AbsError.cpp" />
-    <ClCompile Include="..\..\..\Converger\AbsIncreDisp.cpp" />
-    <ClCompile Include="..\..\..\Converger\AbsResidual.cpp" />
-    <ClCompile Include="..\..\..\Converger\Converger.cpp" />
-    <ClCompile Include="..\..\..\Converger\RelDisp.cpp" />
-    <ClCompile Include="..\..\..\Converger\RelError.cpp" />
-    <ClCompile Include="..\..\..\Converger\RelIncreDisp.cpp" />
-    <ClCompile Include="..\..\..\Converger\RelIncreEnergy.cpp" />
-    <ClCompile Include="..\..\..\Converger\RelResidual.cpp" />
     <ClCompile Include="..\..\..\Database\Database.cpp" />
     <ClCompile Include="..\..\..\Database\HDF.cpp" />
     <ClCompile Include="..\..\..\Database\SQL.cpp" />
     <ClCompile Include="..\..\..\Domain\Domain.cpp" />
+    <ClCompile Include="..\..\..\Domain\DomainBase.cpp" />
     <ClCompile Include="..\..\..\Domain\ExternalModule.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
@@ -225,21 +215,11 @@
     <ClInclude Include="..\..\..\Constraint\Constraint.h" />
     <ClInclude Include="..\..\..\Constraint\MPC.h" />
     <ClInclude Include="..\..\..\Constraint\Tie.h" />
-    <ClInclude Include="..\..\..\Converger\AbsDisp.h" />
-    <ClInclude Include="..\..\..\Converger\AbsIncreEnergy.h" />
-    <ClInclude Include="..\..\..\Converger\AbsError.h" />
-    <ClInclude Include="..\..\..\Converger\AbsIncreDisp.h" />
-    <ClInclude Include="..\..\..\Converger\AbsResidual.h" />
-    <ClInclude Include="..\..\..\Converger\Converger.h" />
-    <ClInclude Include="..\..\..\Converger\RelDisp.h" />
-    <ClInclude Include="..\..\..\Converger\RelError.h" />
-    <ClInclude Include="..\..\..\Converger\RelIncreDisp.h" />
-    <ClInclude Include="..\..\..\Converger\RelIncreEnergy.h" />
-    <ClInclude Include="..\..\..\Converger\RelResidual.h" />
     <ClInclude Include="..\..\..\Database\Database.h" />
     <ClInclude Include="..\..\..\Database\HDF.h" />
     <ClInclude Include="..\..\..\Database\SQL.h" />
     <ClInclude Include="..\..\..\Domain\Domain.h" />
+    <ClInclude Include="..\..\..\Domain\DomainBase.h" />
     <ClInclude Include="..\..\..\Domain\ExternalModule.h" />
     <ClInclude Include="..\..\..\Domain\Node.h" />
     <ClInclude Include="..\..\..\Domain\Tag.h" />

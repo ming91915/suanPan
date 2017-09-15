@@ -11,7 +11,7 @@ Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const doub
     : Element(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
-void Proto01::initialize(const shared_ptr<Domain>& D) {
+void Proto01::initialize(const shared_ptr<DomainBase>& D) {
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
         mapping.fill(.25);

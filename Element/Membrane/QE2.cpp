@@ -11,7 +11,7 @@ QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     : Element(T, ET_QE2, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
-void QE2::initialize(const shared_ptr<Domain>& D) {
+void QE2::initialize(const shared_ptr<DomainBase>& D) {
     // ISOPARAMETRIC MAPPING
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);

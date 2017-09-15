@@ -99,7 +99,7 @@
  * There are two more additional methods. The first one is to initialize the element before executing the analysis.
  *
  * ```cpp
- * virtual void initialize(const shared_ptr<Domain>&) = 0;
+ * virtual void initialize(const shared_ptr<DomainBase>&) = 0;
  * ```
  *
  * This method will be called by the model control flow, after constructing the element (creation), before incremental iteration (problem solving). So this method should 1) define all necessary parameters which may be used in analysis, 2) get copies of material models for self use, 3) get pointers of Node objects connected and 4) potentially some other operations.
@@ -116,7 +116,7 @@
  * To implement a derived Element class. The minimum requirement is to implement **only** five methods, three out of these five methods simply call the methods of the same name in meterial model. So in fact, **only two methods should be overridden**. They are
  *
  * ```cpp
- * virtual void initialize(const shared_ptr<Domain>&) = 0;
+ * virtual void initialize(const shared_ptr<DomainBase>&) = 0;
  * virtual int update_status() = 0;
  * ```
  *
@@ -152,7 +152,7 @@ class ElementTemplate : public Element {
 public:
     ElementTemplate(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
-    void initialize(const shared_ptr<Domain>&) override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 

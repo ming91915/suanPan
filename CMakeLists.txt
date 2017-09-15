@@ -12,7 +12,6 @@ add_executable(${PROJECT_NAME}
         "suanPan.h"
         "suanPan_Main.cpp"
         "Constraint/CMakeLists.txt"
-        "Converger/CMakeLists.txt"
         "Domain/CMakeLists.txt"
         "Load/CMakeLists.txt"
         "Recorder/CMakeLists.txt"
@@ -20,11 +19,11 @@ add_executable(${PROJECT_NAME}
         "Step/CMakeLists.txt"
         "Toolbox/CMakeLists.txt")
 
+add_subdirectory(Converger)
 add_subdirectory(Element)
 add_subdirectory(Material)
 
 add_subdirectory(Constraint)
-add_subdirectory(Converger)
 add_subdirectory(Domain)
 add_subdirectory(Load)
 add_subdirectory(Recorder)
@@ -37,4 +36,4 @@ if(BUILD_DLL_EXAMPLE)
     add_subdirectory(Developer/Material)
 endif()
 
-target_link_libraries(${PROJECT_NAME} Element Material)
+target_link_libraries(${PROJECT_NAME} Converger Element Material)

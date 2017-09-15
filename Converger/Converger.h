@@ -7,7 +7,7 @@
  * The class further provides a `print_flag` to indicate if the test information should be printed out.
  *
  * @author T
- * @date 25/08/2017
+ * @date 15/09/2017
  * @version 0.2.1
  * @file Converger.h
  * @addtogroup Converger
@@ -19,10 +19,10 @@
 
 #include "Domain/Tag.h"
 
-class Domain;
+class DomainBase;
 
 class Converger : public Tag {
-    shared_ptr<Domain> database; /**< pointer to Domain */
+    shared_ptr<DomainBase> database; /**< pointer to DomainBase */
 
     double tolerance; /**< tolerance */
 
@@ -34,7 +34,7 @@ class Converger : public Tag {
 
     bool conv_flag = false; /**< converger flag */
 public:
-    explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 10, const bool& = false);
+    explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 10, const bool& = false);
     virtual ~Converger();
 
     virtual int initialize();
@@ -45,8 +45,8 @@ public:
     void set_max_iteration(const unsigned&);
     const unsigned& get_max_iteration() const;
 
-    void set_domain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& get_domain() const;
+    void set_domain(const shared_ptr<DomainBase>&);
+    const shared_ptr<DomainBase>& get_domain() const;
 
     void set_error(const double&);
     const double& get_error() const;

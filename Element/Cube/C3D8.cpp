@@ -9,7 +9,7 @@ C3D8::C3D8(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, c
     : Element(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
     , reduced_scheme(R) {}
 
-void C3D8::initialize(const shared_ptr<Domain>& D) {
+void C3D8::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const unsigned order = reduced_scheme ? 1 : 2;

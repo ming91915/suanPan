@@ -27,12 +27,12 @@
 
 #include "Converger.h"
 
-class Domain;
+class DomainBase;
 
 class RelResidual : public Converger {
 public:
-    explicit RelResidual(const unsigned& = 0, const shared_ptr<Domain>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit RelResidual(const shared_ptr<Domain>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelResidual(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelResidual(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
     explicit RelResidual(const double&, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;

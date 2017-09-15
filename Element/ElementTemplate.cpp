@@ -45,7 +45,7 @@ ElementTemplate::ElementTemplate(const unsigned& T, const uvec& NT, const unsign
  *
  * One can also initialize stiffness matrix and/or other build-in matrices from Element class (check the definition for details) in the initialize() method. However, this it not necessary, as the Solver will always call update_status() method with a zero trial displacement to update current stiffness and resistance before running iterations.
  */
-void ElementTemplate::initialize(const shared_ptr<Domain>& D) {
+void ElementTemplate::initialize(const shared_ptr<DomainBase>& D) {
     //! As CPS3 is a constant stress/strain element, one integration point at the center of the element is enough. Hence we only have one material model defined. First we get a reference of the Material object from the Domain and then call the `get_copy()` method to get a local copy.
     //! Direct assignment is allowed, the move semantics will automatically be invoked.
     m_material = D->get_material(unsigned(material_tag(0)))->get_copy();
