@@ -23,9 +23,9 @@ fix 3 2 3
 cload 1 2E4 2 2
 # disp 2 0.2147 2 2
 
-solver BFGS 1
+# solver BFGS 1
 
-converger RelResidual 1 1E-4 10 1
+converger RelIncreEnergy 1 1E-6 10 1
 
 analyze
 
