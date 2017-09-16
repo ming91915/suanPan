@@ -15,7 +15,8 @@ int BFGS::update_status() { return 0; }
 int BFGS::analyze(const unsigned& ST) {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& W = C->get_domain()->get_factory();
+    auto& D = C->get_domain();
+    auto& W = D->get_factory();
 
     unsigned counter = 0;
 
@@ -30,6 +31,10 @@ int BFGS::analyze(const unsigned& ST) {
         alpha.clear();
         G->update_trial_status();
         G->update_resistance();
+        if(counter == 1) {
+            auto& t_load = get_trial_load(W);
+            for(const auto& I : D->get_constrained_dof()) t_load(I) = 0.;
+        }
         if(counter == 0) {
             G->update_stiffness();
             G->process(ST);
