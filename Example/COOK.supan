@@ -8,7 +8,7 @@ node 7 0 44
 node 8 24 52
 node 9 48 60
 
-material Elastic2D 1 1 .333333333
+material Elastic2D 1 1 0.333333333333
 
 element Proto01 1 1 2 5 4 1 1
 element Proto01 2 2 3 6 5 1 1
@@ -19,8 +19,7 @@ element Proto01 4 5 6 9 8 1 1
 
 step static 1
 set ini_step_size 1
-#set symm_mat false
-#set band_mat false
+set fixed_step_size true
 
 fix 1 1 1 4 7
 fix 2 2 1 4 7
@@ -36,7 +35,7 @@ analyze
 
 peek node 6
 
-# peek element 1
+# peek element 3
 
 # peek recorder 1
 

@@ -61,7 +61,7 @@ int BFGS::analyze(const unsigned& ST) {
             hist_factor.pop_front();
         }
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-        if(counter != 0 && C->if_converged()) return 0;
+        if(C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;
     }
 }

@@ -1,0 +1,50 @@
+node 1 0 0
+node 2 12 0
+node 3 24 0
+node 4 36 0
+node 5 48 0
+
+# node 1 0 0
+# node 2 16 0
+# node 3 20 0
+# node 4 28 0
+# node 5 48 0
+
+node 6 48 12
+node 7 36 12
+node 8 24 12
+node 9 12 12
+node 10 0 12
+
+material Elastic2D 1 3E4 .25
+
+element Proto01 1 1 2 9 10 1 1
+element Proto01 2 2 3 8 9 1 1
+element Proto01 3 3 4 7 8 1 1
+element Proto01 4 4 5 6 7 1 1
+
+# recorder 1 node U 6
+
+step static 1
+set ini_step_size 1
+
+fix 1 P 1
+fix 2 1 10
+# fix 3 2 10
+# fix 4 3 10
+
+cload 1 20 2 5 6
+
+# converger AbsResidual 1 1E-6 7 0
+converger AbsIncreEnergy 1 1E-4 7 1
+
+analyze
+
+peek node 6
+peek node 5
+
+peek element 1
+
+# peek recorder 1
+
+exit

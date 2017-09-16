@@ -35,7 +35,7 @@ int Newton::analyze(const unsigned& ST) {
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
 
         // test convergence
-        if(counter != 0 && C->if_converged()) return 0;
+        if(C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;
     }
 }

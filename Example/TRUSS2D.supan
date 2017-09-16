@@ -13,7 +13,7 @@ element Truss2D 3 3 1 1 10 1 1 1
 # recorder 1 node U 6
 
 step static 1
-set ini_step_size 1
+set ini_step_size .5
 set fixed_step_size true
 
 fix 1 P 1
