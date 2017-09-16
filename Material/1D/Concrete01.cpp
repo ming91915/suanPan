@@ -14,10 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
-﻿ #include "Concrete01.h"
 
-    void
-    Concrete01::initialize() {
+#include "Concrete01.h"
+
+void Concrete01::initialize() {
     current_strain.zeros(1);
     current_stress.zeros(1);
 

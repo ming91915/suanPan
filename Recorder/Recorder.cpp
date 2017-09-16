@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "Recorder.h"
 
 Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, const OutputList& L, const bool& R)

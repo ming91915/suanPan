@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "Bilinear2D.h"
 
 Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const unsigned& M, const double& D)

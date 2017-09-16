@@ -14,10 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
-﻿ #include "MaterialExample.h"
+
+#include "MaterialExample.h"
 #include <Toolbox/utility.h>
 
-    using std::vector;
+using std::vector;
 
 SUANPAN_EXPORT void new_materialexample(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;

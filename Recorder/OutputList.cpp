@@ -14,11 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
-﻿ #include "OutputList.h"
+
+#include "OutputList.h"
 #include <Toolbox/utility.h>
 
-    const char*
-    to_char(const OutputList& L) {
+const char* to_char(const OutputList& L) {
     switch(L) {
     case OutputList::S:
         return "S";

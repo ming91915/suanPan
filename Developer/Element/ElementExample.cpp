@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "ElementExample.h"
 
 SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj, std::istringstream& command) {

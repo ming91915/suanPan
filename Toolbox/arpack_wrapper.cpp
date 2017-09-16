@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "arpack_wrapper.h"
 
 int eig_solve(cx_vec& eigval, cx_mat& eigvec, mat& K, const unsigned& num, const char* form) {

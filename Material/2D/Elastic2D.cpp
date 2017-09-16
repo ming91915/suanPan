@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
+
 #include "Elastic2D.h"
 
 Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const double& R, const unsigned& TP)
