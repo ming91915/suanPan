@@ -32,7 +32,8 @@ template <typename T> class Factory final {
 
     T error = 0.; /**< error produced by certain solvers */
 
-    Col<T> ninja; /**< the result from A*X=B */
+    Col<T> ninja;   /**< the result from A*X=B */
+    Col<T> shinobi; /**< the difference between B */
 
     T trial_time = 0.;   /**< global trial (pseudo) time */
     T incre_time = 0.;   /**< global incremental (pseudo) time */
@@ -111,6 +112,7 @@ public:
     /*************************SETTER*************************/
 
     void set_ninja(const Col<T>&);
+    void set_shinobi(const Col<T>&);
 
     void set_trial_time(const T&);
     void set_trial_load(const Col<T>&);
@@ -154,6 +156,7 @@ public:
     /*************************GETTER*************************/
 
     const Col<T>& get_ninja() const;
+    const Col<T>& get_shinobi() const;
 
     const T& get_trial_time() const;
     const Col<T>& get_trial_load() const;
@@ -215,6 +218,7 @@ public:
     /*************************FRIEND*************************/
 
     template <typename T1> friend Col<T1>& get_ninja(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_shinobi(const shared_ptr<Factory<T1>>&);
 
     template <typename T1> friend T& get_trial_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_load(const shared_ptr<Factory<T1>>&);
@@ -470,6 +474,8 @@ template <typename T> void Factory<T>::initialize_eigen() {
 
 template <typename T> void Factory<T>::set_ninja(const Col<T>& N) { ninja = N; }
 
+template <typename T> void Factory<T>::set_shinobi(const Col<T>& N) { shinobi = N; }
+
 template <typename T> void Factory<T>::set_trial_time(const T& M) { trial_time = M; }
 
 template <typename T> void Factory<T>::set_trial_load(const Col<T>& L) { trial_load = L; }
@@ -537,6 +543,8 @@ template <typename T> void Factory<T>::set_eigenvalue(const Col<T>& L) { eigenva
 template <typename T> void Factory<T>::set_eigenvector(const Mat<T>& V) { eigenvector = V; }
 
 template <typename T> const Col<T>& Factory<T>::get_ninja() const { return ninja; }
+
+template <typename T> const Col<T>& Factory<T>::get_shinobi() const { return shinobi; }
 
 template <typename T> const T& Factory<T>::get_trial_time() const { return trial_time; }
 
@@ -933,6 +941,8 @@ template <typename T> void Factory<T>::assemble_stiffness(const Mat<T>& EK, cons
 template <typename T> void Factory<T>::print() const { suanpan_info("This is a Factory object with size of %u.\n", n_size); }
 
 template <typename T> Col<T>& get_ninja(const shared_ptr<Factory<T>>& W) { return W->ninja; }
+
+template <typename T> Col<T>& get_shinobi(const shared_ptr<Factory<T>>& W) { return W->shinobi; }
 
 template <typename T> T& get_trial_time(const shared_ptr<Factory<T>>& W) { return W->trial_time; }
 

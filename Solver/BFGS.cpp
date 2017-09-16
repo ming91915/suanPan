@@ -21,6 +21,8 @@ int BFGS::analyze(const unsigned& ST) {
 
     auto& ninja = get_ninja(W);
 
+    // TODO: DISP CONTROL
+
     hist_ninja.clear();
     hist_residual.clear();
     hist_factor.clear();
@@ -54,7 +56,7 @@ int BFGS::analyze(const unsigned& ST) {
             hist_factor.pop_front();
         }
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-        if(C->if_converged()) return 0;
+        if(counter != 0 && C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;
     }
 }

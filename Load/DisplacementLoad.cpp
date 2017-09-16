@@ -38,7 +38,7 @@ int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
                         } else
                             t_stiff(t_idx, t_idx) *= multiplier;
                     }
-                    t_load(t_idx) = t_stiff(t_idx, t_idx) * final_load;
+                    t_load(t_idx) = t_stiff(t_idx, t_idx) * (final_load - W->get_trial_displacement().at(t_idx)); // add unbalanced eqv. load
                 }
         }
     }

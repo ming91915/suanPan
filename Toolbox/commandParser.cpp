@@ -1,5 +1,4 @@
 #include "commandParser.h"
-#include "Load/DisplacementLoad.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Converger/Converger>
@@ -9,6 +8,7 @@
 #include <Element/Element.h>
 #include <Element/ElementParser.h>
 #include <Load/CLoad.h>
+#include <Load/DisplacementLoad.h>
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
 #include <Solver/Solver>

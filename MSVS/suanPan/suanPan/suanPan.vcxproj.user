@@ -3,11 +3,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>..\..\..\Example</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-f COOK.supan</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f TRUSS2D.supan</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>..\..\..\Example</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-f COOK.supan</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f TRUSS2D.supan</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

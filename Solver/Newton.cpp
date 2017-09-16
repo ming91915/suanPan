@@ -20,18 +20,22 @@ int Newton::analyze(const unsigned& ST) {
     unsigned counter = 0;
 
     while(true) {
+        // update for nodes and elements
         G->update_trial_status();
+        // assemble resistance and stiffness
         G->update_resistance();
         G->update_stiffness();
-        // PROCESS BC AND LOAD
+        // process constraints and loads
         G->process(ST);
-        // CALL SOLVER
+
+        // call solver
         const auto flag = update_status();
         if(flag != 0) return flag;
-        // UPDATE TRIAL STATUS FOR WORKSHOP
+        // update trial status for factory
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
 
-        if(C->if_converged()) return 0;
+        // test convergence
+        if(counter != 0 && C->if_converged()) return 0;
         if(++counter > C->get_max_iteration()) return -1;
     }
 }

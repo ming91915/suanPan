@@ -64,7 +64,11 @@ int Truss2D::update_status() {
 
     // in a truss-beam system a node may have either 2 or 3 dofs depends on the type of elements connected
     // resize the displacement vectors to make sure they are compatiable with the truss formulation
-    vec disp_diff = node_j->get_trial_displacement().cols(0, 1) - node_i->get_trial_displacement().cols(0, 1);
+    auto& disp_i = node_i->get_trial_displacement();
+    auto& disp_j = node_j->get_trial_displacement();
+    vec disp_diff(2);
+    disp_diff(0) = disp_j(0) - disp_i(0);
+    disp_diff(1) = disp_j(1) - disp_i(1);
 
     double trial_strain;
 
