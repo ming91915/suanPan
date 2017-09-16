@@ -14,25 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-ï»? /**
-     * @class Bilinear1D
-     * @brief A Bilinear1D material class.
-     * @author T
-     * @date 08/08/2017
-     * @version 0.1.0
-     * @file Bilinear1D.h
-     * @addtogroup Material-1D
-     * @ingroup Material
-     * @{
-     */
+/**
+ * @class Bilinear1D
+ * @brief A Bilinear1D material class.
+ * @author T
+ * @date 08/08/2017
+ * @version 0.1.0
+ * @file Bilinear1D.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef BILINEAR1D_H
 #define BILINEAR1D_H
 
 #include <Material/Material.h>
 
-    class Bilinear1D final :
-    public Material {
+class Bilinear1D final : public Material {
     const double elastic_modulus; /**< elastic modulus */
     const double yield_stress;    /**< initial yield stress */
     const double hardening_ratio; /**< hardening ratio */
