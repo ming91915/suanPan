@@ -34,7 +34,7 @@ public:
 
     const uvec& get_dof() const;
 
-    int process(const shared_ptr<Domain>&) override;
+    int process(const shared_ptr<DomainBase>&) override;
 };
 
 #endif

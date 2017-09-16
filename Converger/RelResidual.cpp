@@ -12,20 +12,24 @@ RelResidual::RelResidual(const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_RELRESIDUAL, nullptr, E, M, P) {}
 
 const bool& RelResidual::if_converged() {
-    auto& tmp_DomainBase = get_domain();
+    auto& D = get_domain();
 
-    auto& tmp_workroom = tmp_DomainBase->get_factory();
+    auto& W = D->get_factory();
 
-    auto tmp_load = tmp_workroom->get_trial_load();
+    auto t_load = W->get_trial_load();
 
-    vec tmp_residual = tmp_load - tmp_workroom->get_trial_resistance();
+    vec t_residual = t_load - W->get_trial_resistance();
 
-    for(const auto& I : tmp_DomainBase->get_restrained_dof()) {
-        tmp_residual(I) = 0.;
-        tmp_load(I) = 0.;
+    for(const auto& I : D->get_restrained_dof()) {
+        t_residual(I) = 0.;
+        t_load(I) = 0.;
+    }
+    for(const auto& I : D->get_constrained_dof()) {
+        t_residual(I) = 0.;
+        t_load(I) = 0.;
     }
 
-    set_error(norm(tmp_residual) / norm(tmp_load));
+    set_error(norm(t_residual) / norm(t_load));
 
     set_conv_flag(get_tolerance() > get_error());
 

@@ -142,5 +142,8 @@
 #ifndef CT_RELINCREENERGY
 #define CT_RELINCREENERGY 47
 #endif
+#ifndef CT_DISPLACEMENTLOAD
+#define CT_DISPLACEMENTLOAD 48
+#endif
 
 #endif

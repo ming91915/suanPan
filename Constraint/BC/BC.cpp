@@ -1,5 +1,5 @@
 #include "BC.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Toolbox/utility.h>
@@ -117,8 +117,10 @@ const uvec& BC::get_dof() const { return dofs; }
  * \param D `Domain`
  * \return 0
  */
-int BC::process(const shared_ptr<Domain>& D) {
+int BC::process(const shared_ptr<DomainBase>& D) {
     auto& t_matrix = get_stiffness(D->get_factory());
+
+    auto& t_set_b = D->get_constrained_dof();
 
     for(const auto& I : nodes) {
         auto& t_node = D->get_node(static_cast<unsigned>(I));
@@ -130,7 +132,7 @@ int BC::process(const shared_ptr<Domain>& D) {
                     if(D->insert_restrained_dof(static_cast<unsigned>(t_idx)))
                         if(t_matrix(t_idx, t_idx) == 0) {
                             auto& t_set = D->get_restrained_dof();
-                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? 1E6 * t_matrix.max() : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
+                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? t_set_b.size() == 0 ? 1E6 * t_matrix.max() : t_matrix(*t_set_b.cbegin(), *t_set_b.cbegin()) : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
                         } else
                             t_matrix(t_idx, t_idx) *= 1E6;
                 }

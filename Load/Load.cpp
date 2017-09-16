@@ -1,6 +1,8 @@
 #include "Load.h"
 #include <Load/Amplitude/Amplitude.h>
 
+const double Load::multiplier = 1E6;
+
 Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const shared_ptr<Amplitude>& A)
     : Tag(T, CT)
     , step_tag(ST)
@@ -10,7 +12,7 @@ Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const shar
 
 Load::~Load() { suanpan_debug("Load %u dtor() called.\n", get_tag()); }
 
-int Load::process(const shared_ptr<Domain>&) { return -1; }
+int Load::process(const shared_ptr<DomainBase>&) { return -1; }
 
 void Load::set_step_tag(const unsigned& T) { step_tag = T; }
 

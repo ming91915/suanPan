@@ -1,5 +1,5 @@
 #include "Constraint.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 
 /**
  * \brief The default constructor.
@@ -31,4 +31,4 @@ const unsigned& Constraint::get_step_tag() const { return step_tag; }
  * \brief Method to apply the Constraint to the system.
  * \return Number of DoFs Modified
  */
-int Constraint::process(const shared_ptr<Domain>&) { return -1; }
+int Constraint::process(const shared_ptr<DomainBase>&) { return -1; }

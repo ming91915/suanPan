@@ -32,7 +32,7 @@ public:
         const unsigned& DB); // dof b
     Tie(const unsigned& S, const unsigned& NA, const unsigned& DA, const unsigned& NB, const unsigned& DB);
 
-    int process(const shared_ptr<Domain>&) override;
+    int process(const shared_ptr<DomainBase>&) override;
 };
 
 #endif

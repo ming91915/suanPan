@@ -25,9 +25,8 @@ public:
     CLoad(const unsigned&, const double&, const uvec&, const unsigned&, const shared_ptr<Amplitude>& = nullptr);
     CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
     CLoad(const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
-    ~CLoad();
 
-    int process(const shared_ptr<Domain>&) override;
+    int process(const shared_ptr<DomainBase>&) override;
 };
 
 #endif

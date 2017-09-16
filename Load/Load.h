@@ -18,10 +18,12 @@
 #include <Domain/Tag.h>
 
 class Amplitude;
-class Domain;
+class DomainBase;
 
 class Load : public Tag {
 protected:
+    static const double multiplier;
+
     unsigned step_tag = 0;
 
     shared_ptr<Amplitude> magnitude;
@@ -30,7 +32,7 @@ public:
     explicit Load(const unsigned& = 0, const unsigned& = CT_LOAD, const unsigned& = 0, const shared_ptr<Amplitude>& = nullptr);
     virtual ~Load();
 
-    virtual int process(const shared_ptr<Domain>&) = 0;
+    virtual int process(const shared_ptr<DomainBase>&) = 0;
 
     void set_step_tag(const unsigned&);
     const unsigned& get_step_tag() const;

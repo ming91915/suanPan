@@ -16,7 +16,7 @@
 
 #include <Domain/Tag.h>
 
-class Domain;
+class DomainBase;
 
 class Constraint : public Tag {
     unsigned step_tag = 0; /**< step tag */
@@ -27,7 +27,7 @@ public:
     void set_step_tag(const unsigned&);
     const unsigned& get_step_tag() const;
 
-    virtual int process(const shared_ptr<Domain>&) = 0;
+    virtual int process(const shared_ptr<DomainBase>&) = 0;
 };
 
 #endif

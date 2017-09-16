@@ -12,15 +12,16 @@ AbsResidual::AbsResidual(const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_ABSRESIDUAL, nullptr, E, M, P) {}
 
 const bool& AbsResidual::if_converged() {
-    auto& tmp_DomainBase = get_domain();
+    auto& t_domain = get_domain();
 
-    auto& tmp_workroom = tmp_DomainBase->get_factory();
+    auto& t_factory = t_domain->get_factory();
 
-    vec tmp_residual = tmp_workroom->get_trial_load() - tmp_workroom->get_trial_resistance();
+    vec t_residual = t_factory->get_trial_load() - t_factory->get_trial_resistance();
 
-    for(const auto& I : tmp_DomainBase->get_restrained_dof()) tmp_residual(I) = 0.;
+    for(const auto& I : t_domain->get_restrained_dof()) t_residual(I) = 0.;
+    for(const auto& I : t_domain->get_constrained_dof()) t_residual(I) = 0.;
 
-    set_error(norm(tmp_residual));
+    set_error(norm(t_residual));
 
     set_conv_flag(get_tolerance() > get_error());
 

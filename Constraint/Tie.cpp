@@ -1,5 +1,5 @@
 #include "Tie.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 
@@ -17,7 +17,7 @@ Tie::Tie(const unsigned& S, const unsigned& NA, const unsigned& DA, const unsign
     , node_j(NB)
     , dof_j(DB) {}
 
-int Tie::process(const shared_ptr<Domain>& D) {
+int Tie::process(const shared_ptr<DomainBase>& D) {
     const auto tmp_max = D->get_factory()->get_stiffness()->max();
 
     auto& tmp_dof_i = D->get_node(node_i)->get_reordered_dof().at(dof_i - 1);

@@ -1,4 +1,5 @@
 #include "commandParser.h"
+#include "Load/DisplacementLoad.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Converger/Converger>
@@ -37,6 +38,8 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(command_id == "solver") return create_new_solver(model, command);
     if(command_id == "fix") return create_new_bc(model, command);
     if(command_id == "cload") return create_new_cload(model, command);
+    if(command_id == "disp") return create_new_dispload(model, command);
+    if(command_id == "dispload") return create_new_dispload(model, command);
     if(command_id == "enable") return enable_object(model, command);
     if(command_id == "disable") return disable_object(model, command);
     if(command_id == "mute") return disable_object(model, command);
@@ -342,6 +345,37 @@ int create_new_cload(const shared_ptr<Bead>& model, istringstream& command) {
     const auto& step_tag = model->get_current_step()->get_tag();
 
     if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_cload() fails to create new load.\n");
+
+    return 0;
+}
+
+int create_new_dispload(const shared_ptr<Bead>& model, istringstream& command) {
+    unsigned load_id;
+    if((command >> load_id).fail()) {
+        suanpan_info("create_new_dispload() needs a tag.\n");
+        return 0;
+    }
+
+    double magnitude;
+    if((command >> magnitude).fail()) {
+        suanpan_info("create_new_dispload() needs load magnitude.\n");
+        return 0;
+    }
+
+    unsigned dof_id;
+    if((command >> dof_id).fail()) {
+        suanpan_info("create_new_dispload() needs a valid DoF.\n");
+        return 0;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    while(get_input(command, node)) node_tag.push_back(node);
+
+    const auto& domain = model->get_current_domain();
+    const auto& step_tag = model->get_current_step()->get_tag();
+
+    if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
 
     return 0;
 }
