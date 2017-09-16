@@ -75,7 +75,7 @@ void print_version() {
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0, date $02u/$02u/$4u, compiled with %s %s\n", SUANPAN_DD, SUANPAN_MM, SUANPAN_YY, SUANPAN_COMPILER, version.c_str());
+    suanpan_info("\tversion Acrux 0.1.0, date %02u/%02u/%u, compiled with %s %s\n", SUANPAN_DD, SUANPAN_MM, SUANPAN_YY, SUANPAN_COMPILER, version.c_str());
 }
 
 void print_helper() {
