@@ -96,6 +96,8 @@ const shared_ptr<Node>& DomainBase::get_node(const unsigned&) const { throw; }
 
 const shared_ptr<Recorder>& DomainBase::get_recorder(const unsigned&) const { throw; }
 
+void DomainBase::erase_machine_error() const { throw; }
+
 const vector<shared_ptr<Amplitude>>& DomainBase::get_amplitude_pool() const { throw; }
 
 const vector<shared_ptr<Constraint>>& DomainBase::get_constraint_pool() const { throw; }

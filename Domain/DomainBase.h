@@ -143,6 +143,8 @@ public:
     virtual void assemble_stiffness() const;
     virtual void assemble_damping() const;
 
+    virtual void erase_machine_error() const;
+
     virtual void set_current_status() const;
 
     virtual void update_trial_status() const;

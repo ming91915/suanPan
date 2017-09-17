@@ -171,6 +171,8 @@ public:
     void assemble_stiffness() const override;
     void assemble_damping() const override;
 
+    void erase_machine_error() const override;
+
     void set_current_status() const override;
 
     void update_trial_status() const override;

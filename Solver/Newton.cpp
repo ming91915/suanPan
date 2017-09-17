@@ -34,6 +34,8 @@ int Newton::analyze(const unsigned& ST) {
     auto& G = get_integrator();
     auto& W = G->get_domain()->get_factory();
 
+    auto& max_iteration = C->get_max_iteration();
+
     unsigned counter = 0;
 
     while(true) {
@@ -47,13 +49,15 @@ int Newton::analyze(const unsigned& ST) {
 
         // call solver
         const auto flag = update_status();
+
         if(flag != 0) return flag;
+        if(C->if_converged()) return 0;
+        if(++counter > max_iteration) return -1;
+
         // update trial status for factory
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-
-        // test convergence
-        if(C->if_converged()) return 0;
-        if(++counter > C->get_max_iteration()) return -1;
+        // avoid machine error accumulation
+        G->erase_machine_error();
     }
 }
 

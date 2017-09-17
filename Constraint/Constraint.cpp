@@ -18,6 +18,8 @@
 #include "Constraint.h"
 #include <Domain/DomainBase.h>
 
+const double Constraint::multiplier = 1E8;
+
 /**
  * \brief The default constructor.
  * \param T `unique_tag`

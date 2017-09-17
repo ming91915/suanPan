@@ -397,6 +397,11 @@ void Domain::assemble_damping() const {
     for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
+void Domain::erase_machine_error() const {
+    auto& t_displacement = get_trial_displacement(factory);
+    for(const auto& I : restrained_dofs) t_displacement(I) = 0.;
+}
+
 void Domain::update_trial_status() const {
     auto& trial_dsp = factory->get_trial_displacement();
     auto& trial_vel = factory->get_trial_velocity();

@@ -35,11 +35,11 @@ int BFGS::analyze(const unsigned& ST) {
     auto& D = C->get_domain();
     auto& W = D->get_factory();
 
+    auto& max_iteration = C->get_max_iteration();
+
     unsigned counter = 0;
 
     auto& ninja = get_ninja(W);
-
-    // TODO: DISP CONTROL
 
     hist_ninja.clear();
     hist_residual.clear();
@@ -72,14 +72,15 @@ int BFGS::analyze(const unsigned& ST) {
             hist_ninja.push_back(ninja);
         }
         hist_factor.push_back(dot(*hist_ninja.crbegin(), *hist_residual.crbegin()));
+        if(C->if_converged()) return 0;
+        if(++counter > max_iteration) return -1;
         if(counter > max_hist) {
             hist_ninja.pop_front();
             hist_residual.pop_front();
             hist_factor.pop_front();
         }
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
-        if(C->if_converged()) return 0;
-        if(++counter > C->get_max_iteration()) return -1;
+        G->erase_machine_error();
     }
 }
 

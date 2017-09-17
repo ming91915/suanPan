@@ -58,6 +58,8 @@ public:
     virtual void update_trial_status();
     virtual void update_incre_status();
 
+    virtual void erase_machine_error() const;
+
     virtual void commit_status() const;
     virtual void clear_status() const;
     virtual void reset_status() const;

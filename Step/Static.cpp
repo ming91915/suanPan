@@ -31,13 +31,19 @@ int Static::analyze() {
 
     unsigned num_increment = 0;
 
-    while(time_left > 0. && ++num_increment <= get_max_iteration()) {
+    while(true) {
+        if(time_left <= 1E-10) return 0;
+        if(num_increment++ > get_max_iteration()) {
+            suanpan_warning("analyze() reaches maximum iteration number %u.\n", get_max_iteration());
+            return -1;
+        }
         G->update_incre_time(step);
         const auto code = S->analyze(get_tag());
         if(code == 0) { // SUCCEEDED STEP
             G->commit_status();
             G->record();
             time_left -= step;
+            if(step > time_left) step = time_left;
         } else if(code == -1) { // FAILED UNCONVERGED
             G->reset_status();
             if(step <= get_min_step_size()) {
@@ -52,11 +58,4 @@ int Static::analyze() {
         } else
             return -1;
     }
-
-    if(num_increment > get_max_iteration()) {
-        suanpan_warning("analyze() reaches maximum iteration number %u.\n", get_max_iteration());
-        return -1;
-    }
-
-    return 0;
 }

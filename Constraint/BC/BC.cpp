@@ -149,9 +149,9 @@ int BC::process(const shared_ptr<DomainBase>& D) {
                     if(D->insert_restrained_dof(static_cast<unsigned>(t_idx)))
                         if(t_matrix(t_idx, t_idx) == 0) {
                             auto& t_set = D->get_restrained_dof();
-                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? t_set_b.size() == 0 ? 1E6 * t_matrix.max() : t_matrix(*t_set_b.cbegin(), *t_set_b.cbegin()) : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
+                            t_matrix(t_idx, t_idx) = t_set.size() == 1 ? t_set_b.size() == 0 ? multiplier * t_matrix.max() : t_matrix(*t_set_b.cbegin(), *t_set_b.cbegin()) : *t_set.cbegin() == t_idx ? t_matrix(*++t_set.cbegin(), *++t_set.cbegin()) : t_matrix(*t_set.cbegin(), *t_set.cbegin());
                         } else
-                            t_matrix(t_idx, t_idx) *= 1E6;
+                            t_matrix(t_idx, t_idx) *= multiplier;
                 }
         }
     }

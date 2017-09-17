@@ -52,6 +52,8 @@ void Integrator::update_trial_status() { database->update_trial_status(); }
 
 void Integrator::update_incre_status() { database->update_incre_status(); }
 
+void Integrator::erase_machine_error() const { database->erase_machine_error(); }
+
 void Integrator::commit_status() const { database->commit_status(); }
 
 void Integrator::clear_status() const { database->clear_status(); }

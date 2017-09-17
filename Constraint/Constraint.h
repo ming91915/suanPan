@@ -36,6 +36,9 @@ class DomainBase;
 
 class Constraint : public Tag {
     unsigned step_tag = 0; /**< step tag */
+protected:
+    static const double multiplier;
+
 public:
     explicit Constraint(const unsigned& = 0, const unsigned& = CT_CONSTRAINT, const unsigned& = 0);
     virtual ~Constraint();
