@@ -21,26 +21,14 @@
 #include <Domain/Node.h>
 #include <Load/Amplitude/Amplitude.h>
 
-CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const unsigned& D, const shared_ptr<Amplitude>& A)
-    : Load(T, CT_CLOAD, S, A)
+CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
+    : Load(T, CT_CLOAD, S, AT)
     , pattern(L)
     , nodes(N)
     , dofs({ D }) {}
 
-CLoad::CLoad(const unsigned& S, const double& L, const uvec& N, const unsigned& D, const shared_ptr<Amplitude>& A)
-    : Load(0, CT_CLOAD, S, A)
-    , pattern(L)
-    , nodes(N)
-    , dofs({ D }) {}
-
-CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const uvec& D, const shared_ptr<Amplitude>& A)
-    : Load(T, CT_CLOAD, S, A)
-    , pattern(L)
-    , nodes(N)
-    , dofs(D) {}
-
-CLoad::CLoad(const unsigned& S, const double& L, const uvec& N, const uvec& D, const shared_ptr<Amplitude>& A)
-    : Load(0, CT_CLOAD, S, A)
+CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
+    : Load(T, CT_CLOAD, S, AT)
     , pattern(L)
     , nodes(N)
     , dofs(D) {}

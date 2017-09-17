@@ -20,7 +20,10 @@
  *
  * @author T
  * @date 15/07/2017
+ * @version 0.1.0
  * @file Tabular.h
+ * @addtogroup Amplitude
+ * @{
  */
 
 #ifndef TABULAR_H
@@ -32,10 +35,9 @@ class Tabular : public Amplitude {
     vec time;      /**< time */
     vec magnitude; /**< magnitude */
 public:
-    explicit Tabular(const unsigned& = 0, const unsigned& = CT_TABULAR);
-    Tabular(const unsigned&, const vec&, const vec&);
-    Tabular(const unsigned&, const char*);
-    ~Tabular();
+    explicit Tabular(const unsigned& = 0, const unsigned& = 0.);
+    Tabular(const unsigned&, const vec&, const vec&, const unsigned& = 0.);
+    Tabular(const unsigned&, const char*, const unsigned& = 0.);
 
     double get_amplitude(const double&) override final;
 
@@ -43,3 +45,5 @@ public:
 };
 
 #endif
+
+//! @}

@@ -40,13 +40,15 @@ class Load : public Tag {
 protected:
     static const double multiplier;
 
-    unsigned step_tag = 0;
+    unsigned step_tag, amplitude_tag;
 
     shared_ptr<Amplitude> magnitude;
 
 public:
-    explicit Load(const unsigned& = 0, const unsigned& = CT_LOAD, const unsigned& = 0, const shared_ptr<Amplitude>& = nullptr);
+    explicit Load(const unsigned& = 0, const unsigned& = CT_LOAD, const unsigned& = 0, const unsigned& = 0);
     virtual ~Load();
+
+    virtual int initialize(const shared_ptr<DomainBase>&);
 
     virtual int process(const shared_ptr<DomainBase>&) = 0;
 

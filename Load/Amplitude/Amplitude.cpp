@@ -17,15 +17,21 @@
 
 #include "Amplitude.h"
 
-Amplitude::Amplitude(const unsigned& T, const unsigned& CT)
-    : Tag(T, CT) {}
+Amplitude::Amplitude(const unsigned& T, const unsigned& CT, const unsigned& ST)
+    : Tag(T, CT)
+    , step_tag(ST) {}
 
 Amplitude::~Amplitude() {}
 
+int Amplitude::initialize() { return 0; }
+
 double Amplitude::get_amplitude(const double& T) {
-    if(T < 0.) return 0.;
-    if(T > 1.) return 1.;
-    return T;
+    const auto step_time = T - start_time;
+    if(step_time < 0.) return 0.;
+    if(step_time > 1.) return 1.;
+    return step_time;
 }
 
-void Amplitude::print() { suanpan_debug("This is an Amplitude object.\n"); }
+void Amplitude::set_step_tag(const unsigned& T) { step_tag = T; }
+
+const unsigned& Amplitude::get_step_tag() const { return step_tag; }

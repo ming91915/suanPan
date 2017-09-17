@@ -16,18 +16,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Load.h"
-#include <Load/Amplitude/Amplitude.h>
+#include <Domain/DomainBase.h>
+#include <Load/Amplitude/Ramp.h>
 
 const double Load::multiplier = 1E6;
 
-Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const shared_ptr<Amplitude>& A)
+Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const unsigned& AT)
     : Tag(T, CT)
     , step_tag(ST)
-    , magnitude(A) {
-    if(magnitude == nullptr) magnitude = make_shared<Amplitude>();
-}
+    , amplitude_tag(AT) {}
 
 Load::~Load() { suanpan_debug("Load %u dtor() called.\n", get_tag()); }
+
+int Load::initialize(const shared_ptr<DomainBase>& D) {
+    if(amplitude_tag != 0) magnitude = D->get_amplitude(amplitude_tag);
+
+    if(amplitude_tag == 0 || magnitude == nullptr) {
+        auto t_tag = static_cast<unsigned>(D->get_amplitude()) + 1;
+        while(D->find_amplitude(t_tag)) t_tag++;
+        magnitude = make_shared<Ramp>(t_tag, step_tag);
+        D->insert(magnitude);
+    }
+
+    return 0;
+}
 
 int Load::process(const shared_ptr<DomainBase>&) { return -1; }
 

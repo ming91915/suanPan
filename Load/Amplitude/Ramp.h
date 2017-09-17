@@ -19,11 +19,14 @@
  * @brief An Amplitude class that can generate Amplitude pattern.
  *
  * Linear/Ramp
- * \f{gather}{a=t\f}
+ * \f{gather}{a=A_0+A\left(t-t_0\right)/t_s\f}
  *
  * @author T
  * @date 03/07/2017
+ * @version 0.1.0
  * @file Ramp.h
+ * @addtogroup Amplitude
+ * @{
  */
 
 #ifndef RAMP_H
@@ -33,12 +36,11 @@
 
 class Ramp : public Amplitude {
 public:
-    explicit Ramp(const unsigned& = 0, const unsigned& = CT_RAMP);
-    ~Ramp();
-
-    double get_amplitude(const double&) override final;
+    explicit Ramp(const unsigned& = 0, const unsigned& = 0);
 
     void print() override final;
 };
 
 #endif
+
+//! @}

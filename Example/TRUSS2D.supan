@@ -23,7 +23,7 @@ fix 3 2 3
 # cload 1 2E4 2 2
 disp 2 0.2147 2 2
 
-# solver BFGS 1
+solver BFGS 1
 
 converger AbsIncreEnergy 1 1E-5 10 1
 

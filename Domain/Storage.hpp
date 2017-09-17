@@ -21,6 +21,7 @@ using std::vector;
 
 template <typename T> const char* StorageType() { return "Unknown"; }
 
+class Amplitude;
 class Constraint;
 class Element;
 class Load;
@@ -28,6 +29,7 @@ class Material;
 class Node;
 class Recorder;
 
+template <> inline const char* StorageType<Amplitude>() { return "Amplitude"; }
 template <> inline const char* StorageType<Constraint>() { return "Constraint"; }
 template <> inline const char* StorageType<Element>() { return "Element"; }
 template <> inline const char* StorageType<Load>() { return "Load"; }

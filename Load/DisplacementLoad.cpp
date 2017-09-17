@@ -21,14 +21,14 @@
 #include <Domain/Node.h>
 #include <Load/Amplitude/Amplitude.h>
 
-DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const unsigned& D, const shared_ptr<Amplitude>& A)
-    : Load(T, CT_DISPLACEMENTLOAD)
+DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
+    : Load(T, CT_DISPLACEMENTLOAD, ST, AT)
     , pattern(L)
     , nodes(N)
     , dofs({ D }) {}
 
-DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const uvec& D, const shared_ptr<Amplitude>& A)
-    : Load(T, CT_DISPLACEMENTLOAD)
+DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
+    : Load(T, CT_DISPLACEMENTLOAD, ST, AT)
     , pattern(L)
     , nodes(N)
     , dofs(D) {}

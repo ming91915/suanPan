@@ -26,6 +26,8 @@ void DomainBase::set_factory(const shared_ptr<Factory<double>>&) { throw; }
 
 const shared_ptr<Factory<double>>& DomainBase::get_factory() const { throw; }
 
+bool DomainBase::insert(const shared_ptr<Amplitude>&) { throw; }
+
 bool DomainBase::insert(const shared_ptr<Constraint>&) { throw; }
 
 bool DomainBase::insert(const shared_ptr<Element>&) { throw; }
@@ -37,6 +39,8 @@ bool DomainBase::insert(const shared_ptr<Material>&) { throw; }
 bool DomainBase::insert(const shared_ptr<Node>&) { throw; }
 
 bool DomainBase::insert(const shared_ptr<Recorder>&) { throw; }
+
+bool DomainBase::erase_amplitude(const unsigned&) { throw; }
 
 bool DomainBase::erase_constraint(const unsigned&) { throw; }
 
@@ -50,6 +54,8 @@ bool DomainBase::erase_node(const unsigned&) { throw; }
 
 bool DomainBase::erase_recorder(const unsigned&) { throw; }
 
+void DomainBase::disable_amplitude(const unsigned&) { throw; }
+
 void DomainBase::disable_constraint(const unsigned&) { throw; }
 
 void DomainBase::disable_element(const unsigned&) { throw; }
@@ -61,6 +67,8 @@ void DomainBase::disable_material(const unsigned&) { throw; }
 void DomainBase::disable_node(const unsigned&) { throw; }
 
 void DomainBase::disable_recorder(const unsigned&) { throw; }
+
+void DomainBase::enable_amplitude(const unsigned&) { throw; }
 
 void DomainBase::enable_constraint(const unsigned&) { throw; }
 
@@ -74,6 +82,8 @@ void DomainBase::enable_node(const unsigned&) { throw; }
 
 void DomainBase::enable_recorder(const unsigned&) { throw; }
 
+const shared_ptr<Amplitude>& DomainBase::get_amplitude(const unsigned&) const { throw; }
+
 const shared_ptr<Constraint>& DomainBase::get_constraint(const unsigned&) const { throw; }
 
 const shared_ptr<Element>& DomainBase::get_element(const unsigned&) const { throw; }
@@ -85,6 +95,8 @@ const shared_ptr<Material>& DomainBase::get_material(const unsigned&) const { th
 const shared_ptr<Node>& DomainBase::get_node(const unsigned&) const { throw; }
 
 const shared_ptr<Recorder>& DomainBase::get_recorder(const unsigned&) const { throw; }
+
+const vector<shared_ptr<Amplitude>>& DomainBase::get_amplitude_pool() const { throw; }
 
 const vector<shared_ptr<Constraint>>& DomainBase::get_constraint_pool() const { throw; }
 
@@ -98,6 +110,8 @@ const vector<shared_ptr<Node>>& DomainBase::get_node_pool() const { throw; }
 
 const vector<shared_ptr<Recorder>>& DomainBase::get_recorder_pool() const { throw; }
 
+size_t DomainBase::get_amplitude() const { throw; }
+
 size_t DomainBase::get_constraint() const { throw; }
 
 size_t DomainBase::get_element() const { throw; }
@@ -109,6 +123,8 @@ size_t DomainBase::get_material() const { throw; }
 size_t DomainBase::get_node() const { throw; }
 
 size_t DomainBase::get_recorder() const { throw; }
+
+bool DomainBase::find_amplitude(const unsigned&) const { throw; }
 
 bool DomainBase::find_constraint(const unsigned&) const { throw; }
 

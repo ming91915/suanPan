@@ -20,8 +20,8 @@
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Element/Element.h>
+#include <Load/Amplitude/Amplitude.h>
 #include <Load/Load.h>
-#include <Material/Material.h>
 #include <Recorder/Recorder.h>
 #include <Toolbox/RCM.h>
 
@@ -40,6 +40,11 @@ void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
 }
 
 const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
+
+bool Domain::insert(const shared_ptr<Amplitude>& A) {
+    if(updated) updated = false;
+    return amplitude_pond.insert(A);
+}
 
 bool Domain::insert(const shared_ptr<Constraint>& C) {
     if(updated) updated = false;
@@ -69,6 +74,11 @@ bool Domain::insert(const shared_ptr<Node>& N) {
 bool Domain::insert(const shared_ptr<Recorder>& R) {
     if(updated) updated = false;
     return recorder_pond.insert(R);
+}
+
+bool Domain::erase_amplitude(const unsigned& T) {
+    if(updated) updated = false;
+    return amplitude_pond.erase(T);
 }
 
 bool Domain::erase_constraint(const unsigned& T) {
@@ -101,6 +111,11 @@ bool Domain::erase_recorder(const unsigned& T) {
     return recorder_pond.erase(T);
 }
 
+void Domain::disable_amplitude(const unsigned& T) {
+    if(updated) updated = false;
+    amplitude_pond.disable(T);
+}
+
 void Domain::disable_constraint(const unsigned& T) {
     if(updated) updated = false;
     constraint_pond.disable(T);
@@ -129,6 +144,11 @@ void Domain::disable_node(const unsigned& T) {
 void Domain::disable_recorder(const unsigned& T) {
     if(updated) updated = false;
     recorder_pond.disable(T);
+}
+
+void Domain::enable_amplitude(const unsigned& T) {
+    if(updated) updated = false;
+    amplitude_pond.enable(T);
 }
 
 void Domain::enable_constraint(const unsigned& T) {
@@ -161,6 +181,8 @@ void Domain::enable_recorder(const unsigned& T) {
     recorder_pond.enable(T);
 }
 
+const shared_ptr<Amplitude>& Domain::get_amplitude(const unsigned& T) const { return amplitude_pond.at(T); }
+
 const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
 
 const shared_ptr<Element>& Domain::get_element(const unsigned& T) const { return element_pond.at(T); }
@@ -172,6 +194,8 @@ const shared_ptr<Material>& Domain::get_material(const unsigned& T) const { retu
 const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_pond.at(T); }
 
 const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
+
+const vector<shared_ptr<Amplitude>>& Domain::get_amplitude_pool() const { return amplitude_pond.get(); }
 
 const vector<shared_ptr<Constraint>>& Domain::get_constraint_pool() const { return constraint_pond.get(); }
 
@@ -185,6 +209,8 @@ const vector<shared_ptr<Node>>& Domain::get_node_pool() const { return node_pond
 
 const vector<shared_ptr<Recorder>>& Domain::get_recorder_pool() const { return recorder_pond.get(); }
 
+size_t Domain::get_amplitude() const { return amplitude_pond.size(); }
+
 size_t Domain::get_constraint() const { return constraint_pond.size(); }
 
 size_t Domain::get_element() const { return element_pond.size(); }
@@ -196,6 +222,8 @@ size_t Domain::get_material() const { return material_pond.size(); }
 size_t Domain::get_node() const { return node_pond.size(); }
 
 size_t Domain::get_recorder() const { return recorder_pond.size(); }
+
+bool Domain::find_amplitude(const unsigned& T) const { return amplitude_pond.find(T); }
 
 bool Domain::find_constraint(const unsigned& T) const { return constraint_pond.find(T); }
 
@@ -242,7 +270,10 @@ int Domain::initialize() {
         t_node.second->set_original_dof(dof_counter);
     }
 
+    for(const auto& t_load : load_pond) t_load.second->initialize(shared_from_this());
+
     // ACTIVE FLAG IS NOW PROPERLY SET FOR NODE AND ELEMENT
+    amplitude_pond.update();
     constraint_pond.update();
     element_pond.update();
     load_pond.update();
@@ -522,6 +553,8 @@ void Domain::reset_status() const {
 #endif
 }
 
+shared_ptr<Amplitude>& get_amplitude(const shared_ptr<Domain>& D, const unsigned& T) { return D->amplitude_pond[T]; }
+
 shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T) { return D->constraint_pond[T]; }
 
 shared_ptr<Element>& get_element(const shared_ptr<Domain>& D, const unsigned& T) { return D->element_pond[T]; }
@@ -533,6 +566,8 @@ shared_ptr<Material>& get_material(const shared_ptr<Domain>& D, const unsigned& 
 shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { return D->node_pond[T]; }
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
+
+shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->amplitude_pond[T]; }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->constraint_pond[T]; }
 

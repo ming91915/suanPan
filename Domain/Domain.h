@@ -31,6 +31,7 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Storage.hpp>
 
+using AmplitudeStorage = Storage<Amplitude>;
 using ConstraintStorage = Storage<Constraint>;
 using ElementStorage = Storage<Element>;
 using LoadStorage = Storage<Load>;
@@ -45,6 +46,7 @@ class Domain : public DomainBase, public enable_shared_from_this<Domain> {
 
     shared_ptr<Factory<double>> factory; /**< working room */
 
+    AmplitudeStorage amplitude_pond;
     ConstraintStorage constraint_pond;
     ElementStorage element_pond;
     LoadStorage load_pond;
@@ -62,6 +64,7 @@ public:
     void set_factory(const shared_ptr<Factory<double>>&) override;
     const shared_ptr<Factory<double>>& get_factory() const override;
 
+    bool insert(const shared_ptr<Amplitude>&) override;
     bool insert(const shared_ptr<Constraint>&) override;
     bool insert(const shared_ptr<Element>&) override;
     bool insert(const shared_ptr<Load>&) override;
@@ -69,6 +72,7 @@ public:
     bool insert(const shared_ptr<Node>&) override;
     bool insert(const shared_ptr<Recorder>&) override;
 
+    bool erase_amplitude(const unsigned&) override;
     bool erase_constraint(const unsigned&) override;
     bool erase_element(const unsigned&) override;
     bool erase_load(const unsigned&) override;
@@ -76,6 +80,7 @@ public:
     bool erase_node(const unsigned&) override;
     bool erase_recorder(const unsigned&) override;
 
+    void disable_amplitude(const unsigned&) override;
     void disable_constraint(const unsigned&) override;
     void disable_element(const unsigned&) override;
     void disable_load(const unsigned&) override;
@@ -83,6 +88,7 @@ public:
     void disable_node(const unsigned&) override;
     void disable_recorder(const unsigned&) override;
 
+    void enable_amplitude(const unsigned&) override;
     void enable_constraint(const unsigned&) override;
     void enable_element(const unsigned&) override;
     void enable_load(const unsigned&) override;
@@ -90,6 +96,7 @@ public:
     void enable_node(const unsigned&) override;
     void enable_recorder(const unsigned&) override;
 
+    const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const override;
     const shared_ptr<Constraint>& get_constraint(const unsigned&) const override;
     const shared_ptr<Element>& get_element(const unsigned&) const override;
     const shared_ptr<Load>& get_load(const unsigned&) const override;
@@ -97,6 +104,7 @@ public:
     const shared_ptr<Node>& get_node(const unsigned&) const override;
     const shared_ptr<Recorder>& get_recorder(const unsigned&) const override;
 
+    const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const override;
     const vector<shared_ptr<Constraint>>& get_constraint_pool() const override;
     const vector<shared_ptr<Element>>& get_element_pool() const override;
     const vector<shared_ptr<Load>>& get_load_pool() const override;
@@ -104,6 +112,7 @@ public:
     const vector<shared_ptr<Node>>& get_node_pool() const override;
     const vector<shared_ptr<Recorder>>& get_recorder_pool() const override;
 
+    friend shared_ptr<Amplitude>& get_amplitude(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Element>& get_element(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Load>& get_load(const shared_ptr<Domain>&, const unsigned&);
@@ -111,6 +120,7 @@ public:
     friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
 
+    friend shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Element>& get_element(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Load>& get_load(const shared_ptr<DomainBase>&, const unsigned&);
@@ -118,6 +128,7 @@ public:
     friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
 
+    size_t get_amplitude() const override;
     size_t get_constraint() const override;
     size_t get_element() const override;
     size_t get_load() const override;
@@ -125,6 +136,7 @@ public:
     size_t get_node() const override;
     size_t get_recorder() const override;
 
+    bool find_amplitude(const unsigned&) const override;
     bool find_constraint(const unsigned&) const override;
     bool find_element(const unsigned&) const override;
     bool find_load(const unsigned&) const override;

@@ -41,6 +41,7 @@ using std::vector;
 
 template <typename T> class Storage;
 template <typename T> class Factory;
+class Amplitude;
 class Constraint;
 class Element;
 class Load;
@@ -56,6 +57,7 @@ public:
     virtual void set_factory(const shared_ptr<Factory<double>>&);
     virtual const shared_ptr<Factory<double>>& get_factory() const;
 
+    virtual bool insert(const shared_ptr<Amplitude>&);
     virtual bool insert(const shared_ptr<Constraint>&);
     virtual bool insert(const shared_ptr<Element>&);
     virtual bool insert(const shared_ptr<Load>&);
@@ -63,6 +65,7 @@ public:
     virtual bool insert(const shared_ptr<Node>&);
     virtual bool insert(const shared_ptr<Recorder>&);
 
+    virtual bool erase_amplitude(const unsigned&);
     virtual bool erase_constraint(const unsigned&);
     virtual bool erase_element(const unsigned&);
     virtual bool erase_load(const unsigned&);
@@ -70,6 +73,7 @@ public:
     virtual bool erase_node(const unsigned&);
     virtual bool erase_recorder(const unsigned&);
 
+    virtual void disable_amplitude(const unsigned&);
     virtual void disable_constraint(const unsigned&);
     virtual void disable_element(const unsigned&);
     virtual void disable_load(const unsigned&);
@@ -77,6 +81,7 @@ public:
     virtual void disable_node(const unsigned&);
     virtual void disable_recorder(const unsigned&);
 
+    virtual void enable_amplitude(const unsigned&);
     virtual void enable_constraint(const unsigned&);
     virtual void enable_element(const unsigned&);
     virtual void enable_load(const unsigned&);
@@ -84,6 +89,7 @@ public:
     virtual void enable_node(const unsigned&);
     virtual void enable_recorder(const unsigned&);
 
+    virtual const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const;
     virtual const shared_ptr<Constraint>& get_constraint(const unsigned&) const;
     virtual const shared_ptr<Element>& get_element(const unsigned&) const;
     virtual const shared_ptr<Load>& get_load(const unsigned&) const;
@@ -91,6 +97,7 @@ public:
     virtual const shared_ptr<Node>& get_node(const unsigned&) const;
     virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
 
+    virtual const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const;
     virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const;
     virtual const vector<shared_ptr<Element>>& get_element_pool() const;
     virtual const vector<shared_ptr<Load>>& get_load_pool() const;
@@ -98,6 +105,7 @@ public:
     virtual const vector<shared_ptr<Node>>& get_node_pool() const;
     virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const;
 
+    virtual size_t get_amplitude() const;
     virtual size_t get_constraint() const;
     virtual size_t get_element() const;
     virtual size_t get_load() const;
@@ -105,6 +113,7 @@ public:
     virtual size_t get_node() const;
     virtual size_t get_recorder() const;
 
+    virtual bool find_amplitude(const unsigned&) const;
     virtual bool find_constraint(const unsigned&) const;
     virtual bool find_element(const unsigned&) const;
     virtual bool find_load(const unsigned&) const;

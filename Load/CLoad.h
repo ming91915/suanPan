@@ -22,7 +22,10 @@
  *
  * @author T
  * @date 23/07/2017
+ * @version 0.1.0
  * @file CLoad.h
+ * @addtogroup Load
+ * @{
  */
 
 #ifndef CLOAD_H
@@ -37,12 +40,12 @@ class CLoad : public Load {
     uvec dofs;
 
 public:
-    explicit CLoad(const unsigned& = 0, const unsigned& = 0, const double& = 0., const uvec& = {}, const unsigned& = 0, const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&, const double&, const uvec&, const unsigned&, const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
-    CLoad(const unsigned&, const double&, const uvec&, const uvec&, const shared_ptr<Amplitude>& = nullptr);
+    explicit CLoad(const unsigned& = 0, const unsigned& = 0, const double& = 0., const uvec& = {}, const unsigned& = 0, const unsigned& = 0);
+    CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const unsigned& = 0);
 
     int process(const shared_ptr<DomainBase>&) override;
 };
 
 #endif
+
+//! @}

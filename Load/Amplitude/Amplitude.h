@@ -36,7 +36,8 @@
  *   \f{gather}{a=A_0+A\exp\left(-\left(t-t_0\right)/t_d\right)\f}
  *
  * @author T
- * @date 03/07/2017
+ * @date 17/09/2017
+ * @version 0.1.0
  * @file Amplitude.h
  * @addtogroup Amplitude
  * @{
@@ -50,13 +51,19 @@ enum class AmplitudeType { RAMP, TABULAR, PERIODIC, MODULATED, DECAY };
 #include <Domain/Tag.h>
 
 class Amplitude : public Tag {
+protected:
+    unsigned step_tag;
+    double start_time = 0.; // T0
 public:
-    explicit Amplitude(const unsigned& = 0, const unsigned& = CT_AMPLITUDE);
+    explicit Amplitude(const unsigned& = 0, const unsigned& = CT_AMPLITUDE, const unsigned& = 0.);
     virtual ~Amplitude();
+
+    virtual int initialize();
 
     virtual double get_amplitude(const double&);
 
-    void print() override;
+    void set_step_tag(const unsigned&);
+    const unsigned& get_step_tag() const;
 };
 
 #endif
