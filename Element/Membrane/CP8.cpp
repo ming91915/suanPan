@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CP8.h"
-#include <Toolbox/integrationPlan.h>
+#include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 
 const unsigned CP8::m_node = 8;
@@ -31,7 +31,7 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const unsigned order = reduced_scheme ? 2 : 3;
-    const integrationPlan plan(2, order, 1);
+    const IntegrationPlan plan(2, order, 1);
 
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {

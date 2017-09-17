@@ -3,7 +3,7 @@
 #include "ClassTag.h"
 #include "commandParser.h"
 #include "debug.h"
-#include "integrationPlan.h"
+#include "IntegrationPlan.h"
 #include "PropertyType.h"
 #include "RCM.h"
 #include "shapeFunction.hpp"

@@ -190,7 +190,7 @@
     <ClCompile Include="..\..\..\Toolbox\argumentParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\commandParser.cpp" />
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
-    <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp" />
+    <ClCompile Include="..\..\..\Toolbox\IntegrationPlan.cpp" />
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp" />
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp" />
     <ClCompile Include="..\..\..\Toolbox\utility.cpp" />
@@ -227,7 +227,7 @@
     <ClInclude Include="..\..\..\Toolbox\ClassTag.h" />
     <ClInclude Include="..\..\..\Toolbox\commandParser.h" />
     <ClInclude Include="..\..\..\Toolbox\debug.h" />
-    <ClInclude Include="..\..\..\Toolbox\integrationPlan.h" />
+    <ClInclude Include="..\..\..\Toolbox\IntegrationPlan.h" />
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h" />
     <ClInclude Include="..\..\..\Toolbox\RCM.h" />
     <ClInclude Include="..\..\..\Toolbox\shapeFunction.hpp" />

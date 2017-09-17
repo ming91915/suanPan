@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class integrationPlan
- * @brief An integrationPlan class.
+ * @class IntegrationPlan
+ * @brief An IntegrationPlan class.
  *
  * This is a simple class provides users the integration points coordinates and corresponding weights.
  *
  * Invoke the object with following definition:
  *
- *     integrationPlan TEST(intDimension, intOrder, intType);
+ *     IntegrationPlan TEST(intDimension, intOrder, intType);
  *
  * `intDimension` is the dimension of the problem.
  * `intOrder` is the integration order.
@@ -52,7 +52,7 @@
  * @author T
  * @date 05/09/2017
  * @version 0.1.0
- * @file integrationPlan.h
+ * @file IntegrationPlan.h
  * @addtogroup Utility
  * @{
  */
@@ -60,7 +60,7 @@
 #ifndef INTEGRATIONPLAN_H
 #define INTEGRATIONPLAN_H
 
-class integrationPlan final {
+class IntegrationPlan final {
     double** int_pts;
 
 public:
@@ -68,18 +68,13 @@ public:
     const unsigned n_cols;
     const unsigned n_elem;
 
-    //! DEFAULT CTOR.
-    explicit integrationPlan(const unsigned& = 2, const unsigned& = 2, const unsigned& = 1);
-    //! DEFAULT DTOR.
-    ~integrationPlan();
+    explicit IntegrationPlan(const unsigned& = 2, const unsigned& = 2, const unsigned& = 1);
+    ~IntegrationPlan();
 
-    //! GET POINTER TO THE DATA CHUCK
     double** get_integration_scheme() const;
 
-    //! GET SINGLE ELEMENT
     double operator()(const unsigned&, const unsigned&) const;
 
-    //! PRINT
     void print() const;
 };
 

@@ -15,11 +15,11 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "integrationPlan.h"
+#include "IntegrationPlan.h"
 #include <cmath>
 #include <cstdio>
 
-integrationPlan::integrationPlan(const unsigned& intDimension, const unsigned& intOrder, const unsigned& intType)
+IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& intOrder, const unsigned& intType)
     : n_rows(static_cast<int>(pow(intOrder, intDimension) + .5))
     , n_cols(intDimension + 1)
     , n_elem(n_rows * n_cols) {
@@ -187,21 +187,21 @@ integrationPlan::integrationPlan(const unsigned& intDimension, const unsigned& i
     if(PTW != nullptr) delete[] PTW;
 }
 
-integrationPlan::~integrationPlan() {
+IntegrationPlan::~IntegrationPlan() {
     for(unsigned i = 0; i < n_rows; ++i)
         if(int_pts[i] != nullptr) delete[] int_pts[i];
     if(int_pts != nullptr) delete[] int_pts;
 }
 
-double** integrationPlan::get_integration_scheme() const { return int_pts; }
+double** IntegrationPlan::get_integration_scheme() const { return int_pts; }
 
-double integrationPlan::operator()(const unsigned& i, const unsigned& j) const {
+double IntegrationPlan::operator()(const unsigned& i, const unsigned& j) const {
     if(i < n_rows && j < n_cols && i >= 0 && j >= 0) return int_pts[i][j];
     printf("OUT OF BOUND.\n");
     return 0.;
 }
 
-void integrationPlan::print() const {
+void IntegrationPlan::print() const {
     for(unsigned i = 0; i < n_rows; ++i) {
         printf("Node %d\t", i + 1);
         for(unsigned j = 0; j < n_cols - 1; ++j) printf("%+.6E\t", int_pts[i][j]);

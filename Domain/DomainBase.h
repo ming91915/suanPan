@@ -16,11 +16,15 @@
  ******************************************************************************/
 /**
  * @class DomainBase
- * @brief A DomainBase class is a template.
+ * @brief The DomainBase class is a template.
+ *
+ * The DomainBase is simply an abstraction of the Domain class. It provides all methods signature that are used in Domain class. The purpose is to split the declaration and implementation apart. As the Domain class is widely used in many other classes. The dependency hierarchy is simplified if DomainBase is used.
+ *
  * @author T
  * @date 16/09/2017
  * @version 0.1.0
  * @file DomainBase.h
+ * @addtogroup Domain
  * @{
  */
 

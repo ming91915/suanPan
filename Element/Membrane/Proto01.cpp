@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Proto01.h"
-#include <Toolbox/integrationPlan.h>
+#include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>
 
@@ -44,7 +44,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    const integrationPlan plan(2, 3, 1);
+    const IntegrationPlan plan(2, 3, 1);
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.emplace_back(make_unique<IntegrationPoint>());

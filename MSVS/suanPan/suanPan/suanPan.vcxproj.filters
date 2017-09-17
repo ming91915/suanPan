@@ -38,9 +38,6 @@
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Toolbox\integrationPlan.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -125,15 +122,15 @@
     <ClCompile Include="..\..\..\Load\DisplacementLoad.cpp">
       <Filter>Load</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\IntegrationPlan.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Recorder\Recorder.h">
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Toolbox\integrationPlan.h">
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Node.h">
@@ -237,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Load\DisplacementLoad.h">
       <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\IntegrationPlan.h">
+      <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

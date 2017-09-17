@@ -24,6 +24,8 @@
  * @date 22/07/2017
  * @version 0.2.0
  * @file Node.h
+ * @addtogroup Domain
+ * @{
  */
 
 #ifndef NODE_H
@@ -125,3 +127,5 @@ public:
 };
 
 #endif
+
+//! @}

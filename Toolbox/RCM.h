@@ -22,13 +22,19 @@
  *
  * Example Usage:
  *
+ * ```cpp
  *     sp_mat test_rcm=sprandn(100000, 100000, 0.00005);
  *     auto R = RCM(test_rcm + test_rcm.t());
+ * ```
+ *
+ * R gives the new numbering order of the orginal symmtric matrix.
  *
  * @author T
  * @date 02/08/2017
  * @version 0.1.2
  * @file RCM.h
+ * @addtogroup Utility
+ * @{
  */
 
 #ifndef RCM_H
@@ -45,3 +51,5 @@ template <typename eT> uvec RCM(const SpMat<eT>&);
 template <typename eT> uvec RCM(const Mat<eT>&);
 
 #endif
+
+//! @}

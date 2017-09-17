@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "GQ12.h"
-#include <Toolbox/integrationPlan.h>
+#include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 
 const unsigned GQ12::m_node = 4;
@@ -29,7 +29,7 @@ GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH
 void GQ12::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
-    const integrationPlan plan(2, 2, 1);
+    const IntegrationPlan plan(2, 2, 1);
 
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {

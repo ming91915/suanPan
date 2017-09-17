@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "PS.h"
-#include <Toolbox/integrationPlan.h>
+#include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 
 const unsigned PS::m_node = 4;
@@ -34,7 +34,7 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
 
     inv_stiffness = inv(material_proto->get_initial_stiffness());
 
-    const integrationPlan plan(2, 2, 1);
+    const IntegrationPlan plan(2, 2, 1);
 
     if(element_type == PLANE_STRAIN) thickness = 1.;
 

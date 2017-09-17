@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "QE2.h"
-#include <Toolbox/integrationPlan.h>
+#include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>
 
@@ -48,7 +48,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
     // INTEGRATION POINTS INITIALIZATION
-    const integrationPlan plan(2, 2, 1);
+    const IntegrationPlan plan(2, 2, 1);
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
