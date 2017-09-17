@@ -32,12 +32,9 @@ const bool& AbsResidual::if_converged() {
     auto& D = get_domain();
     auto& W = D->get_factory();
 
-    auto t_shinobi = W->get_shinobi();
+    const auto t_shinobi = norm(W->get_shinobi());
 
-    // not really interested in reactions
-    for(const auto& I : D->get_restrained_dof()) t_shinobi(I) = 0.;
-
-    set_error(norm(t_shinobi));
+    set_error(t_shinobi == 0. ? 1E6 : t_shinobi);
 
     set_conv_flag(get_tolerance() > get_error());
 
