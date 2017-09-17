@@ -4,10 +4,9 @@ suanPan [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.s
 Building Status
 ---------------
 
-|     Platform     |                                                                  Status                                                                  |
-|:----------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|
-|  Windows VS 2017 | [![Build status](https://ci.appveyor.com/api/projects/status/s5aobm9l4pijrov1?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan) |
-| Ubuntu GCC 6.3.0 |              [![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan)             |
+|     Platform    |                                                                  Status                                                                  |     Platform     |                                                      Status                                                     |
+|:---------------:|:----------------------------------------------------------------------------------------------------------------------------------------:|:----------------:|:---------------------------------------------------------------------------------------------------------------:|
+| Windows VS 2017 | [![Build status](https://ci.appveyor.com/api/projects/status/mi0hh9inkb30yewj?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan) | Ubuntu GCC 6.3.0 | [![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan) |
 
 Intro
 -----

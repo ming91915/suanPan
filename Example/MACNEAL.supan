@@ -1,0 +1,80 @@
+# A TEST MODEL
+
+#node 1 0 0
+#node 2 1.1 0
+#node 3 1.9 0
+#node 4 3.1 0
+#node 5 3.9 0
+#node 6 5.1 0
+#node 7 6 0
+#node 8 0 .2
+#node 9 .9 .2
+#node 10 2.1 .2
+#node 11 2.9 .2
+#node 12 4.1 .2
+#node 13 4.9 .2
+#node 14 6 .2
+
+#node 1 0 0
+#node 2 .9 0
+#node 3 1.9 0
+#node 4 2.9 0
+#node 5 3.9 0
+#node 6 4.9 0
+#node 7 6 0
+#node 8 0 .2
+#node 9 1.1 .2
+#node 10 2.1 .2
+#node 11 3.1 .2
+#node 12 4.1 .2
+#node 13 5.1 .2
+#node 14 6 .2
+
+node 1 0 0
+node 2 1 0
+node 3 2 0
+node 4 3 0
+node 5 4 0
+node 6 5 0
+node 7 6 0
+node 8 0 .2
+node 9 1 .2
+node 10 2 .2
+node 11 3 .2
+node 12 4 .2
+node 13 5 .2
+node 14 6 .2
+
+material Elastic2D 1 1E7 .3
+
+element Proto01 1 1 2 9 8 1 .1
+element Proto01 2 2 3 10 9 1 .1
+element Proto01 3 3 4 11 10 1 .1
+element Proto01 4 4 5 12 11 1 .1
+element Proto01 5 5 6 13 12 1 .1
+element Proto01 6 6 7 14 13 1 .1
+
+# recorder 1 node U 6
+
+step static 1
+set ini_step_size 1
+
+fix 1 P 1 8
+
+# cload 1 1 1 14
+# cload 2 -1 1 7
+cload 1 -.5 2 7 14
+
+solver newton 1
+
+converger AbsResidual 1 1E-4 7 1
+
+analyze
+
+peek node 7
+
+# peek element 1
+
+# peek recorder 1
+
+exit
