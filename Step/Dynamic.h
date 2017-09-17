@@ -18,7 +18,8 @@
  * @class Dynamic
  * @brief A Dynamic class.
  * @author T
- * @date 03/07/2017
+ * @date 03/09/2017
+ * @version 0.1.0
  * @file Dynamic.h
  * @addtogroup Step
  * @{
@@ -31,10 +32,7 @@
 
 class Dynamic : public Step {
 public:
-    explicit Dynamic(const unsigned& T = 0, const double& P = 1.)
-        : Step(T, CT_DYNAMIC, P) {}
-
-    virtual ~Dynamic() {}
+    explicit Dynamic(const unsigned& = 0, const double& = 1.);
 
     int analyze() override;
 };
