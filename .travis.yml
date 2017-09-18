@@ -11,8 +11,15 @@ addons:
 env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-6 && CXX=g++-6"
 script:
-  - mkdir cmake-build && cd cmake-build && cmake -DCMAKE_BUILD_TYPE=Debug ../ && make
+  - mkdir cmake-build
+  - cd cmake-build
+  - cmake -DCMAKE_BUILD_TYPE=Debug -DTEST_COVERAGE=ON ../
+  - make
+  - ./suanPan -f ../Example/CPS4.supan
+  - for SRC in `find . | egrep '\.o'`; do gcov-6 $SRC; done
 before_install:
   - eval "${MATRIX_EVAL}"
+after_success: 
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false
