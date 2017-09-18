@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Step.h"
-#include <Converger/RelResidual.h>
+#include <Converger/RelIncreDisp.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Newmark.h>
@@ -38,9 +38,9 @@ int Step::initialize() {
         return -1;
     }
 
-    if(tester == nullptr) tester = make_shared<RelResidual>(1E-6, 10, false);
-    if(factory == nullptr) factory = make_shared<Factory<double>>();
     if(solver == nullptr) solver = make_shared<Newton>();
+    if(factory == nullptr) factory = make_shared<Factory<double>>();
+    if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);
 
     if(symm_mat && band_mat)
         factory->set_storage_scheme(StorageScheme::BANDSYMM);

@@ -34,6 +34,7 @@ class RelIncreDisp : public Converger {
 public:
     explicit RelIncreDisp(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
     explicit RelIncreDisp(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelIncreDisp(const double&, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

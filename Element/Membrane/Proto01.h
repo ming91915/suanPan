@@ -18,8 +18,6 @@
  * @class Proto01
  * @brief A Proto01 class.
  *
- * [10.1002/nme.1620381102](http://onlinelibrary.wiley.com/doi/10.1002/nme.1620381102/full)
- *
  * @author T
  * @date 13/09/2017
  * @version 0.2.0

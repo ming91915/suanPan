@@ -40,6 +40,9 @@ AbsIncreDisp::AbsIncreDisp(const unsigned& T, const shared_ptr<DomainBase>& D, c
 AbsIncreDisp::AbsIncreDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
     : Converger(0, CT_ABSINCREDISP, D, E, M, P) {}
 
+AbsIncreDisp::AbsIncreDisp(const double& E, const unsigned& M, const bool& P)
+    : Converger(0, CT_ABSINCREDISP, nullptr, E, M, P) {}
+
 /**
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`

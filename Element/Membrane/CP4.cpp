@@ -91,18 +91,21 @@ int CP4::update_status() {
     auto code = 0;
 
     vec t_strain(3);
-    mat ele_disp(m_dof, m_node);
+    mat ele_disp(m_node, m_dof);
     mat sigma(4, 4, fill::zeros);
 
     stiffness.zeros();
     resistance.zeros();
     for(const auto& I : int_pt) {
         if(nlgeom) {
-            for(auto J = 0; J < m_node; ++J) ele_disp.col(J) = node_ptr[J].lock()->get_trial_displacement().rows(0, 1);
-            mat gradient = ele_disp * I->pn_pxy.t();
+            for(auto J = 0; J < m_node; ++J) {
+                auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
+                for(auto K = 0; K < m_dof; ++K) ele_disp(J, K) = t_disp(K);
+            }
+            mat gradient = I->pn_pxy * ele_disp;
             gradient(0, 0) += 1.;
             gradient(1, 1) += 1.;
-            mat t_mat = gradient.t() * gradient / 2.;
+            mat t_mat = gradient * gradient.t() / 2.;
             t_strain(0) = t_mat(0, 0) - .5;
             t_strain(1) = t_mat(1, 1) - .5;
             t_strain(2) = t_mat(0, 1) + t_mat(1, 0);
@@ -110,11 +113,11 @@ int CP4::update_status() {
                 const auto tmp_a = m_dof * J;
                 const auto tmp_b = tmp_a + 1;
                 I->BN(0, tmp_a) = I->pn_pxy(0, J) * gradient(0, 0);
-                I->BN(1, tmp_a) = I->pn_pxy(1, J) * gradient(0, 1);
-                I->BN(2, tmp_a) = I->pn_pxy(0, J) * gradient(0, 1) + I->pn_pxy(1, J) * gradient(0, 0);
-                I->BN(0, tmp_b) = I->pn_pxy(0, J) * gradient(1, 0);
+                I->BN(1, tmp_a) = I->pn_pxy(1, J) * gradient(1, 0);
+                I->BN(2, tmp_a) = I->pn_pxy(0, J) * gradient(1, 0) + I->pn_pxy(1, J) * gradient(0, 0);
+                I->BN(0, tmp_b) = I->pn_pxy(0, J) * gradient(0, 1);
                 I->BN(1, tmp_b) = I->pn_pxy(1, J) * gradient(1, 1);
-                I->BN(2, tmp_b) = I->pn_pxy(0, J) * gradient(1, 1) + I->pn_pxy(1, J) * gradient(1, 0);
+                I->BN(2, tmp_b) = I->pn_pxy(0, J) * gradient(1, 1) + I->pn_pxy(1, J) * gradient(0, 1);
             }
         } else {
             t_strain.zeros();
@@ -238,7 +241,6 @@ int CP4::update_status() {
             stiffness(0, 5) += NX3 * D13NX1D33NY1 + NY3 * D12NX1D23NY1;
             stiffness(0, 6) += NX4 * D11NX1D13NY1 + NY4 * D13NX1D33NY1;
             stiffness(0, 7) += NX4 * D13NX1D33NY1 + NY4 * D12NX1D23NY1;
-
             stiffness(1, 1) += NX1 * D33NX1D23NY1 + NY1 * D23NX1D22NY1;
             stiffness(1, 2) += NX2 * D13NX1D12NY1 + NY2 * D33NX1D23NY1;
             stiffness(1, 3) += NX2 * D33NX1D23NY1 + NY2 * D23NX1D22NY1;
@@ -246,32 +248,26 @@ int CP4::update_status() {
             stiffness(1, 5) += NX3 * D33NX1D23NY1 + NY3 * D23NX1D22NY1;
             stiffness(1, 6) += NX4 * D13NX1D12NY1 + NY4 * D33NX1D23NY1;
             stiffness(1, 7) += NX4 * D33NX1D23NY1 + NY4 * D23NX1D22NY1;
-
             stiffness(2, 2) += NX2 * D11NX2D13NY2 + NY2 * D13NX2D33NY2;
             stiffness(2, 3) += NX2 * D13NX2D33NY2 + NY2 * D12NX2D23NY2;
             stiffness(2, 4) += NX3 * D11NX2D13NY2 + NY3 * D13NX2D33NY2;
             stiffness(2, 5) += NX3 * D13NX2D33NY2 + NY3 * D12NX2D23NY2;
             stiffness(2, 6) += NX4 * D11NX2D13NY2 + NY4 * D13NX2D33NY2;
             stiffness(2, 7) += NX4 * D13NX2D33NY2 + NY4 * D12NX2D23NY2;
-
             stiffness(3, 3) += NX2 * D33NX2D23NY2 + NY2 * D23NX2D22NY2;
             stiffness(3, 4) += NX3 * D13NX2D12NY2 + NY3 * D33NX2D23NY2;
             stiffness(3, 5) += NX3 * D33NX2D23NY2 + NY3 * D23NX2D22NY2;
             stiffness(3, 6) += NX4 * D13NX2D12NY2 + NY4 * D33NX2D23NY2;
             stiffness(3, 7) += NX4 * D33NX2D23NY2 + NY4 * D23NX2D22NY2;
-
             stiffness(4, 4) += NX3 * D11NX3D13NY3 + NY3 * D13NX3D33NY3;
             stiffness(4, 5) += NX3 * D13NX3D33NY3 + NY3 * D12NX3D23NY3;
             stiffness(4, 6) += NX4 * D11NX3D13NY3 + NY4 * D13NX3D33NY3;
             stiffness(4, 7) += NX4 * D13NX3D33NY3 + NY4 * D12NX3D23NY3;
-
             stiffness(5, 5) += NX3 * D33NX3D23NY3 + NY3 * D23NX3D22NY3;
             stiffness(5, 6) += NX4 * D13NX3D12NY3 + NY4 * D33NX3D23NY3;
             stiffness(5, 7) += NX4 * D33NX3D23NY3 + NY4 * D23NX3D22NY3;
-
             stiffness(6, 6) += NX4 * D11NX4D13NY4 + NY4 * D13NX4D33NY4;
             stiffness(6, 7) += NX4 * D13NX4D33NY4 + NY4 * D12NX4D23NY4;
-
             stiffness(7, 7) += NX4 * D33NX4D23NY4 + NY4 * D23NX4D22NY4;
 
             resistance(0) += NX1 * S1 + NY1 * S3;
@@ -310,4 +306,8 @@ int CP4::reset_status() {
     return code;
 }
 
-void CP4::print() { suanpan_info("This is a CP4 element.\n"); }
+void CP4::print() {
+    suanpan_info("Element %u is a four-node membrane element (CP4)%s.\n", get_tag(), nlgeom ? " with nonlinear geomotry (TL formulation)" : "");
+    suanpan_info("The nodes connected are:\n");
+    node_encoding.t().print();
+}
