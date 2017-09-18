@@ -49,10 +49,11 @@ class Bead {
     unsigned current_converger = 0;
     unsigned current_step = 0;
 
-    unordered_map<unsigned, shared_ptr<Domain>> domain_pool;
-    unordered_map<unsigned, shared_ptr<Solver>> solver_pool;
-    unordered_map<unsigned, shared_ptr<Converger>> converger_pool;
-    map<unsigned, shared_ptr<Step>> step_pool;
+    DomainStorage domain_pool;
+    SolverStorage solver_pool;
+    ConvergerStorage converger_pool;
+
+    shared_ptr<map<unsigned, shared_ptr<Step>>> step_pool;
 
 public:
     Bead();
@@ -60,7 +61,7 @@ public:
     bool insert(const shared_ptr<Domain>&);
     bool insert(const shared_ptr<Solver>&);
     bool insert(const shared_ptr<Converger>&);
-    bool insert(const shared_ptr<Step>&);
+    bool insert(const shared_ptr<Step>&) const;
 
     const shared_ptr<Domain>& get_domain(const unsigned&) const;
     const shared_ptr<Solver>& get_solver(const unsigned&) const;
@@ -90,19 +91,19 @@ public:
     void disable_domain(const unsigned&);
     void disable_solver(const unsigned&);
     void disable_converger(const unsigned&);
-    void disable_step(const unsigned&);
+    void disable_step(const unsigned&) const;
 
     void enable_domain(const unsigned&);
     void enable_solver(const unsigned&);
     void enable_converger(const unsigned&);
-    void enable_step(const unsigned&);
+    void enable_step(const unsigned&) const;
 
     void set_current_domain(const unsigned&);
     void set_current_solver(const unsigned&);
     void set_current_converger(const unsigned&);
     void set_current_step(const unsigned&);
 
-    int analyze();
+    int analyze() const;
 };
 
 #endif

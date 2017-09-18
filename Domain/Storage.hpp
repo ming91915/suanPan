@@ -21,6 +21,9 @@ using std::vector;
 
 template <typename T> const char* StorageType() { return "Unknown"; }
 
+class Domain;
+class Solver;
+class Converger;
 class Amplitude;
 class Constraint;
 class Element;
@@ -29,6 +32,9 @@ class Material;
 class Node;
 class Recorder;
 
+template <> inline const char* StorageType<Domain>() { return "Domain"; }
+template <> inline const char* StorageType<Solver>() { return "Solver"; }
+template <> inline const char* StorageType<Converger>() { return "Converger"; }
 template <> inline const char* StorageType<Amplitude>() { return "Amplitude"; }
 template <> inline const char* StorageType<Constraint>() { return "Constraint"; }
 template <> inline const char* StorageType<Element>() { return "Element"; }

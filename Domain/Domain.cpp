@@ -41,6 +41,10 @@ void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
 
 const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
 
+void Domain::set_step_anchor(const shared_ptr<map<unsigned, shared_ptr<Step>>>& S) { step_anchor = S; }
+
+const shared_ptr<map<unsigned, shared_ptr<Step>>>& Domain::get_step_anchor() { return step_anchor; }
+
 bool Domain::insert(const shared_ptr<Amplitude>& A) {
     if(updated) updated = false;
     return amplitude_pond.insert(A);

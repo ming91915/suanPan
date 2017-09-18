@@ -44,6 +44,8 @@ using std::enable_shared_from_this;
 class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     bool updated = false;
 
+    shared_ptr<map<unsigned, shared_ptr<Step>>> step_anchor;
+
     shared_ptr<Factory<double>> factory; /**< working room */
 
     AmplitudeStorage amplitude_pond;
@@ -63,6 +65,9 @@ public:
 
     void set_factory(const shared_ptr<Factory<double>>&) override;
     const shared_ptr<Factory<double>>& get_factory() const override;
+
+    void set_step_anchor(const shared_ptr<map<unsigned, shared_ptr<Step>>>&) override;
+    const shared_ptr<map<unsigned, shared_ptr<Step>>>& get_step_anchor() override;
 
     bool insert(const shared_ptr<Amplitude>&) override;
     bool insert(const shared_ptr<Constraint>&) override;

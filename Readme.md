@@ -38,7 +38,7 @@ The program is deliberately designed to disable the backward compatibility.
 
 ### Windows
 
-The package is tested under Windows with `MSVC++`, `GNU GCC`, `Intel C++ Compiler` and `Clang`.The libraries (only 64-bit):
+The package is tested under Windows with `MSVC++`, `GNU GCC`, `Intel C++ Compiler` and `Clang`. The libraries (only 64-bit):
 
 -   BLAS and LAPACK
 -   OpenBLAS
