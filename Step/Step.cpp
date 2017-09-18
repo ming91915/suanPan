@@ -39,9 +39,7 @@ int Step::initialize() {
     }
 
     if(tester == nullptr) tester = make_shared<RelResidual>(1E-6, 10, false);
-
     if(factory == nullptr) factory = make_shared<Factory<double>>();
-
     if(solver == nullptr) solver = make_shared<Newton>();
 
     if(symm_mat && band_mat)

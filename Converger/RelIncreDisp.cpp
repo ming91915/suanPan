@@ -26,9 +26,9 @@ RelIncreDisp::RelIncreDisp(const shared_ptr<DomainBase>& D, const double& E, con
     : Converger(0, CT_RELINCREDISP, D, E, M, P) {}
 
 const bool& RelIncreDisp::if_converged() {
-    auto& tmp_workroom = get_domain()->get_factory();
+    auto& t_factory = get_domain()->get_factory();
 
-    set_error(norm(tmp_workroom->get_ninja()) / norm(tmp_workroom->get_trial_displacement()));
+    set_error(norm(t_factory->get_ninja()) / norm(t_factory->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("relative incremental displacement error: %.5E.\n", get_error());
