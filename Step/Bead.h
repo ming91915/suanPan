@@ -29,7 +29,6 @@
 #include <Domain/Storage.hpp>
 #include <map>
 #include <suanPan.h>
-#include <unordered_map>
 
 using std::map;
 using std::unordered_map;
@@ -38,10 +37,6 @@ class Domain;
 class Solver;
 class Converger;
 class Step;
-
-using DomainStorage = Storage<Domain>;
-using SolverStorage = Storage<Solver>;
-using ConvergerStorage = Storage<Converger>;
 
 class Bead {
     unsigned current_domain = 1;
@@ -103,7 +98,7 @@ public:
     void set_current_converger(const unsigned&);
     void set_current_step(const unsigned&);
 
-    int analyze() const;
+    int analyze();
 };
 
 #endif

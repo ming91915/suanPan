@@ -38,8 +38,9 @@ int Step::initialize() {
         return -1;
     }
 
-    if(solver == nullptr) solver = make_shared<Newton>();
+    if(factory == nullptr) factory = database->get_factory();
     if(factory == nullptr) factory = make_shared<Factory<double>>();
+    if(solver == nullptr) solver = make_shared<Newton>();
     if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);
 
     if(symm_mat && band_mat)

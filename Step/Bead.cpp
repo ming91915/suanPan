@@ -134,10 +134,14 @@ void Bead::set_current_converger(const unsigned& T) { current_converger = T; }
 
 void Bead::set_current_step(const unsigned& T) { current_step = T; }
 
-int Bead::analyze() const {
+int Bead::analyze() {
+    for(const auto& J : domain_pool) J.second->set_step_anchor(step_pool);
+
     auto code = 0;
+
     for(const auto& I : *step_pool)
         if(I.second->is_active() && I.second->initialize() == 0) code += I.second->analyze();
+
     return code;
 }
 
