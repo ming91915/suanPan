@@ -371,10 +371,8 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    factory->set_shinobi(-factory->get_trial_resistance());
     get_trial_resistance(factory).zeros();
     for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
-    get_shinobi(factory) += factory->get_trial_resistance();
 }
 
 void Domain::assemble_mass() const {
@@ -398,8 +396,8 @@ void Domain::assemble_damping() const {
 }
 
 void Domain::erase_machine_error() const {
-    auto& t_displacement = get_trial_displacement(factory);
-    for(const auto& I : restrained_dofs) t_displacement(I) = 0.;
+    auto& t_ninja = get_ninja(factory);
+    for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
 void Domain::update_trial_status() const {
@@ -409,26 +407,26 @@ void Domain::update_trial_status() const {
 
     if(factory->get_analysis_type() == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
-        auto& tmp_pond = node_pond.get();
+        auto& t_pond = node_pond.get();
 #pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp);
+        for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(trial_dsp);
 #else
         for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
 #endif
     } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
-        auto& tmp_pond = node_pond.get();
+        auto& t_pond = node_pond.get();
 #pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
+        for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #else
         for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #endif
     }
 
 #ifdef SUANPAN_OPENMP
-    auto& tmp_pond = element_pond.get();
+    auto& t_pond = element_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
+    for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_status();
 #else
     for(const auto& I : element_pond.get()) I->update_status();
 #endif
@@ -441,32 +439,32 @@ void Domain::update_incre_status() const {
 
     if(factory->get_analysis_type() == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
-        auto& tmp_pond = node_pond.get();
+        auto& t_pond = node_pond.get();
 #pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp);
+        for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(incre_dsp);
 #else
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
 #endif
     } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
-        auto& tmp_pond = node_pond.get();
+        auto& t_pond = node_pond.get();
 #pragma omp parallel for
-        for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
+        for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
 #else
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
 #endif
     }
 
 #ifdef SUANPAN_OPENMP
-    auto& tmp_pond = element_pond.get();
+    auto& t_pond = element_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond.size(); ++I) tmp_pond[I]->update_status();
+    for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_status();
 #else
     for(const auto& I : element_pond.get()) I->update_status();
 #endif
 }
 
-void Domain::set_current_status() const {
+void Domain::update_current_status() const {
     vec c_g_dsp(factory->get_size(), fill::zeros);
     vec c_g_vel(factory->get_size(), fill::zeros);
     vec c_g_acc(factory->get_size(), fill::zeros);
@@ -477,7 +475,7 @@ void Domain::set_current_status() const {
             auto& current_dsp = I->get_current_displacement();
             for(auto J = 0; J < t_dof.size(); ++J) c_g_dsp(t_dof(J)) = current_dsp(J);
         }
-        factory->set_current_displacement(c_g_dsp);
+        factory->update_current_displacement(c_g_dsp);
     } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
         for(const auto& I : node_pond.get()) {
             auto& t_dof = I->get_reordered_dof();
@@ -490,9 +488,9 @@ void Domain::set_current_status() const {
                 c_g_acc(t_dof(J)) = current_acc(J);
             }
         }
-        factory->set_current_displacement(c_g_dsp);
-        factory->set_current_velocity(c_g_vel);
-        factory->set_current_acceleration(c_g_acc);
+        factory->update_current_displacement(c_g_dsp);
+        factory->update_current_velocity(c_g_vel);
+        factory->update_current_acceleration(c_g_acc);
     }
 }
 
@@ -500,13 +498,13 @@ void Domain::commit_status() const {
     factory->commit_status();
 
 #ifdef SUANPAN_OPENMP
-    auto& tmp_pond_n = node_pond.get();
+    auto& t_node = node_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond_n.size(); ++I) tmp_pond_n[I]->commit_status();
+    for(auto I = 0; I < t_node.size(); ++I) t_node[I]->commit_status();
 
-    auto& tmp_pond_e = element_pond.get();
+    auto& t_element = element_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond_e.size(); ++I) tmp_pond_e[I]->commit_status();
+    for(auto I = 0; I < t_element.size(); ++I) t_element[I]->commit_status();
 #else
     for(const auto& I : node_pond.get()) I->commit_status();
     for(const auto& I : element_pond.get()) I->commit_status();
@@ -517,15 +515,15 @@ void Domain::clear_status() const {
     factory->clear_status();
 
 #ifdef SUANPAN_OPENMP
-    auto& tmp_pond_n = node_pond.get();
+    auto& t_node = node_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond_n.size(); ++I) tmp_pond_n[I]->clear_status();
+    for(auto I = 0; I < t_node.size(); ++I) t_node[I]->clear_status();
 
-    auto& tmp_pond_e = element_pond.get();
+    auto& t_element = element_pond.get();
 #pragma omp parallel for
-    for(auto I = 0; I < tmp_pond_e.size(); ++I) {
-        tmp_pond_e[I]->clear_status();
-        tmp_pond_e[I]->update_status();
+    for(auto I = 0; I < t_element.size(); ++I) {
+        t_element[I]->clear_status();
+        t_element[I]->update_status();
     }
 #else
     for(const auto& I : node_pond.get()) I->clear_status();

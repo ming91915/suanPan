@@ -173,10 +173,9 @@ public:
 
     void erase_machine_error() const override;
 
-    void set_current_status() const override;
-
-    void update_trial_status() const override;
+    void update_current_status() const override;
     void update_incre_status() const override;
+    void update_trial_status() const override;
 
     void commit_status() const override;
     void clear_status() const override;

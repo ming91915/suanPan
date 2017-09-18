@@ -132,6 +132,7 @@ public:
     virtual const bool& is_updated() const;
 
     virtual int initialize();
+
     virtual void process(const unsigned& = 0);
     virtual void record();
     virtual void enable_all();
@@ -145,10 +146,9 @@ public:
 
     virtual void erase_machine_error() const;
 
-    virtual void set_current_status() const;
-
-    virtual void update_trial_status() const;
+    virtual void update_current_status() const;
     virtual void update_incre_status() const;
+    virtual void update_trial_status() const;
 
     virtual void commit_status() const;
     virtual void clear_status() const;
