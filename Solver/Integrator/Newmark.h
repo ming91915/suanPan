@@ -55,8 +55,8 @@ public:
     explicit Newmark(const shared_ptr<DomainBase>&, const double& = .25, const double& = .5);
     ~Newmark();
 
-    void update_resistance() override;
-    void update_stiffness() override;
+    void assemble_resistance() override;
+    void assemble_stiffness() override;
 
     void commit_status() const override;
 

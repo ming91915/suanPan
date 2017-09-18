@@ -56,7 +56,7 @@ void CentralDifference::update_parameter() {
     }
 }
 
-void CentralDifference::update_resistance() {
+void CentralDifference::assemble_resistance() {
     update_parameter();
 
     auto& D = get_domain();
@@ -67,7 +67,7 @@ void CentralDifference::update_resistance() {
     get_trial_resistance(W) += (get_stiffness(W) - C2 * get_mass(W)) * W->get_current_displacement() + (C0 * get_mass(W) - C1 * get_damping(W)) * W->get_pre_displacement();
 }
 
-void CentralDifference::update_stiffness() {
+void CentralDifference::assemble_stiffness() {
     update_parameter();
 
     auto& D = get_domain();

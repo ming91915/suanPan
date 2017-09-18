@@ -44,14 +44,17 @@ public:
     explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR, const shared_ptr<DomainBase>& = nullptr);
     virtual ~Integrator();
 
+    void set_domain(const shared_ptr<DomainBase>&);
+    const shared_ptr<DomainBase>& get_domain() const;
+
     virtual int initialize();
 
     virtual void process(const unsigned& = 0) const;
 
     void record() const;
 
-    virtual void update_resistance();
-    virtual void update_stiffness();
+    virtual void assemble_resistance();
+    virtual void assemble_stiffness();
 
     void update_trial_time(const double&) const;
     void update_incre_time(const double&) const;
@@ -63,9 +66,6 @@ public:
     virtual void commit_status() const;
     virtual void clear_status() const;
     virtual void reset_status() const;
-
-    void set_domain(const shared_ptr<DomainBase>&);
-    const shared_ptr<DomainBase>& get_domain() const;
 };
 
 #endif

@@ -35,7 +35,7 @@ Newmark::Newmark(const shared_ptr<DomainBase>& D, const double& A, const double&
 
 Newmark::~Newmark() {}
 
-void Newmark::update_resistance() {
+void Newmark::assemble_resistance() {
     update_parameter();
 
     auto& D = get_domain();
@@ -46,7 +46,7 @@ void Newmark::update_resistance() {
     get_trial_resistance(W) -= get_mass(W) * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) + get_damping(W) * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
 }
 
-void Newmark::update_stiffness() {
+void Newmark::assemble_stiffness() {
     update_parameter();
 
     auto& D = get_domain();

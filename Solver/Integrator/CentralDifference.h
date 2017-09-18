@@ -56,8 +56,8 @@ public:
 
     int initialize() override;
 
-    void update_resistance() override;
-    void update_stiffness() override;
+    void assemble_resistance() override;
+    void assemble_stiffness() override;
 
     void commit_status() const override;
 };
