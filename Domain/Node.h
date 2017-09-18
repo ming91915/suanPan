@@ -69,33 +69,18 @@ public:
 
     void initialize(const shared_ptr<DomainBase>&);
 
-    const unsigned& get_dof_number() const;
-
-    const uvec& get_original_dof() const;
-    const uvec& get_reordered_dof() const;
-
-    const vec& get_coordinate() const;
-
-    const vec& get_current_displacement() const;
-    const vec& get_current_velocity() const;
-    const vec& get_current_acceleration() const;
-
-    const vec& get_incre_displacement() const;
-    const vec& get_incre_velocity() const;
-    const vec& get_incre_acceleration() const;
-
-    const vec& get_trial_displacement() const;
-    const vec& get_trial_velocity() const;
-    const vec& get_trial_acceleration() const;
-
     void set_dof_number(const unsigned&);
+    const unsigned& get_dof_number() const;
 
     void set_original_dof(unsigned&);
     void set_original_dof(const uvec&);
+    const uvec& get_original_dof() const;
 
     void set_reordered_dof(const uvec&);
+    const uvec& get_reordered_dof() const;
 
     void set_coordinate(const vec&);
+    const vec& get_coordinate() const;
 
     void set_current_displacement(const vec&);
     void set_current_velocity(const vec&);
@@ -109,21 +94,37 @@ public:
     void set_trial_velocity(const vec&);
     void set_trial_acceleration(const vec&);
 
-    void commit_status();
-    void reset_status();
-    void clear_status();
+    const vec& get_current_displacement() const;
+    const vec& get_current_velocity() const;
+    const vec& get_current_acceleration() const;
 
-    void update_trial_status(const vec&);
-    void update_trial_status(const vec&, const vec&);
-    void update_trial_status(const vec&, const vec&, const vec&);
+    const vec& get_incre_displacement() const;
+    const vec& get_incre_velocity() const;
+    const vec& get_incre_acceleration() const;
+
+    const vec& get_trial_displacement() const;
+    const vec& get_trial_velocity() const;
+    const vec& get_trial_acceleration() const;
+
+    void update_current_status(const vec&);
+    void update_current_status(const vec&, const vec&);
+    void update_current_status(const vec&, const vec&, const vec&);
 
     void update_incre_status(const vec&);
     void update_incre_status(const vec&, const vec&);
     void update_incre_status(const vec&, const vec&, const vec&);
 
+    void update_trial_status(const vec&);
+    void update_trial_status(const vec&, const vec&);
+    void update_trial_status(const vec&, const vec&, const vec&);
+
+    void commit_status();
+    void reset_status();
+    void clear_status();
+
     vector<vec> record(const OutputList&) const;
 
-    void print() override final;
+    void print() override;
 };
 
 #endif
