@@ -140,12 +140,12 @@ void Step::set_time_perid(const double& T) {
         time_period = T;
         updated = false;
         const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
-        if(tmp_iteration > max_increment && max_increment != 0)
+        if(tmp_iteration > max_substep && max_substep != 0)
             if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
                 suanpan_warning("set_ini_step_size() exceeds limits.\n");
-                set_max_iteration(std::numeric_limits<unsigned>::max());
+                set_max_substep(std::numeric_limits<unsigned>::max());
             } else
-                set_max_iteration(tmp_iteration);
+                set_max_substep(tmp_iteration);
     }
 }
 
@@ -156,12 +156,12 @@ void Step::set_ini_step_size(const double& T) {
         ini_step_size = T;
         updated = false;
         const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
-        if(tmp_iteration > max_increment && max_increment != 0)
+        if(tmp_iteration > max_substep && max_substep != 0)
             if(tmp_iteration > std::numeric_limits<unsigned>::max()) {
                 suanpan_warning("set_ini_step_size() exceeds limits.\n");
-                set_max_iteration(std::numeric_limits<unsigned>::max());
+                set_max_substep(std::numeric_limits<unsigned>::max());
             } else
-                set_max_iteration(tmp_iteration);
+                set_max_substep(tmp_iteration);
     }
 }
 
@@ -179,9 +179,9 @@ void Step::set_max_step_size(const double& T) {
     }
 }
 
-void Step::set_max_iteration(const unsigned& M) {
-    if(max_increment != M) {
-        max_increment = M;
+void Step::set_max_substep(const unsigned& M) {
+    if(max_substep != M) {
+        max_substep = M;
         updated = false;
     }
 }
@@ -192,7 +192,7 @@ const double& Step::get_min_step_size() const { return min_step_size; }
 
 const double& Step::get_max_step_size() const { return max_step_size; }
 
-const unsigned& Step::get_max_iteration() const { return max_increment; }
+const unsigned& Step::get_max_substep() const { return max_substep; }
 
 const bool& Step::is_fixed_step_size() const { return fixed_step_size; }
 

@@ -49,7 +49,7 @@ class Step : public Tag {
 
     double ini_step_size = time_period; /**< initial step size */
 
-    unsigned max_increment = 100; /**< maximum increment number */
+    unsigned max_substep = 100; /**< maximum increment number */
 
     bool fixed_step_size = false; /**< auto-stepping */
 
@@ -90,12 +90,12 @@ public:
     void set_ini_step_size(const double&);
     void set_min_step_size(const double&);
     void set_max_step_size(const double&);
-    void set_max_iteration(const unsigned&);
+    void set_max_substep(const unsigned&);
 
     const double& get_ini_step_size() const;
     const double& get_min_step_size() const;
     const double& get_max_step_size() const;
-    const unsigned& get_max_iteration() const;
+    const unsigned& get_max_substep() const;
 
     const bool& is_fixed_step_size() const;
     void set_fixed_step_size(const bool&);

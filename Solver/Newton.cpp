@@ -36,28 +36,33 @@ int Newton::analyze(const unsigned& ST) {
 
     auto& max_iteration = C->get_max_iteration();
 
+    // iteration counter
     unsigned counter = 0;
 
     while(true) {
-        // update for nodes and elements
-        G->update_trial_status();
-        // assemble resistance and stiffness
-        G->update_resistance();
-        G->update_stiffness();
+        // assemble resistance
+        G->assemble_resistance();
+        // assemble stiffness
+        G->assemble_stiffness();
         // process constraints and loads
         G->process(ST);
 
         // call solver
         const auto flag = update_status();
-
+        // make sure lapack solver succeeds
         if(flag != 0) return flag;
-        if(C->if_converged()) return 0;
-        if(++counter > max_iteration) return -1;
 
-        // update trial status for factory
-        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         // avoid machine error accumulation
         G->erase_machine_error();
+        // update trial status for factory
+        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+        // update for nodes and elements
+        G->update_trial_status();
+
+        // exit if converged
+        if(C->if_converged()) return 0;
+        // exit if maximum iteration is hit
+        if(++counter > max_iteration) return -1;
     }
 }
 

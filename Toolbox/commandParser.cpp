@@ -444,7 +444,7 @@ int set_property(const shared_ptr<Bead>& model, istringstream& command) {
     } else if(if_equal(property_id, "max_iteration")) {
         unsigned max_number;
         if(get_input(command, max_number))
-            tmp_step->set_max_iteration(max_number);
+            tmp_step->set_max_substep(max_number);
         else
             suanpan_info("set_property() need a valid value.\n");
     }
