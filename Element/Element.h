@@ -33,10 +33,6 @@
 #include <Domain/Tag.h>
 #include <Material/Material.h> // for derived class
 
-// class DomainBase;
-// class Material;
-// class Node;
-
 class Element : public Tag {
     const unsigned num_node; /**< number of nodes */
     const unsigned num_dof;  /**< number of DoFs */
@@ -57,6 +53,8 @@ protected:
 
     vector<weak_ptr<Node>> node_ptr; /**< node pointers */
 public:
+    const bool initialized = false;
+
     explicit Element(const unsigned& = 0, const unsigned& = CT_ELEMENT, const unsigned& = 0, const unsigned& = 0, const uvec& = {}, const uvec& = {}, const bool& = false);
     Element(const Element&) = delete;
     Element(Element&&) = delete;

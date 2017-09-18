@@ -25,14 +25,14 @@ Newton::Newton(const unsigned& T, const shared_ptr<Converger>& C, const shared_p
     : Solver(T, CT_NEWTON, C, G) {}
 
 int Newton::update_status() {
-    auto& W = get_integrator()->get_domain()->get_factory();
+    const auto W = get_integrator()->get_domain()->get_factory().lock();
     return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
 }
 
 int Newton::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& W = G->get_domain()->get_factory();
+    const auto& W = G->get_domain()->get_factory().lock();
 
     auto& max_iteration = C->get_max_iteration();
 

@@ -33,7 +33,7 @@ int BFGS::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
     auto& D = C->get_domain();
-    auto& W = D->get_factory();
+    const auto& W = D->get_factory().lock();
 
     auto& max_iteration = C->get_max_iteration();
 

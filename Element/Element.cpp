@@ -30,6 +30,22 @@ Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, cons
 Element::~Element() { suanpan_debug("Element %u dtor() called.\n", get_tag()); }
 
 void Element::initialize(const shared_ptr<DomainBase>& D) {
+    if(node_ptr.size() == num_node) {
+        auto code = 0;
+        for(unsigned I = 0; I < num_node; ++I) {
+            const auto t_node = node_ptr[I].lock();
+            if(t_node == nullptr || !t_node->is_active()) {
+                D->disable_element(get_tag());
+                return;
+            }
+            if(node_encoding(I) != t_node->get_tag()) {
+                code = 1;
+                break;
+            }
+        }
+        if(code == 0) return;
+    }
+
     const auto total_dof = num_node * num_dof;
 
     if(total_dof == 0) {
@@ -44,9 +60,8 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
     stiffness.zeros(total_dof, total_dof);
     initial_stiffness.zeros(total_dof, total_dof);
 
-    // CHECK NODE VALIDITY
+    // check if nodes are still valid
     node_ptr.clear();
-    node_ptr.reserve(num_node);
     for(const auto& tmp_tag : node_encoding) {
         auto& tmp_node = D->get_node(unsigned(tmp_tag));
         if(tmp_node == nullptr || !tmp_node->is_active()) {
@@ -58,7 +73,7 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
         node_ptr.push_back(tmp_node);
     }
 
-    // CHECK MATERIAL PROTOTYPE VALIDITY
+    // check if material models are valid
     for(const auto& tmp_materail : material_tag)
         if(!D->find_material(unsigned(tmp_materail))) {
             suanpan_debug("Element %u cannot find valid Material %u, now disable it.\n", get_tag(), unsigned(tmp_materail));

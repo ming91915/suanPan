@@ -32,18 +32,18 @@ Domain::Domain(const unsigned& T)
 
 Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
 
-void Domain::set_factory(const shared_ptr<Factory<double>>& F) {
-    if(factory != F) {
+void Domain::set_factory(const weak_ptr<Factory<double>>& F) {
+    if(factory.lock() != F.lock()) {
         factory = F;
         updated = false;
     }
 }
 
-const shared_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
+const weak_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
 
-void Domain::set_step_anchor(const shared_ptr<map<unsigned, shared_ptr<Step>>>& S) { step_anchor = S; }
+void Domain::set_step_anchor(const weak_ptr<map<unsigned, shared_ptr<Step>>>& S) { step_anchor = S; }
 
-const shared_ptr<map<unsigned, shared_ptr<Step>>>& Domain::get_step_anchor() { return step_anchor; }
+const weak_ptr<map<unsigned, shared_ptr<Step>>>& Domain::get_step_anchor() { return step_anchor; }
 
 bool Domain::insert(const shared_ptr<Amplitude>& A) {
     if(updated) updated = false;
@@ -326,16 +326,20 @@ int Domain::initialize() {
 
     // INITIALIZE DERIVED ELEMENTS
     for(const auto& t_element : element_pond.get()) {
-        t_element->initialize(shared_from_this());
+        if(!t_element->initialized) {
+            t_element->initialize(shared_from_this());
+            access::rw(t_element->initialized) = true;
+        }
         t_element->update_dof_encoding();
     }
 
-    if(factory == nullptr)
-        factory = make_shared<Factory<double>>(dof_counter);
-    else
-        factory->set_size(dof_counter);
+    const auto& t_factory = factory.lock();
 
-    factory->set_bandwidth(static_cast<unsigned>(low_bw), static_cast<unsigned>(-up_bw));
+    if(t_factory == nullptr) return -1;
+
+    t_factory->set_size(dof_counter);
+
+    t_factory->set_bandwidth(unsigned(low_bw), unsigned(-up_bw));
 
     updated = true;
 
@@ -347,7 +351,7 @@ void Domain::process() {
     restrained_dofs.clear();
     constrained_dofs.clear();
 
-    get_trial_load(factory).zeros();
+    get_trial_load(factory.lock()).zeros();
 
     for(const auto& I : load_pond.get()) I->process(shared_from_this());
     for(const auto& I : constraint_pond.get()) I->process(shared_from_this());
@@ -359,6 +363,7 @@ void Domain::record() {
 
 void Domain::enable_all() {
     if(updated) updated = false;
+
     constraint_pond.enable();
     element_pond.enable();
     load_pond.enable();
@@ -373,41 +378,50 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    get_trial_resistance(factory).zeros();
-    for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    auto t_factory = factory.lock();
+    get_trial_resistance(t_factory).zeros();
+    for(const auto& I : element_pond.get()) t_factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::assemble_mass() const {
-    factory->clear_mass();
-    for(const auto& I : element_pond.get()) factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
+    auto t_factory = factory.lock();
+    t_factory->clear_mass();
+    for(const auto& I : element_pond.get()) t_factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::assemble_initial_stiffness() const {
-    factory->clear_stiffness();
-    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
+    auto t_factory = factory.lock();
+    t_factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_stiffness() const {
-    factory->clear_stiffness();
-    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
+    auto t_factory = factory.lock();
+    t_factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_damping() const {
-    factory->clear_damping();
-    for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
+    auto t_factory = factory.lock();
+    t_factory->clear_damping();
+    for(const auto& I : element_pond.get()) t_factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
 void Domain::erase_machine_error() const {
-    auto& t_ninja = get_ninja(factory);
+    const auto t_factory = factory.lock();
+    auto& t_ninja = get_ninja(t_factory);
     for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
 void Domain::update_trial_status() const {
-    auto& trial_dsp = factory->get_trial_displacement();
-    auto& trial_vel = factory->get_trial_velocity();
-    auto& trial_acc = factory->get_trial_acceleration();
+    const auto t_factory = factory.lock();
+    const auto& analysis_type = t_factory->get_analysis_type();
 
-    if(factory->get_analysis_type() == AnalysisType::STATICS) {
+    auto& trial_dsp = t_factory->get_trial_displacement();
+    auto& trial_vel = t_factory->get_trial_velocity();
+    auto& trial_acc = t_factory->get_trial_acceleration();
+
+    if(analysis_type == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
 #pragma omp parallel for
@@ -415,7 +429,7 @@ void Domain::update_trial_status() const {
 #else
         for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
 #endif
-    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
+    } else if(analysis_type == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
 #pragma omp parallel for
@@ -435,11 +449,14 @@ void Domain::update_trial_status() const {
 }
 
 void Domain::update_incre_status() const {
-    auto& incre_dsp = factory->get_incre_displacement();
-    auto& incre_vel = factory->get_incre_velocity();
-    auto& incre_acc = factory->get_incre_acceleration();
+    const auto t_factory = factory.lock();
+    const auto& analysis_type = t_factory->get_analysis_type();
 
-    if(factory->get_analysis_type() == AnalysisType::STATICS) {
+    auto& incre_dsp = t_factory->get_incre_displacement();
+    auto& incre_vel = t_factory->get_incre_velocity();
+    auto& incre_acc = t_factory->get_incre_acceleration();
+
+    if(analysis_type == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
 #pragma omp parallel for
@@ -447,7 +464,7 @@ void Domain::update_incre_status() const {
 #else
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
 #endif
-    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
+    } else if(analysis_type == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
 #pragma omp parallel for
@@ -467,18 +484,21 @@ void Domain::update_incre_status() const {
 }
 
 void Domain::update_current_status() const {
-    vec c_g_dsp(factory->get_size(), fill::zeros);
-    vec c_g_vel(factory->get_size(), fill::zeros);
-    vec c_g_acc(factory->get_size(), fill::zeros);
+    auto t_factory = factory.lock();
+    const auto& analysis_type = t_factory->get_analysis_type();
 
-    if(factory->get_analysis_type() == AnalysisType::STATICS) {
+    vec c_g_dsp(t_factory->get_size(), fill::zeros);
+    vec c_g_vel(t_factory->get_size(), fill::zeros);
+    vec c_g_acc(t_factory->get_size(), fill::zeros);
+
+    if(analysis_type == AnalysisType::STATICS) {
         for(const auto& I : node_pond.get()) {
             auto& t_dof = I->get_reordered_dof();
             auto& current_dsp = I->get_current_displacement();
             for(auto J = 0; J < t_dof.size(); ++J) c_g_dsp(t_dof(J)) = current_dsp(J);
         }
-        factory->update_current_displacement(c_g_dsp);
-    } else if(factory->get_analysis_type() == AnalysisType::DYNAMICS) {
+        t_factory->update_current_displacement(c_g_dsp);
+    } else if(analysis_type == AnalysisType::DYNAMICS) {
         for(const auto& I : node_pond.get()) {
             auto& t_dof = I->get_reordered_dof();
             auto& current_dsp = I->get_current_displacement();
@@ -490,14 +510,16 @@ void Domain::update_current_status() const {
                 c_g_acc(t_dof(J)) = current_acc(J);
             }
         }
-        factory->update_current_displacement(c_g_dsp);
-        factory->update_current_velocity(c_g_vel);
-        factory->update_current_acceleration(c_g_acc);
+        t_factory->update_current_displacement(c_g_dsp);
+        t_factory->update_current_velocity(c_g_vel);
+        t_factory->update_current_acceleration(c_g_acc);
     }
 }
 
 void Domain::commit_status() const {
-    factory->commit_status();
+    auto t_factory = factory.lock();
+
+    t_factory->commit_status();
 
 #ifdef SUANPAN_OPENMP
     auto& t_node = node_pond.get();
@@ -514,7 +536,9 @@ void Domain::commit_status() const {
 }
 
 void Domain::clear_status() const {
-    factory->clear_status();
+    auto t_factory = factory.lock();
+
+    t_factory->clear_status();
 
 #ifdef SUANPAN_OPENMP
     auto& t_node = node_pond.get();
@@ -537,7 +561,9 @@ void Domain::clear_status() const {
 }
 
 void Domain::reset_status() const {
-    factory->reset_status();
+    auto t_factory = factory.lock();
+
+    t_factory->reset_status();
 
 #ifdef SUANPAN_OPENMP
     auto& tmp_pond_n = node_pond.get();

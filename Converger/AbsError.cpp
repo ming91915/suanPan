@@ -45,7 +45,7 @@ AbsError::AbsError(const shared_ptr<DomainBase>& D, const double& E, const unsig
  * \return `conv_flag`
  */
 const bool& AbsError::if_converged() {
-    set_error(get_domain()->get_factory()->get_error());
+    set_error(get_domain()->get_factory().lock()->get_error());
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("absolute error: %.5E.\n", get_error());

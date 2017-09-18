@@ -39,6 +39,8 @@ using std::vector;
 class DomainBase;
 
 class Node final : public Tag {
+    bool initialized = false;
+
     unsigned num_dof = 0; /**< number of DoFs */
 
     vec coordinate; /**< coordinates of the node */

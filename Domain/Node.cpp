@@ -73,37 +73,45 @@ Node::~Node() { suanpan_debug("Node %u dtor() called.\n", get_tag()); }
  * \brief This method should be called after Element objects are set. Element objects will set the minimum number of DoFs for all related Node objects. This method initialize all member variables with the size of `num_dof` and fill `original_dof` with `-1` to indicated it should be omitted from the system. Finally check if the size of `coordinate` is the same of `num_dof`, if not, resize it to `num_dof`. This will be necessary for beam/plate/shell problems which have more DoFs than coordinates.
  */
 void Node::initialize(const shared_ptr<DomainBase>& D) {
-    if(is_active())
-        if(num_dof != 0) {
-            original_dof.zeros(num_dof);
-            original_dof.fill(static_cast<uword>(-1));
+    if(initialized || !is_active()) return;
 
-            reordered_dof.reset();
+    if(num_dof != 0) {
+        original_dof.zeros(num_dof);
+        original_dof.fill(static_cast<uword>(-1));
 
-            current_displacement.resize(num_dof);
-            current_velocity.resize(num_dof);
-            current_acceleration.resize(num_dof);
+        reordered_dof.reset();
 
-            incre_displacement.resize(num_dof);
-            incre_velocity.resize(num_dof);
-            incre_acceleration.resize(num_dof);
+        current_displacement.resize(num_dof);
+        current_velocity.resize(num_dof);
+        current_acceleration.resize(num_dof);
 
-            trial_displacement.resize(num_dof);
-            trial_velocity.resize(num_dof);
-            trial_acceleration.resize(num_dof);
+        incre_displacement.resize(num_dof);
+        incre_velocity.resize(num_dof);
+        incre_acceleration.resize(num_dof);
 
-            // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
-        } else {
-            suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
-            D->disable_node(get_tag());
-        }
+        trial_displacement.resize(num_dof);
+        trial_velocity.resize(num_dof);
+        trial_acceleration.resize(num_dof);
+
+        // if(num_dof > coordinate.n_elem) coordinate.resize(num_dof);
+    } else {
+        suanpan_debug("Node %u is not used in the problem, now disable it.\n", get_tag());
+        D->disable_node(get_tag());
+    }
+
+    initialized = true;
 }
 
 /**
  * \brief Method to set `num_dof`.
  * \param D `num_dof`
  */
-void Node::set_dof_number(const unsigned& D) { num_dof = D; }
+void Node::set_dof_number(const unsigned& D) {
+    if(num_dof != D) {
+        num_dof = D;
+        initialized = false;
+    }
+}
 
 /**
  * \brief Method to return `num_dof`.
@@ -116,15 +124,38 @@ const unsigned& Node::get_dof_number() const { return num_dof; }
  * \param F Current Index Counter
  */
 void Node::set_original_dof(unsigned& F) {
-    if(is_active())
-        for(unsigned I = 0; I < num_dof; ++I) original_dof(I) = F++;
+    if(!is_active()) return;
+
+    for(unsigned I = 0; I < num_dof; ++I) {
+        if(original_dof(I) != F) {
+            original_dof(I) = F;
+            initialized = false;
+        }
+        F++;
+    }
 }
 
 /**
  * \brief Method to set `original_dof`.
  * \param D `original_dof`
  */
-void Node::set_original_dof(const uvec& D) { original_dof = D; }
+void Node::set_original_dof(const uvec& D) {
+    if(original_dof.size() != D.size()) {
+        original_dof = D;
+        initialized = false;
+    } else {
+        auto code = 0;
+        for(auto I = 0; I < D.size(); ++I)
+            if(original_dof(I) != D(I)) {
+                code += 1;
+                break;
+            }
+        if(code != 0) {
+            original_dof = D;
+            initialized = false;
+        }
+    }
+}
 
 /**
  * \brief Method to return `original_dof`.

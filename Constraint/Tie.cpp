@@ -35,17 +35,19 @@ Tie::Tie(const unsigned& S, const unsigned& NA, const unsigned& DA, const unsign
     , dof_j(DB) {}
 
 int Tie::process(const shared_ptr<DomainBase>& D) {
-    const auto tmp_max = D->get_factory()->get_stiffness()->max();
+    const auto& t_factory = D->get_factory().lock();
 
-    auto& tmp_dof_i = D->get_node(node_i)->get_reordered_dof().at(dof_i - 1);
-    auto& tmp_dof_j = D->get_node(node_j)->get_reordered_dof().at(dof_j - 1);
+    const auto t_max = t_factory->get_stiffness()->max();
 
-    auto& tmp_matrix = get_stiffness(D->get_factory());
+    auto& t_dof_i = D->get_node(node_i)->get_reordered_dof().at(dof_i - 1);
+    auto& t_dof_j = D->get_node(node_j)->get_reordered_dof().at(dof_j - 1);
 
-    tmp_matrix(tmp_dof_i, tmp_dof_i) += tmp_max;
-    tmp_matrix(tmp_dof_j, tmp_dof_j) += tmp_max;
-    tmp_matrix(tmp_dof_i, tmp_dof_j) -= tmp_max;
-    tmp_matrix(tmp_dof_j, tmp_dof_i) -= tmp_max;
+    auto& t_matrix = get_stiffness(t_factory);
+
+    t_matrix(t_dof_i, t_dof_i) += t_max;
+    t_matrix(t_dof_j, t_dof_j) += t_max;
+    t_matrix(t_dof_i, t_dof_j) -= t_max;
+    t_matrix(t_dof_j, t_dof_i) -= t_max;
 
     return 0;
 }

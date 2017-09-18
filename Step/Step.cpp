@@ -38,7 +38,7 @@ int Step::initialize() {
         return -1;
     }
 
-    if(factory == nullptr) factory = database->get_factory();
+    if(factory == nullptr) factory = database->get_factory().lock();
     if(factory == nullptr) factory = make_shared<Factory<double>>();
     if(solver == nullptr) solver = make_shared<Newton>();
     if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);

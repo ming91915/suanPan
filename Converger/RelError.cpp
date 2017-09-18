@@ -45,9 +45,9 @@ RelError::RelError(const shared_ptr<DomainBase>& D, const double& E, const unsig
  * \return `conv_flag`
  */
 const bool& RelError::if_converged() {
-    auto& tmp_workroom = get_domain()->get_factory();
+    const auto& t_factory = get_domain()->get_factory().lock();
 
-    set_error(tmp_workroom->get_error() / norm(tmp_workroom->get_trial_displacement()));
+    set_error(t_factory->get_error() / norm(t_factory->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("relative error: %.5E.\n", get_error());

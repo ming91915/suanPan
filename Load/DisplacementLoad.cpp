@@ -34,12 +34,12 @@ DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const 
     , dofs(D) {}
 
 int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
-    auto& W = D->get_factory();
+    const auto& t_factory = D->get_factory().lock();
 
-    const auto final_load = pattern * magnitude->get_amplitude(W->get_trial_time());
+    const auto final_load = pattern * magnitude->get_amplitude(t_factory->get_trial_time());
 
-    auto& t_stiff = get_stiffness(W);
-    auto& t_load = get_trial_load(W);
+    auto& t_stiff = get_stiffness(t_factory);
+    auto& t_load = get_trial_load(t_factory);
 
     for(const auto& I : nodes) {
         auto& t_node = D->get_node(static_cast<unsigned>(I));
@@ -55,12 +55,12 @@ int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
                         } else
                             t_stiff(t_idx, t_idx) *= multiplier;
                     }
-                    t_load(t_idx) = t_stiff(t_idx, t_idx) * (final_load - W->get_trial_displacement().at(t_idx)); // add unbalanced eqv. load
+                    t_load(t_idx) = t_stiff(t_idx, t_idx) * (final_load - t_factory->get_trial_displacement().at(t_idx)); // add unbalanced eqv. load
                 }
         }
     }
 
-    W->set_incre_load(t_load - W->get_current_load());
+    t_factory->set_incre_load(t_load - t_factory->get_current_load());
 
     return 0;
 }

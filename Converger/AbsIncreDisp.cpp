@@ -48,7 +48,7 @@ AbsIncreDisp::AbsIncreDisp(const double& E, const unsigned& M, const bool& P)
  * \return `conv_flag`
  */
 const bool& AbsIncreDisp::if_converged() {
-    set_error(norm(get_domain()->get_factory()->get_ninja()));
+    set_error(norm(get_domain()->get_factory().lock()->get_ninja()));
     set_conv_flag(get_tolerance() > get_error());
 
     if(if_print()) suanpan_info("absolute incremental displacement error: %.5E.\n", get_error());
