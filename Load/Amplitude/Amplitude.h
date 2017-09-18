@@ -64,6 +64,9 @@ public:
 
     void set_step_tag(const unsigned&);
     const unsigned& get_step_tag() const;
+
+    void set_start_time(const double&);
+    const double& set_start_time() const;
 };
 
 #endif

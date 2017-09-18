@@ -46,7 +46,7 @@ public:
 
     virtual int update_status() = 0;
 
-    virtual int analyze(const unsigned& = 0) = 0;
+    virtual int analyze() = 0;
 
     void set_converger(const shared_ptr<Converger>&);
     const shared_ptr<Converger>& get_converger() const;

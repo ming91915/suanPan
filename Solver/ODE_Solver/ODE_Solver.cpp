@@ -53,7 +53,7 @@ int ODE_Solver::initialize() {
 
 int ODE_Solver::update_status() { return -1; }
 
-int ODE_Solver::analyze(const unsigned&) {
+int ODE_Solver::analyze() {
     auto& tmp_converger = get_converger();
 
     auto factor = .2;

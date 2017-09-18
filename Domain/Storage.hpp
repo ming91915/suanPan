@@ -19,8 +19,6 @@ using std::unordered_map;
 using std::unordered_set;
 using std::vector;
 
-template <typename T> const char* StorageType() { return "Unknown"; }
-
 class Domain;
 class Solver;
 class Converger;
@@ -31,6 +29,8 @@ class Load;
 class Material;
 class Node;
 class Recorder;
+
+template <typename T> const char* StorageType() { return "Unknown"; }
 
 template <> inline const char* StorageType<Domain>() { return "Domain"; }
 template <> inline const char* StorageType<Solver>() { return "Solver"; }
@@ -43,7 +43,9 @@ template <> inline const char* StorageType<Material>() { return "Material"; }
 template <> inline const char* StorageType<Node>() { return "Node"; }
 template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
 
-template <typename T> class Storage {
+using std::enable_shared_from_this;
+
+template <typename T> class Storage : public enable_shared_from_this<Storage<T>> {
     using const_storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::const_iterator;
     using storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::iterator;
 
@@ -151,6 +153,17 @@ template <typename T> typename Storage<T>::const_storage_iterator cend(const Sto
 template <typename T> typename Storage<T>::storage_iterator begin(Storage<T>& S) { return S.begin(); }
 
 template <typename T> typename Storage<T>::storage_iterator end(Storage<T>& S) { return S.end(); }
+
+using DomainStorage = Storage<Domain>;
+using SolverStorage = Storage<Solver>;
+using ConvergerStorage = Storage<Converger>;
+using AmplitudeStorage = Storage<Amplitude>;
+using ConstraintStorage = Storage<Constraint>;
+using ElementStorage = Storage<Element>;
+using LoadStorage = Storage<Load>;
+using MaterialStorage = Storage<Material>;
+using NodeStorage = Storage<Node>;
+using RecorderStorage = Storage<Recorder>;
 
 #endif
 

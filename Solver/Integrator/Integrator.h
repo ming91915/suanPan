@@ -49,7 +49,7 @@ public:
 
     virtual int initialize();
 
-    virtual void process(const unsigned& = 0) const;
+    virtual void process() const;
 
     void record() const;
 

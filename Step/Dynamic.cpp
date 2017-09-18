@@ -36,7 +36,7 @@ int Dynamic::analyze() {
 
     while(true) {
         // check if the target time point is hit
-        if(time_left <= 1E-10) return 0;
+        if(time_left <= 1E-14) return 0;
         // check if the maximum substep number is hit
         if(++num_increment > get_max_substep()) {
             suanpan_warning("analyze() reaches maximum substep number %u.\n", get_max_substep());
@@ -45,7 +45,7 @@ int Dynamic::analyze() {
         // update incremental and trial time
         G->update_incre_time(step);
         // call solver
-        const auto code = S->analyze(get_tag());
+        const auto code = S->analyze();
         if(code == 0) { // success step
             // commit converged iteration
             G->commit_status();

@@ -29,7 +29,7 @@ BFGS::BFGS(const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
 
 int BFGS::update_status() { return 0; }
 
-int BFGS::analyze(const unsigned& ST) {
+int BFGS::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
     auto& D = C->get_domain();
@@ -63,7 +63,7 @@ int BFGS::analyze(const unsigned& ST) {
             // asemble stiffness for the first iteration
             G->assemble_stiffness();
             // process loads and constraints
-            G->process(ST);
+            G->process();
             // commit current residual
             hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
             // solve the system and commit current displacement increment

@@ -32,15 +32,12 @@
 #define DOMAINBASE_H
 
 #include <Domain/Tag.h>
-#include <unordered_map>
 #include <unordered_set>
 
 using std::map;
-using std::unordered_map;
 using std::unordered_set;
 using std::vector;
 
-template <typename T> class Storage;
 template <typename T> class Factory;
 class Step;
 class Amplitude;
@@ -138,7 +135,7 @@ public:
 
     virtual int initialize() = 0;
 
-    virtual void process(const unsigned& = 0) = 0;
+    virtual void process() = 0;
     virtual void record() = 0;
     virtual void enable_all() = 0;
     virtual void summary() const = 0;

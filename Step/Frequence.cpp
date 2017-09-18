@@ -61,7 +61,7 @@ int Frequence::analyze() {
     tmp_domain->update_trial_status();
     tmp_domain->assemble_mass();
     tmp_domain->assemble_stiffness();
-    tmp_domain->process(get_tag());
+    tmp_domain->process();
 
     return 0;
 }

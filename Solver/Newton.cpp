@@ -29,7 +29,7 @@ int Newton::update_status() {
     return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
 }
 
-int Newton::analyze(const unsigned& ST) {
+int Newton::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
     auto& W = G->get_domain()->get_factory();
@@ -45,7 +45,7 @@ int Newton::analyze(const unsigned& ST) {
         // assemble stiffness
         G->assemble_stiffness();
         // process constraints and loads
-        G->process(ST);
+        G->process();
 
         // call solver
         const auto flag = update_status();

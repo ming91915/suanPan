@@ -37,7 +37,7 @@ public:
 
     int update_status() override;
 
-    int analyze(const unsigned&) override;
+    int analyze() override;
 
     void print() override;
 };

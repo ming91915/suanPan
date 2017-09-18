@@ -42,7 +42,7 @@ int Integrator::initialize() {
     return 0;
 }
 
-void Integrator::process(const unsigned& ST) const { database->process(ST); }
+void Integrator::process() const { database->process(); }
 
 void Integrator::record() const { database->record(); }
 

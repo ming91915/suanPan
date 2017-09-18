@@ -258,8 +258,6 @@ const bool& Domain::is_updated() const { return updated; }
 int Domain::initialize() {
     if(updated) return 0;
 
-    updated = true;
-
     // RESET STATUS
     for(const auto& t_node : node_pond) t_node.second->set_dof_number(0);
 
@@ -339,20 +337,20 @@ int Domain::initialize() {
 
     factory->set_bandwidth(static_cast<unsigned>(low_bw), static_cast<unsigned>(-up_bw));
 
+    updated = true;
+
     return 0;
 }
 
-void Domain::process(const unsigned& ST) {
+void Domain::process() {
     loaded_dofs.clear();
     restrained_dofs.clear();
     constrained_dofs.clear();
 
     get_trial_load(factory).zeros();
 
-    for(const auto& I : load_pond.get())
-        if(I->get_step_tag() <= ST) I->process(shared_from_this());
-    for(const auto& I : constraint_pond.get())
-        if(I->get_step_tag() <= ST) I->process(shared_from_this());
+    for(const auto& I : load_pond.get()) I->process(shared_from_this());
+    for(const auto& I : constraint_pond.get()) I->process(shared_from_this());
 }
 
 void Domain::record() {

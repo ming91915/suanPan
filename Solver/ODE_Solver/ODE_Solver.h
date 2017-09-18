@@ -47,7 +47,7 @@ public:
 
     int initialize() override;
 
-    int analyze(const unsigned& = 0) final;
+    int analyze() final;
 
     int update_status() override = 0;
 

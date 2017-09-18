@@ -18,6 +18,7 @@
 #include "Load.h"
 #include <Domain/DomainBase.h>
 #include <Load/Amplitude/Ramp.h>
+#include <Step/Step.h>
 
 const double Load::multiplier = 1E6;
 
@@ -34,9 +35,18 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
     if(amplitude_tag == 0 || magnitude == nullptr) {
         auto t_tag = static_cast<unsigned>(D->get_amplitude()) + 1;
         while(D->find_amplitude(t_tag)) t_tag++;
-        magnitude = make_shared<Ramp>(t_tag, step_tag);
+        magnitude = make_shared<Ramp>(t_tag);
         D->insert(magnitude);
     }
+
+    auto start_time = 0.;
+    for(const auto& I : *D->get_step_anchor()) {
+        if(I.second->get_tag() >= step_tag) break;
+        start_time += I.second->get_time_period();
+    }
+
+    magnitude->set_step_tag(step_tag);
+    magnitude->set_start_time(start_time);
 
     return 0;
 }

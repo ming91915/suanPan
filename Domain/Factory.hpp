@@ -22,6 +22,8 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
 
 template <typename T> class Factory final {
+    bool initialized = false;
+
     unsigned n_size = 0; /**< number of DoFs */
     unsigned n_lobw = 0; /**< low bandwidth */
     unsigned n_upbw = 0; /**< up bandwidth */
@@ -324,22 +326,40 @@ Factory<T>::Factory(const unsigned& D, const AnalysisType& AT, const StorageSche
     , analysis_type(AT)
     , storage_type(SS) {}
 
-template <typename T> void Factory<T>::set_size(const unsigned& D) { n_size = D; }
+template <typename T> void Factory<T>::set_size(const unsigned& D) {
+    if(n_size != D) {
+        n_size = D;
+        initialized = false;
+    }
+}
 
 template <typename T> const unsigned& Factory<T>::get_size() const { return n_size; }
 
-template <typename T> void Factory<T>::set_analysis_type(const AnalysisType& AT) { analysis_type = AT; }
+template <typename T> void Factory<T>::set_analysis_type(const AnalysisType& AT) {
+    if(analysis_type != AT) {
+        analysis_type = AT;
+        initialized = false;
+    }
+}
 
 template <typename T> const AnalysisType& Factory<T>::get_analysis_type() const { return analysis_type; }
 
-template <typename T> void Factory<T>::set_storage_scheme(const StorageScheme& SS) { storage_type = SS; }
+template <typename T> void Factory<T>::set_storage_scheme(const StorageScheme& SS) {
+    if(storage_type != SS) {
+        storage_type = SS;
+        initialized = false;
+    }
+}
 
 template <typename T> const StorageScheme& Factory<T>::get_storage_scheme() const { return storage_type; }
 
 template <typename T> void Factory<T>::set_bandwidth(const unsigned& L, const unsigned& U) {
-    n_lobw = L;
-    n_upbw = U;
-    n_sfbw = L + U;
+    if(n_lobw != L || n_upbw != U) {
+        n_lobw = L;
+        n_upbw = U;
+        n_sfbw = L + U;
+        initialized = false;
+    }
 }
 
 template <typename T> void Factory<T>::get_bandwidth(unsigned& L, unsigned& U) const {
@@ -352,6 +372,7 @@ template <typename T> void Factory<T>::set_error(const T& E) { error = E; }
 template <typename T> const T& Factory<T>::get_error() const { return error; }
 
 template <typename T> int Factory<T>::initialize() {
+    if(initialized) return 0;
     if(n_size == 0) return 0;
 
     ninja.zeros(n_size);
@@ -384,6 +405,8 @@ template <typename T> int Factory<T>::initialize() {
     case AnalysisType::NONE:
         break;
     }
+
+    initialized = true;
 
     return 0;
 }

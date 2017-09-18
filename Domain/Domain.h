@@ -31,16 +31,6 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Storage.hpp>
 
-using AmplitudeStorage = Storage<Amplitude>;
-using ConstraintStorage = Storage<Constraint>;
-using ElementStorage = Storage<Element>;
-using LoadStorage = Storage<Load>;
-using MaterialStorage = Storage<Material>;
-using NodeStorage = Storage<Node>;
-using RecorderStorage = Storage<Recorder>;
-
-using std::enable_shared_from_this;
-
 class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     bool updated = false;
 
@@ -162,7 +152,7 @@ public:
     // initialize the domain
     int initialize() override;
     // process loads and constraints
-    void process(const unsigned& = 0) override;
+    void process() override;
     // record response
     void record() override;
     // enable all objects

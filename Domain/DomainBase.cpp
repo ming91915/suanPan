@@ -101,7 +101,7 @@ DomainBase::~DomainBase() {}
 //
 // int DomainBase::initialize() { throw; }
 //
-// void DomainBase::process(const unsigned&) { throw; }
+// void DomainBase::process() { throw; }
 // void DomainBase::record() { throw; }
 // void DomainBase::enable_all() { throw; }
 // void DomainBase::summary() const { throw; }

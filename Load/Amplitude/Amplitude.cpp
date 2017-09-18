@@ -35,3 +35,7 @@ double Amplitude::get_amplitude(const double& T) {
 void Amplitude::set_step_tag(const unsigned& T) { step_tag = T; }
 
 const unsigned& Amplitude::get_step_tag() const { return step_tag; }
+
+void Amplitude::set_start_time(const double& T) { start_time = T; }
+
+const double& Amplitude::set_start_time() const { return start_time; }
