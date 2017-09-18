@@ -16,3 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Rectangle.h"
+
+Rectangle::Rectangle(const unsigned& T)
+    : Section(T, ST_RECTANGLE)
+    , width(0)
+    , height(0) {}
+
+void Rectangle::print() { suanpan_info("A Rectangle Section.\n"); }

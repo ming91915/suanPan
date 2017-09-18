@@ -27,6 +27,14 @@ cload 1 2E4 2 2
 
 converger AbsIncreDisp 1 1E-5 10 1
 
+step static 2
+
+set ini_step_size .5
+set fixed_step_size true
+converger AbsIncreDisp 2 1E-5 10 1
+
+cload 2 2E4 2 2
+
 analyze
 
 peek node 2

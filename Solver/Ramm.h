@@ -29,10 +29,12 @@
 #include "Solver.h"
 
 class Ramm : public Solver {
-public:
-    Ramm() {}
+    double scalar = 0.;
 
-    ~Ramm() {}
+public:
+    Ramm();
+
+    ~Ramm();
 };
 
 #endif

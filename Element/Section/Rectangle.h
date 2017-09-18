@@ -32,14 +32,9 @@ class Rectangle : public Section {
     const double width, height;
 
 public:
-    explicit Rectangle(const unsigned& T = 0)
-        : Section(T, ST_RECTANGLE)
-        , width(0)
-        , height(0) {}
+    explicit Rectangle(const unsigned& = 0);
 
-    virtual ~Rectangle() {}
-
-    void print() override {}
+    void print() override;
 };
 
 #endif
