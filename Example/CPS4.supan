@@ -5104,7 +5104,7 @@ element CP4 2499 2548 2549 2600 2599 1 1
 element CP4 2500 2549 2550 2601 2600 1 1
 
 step static 1
-set ini_step_size .01
+set ini_step_size .1
 set fixed_step_size true
 
 # solver newton 1

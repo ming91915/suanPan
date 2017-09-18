@@ -47,7 +47,7 @@ int Dynamic::analyze() {
         // call solver
         const auto code = S->analyze(get_tag());
         if(code == 0) { // success step
-                        // commit converged iteration
+            // commit converged iteration
             G->commit_status();
             // record response
             G->record();
@@ -56,7 +56,7 @@ int Dynamic::analyze() {
             // check if time overflows
             if(step > time_left) step = time_left;
         } else if(code == -1) { // failed step
-                                // reset to the start of current substep
+            // reset to the start of current substep
             G->reset_status();
             // check if minimum step size is hit
             if(step <= get_min_step_size()) {

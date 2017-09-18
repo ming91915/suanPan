@@ -56,7 +56,7 @@ int Static::analyze() {
             // check if time overflows
             if(step > time_left) step = time_left;
         } else if(code == -1) { // failed step
-                                // reset to the start of current substep
+            // reset to the start of current substep
             G->reset_status();
             // check if minimum step size is hit
             if(step <= get_min_step_size()) {

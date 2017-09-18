@@ -5,6 +5,8 @@ suanPan
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7cb47e58d7dc4c1680c2205c4ba02e72)](https://www.codacy.com/app/TLCFEM/suanPan?utm_source=github.com&utm_medium=referral&utm_content=TLCFEM/suanPan&utm_campaign=Badge_Grade)
 [![Build status](https://ci.appveyor.com/api/projects/status/mi0hh9inkb30yewj?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan)
 [![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan)
+[![codecov](https://codecov.io/gh/TLCFEM/suanPan/branch/master/graph/badge.svg)](https://codecov.io/gh/TLCFEM/suanPan)
+
 
 Intro
 -----

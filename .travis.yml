@@ -15,8 +15,8 @@ script:
   - cd cmake-build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DTEST_COVERAGE=ON ../
   - make
-  - ./suanPan -f ../Example/CPS4.supan
-  - for SRC in `find . | egrep '\.o'`; do gcov-6 $SRC; done
+  - ./suanPan -f ../Example/TEST.COV
+  - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC; done
 before_install:
   - eval "${MATRIX_EVAL}"
 after_success: 
