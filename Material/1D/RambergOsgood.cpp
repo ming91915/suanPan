@@ -55,9 +55,11 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
-    auto reverse_strain = current_history(0);
-    auto reverse_stress = current_history(1);
-    auto load_sign = current_history(2);
+    trial_history = current_history;
+
+    auto& reverse_strain = trial_history(0);
+    auto& reverse_stress = trial_history(1);
+    auto& load_sign = trial_history(2);
 
     const auto trial_load_sign = sign(incre_strain(0));
     if(trial_load_sign != load_sign) {
@@ -79,10 +81,6 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
     }
 
     trial_stress = load_sign * norm_stress + reverse_stress;
-
-    trial_history(0) = reverse_strain;
-    trial_history(1) = reverse_stress;
-    trial_history(2) = load_sign;
 
     return 0;
 }

@@ -20,11 +20,30 @@
 
 #include <Material/Material.h>
 
+enum class BackboneType { THORENFELDT, POPOVICS, TSAI };
+
 class Concrete01 : public Material {
+    const double peak_strain, peak_stress;
+    const BackboneType backbone_type;
+
+    double M = 0.;
+    double N = 0.;
+
+    bool on_backbone = true;
+
+    double current_reverse_strain = 0.;
+    double current_reverse_stress = 0.;
+    double trial_reverse_strain = 0.;
+    double trial_reverse_stress = 0.;
+
+    void compute_backbone();
+
 public:
-    Concrete01(const unsigned& T, const double& E)
-        : Material(T, MT_CONCRETE01) {
-        initial_stiffness = E;
+    Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP)
+        : Material(T, MT_CONCRETE01)
+        , peak_strain(EP)
+        , peak_stress(SP)
+        , backbone_type(TP) {
         Concrete01::initialize();
     }
 
@@ -32,6 +51,7 @@ public:
 
     unique_ptr<Material> get_copy() override;
 
+    int update_incre_status(const vec&) override;
     int update_trial_status(const vec&) override;
 
     int clear_status() override;

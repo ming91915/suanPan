@@ -23,18 +23,6 @@ fix 3 2 3
 cload 1 2E4 2 2
 # disp 2 0.2147 2 2
 
-# solver BFGS 1
-
-converger AbsIncreDisp 1 1E-5 10 1
-
-step static 2
-
-set ini_step_size .5
-set fixed_step_size true
-converger AbsIncreDisp 2 1E-5 10 1
-
-cload 2 2E4 2 2
-
 analyze
 
 peek node 2
