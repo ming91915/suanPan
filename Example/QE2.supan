@@ -34,15 +34,11 @@ fix 3 3 1
 cload 1 150 2 6 12
 cload 2 -150 2 7
 
-solver newton 1
-
-converger AbsResidual 1 1E-6 7 1
-
 analyze
 
 peek node 6
 
-# peek element 2
+# peek element 1
 
 # peek recorder 1
 

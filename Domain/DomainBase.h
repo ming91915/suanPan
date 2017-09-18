@@ -54,105 +54,105 @@ public:
     explicit DomainBase(const unsigned&);
     virtual ~DomainBase();
 
-    virtual void set_factory(const shared_ptr<Factory<double>>&);
-    virtual const shared_ptr<Factory<double>>& get_factory() const;
+    virtual void set_factory(const shared_ptr<Factory<double>>&) = 0;
+    virtual const shared_ptr<Factory<double>>& get_factory() const = 0;
 
-    virtual bool insert(const shared_ptr<Amplitude>&);
-    virtual bool insert(const shared_ptr<Constraint>&);
-    virtual bool insert(const shared_ptr<Element>&);
-    virtual bool insert(const shared_ptr<Load>&);
-    virtual bool insert(const shared_ptr<Material>&);
-    virtual bool insert(const shared_ptr<Node>&);
-    virtual bool insert(const shared_ptr<Recorder>&);
+    virtual bool insert(const shared_ptr<Amplitude>&) = 0;
+    virtual bool insert(const shared_ptr<Constraint>&) = 0;
+    virtual bool insert(const shared_ptr<Element>&) = 0;
+    virtual bool insert(const shared_ptr<Load>&) = 0;
+    virtual bool insert(const shared_ptr<Material>&) = 0;
+    virtual bool insert(const shared_ptr<Node>&) = 0;
+    virtual bool insert(const shared_ptr<Recorder>&) = 0;
 
-    virtual bool erase_amplitude(const unsigned&);
-    virtual bool erase_constraint(const unsigned&);
-    virtual bool erase_element(const unsigned&);
-    virtual bool erase_load(const unsigned&);
-    virtual bool erase_material(const unsigned&);
-    virtual bool erase_node(const unsigned&);
-    virtual bool erase_recorder(const unsigned&);
+    virtual bool erase_amplitude(const unsigned&) = 0;
+    virtual bool erase_constraint(const unsigned&) = 0;
+    virtual bool erase_element(const unsigned&) = 0;
+    virtual bool erase_load(const unsigned&) = 0;
+    virtual bool erase_material(const unsigned&) = 0;
+    virtual bool erase_node(const unsigned&) = 0;
+    virtual bool erase_recorder(const unsigned&) = 0;
 
-    virtual void disable_amplitude(const unsigned&);
-    virtual void disable_constraint(const unsigned&);
-    virtual void disable_element(const unsigned&);
-    virtual void disable_load(const unsigned&);
-    virtual void disable_material(const unsigned&);
-    virtual void disable_node(const unsigned&);
-    virtual void disable_recorder(const unsigned&);
+    virtual void disable_amplitude(const unsigned&) = 0;
+    virtual void disable_constraint(const unsigned&) = 0;
+    virtual void disable_element(const unsigned&) = 0;
+    virtual void disable_load(const unsigned&) = 0;
+    virtual void disable_material(const unsigned&) = 0;
+    virtual void disable_node(const unsigned&) = 0;
+    virtual void disable_recorder(const unsigned&) = 0;
 
-    virtual void enable_amplitude(const unsigned&);
-    virtual void enable_constraint(const unsigned&);
-    virtual void enable_element(const unsigned&);
-    virtual void enable_load(const unsigned&);
-    virtual void enable_material(const unsigned&);
-    virtual void enable_node(const unsigned&);
-    virtual void enable_recorder(const unsigned&);
+    virtual void enable_amplitude(const unsigned&) = 0;
+    virtual void enable_constraint(const unsigned&) = 0;
+    virtual void enable_element(const unsigned&) = 0;
+    virtual void enable_load(const unsigned&) = 0;
+    virtual void enable_material(const unsigned&) = 0;
+    virtual void enable_node(const unsigned&) = 0;
+    virtual void enable_recorder(const unsigned&) = 0;
 
-    virtual const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const;
-    virtual const shared_ptr<Constraint>& get_constraint(const unsigned&) const;
-    virtual const shared_ptr<Element>& get_element(const unsigned&) const;
-    virtual const shared_ptr<Load>& get_load(const unsigned&) const;
-    virtual const shared_ptr<Material>& get_material(const unsigned&) const;
-    virtual const shared_ptr<Node>& get_node(const unsigned&) const;
-    virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const;
+    virtual const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const = 0;
+    virtual const shared_ptr<Constraint>& get_constraint(const unsigned&) const = 0;
+    virtual const shared_ptr<Element>& get_element(const unsigned&) const = 0;
+    virtual const shared_ptr<Load>& get_load(const unsigned&) const = 0;
+    virtual const shared_ptr<Material>& get_material(const unsigned&) const = 0;
+    virtual const shared_ptr<Node>& get_node(const unsigned&) const = 0;
+    virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const = 0;
 
-    virtual const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const;
-    virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const;
-    virtual const vector<shared_ptr<Element>>& get_element_pool() const;
-    virtual const vector<shared_ptr<Load>>& get_load_pool() const;
-    virtual const vector<shared_ptr<Material>>& get_material_pool() const;
-    virtual const vector<shared_ptr<Node>>& get_node_pool() const;
-    virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const;
+    virtual const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const = 0;
+    virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const = 0;
+    virtual const vector<shared_ptr<Element>>& get_element_pool() const = 0;
+    virtual const vector<shared_ptr<Load>>& get_load_pool() const = 0;
+    virtual const vector<shared_ptr<Material>>& get_material_pool() const = 0;
+    virtual const vector<shared_ptr<Node>>& get_node_pool() const = 0;
+    virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const = 0;
 
-    virtual size_t get_amplitude() const;
-    virtual size_t get_constraint() const;
-    virtual size_t get_element() const;
-    virtual size_t get_load() const;
-    virtual size_t get_material() const;
-    virtual size_t get_node() const;
-    virtual size_t get_recorder() const;
+    virtual size_t get_amplitude() const = 0;
+    virtual size_t get_constraint() const = 0;
+    virtual size_t get_element() const = 0;
+    virtual size_t get_load() const = 0;
+    virtual size_t get_material() const = 0;
+    virtual size_t get_node() const = 0;
+    virtual size_t get_recorder() const = 0;
 
-    virtual bool find_amplitude(const unsigned&) const;
-    virtual bool find_constraint(const unsigned&) const;
-    virtual bool find_element(const unsigned&) const;
-    virtual bool find_load(const unsigned&) const;
-    virtual bool find_material(const unsigned&) const;
-    virtual bool find_node(const unsigned&) const;
-    virtual bool find_recorder(const unsigned&) const;
+    virtual bool find_amplitude(const unsigned&) const = 0;
+    virtual bool find_constraint(const unsigned&) const = 0;
+    virtual bool find_element(const unsigned&) const = 0;
+    virtual bool find_load(const unsigned&) const = 0;
+    virtual bool find_material(const unsigned&) const = 0;
+    virtual bool find_node(const unsigned&) const = 0;
+    virtual bool find_recorder(const unsigned&) const = 0;
 
-    virtual bool insert_loaded_dof(const unsigned&);
-    virtual bool insert_restrained_dof(const unsigned&);
-    virtual bool insert_constrained_dof(const unsigned&);
+    virtual bool insert_loaded_dof(const unsigned&) = 0;
+    virtual bool insert_restrained_dof(const unsigned&) = 0;
+    virtual bool insert_constrained_dof(const unsigned&) = 0;
 
-    virtual const unordered_set<unsigned>& get_loaded_dof() const;
-    virtual const unordered_set<unsigned>& get_restrained_dof() const;
-    virtual const unordered_set<unsigned>& get_constrained_dof() const;
+    virtual const unordered_set<unsigned>& get_loaded_dof() const = 0;
+    virtual const unordered_set<unsigned>& get_restrained_dof() const = 0;
+    virtual const unordered_set<unsigned>& get_constrained_dof() const = 0;
 
-    virtual const bool& is_updated() const;
+    virtual const bool& is_updated() const = 0;
 
-    virtual int initialize();
+    virtual int initialize() = 0;
 
-    virtual void process(const unsigned& = 0);
-    virtual void record();
-    virtual void enable_all();
-    virtual void summary() const;
+    virtual void process(const unsigned& = 0) = 0;
+    virtual void record() = 0;
+    virtual void enable_all() = 0;
+    virtual void summary() const = 0;
 
-    virtual void assemble_resistance() const;
-    virtual void assemble_mass() const;
-    virtual void assemble_initial_stiffness() const;
-    virtual void assemble_stiffness() const;
-    virtual void assemble_damping() const;
+    virtual void assemble_resistance() const = 0;
+    virtual void assemble_mass() const = 0;
+    virtual void assemble_initial_stiffness() const = 0;
+    virtual void assemble_stiffness() const = 0;
+    virtual void assemble_damping() const = 0;
 
-    virtual void erase_machine_error() const;
+    virtual void erase_machine_error() const = 0;
 
-    virtual void update_current_status() const;
-    virtual void update_incre_status() const;
-    virtual void update_trial_status() const;
+    virtual void update_current_status() const = 0;
+    virtual void update_incre_status() const = 0;
+    virtual void update_trial_status() const = 0;
 
-    virtual void commit_status() const;
-    virtual void clear_status() const;
-    virtual void reset_status() const;
+    virtual void commit_status() const = 0;
+    virtual void clear_status() const = 0;
+    virtual void reset_status() const = 0;
 };
 
 #endif

@@ -7,11 +7,12 @@ suanPan
 [![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan)
 [![codecov](https://codecov.io/gh/TLCFEM/suanPan/branch/master/graph/badge.svg)](https://codecov.io/gh/TLCFEM/suanPan)
 
-
 Intro
 -----
 
-**suanPan** is a platform for FEM simulation aimed to applications in solid mechanics. The name Suan Pan (算盤) is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). suanPan is written in C++ incorporating with several high performance libraries.
+**suanPan** is an FEM simulation platform for applications in solid mechanics, civil/structural/seismic engineering. The name **suanPan** (in some certain places **suPan**) comes from *Suan Pan* (算盤), which is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). **suanPan** is written in *C++* and is targeted to provide an efficient, concise and reliable FEM simulation platform.
+
+**suanPan** is partially influenced by some popular (non-)commercial FEA packages, such as [ABAQUS UNIFIED FEA](https://www.3ds.com/products-services/simulia/products/abaqus/), [ANSYS](http://www.ansys.com/) and [OpenSees](http://opensees.berkeley.edu/).
 
 Features
 --------
@@ -19,25 +20,71 @@ Features
 The highlights of **suanPan** are
 
 -   **suanPan** is fast. Please check the benchmark section to see the performance.
--   **suanPan** is open-source and expandable.
--   **suanPan** separates the FEM computation framework from linear algebra manipulations, which significantly simplify the procedure of development.
--   **suanPan** utilizes the new language features introduced in the latest standards (C++11 and C++14), such as the new STL containers, smart pointers and many other features.
+-   **suanPan** is open source and easy to be expanded to incorporate with user defined elements, materials, etc.
+-   **suanPan** separates the FEM computation flow from linear algebra computation, which significantly reduce the complexity of development.
+-   **suanPan** utilizes the new language features shipped with the latest standards (*C++11* and *C++14*), such as new STL containers, smart pointers and many other features.
 
 How to Compile
 --------------
 
-**suanPan** uses `CMake` to manage builds. Simply use
+As **suanPan** uses new language features, please use
+
+-   **MSVC++ 14** (corresponds to *Visual Studio 2015*) and/or later version,
+-   **GNU GCC 5.0** and/or later version.
+
+The program is deliberately designed to disable the backward compatibility.
+
+**suanPan** uses [CMake](https://cmake.org/) to manage builds.
+
+### Windows
+
+The package is tested under Windows with `MSVC++`, `GNU GCC`, `Intel C++ Compiler` and `Clang`.The libraries (only 64-bit):
+
+-   BLAS and LAPACK
+-   OpenBLAS
+-   ARPACK
+-   SuperLU
+-   HDF5
+
+are shipped with the package.
+
+#### Visual Studio
+
+The default VS solution uses reference BLAS and LAPACK. Simply `Build (F7)` the solution. You can change the BLAS and LAPACK to OpenBLAS or Intel MKL, if you have those libraries available. Since OpenBLAS is quite platform dependent, you are recommended to compile your own version instead of using the shipped one, which may probably not work for your machine.
+
+#### GNU GCC
+
+Use CMake to generate Makefiles, assume current folder is the root of the package and your are using `MinGW`, then the commands should look like this.
 
 ``` bash
-cmake . && make
+mkdir cmake-build
+cd cmake-build
+cmake -G "MinGW Makefiles" ..
+make
 ```
 
-to compile the program. The package is tested with `Intel C++` and `MSVC` under Windows and `GCC` under both Windows and Ubuntu. As **suanPan** uses new features introduced in C++11 and C++14, please use `Visual Studio 2015` and/or later version, `GCC 5.0` and/or later version.
+To switch to OpenBLAS, you can use following option.
+
+``` cpp
+cmake -G "MinGW Makefiles" -DUSE_OPENBLAS=ON ..
+```
+
+### Ubuntu
+
+If you want to use HDF5, you have to compile and install it first. A useful link is [HDF5 SOURCE CODE](https://support.hdfgroup.org/HDF5/release/obtainsrc.html).
+
+Again, the shipped OpenBLAS may not work on your machine, please compile your own library if you want to use OpenBLAS.
+
+A default configuration is enough for most cases. Simply
+
+``` cpp
+cmake . && make
+```
 
 Dependency
 ----------
 
-Additional libraries are
+Additional libraries that may be used in **suanPan** are
 
 -   [Armadillo](http://arma.sourceforge.net/)
 -   [MKL](https://software.intel.com/en-us/mkl)

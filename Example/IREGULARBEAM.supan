@@ -35,15 +35,12 @@ fix 2 1 10
 
 cload 1 20 2 5 6
 
-# converger AbsResidual 1 1E-6 7 0
-converger AbsIncreEnergy 1 1E-4 7 1
-
 analyze
 
 peek node 6
 peek node 5
 
-peek element 1
+# peek element 1
 
 # peek recorder 1
 
