@@ -59,10 +59,6 @@ int Material::clear_status() {
     if(!trial_stress.is_empty()) trial_stress.zeros();
     if(!trial_history.is_empty()) trial_history.zeros();
 
-    if(!incre_strain.is_empty()) incre_strain.zeros();
-    if(!incre_stress.is_empty()) incre_stress.zeros();
-    if(!incre_strain_rate.is_empty()) incre_strain_rate.zeros();
-
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
@@ -83,21 +79,9 @@ int Material::commit_status() {
 int Material::reset_status() {
     trial_stiffness = current_stiffness;
 
-    if(!trial_strain.is_empty()) {
-        trial_strain = current_strain;
-        incre_strain.zeros();
-    }
-
-    if(!trial_strain_rate.is_empty()) {
-        trial_strain_rate = current_strain_rate;
-        incre_strain_rate.zeros();
-    }
-
-    if(!trial_stress.is_empty()) {
-        trial_stress = current_stress;
-        incre_stress.zeros();
-    }
-
+    if(!trial_strain.is_empty()) trial_strain = current_strain;
+    if(!trial_strain_rate.is_empty()) trial_strain_rate = current_strain_rate;
+    if(!trial_stress.is_empty()) trial_stress = current_stress;
     if(!trial_history.is_empty()) trial_history = current_history;
 
     return 0;
