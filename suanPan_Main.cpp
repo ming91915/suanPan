@@ -26,3 +26,34 @@ int main(int argc, char** argv) {
     cout << "Finished: " << T.toc() << "\n";
     return 0;
 }
+
+void example_concrete01() {
+    Concrete01 A(1, -2E-3, -30, BackboneType::TSAI);
+
+    vector<double> strain, stress;
+
+    for(auto I = 0; I < 50; ++I) {
+        A.update_incre_status(vec{ -1E-4 });
+        strain.emplace_back(A.get_strain().at(0));
+        stress.emplace_back(A.get_stress().at(0));
+        A.commit_status();
+    }
+    for(auto I = 0; I < 70; ++I) {
+        A.update_incre_status(vec{ 1E-4 });
+        strain.emplace_back(A.get_strain().at(0));
+        stress.emplace_back(A.get_stress().at(0));
+        A.commit_status();
+    }
+    for(auto I = 0; I < 100; ++I) {
+        A.update_incre_status(vec{ -1E-4 });
+        strain.emplace_back(A.get_strain().at(0));
+        stress.emplace_back(A.get_stress().at(0));
+        A.commit_status();
+    }
+
+    mat K(strain.size(), 2);
+    K.col(0) = vec(strain);
+    K.col(1) = vec(stress);
+
+    K.save("K", raw_ascii);
+}

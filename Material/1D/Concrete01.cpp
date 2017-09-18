@@ -75,10 +75,11 @@ int Concrete01::update_trial_status(const vec& t_strain) {
                 trial_stiffness(0) = trial_reverse_stress / trial_reverse_strain;
                 trial_stress(0) = trial_stiffness(0) * trial_strain(0);
             }
-        else if(trial_strain(0) >= current_reverse_strain)
+        else if(trial_strain(0) >= current_reverse_strain) {
             // still inside of backbone
+            if(trial_stiffness(0) == 0.) trial_stiffness(0) = trial_reverse_stress / trial_reverse_strain;
             trial_stress(0) = trial_stiffness(0) * trial_strain(0);
-        else {
+        } else {
             // reload to backbone
             on_backbone = true;
             compute_backbone();
