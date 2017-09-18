@@ -32,12 +32,7 @@ const bool& AbsResidual::if_converged() {
     auto& D = get_domain();
     auto& W = D->get_factory();
 
-    auto& t_load = W->get_trial_load();
-    auto& t_resistance = W->get_trial_resistance();
-    vec t_residual = t_load - t_resistance;
-    for(const auto& I : D->get_restrained_dof()) t_residual(I) = 0.;
-
-    set_error(norm(t_residual));
+    set_error(1E6);
 
     set_conv_flag(get_tolerance() > get_error());
 
