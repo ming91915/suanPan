@@ -8,7 +8,7 @@ set(ROOT ../..)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../..)
 
-include(${ROOT}/config.cmake)
+include(${ROOT}/.config.cmake)
 
 add_library(${PROJECT_NAME} SHARED
     "MaterialExample.cpp"

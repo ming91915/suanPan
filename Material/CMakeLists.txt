@@ -6,7 +6,7 @@ set(ROOT ..)
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../Libs)
 
-include(${ROOT}/config.cmake)
+include(${ROOT}/.config.cmake)
 
 include(1D/CMakeLists.txt)
 include(2D/CMakeLists.txt)

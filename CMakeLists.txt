@@ -4,7 +4,7 @@ project(suanPan)
 
 set(ROOT .)
 
-include(${ROOT}/config.cmake)
+include(${ROOT}/.config.cmake)
 
 link_directories(${PROJECT_BINARY_DIR}/Libs)
 
