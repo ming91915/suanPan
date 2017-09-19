@@ -298,12 +298,13 @@ int Domain::initialize() {
     for(unsigned i = 0; i < dof_counter; ++i) num_degree(i) = adjacency[i].size();
 
     // SORT EACH COLUMN ACCORDING TO ITS DEGREE
-    vector<uvec> adjacency_sorted(dof_counter);
+    vector<uvec> adjacency_sorted;
+    adjacency_sorted.reserve(dof_counter);
     for(unsigned i = 0; i < dof_counter; ++i) {
         uvec t_vec(num_degree(i));
         unsigned j = 0;
         for(const auto& k : adjacency[i]) t_vec(j++) = k;
-        adjacency_sorted[i] = t_vec(sort_index(num_degree(t_vec)));
+        adjacency_sorted.emplace_back(t_vec(sort_index(num_degree(t_vec))));
     }
 
     auto idx_rcm = RCM(adjacency_sorted, num_degree);
@@ -378,13 +379,13 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     get_trial_resistance(t_factory).zeros();
     for(const auto& I : element_pond.get()) t_factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::assemble_mass() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     t_factory->clear_mass();
     for(const auto& I : element_pond.get()) t_factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
@@ -396,25 +397,25 @@ void Domain::assemble_initial_stiffness() const {
 }
 
 void Domain::assemble_stiffness() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     t_factory->clear_stiffness();
     for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_damping() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     t_factory->clear_damping();
     for(const auto& I : element_pond.get()) t_factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
 void Domain::erase_machine_error() const {
-    const auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     auto& t_ninja = get_ninja(t_factory);
     for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
 void Domain::update_trial_status() const {
-    const auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     const auto& analysis_type = t_factory->get_analysis_type();
 
     auto& trial_dsp = t_factory->get_trial_displacement();
@@ -449,7 +450,7 @@ void Domain::update_trial_status() const {
 }
 
 void Domain::update_incre_status() const {
-    const auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     const auto& analysis_type = t_factory->get_analysis_type();
 
     auto& incre_dsp = t_factory->get_incre_displacement();
@@ -484,7 +485,7 @@ void Domain::update_incre_status() const {
 }
 
 void Domain::update_current_status() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
     const auto& analysis_type = t_factory->get_analysis_type();
 
     vec c_g_dsp(t_factory->get_size(), fill::zeros);
@@ -517,7 +518,7 @@ void Domain::update_current_status() const {
 }
 
 void Domain::commit_status() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
 
     t_factory->commit_status();
 
@@ -536,7 +537,7 @@ void Domain::commit_status() const {
 }
 
 void Domain::clear_status() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
 
     t_factory->clear_status();
 
@@ -561,7 +562,7 @@ void Domain::clear_status() const {
 }
 
 void Domain::reset_status() const {
-    auto t_factory = factory.lock();
+    const auto& t_factory = factory.lock();
 
     t_factory->reset_status();
 

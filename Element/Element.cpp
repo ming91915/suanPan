@@ -33,7 +33,7 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
     if(node_ptr.size() == num_node) {
         auto code = 0;
         for(unsigned I = 0; I < num_node; ++I) {
-            const auto t_node = node_ptr[I].lock();
+            const auto& t_node = node_ptr[I].lock();
             if(t_node == nullptr || !t_node->is_active()) {
                 D->disable_element(get_tag());
                 return;
@@ -62,6 +62,7 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
 
     // check if nodes are still valid
     node_ptr.clear();
+    node_ptr.reserve(num_node);
     for(const auto& tmp_tag : node_encoding) {
         auto& tmp_node = D->get_node(unsigned(tmp_tag));
         if(tmp_node == nullptr || !tmp_node->is_active()) {
@@ -70,7 +71,7 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
             return;
         }
         if(tmp_node->get_dof_number() < num_dof) tmp_node->set_dof_number(num_dof);
-        node_ptr.push_back(tmp_node);
+        node_ptr.emplace_back(tmp_node);
     }
 
     // check if material models are valid

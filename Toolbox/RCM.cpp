@@ -69,13 +69,14 @@ template <typename eT> uvec RCM(const SpMat<eT>& MEAT) {
     //#pragma omp parallel for
     for(unsigned I = 0; I < S; ++I) E(I) = MEAT.col(I).n_nonzero;
 
-    vector<uvec> A(S);
+    vector<uvec> A;
+    A.reserve(S);
     //#pragma omp parallel for
     for(unsigned K = 0; K < S; ++K) {
         unsigned J = 0;
         uvec IDX(E(K));
         for(auto L = MEAT.begin_col(K); L != MEAT.end_col(K); ++L) IDX(J++) = L.row();
-        A[K] = IDX(sort_index(E(IDX)));
+        A.emplace_back(IDX(sort_index(E(IDX))));
     }
 
     //! Get the indices array in increasing order of degree.

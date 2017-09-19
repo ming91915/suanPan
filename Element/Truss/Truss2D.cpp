@@ -76,8 +76,8 @@ void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
 }
 
 int Truss2D::update_status() {
-    const auto node_i = node_ptr.at(0).lock();
-    const auto node_j = node_ptr.at(1).lock();
+    const auto& node_i = node_ptr.at(0).lock();
+    const auto& node_j = node_ptr.at(1).lock();
 
     // in a truss-beam system a node may have either 2 or 3 dofs depends on the type of elements connected
     // resize the displacement vectors to make sure they are compatiable with the truss formulation
