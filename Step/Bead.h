@@ -39,10 +39,10 @@ class Converger;
 class Step;
 
 class Bead {
-    unsigned current_domain = 1;
-    unsigned current_solver = 0;
-    unsigned current_converger = 0;
-    unsigned current_step = 0;
+    unsigned current_domain_tag = 1;
+    unsigned current_solver_tag = 0;
+    unsigned current_converger_tag = 0;
+    unsigned current_step_tag = 0;
 
     DomainStorage domain_pool;
     SolverStorage solver_pool;
@@ -77,6 +77,11 @@ public:
     friend shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>&);
     friend shared_ptr<Converger>& get_current_converger(const shared_ptr<Bead>&);
     friend shared_ptr<Step>& get_current_step(const shared_ptr<Bead>&);
+
+    const unsigned& get_current_domain_tag() const;
+    const unsigned& get_current_solver_tag() const;
+    const unsigned& get_current_converger_tag() const;
+    const unsigned& get_current_step_tag() const;
 
     void erase_domain(const unsigned&);
     void erase_solver(const unsigned&);

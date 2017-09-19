@@ -45,13 +45,21 @@ const shared_ptr<Converger>& Bead::get_converger(const unsigned& T) const { retu
 
 const shared_ptr<Step>& Bead::get_step(const unsigned& T) const { return step_pool->at(T); }
 
-const shared_ptr<Domain>& Bead::get_current_domain() const { return domain_pool.at(current_domain); }
+const shared_ptr<Domain>& Bead::get_current_domain() const { return domain_pool.at(current_domain_tag); }
 
-const shared_ptr<Solver>& Bead::get_current_solver() const { return solver_pool.at(current_solver); }
+const shared_ptr<Solver>& Bead::get_current_solver() const { return solver_pool.at(current_solver_tag); }
 
-const shared_ptr<Converger>& Bead::get_current_converger() const { return converger_pool.at(current_converger); }
+const shared_ptr<Converger>& Bead::get_current_converger() const { return converger_pool.at(current_converger_tag); }
 
-const shared_ptr<Step>& Bead::get_current_step() const { return step_pool->at(current_step); }
+const shared_ptr<Step>& Bead::get_current_step() const { return step_pool->at(current_step_tag); }
+
+const unsigned& Bead::get_current_domain_tag() const { return current_domain_tag; }
+
+const unsigned& Bead::get_current_solver_tag() const { return current_solver_tag; }
+
+const unsigned& Bead::get_current_converger_tag() const { return current_converger_tag; }
+
+const unsigned& Bead::get_current_step_tag() const { return current_step_tag; }
 
 void Bead::erase_domain(const unsigned& T) {
     if(!domain_pool.find(T))
@@ -64,7 +72,7 @@ void Bead::erase_domain(const unsigned& T) {
             domain_pool.erase(T);
             if(domain_pool.size() != 0) {
                 set_current_domain(domain_pool.cbegin()->first);
-                suanpan_info("erase_domain() switches to Domain %u.\n", current_domain);
+                suanpan_info("erase_domain() switches to Domain %u.\n", current_domain_tag);
             } else {
                 insert(make_shared<Domain>(1));
                 set_current_domain(1);
@@ -89,7 +97,7 @@ void Bead::erase_step(const unsigned& T) {
             step_pool->erase(T);
             if(step_pool->size() != 0) {
                 set_current_step(step_pool->rbegin()->first);
-                suanpan_info("erase_step() switches to Step %u.\n", current_step);
+                suanpan_info("erase_step() switches to Step %u.\n", current_step_tag);
             } else {
                 set_current_step(0);
                 suanpan_info("erase_step() removes the last step and switches to default Step 0.\n");
@@ -126,13 +134,13 @@ void Bead::enable_step(const unsigned& T) const {
         suanpan_info("enable_step() cannot find Step %u.\n", T);
 }
 
-void Bead::set_current_domain(const unsigned& T) { current_domain = T; }
+void Bead::set_current_domain(const unsigned& T) { current_domain_tag = T; }
 
-void Bead::set_current_solver(const unsigned& T) { current_solver = T; }
+void Bead::set_current_solver(const unsigned& T) { current_solver_tag = T; }
 
-void Bead::set_current_converger(const unsigned& T) { current_converger = T; }
+void Bead::set_current_converger(const unsigned& T) { current_converger_tag = T; }
 
-void Bead::set_current_step(const unsigned& T) { current_step = T; }
+void Bead::set_current_step(const unsigned& T) { current_step_tag = T; }
 
 int Bead::analyze() {
     for(const auto& J : domain_pool) J.second->set_step_anchor(step_pool);
@@ -153,10 +161,10 @@ shared_ptr<Converger>& get_converger(const shared_ptr<Bead>& B, const unsigned& 
 
 shared_ptr<Step>& get_step(const shared_ptr<Bead>& B, const unsigned& T) { return (*B->step_pool)[T]; }
 
-shared_ptr<Domain>& get_current_domain(const shared_ptr<Bead>& B) { return B->domain_pool[B->current_domain]; }
+shared_ptr<Domain>& get_current_domain(const shared_ptr<Bead>& B) { return B->domain_pool[B->current_domain_tag]; }
 
-shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>& B) { return B->solver_pool[B->current_solver]; }
+shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>& B) { return B->solver_pool[B->current_solver_tag]; }
 
-shared_ptr<Converger>& get_current_converger(const shared_ptr<Bead>& B) { return B->converger_pool[B->current_converger]; }
+shared_ptr<Converger>& get_current_converger(const shared_ptr<Bead>& B) { return B->converger_pool[B->current_converger_tag]; }
 
-shared_ptr<Step>& get_current_step(const shared_ptr<Bead>& B) { return (*B->step_pool)[B->current_step]; }
+shared_ptr<Step>& get_current_step(const shared_ptr<Bead>& B) { return (*B->step_pool)[B->current_step_tag]; }

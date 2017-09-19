@@ -306,7 +306,7 @@ int create_new_bc(const shared_ptr<Bead>& model, istringstream& command) {
     while(!(command >> node).fail()) node_tag.push_back(node);
 
     const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step()->get_tag();
+    const auto& step_tag = model->get_current_step_tag();
 
     const auto bc_type = tolower(dof_id[0]);
     if(bc_type == 'p')
@@ -359,7 +359,7 @@ int create_new_cload(const shared_ptr<Bead>& model, istringstream& command) {
     while(get_input(command, node)) node_tag.push_back(node);
 
     const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step()->get_tag();
+    const auto& step_tag = model->get_current_step_tag();
 
     if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_cload() fails to create new load.\n");
 
@@ -390,7 +390,7 @@ int create_new_dispload(const shared_ptr<Bead>& model, istringstream& command) {
     while(get_input(command, node)) node_tag.push_back(node);
 
     const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step()->get_tag();
+    const auto& step_tag = model->get_current_step_tag();
 
     if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
 
