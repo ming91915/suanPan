@@ -48,16 +48,19 @@ class Material;
 class Node;
 class Recorder;
 
+using FacotoryAnchor = weak_ptr<Factory<double>>;
+using StepAnchor = weak_ptr<map<unsigned, shared_ptr<Step>>>;
+
 class DomainBase : public Tag {
 public:
     explicit DomainBase(const unsigned&);
     virtual ~DomainBase();
 
-    virtual void set_factory(const weak_ptr<Factory<double>>&) = 0;
-    virtual const weak_ptr<Factory<double>>& get_factory() const = 0;
+    virtual void set_factory(const FacotoryAnchor&) = 0;
+    virtual const FacotoryAnchor& get_factory() const = 0;
 
-    virtual void set_step_anchor(const weak_ptr<map<unsigned, shared_ptr<Step>>>&) = 0;
-    virtual const weak_ptr<map<unsigned, shared_ptr<Step>>>& get_step_anchor() = 0;
+    virtual void set_step_anchor(const StepAnchor&) = 0;
+    virtual const StepAnchor& get_step_anchor() = 0;
 
     virtual bool insert(const shared_ptr<Amplitude>&) = 0;
     virtual bool insert(const shared_ptr<Constraint>&) = 0;

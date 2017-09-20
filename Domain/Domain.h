@@ -34,9 +34,8 @@
 class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     bool updated = false;
 
-    weak_ptr<map<unsigned, shared_ptr<Step>>> step_anchor;
-
-    weak_ptr<Factory<double>> factory; /**< working room */
+    StepAnchor step_anchor;
+    FacotoryAnchor factory; /**< working room */
 
     AmplitudeStorage amplitude_pond;
     ConstraintStorage constraint_pond;
@@ -53,11 +52,11 @@ public:
     explicit Domain(const unsigned& = 0);
     ~Domain();
 
-    void set_factory(const weak_ptr<Factory<double>>&) override;
-    const weak_ptr<Factory<double>>& get_factory() const override;
+    void set_factory(const FacotoryAnchor&) override;
+    const FacotoryAnchor& get_factory() const override;
 
-    void set_step_anchor(const weak_ptr<map<unsigned, shared_ptr<Step>>>&) override;
-    const weak_ptr<map<unsigned, shared_ptr<Step>>>& get_step_anchor() override;
+    void set_step_anchor(const StepAnchor&) override;
+    const StepAnchor& get_step_anchor() override;
 
     bool insert(const shared_ptr<Amplitude>&) override;
     bool insert(const shared_ptr<Constraint>&) override;

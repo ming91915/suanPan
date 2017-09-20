@@ -32,18 +32,18 @@ Domain::Domain(const unsigned& T)
 
 Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
 
-void Domain::set_factory(const weak_ptr<Factory<double>>& F) {
+void Domain::set_factory(const FacotoryAnchor& F) {
     if(factory.lock() != F.lock()) {
         factory = F;
         updated = false;
     }
 }
 
-const weak_ptr<Factory<double>>& Domain::get_factory() const { return factory; }
+const FacotoryAnchor& Domain::get_factory() const { return factory; }
 
-void Domain::set_step_anchor(const weak_ptr<map<unsigned, shared_ptr<Step>>>& S) { step_anchor = S; }
+void Domain::set_step_anchor(const StepAnchor& S) { step_anchor = S; }
 
-const weak_ptr<map<unsigned, shared_ptr<Step>>>& Domain::get_step_anchor() { return step_anchor; }
+const StepAnchor& Domain::get_step_anchor() { return step_anchor; }
 
 bool Domain::insert(const shared_ptr<Amplitude>& A) {
     if(updated) updated = false;
