@@ -18,6 +18,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <sstream>
 #include <string>
 
 template <typename T> T& modifier(const T& I) { return const_cast<T&>(I); }
@@ -36,6 +37,8 @@ template <typename T> T get_input(istringstream& I) {
     I >> O;
     return O;
 }
+
+template <typename T> bool get_optional_input(istringstream& I, T& O) { return !I.eof() && !(I >> O).fail(); }
 
 bool if_equal(const char*, const char*);
 bool if_equal(const string&, const char*);

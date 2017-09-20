@@ -31,11 +31,6 @@ class Concrete01 : public Material {
 
     bool on_backbone = true;
 
-    double current_reverse_strain = 0.;
-    double current_reverse_stress = 0.;
-    double trial_reverse_strain = 0.;
-    double trial_reverse_stress = 0.;
-
     void compute_backbone();
 
 public:

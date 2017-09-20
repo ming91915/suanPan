@@ -425,7 +425,7 @@ void Domain::update_trial_status() const {
     if(analysis_type == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
         for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(trial_dsp);
 #else
         for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp);
@@ -433,7 +433,7 @@ void Domain::update_trial_status() const {
     } else if(analysis_type == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
         for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(trial_dsp, trial_vel, trial_acc);
 #else
         for(const auto& I : node_pond.get()) I->update_trial_status(trial_dsp, trial_vel, trial_acc);
@@ -442,7 +442,7 @@ void Domain::update_trial_status() const {
 
 #ifdef SUANPAN_OPENMP
     auto& t_pond = element_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_status();
 #else
     for(const auto& I : element_pond.get()) I->update_status();
@@ -460,7 +460,7 @@ void Domain::update_incre_status() const {
     if(analysis_type == AnalysisType::STATICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
         for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(incre_dsp);
 #else
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
@@ -468,7 +468,7 @@ void Domain::update_incre_status() const {
     } else if(analysis_type == AnalysisType::DYNAMICS) {
 #ifdef SUANPAN_OPENMP
         auto& t_pond = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
         for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_trial_status(incre_dsp, incre_vel, incre_acc);
 #else
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
@@ -477,7 +477,7 @@ void Domain::update_incre_status() const {
 
 #ifdef SUANPAN_OPENMP
     auto& t_pond = element_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_pond.size(); ++I) t_pond[I]->update_status();
 #else
     for(const auto& I : element_pond.get()) I->update_status();
@@ -524,11 +524,11 @@ void Domain::commit_status() const {
 
 #ifdef SUANPAN_OPENMP
     auto& t_node = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_node.size(); ++I) t_node[I]->commit_status();
 
     auto& t_element = element_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_element.size(); ++I) t_element[I]->commit_status();
 #else
     for(const auto& I : node_pond.get()) I->commit_status();
@@ -543,11 +543,11 @@ void Domain::clear_status() const {
 
 #ifdef SUANPAN_OPENMP
     auto& t_node = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_node.size(); ++I) t_node[I]->clear_status();
 
     auto& t_element = element_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < t_element.size(); ++I) {
         t_element[I]->clear_status();
         t_element[I]->update_status();
@@ -568,10 +568,10 @@ void Domain::reset_status() const {
 
 #ifdef SUANPAN_OPENMP
     auto& tmp_pond_n = node_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < tmp_pond_n.size(); ++I) tmp_pond_n[I]->reset_status();
     auto& tmp_pond_e = element_pond.get();
-#pragma omp parallel for
+#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(auto I = 0; I < tmp_pond_e.size(); ++I) {
         tmp_pond_e[I]->reset_status();
         tmp_pond_e[I]->update_status();

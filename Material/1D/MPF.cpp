@@ -135,3 +135,8 @@ int MPF::reset_status() {
     trial_history = current_history;
     return 0;
 }
+
+void MPF::print() {
+    suanpan_info("Menegotto--Pinto--Filippou model with initial stiffness %.3E and yield stress %.3E.\n", elastic_modulus, yield_stress);
+    suanpan_info("Current Strain: %.3E\tCurrent Stress: %.3E\n", current_strain(0), current_stress(0));
+}

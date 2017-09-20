@@ -106,7 +106,12 @@
 #define SUANPAN_EXIT 1
 #endif
 
-// #define SUANPAN_OPENMP
+#ifdef _OPENMP
+#ifndef SUANPAN_OPENMP
+#define SUANPAN_OPENMP
+#endif
+#define SUANPAN_CHUNK 512
+#endif
 
 // TWO IMPLEMENTATIONS
 #if defined(SUANPAN_UNIX)

@@ -43,6 +43,9 @@ void Concrete01::initialize() {
     trial_strain.zeros(1);
     trial_stress.zeros(1);
 
+    current_history.zeros(4);
+    trial_history.zeros(4);
+
     compute_backbone();
     initial_stiffness = trial_stiffness;
     current_stiffness = initial_stiffness;
@@ -56,7 +59,20 @@ int Concrete01::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
 
-    const auto side = sign(trial_strain(0));
+    trial_history = current_history;
+
+    auto& trial_max_strain = trial_history(0);      // maximum compression strain logged
+    auto& trial_residual_strain = trial_history(1); // residual strain in unloading path
+    auto& trial_reverse_strain = trial_history(2);  // unloading point
+    auto& trial_reverse_stress = trial_history(3);  // unloading point
+
+    if(trial_strain(0) < trial_max_strain) {
+        trial_max_strain = trial_strain(0);
+        trial_residual_strain = .145 * trial_max_strain * trial_max_strain / peak_strain + .13 * trial_max_strain;
+    }
+
+    const auto strain_a = trial_strain(0) - trial_residual_strain;
+    const auto side = sign(strain_a);
     const auto load_direction = sign(incre_strain(0));
 
     if(side == -1)
@@ -72,13 +88,13 @@ int Concrete01::update_trial_status(const vec& t_strain) {
                 on_backbone = false;
                 trial_reverse_strain = current_strain(0);
                 trial_reverse_stress = current_stress(0);
-                trial_stiffness(0) = trial_reverse_stress / trial_reverse_strain;
-                trial_stress(0) = trial_stiffness(0) * trial_strain(0);
+                trial_stiffness(0) = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+                trial_stress(0) = trial_stiffness(0) * strain_a;
             }
-        else if(trial_strain(0) >= current_reverse_strain) {
-            // still inside of backbone
-            if(trial_stiffness(0) == 0.) trial_stiffness(0) = trial_reverse_stress / trial_reverse_strain;
-            trial_stress(0) = trial_stiffness(0) * trial_strain(0);
+        else if(trial_strain(0) >= trial_reverse_strain) {
+            // still inside backbone
+            if(trial_stiffness(0) == 0.) trial_stiffness(0) = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+            trial_stress(0) = trial_stiffness(0) * strain_a;
         } else {
             // reload to backbone
             on_backbone = true;
@@ -86,8 +102,8 @@ int Concrete01::update_trial_status(const vec& t_strain) {
         }
     else {
         // the trial position is in tension zone
-        trial_stress.zeros();
-        trial_stiffness.zeros();
+        trial_stress(0) = 0.;
+        trial_stiffness(0) = 0.;
     }
 
     return 0;
@@ -103,10 +119,8 @@ int Concrete01::clear_status() {
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
-    current_reverse_strain = 0.;
-    current_reverse_stress = 0.;
-    trial_reverse_strain = 0.;
-    trial_reverse_stress = 0.;
+    current_history.zeros(4);
+    trial_history.zeros(4);
 
     return 0;
 }
@@ -115,17 +129,14 @@ int Concrete01::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
-    current_reverse_strain = trial_reverse_strain;
-    current_reverse_stress = trial_reverse_stress;
+    current_history = trial_history;
     return 0;
 }
 
 int Concrete01::reset_status() {
     trial_strain = current_strain;
-    trial_stress = current_strain;
+    trial_stress = current_stress;
     trial_stiffness = current_stiffness;
-    trial_reverse_strain = current_reverse_strain;
-    trial_reverse_stress = current_reverse_stress;
     return 0;
 }
 

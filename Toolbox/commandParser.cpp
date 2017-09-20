@@ -181,8 +181,8 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
 }
 
 int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& tmp_step = get_current_step(model);
-    if(tmp_step == nullptr) {
+    const auto& t_step = get_current_step(model);
+    if(t_step == nullptr) {
         suanpan_info("create_new_converger() needs a valid step.\n");
         return 0;
     }
@@ -219,32 +219,32 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) 
 
     if(if_equal(converger_id, "AbsResidual")) {
         if(model->insert(make_shared<AbsResidual>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelResidual")) {
         if(model->insert(make_shared<RelResidual>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "AbsIncreDisp")) {
         if(model->insert(make_shared<AbsIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelIncreDisp")) {
         if(model->insert(make_shared<RelIncreDisp>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "AbsIncreEnergy")) {
         if(model->insert(make_shared<AbsIncreEnergy>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else if(if_equal(converger_id, "RelIncreEnergy")) {
         if(model->insert(make_shared<RelIncreEnergy>(tag, nullptr, tolerance, max_iteration, !!print_flag)))
-            tmp_step->set_converger(model->get_converger(tag));
+            t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
     } else
@@ -489,6 +489,8 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
         new_bilinear2d(new_material, command);
     else if(if_equal(material_id, "Bilinear3D"))
         new_bilinear3d(new_material, command);
+    else if(if_equal(material_id, "MPF"))
+        new_mpf(new_material, command);
     else {
         ExternalModule ext_library(material_id);
         if(ext_library.locate_module()) ext_library.new_object(new_material, command);

@@ -66,12 +66,12 @@ template <typename eT> uvec RCM(const SpMat<eT>& MEAT) {
 
     //! Compute the number of degree of each node. Need update once Armadillo is improved.
     uvec E(S);
-    //#pragma omp parallel for
+    //#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(unsigned I = 0; I < S; ++I) E(I) = MEAT.col(I).n_nonzero;
 
     vector<uvec> A;
     A.reserve(S);
-    //#pragma omp parallel for
+    //#pragma omp parallel for schedule(dynamic, SUANPAN_CHUNK)
     for(unsigned K = 0; K < S; ++K) {
         unsigned J = 0;
         uvec IDX(E(K));
