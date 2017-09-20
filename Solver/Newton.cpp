@@ -34,7 +34,7 @@ int Newton::analyze() {
     auto& G = get_integrator();
     const auto& W = G->get_domain()->get_factory().lock();
 
-    suanpan_info("current step time: %.3E\n", W->get_trial_time());
+    // suanpan_info("current step time: %.3E\n", W->get_trial_time());
 
     auto& max_iteration = C->get_max_iteration();
 
