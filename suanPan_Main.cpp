@@ -21,6 +21,11 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
+    // const auto A = make_shared<Concrete01>(1, -.002, -30, BackboneType::KPSU);
+    // const vector<unsigned> B{ 10, 15, 25, 25, 35, 35, 45, 45, 55, 55 };
+    // auto M = material_tester(A, B, -.0001);
+    // M.save("K", raw_ascii);
+
     argument_parser(argc, argv);
 
     cout << "Finished: " << T.toc() << "\n";
