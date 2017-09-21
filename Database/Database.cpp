@@ -22,6 +22,6 @@ Database::Database(const unsigned& T, const unsigned& CT)
 
 Database::~Database() {}
 
-void Database::setDomain(const shared_ptr<Domain>& D) { domain = D; }
+void Database::set_domain(const shared_ptr<Domain>& D) { domain = D; }
 
-const shared_ptr<Domain>& Database::getDomain() const { return domain; }
+const shared_ptr<Domain>& Database::get_domain() const { return domain; }

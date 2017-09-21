@@ -71,7 +71,7 @@ The gross memory used by `standard.exe` is around $60$ MB. One double-precision 
 
 ### Some notes on OpenSees Model
 
-The element used is the build-in `quad` element (check [this link](http://opensees.berkeley.edu/wiki/index.php/Quad_Element)), this element is optimized so that the computation cost is minimized, as a result, the performance is superior. The speed boost brought by this element $20\%$ to $30\%$ compared to the conventional formulation is roughly.
+The element used is the build-in `quad` element (check [this link](http://opensees.berkeley.edu/wiki/index.php/Quad_Element)), this element is optimized so that the computation cost is minimized, as a result, the performance is superior. The speed boost brought by this element $20\percent$ to $30\percent$ compared to the conventional formulation.
 
 The band symmetric matrix storage corresponds to the *BandSPD* system.
 
@@ -113,13 +113,13 @@ Some explanations:
 
 -   ABAQUS uses Intel MKL as well thus should be fast. But in this special case it is slow.
 -   Both OpenSees and suanPan (Ref.) use reference BLAS and LAPACK from [netlib](http://www.netlib.org/lapack/), the matrix solving procedure uses the same subroutine \_pbsv to solve the global system. It takes similar time to run for both programs as the maximum GFLOPS is close. The second fastest subroutine in suanPan (Ref.) is in fact \_trsm.
--   The difference between OpenSees and suanPan (Ref.) is $77\%$. It ought to come from the FE analysis flow. The difference between element level computation should be negligible as the formulation is simple and similar.
+-   The difference between OpenSees and suanPan (Ref.) is $77\percent$. It ought to come from the FE analysis flow. The difference between element level computation should be negligible as the formulation is simple and similar.
 -   The performance of OpenBLAS and MKL is similar, which can be checked from OpenBLAS official site. Though, MKL is slightly faster in this case.
 -   The running time of OpenSees almost triples the one of suanPan (MKL).
 
 ### Another Example Model
 
-Following is the same model but with a dense mesh, the mesh grid is refined to $100\times100$ so there are $10000$ elements.
+Following is the same model but with a dense mesh, the mesh grid is refined to $100\times100$ so there are $10000$ elements. To reduce the test time, the sub-step size is set to $0.1$ so there are $10$ sub-steps and the stiffness matrix is formed for $20$ times.
 
 Model Name: CPS4NL100.supan
 

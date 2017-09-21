@@ -21,8 +21,11 @@
 #include "Database.h"
 
 class HDF : public Database {
+    hid_t file_id = 0;
+
 public:
-    HDF();
+    explicit HDF(const char*);
+    ~HDF();
 
     int save(const char*) override final;
 };

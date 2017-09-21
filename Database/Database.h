@@ -35,8 +35,8 @@ public:
     explicit Database(const unsigned& = 0, const unsigned& = 0);
     virtual ~Database();
 
-    void setDomain(const shared_ptr<Domain>& D);
-    const shared_ptr<Domain>& getDomain() const;
+    void set_domain(const shared_ptr<Domain>& D);
+    const shared_ptr<Domain>& get_domain() const;
 
     virtual int save(const char*) = 0;
 };
