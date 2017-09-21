@@ -95,8 +95,7 @@ H5_DLLVAR hid_t H5E_ERR_CLS_g;
         (void)H5Eset_auto2(H5E_DEFAULT, H5E_saved.efunc2, H5E_saved_edata); \
     else                                                                    \
         (void)H5Eset_auto1(H5E_saved.efunc1, H5E_saved_edata);              \
-    \
-}
+    }
 #else /* H5_NO_DEPRECATED_SYMBOLS */
 #define H5E_BEGIN_TRY                                                   \
     {                                                                   \
@@ -108,8 +107,7 @@ H5_DLLVAR hid_t H5E_ERR_CLS_g;
 
 #define H5E_END_TRY                                               \
     (void)H5Eset_auto(H5E_DEFAULT, saved_efunc, H5E_saved_edata); \
-    \
-}
+    }
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
 
 /*
@@ -127,8 +125,7 @@ H5_DLLVAR hid_t H5E_ERR_CLS_g;
     {                                                                        \
         H5Epush2(H5E_DEFAULT, __FILE__, func, __LINE__, cls, maj, min, str); \
         return (ret);                                                        \
-    \
-}
+    }
 
 /* Use the Standard C __FILE__ & __LINE__ macros instead of typing them in
  * And goto a label after pushing error onto stack.
@@ -137,8 +134,7 @@ H5_DLLVAR hid_t H5E_ERR_CLS_g;
     {                                                                        \
         H5Epush2(H5E_DEFAULT, __FILE__, func, __LINE__, cls, maj, min, str); \
         goto label;                                                          \
-    \
-}
+    }
 
 /* Error stack traversal direction */
 typedef enum H5E_direction_t {

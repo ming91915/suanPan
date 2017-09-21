@@ -121,8 +121,7 @@ typedef enum H5F_mem_t H5FD_mem_t;
             H5FD_MEM_SUPER, /*gheap*/   \
             H5FD_MEM_SUPER, /*lheap*/   \
             H5FD_MEM_SUPER  /*ohdr*/    \
-    \
-}
+    }
 
 /*
  * A free-list map which segregates requests into `raw' or `meta' data
@@ -137,8 +136,7 @@ typedef enum H5F_mem_t H5FD_mem_t;
             H5FD_MEM_DRAW,  /*gheap*/   \
             H5FD_MEM_SUPER, /*lheap*/   \
             H5FD_MEM_SUPER  /*ohdr*/    \
-    \
-}
+    }
 
 /*
  * The default free list map which causes each request type to use it's own
@@ -153,8 +151,7 @@ typedef enum H5F_mem_t H5FD_mem_t;
             H5FD_MEM_DEFAULT, /*gheap*/   \
             H5FD_MEM_DEFAULT, /*lheap*/   \
             H5FD_MEM_DEFAULT  /*ohdr*/    \
-    \
-}
+    }
 
 /* Define VFL driver features that can be enabled on a per-driver basis */
 /* These are returned with the 'query' function pointer in H5FD_class_t */

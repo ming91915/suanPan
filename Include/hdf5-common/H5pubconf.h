@@ -15,16 +15,16 @@
 #define H5_CONFIG_H_
 
 /* Define if the Windows virtual file driver should be compiled */
-#define H5_HAVE_WINDOWS 1
+/* #undef H5_HAVE_WINDOWS */
 
 /* Define if using MinGW */
 /* #undef H5_HAVE_MINGW */
 
 /* Define if on the Windows platform and default WIN32 API */
-#define H5_HAVE_WIN32_API 1
+/* #undef H5_HAVE_WIN32_API */
 
 /* Define if using a Windows compiler (i.e. Visual Studio) */
-#define H5_HAVE_VISUAL_STUDIO 1
+/* #undef H5_HAVE_VISUAL_STUDIO */
 
 /* Define if building universal (internal helper macro) */
 /* #undef H5_AC_APPLE_UNIVERSAL_BUILD */
@@ -33,10 +33,10 @@
 /* #undef H5_CXX_HAVE_OFFSETOF */
 
 /* Define the default plugins path to compile */
-#define H5_DEFAULT_PLUGINDIR "%ALLUSERSPROFILE%\\hdf5\\lib\\plugin"
+#define H5_DEFAULT_PLUGINDIR "/usr/local/hdf5/lib/plugin"
 
 /* Define if `dev_t' is a scalar */
-/* #undef H5_DEV_T_IS_SCALAR */
+#define H5_DEV_T_IS_SCALAR 1
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
@@ -89,23 +89,23 @@
 /* #undef H5_H5CONFIG_F_RKIND_SIZEOF */
 
 /* Define to 1 if you have the `alarm' function. */
-/* #undef H5_HAVE_ALARM */
+#define H5_HAVE_ALARM 1
 
 /* Define to 1 if you have the `asprintf' function. */
-/* #undef H5_HAVE_ASPRINTF */
+#define H5_HAVE_ASPRINTF 1
 
 /* Define if the __attribute__(()) extension is present */
-/* #undef H5_HAVE_ATTRIBUTE */
+#define H5_HAVE_ATTRIBUTE 1
 
 /* Define if the compiler understands C99 designated initialization of structs
    and unions */
-/* #undef H5_HAVE_C99_DESIGNATED_INITIALIZER */
+#define H5_HAVE_C99_DESIGNATED_INITIALIZER 1
 
 /* Define if the compiler understands the __func__ keyword */
-/* #undef H5_HAVE_C99_FUNC */
+#define H5_HAVE_C99_FUNC 1
 
 /* Define to 1 if you have the `clock_gettime' function. */
-/* #undef H5_HAVE_CLOCK_GETTIME */
+#define H5_HAVE_CLOCK_GETTIME 1
 
 /* Define if the function stack tracing code is to be compiled in */
 /* #undef H5_HAVE_CODESTACK */
@@ -120,10 +120,10 @@
 /* #undef H5_HAVE_DIRECT */
 
 /* Define to 1 if you have the <dirent.h> header file. */
-/* #undef H5_HAVE_DIRENT_H */
+#define H5_HAVE_DIRENT_H 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
-/* #undef H5_HAVE_DLFCN_H */
+#define H5_HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the <dmalloc.h> header file. */
 /* #undef H5_HAVE_DMALLOC_H */
@@ -132,10 +132,10 @@
 #define H5_HAVE_EMBEDDED_LIBINFO 1
 
 /* Define to 1 if you have the `fcntl' function. */
-/* #undef H5_HAVE_FCNTL */
+#define H5_HAVE_FCNTL 1
 
 /* Define to 1 if you have the <features.h> header file. */
-/* #undef H5_HAVE_FEATURES_H */
+#define H5_HAVE_FEATURES_H 1
 
 /* Define if support for deflate (zlib) filter is enabled */
 #define H5_HAVE_FILTER_DEFLATE 1
@@ -144,52 +144,52 @@
 #define H5_HAVE_FILTER_SZIP 1
 
 /* Determine if __float128 is available */
-/* #undef H5_HAVE_FLOAT128 */
+#define H5_HAVE_FLOAT128 1
 
 /* Define to 1 if you have the `flock' function. */
-/* #undef H5_HAVE_FLOCK */
+#define H5_HAVE_FLOCK 1
 
 /* Define to 1 if you have the `fork' function. */
-/* #undef H5_HAVE_FORK */
+#define H5_HAVE_FORK 1
 
 /* Define to 1 if you have the `frexpf' function. */
-/* #undef H5_HAVE_FREXPF */
+#define H5_HAVE_FREXPF 1
 
 /* Define to 1 if you have the `frexpl' function. */
-/* #undef H5_HAVE_FREXPL */
+#define H5_HAVE_FREXPL 1
 
 /* Define to 1 if you have the `fseeko' function. */
-/* #undef H5_HAVE_FSEEKO */
+#define H5_HAVE_FSEEKO 1
 
 /* Define to 1 if you have the `fseeko64' function. */
-/* #undef H5_HAVE_FSEEKO64 */
+#define H5_HAVE_FSEEKO64 1
 
 /* Define to 1 if you have the `fstat64' function. */
-/* #undef H5_HAVE_FSTAT64 */
+#define H5_HAVE_FSTAT64 1
 
 /* Define to 1 if you have the `ftello' function. */
-/* #undef H5_HAVE_FTELLO */
+#define H5_HAVE_FTELLO 1
 
 /* Define to 1 if you have the `ftello64' function. */
-/* #undef H5_HAVE_FTELLO64 */
+#define H5_HAVE_FTELLO64 1
 
 /* Define to 1 if you have the `ftruncate64' function. */
-/* #undef H5_HAVE_FTRUNCATE64 */
+#define H5_HAVE_FTRUNCATE64 1
 
 /* Define if the compiler understands the __FUNCTION__ keyword */
 #define H5_HAVE_FUNCTION 1
 
 /* Define to 1 if you have the `GetConsoleScreenBufferInfo' function. */
-#define H5_HAVE_GETCONSOLESCREENBUFFERINFO 1
+/* #undef H5_HAVE_GETCONSOLESCREENBUFFERINFO */
 
 /* Define to 1 if you have the `gethostname' function. */
 #define H5_HAVE_GETHOSTNAME 1
 
 /* Define to 1 if you have the `getpwuid' function. */
-/* #undef H5_HAVE_GETPWUID */
+#define H5_HAVE_GETPWUID 1
 
 /* Define to 1 if you have the `getrusage' function. */
-/* #undef H5_HAVE_GETRUSAGE */
+#define H5_HAVE_GETRUSAGE 1
 
 /* Define to 1 if you have the `gettextinfo' function. */
 /* #undef H5_HAVE_GETTEXTINFO */
@@ -208,13 +208,13 @@
 #define H5_HAVE_INTTYPES_H 1
 
 /* Define to 1 if you have the `ioctl' function. */
-/* #undef H5_HAVE_IOCTL */
+#define H5_HAVE_IOCTL 1
 
 /* Define to 1 if you have the <io.h> header file. */
-#define H5_HAVE_IO_H 1
+/* #undef H5_HAVE_IO_H */
 
 /* Define to 1 if you have the `dl' library (-ldl). */
-/* #undef H5_HAVE_LIBDL */
+#define H5_HAVE_LIBDL 1
 
 /* Define to 1 if you have the `dmalloc' library (-ldmalloc). */
 /* #undef H5_HAVE_LIBDMALLOC */
@@ -232,7 +232,7 @@
 #define H5_HAVE_LIBSZ 1
 
 /* Define to 1 if you have the `ws2_32' library (-lws2_32). */
-#define H5_HAVE_LIBWS2_32 1
+/* #undef H5_HAVE_LIBWS2_32 */
 
 /* Define to 1 if you have the `z' library (-lz). */
 #define H5_HAVE_LIBZ 1
@@ -253,10 +253,10 @@
 #define H5_HAVE_LROUNDF 1
 
 /* Define to 1 if you have the `lseek64' function. */
-/* #undef H5_HAVE_LSEEK64 */
+#define H5_HAVE_LSEEK64 1
 
 /* Define to 1 if you have the `lstat' function. */
-/* #undef H5_HAVE_LSTAT */
+#define H5_HAVE_LSTAT 1
 
 /* Define to 1 if you have the <mach/mach_time.h> header file. */
 /* #undef H5_HAVE_MACH_MACH_TIME_H */
@@ -280,16 +280,16 @@
 /* #undef H5_HAVE_PARALLEL */
 
 /* Define to 1 if you have the <pthread.h> header file. */
-/* #undef H5_HAVE_PTHREAD_H */
+#define H5_HAVE_PTHREAD_H 1
 
 /* Define to 1 if you have the <quadmath.h> header file. */
 /* #undef H5_HAVE_QUADMATH_H */
 
 /* Define to 1 if you have the `random' function. */
-/* #undef H5_HAVE_RANDOM */
+#define H5_HAVE_RANDOM 1
 
 /* Define to 1 if you have the `rand_r' function. */
-/* #undef H5_HAVE_RAND_R */
+#define H5_HAVE_RAND_R 1
 
 /* Define to 1 if you have the `round' function. */
 #define H5_HAVE_ROUND 1
@@ -307,28 +307,28 @@
 /* #undef H5_HAVE_SETSYSINFO */
 
 /* Define to 1 if you have the `siglongjmp' function. */
-/* #undef H5_HAVE_SIGLONGJMP */
+#define H5_HAVE_SIGLONGJMP 1
 
 /* Define to 1 if you have the `signal' function. */
 #define H5_HAVE_SIGNAL 1
 
 /* Define to 1 if you have the `sigprocmask' function. */
-/* #undef H5_HAVE_SIGPROCMASK */
+#define H5_HAVE_SIGPROCMASK 1
 
 /* Define to 1 if you have the `sigsetjmp' function. */
-/* #undef H5_HAVE_SIGSETJMP */
+#define H5_HAVE_SIGSETJMP 1
 
 /* Define to 1 if you have the `snprintf' function. */
-/* #undef H5_HAVE_SNPRINTF */
+#define H5_HAVE_SNPRINTF 1
 
 /* Define to 1 if you have the `srandom' function. */
-/* #undef H5_HAVE_SRANDOM */
+#define H5_HAVE_SRANDOM 1
 
 /* Define to 1 if you have the `stat64' function. */
-/* #undef H5_HAVE_STAT64 */
+#define H5_HAVE_STAT64 1
 
 /* Define if `struct stat' has the `st_blocks' field */
-/* #undef H5_HAVE_STAT_ST_BLOCKS */
+#define H5_HAVE_STAT_ST_BLOCKS 1
 
 /* Define to 1 if you have the <stdbool.h> header file. */
 #define H5_HAVE_STDBOOL_H 1
@@ -355,7 +355,7 @@
 #define H5_HAVE_STRTOULL 1
 
 /* Define to 1 if you have the <strings.h> header file. */
-/* #undef H5_HAVE_STRINGS_H */
+#define H5_HAVE_STRINGS_H 1
 
 /* Define to 1 if you have the <string.h> header file. */
 #define H5_HAVE_STRING_H 1
@@ -367,22 +367,22 @@
 /* #undef H5_HAVE_STRUCT_VIDEOCONFIG */
 
 /* Define to 1 if you have the `symlink' function. */
-/* #undef H5_HAVE_SYMLINK */
+#define H5_HAVE_SYMLINK 1
 
 /* Define to 1 if you have the `system' function. */
 #define H5_HAVE_SYSTEM 1
 
 /* Define to 1 if you have the <sys/file.h> header file. */
-/* #undef H5_HAVE_SYS_FILE_H */
+#define H5_HAVE_SYS_FILE_H 1
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
-/* #undef H5_HAVE_SYS_IOCTL_H */
+#define H5_HAVE_SYS_IOCTL_H 1
 
 /* Define to 1 if you have the <sys/resource.h> header file. */
-/* #undef H5_HAVE_SYS_RESOURCE_H */
+#define H5_HAVE_SYS_RESOURCE_H 1
 
 /* Define to 1 if you have the <sys/socket.h> header file. */
-/* #undef H5_HAVE_SYS_SOCKET_H */
+#define H5_HAVE_SYS_SOCKET_H 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define H5_HAVE_SYS_STAT_H 1
@@ -391,7 +391,7 @@
 #define H5_HAVE_SYS_TIMEB_H 1
 
 /* Define to 1 if you have the <sys/time.h> header file. */
-/* #undef H5_HAVE_SYS_TIME_H */
+#define H5_HAVE_SYS_TIME_H 1
 
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define H5_HAVE_SYS_TYPES_H 1
@@ -406,37 +406,37 @@
 #define H5_HAVE_TIMEZONE 1
 
 /* Define if the ioctl TIOCGETD is defined */
-/* #undef H5_HAVE_TIOCGETD */
+#define H5_HAVE_TIOCGETD 1
 
 /* Define if the ioctl TIOGWINSZ is defined */
-/* #undef H5_HAVE_TIOCGWINSZ */
+#define H5_HAVE_TIOCGWINSZ 1
 
 /* Define to 1 if you have the `tmpfile' function. */
 #define H5_HAVE_TMPFILE 1
 
 /* Define if `tm_gmtoff' is a member of `struct tm' */
-/* #undef H5_HAVE_TM_GMTOFF */
+#define H5_HAVE_TM_GMTOFF 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
-/* #undef H5_HAVE_UNISTD_H */
+#define H5_HAVE_UNISTD_H 1
 
 /* Define to 1 if you have the `vasprintf' function. */
-/* #undef H5_HAVE_VASPRINTF */
+#define H5_HAVE_VASPRINTF 1
 
 /* Define to 1 if you have the `vsnprintf' function. */
-/* #undef H5_HAVE_VSNPRINTF */
+#define H5_HAVE_VSNPRINTF 1
 
 /* Define to 1 if you have the `waitpid' function. */
-/* #undef H5_HAVE_WAITPID */
+#define H5_HAVE_WAITPID 1
 
 /* Define to 1 if you have the 'InitOnceExecuteOnce' function. */
 /* #undef H5_HAVE_WIN_THREADS */
 
 /* Define if your system has window style path name. */
-#define H5_HAVE_WINDOW_PATH 1
+/* #undef H5_HAVE_WINDOW_PATH */
 
 /* Define to 1 if you have the <winsock.h> header file. */
-#define H5_HAVE_WINSOCK2_H 1
+/* #undef H5_HAVE_WINSOCK2_H */
 
 /* Define to 1 if you have the <zlib.h> header file. */
 #define H5_HAVE_ZLIB_H 1
@@ -451,7 +451,7 @@
 #define H5_HAVE___INLINE 1
 
 /* Define if the compiler understands __inline__ */
-/* #undef H5_HAVE___INLINE__ */
+#define H5_HAVE___INLINE__ 1
 
 /* Define if HDF5's high-level library headers should be included in hdf5.h */
 #define H5_INCLUDE_HL 1
@@ -515,7 +515,7 @@
 /* #undef H5_PAC_FC_MAX_REAL_PRECISION */
 
 /* Width for printf() for type `long long' or `__int64', use `ll' */
-#define H5_PRINTF_LL_WIDTH "I64"
+#define H5_PRINTF_LL_WIDTH "l"
 
 /* The size of `bool', as computed by sizeof. */
 #define H5_SIZEOF_BOOL 1
@@ -545,10 +545,10 @@
 #define H5_SIZEOF_INT8_T 1
 
 /* The size of `int_fast16_t', as computed by sizeof. */
-#define H5_SIZEOF_INT_FAST16_T 4
+#define H5_SIZEOF_INT_FAST16_T 8
 
 /* The size of `int_fast32_t', as computed by sizeof. */
-#define H5_SIZEOF_INT_FAST32_T 4
+#define H5_SIZEOF_INT_FAST32_T 8
 
 /* The size of `int_fast64_t', as computed by sizeof. */
 #define H5_SIZEOF_INT_FAST64_T 8
@@ -573,10 +573,10 @@
 #define H5_SIZEOF_SIZE_T 8
 
 /* The size of `ssize_t', as computed by sizeof. */
-/* #undef H5_SIZEOF_SSIZE_T */
+#define H5_SIZEOF_SSIZE_T 8
 
 /* The size of `long', as computed by sizeof. */
-#define H5_SIZEOF_LONG 4
+#define H5_SIZEOF_LONG 8
 
 #else
 #if defined(__LP64__) && __LP64__
@@ -592,7 +592,7 @@
 #endif
 
 /* The size of `long double', as computed by sizeof. */
-#define H5_SIZEOF_LONG_DOUBLE 8
+#define H5_SIZEOF_LONG_DOUBLE 16
 
 /* Define size of long long and/or __int64 bit integer type only if the type
    exists.  */
@@ -603,13 +603,13 @@
 #endif
 
 /* The size of `off64_t', as computed by sizeof. */
-/* #undef H5_SIZEOF_OFF64_T */
+#define H5_SIZEOF_OFF64_T 8
 
 /* The size of `off_t', as computed by sizeof. */
-#define H5_SIZEOF_OFF_T 4
+#define H5_SIZEOF_OFF_T 8
 
 /* The size of `ptrdiff_t', as computed by sizeof. */
-/* #undef H5_SIZEOF_PTRDIFF_T */
+#define H5_SIZEOF_PTRDIFF_T 8
 
 /* The size of `short', as computed by sizeof. */
 #define H5_SIZEOF_SHORT 2
@@ -627,10 +627,10 @@
 #define H5_SIZEOF_UINT8_T 1
 
 /* The size of `uint_fast16_t', as computed by sizeof. */
-#define H5_SIZEOF_UINT_FAST16_T 4
+#define H5_SIZEOF_UINT_FAST16_T 8
 
 /* The size of `uint_fast32_t', as computed by sizeof. */
-#define H5_SIZEOF_UINT_FAST32_T 4
+#define H5_SIZEOF_UINT_FAST32_T 8
 
 /* The size of `uint_fast64_t', as computed by sizeof. */
 #define H5_SIZEOF_UINT_FAST64_T 8
@@ -660,7 +660,7 @@
 #define H5_SIZEOF___FLOAT128
 
 /* The size of `__int64', as computed by sizeof. */
-#define H5_SIZEOF___INT64 8
+#define H5_SIZEOF___INT64 0
 
 /* Define to 1 if you have the ANSI C header files. */
 #define H5_STDC_HEADERS 1
@@ -670,10 +670,10 @@
 
 /* Define if your system supports pthread_attr_setscope(&attribute,
    PTHREAD_SCOPE_SYSTEM) call. */
-/* #undef H5_SYSTEM_SCOPE_THREADS */
+#define H5_SYSTEM_SCOPE_THREADS 1
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
-/* #undef H5_TIME_WITH_SYS_TIME */
+#define H5_TIME_WITH_SYS_TIME 1
 
 /* Define using v1.6 public API symbols by default */
 /* #undef H5_USE_16_API_DEFAULT */
