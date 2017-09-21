@@ -15,7 +15,9 @@ script:
   - cd cmake-build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DTEST_COVERAGE=ON ../
   - make
-  - ./suanPan -f ../Example/TEST.COV
+  - ./suanPan -f ../Example/TEST1.COV
+  - ./suanPan -f ../Example/TEST2.COV
+  - ./suanPan -f ../Example/TEST3.COV
   - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC; done
 before_install:
   - eval "${MATRIX_EVAL}"

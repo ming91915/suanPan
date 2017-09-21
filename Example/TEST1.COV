@@ -157,7 +157,7 @@ cload 1 .25 2 84 83 82
 cload 2 .125 2 85 81
 
 step static 1
-set ini_step_size .1
+set ini_step_size .2
 set fixed_step_size true
 
 # recorder 1 node U 6
