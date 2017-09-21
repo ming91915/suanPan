@@ -48,4 +48,27 @@ bool if_false(const char*);
 bool if_true(const string&);
 bool if_false(const string&);
 
+#include <armadillo>
+#include <memory>
+
+template <typename T> arma::mat material_tester(const std::shared_ptr<T>& obj, const std::vector<unsigned>& idx, const double& incre) {
+    std::vector<double> A{ 0 }, B{ 0 };
+    arma::vec E{ incre };
+    for(const auto& I : idx) {
+        for(unsigned J = 0; J < I; ++J) {
+            obj->update_incre_status(E);
+            obj->commit_status();
+            A.emplace_back(obj->get_strain().at(0));
+            B.emplace_back(obj->get_stress().at(0));
+        }
+        E = -E;
+    }
+
+    arma::mat response(A.size(), 2);
+    response.col(0) = arma::vec{ A };
+    response.col(1) = arma::vec{ B };
+
+    return response;
+}
+
 #endif
