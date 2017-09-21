@@ -49,7 +49,7 @@ public:
 
     int analyze() final;
 
-    int update_status() override = 0;
+    virtual int update_status() = 0;
 
     void set_ode(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& get_ode() const;

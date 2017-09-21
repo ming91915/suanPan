@@ -44,8 +44,6 @@ public:
 
     virtual int initialize();
 
-    virtual int update_status() = 0;
-
     virtual int analyze() = 0;
 
     void set_converger(const shared_ptr<Converger>&);

@@ -24,11 +24,6 @@
 Newton::Newton(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Solver(T, CT_NEWTON, C, G) {}
 
-int Newton::update_status() {
-    const auto W = get_integrator()->get_domain()->get_factory().lock();
-    return W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
-}
-
 int Newton::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
@@ -50,7 +45,7 @@ int Newton::analyze() {
         G->process();
 
         // call solver
-        const auto flag = update_status();
+        const auto flag = W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
 

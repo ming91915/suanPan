@@ -27,8 +27,6 @@ BFGS::BFGS(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<I
 BFGS::BFGS(const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Solver(0, CT_BFGS, C, G) {}
 
-int BFGS::update_status() { return 0; }
-
 int BFGS::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();

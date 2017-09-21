@@ -35,8 +35,6 @@ class Newton : public Solver {
 public:
     explicit Newton(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
 
-    int update_status() override;
-
     int analyze() override;
 
     void print() override;
