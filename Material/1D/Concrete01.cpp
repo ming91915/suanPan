@@ -68,7 +68,7 @@ int Concrete01::update_trial_status(const vec& t_strain) {
 
     if(trial_strain(0) < trial_max_strain) {
         trial_max_strain = trial_strain(0);
-        trial_residual_strain = .145 * trial_max_strain * trial_max_strain / peak_strain + .13 * trial_max_strain;
+        if(!center_oriented) trial_residual_strain = .145 * trial_max_strain * trial_max_strain / peak_strain + .13 * trial_max_strain;
     }
 
     const auto strain_a = trial_strain(0) - trial_residual_strain;
@@ -88,13 +88,13 @@ int Concrete01::update_trial_status(const vec& t_strain) {
                 on_backbone = false;
                 trial_reverse_strain = current_strain(0);
                 trial_reverse_stress = current_stress(0);
-                trial_stiffness(0) = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
-                trial_stress(0) = trial_stiffness(0) * strain_a;
+                trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+                trial_stress = trial_stiffness * strain_a;
             }
         else if(trial_strain(0) >= trial_reverse_strain) {
             // still inside backbone
-            if(trial_stiffness(0) == 0.) trial_stiffness(0) = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
-            trial_stress(0) = trial_stiffness(0) * strain_a;
+            if(trial_stiffness(0) == 0.) trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+            trial_stress = trial_stiffness * strain_a;
         } else {
             // reload to backbone
             on_backbone = true;
@@ -102,8 +102,8 @@ int Concrete01::update_trial_status(const vec& t_strain) {
         }
     else {
         // the trial position is in tension zone
-        trial_stress(0) = 0.;
-        trial_stiffness(0) = 0.;
+        trial_stress = 0.;
+        trial_stiffness = 0.;
     }
 
     return 0;
@@ -162,6 +162,22 @@ void Concrete01::compute_backbone() {
         const auto tmp_b = N - 1.;
         trial_stress = peak_stress * normal_strain * M / (1. + (M - N / tmp_b) * normal_strain + (tmp_a + 1.) / tmp_b);
         trial_stiffness = -peak_stress * M * tmp_a * tmp_b * tmp_b / peak_strain / pow(tmp_a + N + normal_strain * (M * N - M - N), 2.);
+        break;
+    }
+    case BackboneType::KPSU:
+    case BackboneType::KPSC: {
+        const auto tmp_a = .5 / ((.29 * peak_stress - 3.) / (145. * peak_stress + 1000.) + peak_strain);
+        const auto ultimate_strain = -.8 / tmp_a + peak_strain;
+        if(trial_strain(0) < ultimate_strain) {
+            trial_stress = 0.;
+            trial_stiffness = 0.;
+        } else if(trial_strain(0) < peak_strain) {
+            trial_stress = peak_stress + peak_stress * tmp_a * (trial_strain(0) - peak_strain);
+            trial_stiffness = peak_stress * tmp_a;
+        } else {
+            trial_stress = peak_stress * normal_strain * (2. - normal_strain);
+            trial_stiffness = 2. * peak_stress / peak_strain * (1. - normal_strain);
+        }
         break;
     }
     }

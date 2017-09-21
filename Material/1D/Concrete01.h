@@ -20,25 +20,28 @@
 
 #include <Material/Material.h>
 
-enum class BackboneType { THORENFELDT, POPOVICS, TSAI };
+enum class BackboneType { THORENFELDT, POPOVICS, TSAI, KPSC, KPSU };
 
 class Concrete01 : public Material {
     const double peak_strain, peak_stress;
+
     const BackboneType backbone_type;
 
-    double M = 0.;
-    double N = 0.;
+    bool center_oriented;
+
+    double M = 0., N = 0.;
 
     bool on_backbone = true;
 
     void compute_backbone();
 
 public:
-    Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP)
+    Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO = false)
         : Material(T, MT_CONCRETE01)
         , peak_strain(EP)
         , peak_stress(SP)
-        , backbone_type(TP) {
+        , backbone_type(TP)
+        , center_oriented(CO) {
         Concrete01::initialize();
     }
 
