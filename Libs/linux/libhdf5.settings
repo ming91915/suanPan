@@ -1,0 +1,83 @@
+	    SUMMARY OF THE HDF5 CONFIGURATION
+	    =================================
+
+General Information:
+-------------------
+                   HDF5 Version: 1.10.1
+                  Configured on: 2017-09-22
+                  Configured by: Unix Makefiles
+                    Host system: Linux-4.10.0-35-generic
+              Uname information: Linux
+                       Byte sex: little-endian
+             Installation point: /media/ted/Ninja/Code/CMake-hdf5-1.10.1/HDF_Group/HDF5/1.10.1
+
+Compiling Options:
+------------------
+                     Build Mode: Release
+              Debugging Symbols: 
+                        Asserts: 
+                      Profiling: 
+             Optimization Level: 
+
+Linking Options:
+----------------
+                      Libraries: 
+  Statically Linked Executables: OFF
+                        LDFLAGS: 
+                     H5_LDFLAGS: 
+                     AM_LDFLAGS: 
+                Extra libraries: m;dl;zlib-static;szip-static
+                       Archiver: /usr/bin/ar
+                         Ranlib: /usr/bin/ranlib
+
+Languages:
+----------
+                              C: yes
+                     C Compiler: /usr/bin/cc 6.3.0
+                       CPPFLAGS: 
+                    H5_CPPFLAGS: 
+                    AM_CPPFLAGS: 
+                         CFLAGS:   -std=c99 -fstdarg-opt -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Wno-unused-parameter -Wno-inline -Wno-aggregate-return -Wall -Wextra -pedantic  -Wfloat-equal -Wmissing-format-attribute -Wpacked -Wdisabled-optimization -Wno-missing-noreturn -Wendif-labels -Wdeclaration-after-statement -Wold-style-definition -Winvalid-pch  -Wvariadic-macros -Winit-self -Wmissing-include-dirs -Wswitch-default -Wswitch-enum -Wunused-macros -Wc++-compat -Wno-strict-overflow -Wlogical-op -Wlarger-than=2048 -Wvla -Wsync-nand -Wframe-larger-than=16384 -Wpacked-bitfield-compat -Wjump-misses-init -Wunsuffixed-float-constants -Wdouble-promotion -Wtrampolines -Wno-suggest-attribute=const -Wunreachable-code -Wstack-usage=8192 -Wvector-operation-performance -Wno-suggest-attribute=pure -Wno-suggest-attribute=noreturn -Wno-suggest-attribute=format -Wdate-time -Wopenmp-simd -fmessage-length=0
+                      H5_CFLAGS: 
+                      AM_CFLAGS: 
+               Shared C Library: NO
+               Static C Library: YES
+
+                        Fortran: OFF
+               Fortran Compiler:  
+                  Fortran Flags: 
+               H5 Fortran Flags: 
+               AM Fortran Flags: 
+         Shared Fortran Library: NO
+         Static Fortran Library: YES
+
+                            C++: ON
+                   C++ Compiler: /usr/bin/c++ 6.3.0
+                      C++ Flags:   -fstdarg-opt -fmessage-length=0
+                   H5 C++ Flags: 
+                   AM C++ Flags: 
+             Shared C++ Library: NO
+             Static C++ Library: YES
+
+                            JAVA: OFF
+                   JAVA Compiler:  
+
+Features:
+---------
+                  Parallel HDF5: OFF
+             High-level library: ON
+                   Threadsafety: OFF
+            Default API mapping: v110
+ With deprecated public symbols: ON
+         I/O filters (external):  DEFLATE DECODE ENCODE
+                            MPE: 
+                     Direct VFD: 
+                        dmalloc: 
+ Packages w/ extra debug output: 
+                    API Tracing: OFF
+           Using memory checker: OFF
+Memory allocation sanity checks: OFF
+            Metadata trace file: 
+         Function Stack Tracing: OFF
+      Strict File Format Checks: OFF
+   Optimization Instrumentation: 
