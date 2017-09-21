@@ -53,24 +53,24 @@
 #define H5F_ACC_EXCL (H5CHECK H5OPEN 0x0004u)   /*fail if file already exists*/
 /* NOTE: 0x0008u was H5F_ACC_DEBUG, now deprecated */
 #define H5F_ACC_CREAT (H5CHECK H5OPEN 0x0010u) /*create non-existing files  */
-#define H5F_ACC_SWMR_WRITE                                           \
-    (H5CHECK 0x0020u) /*indicate that this file is         \ \ \ \ \ \
-                       * open for writing in a             \ \ \ \ \ \
-                       * single-writer/multi-reader (SWMR) \ \ \ \ \ \
-                       * scenario.  Note that the          \ \ \ \ \ \
-                       * process(es) opening the file      \ \ \ \ \ \
-                       * for reading must open the file    \ \ \ \ \ \
-                       * with RDONLY access, and use       \ \ \ \ \ \
-                       * the special "SWMR_READ" access    \ \ \ \ \ \
+#define H5F_ACC_SWMR_WRITE                                             \
+    (H5CHECK 0x0020u) /*indicate that this file is         \ \ \ \ \ \ \
+                       * open for writing in a             \ \ \ \ \ \ \
+                       * single-writer/multi-reader (SWMR) \ \ \ \ \ \ \
+                       * scenario.  Note that the          \ \ \ \ \ \ \
+                       * process(es) opening the file      \ \ \ \ \ \ \
+                       * for reading must open the file    \ \ \ \ \ \ \
+                       * with RDONLY access, and use       \ \ \ \ \ \ \
+                       * the special "SWMR_READ" access    \ \ \ \ \ \ \
                        * flag. */
-#define H5F_ACC_SWMR_READ                                            \
-    (H5CHECK 0x0040u) /*indicate that this file is         \ \ \ \ \ \
-                       * open for reading in a             \ \ \ \ \ \
-                       * single-writer/multi-reader (SWMR) \ \ \ \ \ \
-                       * scenario.  Note that the          \ \ \ \ \ \
-                       * process(es) opening the file      \ \ \ \ \ \
-                       * for SWMR reading must also        \ \ \ \ \ \
-                       * open the file with the RDONLY     \ \ \ \ \ \
+#define H5F_ACC_SWMR_READ                                              \
+    (H5CHECK 0x0040u) /*indicate that this file is         \ \ \ \ \ \ \
+                       * open for reading in a             \ \ \ \ \ \ \
+                       * single-writer/multi-reader (SWMR) \ \ \ \ \ \ \
+                       * scenario.  Note that the          \ \ \ \ \ \ \
+                       * process(es) opening the file      \ \ \ \ \ \ \
+                       * for SWMR reading must also        \ \ \ \ \ \ \
+                       * open the file with the RDONLY     \ \ \ \ \ \ \
                        * flag.  */
 
 /* Value passed to H5Pset_elink_acc_flags to cause flags to be taken from the
