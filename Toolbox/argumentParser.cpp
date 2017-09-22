@@ -19,8 +19,8 @@
 #include "commandParser.h"
 #include <Step/Bead.h>
 #include <Toolbox/utility.h>
-#include <ctime>
 #include <suanPan.h>
+#include <time.h>
 
 using std::ofstream;
 using std::string;

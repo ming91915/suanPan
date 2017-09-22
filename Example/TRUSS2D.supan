@@ -17,8 +17,6 @@ fix 3 2 3
 cload 1 2E4 2 2
 # disp 2 0.2147 2 2
 
-# recorder 1 node U 6
-
 step static 1
 set ini_step_size .1
 set fixed_step_size true
@@ -30,7 +28,5 @@ analyze
 peek node 2
 
 peek element 2
-
-# peek recorder 1
 
 exit

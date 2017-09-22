@@ -151,23 +151,19 @@ element CP4 62 77 82 83 78 1 1 0 1
 element CP4 63 78 83 84 79 1 1 0 1
 element CP4 64 79 84 85 80 1 1 0 1
 
-step static 1
-set ini_step_size .1
-set fixed_step_size true
-
 fix 1 P 1 2 3 4 5
 
 cload 1 .25 2 84 83 82
 cload 2 .125 2 85 81
 
-# recorder 1 node U 6
+step static 1
+set ini_step_size .1
+set fixed_step_size true
 
 analyze
 
 peek node 83
 
 peek element 1
-
-# print recorder 1
 
 exit

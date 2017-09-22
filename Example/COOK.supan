@@ -20,12 +20,6 @@ element PS 2 2 3 6 5 1 1
 element PS 3 4 5 8 7 1 1
 element PS 4 5 6 9 8 1 1
 
-# recorder 1 node U 6
-
-step static 1
-set ini_step_size .1
-set fixed_step_size true
-
 fix 1 1 1 4 7
 fix 2 2 1 4 7
 fix 3 3 1 4 7
@@ -33,12 +27,12 @@ fix 3 3 1 4 7
 cload 1 .25 2 3 9
 cload 2 .5 2 6
 
+step static 1
+set ini_step_size .1
+set fixed_step_size true
+
 analyze
 
 peek node 6
-
-# peek element 3
-
-# peek recorder 1
 
 exit

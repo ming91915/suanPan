@@ -21,6 +21,9 @@
     <Filter Include="Load">
       <UniqueIdentifier>{b8e813cb-4844-4eea-a965-bfa7df549659}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Recorder">
+      <UniqueIdentifier>{22f35a9a-d03e-4873-a8f7-e4f09f9e3a42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\suanPan_Main.cpp">
@@ -33,9 +36,6 @@
       <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Domain\Tag.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\tensorToolbox.cpp">
@@ -66,9 +66,6 @@
       <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\utility.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp">
@@ -125,11 +122,14 @@
     <ClCompile Include="..\..\..\Toolbox\IntegrationPlan.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp">
+      <Filter>Recorder</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Recorder\Recorder.cpp">
+      <Filter>Recorder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Recorder\Recorder.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
       <Filter>SRC</Filter>
     </ClInclude>
@@ -211,9 +211,6 @@
     <ClInclude Include="..\..\..\Database\HDF.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Recorder\NodeRecorder.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Recorder\OutputList.h">
       <Filter>SRC</Filter>
     </ClInclude>
@@ -237,6 +234,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\IntegrationPlan.h">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\NodeRecorder.h">
+      <Filter>Recorder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\Recorder.h">
+      <Filter>Recorder</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

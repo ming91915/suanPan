@@ -37,7 +37,6 @@ using std::vector;
 class Recorder : public Tag {
     unsigned object_tag;
     OutputList variable_type;
-    const char* variable_name;
     vector<double> time_pool;      /**< recorded data */
     vector<vector<vec>> data_pool; /**< recorded data */
 

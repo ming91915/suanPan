@@ -11,14 +11,24 @@ addons:
 env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-6 && CXX=g++-6"
 script:
-  - mkdir cmake-build
-  - cd cmake-build
+  - mkdir cmake-build && cd cmake-build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DTEST_COVERAGE=ON ../
   - make
-  - ./suanPan -f ../Example/TEST1.COV
-  - ./suanPan -f ../Example/TEST2.COV
-  - ./suanPan -f ../Example/TEST3.COV
-  - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC; done
+  - ./suanPan -f ../Example/C3D20.supan
+  - ./suanPan -f ../Example/C3D8.supan
+  - ./suanPan -f ../Example/COOK.supan
+  - ./suanPan -f ../Example/COOK4.supan
+  - ./suanPan -f ../Example/CPS3.supan
+  - ./suanPan -f ../Example/CPS4N100.supan
+  - ./suanPan -f ../Example/CPS4N50.supan
+  - ./suanPan -f ../Example/CPS4NL.supan
+  - ./suanPan -f ../Example/GQ12.supan
+  - ./suanPan -f ../Example/IREGULARBEAM.supan
+  - ./suanPan -f ../Example/MACNEAL.supan
+  - ./suanPan -f ../Example/PROTO01.supan
+  - ./suanPan -f ../Example/QE2.supan
+  - ./suanPan -f ../Example/TRUSS2D.supan
+  - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
 before_install:
   - eval "${MATRIX_EVAL}"
 after_success: 

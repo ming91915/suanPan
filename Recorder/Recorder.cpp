@@ -21,10 +21,11 @@ Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, con
     : Tag(T, CT)
     , object_tag(B)
     , variable_type(L)
-    , variable_name(to_char(L))
-    , record_time(R) {}
+    , record_time(R) {
+    suanpan_debug("NodeRecorder %u ctor() called.\n", T);
+}
 
-Recorder::~Recorder() {}
+Recorder::~Recorder() { suanpan_debug("NodeRecorder %u dtor() called.\n", get_tag()); }
 
 void Recorder::set_object_tag(const unsigned& T) { object_tag = T; }
 

@@ -60,23 +60,17 @@ element Proto01 14 17 18 23 22 1 1
 element Proto01 15 18 19 24 23 1 1
 element Proto01 16 19 20 25 24 1 1
 
-# recorder 1 node U 6
-
-step static 1
-set ini_step_size .1
-set fixed_step_size true
-
 fix 1 P 1 6 11 16 21
 
 cload 1 .125 2 5 25
 cload 2 .25 2 10 15 20
 
+step static 1
+set ini_step_size .1
+set fixed_step_size true
+
 analyze
 
 peek node 15
-
-# peek element 3
-
-# peek recorder 1
 
 exit

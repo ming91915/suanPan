@@ -21,9 +21,7 @@
 #include <Domain/Node.h>
 
 NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
-    : Recorder(T, CT_NODERECORDER, B, L, R) {
-    suanpan_info("NodeRecorder %u ctor() called.\n", T);
-}
+    : Recorder(T, CT_NODERECORDER, B, L, R) {}
 
 void NodeRecorder::record(const shared_ptr<Domain>& D) {
     auto& t_obj = D->get_node(get_object_tag());
