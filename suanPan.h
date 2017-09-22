@@ -130,8 +130,6 @@
 
 using namespace arma;
 
-using std::cout;
-
 using std::shared_ptr;
 using std::unique_ptr;
 using std::weak_ptr;

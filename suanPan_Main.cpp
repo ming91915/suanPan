@@ -15,6 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <iomanip>
 #include <suanPan>
 
 int main(int argc, char** argv) {
@@ -23,6 +24,6 @@ int main(int argc, char** argv) {
 
     argument_parser(argc, argv);
 
-    cout << "\nFinished: " << T.toc() << "\n";
+    cout << "\nFinished in " << std::setprecision(5) << T.toc() << " seconds.\n\n";
     return 0;
 }
