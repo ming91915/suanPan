@@ -71,7 +71,7 @@ The gross memory used by `standard.exe` is around $60$ MB. One double-precision 
 
 ### Some notes on OpenSees Model
 
-The element used is the build-in `quad` element (check [this link](http://opensees.berkeley.edu/wiki/index.php/Quad_Element)), this element is optimized so that the computation cost is minimized, as a result, the performance is superior. The speed boost brought by this element $20\percent$ to $30\percent$ compared to the conventional formulation.
+The element used is the build-in `quad` element (check [this link](http://opensees.berkeley.edu/wiki/index.php/Quad_Element)), this element is optimized so that the computation cost is minimized, as a result, the performance is superior. The speed boost brought by this element $20\%$ to $30\%$ compared to the conventional formulation.
 
 The band symmetric matrix storage corresponds to the *BandSPD* system.
 
@@ -91,13 +91,13 @@ For the purpose of analysis, other testers will work as well. But to guarantee t
 
 Model Name: CPS4NL50.supan
 
-| Platform           | Wallclock Time | Scaled Time | Memory Usage |    Max GFLOPS   |
-|:-------------------|:--------------:|:-----------:|:------------:|:---------------:|
-| ABAQUS             |      20.9      |     2.22    |      60      |        -        |
-| OpenSees           |      16.6      |     1.77    |      30      | 10.921 (\_trsm) |
-| suanPan (Ref.)     |       9.4      |     1.00    |      53      | 10.562 (\_gemv) |
-| suanPan (OpenBlas) |       6.0      |     0.64    |      45      |        -        |
-| suanPan (MKL)      |       5.6      |     0.60    |      55      |      22.493     |
+| Platform           | Wallclock (s) | Scaled Time | Memory (MB) |    Max GFLOPS   |
+|:-------------------|:-------------:|:-----------:|:-----------:|:---------------:|
+| ABAQUS             |      20.9     |     2.22    |      60     |        -        |
+| OpenSees           |      16.6     |     1.77    |      30     | 10.921 (\_trsm) |
+| suanPan (Ref.)     |      9.4      |     1.00    |      53     | 11.398 (\_trsm) |
+| suanPan (OpenBlas) |      6.0      |     0.64    |      45     |        -        |
+| suanPan (MKL)      |      5.6      |     0.60    |      55     |      22.493     |
 
 Some explanations:
 
@@ -106,15 +106,15 @@ Some explanations:
 -   suanPan (Ref.) is linked to reference LAPACK 3.4.2.
 -   suanPan (OpenBLAS) is linked to OpenBLAS 0.2.20 in single threaded mode.
 -   suanPan (MKL) is linked to Intel MKL 2018 in sequential mode.
--   GFLOPS is obtained from Intel Adviser 2018. The \_trsm and \_gemv are the fastest LAPACK (BLAS) subroutines measured.
+-   GFLOPS is obtained from Intel Adviser 2018. The \_trsm is the fastest LAPACK (BLAS) subroutines measured.
 -   For problems of this scale (around several thousands or even greater), enabling multi-threading does not help to speed up the analysis. The spin time and overhead are way greater than the execution time of the most model operations.
 
 ### Some Discussions
 
 -   ABAQUS uses Intel MKL as well thus should be fast. But in this special case it is slow.
--   Both OpenSees and suanPan (Ref.) use reference BLAS and LAPACK from [netlib](http://www.netlib.org/lapack/), the matrix solving procedure uses the same subroutine \_pbsv to solve the global system. It takes similar time to run for both programs as the maximum GFLOPS is close. The second fastest subroutine in suanPan (Ref.) is in fact \_trsm.
--   The difference between OpenSees and suanPan (Ref.) is $77\percent$. It ought to come from the FE analysis flow. The difference between element level computation should be negligible as the formulation is simple and similar.
--   The performance of OpenBLAS and MKL is similar, which can be checked from OpenBLAS official site. Though, MKL is slightly faster in this case.
+-   Both OpenSees and suanPan (Ref.) use reference BLAS and LAPACK from [netlib](http://www.netlib.org/lapack/), the matrix solving procedure uses the same subroutine \_pbsv to solve the global system. It takes similar time to run for both programs as the maximum GFLOPS is close.
+-   The difference between OpenSees and suanPan (Ref.) is $77\%$. It ought to come from the FE analysis flow. The difference between element level computation should be negligible as the formulation is simple and similar.
+-   The performance of OpenBLAS and MKL is similar, OpenBLAS official site provides some benchmarks. Though, MKL is slightly faster in this case.
 -   The running time of OpenSees almost triples the one of suanPan (MKL).
 
 ### Another Example Model
@@ -123,12 +123,12 @@ Following is the same model but with a dense mesh, the mesh grid is refined to $
 
 Model Name: CPS4NL100.supan
 
-| Platform           | Wallclock Time | Scaled Time | Memory Usage |
-|:-------------------|:--------------:|:-----------:|:------------:|
-| ABAQUS             |       8.4      |     0.73    |      94      |
-| OpenSees           |      21.2      |     1.84    |      104     |
-| suanPan (Ref.)     |      11.5      |     1.00    |      229     |
-| suanPan (OpenBlas) |       6.2      |     0.54    |      203     |
-| suanPan (MKL)      |       5.9      |     0.51    |      231     |
+| Platform           | Wallclock (s) | Scaled Time | Memory (MB) |
+|:-------------------|:-------------:|:-----------:|:-----------:|
+| ABAQUS             |      8.4      |     0.73    |      94     |
+| OpenSees           |      21.2     |     1.84    |     104     |
+| suanPan (Ref.)     |      11.5     |     1.00    |     229     |
+| suanPan (OpenBlas) |      6.2      |     0.54    |     203     |
+| suanPan (MKL)      |      5.9      |     0.51    |     231     |
 
-With the increased problem size, in this case ABAQUS is fast. OpenSees is significantly slower than other platforms.
+With the problem size increased, in this case ABAQUS is fast. OpenSees is significantly slower than all other platforms.
