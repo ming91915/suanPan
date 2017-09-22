@@ -4,16 +4,16 @@
 General Information:
 -------------------
                    HDF5 Version: 1.10.1
-                  Configured on: 2017-09-22
+                  Configured on: 2017-09-23
                   Configured by: MinGW Makefiles
                     Host system: Windows-6.1.7601
               Uname information: Windows
                        Byte sex: little-endian
-             Installation point: C:/Users/T/Downloads/hdf5-1.10.1-gcc2/HDF_Group/HDF5/1.10.1
+             Installation point: C:/Program
 
 Compiling Options:
 ------------------
-                     Build Mode: 
+                     Build Mode: Release
               Debugging Symbols: 
                         Asserts: 
                       Profiling: 
@@ -26,7 +26,7 @@ Linking Options:
                         LDFLAGS: 
                      H5_LDFLAGS: 
                      AM_LDFLAGS: 
-                Extra libraries: 
+                Extra libraries: zlib-static;szip-static
                        Archiver: C:/TDM-GCC-64/bin/ar.exe
                          Ranlib: C:/TDM-GCC-64/bin/ranlib.exe
 
@@ -37,7 +37,7 @@ Languages:
                        CPPFLAGS: 
                     H5_CPPFLAGS: 
                     AM_CPPFLAGS: 
-                         CFLAGS:   -std=c99 -fstdarg-opt -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Wno-unused-parameter -Wno-inline -Wno-aggregate-return -fmessage-length=0
+                         CFLAGS:   -std=c99 -fstdarg-opt -Wundef -Wshadow -Wpointer-arith -Wbad-function-cast -Wcast-align -Wwrite-strings -Wconversion -Waggregate-return -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs -Wno-unused-parameter -Wno-inline -Wno-aggregate-return -Wall -Wextra -pedantic  -Wfloat-equal -Wmissing-format-attribute -Wpacked -Wdisabled-optimization -Wno-missing-noreturn -Wendif-labels -Wdeclaration-after-statement -Wold-style-definition -Winvalid-pch  -Wvariadic-macros -Winit-self -Wmissing-include-dirs -Wswitch-default -Wswitch-enum -Wunused-macros -Wc++-compat -Wno-strict-overflow -Wlogical-op -Wlarger-than=2048 -Wvla -Wsync-nand -Wframe-larger-than=16384 -Wpacked-bitfield-compat -Wjump-misses-init -Wunsuffixed-float-constants -Wdouble-promotion -Wtrampolines -Wno-suggest-attribute=const -Wunreachable-code -Wstack-usage=8192 -Wvector-operation-performance -Wno-suggest-attribute=pure -Wno-suggest-attribute=noreturn -Wno-suggest-attribute=format -Wdate-time -Wopenmp-simd -fmessage-length=0
                       H5_CFLAGS: 
                       AM_CFLAGS: 
                Shared C Library: NO
@@ -69,7 +69,7 @@ Features:
                    Threadsafety: OFF
             Default API mapping: v110
  With deprecated public symbols: ON
-         I/O filters (external): 
+         I/O filters (external):  DEFLATE DECODE ENCODE
                             MPE: 
                      Direct VFD: 
                         dmalloc: 

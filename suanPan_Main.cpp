@@ -23,6 +23,6 @@ int main(int argc, char** argv) {
 
     argument_parser(argc, argv);
 
-    cout << "Finished: " << T.toc() << "\n";
+    cout << "\nFinished: " << T.toc() << "\n";
     return 0;
 }

@@ -29,20 +29,24 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows") # WINDOWS PLATFORM
 
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-gcc)
-            link_libraries(hdf5_cpp-static hdf5-static)
         endif()
 
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # MSVC COMPILER
 
         link_directories(${ROOT}/Libs/msvc)
         link_libraries(superlu lapack)
+
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-msvc)
-            link_libraries(libhdf5_cpp libhdf5 libszip libzlib)
         endif()
+        
         set(CMAKE_CXX_FLAGS "/MP /EHsc /arch:AVX")
         set(CMAKE_CXX_FLAGS_DEBUG "/D \"DEBUG\"")
 
+    endif()
+
+    if(USE_HDF5)
+        link_libraries(libhdf5_cpp libhdf5 libszip libzlib)
     endif()
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux") # LINUX PLATFORM
