@@ -82,13 +82,9 @@ void print_version() {
 #elif defined(_MSC_FULL_VER)
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
-    auto int_time = time(nullptr);
-    struct tm new_time;
-    char string_time[26];
-    gmtime_s(&new_time, &int_time);
-    asctime_s(string_time, sizeof string_time, &new_time);
+    auto t_time = time(nullptr);
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0\n\tcompiled with %s %s\n\tdate %s\n", SUANPAN_COMPILER, version.c_str(), string_time);
+    suanpan_info("\tversion Acrux 0.1.0\n\tcompiled with %s %s\n\tdate %s\n", SUANPAN_COMPILER, version.c_str(), asctime(gmtime(&t_time)));
     suanpan_info("[From Wikipedia] Alpha Crucis is a multiple star system located 321 light years from the Sun in the constellation of Crux and part of the asterism known as the Southern Cross.\n\n");
 }
 
