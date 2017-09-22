@@ -88,8 +88,8 @@ void print_version() {
     gmtime_s(&new_time, &int_time);
     asctime_s(string_time, sizeof string_time, &new_time);
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0\n\tdate %s\n\tcompiled with %s %s\n", string_time, SUANPAN_COMPILER, version.c_str());
-    suanpan_info("\n[From Wikipedia] Alpha Crucis is a multiple star system located 321 light years from the Sun in the constellation of Crux and part of the asterism known as the Southern Cross.\n");
+    suanpan_info("\tversion Acrux 0.1.0\n\tcompiled with %s %s\n\tdate %s\n", SUANPAN_COMPILER, version.c_str(), string_time);
+    suanpan_info("[From Wikipedia] Alpha Crucis is a multiple star system located 321 light years from the Sun in the constellation of Crux and part of the asterism known as the Southern Cross.\n\n");
 }
 
 void print_helper() {
