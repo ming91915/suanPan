@@ -76,14 +76,16 @@
 #ifdef __VERSION__
 #define SUANPAN_VERSION __VERSION__
 #define SUANPAN_COMPILER "GCC"
+#define SUANPAN_GCC
 #endif
 // _MSC_FULL_VER --> MSVC
 #ifdef _MSC_FULL_VER
 #define SUANPAN_VERSION _MSC_FULL_VER
 #define SUANPAN_COMPILER "MSVC"
+#define SUANPAN_MSVC
 #endif
 
-// SUANPAN_DLL
+// _USRDLL --> MSVC
 #ifdef _USRDLL
 #ifndef SUANPAN_DLL
 #define SUANPAN_DLL
@@ -107,10 +109,9 @@
 #endif
 
 #ifdef _OPENMP
-#ifndef SUANPAN_OPENMP
-#define SUANPAN_OPENMP
+#ifndef SUANPAN_MT
+#define SUANPAN_MT
 #endif
-#define SUANPAN_CHUNK 512
 #endif
 
 // TWO IMPLEMENTATIONS

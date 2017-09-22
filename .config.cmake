@@ -6,8 +6,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 option(USE_HDF5 "USE HDF5 LIBRARY" OFF)
 option(USE_NETLIB "USE NETLIB BLAS AND LAPACK" ON)
-option(USE_OPENMP "USE OPENMP LIBRARY" OFF)
 option(USE_OPENBLAS "USE OPENBLAS LIBRARY" OFF)
+option(BUILD_MULTI_THREAD "BUILD MULTI THREAD VERSION" OFF)
 option(BUILD_DLL_EXAMPLE "BUILD DYNAMIC LIBRARY EXAMPLE" ON)
 option(TEST_COVERAGE "TEST CODE COVERAGE USING GCOV" OFF)
 
@@ -17,24 +17,23 @@ else()
     add_definitions(-DARMA_DONT_USE_HDF5)
 endif()
 
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+if(BUILD_MULTI_THREAD)
+    add_definitions(-DSUANPAN_MT)
+endif()
 
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if(CMAKE_SYSTEM_NAME MATCHES "Windows") # WINDOWS PLATFORM
+
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
+
         link_directories(${ROOT}/Libs/gcc)
-        link_libraries(arpack superlu spmm)
-        if(USE_OPENBLAS)
-            set(USE_NETLIB OFF)
-            link_libraries(openblas pthread)
-        elseif(USE_NETLIB)
-            set(USE_OPENBLAS OFF)
-            link_libraries(lapack)
-        endif()
-        link_libraries(gfortran quadmath)
+
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-gcc)
             link_libraries(hdf5_cpp-static hdf5-static)
         endif()
-    elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # MSVC COMPILER
+
         link_directories(${ROOT}/Libs/msvc)
         link_libraries(superlu lapack)
         if(USE_HDF5)
@@ -43,21 +42,14 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows")
         endif()
         set(CMAKE_CXX_FLAGS "/MP /EHsc /arch:AVX")
         set(CMAKE_CXX_FLAGS_DEBUG "/D \"DEBUG\"")
+
     endif()
 
-elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux") # LINUX PLATFORM
 
-    link_directories(${ROOT}/Libs/linux)
-    link_libraries(arpack superlu spmm)
-    if(USE_OPENBLAS)
-        set(USE_NETLIB OFF)
-        link_libraries(openblas pthread)
-    elseif(USE_NETLIB)
-        set(USE_OPENBLAS OFF)
-        link_libraries(lapack)
-    endif()
-    link_libraries(gfortran quadmath dl)
-    
+    link_directories(${ROOT}/Libs/linux) # GNU GCC COMPILER
+	link_libraries(dl)
+
     if(USE_HDF5)
         include_directories(${ROOT}/Include/hdf5-linux)
         link_libraries(hdf5_cpp hdf5 szip z)
@@ -65,22 +57,23 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 
 endif()
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    if(USE_OPENMP)
-        set(CMAKE_CXX_FLAGS "-fopenmp")
-        set(CMAKE_CXX_FLAGS_DEBUG "-fopenmp")
-        set(CMAKE_EXE_LINKER_FLAGS "-fopenmp")
-        add_definitions(-DSUANPAN_OPENMP)
-    endif ()
-    set(CMAKE_CXX_FLAGS "-O3 -fexceptions")
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
+
+    link_libraries(arpack superlu spmm)
+    if((USE_OPENBLAS)AND(NOT(USE_NETLIB)))
+        link_libraries(openblas pthread)
+    elseif((USE_NETLIB)AND(NOT(USE_OPENBLAS)))
+        link_libraries(lapack)
+    else()
+    	message(FATAL_ERROR "Pease check either USE_NETLIB or USE_OPENBLAS.")
+    endif()
+    link_libraries(gfortran quadmath)
+
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fexceptions -mavx")
     set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
-    if(TEST_COVERAGE)
+    if(TEST_COVERAGE) # COVERAGE ONLY AVAILABLE UNDER GCC
         set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
-        set(CMAKE_CXX_FLAGS_DEBUG "-fprofile-arcs -ftest-coverage")
         link_libraries(gcov)
     endif()
-endif()
-
-if((NOT USE_OPENBLAS) AND (NOT USE_NETLIB))
-    message("Pease check either USE_NETLIB or USE_OPENBLAS.")
+    
 endif()
