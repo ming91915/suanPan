@@ -60,9 +60,9 @@ endif()
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
 
     link_libraries(arpack superlu spmm)
-    if((USE_OPENBLAS)AND(NOT(USE_NETLIB)))
+    if((USE_OPENBLAS) AND (NOT USE_NETLIB))
         link_libraries(openblas pthread)
-    elseif((USE_NETLIB)AND(NOT(USE_OPENBLAS)))
+    elseif((USE_NETLIB) AND (NOT USE_OPENBLAS))
         link_libraries(lapack)
     else()
     	message(FATAL_ERROR "Pease check either USE_NETLIB or USE_OPENBLAS.")

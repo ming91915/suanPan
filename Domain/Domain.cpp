@@ -436,9 +436,9 @@ void Domain::update_trial_status() const {
 
     Concurrency::parallel_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });
 #else
-    if (analysis_type == AnalysisType::STATICS)
+    if(analysis_type == AnalysisType::STATICS)
         std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp); });
-    else if (analysis_type == AnalysisType::DYNAMICS)
+    else if(analysis_type == AnalysisType::DYNAMICS)
         std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
 
     std::for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });

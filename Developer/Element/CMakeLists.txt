@@ -10,8 +10,6 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../..)
 
 include(${ROOT}/.config.cmake)
 
-set(CMAKE_CXX_FLAGS "-fPIC")
-
 add_library(${PROJECT_NAME} SHARED
     "ElementExample.cpp"
     "${ROOT}/Element/Element.cpp"

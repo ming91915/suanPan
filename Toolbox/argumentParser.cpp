@@ -19,17 +19,8 @@
 #include "commandParser.h"
 #include <Step/Bead.h>
 #include <Toolbox/utility.h>
+#include <ctime>
 #include <suanPan.h>
-
-#ifndef SUANPAN_DD
-#define SUANPAN_DD 16
-#endif
-#ifndef SUANPAN_MM
-#define SUANPAN_MM 9
-#endif
-#ifndef SUANPAN_YY
-#define SUANPAN_YY 2017
-#endif
 
 using std::ofstream;
 using std::string;
@@ -91,8 +82,14 @@ void print_version() {
 #elif defined(_MSC_FULL_VER)
     auto version = std::to_string(SUANPAN_VERSION);
 #endif
+    auto int_time = time(nullptr);
+    struct tm new_time;
+    char string_time[26];
+    gmtime_s(&new_time, &int_time);
+    asctime_s(string_time, sizeof string_time, &new_time);
     suanpan_info("suanPan is an open source FEM framework.\n");
-    suanpan_info("\tversion Acrux 0.1.0, date %02u/%02u/%u, compiled with %s %s\n", SUANPAN_DD, SUANPAN_MM, SUANPAN_YY, SUANPAN_COMPILER, version.c_str());
+    suanpan_info("\tversion Acrux 0.1.0\n\tdate %s\n\tcompiled with %s %s\n", string_time, SUANPAN_COMPILER, version.c_str());
+    suanpan_info("\n[From Wikipedia] Alpha Crucis is a multiple star system located 321 light years from the Sun in the constellation of Crux and part of the asterism known as the Southern Cross.\n");
 }
 
 void print_helper() {
