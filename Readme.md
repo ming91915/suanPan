@@ -57,8 +57,7 @@ The default VS solution uses reference BLAS and LAPACK. Simply `Build (F7)` the 
 Use CMake to generate Makefiles, assume current folder is the root of the package and your are using `MinGW`, then the commands should look like this.
 
 ``` bash
-mkdir cmake-build
-cd cmake-build
+mkdir cmake-build && cd cmake-build
 cmake -G "MinGW Makefiles" ..
 make
 ```
@@ -84,6 +83,10 @@ cmake . && make
 Dependency
 ----------
 
+Additional tools are used by **suanPan**, they are
+
+-   [UPX](https://upx.github.io/)
+
 Additional libraries that may be used in **suanPan** are
 
 -   [Armadillo](http://arma.sourceforge.net/)
@@ -97,4 +100,6 @@ Those libraries may depend on other libraries such as
 -   [BLAS](http://www.netlib.org/blas/)
 -   [LAPACK](http://www.netlib.org/lapack/)
 -   [ARPACK](http://www.caam.rice.edu/software/ARPACK/)
+-   [zlib](https://zlib.net/)
+-   [Szip](https://support.hdfgroup.org/doc_resource/SZIP/)
 
