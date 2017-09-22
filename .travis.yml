@@ -14,24 +14,22 @@ script:
   - mkdir cmake-build && cd cmake-build
   - cmake -DCMAKE_BUILD_TYPE=Debug -DTEST_COVERAGE=ON ../
   - make
-  - ./suanPan -f ../Example/C3D20.supan
-  - ./suanPan -f ../Example/C3D8.supan
-  - ./suanPan -f ../Example/COOK.supan
-  - ./suanPan -f ../Example/COOK4.supan
-  - ./suanPan -f ../Example/CPS3.supan
-  - ./suanPan -f ../Example/CPS4N100.supan
-  - ./suanPan -f ../Example/CPS4N50.supan
-  - ./suanPan -f ../Example/CPS4NL.supan
-  - ./suanPan -f ../Example/GQ12.supan
-  - ./suanPan -f ../Example/IREGULARBEAM.supan
-  - ./suanPan -f ../Example/MACNEAL.supan
-  - ./suanPan -f ../Example/PROTO01.supan
-  - ./suanPan -f ../Example/QE2.supan
-  - ./suanPan -f ../Example/TRUSS2D.supan
-  - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
 before_install:
   - eval "${MATRIX_EVAL}"
-after_success: 
+after_success:
+  - ./suanPan -f ../Example/C3D20.supan > /dev/null
+  - ./suanPan -f ../Example/C3D8.supan > /dev/null
+  - ./suanPan -f ../Example/COOK.supan > /dev/null
+  - ./suanPan -f ../Example/COOK4.supan > /dev/null
+  - ./suanPan -f ../Example/CPS3.supan > /dev/null
+  - ./suanPan -f ../Example/CPS4NL.supan > /dev/null
+  - ./suanPan -f ../Example/GQ12.supan > /dev/null
+  - ./suanPan -f ../Example/IREGULARBEAM.supan > /dev/null
+  - ./suanPan -f ../Example/MACNEAL.supan > /dev/null
+  - ./suanPan -f ../Example/PROTO01.supan > /dev/null
+  - ./suanPan -f ../Example/QE2.supan > /dev/null
+  - ./suanPan -f ../Example/TRUSS2D.supan > /dev/null
+  - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
   - bash <(curl -s https://codecov.io/bash)
 notifications:
   email: false

@@ -3,14 +3,14 @@ suanPan
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7cb47e58d7dc4c1680c2205c4ba02e72)](https://www.codacy.com/app/TLCFEM/suanPan?utm_source=github.com&utm_medium=referral&utm_content=TLCFEM/suanPan&utm_campaign=Badge_Grade)
-[![Build status](https://ci.appveyor.com/api/projects/status/mi0hh9inkb30yewj?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan)
+[![Build status](https://ci.appveyor.com/api/projects/status/fmdt0amjgd6dauf4?svg=true)](https://ci.appveyor.com/project/TLCFEM/suanpan)
 [![Build Status](https://travis-ci.org/TLCFEM/suanPan.svg?branch=master)](https://travis-ci.org/TLCFEM/suanPan)
 [![codecov](https://codecov.io/gh/TLCFEM/suanPan/branch/master/graph/badge.svg)](https://codecov.io/gh/TLCFEM/suanPan)
 
 Intro
 -----
 
-**suanPan** is an FEM simulation platform for applications in solid mechanics, civil/structural/seismic engineering. The name **suanPan** (in some certain places **suPan**) comes from *Suan Pan* (算盤), which is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). **suanPan** is written in *C++* and is targeted to provide an efficient, concise and reliable FEM simulation platform.
+**suanPan** is an FEM simulation platform for applications in solid mechanics, civil/structural/seismic engineering. The name **suanPan** (in some certain places **suPan**) comes from *Suan Pan* (算盤), which is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). **suanPan** is written in high quality *C++* codes and is targeted to provide an efficient, concise and reliable FEM simulation platform.
 
 **suanPan** is partially influenced by some popular (non-)commercial FEA packages, such as [ABAQUS UNIFIED FEA](https://www.3ds.com/products-services/simulia/products/abaqus/), [ANSYS](http://www.ansys.com/) and [OpenSees](http://opensees.berkeley.edu/).
 
