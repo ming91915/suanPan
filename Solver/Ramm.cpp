@@ -34,7 +34,8 @@ int Ramm::analyze() {
     auto& t_ninja = get_ninja(W);
 
     auto load_ref = W->get_current_load();
-    load_ref /= sum(load_ref);
+    for(auto& I : load_ref)
+        if(I != 0.) I = 1.;
 
     double incre_lambda;
 
@@ -70,7 +71,7 @@ int Ramm::analyze() {
                 if(I + 1 != t_pivot(I)) det_sign = -det_sign;
             }
 
-            incre_lambda = -det_sign * arc_length / sqrt(dot(disp_a, disp_a) + 1);
+            incre_lambda = det_sign * arc_length / sqrt(dot(disp_a, disp_a) + 1);
             disp_ref = incre_lambda * disp_a;
         } else
             incre_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
@@ -82,7 +83,7 @@ int Ramm::analyze() {
         // update trial load factor
         W->update_trial_time(W->get_trial_time() + incre_lambda);
         // update trial displacement
-        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+        W->update_trial_displacement(W->get_trial_displacement() + t_ninja);
         // update for nodes and elements
         G->update_trial_status();
 

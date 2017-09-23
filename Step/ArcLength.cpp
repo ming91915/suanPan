@@ -1,26 +1,24 @@
 #include "ArcLength.h"
 #include "Domain/DomainBase.h"
+#include <Domain/Factory.hpp>
+#include <Domain/Node.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 
-ArcLength::ArcLength() {}
-
-int ArcLength::initialize() {
-    const auto code = Step::initialize();
-    if(code != 0) return code;
-
-    auto& D = get_integrator()->get_domain();
-
-    auto& t_load = D->get_load_pool();
-
-    if (t_load.size() != 1) { suanpan_error(""); }
-
-    return 0;
-}
+ArcLength::ArcLength(const unsigned& T, const unsigned& NT, const unsigned& DT, const double& MA)
+    : Step(T, CT_ARCLENGTH, 0.)
+    , node(NT)
+    , dof(DT)
+    , maginitude(MA) {}
 
 int ArcLength::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
+    auto& D = G->get_domain();
+
+    auto& t_dof = D->get_node(node)->get_reordered_dof().at(dof - 1);
+    auto& t_disp = D->get_factory().lock()->get_trial_displacement();
+    auto& dof_ptr = t_disp(t_dof);
 
     // make sure the stiffness and resistance are correct
     G->update_trial_status();

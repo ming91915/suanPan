@@ -165,5 +165,8 @@
 #ifndef CT_RAMM
 #define CT_RAMM 49
 #endif
+#ifndef CT_ARCLENGTH
+#define CT_ARCLENGTH 50
+#endif
 
 #endif

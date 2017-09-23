@@ -9,9 +9,10 @@ class ArcLength : public Step {
     double maginitude;
 
 public:
-    ArcLength();
-
-    int initialize() override;
+    explicit ArcLength(const unsigned& = 0, // tag
+        const unsigned& = 0,                // node tag
+        const unsigned& = 0,                // dof tag
+        const double& = 0.);                // magnitude
 
     int analyze() override;
 };
