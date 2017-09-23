@@ -162,5 +162,8 @@
 #ifndef CT_DISPLACEMENTLOAD
 #define CT_DISPLACEMENTLOAD 48
 #endif
+#ifndef CT_RAMM
+#define CT_RAMM 49
+#endif
 
 #endif

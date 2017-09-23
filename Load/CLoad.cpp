@@ -22,16 +22,10 @@
 #include <Load/Amplitude/Amplitude.h>
 
 CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
-    : Load(T, CT_CLOAD, S, AT)
-    , pattern(L)
-    , nodes(N)
-    , dofs({ D }) {}
+    : Load(T, CT_CLOAD, S, AT, N, uvec{ D }, L) {}
 
 CLoad::CLoad(const unsigned& T, const unsigned& S, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
-    : Load(T, CT_CLOAD, S, AT)
-    , pattern(L)
-    , nodes(N)
-    , dofs(D) {}
+    : Load(T, CT_CLOAD, S, AT, N, D, L) {}
 
 int CLoad::process(const shared_ptr<DomainBase>& D) {
     const auto& t_factory = D->get_factory().lock();

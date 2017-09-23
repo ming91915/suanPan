@@ -34,7 +34,15 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows") # WINDOWS PLATFORM
     elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC") # MSVC COMPILER
 
         link_directories(${ROOT}/Libs/msvc)
-        link_libraries(superlu lapack)
+
+        link_libraries(superlu)
+        if((USE_OPENBLAS) AND (NOT USE_NETLIB))
+            link_libraries(arpack spmm libopenblas)
+        elseif((USE_NETLIB) AND (NOT USE_OPENBLAS))
+            link_libraries(lapack)
+        else()
+            message(FATAL_ERROR "Pease check either USE_NETLIB or USE_OPENBLAS.")
+        endif()
 
         if(USE_HDF5)
             include_directories(${ROOT}/Include/hdf5-msvc)
@@ -52,7 +60,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows") # WINDOWS PLATFORM
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux") # LINUX PLATFORM
 
     link_directories(${ROOT}/Libs/linux) # GNU GCC COMPILER
-	link_libraries(dl)
+    link_libraries(dl)
 
     if(USE_HDF5)
         include_directories(${ROOT}/Include/hdf5-linux)
@@ -69,7 +77,7 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
     elseif((USE_NETLIB) AND (NOT USE_OPENBLAS))
         link_libraries(lapack)
     else()
-    	message(FATAL_ERROR "Pease check either USE_NETLIB or USE_OPENBLAS.")
+        message(FATAL_ERROR "Pease check either USE_NETLIB or USE_OPENBLAS.")
     endif()
     link_libraries(gfortran quadmath)
 
@@ -79,5 +87,5 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
         set(CMAKE_CXX_FLAGS "-fprofile-arcs -ftest-coverage")
         link_libraries(gcov)
     endif()
-    
+
 endif()

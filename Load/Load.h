@@ -42,10 +42,14 @@ protected:
 
     unsigned step_tag, amplitude_tag;
 
+    uvec nodes, dofs;
+
+    double pattern = 0.;
+
     shared_ptr<Amplitude> magnitude;
 
 public:
-    explicit Load(const unsigned& = 0, const unsigned& = CT_LOAD, const unsigned& = 0, const unsigned& = 0);
+    explicit Load(const unsigned& = 0, const unsigned& = CT_LOAD, const unsigned& = 0, const unsigned& = 0, const uvec& = {}, const uvec& = {}, const double& = 0.);
     virtual ~Load();
 
     virtual int initialize(const shared_ptr<DomainBase>&);

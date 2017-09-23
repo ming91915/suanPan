@@ -29,12 +29,17 @@
 #include "Solver.h"
 
 class Ramm : public Solver {
-    double scalar = 0.;
+    double min_arc_length = 1E-8;
+    double max_arc_length = 1E6;
+    double arc_length = 1E-4;
+    bool fixed_arc_length = false;
 
 public:
-    Ramm();
+    explicit Ramm(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
 
-    ~Ramm();
+    int analyze() override;
+
+    void print() override;
 };
 
 #endif

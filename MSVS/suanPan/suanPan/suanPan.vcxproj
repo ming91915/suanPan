@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
+    <ClCompile Include="..\..\..\Step\ArcLength.cpp" />
     <ClCompile Include="..\..\..\Step\Bead.cpp" />
     <ClCompile Include="..\..\..\Step\Dynamic.cpp" />
     <ClCompile Include="..\..\..\Step\Frequence.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
     <ClInclude Include="..\..\..\Recorder\OutputList.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
+    <ClInclude Include="..\..\..\Step\ArcLength.h" />
     <ClInclude Include="..\..\..\Step\Bead.h" />
     <ClInclude Include="..\..\..\Step\Dynamic.h" />
     <ClInclude Include="..\..\..\Step\Frequence.h" />

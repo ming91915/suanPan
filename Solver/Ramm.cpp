@@ -16,7 +16,87 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Ramm.h"
+#include <Converger/Converger.h>
+#include <Domain/DomainBase.h>
+#include <Domain/Factory.hpp>
+#include <Solver/Integrator/Integrator.h>
 
-Ramm::Ramm() {}
+Ramm::Ramm(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
+    : Solver(T, CT_RAMM, C, G) {}
 
-Ramm::~Ramm() {}
+int Ramm::analyze() {
+    auto& C = get_converger();
+    auto& G = get_integrator();
+    const auto& W = G->get_domain()->get_factory().lock();
+
+    auto& max_iteration = C->get_max_iteration();
+
+    auto& t_ninja = get_ninja(W);
+
+    auto load_ref = W->get_current_load();
+    load_ref /= sum(load_ref);
+
+    double incre_lambda;
+
+    vec disp_a, disp_ref;
+
+    // iteration counter
+    unsigned counter = 0;
+
+    while(true) {
+        // assemble resistance
+        G->assemble_resistance();
+        // assemble stiffness
+        G->assemble_stiffness();
+        // process constraints and loads
+        G->process();
+
+        // solve ninja
+        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_time() - W->get_trial_resistance());
+        // make sure lapack solver succeeds
+        if(flag != 0) return flag;
+        // solve reference displacement
+        flag = W->get_stiffness()->solve_trs(disp_a, load_ref);
+        // make sure lapack solver succeeds
+        if(flag != 0) return flag;
+
+        if(counter == 0) {
+            const auto& t_stiff = get_stiffness(W);
+            const auto& t_pivot = t_stiff.IPIV;
+            // check the sign of stiffness
+            auto det_sign = 1;
+            for(auto I = 0; I < t_pivot.n_elem; ++I) {
+                if(t_stiff(I, I) < 0) det_sign = -det_sign;
+                if(I + 1 != t_pivot(I)) det_sign = -det_sign;
+            }
+
+            incre_lambda = -det_sign * arc_length / sqrt(dot(disp_a, disp_a) + 1);
+            disp_ref = incre_lambda * disp_a;
+        } else
+            incre_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
+
+        t_ninja += disp_a * incre_lambda;
+
+        // avoid machine error accumulation
+        G->erase_machine_error();
+        // update trial load factor
+        W->update_trial_time(W->get_trial_time() + incre_lambda);
+        // update trial displacement
+        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+        // update for nodes and elements
+        G->update_trial_status();
+
+        // exit if converged
+        if(C->if_converged()) {
+            arc_length *= sqrt(5. / double(counter));
+            return 0;
+        }
+        // exit if maximum iteration is hit
+        if(++counter > max_iteration) {
+            arc_length *= sqrt(5. / double(counter));
+            return -1;
+        }
+    }
+}
+
+void Ramm::print() { suanpan_info("A solver using Ramm's arc length method.\n"); }

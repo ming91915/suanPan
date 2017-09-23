@@ -22,10 +22,13 @@
 
 const double Load::multiplier = 1E6;
 
-Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const unsigned& AT)
+Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const unsigned& AT, const uvec& NT, const uvec& DT, const double& PT)
     : Tag(T, CT)
     , step_tag(ST)
-    , amplitude_tag(AT) {}
+    , amplitude_tag(AT)
+    , nodes(NT)
+    , dofs(DT)
+    , pattern(PT) {}
 
 Load::~Load() { suanpan_debug("Load %u dtor() called.\n", get_tag()); }
 

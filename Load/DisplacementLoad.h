@@ -34,11 +34,6 @@
 #include "Load.h"
 
 class DisplacementLoad : public Load {
-    double pattern = 0.;
-
-    uvec nodes;
-    uvec dofs;
-
 public:
     explicit DisplacementLoad(const unsigned& = 0, // tag
         const unsigned& = 0,                       // step tag

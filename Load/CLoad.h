@@ -34,11 +34,6 @@
 #include "Load.h"
 
 class CLoad : public Load {
-    double pattern = 0.;
-
-    uvec nodes;
-    uvec dofs;
-
 public:
     explicit CLoad(const unsigned& = 0, const unsigned& = 0, const double& = 0., const uvec& = {}, const unsigned& = 0, const unsigned& = 0);
     CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const unsigned& = 0);

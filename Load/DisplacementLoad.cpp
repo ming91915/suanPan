@@ -22,16 +22,10 @@
 #include <Load/Amplitude/Amplitude.h>
 
 DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
-    : Load(T, CT_DISPLACEMENTLOAD, ST, AT)
-    , pattern(L)
-    , nodes(N)
-    , dofs({ D }) {}
+    : Load(T, CT_DISPLACEMENTLOAD, ST, AT, N, uvec{ D }, L) {}
 
 DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
-    : Load(T, CT_DISPLACEMENTLOAD, ST, AT)
-    , pattern(L)
-    , nodes(N)
-    , dofs(D) {}
+    : Load(T, CT_DISPLACEMENTLOAD, ST, AT, N, D, L) {}
 
 int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
     const auto& t_factory = D->get_factory().lock();
