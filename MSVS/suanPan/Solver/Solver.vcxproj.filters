@@ -54,6 +54,9 @@
     <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE.cpp">
       <Filter>ODE Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\DisplacementControl.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE.h">
       <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\DisplacementControl.h">
+      <Filter>Solver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

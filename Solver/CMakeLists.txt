@@ -12,5 +12,5 @@ include(ODE_Solver/CMakeLists.txt)
 include(Integrator/CMakeLists.txt)
 
 add_library(${PROJECT_NAME} STATIC
-    Solver.cpp BFGS.cpp Newton.cpp Ramm.cpp
+    Solver.cpp BFGS.cpp Newton.cpp Ramm.cpp DisplacementControl.cpp
     ${ODE_Solver} ${Integrator})

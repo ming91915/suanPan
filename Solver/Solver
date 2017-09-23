@@ -5,3 +5,4 @@
 #include "Newton.h"
 #include "BFGS.h"
 #include "Ramm.h"
+#include "DisplacementControl.h"
