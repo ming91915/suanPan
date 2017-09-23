@@ -62,19 +62,20 @@ int Ramm::analyze() {
         if(flag != 0) return flag;
 
         if(counter == 0) {
-            const auto& t_stiff = get_stiffness(W);
-            const auto& t_pivot = t_stiff.IPIV;
-            // check the sign of stiffness
-            auto det_sign = 1;
-            for(auto I = 0; I < t_pivot.n_elem; ++I) {
-                if(t_stiff(I, I) < 0) det_sign = -det_sign;
-                if(I + 1 != t_pivot(I)) det_sign = -det_sign;
-            }
+            incre_lambda = arc_length / sqrt(dot(disp_a, disp_a) + 1.);
 
-            incre_lambda = det_sign * arc_length / sqrt(dot(disp_a, disp_a) + 1);
-            disp_ref = incre_lambda * disp_a;
+            // check the sign of stiffness
+            const auto& t_stiff = get_stiffness(W);
+            for(unsigned I = 0; I < t_stiff.n_cols; ++I)
+                if(t_stiff(I, I) < 0.) {
+                    incre_lambda = -incre_lambda;
+                    break;
+                }
         } else
             incre_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
+
+        // abaqus update
+        disp_ref = disp_a;
 
         t_ninja += disp_a * incre_lambda;
 

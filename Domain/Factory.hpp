@@ -36,6 +36,8 @@ template <typename T> class Factory final {
 
     Col<T> ninja; /**< the result from A*X=B */
 
+    Col<T> reference_load;
+
     T trial_time = 0.;   /**< global trial (pseudo) time */
     T incre_time = 0.;   /**< global incremental (pseudo) time */
     T current_time = 0.; /**< global current (pseudo) time */
