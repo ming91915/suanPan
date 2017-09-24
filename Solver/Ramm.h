@@ -34,6 +34,8 @@ class Ramm : public Solver {
     double arc_length = 1E-4;
     bool fixed_arc_length = false;
 
+    double target_iteration = 6.;
+
 public:
     explicit Ramm(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
 

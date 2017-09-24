@@ -11,9 +11,14 @@ int DisplacementControl::analyze() {
     auto& G = get_integrator();
     const auto& W = G->get_domain()->get_factory().lock();
 
-    // suanpan_info("current step time: %.3E\n", W->get_trial_time());
-
     auto& max_iteration = C->get_max_iteration();
+
+    // ninja anchor
+    auto& t_ninja = get_ninja(W);
+
+    auto& load_ref = W->get_reference_load();
+
+    mat disp_a;
 
     // iteration counter
     unsigned counter = 0;
@@ -26,15 +31,25 @@ int DisplacementControl::analyze() {
         // process constraints and loads
         G->process();
 
-        // call solver
-        const auto flag = W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
+        // solve ninja
+        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_load_factor() + W->get_trial_load() - W->get_trial_resistance());
+        // make sure lapack solver succeeds
+        if(flag != 0) return flag;
+        // solve reference displacement
+        flag = W->get_stiffness()->solve_trs(disp_a, load_ref);
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
 
+        const vec incre_lambda = -solve(disp_a, t_ninja);
+
+        t_ninja += disp_a * incre_lambda;
+
         // avoid machine error accumulation
         G->erase_machine_error();
-        // update trial status for factory
-        W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
+        // update trial load factor
+        W->update_trial_load_factor(W->get_trial_load_factor() + incre_lambda);
+        // update trial displacement
+        W->update_trial_displacement(W->get_trial_displacement() + t_ninja);
         // update for nodes and elements
         G->update_trial_status();
 

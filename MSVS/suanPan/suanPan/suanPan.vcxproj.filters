@@ -247,5 +247,8 @@
     <ClInclude Include="..\..\..\Step\ArcLength.h">
       <Filter>Step</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory.hpp">
+      <Filter>SRC</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

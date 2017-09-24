@@ -31,6 +31,7 @@ int Ramm::analyze() {
 
     auto& max_iteration = C->get_max_iteration();
 
+    // ninja anchor
     auto& t_ninja = get_ninja(W);
 
     auto load_ref = W->get_current_load();
@@ -90,12 +91,12 @@ int Ramm::analyze() {
 
         // exit if converged
         if(C->if_converged()) {
-            arc_length *= sqrt(5. / double(counter));
+            arc_length *= sqrt(target_iteration / double(counter));
             return 0;
         }
         // exit if maximum iteration is hit
         if(++counter > max_iteration) {
-            arc_length *= sqrt(5. / double(counter));
+            arc_length *= sqrt(target_iteration / double(counter));
             return -1;
         }
     }

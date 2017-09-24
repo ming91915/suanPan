@@ -10,7 +10,7 @@ suanPan
 Intro
 -----
 
-**suanPan** is an FEM simulation platform for applications in solid mechanics, civil/structural/seismic engineering. The name **suanPan** (in some certain places **suPan**) comes from *Suan Pan* (算盤), which is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). **suanPan** is written in high quality *C++* codes and is targeted to provide an efficient, concise and reliable FEM simulation platform.
+[**suanPan**](https://tlcfem.github.io/suanPan/) is an FEM simulation platform for applications in solid mechanics, civil/structural/seismic engineering. The name **suanPan** (in some certain places **suPan**) comes from *Suan Pan* (算盤), which is literally [Chinese abacus](https://en.wikipedia.org/wiki/Suanpan). **suanPan** is written in high quality *C++* codes and is targeted to provide an efficient, concise and reliable FEM simulation platform.
 
 **suanPan** is partially influenced by some popular (non-)commercial FEA packages, such as [ABAQUS UNIFIED FEA](https://www.3ds.com/products-services/simulia/products/abaqus/), [ANSYS](http://www.ansys.com/) and [OpenSees](http://opensees.berkeley.edu/).
 
