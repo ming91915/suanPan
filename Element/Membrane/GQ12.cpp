@@ -141,3 +141,11 @@ int GQ12::reset_status() {
     for(const auto& I : int_pt) code += I->m_material->reset_status();
     return code;
 }
+
+void GQ12::print() {
+    suanpan_info("Material model response:\n");
+    for(auto I = 0; I < int_pt.size(); ++I) {
+        suanpan_info("Integration Point %u:\n", I + 1);
+        int_pt[I]->m_material->print();
+    }
+}

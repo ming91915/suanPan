@@ -50,6 +50,8 @@ class QE2 : public Element {
 
     vector<unique_ptr<IntegrationPoint>> int_pt;
 
+    mat t_factor; // temporaty factor matrix used to recover stress and strain
+
     mat HI, HIL, HILI; // constant matrices
 
     mat trial_ht, current_ht;

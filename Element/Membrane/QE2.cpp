@@ -65,7 +65,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
         for(auto J = 0; J < 2; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    const mat tmp_const = trans(mapping * ele_coor);
+    t_factor = trans(mapping * ele_coor);
 
     vec disp_mode(4, fill::zeros);
 
@@ -83,7 +83,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
-        I->P = shapeStress7(tmp_const * disp_mode);
+        I->P = shapeStress7(t_factor * disp_mode);
 
         I->A = solve(ini_stiffness, I->P);
 
@@ -98,8 +98,8 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
 
         I->BI = zeros(3, 2);
         const vec tmp_vec = I->coor / I->jacob_det;
-        I->BI(0, 0) = -tmp_const(1, 2) * tmp_vec(0) - tmp_const(1, 1) * tmp_vec(1);
-        I->BI(1, 1) = tmp_const(0, 2) * tmp_vec(0) + tmp_const(0, 1) * tmp_vec(1);
+        I->BI(0, 0) = -t_factor(1, 2) * tmp_vec(0) - t_factor(1, 1) * tmp_vec(1);
+        I->BI(1, 1) = t_factor(0, 2) * tmp_vec(0) + t_factor(0, 1) * tmp_vec(1);
         I->BI(2, 0) = I->BI(1, 1);
         I->BI(2, 1) = I->BI(0, 0);
 

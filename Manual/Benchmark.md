@@ -89,7 +89,7 @@ For the purpose of analysis, other testers will work as well. But to guarantee t
 
 ### Results
 
-Model Name: CPS4NL50.supan
+Model Name: CPS4N50.supan
 
 | Platform           | Wallclock (s) | Scaled Time | Memory (MB) |    Max GFLOPS   |
 |:-------------------|:-------------:|:-----------:|:-----------:|:---------------:|
@@ -121,7 +121,7 @@ Some explanations:
 
 Following is the same model but with a dense mesh, the mesh grid is refined to $100\times100$ so there are $10000$ elements. To reduce the test time, the sub-step size is set to $0.1$ so there are $10$ sub-steps and the stiffness matrix is formed for $20$ times.
 
-Model Name: CPS4NL100.supan
+Model Name: CPS4N100.supan
 
 | Platform           | Wallclock (s) | Scaled Time | Memory (MB) |
 |:-------------------|:-------------:|:-----------:|:-----------:|

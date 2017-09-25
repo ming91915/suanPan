@@ -5112,7 +5112,7 @@ cload 2 .01 2 51 2601
 # recorder 1 node U 1326
 
 step static 1
-set ini_step_size .1
+set ini_step_size .01
 set fixed_step_size true
 
 solver BFGS 1

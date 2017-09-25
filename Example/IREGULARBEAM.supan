@@ -18,15 +18,12 @@ node 10 0 12
 
 material Elastic2D 1 3E4 .25
 
-element Proto01 1 1 2 9 10 1 1
-element Proto01 2 2 3 8 9 1 1
-element Proto01 3 3 4 7 8 1 1
-element Proto01 4 4 5 6 7 1 1
+element QE2 1 1 2 9 10 1 1
+element QE2 2 2 3 8 9 1 1
+element QE2 3 3 4 7 8 1 1
+element QE2 4 4 5 6 7 1 1
 
-fix 1 P 1
-fix 2 1 10
-# fix 3 2 10
-# fix 4 3 10
+fix 1 P 1 10
 
 cload 1 20 2 5 6
 

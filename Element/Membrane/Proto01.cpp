@@ -40,7 +40,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
         mapping(3, 3) = -.25;
     }
 
-    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+    const auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
@@ -71,7 +71,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     mat pnt(2, 8);
 
-    const mat t_factor = trans(mapping * ele_coor);
+    t_factor = trans(mapping * ele_coor);
 
     vec disp_mode(4, fill::zeros);
 
