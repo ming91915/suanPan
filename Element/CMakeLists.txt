@@ -16,4 +16,4 @@ include(Beam/CMakeLists.txt)
 
 add_library(${PROJECT_NAME} STATIC
     Element.cpp ElementTemplate.cpp ElementParser.cpp
-    ${Cube} ${Membrane} ${Section} ${Truss})
+    ${Cube} ${Membrane} ${Section} ${Truss} ${Beam})

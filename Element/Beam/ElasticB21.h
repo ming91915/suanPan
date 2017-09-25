@@ -26,8 +26,8 @@
  * @{
  */
 
-#ifndef ElasticB21_H
-#define ElasticB21_H
+#ifndef ELASTICB21_H
+#define ELASTICB21_H
 
 #include <Element/Element.h>
 
