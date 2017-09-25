@@ -54,5 +54,8 @@
 #ifndef ET_PROTO02
 #define ET_PROTO02 2011
 #endif
+#ifndef ET_ELASTICB21
+#define ET_ELASTICB21 2012
+#endif
 
 #endif
