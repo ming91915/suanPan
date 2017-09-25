@@ -24,8 +24,12 @@
 #include <Load/Load.h>
 #include <Recorder/Recorder.h>
 #include <Toolbox/RCM.h>
-#ifdef SUANPAN_MSVC
+
+#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
 #include <ppl.h>
+#define suanpan_for_each Concurrency::parallel_for_each
+#else
+#define suanpan_for_each std::for_each
 #endif
 
 Domain::Domain(const unsigned& T)
@@ -428,21 +432,12 @@ void Domain::update_trial_status() const {
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
-#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
     if(analysis_type == AnalysisType::STATICS)
-        Concurrency::parallel_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp); });
     else if(analysis_type == AnalysisType::DYNAMICS)
-        Concurrency::parallel_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
 
-    Concurrency::parallel_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });
-#else
-    if(analysis_type == AnalysisType::STATICS)
-        std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp); });
-    else if(analysis_type == AnalysisType::DYNAMICS)
-        std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
-
-    std::for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });
-#endif
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });
 }
 
 void Domain::update_incre_status() const {
@@ -501,13 +496,8 @@ void Domain::commit_status() const {
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
-#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
-    Concurrency::parallel_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->commit_status(); });
-    Concurrency::parallel_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->commit_status(); });
-#else
-    std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->commit_status(); });
-    std::for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->commit_status(); });
-#endif
+    suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->commit_status(); });
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->commit_status(); });
 }
 
 void Domain::clear_status() const {
@@ -518,19 +508,11 @@ void Domain::clear_status() const {
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
-#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
-    Concurrency::parallel_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->clear_status(); });
-    Concurrency::parallel_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
+    suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->clear_status(); });
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
         t_element->clear_status();
         t_element->update_status();
     });
-#else
-    std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->clear_status(); });
-    std::for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
-        t_element->clear_status();
-        t_element->update_status();
-    });
-#endif
 }
 
 void Domain::reset_status() const {
@@ -541,19 +523,11 @@ void Domain::reset_status() const {
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
-#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
-    Concurrency::parallel_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->reset_status(); });
-    Concurrency::parallel_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
+    suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->reset_status(); });
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
         t_element->reset_status();
         t_element->update_status();
     });
-#else
-    std::for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->reset_status(); });
-    std::for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
-        t_element->reset_status();
-        t_element->update_status();
-    });
-#endif
 }
 
 shared_ptr<Amplitude>& get_amplitude(const shared_ptr<Domain>& D, const unsigned& T) { return D->amplitude_pond[T]; }
