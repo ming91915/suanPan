@@ -2,8 +2,8 @@
  * @class Storage
  * @brief A candidate Storage class that stores FEM objects.
  * @author T
- * @date 05/09/2017
- * @version 0.2.1
+ * @date 26/09/2017
+ * @version 0.2.2
  * @file Storage.hpp
  * @{
  */
@@ -29,6 +29,7 @@ class Load;
 class Material;
 class Node;
 class Recorder;
+class Criterion;
 
 template <typename T> const char* StorageType() { return "Unknown"; }
 
@@ -42,6 +43,7 @@ template <> inline const char* StorageType<Load>() { return "Load"; }
 template <> inline const char* StorageType<Material>() { return "Material"; }
 template <> inline const char* StorageType<Node>() { return "Node"; }
 template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
+template <> inline const char* StorageType<Criterion>() { return "Criterion"; }
 
 using std::enable_shared_from_this;
 
@@ -164,6 +166,7 @@ using LoadStorage = Storage<Load>;
 using MaterialStorage = Storage<Material>;
 using NodeStorage = Storage<Node>;
 using RecorderStorage = Storage<Recorder>;
+using CriterionStorage = Storage<Criterion>;
 
 #endif
 

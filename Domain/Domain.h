@@ -44,6 +44,7 @@ class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     MaterialStorage material_pond;
     NodeStorage node_pond;
     RecorderStorage recorder_pond;
+    CriterionStorage criterion_pond;
 
     unordered_set<unsigned> restrained_dofs;  /**< data storage */
     unordered_set<unsigned> constrained_dofs; /**< data storage */
@@ -65,6 +66,7 @@ public:
     bool insert(const shared_ptr<Material>&) override;
     bool insert(const shared_ptr<Node>&) override;
     bool insert(const shared_ptr<Recorder>&) override;
+    bool insert(const shared_ptr<Criterion>&) override;
 
     bool erase_amplitude(const unsigned&) override;
     bool erase_constraint(const unsigned&) override;
@@ -73,6 +75,7 @@ public:
     bool erase_material(const unsigned&) override;
     bool erase_node(const unsigned&) override;
     bool erase_recorder(const unsigned&) override;
+    bool erase_criterion(const unsigned&) override;
 
     void disable_amplitude(const unsigned&) override;
     void disable_constraint(const unsigned&) override;
@@ -81,6 +84,7 @@ public:
     void disable_material(const unsigned&) override;
     void disable_node(const unsigned&) override;
     void disable_recorder(const unsigned&) override;
+    void disable_criterion(const unsigned&) override;
 
     void enable_amplitude(const unsigned&) override;
     void enable_constraint(const unsigned&) override;
@@ -89,6 +93,7 @@ public:
     void enable_material(const unsigned&) override;
     void enable_node(const unsigned&) override;
     void enable_recorder(const unsigned&) override;
+    void enable_criterion(const unsigned&) override;
 
     const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const override;
     const shared_ptr<Constraint>& get_constraint(const unsigned&) const override;
@@ -97,6 +102,7 @@ public:
     const shared_ptr<Material>& get_material(const unsigned&) const override;
     const shared_ptr<Node>& get_node(const unsigned&) const override;
     const shared_ptr<Recorder>& get_recorder(const unsigned&) const override;
+    const shared_ptr<Criterion>& get_criterion(const unsigned&) const override;
 
     const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const override;
     const vector<shared_ptr<Constraint>>& get_constraint_pool() const override;
@@ -105,6 +111,7 @@ public:
     const vector<shared_ptr<Material>>& get_material_pool() const override;
     const vector<shared_ptr<Node>>& get_node_pool() const override;
     const vector<shared_ptr<Recorder>>& get_recorder_pool() const override;
+    const vector<shared_ptr<Criterion>>& get_criterion_pool() const override;
 
     friend shared_ptr<Amplitude>& get_amplitude(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>&, const unsigned&);
@@ -113,6 +120,7 @@ public:
     friend shared_ptr<Material>& get_material(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Criterion>& get_criterion(const shared_ptr<Domain>&, const unsigned&);
 
     friend shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>&, const unsigned&);
@@ -121,6 +129,7 @@ public:
     friend shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Criterion>& get_criterion(const shared_ptr<DomainBase>&, const unsigned&);
 
     size_t get_amplitude() const override;
     size_t get_constraint() const override;
@@ -129,6 +138,7 @@ public:
     size_t get_material() const override;
     size_t get_node() const override;
     size_t get_recorder() const override;
+    size_t get_criterion() const override;
 
     bool find_amplitude(const unsigned&) const override;
     bool find_constraint(const unsigned&) const override;
@@ -137,6 +147,7 @@ public:
     bool find_material(const unsigned&) const override;
     bool find_node(const unsigned&) const override;
     bool find_recorder(const unsigned&) const override;
+    bool find_criterion(const unsigned&) const override;
 
     bool insert_loaded_dof(const unsigned&) override;
     bool insert_restrained_dof(const unsigned&) override;
@@ -151,7 +162,9 @@ public:
     // initialize the domain
     int initialize() override;
     // process loads and constraints
-    void process() override;
+    int process_load() override;
+    int process_constraint() override;
+    int process_criterion() override;
     // record response
     void record() override;
     // enable all objects

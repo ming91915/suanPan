@@ -49,7 +49,9 @@ public:
 
     virtual int initialize();
 
-    virtual void process() const;
+    virtual int process_load() const;
+    virtual int process_constraint() const;
+    virtual int process_criterion() const;
 
     void record() const;
 

@@ -29,7 +29,8 @@ int DisplacementControl::analyze() {
         // assemble stiffness
         G->assemble_stiffness();
         // process constraints and loads
-        G->process();
+        G->process_load();
+        G->process_constraint();
 
         // solve ninja
         auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_load_factor() + W->get_trial_load() - W->get_trial_resistance());

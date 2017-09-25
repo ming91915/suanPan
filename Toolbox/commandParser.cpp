@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "commandParser.h"
+#include "Constraint/Criterion/MaxDisplacement.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Converger/Converger>
@@ -58,6 +59,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(command_id == "cload") return create_new_cload(model, command);
     if(command_id == "disp") return create_new_dispload(model, command);
     if(command_id == "dispload") return create_new_dispload(model, command);
+    if(command_id == "criterion") return create_new_criterion(model, command);
     if(command_id == "enable") return enable_object(model, command);
     if(command_id == "disable") return disable_object(model, command);
     if(command_id == "mute") return disable_object(model, command);
@@ -422,6 +424,46 @@ int create_new_dispload(const shared_ptr<Bead>& model, istringstream& command) {
     const auto& step_tag = model->get_current_step_tag();
 
     if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
+
+    return 0;
+}
+
+int create_new_criterion(const shared_ptr<Bead>& model, istringstream& command) {
+    string criterion_type;
+    if(!get_input(command, criterion_type)) {
+        suanpan_info("create_new_criterion() need a criterion type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if((command >> tag).fail()) {
+        suanpan_info("create_new_criterion() requires a tag.\n");
+        return 0;
+    }
+
+    unsigned node;
+    if((command >> node).fail()) {
+        suanpan_info("create_new_criterion() requires a node.\n");
+        return 0;
+    }
+
+    unsigned dof;
+    if((command >> dof).fail()) {
+        suanpan_info("create_new_criterion() requires a dof.\n");
+        return 0;
+    }
+
+    double limit;
+    if((command >> limit).fail()) {
+        suanpan_info("create_new_criterion() requires a limit.\n");
+        return 0;
+    }
+
+    auto& domain = model->get_current_domain();
+    if(if_equal(criterion_type, "MaxDisplacement")) {
+        domain->insert(make_shared<MaxDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
+        return 0;
+    }
 
     return 0;
 }

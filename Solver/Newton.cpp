@@ -42,7 +42,8 @@ int Newton::analyze() {
         // assemble stiffness
         G->assemble_stiffness();
         // process constraints and loads
-        G->process();
+        G->process_load();
+        G->process_constraint();
 
         // call solver
         const auto flag = W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());

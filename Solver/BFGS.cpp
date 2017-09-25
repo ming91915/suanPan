@@ -61,7 +61,8 @@ int BFGS::analyze() {
             // asemble stiffness for the first iteration
             G->assemble_stiffness();
             // process loads and constraints
-            G->process();
+            G->process_load();
+            G->process_constraint();
             // commit current residual
             hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
             // solve the system and commit current displacement increment

@@ -23,7 +23,7 @@ int ArcLength::initialize() {
 
     auto& t_load_ref = get_reference_load(W);
 
-    dof_anchor = get_domain()->get_node(node)->get_reordered_dof().at(dof - 1);
+    auto& dof_anchor = get_domain()->get_node(node)->get_reordered_dof().at(dof - 1);
 
     t_load_ref(dof_anchor) = maginitude;
 
@@ -34,16 +34,16 @@ int ArcLength::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    auto& t_disp = get_factory()->get_trial_displacement();
-    auto& disp_anchor = t_disp(dof_anchor);
-
     G->update_trial_status();
 
-    auto num_iteration = 0;
+    unsigned num_iteration = 0;
 
     while(true) {
-        if(num_iteration++ > 10000) return -1;
-        if(abs(disp_anchor) > maginitude) return 0;
+        if(num_iteration++ > get_max_substep()) {
+            suanpan_warning("analyze() reaches maximum substep number %u.\n", get_max_substep());
+            return -1;
+        }
+        if(G->process_criterion() < 0) return 0;
         const auto code = S->analyze();
         if(code == 0) {
             G->commit_status();

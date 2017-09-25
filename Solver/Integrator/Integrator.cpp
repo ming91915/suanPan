@@ -42,7 +42,11 @@ int Integrator::initialize() {
     return 0;
 }
 
-void Integrator::process() const { database->process(); }
+int Integrator::process_load() const { return database->process_load(); }
+
+int Integrator::process_constraint() const { return database->process_constraint(); }
+
+int Integrator::process_criterion() const { return database->process_criterion(); }
 
 void Integrator::record() const { database->record(); }
 

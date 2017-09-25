@@ -49,7 +49,7 @@ class Step : public Tag {
 
     double ini_step_size = time_period; /**< initial step size */
 
-    unsigned max_substep = 100; /**< maximum increment number */
+    unsigned max_substep = 1000; /**< maximum increment number */
 
     bool fixed_step_size = false; /**< auto-stepping */
 

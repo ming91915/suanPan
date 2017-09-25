@@ -168,5 +168,11 @@
 #ifndef CT_ARCLENGTH
 #define CT_ARCLENGTH 50
 #endif
+#ifndef CT_CRITERION
+#define CT_CRITERION 51
+#endif
+#ifndef CT_MAXDISPLACEMENT
+#define CT_MAXDISPLACEMENT 52
+#endif
 
 #endif

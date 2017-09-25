@@ -38,6 +38,7 @@ int create_new_solver(const shared_ptr<Bead>&, istringstream&);
 int create_new_bc(const shared_ptr<Bead>&, istringstream&);
 int create_new_cload(const shared_ptr<Bead>&, istringstream&);
 int create_new_dispload(const shared_ptr<Bead>&, istringstream&);
+int create_new_criterion(const shared_ptr<Bead>&, istringstream&);
 
 int set_property(const shared_ptr<Bead>&, istringstream&);
 

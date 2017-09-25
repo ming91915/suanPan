@@ -40,13 +40,15 @@ element ElasticB21 16 16 17 100000 1 1 1
 fix 1 1 1 17
 fix 2 2 1 17
 
-step arclength 1 8 1 6
+step arclength 1 8 1 1
 set symm_mat false
+
+criterion MaxDisplacement 1 8 1 6
 
 converger AbsIncreDisp 1 1E-4 10 0
 
 analyze
 
-peek node 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+peek node 8
 
 exit

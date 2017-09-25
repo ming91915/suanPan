@@ -47,6 +47,7 @@ class Load;
 class Material;
 class Node;
 class Recorder;
+class Criterion;
 
 using FacotoryAnchor = weak_ptr<Factory<double>>;
 using StepAnchor = weak_ptr<map<unsigned, shared_ptr<Step>>>;
@@ -69,6 +70,7 @@ public:
     virtual bool insert(const shared_ptr<Material>&) = 0;
     virtual bool insert(const shared_ptr<Node>&) = 0;
     virtual bool insert(const shared_ptr<Recorder>&) = 0;
+    virtual bool insert(const shared_ptr<Criterion>&) = 0;
 
     virtual bool erase_amplitude(const unsigned&) = 0;
     virtual bool erase_constraint(const unsigned&) = 0;
@@ -77,6 +79,7 @@ public:
     virtual bool erase_material(const unsigned&) = 0;
     virtual bool erase_node(const unsigned&) = 0;
     virtual bool erase_recorder(const unsigned&) = 0;
+    virtual bool erase_criterion(const unsigned&) = 0;
 
     virtual void disable_amplitude(const unsigned&) = 0;
     virtual void disable_constraint(const unsigned&) = 0;
@@ -85,6 +88,7 @@ public:
     virtual void disable_material(const unsigned&) = 0;
     virtual void disable_node(const unsigned&) = 0;
     virtual void disable_recorder(const unsigned&) = 0;
+    virtual void disable_criterion(const unsigned&) = 0;
 
     virtual void enable_amplitude(const unsigned&) = 0;
     virtual void enable_constraint(const unsigned&) = 0;
@@ -93,6 +97,7 @@ public:
     virtual void enable_material(const unsigned&) = 0;
     virtual void enable_node(const unsigned&) = 0;
     virtual void enable_recorder(const unsigned&) = 0;
+    virtual void enable_criterion(const unsigned&) = 0;
 
     virtual const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const = 0;
     virtual const shared_ptr<Constraint>& get_constraint(const unsigned&) const = 0;
@@ -101,6 +106,7 @@ public:
     virtual const shared_ptr<Material>& get_material(const unsigned&) const = 0;
     virtual const shared_ptr<Node>& get_node(const unsigned&) const = 0;
     virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const = 0;
+    virtual const shared_ptr<Criterion>& get_criterion(const unsigned&) const = 0;
 
     virtual const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const = 0;
     virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const = 0;
@@ -109,6 +115,7 @@ public:
     virtual const vector<shared_ptr<Material>>& get_material_pool() const = 0;
     virtual const vector<shared_ptr<Node>>& get_node_pool() const = 0;
     virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const = 0;
+    virtual const vector<shared_ptr<Criterion>>& get_criterion_pool() const = 0;
 
     virtual size_t get_amplitude() const = 0;
     virtual size_t get_constraint() const = 0;
@@ -117,6 +124,7 @@ public:
     virtual size_t get_material() const = 0;
     virtual size_t get_node() const = 0;
     virtual size_t get_recorder() const = 0;
+    virtual size_t get_criterion() const = 0;
 
     virtual bool find_amplitude(const unsigned&) const = 0;
     virtual bool find_constraint(const unsigned&) const = 0;
@@ -125,6 +133,7 @@ public:
     virtual bool find_material(const unsigned&) const = 0;
     virtual bool find_node(const unsigned&) const = 0;
     virtual bool find_recorder(const unsigned&) const = 0;
+    virtual bool find_criterion(const unsigned&) const = 0;
 
     virtual bool insert_loaded_dof(const unsigned&) = 0;
     virtual bool insert_restrained_dof(const unsigned&) = 0;
@@ -138,7 +147,9 @@ public:
 
     virtual int initialize() = 0;
 
-    virtual void process() = 0;
+    virtual int process_load() = 0;
+    virtual int process_constraint() = 0;
+    virtual int process_criterion() = 0;
     virtual void record() = 0;
     virtual void enable_all() = 0;
     virtual void summary() const = 0;

@@ -131,6 +131,12 @@
     <ClCompile Include="..\..\..\Step\ArcLength.cpp">
       <Filter>Step</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Constraint\Criterion\Criterion.cpp">
+      <Filter>Constraint</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Constraint\Criterion\MaxDisplacement.cpp">
+      <Filter>Constraint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -249,6 +255,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Domain\Factory.hpp">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\Criterion\Criterion.h">
+      <Filter>Constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\Criterion\MaxDisplacement.h">
+      <Filter>Constraint</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

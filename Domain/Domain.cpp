@@ -17,6 +17,7 @@
 
 #include "Domain.h"
 #include <Constraint/Constraint.h>
+#include <Constraint/Criterion/Criterion.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Element/Element.h>
@@ -87,6 +88,11 @@ bool Domain::insert(const shared_ptr<Recorder>& R) {
     return recorder_pond.insert(R);
 }
 
+bool Domain::insert(const shared_ptr<Criterion>& C) {
+    if(updated) updated = false;
+    return criterion_pond.insert(C);
+}
+
 bool Domain::erase_amplitude(const unsigned& T) {
     if(updated) updated = false;
     return amplitude_pond.erase(T);
@@ -120,6 +126,11 @@ bool Domain::erase_node(const unsigned& T) {
 bool Domain::erase_recorder(const unsigned& T) {
     if(updated) updated = false;
     return recorder_pond.erase(T);
+}
+
+bool Domain::erase_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    return criterion_pond.erase(T);
 }
 
 void Domain::disable_amplitude(const unsigned& T) {
@@ -157,6 +168,11 @@ void Domain::disable_recorder(const unsigned& T) {
     recorder_pond.disable(T);
 }
 
+void Domain::disable_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    criterion_pond.disable(T);
+}
+
 void Domain::enable_amplitude(const unsigned& T) {
     if(updated) updated = false;
     amplitude_pond.enable(T);
@@ -192,6 +208,11 @@ void Domain::enable_recorder(const unsigned& T) {
     recorder_pond.enable(T);
 }
 
+void Domain::enable_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    criterion_pond.enable(T);
+}
+
 const shared_ptr<Amplitude>& Domain::get_amplitude(const unsigned& T) const { return amplitude_pond.at(T); }
 
 const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
@@ -205,6 +226,8 @@ const shared_ptr<Material>& Domain::get_material(const unsigned& T) const { retu
 const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_pond.at(T); }
 
 const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
+
+const shared_ptr<Criterion>& Domain::get_criterion(const unsigned& T) const { return criterion_pond.at(T); }
 
 const vector<shared_ptr<Amplitude>>& Domain::get_amplitude_pool() const { return amplitude_pond.get(); }
 
@@ -220,6 +243,8 @@ const vector<shared_ptr<Node>>& Domain::get_node_pool() const { return node_pond
 
 const vector<shared_ptr<Recorder>>& Domain::get_recorder_pool() const { return recorder_pond.get(); }
 
+const vector<shared_ptr<Criterion>>& Domain::get_criterion_pool() const { return criterion_pond.get(); }
+
 size_t Domain::get_amplitude() const { return amplitude_pond.size(); }
 
 size_t Domain::get_constraint() const { return constraint_pond.size(); }
@@ -234,6 +259,8 @@ size_t Domain::get_node() const { return node_pond.size(); }
 
 size_t Domain::get_recorder() const { return recorder_pond.size(); }
 
+size_t Domain::get_criterion() const { return criterion_pond.size(); }
+
 bool Domain::find_amplitude(const unsigned& T) const { return amplitude_pond.find(T); }
 
 bool Domain::find_constraint(const unsigned& T) const { return constraint_pond.find(T); }
@@ -247,6 +274,8 @@ bool Domain::find_material(const unsigned& T) const { return material_pond.find(
 bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
 
 bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
+
+bool Domain::find_criterion(const unsigned& T) const { return criterion_pond.find(T); }
 
 bool Domain::insert_loaded_dof(const unsigned& T) { return loaded_dofs.insert(T).second; }
 
@@ -289,6 +318,7 @@ int Domain::initialize() {
     material_pond.update();
     node_pond.update();
     recorder_pond.update();
+    criterion_pond.update();
 
     // RCM OPTIMIZATION
     // COLLECT CONNECTIVITY
@@ -354,15 +384,32 @@ int Domain::initialize() {
     return 0;
 }
 
-void Domain::process() {
+int Domain::process_load() {
     loaded_dofs.clear();
-    restrained_dofs.clear();
-    constrained_dofs.clear();
 
     get_trial_load(factory.lock()).zeros();
 
-    for(const auto& I : load_pond.get()) I->process(shared_from_this());
-    for(const auto& I : constraint_pond.get()) I->process(shared_from_this());
+    auto code = 0;
+    for(const auto& I : load_pond.get()) code += I->process(shared_from_this());
+
+    return code;
+}
+
+int Domain::process_constraint() {
+    restrained_dofs.clear();
+    constrained_dofs.clear();
+
+    auto code = 0;
+    for(const auto& I : constraint_pond.get()) code += I->process(shared_from_this());
+
+    return code;
+}
+
+int Domain::process_criterion() {
+    auto code = 0;
+    for(const auto& I : criterion_pond.get()) code += I->process(shared_from_this());
+
+    return code;
 }
 
 void Domain::record() {
@@ -544,6 +591,8 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { ret
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
+shared_ptr<Criterion>& get_criterion(const shared_ptr<Domain>& D, const unsigned& T) { return D->criterion_pond[T]; }
+
 shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->amplitude_pond[T]; }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->constraint_pond[T]; }
@@ -557,3 +606,5 @@ shared_ptr<Material>& get_material(const shared_ptr<DomainBase>& D, const unsign
 shared_ptr<Node>& get_node(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->node_pond[T]; }
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->recorder_pond[T]; }
+
+shared_ptr<Criterion>& get_criterion(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->criterion_pond[T]; }
