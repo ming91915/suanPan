@@ -18,34 +18,35 @@ node 15 6 8
 node 16 7 8
 node 17 8 8
 
-material Elastic1D 1 1
+material Elastic1D 1 1000
 
-element ElasticB21 1 1 2 1 1 1 1
-element ElasticB22 2 2 3 1 1 1 1
-element ElasticB23 3 3 4 1 1 1 1
-element ElasticB24 4 4 5 1 1 1 1
-element ElasticB25 5 5 6 1 1 1 1
-element ElasticB26 6 6 7 1 1 1 1
-element ElasticB27 7 7 8 1 1 1 1
-element ElasticB28 8 8 9 1 1 1 1
-element ElasticB29 9 9 10 1 1 1 1
-element ElasticB30 10 10 11 1 1 1 1
-element ElasticB31 11 11 12 1 1 1 1
-element ElasticB32 12 12 13 1 1 1 1
-element ElasticB33 13 13 14 1 1 1 1
-element ElasticB34 14 14 15 1 1 1 1
-element ElasticB35 15 15 16 1 1 1 1
-element ElasticB36 16 16 17 1 1 1 1
+element ElasticB21 1 1 2 100000 1 1 1
+element ElasticB21 2 2 3 100000 1 1 1
+element ElasticB21 3 3 4 100000 1 1 1
+element ElasticB21 4 4 5 100000 1 1 1
+element ElasticB21 5 5 6 100000 1 1 1
+element ElasticB21 6 6 7 100000 1 1 1
+element ElasticB21 7 7 8 100000 1 1 1
+element ElasticB21 8 8 9 100000 1 1 1
+element ElasticB21 9 9 10 100000 1 1 1
+element ElasticB21 10 10 11 100000 1 1 1
+element ElasticB21 11 11 12 100000 1 1 1
+element ElasticB21 12 12 13 100000 1 1 1
+element ElasticB21 13 13 14 100000 1 1 1
+element ElasticB21 14 14 15 100000 1 1 1
+element ElasticB21 15 15 16 100000 1 1 1
+element ElasticB21 16 16 17 100000 1 1 1
 
 fix 1 1 1 17
 fix 2 2 1 17
 
-step arclength 1
+step arclength 1 8 1 6
+set symm_mat false
 
-converger AbsIncreDisp 1 1E-4 10 1
+converger AbsIncreDisp 1 1E-4 10 0
 
 analyze
 
-peek node 2
+peek node 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
 
 exit

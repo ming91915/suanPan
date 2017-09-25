@@ -1,5 +1,5 @@
 #include "ArcLength.h"
-#include "Domain/DomainBase.h"
+#include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Solver/Integrator/Integrator.h>
@@ -11,60 +11,46 @@ ArcLength::ArcLength(const unsigned& T, const unsigned& NT, const unsigned& DT, 
     , dof(DT)
     , maginitude(MA) {}
 
+int ArcLength::initialize() {
+    const auto code = Step::initialize();
+
+    if(code != 0) return code;
+
+    auto& W = get_factory();
+
+    W->set_reference_size(1);
+    W->initialize_load_factor();
+
+    auto& t_load_ref = get_reference_load(W);
+
+    dof_anchor = get_domain()->get_node(node)->get_reordered_dof().at(dof - 1);
+
+    t_load_ref(dof_anchor) = maginitude;
+
+    return 0;
+}
+
 int ArcLength::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
-    auto& D = G->get_domain();
 
-    auto& t_dof = D->get_node(node)->get_reordered_dof().at(dof - 1);
-    auto& t_disp = D->get_factory().lock()->get_trial_displacement();
-    auto& dof_ptr = t_disp(t_dof);
+    auto& t_disp = get_factory()->get_trial_displacement();
+    auto& disp_anchor = t_disp(dof_anchor);
 
-    // make sure the stiffness and resistance are correct
     G->update_trial_status();
 
-    auto time_left = get_time_period();
-    auto step = get_ini_step_size();
-
-    unsigned num_increment = 0;
+    auto num_iteration = 0;
 
     while(true) {
-        // check if the target time point is hit
-        if(time_left <= 1E-14) return 0;
-        // check if the maximum substep number is hit
-        if(++num_increment > get_max_substep()) {
-            suanpan_warning("analyze() reaches maximum substep number %u.\n", get_max_substep());
-            return -1;
-        }
-        // update incremental and trial time
-        G->update_incre_time(step);
-        // call solver
+        if(num_iteration++ > 10000) return -1;
+        if(abs(disp_anchor) > maginitude) return 0;
         const auto code = S->analyze();
-        if(code == 0) { // success step
-                        // commit converged iteration
+        if(code == 0) {
             G->commit_status();
-            // record response
             G->record();
-            // eat current increment
-            time_left -= step;
-            // check if time overflows
-            if(step > time_left) step = time_left;
-        } else if(code == -1) { // failed step
-                                // reset to the start of current substep
+        } else if(code == -1) {
             G->reset_status();
-            // check if minimum step size is hit
-            if(step <= get_min_step_size()) {
-                suanpan_error("analyze() reaches minimum step size %.3E.\n", get_min_step_size());
-                return -1;
-            }
-            // check if fixed step size
-            if(is_fixed_step_size()) {
-                suanpan_error("analyze() does not converge for given fixed step size %.3E.\n", step);
-                return -1;
-            }
-            // step size is allowed to decrease
-            step /= 2.;
-        } else // positive codes are from lapack subroutines
+        } else
             return -1;
     }
 }

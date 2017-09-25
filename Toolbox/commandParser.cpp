@@ -29,6 +29,7 @@
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
 #include <Solver/Solver>
+#include <Step/ArcLength.h>
 #include <Step/Bead.h>
 #include <Step/Dynamic.h>
 #include <Step/Static.h>
@@ -156,20 +157,48 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    auto time = 1.;
-    if(!command.eof() && (command >> time).fail()) {
-        suanpan_info("create_new_step() reads a wrong time period.\n");
-        return 0;
-    }
-
     if(if_equal(step_type, "Static")) {
+        auto time = 1.;
+        if(!command.eof() && (command >> time).fail()) {
+            suanpan_info("create_new_step() reads a wrong time period.\n");
+            return 0;
+        }
         if(model->insert(make_shared<Static>(tag, time))) {
             model->set_current_step(tag);
             model->get_current_step()->set_domain(model->get_current_domain());
         } else
             suanpan_error("create_new_step() cannot create the new step.\n");
     } else if(if_equal(step_type, "Dynamic")) {
+        auto time = 1.;
+        if(!command.eof() && (command >> time).fail()) {
+            suanpan_info("create_new_step() reads a wrong time period.\n");
+            return 0;
+        }
         if(model->insert(make_shared<Dynamic>(tag, time))) {
+            model->set_current_step(tag);
+            model->get_current_step()->set_domain(model->get_current_domain());
+        } else
+            suanpan_error("create_new_step() cannot create the new step.\n");
+    } else if(if_equal(step_type, "ArcLength")) {
+        unsigned node;
+        if((command >> node).fail()) {
+            suanpan_info("create_new_step() requires a node.\n");
+            return 0;
+        }
+
+        unsigned dof;
+        if((command >> dof).fail()) {
+            suanpan_info("create_new_step() requires a dof.\n");
+            return 0;
+        }
+
+        double magnitude;
+        if((command >> magnitude).fail()) {
+            suanpan_info("create_new_step() requires a magnitude.\n");
+            return 0;
+        }
+
+        if(model->insert(make_shared<ArcLength>(tag, node, dof, magnitude))) {
             model->set_current_step(tag);
             model->get_current_step()->set_domain(model->get_current_domain());
         } else

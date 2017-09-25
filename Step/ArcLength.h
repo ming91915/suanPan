@@ -7,12 +7,15 @@
 class ArcLength : public Step {
     unsigned node, dof;
     double maginitude;
+    uword dof_anchor = 0;
 
 public:
     explicit ArcLength(const unsigned& = 0, // tag
         const unsigned& = 0,                // node tag
         const unsigned& = 0,                // dof tag
         const double& = 0.);                // magnitude
+
+    int initialize() override;
 
     int analyze() override;
 };

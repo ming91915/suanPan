@@ -252,6 +252,8 @@ public:
 
     template <typename T1> friend Col<T1>& get_ninja(const shared_ptr<Factory<T1>>&);
 
+    template <typename T1> friend Mat<T1>& get_reference_load(const shared_ptr<Factory<T1>>&);
+
     template <typename T1> friend T& get_trial_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_load_factor(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_load(const shared_ptr<Factory<T1>>&);
@@ -460,6 +462,8 @@ template <typename T> void Factory<T>::initialize_load_factor() {
     trial_load_factor.zeros(n_rfld);
     incre_load_factor.zeros(n_rfld);
     current_load_factor.zeros(n_rfld);
+
+    reference_load.zeros(n_size, n_rfld);
 }
 
 template <typename T> void Factory<T>::initialize_load() {
@@ -1124,6 +1128,8 @@ template <typename T> void Factory<T>::assemble_stiffness(const Mat<T>& EK, cons
 template <typename T> void Factory<T>::print() const { suanpan_info("This is a Factory object with size of %u.\n", n_size); }
 
 template <typename T> Col<T>& get_ninja(const shared_ptr<Factory<T>>& W) { return W->ninja; }
+
+template <typename T> Mat<T>& get_reference_load(const shared_ptr<Factory<T>>& W) { return W->reference_load; }
 
 template <typename T> T& get_trial_time(const shared_ptr<Factory<T>>& W) { return W->trial_time; }
 

@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Step.h"
+#include "Solver/Ramm.h"
 #include <Converger/RelIncreDisp.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
@@ -38,9 +39,22 @@ int Step::initialize() {
         return -1;
     }
 
+    switch(get_class_tag()) {
+    case CT_ARCLENGTH:
+        if(solver == nullptr) solver = make_shared<Ramm>();
+        break;
+    case CT_STATIC:
+    case CT_DYNAMIC:
+    case CT_FREQUENCE:
+        if(solver == nullptr) solver = make_shared<Newton>();
+        break;
+    default:
+        suanpan_error("initialize() needs a valid step.\n");
+        return -1;
+    }
+
     if(factory == nullptr) factory = database->get_factory().lock();
     if(factory == nullptr) factory = make_shared<Factory<double>>();
-    if(solver == nullptr) solver = make_shared<Newton>();
     if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);
 
     if(symm_mat && band_mat)
@@ -58,6 +72,7 @@ int Step::initialize() {
 
     switch(get_class_tag()) {
     case CT_STATIC:
+    case CT_ARCLENGTH:
         factory->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<Integrator>();
         modifier->set_domain(database);

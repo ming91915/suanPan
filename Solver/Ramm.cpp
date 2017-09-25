@@ -65,11 +65,13 @@ int Ramm::analyze() {
 
             // check the sign of stiffness for unloading
             const auto& t_stiff = get_stiffness(W);
-            for(unsigned I = 0; I < t_stiff.n_cols; ++I)
-                if(t_stiff(I, I) < 0.) {
-                    t_lambda = -t_lambda;
-                    break;
-                }
+            const auto& t_pivot = t_stiff.IPIV;
+            auto det_sign = 1;
+            for(auto I = 0; I < t_pivot.n_elem; ++I) {
+                if(t_stiff(I, I) < 0) det_sign = -det_sign;
+                if(I + 1 != t_pivot(I)) det_sign = -det_sign;
+            }
+            if(det_sign < 0) t_lambda = -t_lambda;
         } else
             t_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
 
@@ -80,22 +82,24 @@ int Ramm::analyze() {
 
         // avoid machine error accumulation
         G->erase_machine_error();
-        // update trial load factor
-        W->update_trial_load_factor(W->get_trial_load_factor() + t_lambda);
         // update trial displacement
         W->update_trial_displacement(W->get_trial_displacement() + t_ninja);
+        // update trial load factor
+        W->update_trial_load_factor(W->get_trial_load_factor() + t_lambda);
+        // set time to load factor
+        W->update_trial_time(W->get_trial_load_factor().at(0));
         // update for nodes and elements
         G->update_trial_status();
 
-        // exit if converged
-        if(C->if_converged()) {
-            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
-            return 0;
-        }
         // exit if maximum iteration is hit
         if(++counter > max_iteration) {
             if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
             return -1;
+        }
+        // exit if converged
+        if(C->if_converged()) {
+            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
+            return 0;
         }
     }
 }
