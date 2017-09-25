@@ -3,11 +3,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerWorkingDirectory>..\..\..\Example</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-f LEE.FRAME.supan</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f CPS4N50.supan</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerWorkingDirectory>..\..\..\Example</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-f LEE.FRAME.supan</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-f CPS4N50.supan</LocalDebuggerCommandArguments>
   </PropertyGroup>
 </Project>

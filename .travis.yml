@@ -22,6 +22,7 @@ after_success:
   - ./suanPan -f ../Example/COOK.supan > /dev/null
   - ./suanPan -f ../Example/COOK4.supan > /dev/null
   - ./suanPan -f ../Example/CPS3.supan > /dev/null
+  - ./suanPan -f ../Example/CPS8.supan > /dev/null
   - ./suanPan -f ../Example/CPS4NL.supan > /dev/null
   - ./suanPan -f ../Example/GQ12.supan > /dev/null
   - ./suanPan -f ../Example/IREGULARBEAM.supan > /dev/null
@@ -29,6 +30,7 @@ after_success:
   - ./suanPan -f ../Example/PROTO01.supan > /dev/null
   - ./suanPan -f ../Example/QE2.supan > /dev/null
   - ./suanPan -f ../Example/TRUSS2D.supan > /dev/null
+  - ./suanPan -f ../Example/LEE.FRAME.supan > /dev/null
   - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
   - bash <(curl -s https://codecov.io/bash)
 notifications:
