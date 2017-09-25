@@ -41,11 +41,11 @@ void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
         return;
     }
 
-    const vec pos_diff = coord_i - coord_j;
+    const vec pos_diff = coord_j - coord_i;
 
     length = norm(pos_diff);
 
-    t_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
+    t_material = D->get_material(unsigned(material_tag(0)))->get_copy();
 
     direction_cosine = pos_diff / length;
 
