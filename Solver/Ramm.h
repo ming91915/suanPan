@@ -29,8 +29,6 @@
 #include "Solver.h"
 
 class Ramm : public Solver {
-    double min_arc_length = 1E-8;
-    double max_arc_length = 1E6;
     double arc_length = 1E-4;
     bool fixed_arc_length = false;
 

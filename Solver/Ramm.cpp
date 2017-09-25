@@ -31,14 +31,12 @@ int Ramm::analyze() {
 
     auto& max_iteration = C->get_max_iteration();
 
+    auto& load_ref = W->get_reference_load();
+
     // ninja anchor
     auto& t_ninja = get_ninja(W);
 
-    auto load_ref = W->get_current_load();
-    for(auto& I : load_ref)
-        if(I != 0.) I = 1.;
-
-    double incre_lambda;
+    double t_lambda;
 
     vec disp_a, disp_ref;
 
@@ -54,7 +52,7 @@ int Ramm::analyze() {
         G->process();
 
         // solve ninja
-        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_time() - W->get_trial_resistance());
+        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_load_factor() + W->get_trial_load() - W->get_trial_resistance());
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
         // solve reference displacement
@@ -63,27 +61,27 @@ int Ramm::analyze() {
         if(flag != 0) return flag;
 
         if(counter == 0) {
-            incre_lambda = arc_length / sqrt(dot(disp_a, disp_a) + 1.);
+            t_lambda = arc_length / sqrt(dot(disp_a, disp_a) + 1.);
 
-            // check the sign of stiffness
+            // check the sign of stiffness for unloading
             const auto& t_stiff = get_stiffness(W);
             for(unsigned I = 0; I < t_stiff.n_cols; ++I)
                 if(t_stiff(I, I) < 0.) {
-                    incre_lambda = -incre_lambda;
+                    t_lambda = -t_lambda;
                     break;
                 }
         } else
-            incre_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
+            t_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);
 
         // abaqus update
         disp_ref = disp_a;
 
-        t_ninja += disp_a * incre_lambda;
+        t_ninja += disp_a * t_lambda;
 
         // avoid machine error accumulation
         G->erase_machine_error();
         // update trial load factor
-        W->update_trial_time(W->get_trial_time() + incre_lambda);
+        W->update_trial_load_factor(W->get_trial_load_factor() + t_lambda);
         // update trial displacement
         W->update_trial_displacement(W->get_trial_displacement() + t_ninja);
         // update for nodes and elements
@@ -91,12 +89,12 @@ int Ramm::analyze() {
 
         // exit if converged
         if(C->if_converged()) {
-            arc_length *= sqrt(target_iteration / double(counter));
+            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
             return 0;
         }
         // exit if maximum iteration is hit
         if(++counter > max_iteration) {
-            arc_length *= sqrt(target_iteration / double(counter));
+            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
             return -1;
         }
     }
