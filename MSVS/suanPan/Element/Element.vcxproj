@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Element\Beam\ElasticB21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\MVLEM.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Element\Beam\ElasticB21.h" />
     <ClInclude Include="..\..\..\Element\Beam\MVLEM.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D20.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
