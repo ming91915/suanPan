@@ -81,6 +81,8 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
     endif()
     link_libraries(gfortran quadmath)
 
+    set(CMAKE_EXE_LINKER_FLAGS "-fPIC")
+
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fexceptions -mavx")
     set(CMAKE_CXX_FLAGS_DEBUG "-g -DDEBUG")
     if(TEST_COVERAGE) # COVERAGE ONLY AVAILABLE UNDER GCC
