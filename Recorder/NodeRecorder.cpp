@@ -45,9 +45,7 @@ void NodeRecorder::print() {
             for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I) = J[K];
     }
 
-    data_to_write.print();
-
-    hsize_t dimention[2] = { data_to_write.n_rows, data_to_write.n_cols };
+    hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };
 
     std::ostringstream file_name;
 
@@ -55,7 +53,9 @@ void NodeRecorder::print() {
 
     const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
-    H5LTmake_dataset(file_id, "/DISPLACEMENT", 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
+    const auto group_d = H5Gcreate2(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5LTmake_dataset(group_d, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
 
     H5Fclose(file_id);
 }

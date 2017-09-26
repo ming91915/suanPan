@@ -169,10 +169,10 @@ typedef long long ssize_t;
  * type.
  */
 #if H5_SIZEOF_LONG_LONG >= 8
-H5_GCC_DIAG_OFF(long - long)
+H5_GCC_DIAG_OFF(long-long)
 typedef unsigned long long hsize_t;
 typedef signed long long hssize_t;
-H5_GCC_DIAG_ON(long - long)
+H5_GCC_DIAG_ON(long-long)
 #define H5_SIZEOF_HSIZE_T H5_SIZEOF_LONG_LONG
 #define H5_SIZEOF_HSSIZE_T H5_SIZEOF_LONG_LONG
 #else

@@ -4,7 +4,7 @@ include_directories(${ROOT}/Include/armadillo)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-option(USE_HDF5 "USE HDF5 LIBRARY" OFF)
+option(USE_HDF5 "USE HDF5 LIBRARY" ON)
 option(USE_NETLIB "USE NETLIB BLAS AND LAPACK" ON)
 option(USE_OPENBLAS "USE OPENBLAS LIBRARY" OFF)
 option(BUILD_MULTI_THREAD "BUILD MULTI THREAD VERSION" OFF)
@@ -54,7 +54,7 @@ if(CMAKE_SYSTEM_NAME MATCHES "Windows") # WINDOWS PLATFORM
     endif()
 
     if(USE_HDF5)
-        link_libraries(libhdf5_cpp libhdf5 libszip libzlib)
+        link_libraries(libhdf5_hl libhdf5 libszip libzlib)
     endif()
 
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux") # LINUX PLATFORM
@@ -64,7 +64,7 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux") # LINUX PLATFORM
 
     if(USE_HDF5)
         include_directories(${ROOT}/Include/hdf5-linux)
-        link_libraries(hdf5_cpp hdf5 szip z)
+        link_libraries(hdf5_hl hdf5 szip z)
     endif()
 
 endif()
