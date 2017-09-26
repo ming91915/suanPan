@@ -160,6 +160,7 @@
     <ClCompile Include="..\..\..\Constraint\Constraint.cpp" />
     <ClCompile Include="..\..\..\Constraint\Criterion\Criterion.cpp" />
     <ClCompile Include="..\..\..\Constraint\Criterion\MaxDisplacement.cpp" />
+    <ClCompile Include="..\..\..\Constraint\Criterion\MinDisplacement.cpp" />
     <ClCompile Include="..\..\..\Constraint\MPC.cpp" />
     <ClCompile Include="..\..\..\Constraint\Tie.cpp" />
     <ClCompile Include="..\..\..\Database\Database.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="..\..\..\Constraint\Constraint.h" />
     <ClInclude Include="..\..\..\Constraint\Criterion\Criterion.h" />
     <ClInclude Include="..\..\..\Constraint\Criterion\MaxDisplacement.h" />
+    <ClInclude Include="..\..\..\Constraint\Criterion\MinDisplacement.h" />
     <ClInclude Include="..\..\..\Constraint\MPC.h" />
     <ClInclude Include="..\..\..\Constraint\Tie.h" />
     <ClInclude Include="..\..\..\Database\Database.h" />

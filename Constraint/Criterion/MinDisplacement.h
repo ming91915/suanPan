@@ -15,30 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class MaxDisplacement
- * @brief A MaxDisplacement class.
+ * @class MinDisplacement
+ * @brief A MinDisplacement class.
  *
- * The MaxDisplacement class.
+ * The MinDisplacement class.
  *
  * @author T
- * @date 26/09/2017
+ * @date 27/09/2017
  * @version 0.1.0
- * @file MaxDisplacement.h
+ * @file MinDisplacement.h
  * @addtogroup Criterion
  * @{
  */
 
-#ifndef MAXDISPLACEMENT_H
-#define MAXDISPLACEMENT_H
+#ifndef MINDISPLACEMENT_H
+#define MINDISPLACEMENT_H
 
 #include "Criterion.h"
 
-class MaxDisplacement : public Criterion {
+class MinDisplacement : public Criterion {
     unsigned node, dof;
     double limit;
 
 public:
-    explicit MaxDisplacement(const unsigned& = 0, // tag
+    explicit MinDisplacement(const unsigned& = 0, // tag
         const unsigned& = 0,                      // step tag
         const unsigned& = 0,                      // node tag
         const unsigned& = 0,                      // dof tag

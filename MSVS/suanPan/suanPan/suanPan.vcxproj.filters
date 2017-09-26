@@ -137,6 +137,9 @@
     <ClCompile Include="..\..\..\Constraint\Criterion\MaxDisplacement.cpp">
       <Filter>Constraint</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Constraint\Criterion\MinDisplacement.cpp">
+      <Filter>Constraint</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -260,6 +263,9 @@
       <Filter>Constraint</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\Criterion\MaxDisplacement.h">
+      <Filter>Constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Constraint\Criterion\MinDisplacement.h">
       <Filter>Constraint</Filter>
     </ClInclude>
   </ItemGroup>

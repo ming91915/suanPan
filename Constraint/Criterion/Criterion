@@ -1,3 +1,4 @@
 #include "Criterion.h"
 
 #include "MaxDisplacement.h"
+#include "MinDisplacement.h"

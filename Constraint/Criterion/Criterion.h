@@ -22,6 +22,7 @@
  *
  * @author T
  * @date 26/09/2017
+ * @version 0.1.0
  * @file Criterion.h
  * @addtogroup Criterion
  * @{

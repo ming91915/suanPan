@@ -174,5 +174,8 @@
 #ifndef CT_MAXDISPLACEMENT
 #define CT_MAXDISPLACEMENT 52
 #endif
+#ifndef CT_MINDISPLACEMENT
+#define CT_MINDISPLACEMENT 53
+#endif
 
 #endif
