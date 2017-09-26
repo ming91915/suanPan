@@ -96,7 +96,7 @@ Model Name: CPS4N50.supan
 | ABAQUS             |      20.9     |     2.22    |      60     |        -        |
 | OpenSees           |      16.6     |     1.77    |      30     | 10.921 (\_trsm) |
 | suanPan (Ref.)     |      9.4      |     1.00    |      53     | 11.398 (\_trsm) |
-| suanPan (OpenBlas) |      6.0      |     0.64    |      45     |        -        |
+| suanPan (OpenBLAS) |      6.0      |     0.64    |      45     |        -        |
 | suanPan (MKL)      |      5.6      |     0.60    |      55     |      22.493     |
 
 Some explanations:
@@ -128,7 +128,7 @@ Model Name: CPS4N100.supan
 | ABAQUS             |      8.4      |     0.73    |      94     |
 | OpenSees           |      21.2     |     1.84    |     104     |
 | suanPan (Ref.)     |      11.5     |     1.00    |     229     |
-| suanPan (OpenBlas) |      6.2      |     0.54    |     203     |
+| suanPan (OpenBLAS) |      6.2      |     0.54    |     203     |
 | suanPan (MKL)      |      5.9      |     0.51    |     231     |
 
 With the problem size increased, in this case ABAQUS is fast. OpenSees is significantly slower than all other platforms.

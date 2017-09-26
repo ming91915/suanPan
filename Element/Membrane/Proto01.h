@@ -19,8 +19,8 @@
  * @brief A Proto01 class.
  *
  * @author T
- * @date 13/09/2017
- * @version 0.2.0
+ * @date 27/09/2017
+ * @version 0.2.1
  * @file Proto01.h
  * @addtogroup Membrane
  * @ingroup Element
@@ -42,7 +42,7 @@ class Proto01 : public Element {
 
     static const unsigned m_node, m_dof;
 
-    static mat mapping;
+    static mat mapping, converter;
 
     const double thickness;
 

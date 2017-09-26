@@ -23,6 +23,7 @@
 const unsigned Proto01::m_node = 4;
 const unsigned Proto01::m_dof = 3;
 mat Proto01::mapping;
+mat Proto01::converter;
 
 Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     : Element(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
@@ -38,6 +39,50 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
         mapping(2, 1) = -.25;
         mapping(3, 1) = -.25;
         mapping(3, 3) = -.25;
+    }
+    if(converter.is_empty()) {
+        converter.zeros(12, 11);
+        converter(0, 1) = 3.;
+        converter(0, 5) = -3.;
+        converter(0, 9) = -1.;
+        converter(0, 10) = -3.;
+        converter(1, 3) = 1.;
+        converter(1, 7) = -2.;
+        converter(2, 2) = 3.;
+        converter(2, 6) = 3.;
+        converter(2, 7) = -1.;
+        converter(2, 8) = -3.;
+        converter(3, 0) = 3.;
+        converter(3, 6) = 3.;
+        converter(3, 9) = -3.;
+        converter(3, 10) = -1.;
+        converter(4, 4) = 1.;
+        converter(4, 8) = 2.;
+        converter(5, 2) = 3.;
+        converter(5, 5) = -3.;
+        converter(5, 7) = -3.;
+        converter(5, 8) = -1.;
+        converter(6, 1) = 3.;
+        converter(6, 5) = 3.;
+        converter(6, 9) = -1.;
+        converter(6, 10) = -3.;
+        converter(7, 3) = 1.;
+        converter(7, 7) = 2.;
+        converter(8, 2) = 3.;
+        converter(8, 6) = -3.;
+        converter(8, 7) = -1.;
+        converter(8, 8) = -3.;
+        converter(9, 0) = 3.;
+        converter(9, 6) = -3.;
+        converter(9, 9) = -3.;
+        converter(9, 10) = -1.;
+        converter(10, 4) = 1.;
+        converter(10, 8) = -2.;
+        converter(11, 2) = 3.;
+        converter(11, 5) = 3.;
+        converter(11, 7) = -3.;
+        converter(11, 8) = -1.;
+        converter *= 2. / 3.;
     }
 
     const auto& material_proto = D->get_material(unsigned(material_tag(0)));

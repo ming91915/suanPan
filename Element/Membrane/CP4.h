@@ -16,10 +16,10 @@
  ******************************************************************************/
 /**
  * @class CP4
- * @brief The CP4 class handles CPS4, CPE4, CPS4R and CPE4R elements. It is a four node constant strain membrane element with optional reduced integration for both plane stress and plane strain problems.
+ * @brief The CP4 class handles CPS4, CPE4, CPS4R and CPE4R elements. It is a four node constant strain membrane element with optional reduced integration for both plane stress and plane strain problems and optional switch for TL nonlinear geometry formulation.
  * @author T
- * @date 07/08/2017
- * @version 0.1.2
+ * @date 27/09/2017
+ * @version 0.1.3
  * @file CP4.h
  * @addtogroup Membrane
  * @ingroup Element
