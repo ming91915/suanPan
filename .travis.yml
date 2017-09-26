@@ -8,6 +8,7 @@ addons:
     packages:
       - g++-6
       - gfortran-6
+      - binutils
 env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-6 && CXX=g++-6"
 script:
@@ -31,6 +32,7 @@ after_success:
   - ./suanPan -f ../Example/QE2.supan > /dev/null
   - ./suanPan -f ../Example/TRUSS2D.supan > /dev/null
   - ./suanPan -f ../Example/LEE.FRAME.supan > /dev/null
+  - ./suanPan -f ../Example/SHALLOW.ARC.supan > /dev/null
   - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
   - bash <(curl -s https://codecov.io/bash)
 notifications:
