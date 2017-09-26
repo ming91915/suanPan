@@ -148,3 +148,5 @@ int ElasticB21::commit_status() { return b_material->commit_status(); }
 int ElasticB21::clear_status() { return b_material->clear_status(); }
 
 int ElasticB21::reset_status() { return b_material->reset_status(); }
+
+void ElasticB21::print() { suanpan_info("An elastic B21 element%s", nlgeom ? " with corotational formulation.\n" : ".\n"); }

@@ -60,6 +60,7 @@ public:
     void insert(const vector<vec>&);
 
     const vector<vector<vec>>& get_data_pool() const;
+    const vector<double>& get_time_pool() const;
 
     virtual void record(const shared_ptr<Domain>&) = 0;
 

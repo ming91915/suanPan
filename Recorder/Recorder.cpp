@@ -43,6 +43,8 @@ void Recorder::insert(const vector<vec>& D) { data_pool.push_back(D); }
 
 const vector<vector<vec>>& Recorder::get_data_pool() const { return data_pool; }
 
+const vector<double>& Recorder::get_time_pool() const { return time_pool; }
+
 void Recorder::record(const shared_ptr<Domain>&) {}
 
 void Recorder::print() { suanpan_info("print() needs to be overwritten.\n"); }

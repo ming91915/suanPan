@@ -19,6 +19,8 @@
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
+#include <hdf5.h>
+#include <hdf5_hl.h>
 
 NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
     : Recorder(T, CT_NODERECORDER, B, L, R) {}
@@ -32,8 +34,28 @@ void NodeRecorder::record(const shared_ptr<Domain>& D) {
 }
 
 void NodeRecorder::print() {
-    for(const auto& I : get_data_pool()) {
-        for(const auto& J : I) J.print();
-        suanpan_info("\n");
+    auto& data = get_data_pool();
+    auto& time = get_time_pool();
+
+    mat data_to_write(data.cbegin()->cbegin()->n_elem + 1, time.size());
+
+    for(size_t I = 0; I < time.size(); ++I) {
+        data_to_write(0, I) = time[I];
+        for(const auto& J : data[I])
+            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I) = J[K];
     }
+
+    data_to_write.print();
+
+    hsize_t dimention[2] = { data_to_write.n_rows, data_to_write.n_cols };
+
+    std::ostringstream file_name;
+
+    file_name << to_char(get_variable_type()) << get_object_tag();
+
+    const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5LTmake_dataset(file_id, "/DISPLACEMENT", 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
+
+    H5Fclose(file_id);
 }

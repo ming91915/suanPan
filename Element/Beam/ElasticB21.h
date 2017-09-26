@@ -62,6 +62,8 @@ public:
     int commit_status() override;
     int clear_status() override;
     int reset_status() override;
+
+    void print() override;
 };
 
 #endif

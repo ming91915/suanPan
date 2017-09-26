@@ -16,9 +16,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "commandParser.h"
-#include "Constraint/Criterion/MaxDisplacement.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
+#include <Constraint/Criterion/Criterion>
 #include <Converger/Converger>
 #include <Domain/Domain.h>
 #include <Domain/ExternalModule.h>
@@ -460,10 +460,10 @@ int create_new_criterion(const shared_ptr<Bead>& model, istringstream& command) 
     }
 
     auto& domain = model->get_current_domain();
-    if(if_equal(criterion_type, "MaxDisplacement")) {
+    if(if_equal(criterion_type, "MaxDisplacement"))
         domain->insert(make_shared<MaxDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
-        return 0;
-    }
+    else if(if_equal(criterion_type, "MinDisplacement"))
+        domain->insert(make_shared<MinDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
 
     return 0;
 }
