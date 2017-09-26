@@ -57,14 +57,21 @@ int Step::initialize() {
     if(factory == nullptr) factory = make_shared<Factory<double>>();
     if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);
 
-    if(symm_mat && band_mat)
-        factory->set_storage_scheme(StorageScheme::BANDSYMM);
-    else if(!symm_mat && band_mat)
-        factory->set_storage_scheme(StorageScheme::BAND);
-    else if(symm_mat && !band_mat)
-        factory->set_storage_scheme(StorageScheme::SYMMPACK);
-    else if(!symm_mat && !band_mat)
-        factory->set_storage_scheme(StorageScheme::FULL);
+    if(get_class_tag() != CT_ARCLENGTH) {
+        if(symm_mat && band_mat)
+            factory->set_storage_scheme(StorageScheme::BANDSYMM);
+        else if(!symm_mat && band_mat)
+            factory->set_storage_scheme(StorageScheme::BAND);
+        else if(symm_mat && !band_mat)
+            factory->set_storage_scheme(StorageScheme::SYMMPACK);
+        else if(!symm_mat && !band_mat)
+            factory->set_storage_scheme(StorageScheme::FULL);
+    } else {
+        if(band_mat)
+            factory->set_storage_scheme(StorageScheme::BAND);
+        else
+            factory->set_storage_scheme(StorageScheme::FULL);
+    }
 
     database->set_factory(factory);
 

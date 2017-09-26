@@ -1,4 +1,4 @@
-# A TEST MODEL
+# LEE'S FRAME
 
 node 1 0 0
 node 2 0 1
@@ -40,8 +40,7 @@ element ElasticB21 16 16 17 100000 1 1 1
 fix 1 1 1 17
 fix 2 2 1 17
 
-step arclength 1 8 1 1
-set symm_mat false
+step arclength 1 8 1 10
 
 criterion MaxDisplacement 1 8 1 6
 

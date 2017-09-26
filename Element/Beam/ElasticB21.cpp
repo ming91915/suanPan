@@ -64,6 +64,7 @@ int ElasticB21::update_status() {
 
     auto& disp_i = node_i->get_trial_displacement();
     auto& disp_j = node_j->get_trial_displacement();
+
     vec disp_diff(2);
     disp_diff(0) = disp_j(0) - disp_i(0);
     disp_diff(1) = disp_j(1) - disp_i(1);
