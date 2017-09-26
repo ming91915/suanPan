@@ -8,7 +8,9 @@ addons:
     packages:
       - g++-6
       - gfortran-6
-      - binutils
+      - binutils-dev
+rust:
+  - nightly
 env:
   - MATRIX_EVAL="FC=gfortran-6 CC=gcc-6 && CXX=g++-6"
 script:
