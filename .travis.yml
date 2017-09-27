@@ -26,6 +26,8 @@ after_success:
   - ./suanPan -f ../Example/CPS3.supan > /dev/null
   - ./suanPan -f ../Example/CPS8.supan > /dev/null
   - ./suanPan -f ../Example/CPS4NL.supan > /dev/null
+  - ./suanPan -f ../Example/CPS4L.supan > /dev/null
+  - ./suanPan -f ../Example/PS.supan > /dev/null
   - ./suanPan -f ../Example/GQ12.supan > /dev/null
   - ./suanPan -f ../Example/IREGULARBEAM.supan > /dev/null
   - ./suanPan -f ../Example/MACNEAL.supan > /dev/null
