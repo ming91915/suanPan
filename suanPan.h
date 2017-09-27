@@ -115,6 +115,10 @@
 #endif
 #endif
 
+#ifdef SUANPAN_NO_HDF5
+#define ARMA_DONT_USE_HDF5
+#endif
+
 // TWO IMPLEMENTATIONS
 #if defined(SUANPAN_UNIX)
 #define _strcmpi strcasecmp

@@ -14,7 +14,7 @@ option(TEST_COVERAGE "TEST CODE COVERAGE USING GCOV" OFF)
 if(USE_HDF5)
     include_directories(${ROOT}/Include/hdf5-common)
 else()
-    add_definitions(-DARMA_DONT_USE_HDF5)
+    add_definitions(-DSUANPAN_NO_HDF5)
 endif()
 
 if(BUILD_MULTI_THREAD)

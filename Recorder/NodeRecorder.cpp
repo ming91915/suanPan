@@ -19,8 +19,10 @@
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
+#ifndef SUANPAN_NO_HDF5
 #include <hdf5.h>
 #include <hdf5_hl.h>
+#endif
 
 NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
     : Recorder(T, CT_NODERECORDER, B, L, R) {}
@@ -34,6 +36,7 @@ void NodeRecorder::record(const shared_ptr<Domain>& D) {
 }
 
 void NodeRecorder::print() {
+#ifndef SUANPAN_NO_HDF5
     auto& data = get_data_pool();
     auto& time = get_time_pool();
 
@@ -58,4 +61,5 @@ void NodeRecorder::print() {
     H5LTmake_dataset(group_d, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
 
     H5Fclose(file_id);
+#endif
 }
