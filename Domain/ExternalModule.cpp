@@ -17,17 +17,17 @@
 
 #include "ExternalModule.h"
 #include <algorithm>
+#if defined(SUANPAN_WIN)
+#include <windows.h>
+#elif defined(SUANPAN_UNIX)
+#include <dlfcn.h>
+#endif
 
 using element_creator = void (*)(unique_ptr<Element>&, istringstream&);
 using material_creator = void (*)(unique_ptr<Material>&, istringstream&);
 
-ExternalModule::ExternalModule(const string& N)
-    : library_name(N)
-    , module_name(N) {}
-
-ExternalModule::ExternalModule(const string& L, const string& M)
-    : library_name(L)
-    , module_name(M) {}
+ExternalModule::ExternalModule(const string& L)
+    : library_name(L) {}
 
 ExternalModule::~ExternalModule() {
 #ifdef SUANPAN_WIN
@@ -37,7 +37,7 @@ ExternalModule::~ExternalModule() {
 #endif
 }
 
-bool ExternalModule::locate_module() {
+bool ExternalModule::locate_module(string module_name) {
 #ifdef SUANPAN_WIN
     library_name += ".dll";
     auto gnu_name = "lib" + library_name;
@@ -66,7 +66,7 @@ bool ExternalModule::locate_module() {
     }
 
     transform(module_name.begin(), module_name.end(), module_name.begin(), tolower);
-    module_name = "new_" + module_name + "_";
+    module_name = "new_" + module_name;
 
     ext_creator = reinterpret_cast<void*>(GetProcAddress(HINSTANCE(ext_library), LPCSTR(module_name.c_str())));
 

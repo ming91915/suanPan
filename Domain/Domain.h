@@ -46,6 +46,8 @@ class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     RecorderStorage recorder_pond;
     CriterionStorage criterion_pond;
 
+    vector<shared_ptr<ExternalModule>> external_module_pond;
+
     unordered_set<unsigned> restrained_dofs;  /**< data storage */
     unordered_set<unsigned> constrained_dofs; /**< data storage */
     unordered_set<unsigned> loaded_dofs;      /**< data storage */
@@ -58,6 +60,9 @@ public:
 
     void set_step_anchor(const StepAnchor&) override;
     const StepAnchor& get_step_anchor() override;
+
+    bool insert(const shared_ptr<ExternalModule>&) override;
+    const vector<shared_ptr<ExternalModule>>& get_external_module_pool() const override;
 
     bool insert(const shared_ptr<Amplitude>&) override;
     bool insert(const shared_ptr<Constraint>&) override;

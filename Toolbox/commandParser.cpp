@@ -564,7 +564,13 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
         new_mpf(new_material, command);
     else {
         ExternalModule ext_library(material_id);
-        if(ext_library.locate_module()) ext_library.new_object(new_material, command);
+        if(ext_library.locate_module(material_id)) ext_library.new_object(new_material, command);
+
+        if(new_material == nullptr)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(material_id)) ext_library.new_object(new_material, command);
+                if(new_material != nullptr) break;
+            }
     }
 
     if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
@@ -605,7 +611,13 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
         new_proto01(new_element, command);
     else {
         ExternalModule ext_library(element_id);
-        if(ext_library.locate_module()) ext_library.new_object(new_element, command);
+        if(ext_library.locate_module(element_id)) ext_library.new_object(new_element, command);
+
+        if(new_element == nullptr)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(element_id)) ext_library.new_object(new_element, command);
+                if(new_element != nullptr) break;
+            }
     }
 
     if(new_element == nullptr || !domain->insert(move(new_element))) suanpan_error("create_new_element() fails to create new element.\n");

@@ -48,6 +48,7 @@ class Material;
 class Node;
 class Recorder;
 class Criterion;
+class ExternalModule;
 
 using FacotoryAnchor = weak_ptr<Factory<double>>;
 using StepAnchor = weak_ptr<map<unsigned, shared_ptr<Step>>>;
@@ -62,6 +63,9 @@ public:
 
     virtual void set_step_anchor(const StepAnchor&) = 0;
     virtual const StepAnchor& get_step_anchor() = 0;
+
+    virtual bool insert(const shared_ptr<ExternalModule>&) = 0;
+    virtual const vector<shared_ptr<ExternalModule>>& get_external_module_pool() const = 0;
 
     virtual bool insert(const shared_ptr<Amplitude>&) = 0;
     virtual bool insert(const shared_ptr<Constraint>&) = 0;

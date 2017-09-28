@@ -157,17 +157,15 @@ cload 1 .25 2 84 83 82
 cload 2 .125 2 85 81
 
 step static 1
-set ini_step_size .02
+set ini_step_size .05
 set fixed_step_size true
 
 solver BFGS 1
 
-converger AbsIncreDisp 1 1E-4 10 1
+converger AbsIncreDisp 1 1E-6 100 0
 
 analyze
 
 peek node 83
-
-peek element 1
 
 exit

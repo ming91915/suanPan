@@ -53,6 +53,13 @@ void Domain::set_step_anchor(const StepAnchor& S) { step_anchor = S; }
 
 const StepAnchor& Domain::get_step_anchor() { return step_anchor; }
 
+bool Domain::insert(const shared_ptr<ExternalModule>& E) {
+    external_module_pond.emplace_back(E);
+    return true;
+}
+
+const vector<shared_ptr<ExternalModule>>& Domain::get_external_module_pool() const { return external_module_pond; }
+
 bool Domain::insert(const shared_ptr<Amplitude>& A) {
     if(updated) updated = false;
     return amplitude_pond.insert(A);

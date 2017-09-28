@@ -142,4 +142,8 @@ using std::invalid_argument;
 using std::logic_error;
 using std::out_of_range;
 
+using std::istringstream;
+using std::ostringstream;
+using std::string;
+
 #endif
