@@ -71,6 +71,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     const auto& domain = get_current_domain(model);
     if(domain == nullptr) return 0;
 
+    if(command_id == "import") return create_new_external_module(domain, command);
     if(command_id == "node") return create_new_node(domain, command);
     if(command_id == "material") return create_new_material(domain, command);
     if(command_id == "element") return create_new_element(domain, command);
@@ -563,7 +564,19 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
     else if(if_equal(material_id, "MPF"))
         new_mpf(new_material, command);
     else {
-        if(domain->insert(make_shared<ExternalModule>(material_id)))
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == material_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(material_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
             for(const auto& I : domain->get_external_module_pool()) {
                 if(I->locate_module(material_id)) I->new_object(new_material, command);
                 if(new_material != nullptr) break;
@@ -607,7 +620,19 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
     else if(if_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else {
-        if(domain->insert(make_shared<ExternalModule>(element_id)))
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == element_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(element_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
             for(const auto& I : domain->get_external_module_pool()) {
                 if(I->locate_module(element_id)) I->new_object(new_element, command);
                 if(new_element != nullptr) break;
@@ -801,6 +826,26 @@ int erase_object(const shared_ptr<Bead>& model, istringstream& command) {
         while(!(command >> tag).fail()) domain->erase_node(tag);
     else if(object_type == "recorder")
         while(!(command >> tag).fail()) domain->erase_recorder(tag);
+
+    return 0;
+}
+
+int create_new_external_module(const shared_ptr<Domain>& domain, istringstream& command) {
+    string library_name;
+
+    if(!get_input(command, library_name)) {
+        suanpan_info("create_new_external_module() needs module name.\n");
+        return 0;
+    }
+
+    auto code = 0;
+    for(const auto& I : domain->get_external_module_pool())
+        if(I->library_name == library_name) {
+            code = 1;
+            break;
+        }
+
+    if(code == 0) domain->insert(make_shared<ExternalModule>(library_name));
 
     return 0;
 }

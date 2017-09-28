@@ -35,12 +35,12 @@ class Element;
 class Material;
 
 class ExternalModule {
-    const string library_name;
-
     void* ext_library = nullptr;
     void* ext_creator = nullptr;
 
 public:
+    const string library_name;
+
     explicit ExternalModule(const string&);
     ExternalModule(const ExternalModule&) = delete;
     ExternalModule(ExternalModule&&) = delete;
