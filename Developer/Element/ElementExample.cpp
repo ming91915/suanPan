@@ -63,7 +63,7 @@ ElementExample::ElementExample(const unsigned& T, const uvec& NT, const unsigned
     , thickness(TH) {}
 
 void ElementExample::initialize(const shared_ptr<DomainBase>& D) {
-    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+    auto& material_proto = D->get_material(unsigned(material_tag(0)));
     m_material = material_proto->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);

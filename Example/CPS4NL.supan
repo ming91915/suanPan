@@ -160,9 +160,9 @@ step static 1
 set ini_step_size .05
 set fixed_step_size true
 
-solver BFGS 1
+# solver BFGS 1
 
-converger AbsIncreDisp 1 1E-6 100 0
+converger AbsIncreDisp 1 1E-6 100 1
 
 analyze
 

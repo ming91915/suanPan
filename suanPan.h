@@ -83,6 +83,7 @@
 #define SUANPAN_VERSION _MSC_FULL_VER
 #define SUANPAN_COMPILER "MSVC"
 #define SUANPAN_MSVC
+// deprecated asctime() and gmtime()
 #pragma warning(disable : 4996)
 #endif
 
