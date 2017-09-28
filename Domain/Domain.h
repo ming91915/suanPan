@@ -34,6 +34,9 @@
 class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     bool updated = false;
 
+    // dynamic libraries should be destroyed after all dependent objects are destroyed
+    vector<shared_ptr<ExternalModule>> external_module_pond;
+
     StepAnchor step_anchor;
     FacotoryAnchor factory; /**< working room */
 
@@ -45,8 +48,6 @@ class Domain : public DomainBase, public enable_shared_from_this<Domain> {
     NodeStorage node_pond;
     RecorderStorage recorder_pond;
     CriterionStorage criterion_pond;
-
-    vector<shared_ptr<ExternalModule>> external_module_pond;
 
     unordered_set<unsigned> restrained_dofs;  /**< data storage */
     unordered_set<unsigned> constrained_dofs; /**< data storage */

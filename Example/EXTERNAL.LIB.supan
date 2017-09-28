@@ -2,7 +2,9 @@ node 1 0 0
 node 2 4 0
 node 3 0 -3
 
-material MaterialExample 1 1000 .2
+material Elastic2D 1 1000 .2
+
+material MaterialExample 2 1000 .2
 
 element ElementExample 1 1 3 2 1
 

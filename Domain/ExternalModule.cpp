@@ -27,29 +27,19 @@ using element_creator = void (*)(unique_ptr<Element>&, istringstream&);
 using material_creator = void (*)(unique_ptr<Material>&, istringstream&);
 
 ExternalModule::ExternalModule(const string& L)
-    : library_name(L) {}
-
-ExternalModule::~ExternalModule() {
+    : library_name(L) {
 #ifdef SUANPAN_WIN
-    if(ext_library != nullptr) FreeLibrary(HINSTANCE(ext_library));
-#elif defined(SUANPAN_UNIX)
-    if(ext_library != nullptr) dlclose(ext_library);
-#endif
-}
+    auto file_name = library_name + ".dll";
+    auto gnu_name = "lib" + file_name;
 
-bool ExternalModule::locate_module(string module_name) {
-#ifdef SUANPAN_WIN
-    library_name += ".dll";
-    auto gnu_name = "lib" + library_name;
-
-    ext_library = LoadLibraryA(library_name.c_str());
+    ext_library = LoadLibraryA(file_name.c_str());
     if(ext_library == nullptr) {
-        transform(library_name.begin(), library_name.end(), library_name.begin(), tolower);
-        ext_library = LoadLibraryA(library_name.c_str());
+        transform(file_name.begin(), file_name.end(), file_name.begin(), tolower);
+        ext_library = LoadLibraryA(file_name.c_str());
     }
     if(ext_library == nullptr) {
-        transform(library_name.begin(), library_name.end(), library_name.begin(), toupper);
-        ext_library = LoadLibraryA(library_name.c_str());
+        transform(file_name.begin(), file_name.end(), file_name.begin(), toupper);
+        ext_library = LoadLibraryA(file_name.c_str());
     }
     if(ext_library == nullptr) { ext_library = LoadLibraryA(gnu_name.c_str()); }
     if(ext_library == nullptr) {
@@ -60,34 +50,39 @@ bool ExternalModule::locate_module(string module_name) {
         transform(gnu_name.begin(), gnu_name.end(), gnu_name.begin(), toupper);
         ext_library = LoadLibraryA(gnu_name.c_str());
     }
+    if(ext_library == nullptr) suanpan_error("locate_module() cannot find the library with the given name %s.\n", file_name.c_str());
+#elif defined(SUANPAN_UNIX)
+    auto file_name = "./lib" + library_name + ".so";
+    ext_library = dlopen(file_name.c_str(), RTLD_NOW);
     if(ext_library == nullptr) {
-        suanpan_error("locate_module() cannot find the library with the given name.\n");
-        return false;
+        file_name = "./" + library_name + ".so";
+        ext_library = dlopen(file_name.c_str(), RTLD_NOW);
     }
+    if(ext_library == nullptr) suanpan_error("locate_module() cannot find the library with the given name %s.\n", file_name.c_str());
+#endif
+}
+
+ExternalModule::~ExternalModule() {
+#ifdef SUANPAN_WIN
+    if(ext_library != nullptr) FreeLibrary(HINSTANCE(ext_library));
+#elif defined(SUANPAN_UNIX)
+    if(ext_library != nullptr) dlclose(ext_library);
+#endif
+}
+
+bool ExternalModule::locate_module(string module_name) {
+    if(ext_library == nullptr) return false;
 
     transform(module_name.begin(), module_name.end(), module_name.begin(), tolower);
     module_name = "new_" + module_name;
 
+#ifdef SUANPAN_WIN
     ext_creator = reinterpret_cast<void*>(GetProcAddress(HINSTANCE(ext_library), LPCSTR(module_name.c_str())));
-
-    if(ext_creator == nullptr) {
-        suanpan_error("locate_module() cannot find the function with the given name.\n");
-        return false;
-    }
 #elif defined(SUANPAN_UNIX)
-    library_name = "./" + library_name + ".so";
-    ext_library = dlopen(library_name.c_str(), RTLD_NOW);
-    if(ext_library == nullptr) {
-        suanpan_error("locate_module() cannot find the library with the given name.\n");
-        return false;
-    }
-
     ext_creator = dlsym(ext_library, module_name.c_str());
-    if(ext_creator == nullptr) {
-        suanpan_error("locate_module() cannot find the function with the given name.\n");
-        return false;
-    }
 #endif
+
+    if(ext_creator == nullptr) return false;
 
     return true;
 }

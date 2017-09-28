@@ -35,7 +35,7 @@ class Element;
 class Material;
 
 class ExternalModule {
-    string library_name;
+    const string library_name;
 
     void* ext_library = nullptr;
     void* ext_creator = nullptr;

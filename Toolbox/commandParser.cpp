@@ -563,12 +563,9 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
     else if(if_equal(material_id, "MPF"))
         new_mpf(new_material, command);
     else {
-        ExternalModule ext_library(material_id);
-        if(ext_library.locate_module(material_id)) ext_library.new_object(new_material, command);
-
-        if(new_material == nullptr)
+        if(domain->insert(make_shared<ExternalModule>(material_id)))
             for(const auto& I : domain->get_external_module_pool()) {
-                if(I->locate_module(material_id)) ext_library.new_object(new_material, command);
+                if(I->locate_module(material_id)) I->new_object(new_material, command);
                 if(new_material != nullptr) break;
             }
     }
@@ -610,12 +607,9 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
     else if(if_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else {
-        ExternalModule ext_library(element_id);
-        if(ext_library.locate_module(element_id)) ext_library.new_object(new_element, command);
-
-        if(new_element == nullptr)
+        if(domain->insert(make_shared<ExternalModule>(element_id)))
             for(const auto& I : domain->get_external_module_pool()) {
-                if(I->locate_module(element_id)) ext_library.new_object(new_element, command);
+                if(I->locate_module(element_id)) I->new_object(new_element, command);
                 if(new_element != nullptr) break;
             }
     }
