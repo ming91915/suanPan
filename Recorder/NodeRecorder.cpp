@@ -37,7 +37,7 @@ void NodeRecorder::record(const shared_ptr<Domain>& D) {
 
 void NodeRecorder::print() {
 #ifndef SUANPAN_NO_HDF5
-    std::ostringstream file_name;
+    ostringstream file_name;
 
     file_name << to_char(get_variable_type()) << get_object_tag();
 
