@@ -22,23 +22,12 @@
 /**
  * \brief The default constructor.
  * \param T `unique_tag`
- * \param D `DomainBase`
  * \param E `tolerance`
  * \param M `max_iteration`
  * \param P `print_flag`
  */
-RelError::RelError(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_RELERROR, D, E, M, P) {}
-
-/**
- * \brief No tag version.
- * \param D `DomainBase`
- * \param E `tolerance`
- * \param M `max_iteration`
- * \param P `print_flag`
- */
-RelError::RelError(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELERROR, D, E, M, P) {}
+RelError::RelError(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_RELERROR, E, M, P) {}
 
 /**
  * \brief Method to return `conv_flag`.

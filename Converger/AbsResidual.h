@@ -39,9 +39,7 @@ class DomainBase;
 
 class AbsResidual : public Converger {
 public:
-    explicit AbsResidual(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit AbsResidual(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit AbsResidual(const double&, const unsigned& = 7, const bool& = false);
+    explicit AbsResidual(const unsigned& = 0, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

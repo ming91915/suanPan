@@ -19,14 +19,8 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-AbsResidual::AbsResidual(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_ABSRESIDUAL, D, E, M, P) {}
-
-AbsResidual::AbsResidual(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSRESIDUAL, D, E, M, P) {}
-
-AbsResidual::AbsResidual(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSRESIDUAL, nullptr, E, M, P) {}
+AbsResidual::AbsResidual(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_ABSRESIDUAL, E, M, P) {}
 
 const bool& AbsResidual::if_converged() {
     auto& D = get_domain();

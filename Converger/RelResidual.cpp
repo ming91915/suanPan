@@ -19,14 +19,8 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-RelResidual::RelResidual(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_RELRESIDUAL, D, E, M, P) {}
-
-RelResidual::RelResidual(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELRESIDUAL, D, E, M, P) {}
-
-RelResidual::RelResidual(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELRESIDUAL, nullptr, E, M, P) {}
+RelResidual::RelResidual(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_RELRESIDUAL, E, M, P) {}
 
 const bool& RelResidual::if_converged() {
     auto& D = get_domain();

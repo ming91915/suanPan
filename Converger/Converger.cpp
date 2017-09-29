@@ -22,13 +22,11 @@
  * \brief The complete constructor.
  * \param T `unique_tag`
  * \param CT `class_tag`
- * \param D `database`
  * \param E `tolerance`
  * \param P `print_flag`
  */
-Converger::Converger(const unsigned& T, const unsigned& CT, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
+Converger::Converger(const unsigned& T, const unsigned& CT, const double& E, const unsigned& M, const bool& P)
     : Tag(T, CT)
-    , database(D)
     , tolerance(E)
     , max_iteration(M)
     , print_flag(P) {}

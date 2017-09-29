@@ -22,26 +22,12 @@
 /**
  * \brief The default constructor.
  * \param T `unique_tag`
- * \param D `DomainBase`
  * \param E `tolerance`
  * \param M `max_itertation`
  * \param P `print_flag`
  */
-AbsIncreDisp::AbsIncreDisp(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_ABSINCREDISP, D, E, M, P) {}
-
-/**
- * \brief No tag version.
- * \param D `DomainBase`
- * \param E `tolerance`
- * \param M `max_itertation`
- * \param P `print_flag`
- */
-AbsIncreDisp::AbsIncreDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSINCREDISP, D, E, M, P) {}
-
-AbsIncreDisp::AbsIncreDisp(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSINCREDISP, nullptr, E, M, P) {}
+AbsIncreDisp::AbsIncreDisp(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_ABSINCREDISP, E, M, P) {}
 
 /**
  * \brief Method to return `conv_flag`.

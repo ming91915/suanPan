@@ -22,23 +22,12 @@
 /**
  * \brief The complete constructor.
  * \param T `unique_tag`
- * \param D `DomainBase`
  * \param E `tolerance`
  * \param M `max_itertation`
  * \param P `print_flag`
  */
-RelIncreEnergy::RelIncreEnergy(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_RELINCREENERGY, D, E, M, P) {}
-
-/**
- * \brief No tag version.
- * \param D `DomainBase`
- * \param E `tolerance`
- * \param M `max_itertation`
- * \param P `print_flag`
- */
-RelIncreEnergy::RelIncreEnergy(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELINCREENERGY, D, E, M, P) {}
+RelIncreEnergy::RelIncreEnergy(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_RELINCREENERGY, E, M, P) {}
 
 /**
  * \brief

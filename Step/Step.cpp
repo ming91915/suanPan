@@ -55,7 +55,7 @@ int Step::initialize() {
 
     if(factory == nullptr) factory = database->get_factory().lock();
     if(factory == nullptr) factory = make_shared<Factory<double>>();
-    if(tester == nullptr) tester = make_shared<RelIncreDisp>(1E-6, 10, false);
+    if(tester == nullptr) tester = make_shared<RelIncreDisp>();
 
     if(get_class_tag() != CT_ARCLENGTH) {
         if(symm_mat && band_mat)

@@ -19,14 +19,8 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-RelIncreDisp::RelIncreDisp(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_RELINCREDISP, D, E, M, P) {}
-
-RelIncreDisp::RelIncreDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELINCREDISP, D, E, M, P) {}
-
-RelIncreDisp::RelIncreDisp(const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_RELINCREDISP, nullptr, E, M, P) {}
+RelIncreDisp::RelIncreDisp(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_RELINCREDISP, E, M, P) {}
 
 const bool& RelIncreDisp::if_converged() {
     const auto& t_factory = get_domain()->get_factory().lock();

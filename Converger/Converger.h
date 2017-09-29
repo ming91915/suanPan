@@ -50,7 +50,7 @@ class Converger : public Tag {
 
     bool conv_flag = false; /**< converger flag */
 public:
-    explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 10, const bool& = false);
+    explicit Converger(const unsigned& = 0, const unsigned& = CT_CONVERGER, const double& = 1E-8, const unsigned& = 10, const bool& = false);
     virtual ~Converger();
 
     virtual int initialize();

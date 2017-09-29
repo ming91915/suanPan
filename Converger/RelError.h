@@ -32,8 +32,7 @@
 
 class RelError final : public Converger {
 public:
-    explicit RelError(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit RelError(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelError(const unsigned& = 0, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };

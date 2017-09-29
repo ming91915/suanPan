@@ -22,23 +22,12 @@
 /**
  * \brief The complete constructor.
  * \param T `unique_tag`
- * \param D `DomainBase`
  * \param E `tolerance`
  * \param M `max_itertation`
  * \param P `print_flag`
  */
-AbsDisp::AbsDisp(const unsigned& T, const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(T, CT_ABSDISP, D, E, M, P) {}
-
-/**
- * \brief No tag version.
- * \param D `DomainBase`
- * \param E `tolerance`
- * \param M `max_itertation`
- * \param P `print_flag`
- */
-AbsDisp::AbsDisp(const shared_ptr<DomainBase>& D, const double& E, const unsigned& M, const bool& P)
-    : Converger(0, CT_ABSDISP, D, E, M, P) {}
+AbsDisp::AbsDisp(const unsigned& T, const double& E, const unsigned& M, const bool& P)
+    : Converger(T, CT_ABSDISP, E, M, P) {}
 
 /**
  * \brief

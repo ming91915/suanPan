@@ -32,8 +32,7 @@
 
 class RelDisp final : public Converger {
 public:
-    explicit RelDisp(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = 1E-8, const unsigned& = 7, const bool& = false);
-    explicit RelDisp(const shared_ptr<DomainBase>&, const double& = 1E-8, const unsigned& = 7, const bool& = false);
+    explicit RelDisp(const unsigned& = 0, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
     const bool& if_converged() override;
 };
