@@ -82,9 +82,7 @@ int MPF::update_trial_status(const vec& t_strain) {
 
     const auto trial_load_sign = sign(incre_strain(0));
 
-    if(load_sign == 0.)
-        load_sign = trial_load_sign;
-    else if(trial_load_sign != load_sign) {
+    if(trial_load_sign != load_sign) {
         reverse_stress = current_stress(0);
         reverse_strain = current_strain(0);
         pre_inter_strain = inter_strain;
@@ -92,8 +90,9 @@ int MPF::update_trial_status(const vec& t_strain) {
         if(trial_load_sign > 0.) inter_strain = -inter_strain;
         inter_strain = (inter_strain + elastic_modulus * reverse_strain - reverse_stress) / (1. - hardening_ratio) / elastic_modulus;
         inter_stress = elastic_modulus * (inter_strain - reverse_strain) + reverse_stress;
-        load_sign = trial_load_sign;
     }
+
+    load_sign = trial_load_sign;
 
     auto R = R0;
 
@@ -108,9 +107,9 @@ int MPF::update_trial_status(const vec& t_strain) {
 
     const auto normal_stress = (hardening_ratio + tmp_b) * normal_strain;
 
-    trial_stress(0) = normal_stress * (inter_stress - reverse_stress) + reverse_stress;
+    trial_stress = normal_stress * (inter_stress - reverse_stress) + reverse_stress;
 
-    trial_stiffness(0) = (inter_stress - reverse_stress) / (inter_strain - reverse_strain) * (hardening_ratio + tmp_b / tmp_a);
+    trial_stiffness = (inter_stress - reverse_stress) / (inter_strain - reverse_strain) * (hardening_ratio + tmp_b / tmp_a);
 
     return 0;
 }
