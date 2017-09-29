@@ -79,15 +79,15 @@ BC::BC(const unsigned& S, const uvec& N, const uvec& D)
 BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
     : Constraint(T, CT_BC, S)
     , nodes(N) {
-    if(if_equal(TP, "XSYMM") || if_equal(TP, "X"))
+    if(is_equal(TP, "XSYMM") || is_equal(TP, "X"))
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
-    else if(if_equal(TP, "YSYMM") || if_equal(TP, "Y"))
+    else if(is_equal(TP, "YSYMM") || is_equal(TP, "Y"))
         dofs = std::initializer_list<uword>({ 2, 4, 6 });
-    else if(if_equal(TP, "ZSYMM") || if_equal(TP, "Z"))
+    else if(is_equal(TP, "ZSYMM") || is_equal(TP, "Z"))
         dofs = std::initializer_list<uword>({ 3, 4, 5 });
-    else if(if_equal(TP, "ENCASTRE") || if_equal(TP, "E"))
+    else if(is_equal(TP, "ENCASTRE") || is_equal(TP, "E"))
         dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
-    else if(if_equal(TP, "PINNED") || if_equal(TP, "P"))
+    else if(is_equal(TP, "PINNED") || is_equal(TP, "P"))
         dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 
@@ -100,15 +100,15 @@ BC::BC(const unsigned& T, const unsigned& S, const uvec& N, const char* TP)
 BC::BC(const unsigned& ST, const uvec& NT, const char* TP)
     : Constraint(0, CT_BC, ST)
     , nodes(NT) {
-    if(if_equal(TP, "XSYMM") || if_equal(TP, "X"))
+    if(is_equal(TP, "XSYMM") || is_equal(TP, "X"))
         dofs = std::initializer_list<uword>({ 1, 5, 6 });
-    else if(if_equal(TP, "YSYMM") || if_equal(TP, "Y"))
+    else if(is_equal(TP, "YSYMM") || is_equal(TP, "Y"))
         dofs = std::initializer_list<uword>({ 2, 4, 6 });
-    else if(if_equal(TP, "ZSYMM") || if_equal(TP, "Z"))
+    else if(is_equal(TP, "ZSYMM") || is_equal(TP, "Z"))
         dofs = std::initializer_list<uword>({ 3, 4, 5 });
-    else if(if_equal(TP, "ENCASTRE") || if_equal(TP, "E"))
+    else if(is_equal(TP, "ENCASTRE") || is_equal(TP, "E"))
         dofs = std::initializer_list<uword>({ 1, 2, 3, 4, 5, 6 });
-    else if(if_equal(TP, "PINNED") || if_equal(TP, "P"))
+    else if(is_equal(TP, "PINNED") || is_equal(TP, "P"))
         dofs = std::initializer_list<uword>({ 1, 2, 3 });
 }
 

@@ -19,14 +19,14 @@
 #include <cstring>
 #include <suanPan.h>
 
-bool if_equal(const char* A, const char* B) { return _strcmpi(A, B) == 0; }
+bool is_equal(const char* A, const char* B) { return _strcmpi(A, B) == 0; }
 
-bool if_equal(const string& A, const char* B) { return if_equal(A.c_str(), B); }
+bool is_equal(const string& A, const char* B) { return is_equal(A.c_str(), B); }
 
-bool if_true(const char* S) { return if_equal(S, "On") || if_equal(S, "True") || if_equal(S, "1") || if_equal(S, "Yes"); }
+bool is_true(const char* S) { return is_equal(S, "On") || is_equal(S, "True") || is_equal(S, "1") || is_equal(S, "Yes"); }
 
-bool if_false(const char* S) { return if_equal(S, "Off") || if_equal(S, "False") || if_equal(S, "0") || if_equal(S, "No"); }
+bool is_false(const char* S) { return is_equal(S, "Off") || is_equal(S, "False") || is_equal(S, "0") || is_equal(S, "No"); }
 
-bool if_true(const string& S) { return if_true(S.c_str()); }
+bool is_true(const string& S) { return is_true(S.c_str()); }
 
-bool if_false(const string& S) { return if_false(S.c_str()); }
+bool is_false(const string& S) { return is_false(S.c_str()); }

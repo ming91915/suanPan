@@ -160,7 +160,7 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    if(if_equal(step_type, "Static")) {
+    if(is_equal(step_type, "Static")) {
         auto time = 1.;
         if(!command.eof() && (command >> time).fail()) {
             suanpan_info("create_new_step() reads a wrong time period.\n");
@@ -171,7 +171,7 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
             model->get_current_step()->set_domain(model->get_current_domain());
         } else
             suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(if_equal(step_type, "Dynamic")) {
+    } else if(is_equal(step_type, "Dynamic")) {
         auto time = 1.;
         if(!command.eof() && (command >> time).fail()) {
             suanpan_info("create_new_step() reads a wrong time period.\n");
@@ -182,7 +182,7 @@ int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
             model->get_current_step()->set_domain(model->get_current_domain());
         } else
             suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(if_equal(step_type, "ArcLength")) {
+    } else if(is_equal(step_type, "ArcLength")) {
         unsigned node;
         if((command >> node).fail()) {
             suanpan_info("create_new_step() requires a node.\n");
@@ -249,32 +249,32 @@ int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) 
         return 0;
     }
 
-    if(if_equal(converger_id, "AbsResidual")) {
+    if(is_equal(converger_id, "AbsResidual")) {
         if(model->insert(make_shared<AbsResidual>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "RelResidual")) {
+    } else if(is_equal(converger_id, "RelResidual")) {
         if(model->insert(make_shared<RelResidual>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "AbsIncreDisp")) {
+    } else if(is_equal(converger_id, "AbsIncreDisp")) {
         if(model->insert(make_shared<AbsIncreDisp>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "RelIncreDisp")) {
+    } else if(is_equal(converger_id, "RelIncreDisp")) {
         if(model->insert(make_shared<RelIncreDisp>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "AbsIncreEnergy")) {
+    } else if(is_equal(converger_id, "AbsIncreEnergy")) {
         if(model->insert(make_shared<AbsIncreEnergy>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
             suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(if_equal(converger_id, "RelIncreEnergy")) {
+    } else if(is_equal(converger_id, "RelIncreEnergy")) {
         if(model->insert(make_shared<RelIncreEnergy>(tag, tolerance, max_iteration, !!print_flag)))
             t_step->set_converger(model->get_converger(tag));
         else
@@ -304,12 +304,12 @@ int create_new_solver(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    if(if_equal(solver_type, "Newton")) {
+    if(is_equal(solver_type, "Newton")) {
         if(model->insert(make_shared<Newton>(tag)))
             tmp_step->set_solver(model->get_solver(tag));
         else
             suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else if(if_equal(solver_type, "BFGS")) {
+    } else if(is_equal(solver_type, "BFGS")) {
         if(model->insert(make_shared<BFGS>(tag)))
             tmp_step->set_solver(model->get_solver(tag));
         else
@@ -461,9 +461,9 @@ int create_new_criterion(const shared_ptr<Bead>& model, istringstream& command) 
     }
 
     auto& domain = model->get_current_domain();
-    if(if_equal(criterion_type, "MaxDisplacement"))
+    if(is_equal(criterion_type, "MaxDisplacement"))
         domain->insert(make_shared<MaxDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
-    else if(if_equal(criterion_type, "MinDisplacement"))
+    else if(is_equal(criterion_type, "MinDisplacement"))
         domain->insert(make_shared<MinDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
 
     return 0;
@@ -480,40 +480,40 @@ int set_property(const shared_ptr<Bead>& model, istringstream& command) {
     }
 
     string value;
-    if(if_equal(property_id, "fixed_step_size"))
+    if(is_equal(property_id, "fixed_step_size"))
         if(get_input(command, value))
-            tmp_step->set_fixed_step_size(if_true(value));
+            tmp_step->set_fixed_step_size(is_true(value));
         else
             suanpan_info("set_property() need a valid value.\n");
-    else if(if_equal(property_id, "symm_mat"))
+    else if(is_equal(property_id, "symm_mat"))
         if(get_input(command, value))
-            tmp_step->set_symm(if_true(value));
+            tmp_step->set_symm(is_true(value));
         else
             suanpan_info("set_property() need a valid value.\n");
-    else if(if_equal(property_id, "band_mat"))
+    else if(is_equal(property_id, "band_mat"))
         if(get_input(command, value))
-            tmp_step->set_band(if_true(value));
+            tmp_step->set_band(is_true(value));
         else
             suanpan_info("set_property() need a valid value.\n");
-    else if(if_equal(property_id, "ini_step_size")) {
+    else if(is_equal(property_id, "ini_step_size")) {
         double step_time;
         if(get_input(command, step_time))
             tmp_step->set_ini_step_size(step_time);
         else
             suanpan_info("set_property() need a valid value.\n");
-    } else if(if_equal(property_id, "min_step_size")) {
+    } else if(is_equal(property_id, "min_step_size")) {
         double step_time;
         if(get_input(command, step_time))
             tmp_step->set_min_step_size(step_time);
         else
             suanpan_info("set_property() need a valid value.\n");
-    } else if(if_equal(property_id, "max_step_size")) {
+    } else if(is_equal(property_id, "max_step_size")) {
         double step_time;
         if(get_input(command, step_time))
             tmp_step->set_max_step_size(step_time);
         else
             suanpan_info("set_property() need a valid value.\n");
-    } else if(if_equal(property_id, "max_iteration")) {
+    } else if(is_equal(property_id, "max_iteration")) {
         unsigned max_number;
         if(get_input(command, max_number))
             tmp_step->set_max_substep(max_number);
@@ -549,19 +549,19 @@ int create_new_material(const shared_ptr<Domain>& domain, istringstream& command
 
     unique_ptr<Material> new_material = nullptr;
 
-    if(if_equal(material_id, "Elastic1D"))
+    if(is_equal(material_id, "Elastic1D"))
         new_elastic1d(new_material, command);
-    else if(if_equal(material_id, "Elastic2D"))
+    else if(is_equal(material_id, "Elastic2D"))
         new_elastic2d(new_material, command);
-    else if(if_equal(material_id, "Elastic3D"))
+    else if(is_equal(material_id, "Elastic3D"))
         new_elastic3d(new_material, command);
-    else if(if_equal(material_id, "Bilinear1D"))
+    else if(is_equal(material_id, "Bilinear1D"))
         new_bilinear1d(new_material, command);
-    else if(if_equal(material_id, "Bilinear2D"))
+    else if(is_equal(material_id, "Bilinear2D"))
         new_bilinear2d(new_material, command);
-    else if(if_equal(material_id, "Bilinear3D"))
+    else if(is_equal(material_id, "Bilinear3D"))
         new_bilinear3d(new_material, command);
-    else if(if_equal(material_id, "MPF"))
+    else if(is_equal(material_id, "MPF"))
         new_mpf(new_material, command);
     else {
         // check if the library is already loaded
@@ -597,27 +597,27 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
 
     unique_ptr<Element> new_element = nullptr;
 
-    if(if_equal(element_id, "CP3"))
+    if(is_equal(element_id, "CP3"))
         new_cp3(new_element, command);
-    else if(if_equal(element_id, "CP4"))
+    else if(is_equal(element_id, "CP4"))
         new_cp4(new_element, command);
-    else if(if_equal(element_id, "CP8"))
+    else if(is_equal(element_id, "CP8"))
         new_cp8(new_element, command);
-    else if(if_equal(element_id, "C3D8"))
+    else if(is_equal(element_id, "C3D8"))
         new_c3d8(new_element, command);
-    else if(if_equal(element_id, "C3D20"))
+    else if(is_equal(element_id, "C3D20"))
         new_c3d20(new_element, command);
-    else if(if_equal(element_id, "PS"))
+    else if(is_equal(element_id, "PS"))
         new_ps(new_element, command);
-    else if(if_equal(element_id, "QE2"))
+    else if(is_equal(element_id, "QE2"))
         new_qe2(new_element, command);
-    else if(if_equal(element_id, "GQ12"))
+    else if(is_equal(element_id, "GQ12"))
         new_gq12(new_element, command);
-    else if(if_equal(element_id, "Truss2D"))
+    else if(is_equal(element_id, "Truss2D"))
         new_truss2d(new_element, command);
-    else if(if_equal(element_id, "ElasticB21"))
+    else if(is_equal(element_id, "ElasticB21"))
         new_elasticb21(new_element, command);
-    else if(if_equal(element_id, "Proto01"))
+    else if(is_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else {
         // check if the library is already loaded
@@ -669,7 +669,7 @@ int create_new_recorder(const shared_ptr<Domain>& domain, istringstream& command
         return 0;
     }
 
-    if(if_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+    if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
 
     return 0;
 }
@@ -854,19 +854,19 @@ void print_command_usage(istringstream& command) {
     string command_id;
     command >> command_id;
 
-    if(if_equal(command_id, "converger")) {
+    if(is_equal(command_id, "converger")) {
         suanpan_info("\nconverger $type $tag $tolerance [$max_iteration] [$if_print]\n");
         suanpan_info("\t$type --- converger type\n");
         suanpan_info("\t$tag --- converger tag\n");
         suanpan_info("\t$tolerance --- tolerance -> 1E-8\n");
         suanpan_info("\t$max_iteration --- maximum iteration number -> 7\n");
         suanpan_info("\t$if_print --- print error in each iteration -> false\n\n");
-    } else if(if_equal(command_id, "step")) {
+    } else if(is_equal(command_id, "step")) {
         suanpan_info("\nstep $type $tag [$time_period]\n");
         suanpan_info("\t$type --- step type\n");
         suanpan_info("\t$tag --- step tag\n");
         suanpan_info("\t$time_period --- step time period -> 1.0\n\n");
-    } else if(if_equal(command_id, "Truss2D")) {
+    } else if(is_equal(command_id, "Truss2D")) {
         suanpan_info("\nelement Truss2D $tag {$node_tag...} $material_tag $area [$nonlinear_switch] [$constant_area_switch] [$log_strain_switch]\n");
         suanpan_info("\t$tag --- element tag\n");
         suanpan_info("\t$node_tag --- node tag (2)\n");
@@ -875,12 +875,12 @@ void print_command_usage(istringstream& command) {
         suanpan_info("\t$nonlinear_switch --- if to use corotational formulation -> false\n");
         suanpan_info("\t$constant_area_switch --- if to update area based on constant volume assumption -> false\n");
         suanpan_info("\t$log_strain_switch --- if to use log strain or engineering strain -> false\n\n");
-    } else if(if_equal(command_id, "Elastic1D")) {
+    } else if(is_equal(command_id, "Elastic1D")) {
         suanpan_info("\nmaterial Elastic1D $tag $elastic_modulus [$density]\n");
         suanpan_info("\t$tag --- material tag\n");
         suanpan_info("\t$elastic_modulus --- elastic modulus\n");
         suanpan_info("\t$density --- density -> 0.0\n\n");
-    } else if(if_equal(command_id, "Bilinear1D")) {
+    } else if(is_equal(command_id, "Bilinear1D")) {
         suanpan_info("\nmaterial Bilinear1D $tag $elastic_modulus $yield_stress [$hardening_ratio] [$beta] [$density]\n");
         suanpan_info("\t$tag --- material tag\n");
         suanpan_info("\t$elastic_modulus --- elastic modulus\n");

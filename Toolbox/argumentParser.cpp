@@ -35,13 +35,13 @@ void argument_parser(int argc, char** argv) {
 
     if(argc > 1) {
         for(auto i = 0; i < argc; ++i) {
-            if(if_equal(argv[i], "-v") || if_equal(argv[i], "--version"))
+            if(is_equal(argv[i], "-v") || is_equal(argv[i], "--version"))
                 print_version();
-            else if(if_equal(argv[i], "-h") || if_equal(argv[i], "--help"))
+            else if(is_equal(argv[i], "-h") || is_equal(argv[i], "--help"))
                 print_helper();
-            else if(if_equal(argv[i], "-f") || if_equal(argv[i], "--file"))
+            else if(is_equal(argv[i], "-f") || is_equal(argv[i], "--file"))
                 input_file_name = argv[++i];
-            else if(if_equal(argv[i], "-o") || if_equal(argv[i], "--output"))
+            else if(is_equal(argv[i], "-o") || is_equal(argv[i], "--output"))
                 output_file_name = argv[++i];
         }
 

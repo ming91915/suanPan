@@ -40,13 +40,13 @@ template <typename T> T get_input(istringstream& I) {
 
 template <typename T> bool get_optional_input(istringstream& I, T& O) { return !I.eof() && !(I >> O).fail(); }
 
-bool if_equal(const char*, const char*);
-bool if_equal(const string&, const char*);
+bool is_equal(const char*, const char*);
+bool is_equal(const string&, const char*);
 
-bool if_true(const char*);
-bool if_false(const char*);
-bool if_true(const string&);
-bool if_false(const string&);
+bool is_true(const char*);
+bool is_false(const char*);
+bool is_true(const string&);
+bool is_false(const string&);
 
 #include <armadillo>
 #include <memory>
