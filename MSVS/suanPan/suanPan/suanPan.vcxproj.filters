@@ -140,6 +140,9 @@
     <ClCompile Include="..\..\..\Constraint\Criterion\MinDisplacement.cpp">
       <Filter>Constraint</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Toolbox\arpack_wrapper.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -267,6 +270,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Constraint\Criterion\MinDisplacement.h">
       <Filter>Constraint</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Toolbox\arpack_wrapper.h">
+      <Filter>SRC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

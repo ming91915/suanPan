@@ -37,6 +37,9 @@ class Ramm : public Solver {
 public:
     explicit Ramm(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
 
+    void set_target_iteration(const double&);
+    const double& get_target_iteration() const;
+
     int analyze() override;
 
     void print() override;

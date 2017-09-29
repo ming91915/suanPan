@@ -24,6 +24,10 @@
 Ramm::Ramm(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Solver(T, CT_RAMM, C, G) {}
 
+void Ramm::set_target_iteration(const double& T) { target_iteration = T; }
+
+const double& Ramm::get_target_iteration() const { return target_iteration; }
+
 int Ramm::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
