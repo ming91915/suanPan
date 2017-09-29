@@ -46,7 +46,7 @@ step arclength 1 8 1 10
 
 criterion MaxDisplacement 1 8 1 6
 
-converger AbsIncreDisp 1 1E-4 10 0
+converger AbsIncreDisp 1 1E-4 5 0
 
 analyze
 

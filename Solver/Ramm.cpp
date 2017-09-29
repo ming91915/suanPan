@@ -24,10 +24,6 @@
 Ramm::Ramm(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
     : Solver(T, CT_RAMM, C, G) {}
 
-void Ramm::set_target_iteration(const double& T) { target_iteration = T; }
-
-const double& Ramm::get_target_iteration() const { return target_iteration; }
-
 int Ramm::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
@@ -98,12 +94,12 @@ int Ramm::analyze() {
 
         // exit if maximum iteration is hit
         if(++counter > max_iteration) {
-            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
+            if(!fixed_arc_length) arc_length *= .5;
             return -1;
         }
         // exit if converged
         if(C->if_converged()) {
-            if(!fixed_arc_length) arc_length *= sqrt(target_iteration / double(counter));
+            if(!fixed_arc_length) arc_length *= sqrt(max_iteration / double(counter));
             return 0;
         }
     }
