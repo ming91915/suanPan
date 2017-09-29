@@ -20,37 +20,37 @@ node 17 8 8
 
 material Elastic1D 1 1000
 
-element ElasticB21 1 1 2 100000 1 1 1
-element ElasticB21 2 2 3 100000 1 1 1
-element ElasticB21 3 3 4 100000 1 1 1
-element ElasticB21 4 4 5 100000 1 1 1
-element ElasticB21 5 5 6 100000 1 1 1
-element ElasticB21 6 6 7 100000 1 1 1
-element ElasticB21 7 7 8 100000 1 1 1
-element ElasticB21 8 8 9 100000 1 1 1
-element ElasticB21 9 9 10 100000 1 1 1
-element ElasticB21 10 10 11 100000 1 1 1
-element ElasticB21 11 11 12 100000 1 1 1
-element ElasticB21 12 12 13 100000 1 1 1
-element ElasticB21 13 13 14 100000 1 1 1
-element ElasticB21 14 14 15 100000 1 1 1
-element ElasticB21 15 15 16 100000 1 1 1
-element ElasticB21 16 16 17 100000 1 1 1
+element ElasticB21 1 1 2 1000 1 1 1
+element ElasticB21 2 2 3 1000 1 1 1
+element ElasticB21 3 3 4 1000 1 1 1
+element ElasticB21 4 4 5 1000 1 1 1
+element ElasticB21 5 5 6 1000 1 1 1
+element ElasticB21 6 6 7 1000 1 1 1
+element ElasticB21 7 7 8 1000 1 1 1
+element ElasticB21 8 8 9 1000 1 1 1
+element ElasticB21 9 9 10 1000 1 1 1
+element ElasticB21 10 10 11 1000 1 1 1
+element ElasticB21 11 11 12 1000 1 1 1
+element ElasticB21 12 12 13 1000 1 1 1
+element ElasticB21 13 13 14 1000 1 1 1
+element ElasticB21 14 14 15 1000 1 1 1
+element ElasticB21 15 15 16 1000 1 1 1
+element ElasticB21 16 16 17 1000 1 1 1
 
 fix 1 1 1 17
 fix 2 2 1 17
 
-recorder 1 Node U 8
+recorder 1 Node U 11
 
-step arclength 1 8 1 10
+step arclength 1 11 2 -10
 
-criterion MaxDisplacement 1 8 1 6
+criterion MinDisplacement 1 11 2 -6
 
 converger AbsIncreDisp 1 1E-4 5 0
 
 analyze
 
-peek node 8
+peek node 11
 
 peek recorder 1
 

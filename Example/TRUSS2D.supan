@@ -4,7 +4,7 @@ node 1 0 0
 node 2 4 0
 node 3 0 -3
 
-material Elastic1D 1 2E4 300
+material MPF 1 2E4 300 .4
 
 element Truss2D 1 1 2 1 100 1 1 1
 element Truss2D 2 3 2 1 100 1 1 1
@@ -19,11 +19,11 @@ cload 1 2E4 2 2
 
 step static 1
 set ini_step_size .5
-set fixed_step_size true
+# set fixed_step_size true
 
 # solver BFGS 1
 
-converger AbsIncreDisp 1 1E-8 10 1
+converger AbsIncreDisp 1 1E-4 10 1
 
 analyze
 

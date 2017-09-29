@@ -6,7 +6,6 @@ node 3 2 0
 node 4 4 0
 node 5 7 0
 node 6 10 0
-
 node 7 0 2
 node 8 2 2
 node 9 4 2
@@ -30,7 +29,7 @@ cload 1 150 2 6 12
 cload 2 -150 2 7
 
 step static 1
-set ini_step_size 1
+# set ini_step_size 1
 
 analyze
 
