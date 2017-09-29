@@ -19,10 +19,8 @@
 #include <Converger/Converger.h>
 #include <Solver/Integrator/Integrator.h>
 
-Solver::Solver(const unsigned& T, const unsigned& CT, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
-    : Tag(T, CT)
-    , converger(C)
-    , modifier(G) {
+Solver::Solver(const unsigned& T, const unsigned& CT)
+    : Tag(T, CT) {
     suanpan_debug("Solver %u ctor() called.\n", get_tag());
 }
 

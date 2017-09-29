@@ -49,11 +49,10 @@ class BFGS : public Solver {
     deque<double> hist_factor;
     vector<double> alpha;
 
-    const unsigned max_hist = 10;
+    const unsigned max_hist = 100;
 
 public:
-    explicit BFGS(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
-    explicit BFGS(const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
+    explicit BFGS(const unsigned& = 0);
 
     int analyze() override;
 

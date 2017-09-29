@@ -18,11 +18,8 @@
 #include "RK23.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-RK23::RK23(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
-    : ODE_Solver(T, CT_RK23, D, C, W) {}
-
-RK23::RK23(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
-    : ODE_Solver(0, CT_RK23, D, C, W) {}
+RK23::RK23(const unsigned& T)
+    : ODE_Solver(T, CT_RK23) {}
 
 int RK23::update_status() {
     auto& D = get_ode();

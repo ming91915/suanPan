@@ -20,11 +20,8 @@
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 
-CentralDifference::CentralDifference(const unsigned& T, const shared_ptr<DomainBase>& D)
-    : Integrator(T, CT_CENTRALDIFFERENCE, D) {}
-
-CentralDifference::CentralDifference(const shared_ptr<DomainBase>& D)
-    : Integrator(0, CT_CENTRALDIFFERENCE, D) {}
+CentralDifference::CentralDifference(const unsigned& T)
+    : Integrator(T, CT_CENTRALDIFFERENCE) {}
 
 int CentralDifference::initialize() {
     const auto code = Integrator::initialize();

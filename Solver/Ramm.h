@@ -33,7 +33,7 @@ class Ramm : public Solver {
     bool fixed_arc_length = false;
 
 public:
-    explicit Ramm(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
+    explicit Ramm(const unsigned& = 0);
 
     int analyze() override;
 

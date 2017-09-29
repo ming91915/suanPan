@@ -21,11 +21,8 @@
 
 const std::array<double, 28> RK45::F = { .25, .375, .09375, .28125, 12. / 13., 1932. / 2197., -7200. / 2197., 7296. / 2197., 439. / 216., -8., 3680. / 513., -845. / 4104., .5, -8. / 27., 2., -3544. / 2565., 1859. / 4104., -11. / 40., 16. / 135., 6656. / 12825., 28561. / 56430., -9. / 50., 2. / 55., 1. / 360., -128. / 4275., -2197. / 75240., 1. / 50., 2. / 55. };
 
-RK45::RK45(const unsigned& T, const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
-    : ODE_Solver(T, CT_RK45, D, C, W) {}
-
-RK45::RK45(const shared_ptr<ODE>& D, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
-    : ODE_Solver(0, CT_RK45, D, C, W) {}
+RK45::RK45(const unsigned& T)
+    : ODE_Solver(T, CT_RK45) {}
 
 int RK45::update_status() {
     auto& D = get_ode();

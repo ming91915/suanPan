@@ -66,7 +66,7 @@ void Bead::erase_domain(const unsigned& T) {
         suanpan_info("erase_domain() cannot find Domain %u, nothing changed.\n", T);
     else {
         char flag;
-        suanpan_info("erase_domain() is about to delete Domain %u, are you sure? [Y/N]", T);
+        suanpan_info("erase_domain() is about to delete Domain %u, are you sure? [Y/n]", T);
         std::cin.get(flag);
         if(flag == 'y' || flag == 'Y' || flag == '\n') {
             domain_pool.erase(T);

@@ -21,11 +21,8 @@
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
-BFGS::BFGS(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
-    : Solver(T, CT_BFGS, C, G) {}
-
-BFGS::BFGS(const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
-    : Solver(0, CT_BFGS, C, G) {}
+BFGS::BFGS(const unsigned& T)
+    : Solver(T, CT_BFGS) {}
 
 int BFGS::analyze() {
     auto& C = get_converger();

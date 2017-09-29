@@ -19,9 +19,8 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-Integrator::Integrator(const unsigned& T, const unsigned& CT, const shared_ptr<DomainBase>& D)
-    : Tag(T, CT)
-    , database(D) {
+Integrator::Integrator(const unsigned& T, const unsigned& CT)
+    : Tag(T, CT) {
     suanpan_debug("Integrator %u ctor() called.\n", T);
 }
 

@@ -21,8 +21,8 @@
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
-Ramm::Ramm(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
-    : Solver(T, CT_RAMM, C, G) {}
+Ramm::Ramm(const unsigned& T)
+    : Solver(T, CT_RAMM) {}
 
 int Ramm::analyze() {
     auto& C = get_converger();

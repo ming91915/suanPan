@@ -21,8 +21,8 @@
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
-Newton::Newton(const unsigned& T, const shared_ptr<Converger>& C, const shared_ptr<Integrator>& G)
-    : Solver(T, CT_NEWTON, C, G) {}
+Newton::Newton(const unsigned& T)
+    : Solver(T, CT_NEWTON) {}
 
 int Newton::analyze() {
     auto& C = get_converger();

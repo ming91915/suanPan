@@ -39,7 +39,7 @@ class Solver : public Tag {
     shared_ptr<Integrator> modifier = nullptr;
 
 public:
-    explicit Solver(const unsigned& = 0, const unsigned& = CT_SOLVER, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
+    explicit Solver(const unsigned& = 0, const unsigned& = CT_SOLVER);
     virtual ~Solver();
 
     virtual int initialize();

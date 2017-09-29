@@ -33,7 +33,7 @@
 
 class Newton : public Solver {
 public:
-    explicit Newton(const unsigned& = 0, const shared_ptr<Converger>& = nullptr, const shared_ptr<Integrator>& = nullptr);
+    explicit Newton(const unsigned& = 0);
 
     int analyze() override;
 

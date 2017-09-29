@@ -51,8 +51,8 @@ class Newmark final : public Integrator {
     void update_parameter();
 
 public:
-    explicit Newmark(const unsigned& = 0, const shared_ptr<DomainBase>& = nullptr, const double& = .25, const double& = .5);
-    explicit Newmark(const shared_ptr<DomainBase>&, const double& = .25, const double& = .5);
+    explicit Newmark(const unsigned& = 0, const double& = .25, const double& = .5);
+    explicit Newmark(const double&, const double&);
     ~Newmark();
 
     void assemble_resistance() override;

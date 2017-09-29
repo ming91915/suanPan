@@ -43,7 +43,7 @@ class ODE_Solver : public Solver {
     shared_ptr<Factory<double>> factory = nullptr;
 
 public:
-    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const shared_ptr<Converger>& = nullptr, const shared_ptr<Factory<double>>& = nullptr);
+    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER);
 
     int initialize() override;
 

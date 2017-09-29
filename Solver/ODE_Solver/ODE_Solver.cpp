@@ -20,10 +20,8 @@
 #include <Domain/Factory.hpp>
 #include <Solver/ODE_Solver/ODE.h>
 
-ODE_Solver::ODE_Solver(const unsigned& T, const unsigned& CT, const shared_ptr<ODE>& E, const shared_ptr<Converger>& C, const shared_ptr<Factory<double>>& W)
-    : Solver(T, CT, C, nullptr)
-    , ode_system(E)
-    , factory(W) {}
+ODE_Solver::ODE_Solver(const unsigned& T, const unsigned& CT)
+    : Solver(T, CT) {}
 
 int ODE_Solver::initialize() {
     if(ode_system == nullptr) {
