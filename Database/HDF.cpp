@@ -22,4 +22,4 @@ HDF::HDF(const char* N) { file_id = H5Fcreate(N, H5F_ACC_TRUNC, H5P_DEFAULT, H5P
 
 HDF::~HDF() { H5Fclose(file_id); }
 
-int HDF::save(const char* N) { return 0; }
+int HDF::save() { return 0; }

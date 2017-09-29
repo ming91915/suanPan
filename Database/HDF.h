@@ -27,7 +27,7 @@ public:
     explicit HDF(const char*);
     ~HDF();
 
-    int save(const char*) override final;
+    int save() override final;
 };
 
 #endif

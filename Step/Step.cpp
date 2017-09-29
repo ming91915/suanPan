@@ -16,12 +16,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Step.h"
-#include "Solver/Ramm.h"
 #include <Converger/RelIncreDisp.h>
 #include <Domain/Domain.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Newmark.h>
 #include <Solver/Newton.h>
+#include <Solver/Ramm.h>
 
 Step::Step(const unsigned& T, const unsigned& CT, const double& P)
     : Tag(T, CT)

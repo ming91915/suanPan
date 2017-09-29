@@ -18,10 +18,12 @@
 #include "Database.h"
 
 Database::Database(const unsigned& T, const unsigned& CT)
-    : Tag(T, CT) {}
+    : Tag(T, CT) {
+    suanpan_debug("Database %u ctor() called.\n", T);
+}
 
-Database::~Database() {}
+Database::~Database() { suanpan_debug("Database %u dtor() called.\n", get_tag()); }
 
-void Database::set_domain(const shared_ptr<Domain>& D) { domain = D; }
+void Database::set_domain(const shared_ptr<DomainBase>& D) { domain = D; }
 
-const shared_ptr<Domain>& Database::get_domain() const { return domain; }
+const shared_ptr<DomainBase>& Database::get_domain() const { return domain; }

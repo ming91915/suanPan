@@ -26,19 +26,21 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include "Domain/Domain.h"
+#include "Domain/Tag.h"
+
+class DomainBase;
 
 class Database : public Tag {
-    shared_ptr<Domain> domain;
+    shared_ptr<DomainBase> domain = nullptr;
 
 public:
     explicit Database(const unsigned& = 0, const unsigned& = 0);
     virtual ~Database();
 
-    void set_domain(const shared_ptr<Domain>& D);
-    const shared_ptr<Domain>& get_domain() const;
+    void set_domain(const shared_ptr<DomainBase>& D);
+    const shared_ptr<DomainBase>& get_domain() const;
 
-    virtual int save(const char*) = 0;
+    virtual int save() = 0;
 };
 
 #endif
