@@ -15,7 +15,6 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include <iomanip>
 #include <suanPan>
 
 int main(int argc, char** argv) {
@@ -24,6 +23,7 @@ int main(int argc, char** argv) {
 
     argument_parser(argc, argv);
 
-    cout << "\nFinished in " << std::setprecision(5) << T.toc() << " seconds.\n\n";
+    suanpan_info("\nFinished in %.3E seconds.\n", T.toc());
+
     return 0;
 }
