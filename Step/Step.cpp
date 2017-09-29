@@ -66,12 +66,8 @@ int Step::initialize() {
             factory->set_storage_scheme(StorageScheme::SYMMPACK);
         else if(!symm_mat && !band_mat)
             factory->set_storage_scheme(StorageScheme::FULL);
-    } else {
-        if(band_mat)
-            factory->set_storage_scheme(StorageScheme::BAND);
-        else
-            factory->set_storage_scheme(StorageScheme::FULL);
-    }
+    } else
+        factory->set_storage_scheme(band_mat ? StorageScheme::BAND : StorageScheme::FULL);
 
     database->set_factory(factory);
 

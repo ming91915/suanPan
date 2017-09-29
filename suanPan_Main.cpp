@@ -23,7 +23,7 @@ int main(int argc, char** argv) {
 
     argument_parser(argc, argv);
 
-    suanpan_info("\nFinished in %.3E seconds.\n", T.toc());
+    suanpan_info("\nFinished in %.3F seconds.\n", T.toc());
 
     return 0;
 }
