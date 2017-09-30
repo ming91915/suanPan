@@ -301,21 +301,19 @@ const bool& Domain::is_updated() const { return updated; }
 int Domain::initialize() {
     if(updated) return 0;
 
-    // RESET STATUS
-    for(const auto& t_node : node_pond) t_node.second->set_dof_number(0);
+    suanpan_for_each(node_pond.cbegin(), node_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Node>>& t_node) { t_node.second->set_dof_number(0); });
 
-    // SET DOF NUMBER FOR ACTIVE NODES
-    for(const auto& t_element : element_pond)
+    suanpan_for_each(element_pond.cbegin(), element_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Element>>& t_element) {
         if(t_element.second->is_active()) t_element.second->Element::initialize(shared_from_this());
+    });
+
+    suanpan_for_each(node_pond.cbegin(), node_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Node>>& t_node) { t_node.second->initialize(shared_from_this()); });
 
     // ASSIGN DOF LABEL FOR ACTIVE DOF
     unsigned dof_counter = 0;
-    for(const auto& t_node : node_pond) {
-        t_node.second->initialize(shared_from_this());
-        t_node.second->set_original_dof(dof_counter);
-    }
+    for(const auto& t_node : node_pond) t_node.second->set_original_dof(dof_counter);
 
-    for(const auto& t_load : load_pond) t_load.second->initialize(shared_from_this());
+    suanpan_for_each(load_pond.cbegin(), load_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Load>>& t_load) { t_load.second->initialize(shared_from_this()); });
 
     // ACTIVE FLAG IS NOW PROPERLY SET FOR NODE AND ELEMENT
     amplitude_pond.update();
