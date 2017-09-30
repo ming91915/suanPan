@@ -16,6 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Recorder.h"
+#ifndef SUANPAN_NO_HDF5
+#include <hdf5.h>
+#include <hdf5_hl.h>
+#endif
 
 Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, const OutputList& L, const bool& R)
     : Tag(T, CT)
@@ -45,6 +49,30 @@ const vector<vector<vec>>& Recorder::get_data_pool() const { return data_pool; }
 
 const vector<double>& Recorder::get_time_pool() const { return time_pool; }
 
-void Recorder::record(const shared_ptr<Domain>&) {}
+void Recorder::save() {
+#ifndef SUANPAN_NO_HDF5
+    ostringstream file_name;
+
+    file_name << to_char(variable_type) << object_tag;
+
+    mat data_to_write(data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size());
+
+    for(size_t I = 0; I < time_pool.size(); ++I) {
+        data_to_write(0, I) = time_pool[I];
+        for(const auto& J : data_pool[I])
+            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I) = J[K];
+    }
+
+    hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };
+
+    const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
+    const auto group_id = H5Gcreate2(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+
+    H5LTmake_dataset(group_id, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
+
+    H5Gclose(group_id);
+    H5Fclose(file_id);
+#endif
+}
 
 void Recorder::print() { suanpan_info("print() needs to be overwritten.\n"); }

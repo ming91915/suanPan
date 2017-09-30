@@ -67,6 +67,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(command_id == "delete") return erase_object(model, command);
     if(command_id == "remove") return erase_object(model, command);
     if(command_id == "set") return set_property(model, command);
+    if(command_id == "save") return save_object(model, command);
 
     const auto& domain = get_current_domain(model);
     if(domain == nullptr) return 0;
@@ -520,6 +521,26 @@ int set_property(const shared_ptr<Bead>& model, istringstream& command) {
         else
             suanpan_info("set_property() need a valid value.\n");
     }
+
+    return 0;
+}
+
+int save_object(const shared_ptr<Bead>& model, istringstream& command) {
+    auto& domain = model->get_current_domain();
+
+    string object_id;
+    if(!get_input(command, object_id)) {
+        suanpan_info("save_object() needs a valid object type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("save_object() needs a valid tag.\n");
+        return 0;
+    }
+
+    if(is_equal(object_id, "Recorder") && domain->find_recorder(tag)) domain->get_recorder(tag)->save();
 
     return 0;
 }

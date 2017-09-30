@@ -16,18 +16,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "NodeRecorder.h"
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
-#ifndef SUANPAN_NO_HDF5
-#include <hdf5.h>
-#include <hdf5_hl.h>
-#endif
 
 NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
     : Recorder(T, CT_NODERECORDER, B, L, R) {}
 
-void NodeRecorder::record(const shared_ptr<Domain>& D) {
+void NodeRecorder::record(const shared_ptr<DomainBase>& D) {
     auto& t_obj = D->get_node(get_object_tag());
 
     insert(t_obj->record(get_variable_type()));
@@ -35,31 +31,4 @@ void NodeRecorder::record(const shared_ptr<Domain>& D) {
     if(if_record_time()) insert(D->get_factory().lock()->get_current_time());
 }
 
-void NodeRecorder::print() {
-#ifndef SUANPAN_NO_HDF5
-    ostringstream file_name;
-
-    file_name << to_char(get_variable_type()) << get_object_tag();
-
-    auto& data = get_data_pool();
-    auto& time = get_time_pool();
-
-    mat data_to_write(data.cbegin()->cbegin()->n_elem + 1, time.size());
-
-    for(size_t I = 0; I < time.size(); ++I) {
-        data_to_write(0, I) = time[I];
-        for(const auto& J : data[I])
-            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I) = J[K];
-    }
-
-    hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };
-
-    const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    const auto group_id = H5Gcreate2(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-
-    H5LTmake_dataset(group_id, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
-
-    H5Gclose(group_id);
-    H5Fclose(file_id);
-#endif
-}
+void NodeRecorder::print() { suanpan_info("A Node Recorder.\n"); }

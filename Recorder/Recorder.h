@@ -30,7 +30,7 @@
 #include "OutputList.h"
 #include <Domain/Tag.h>
 
-class Domain;
+class DomainBase;
 
 using std::vector;
 
@@ -62,7 +62,9 @@ public:
     const vector<vector<vec>>& get_data_pool() const;
     const vector<double>& get_time_pool() const;
 
-    virtual void record(const shared_ptr<Domain>&) = 0;
+    virtual void record(const shared_ptr<DomainBase>&) = 0;
+
+    virtual void save();
 
     void print() override;
 };
