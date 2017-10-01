@@ -54,7 +54,8 @@ public:
         const double& = 7.,           // A4
         const bool& = false,          // isotropic hardening switch
         const bool& = false,          // constant radius switch
-        const double& = 0.);          // density
+        const double& = 0.            // density
+    );
 
     void initialize() override;
 

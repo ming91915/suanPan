@@ -107,15 +107,6 @@ int Step::initialize() {
 
 int Step::analyze() { return -1; }
 
-void Step::set_factory(const shared_ptr<Factory<double>>& F) {
-    if(factory != F) {
-        factory = F;
-        updated = false;
-    }
-}
-
-const shared_ptr<Factory<double>>& Step::get_factory() const { return factory; }
-
 void Step::set_domain(const weak_ptr<DomainBase>& D) {
     if(database.lock() != D.lock()) {
         database = D;
@@ -124,6 +115,15 @@ void Step::set_domain(const weak_ptr<DomainBase>& D) {
 }
 
 const weak_ptr<DomainBase>& Step::get_domain() const { return database; }
+
+void Step::set_factory(const shared_ptr<Factory<double>>& F) {
+    if(factory != F) {
+        factory = F;
+        updated = false;
+    }
+}
+
+const shared_ptr<Factory<double>>& Step::get_factory() const { return factory; }
 
 void Step::set_solver(const shared_ptr<Solver>& S) {
     if(solver != S) {

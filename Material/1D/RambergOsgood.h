@@ -14,6 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class RambergOsgood
+ * @brief A RambergOsgood material class.
+ * @author T
+ * @date 01/10/2017
+ * @version 0.1.2
+ * @file RambergOsgood.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef RAMBERGOSGOOD_H
 #define RAMBERGOSGOOD_H
@@ -30,7 +41,13 @@ class RambergOsgood final : public Material {
     const double tolerance;
 
 public:
-    explicit RambergOsgood(const unsigned& = 0, const double& = 2E5, const double& = 400., const double& = 1., const double& = 10., const double& = 0.);
+    explicit RambergOsgood(const unsigned& = 0, // tag
+        const double& = 2E5,                    // elastic modulus
+        const double& = 400.,                   // yield stress
+        const double& = 1.,                     // offset
+        const double& = 10.,                    // n
+        const double& = 0.                      // density
+    );
 
     void initialize() override;
 
@@ -45,3 +62,5 @@ public:
 };
 
 #endif
+
+//! @}
