@@ -17,7 +17,7 @@
 
 #include "Step.h"
 #include <Converger/RelIncreDisp.h>
-#include <Domain/Domain.h>
+#include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Newmark.h>
 #include <Solver/Newton.h>
@@ -34,10 +34,13 @@ Step::~Step() { suanpan_debug("Step %u dtor() called.\n", get_tag()); }
 const bool& Step::is_updated() const { return updated; }
 
 int Step::initialize() {
-    if(database == nullptr) {
-        suanpan_error("initialize() needs a valid domain.\n");
-        return -1;
-    }
+    const auto& t_domain = database.lock();
+
+    factory = t_domain->get_factory();
+
+    if(t_domain->get_current_converger_tag() != 0) tester = t_domain->get_current_converger();
+    if(t_domain->get_current_integrator_tag() != 0) modifier = t_domain->get_current_integrator();
+    if(t_domain->get_current_solver_tag() != 0) solver = t_domain->get_current_solver();
 
     switch(get_class_tag()) {
     case CT_ARCLENGTH:
@@ -45,16 +48,15 @@ int Step::initialize() {
         break;
     case CT_STATIC:
     case CT_DYNAMIC:
-    case CT_FREQUENCE:
         if(solver == nullptr) solver = make_shared<Newton>();
+        break;
+    case CT_FREQUENCE:
         break;
     default:
         suanpan_error("initialize() needs a valid step.\n");
         return -1;
     }
 
-    if(factory == nullptr) factory = database->get_factory().lock();
-    if(factory == nullptr) factory = make_shared<Factory<double>>();
     if(tester == nullptr) tester = make_shared<RelIncreDisp>();
 
     if(get_class_tag() != CT_ARCLENGTH) {
@@ -69,26 +71,22 @@ int Step::initialize() {
     } else
         factory->set_storage_scheme(band_mat ? StorageScheme::BAND : StorageScheme::FULL);
 
-    database->set_factory(factory);
-
-    database->initialize();
-
     switch(get_class_tag()) {
     case CT_STATIC:
     case CT_ARCLENGTH:
         factory->set_analysis_type(AnalysisType::STATICS);
         if(modifier == nullptr) modifier = make_shared<Integrator>();
-        modifier->set_domain(database);
+        modifier->set_domain(t_domain);
         break;
     case CT_DYNAMIC:
         if(modifier == nullptr) {
             suanpan_error("initialize() needs a valid integrator.\n");
             return -1;
         }
-        modifier->set_domain(database);
+        modifier->set_domain(t_domain);
         factory->set_analysis_type(AnalysisType::DYNAMICS);
         if(modifier == nullptr) modifier = make_shared<Newmark>();
-        modifier->set_domain(database);
+        modifier->set_domain(t_domain);
         break;
     case CT_FREQUENCE:
         factory->set_analysis_type(AnalysisType::EIGEN);
@@ -100,7 +98,7 @@ int Step::initialize() {
 
     factory->initialize();
 
-    tester->set_domain(database);
+    tester->set_domain(t_domain);
     solver->set_converger(tester);
     solver->set_integrator(modifier);
 
@@ -118,14 +116,14 @@ void Step::set_factory(const shared_ptr<Factory<double>>& F) {
 
 const shared_ptr<Factory<double>>& Step::get_factory() const { return factory; }
 
-void Step::set_domain(const shared_ptr<Domain>& D) {
-    if(database != D) {
+void Step::set_domain(const weak_ptr<DomainBase>& D) {
+    if(database.lock() != D.lock()) {
         database = D;
         updated = false;
     }
 }
 
-const shared_ptr<Domain>& Step::get_domain() const { return database; }
+const weak_ptr<DomainBase>& Step::get_domain() const { return database; }
 
 void Step::set_solver(const shared_ptr<Solver>& S) {
     if(solver != S) {

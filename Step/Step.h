@@ -28,10 +28,10 @@
 #ifndef STEP_H
 #define STEP_H
 
-#include <Domain/Factory.hpp>
 #include <Domain/Tag.h>
 
-class Domain;
+template <typename T> class Factory;
+class DomainBase;
 class Solver;
 class Converger;
 class Integrator;
@@ -53,11 +53,11 @@ class Step : public Tag {
 
     bool fixed_step_size = false; /**< auto-stepping */
 
-    shared_ptr<Factory<double>> factory = nullptr;
-    shared_ptr<Domain> database = nullptr;
-    shared_ptr<Solver> solver = nullptr;
-    shared_ptr<Converger> tester = nullptr;
-    shared_ptr<Integrator> modifier = nullptr;
+    weak_ptr<DomainBase> database;
+    shared_ptr<Factory<double>> factory;
+    shared_ptr<Solver> solver;
+    shared_ptr<Converger> tester;
+    shared_ptr<Integrator> modifier;
 
 public:
     explicit Step(const unsigned& = 0, const unsigned& = CT_STEP, const double& = 1.);
@@ -69,11 +69,11 @@ public:
 
     virtual int analyze() = 0;
 
+    void set_domain(const weak_ptr<DomainBase>&);
+    const weak_ptr<DomainBase>& get_domain() const;
+
     void set_factory(const shared_ptr<Factory<double>>&);
     const shared_ptr<Factory<double>>& get_factory() const;
-
-    void set_domain(const shared_ptr<Domain>&);
-    const shared_ptr<Domain>& get_domain() const;
 
     void set_solver(const shared_ptr<Solver>&);
     const shared_ptr<Solver>& get_solver() const;
