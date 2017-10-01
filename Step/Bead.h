@@ -18,8 +18,8 @@
  * @class Bead
  * @brief A Bead class is a top level container.
  * @author T
- * @date 27/08/2017
- * @version 0.2.1
+ * @date 01/10/2017
+ * @version 0.3.0
  * @file Bead.h
  */
 
@@ -27,81 +27,30 @@
 #define BEAD_H
 
 #include <Domain/Storage.hpp>
-#include <map>
-#include <suanPan.h>
 
-using std::map;
-using std::unordered_map;
-
-class Domain;
-class Solver;
-class Converger;
-class Step;
+class DomainBase;
 
 class Bead {
     unsigned current_domain_tag = 1;
-    unsigned current_solver_tag = 0;
-    unsigned current_converger_tag = 0;
-    unsigned current_step_tag = 0;
 
-    DomainStorage domain_pool;
-    SolverStorage solver_pool;
-    ConvergerStorage converger_pool;
-
-    shared_ptr<map<unsigned, shared_ptr<Step>>> step_pool;
+    DomainBaseStorage domain_pool;
 
 public:
     Bead();
 
-    bool insert(const shared_ptr<Domain>&);
-    bool insert(const shared_ptr<Solver>&);
-    bool insert(const shared_ptr<Converger>&);
-    bool insert(const shared_ptr<Step>&) const;
-
-    const shared_ptr<Domain>& get_domain(const unsigned&) const;
-    const shared_ptr<Solver>& get_solver(const unsigned&) const;
-    const shared_ptr<Converger>& get_converger(const unsigned&) const;
-    const shared_ptr<Step>& get_step(const unsigned&) const;
-
-    friend shared_ptr<Domain>& get_domain(const shared_ptr<Bead>&, const unsigned&);
-    friend shared_ptr<Solver>& get_solver(const shared_ptr<Bead>&, const unsigned&);
-    friend shared_ptr<Converger>& get_converger(const shared_ptr<Bead>&, const unsigned&);
-    friend shared_ptr<Step>& get_step(const shared_ptr<Bead>&, const unsigned&);
-
-    const shared_ptr<Domain>& get_current_domain() const;
-    const shared_ptr<Solver>& get_current_solver() const;
-    const shared_ptr<Converger>& get_current_converger() const;
-    const shared_ptr<Step>& get_current_step() const;
-
-    friend shared_ptr<Domain>& get_current_domain(const shared_ptr<Bead>&);
-    friend shared_ptr<Solver>& get_current_solver(const shared_ptr<Bead>&);
-    friend shared_ptr<Converger>& get_current_converger(const shared_ptr<Bead>&);
-    friend shared_ptr<Step>& get_current_step(const shared_ptr<Bead>&);
-
-    const unsigned& get_current_domain_tag() const;
-    const unsigned& get_current_solver_tag() const;
-    const unsigned& get_current_converger_tag() const;
-    const unsigned& get_current_step_tag() const;
-
+    bool insert(const shared_ptr<DomainBase>&);
     void erase_domain(const unsigned&);
-    void erase_solver(const unsigned&);
-    void erase_converger(const unsigned&);
-    void erase_step(const unsigned&);
-
-    void disable_domain(const unsigned&);
-    void disable_solver(const unsigned&);
-    void disable_converger(const unsigned&);
-    void disable_step(const unsigned&) const;
-
     void enable_domain(const unsigned&);
-    void enable_solver(const unsigned&);
-    void enable_converger(const unsigned&);
-    void enable_step(const unsigned&) const;
+    void disable_domain(const unsigned&);
 
-    void set_current_domain(const unsigned&);
-    void set_current_solver(const unsigned&);
-    void set_current_converger(const unsigned&);
-    void set_current_step(const unsigned&);
+    void set_current_domain_tag(const unsigned&);
+    const unsigned& get_current_domain_tag() const;
+
+    const shared_ptr<DomainBase>& get_domain(const unsigned&) const;
+    const shared_ptr<DomainBase>& get_current_domain() const;
+
+    friend shared_ptr<DomainBase>& get_domain(const shared_ptr<Bead>&, const unsigned&);
+    friend shared_ptr<DomainBase>& get_current_domain(const shared_ptr<Bead>&);
 
     int analyze();
 };
