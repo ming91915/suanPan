@@ -259,9 +259,6 @@
     <ClInclude Include="..\..\..\Step\ArcLength.h">
       <Filter>Step</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Domain\Factory.hpp">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Constraint\Criterion\Criterion.h">
       <Filter>Constraint</Filter>
     </ClInclude>
