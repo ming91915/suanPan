@@ -14,6 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class Concrete01
+ * @brief A Concrete01 material class.
+ * @author T
+ * @date 01/10/2017
+ * @version 0.1.1
+ * @file Concrete01.h
+ * @addtogroup Material-1D
+ * @ingroup Material
+ * @{
+ */
 
 #ifndef CONCRETE01_H
 #define CONCRETE01_H
@@ -33,17 +44,15 @@ class Concrete01 : public Material {
 
     bool on_backbone = true;
 
-    void compute_backbone();
+    virtual void compute_backbone();
 
 public:
-    Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO = false)
-        : Material(T, MT_CONCRETE01)
-        , peak_strain(EP)
-        , peak_stress(SP)
-        , backbone_type(TP)
-        , center_oriented(CO) {
-        Concrete01::initialize();
-    }
+    Concrete01(const unsigned& T, // tag
+        const double& EP,         // peak strain in negative
+        const double& SP,         // peak stress in negative
+        const BackboneType& TP,   // backbone type
+        const bool& CO = false    // center oriented or using unloading criterion
+    );
 
     void initialize() override;
 
@@ -58,3 +67,5 @@ public:
 };
 
 #endif
+
+//! @}
