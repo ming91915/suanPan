@@ -357,3 +357,43 @@ void new_mpf(unique_ptr<Material>& return_obj, istringstream& command) {
 
     return_obj = make_unique<MPF>(tag, elastic_modulus, yield_stress, hardening_ratio, R0, A1, A2, A3, A4, !!iso, !!con, density);
 }
+
+void new_rambergosgood(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_rambergosgood() requires a valid tag.\n");
+        return;
+    }
+
+    double elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_rambergosgood() requires a valid elastic modulus.\n");
+        return;
+    }
+
+    double yield_stress;
+    if(!get_input(command, yield_stress)) {
+        suanpan_error("new_rambergosgood() requires a valid yield stress.\n");
+        return;
+    }
+
+    auto offset = 1;
+    if(!command.eof() && !get_input(command, offset)) {
+        suanpan_error("new_rambergosgood() requires a valid offset.\n");
+        return;
+    }
+
+    auto n = 10.;
+    if(!command.eof() && !get_input(command, n)) {
+        suanpan_error("new_rambergosgood() requires a valid n.\n");
+        return;
+    }
+
+    auto density = 0.;
+    if(!command.eof() && !get_input(command, density)) {
+        suanpan_error("new_rambergosgood() requires a valid density.\n");
+        return;
+    }
+
+    return_obj = make_unique<RambergOsgood>(tag, elastic_modulus, yield_stress, offset, n, density);
+}

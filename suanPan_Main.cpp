@@ -23,7 +23,12 @@ int main(int argc, char** argv) {
 
     argument_parser(argc, argv);
 
-    suanpan_info("\nFinished in %.3F seconds.\n", T.toc());
+    suanpan_info("Finished in %.3F seconds.\n", T.toc());
 
     return 0;
 }
+
+// const auto A = make_shared<RambergOsgood>();
+// const vector<unsigned> B{ 100, 200, 220, 240, 260, 280 };
+// auto C = material_tester(A, B, 0.0001);
+// C.save("K", raw_ascii);

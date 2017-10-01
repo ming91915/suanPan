@@ -27,19 +27,14 @@ void Bead::erase_domain(const unsigned& T) {
     if(!domain_pool.find(T))
         suanpan_info("erase_domain() cannot find Domain %u, nothing changed.\n", T);
     else {
-        char flag;
-        suanpan_info("erase_domain() is about to delete Domain %u, are you sure? [Y/n]", T);
-        std::cin.get(flag);
-        if(flag == 'y' || flag == 'Y' || flag == '\n') {
-            domain_pool.erase(T);
-            if(domain_pool.size() != 0) {
-                set_current_domain_tag(domain_pool.cbegin()->first);
-                suanpan_info("erase_domain() switches to Domain %u.\n", current_domain_tag);
-            } else {
-                insert(make_shared<Domain>(1));
-                set_current_domain_tag(1);
-                suanpan_info("erase_domain() removes the last domain and switches to default Domain 1.\n");
-            }
+        domain_pool.erase(T);
+        if(domain_pool.size() != 0) {
+            set_current_domain_tag(domain_pool.cbegin()->first);
+            suanpan_info("erase_domain() switches to Domain %u.\n", current_domain_tag);
+        } else {
+            insert(make_shared<Domain>(1));
+            set_current_domain_tag(1);
+            suanpan_info("erase_domain() removes the last domain and switches to default Domain 1.\n");
         }
     }
 }

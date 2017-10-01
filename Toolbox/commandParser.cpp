@@ -597,6 +597,8 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_bilinear3d(new_material, command);
     else if(is_equal(material_id, "MPF"))
         new_mpf(new_material, command);
+    else if(is_equal(material_id, "RambergOsgood"))
+        new_rambergosgood(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;

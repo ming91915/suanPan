@@ -45,7 +45,7 @@ public:
         const double& = 2E5,                    // elastic modulus
         const double& = 400.,                   // yield stress
         const double& = 1.,                     // offset
-        const double& = 10.,                    // n
+        const double& = 20.,                    // n
         const double& = 0.                      // density
     );
 

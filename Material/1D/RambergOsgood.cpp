@@ -74,13 +74,14 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
 
     auto incre_norm_stress = yield_stress;
     while(abs(incre_norm_stress) > tolerance) {
-        const auto tmp_a = offset * pow(norm_stress / yield_stress, nm);
-        trial_stiffness(0) = 1. + tmp_a * n;
+        const auto tmp_a = offset * pow(norm_stress / (yield_stress + abs(reverse_stress)), nm);
+        trial_stiffness = 1. + tmp_a * n;
         incre_norm_stress = (elastic_predictor - norm_stress * (1. + tmp_a)) / trial_stiffness(0);
         norm_stress += incre_norm_stress;
     }
 
     trial_stress = load_sign * norm_stress + reverse_stress;
+    trial_stiffness = elastic_modulus / trial_stiffness;
 
     return 0;
 }
