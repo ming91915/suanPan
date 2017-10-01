@@ -35,8 +35,20 @@
 
 class CLoad : public Load {
 public:
-    explicit CLoad(const unsigned& = 0, const unsigned& = 0, const double& = 0., const uvec& = {}, const unsigned& = 0, const unsigned& = 0);
-    CLoad(const unsigned&, const unsigned&, const double&, const uvec&, const uvec&, const unsigned& = 0);
+    explicit CLoad(const unsigned& = 0, // tag
+        const unsigned& = 0,            // start step tag
+        const double& = 0.,             // maginitude
+        const uvec& = {},               // node tags
+        const unsigned& = 0,            // dof tag
+        const unsigned& = 0             // amplitude tag
+    );
+    CLoad(const unsigned&,  // tag
+        const unsigned&,    // start step tag
+        const double&,      // maginitude
+        const uvec&,        // node tags
+        const uvec&,        // dof tags
+        const unsigned& = 0 // amplitude tag
+    );
 
     int process(const shared_ptr<DomainBase>&) override;
 };

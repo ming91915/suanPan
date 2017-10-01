@@ -24,7 +24,7 @@ const double Load::multiplier = 1E6;
 
 Load::Load(const unsigned& T, const unsigned& CT, const unsigned& ST, const unsigned& AT, const uvec& NT, const uvec& DT, const double& PT)
     : Tag(T, CT)
-    , step_tag(ST)
+    , start_step(ST)
     , amplitude_tag(AT)
     , nodes(NT)
     , dofs(DT)
@@ -36,7 +36,7 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
     if(amplitude_tag != 0) magnitude = D->get_amplitude(amplitude_tag);
 
     if(amplitude_tag == 0 || magnitude == nullptr) {
-        auto t_tag = static_cast<unsigned>(D->get_amplitude()) + 1;
+        auto t_tag = unsigned(D->get_amplitude()) + 1;
         while(D->find_amplitude(t_tag)) t_tag++;
         magnitude = make_shared<Ramp>(t_tag);
         D->insert(magnitude);
@@ -44,11 +44,11 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
 
     auto start_time = 0.;
     for(const auto& I : D->get_step_pool()) {
-        if(I.second->get_tag() >= step_tag) break;
+        if(I.second->get_tag() >= start_step) break;
         start_time += I.second->get_time_period();
     }
 
-    magnitude->set_step_tag(step_tag);
+    magnitude->set_start_step(start_step);
     magnitude->set_start_time(start_time);
 
     return 0;
@@ -56,6 +56,10 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
 
 int Load::process(const shared_ptr<DomainBase>&) { return -1; }
 
-void Load::set_step_tag(const unsigned& T) { step_tag = T; }
+void Load::set_start_step(const unsigned& T) { start_step = T; }
 
-const unsigned& Load::get_step_tag() const { return step_tag; }
+const unsigned& Load::get_start_step() const { return start_step; }
+
+void Load::set_end_step(const unsigned& T) { end_step = T; }
+
+const unsigned& Load::get_end_step() const { return end_step; }

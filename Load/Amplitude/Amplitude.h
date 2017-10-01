@@ -52,7 +52,7 @@ enum class AmplitudeType { RAMP, TABULAR, PERIODIC, MODULATED, DECAY };
 
 class Amplitude : public Tag {
 protected:
-    unsigned step_tag;
+    unsigned start_step;
     double start_time = 0.; // T0
 public:
     explicit Amplitude(const unsigned& = 0, const unsigned& = CT_AMPLITUDE, const unsigned& = 0.);
@@ -62,8 +62,8 @@ public:
 
     virtual double get_amplitude(const double&);
 
-    void set_step_tag(const unsigned&);
-    const unsigned& get_step_tag() const;
+    void set_start_step(const unsigned&);
+    const unsigned& get_start_step() const;
 
     void set_start_time(const double&);
     const double& set_start_time() const;

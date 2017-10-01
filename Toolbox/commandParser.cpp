@@ -358,7 +358,7 @@ int create_new_cload(const shared_ptr<DomainBase>& domain, istringstream& comman
 
     const auto& step_tag = domain->get_current_step_tag();
 
-    if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_cload() fails to create new load.\n");
+    if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id, 0))) suanpan_error("create_new_cload() fails to create new load.\n");
 
     return 0;
 }

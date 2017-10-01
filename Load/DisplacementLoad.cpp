@@ -28,6 +28,9 @@ DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const 
     : Load(T, CT_DISPLACEMENTLOAD, ST, AT, N, D, L) {}
 
 int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
+    const auto& t_step = D->get_current_step_tag();
+    if(t_step < start_step || t_step >= end_step) return 0;
+
     const auto& t_factory = D->get_factory();
 
     const auto final_load = pattern * magnitude->get_amplitude(t_factory->get_trial_time());

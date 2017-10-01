@@ -21,8 +21,8 @@
  * The Load class is in charge of returning load level according to given time increment.
  *
  * @author T
- * @date 05/09/2017
- * @version 0.1.0
+ * @date 01/10/2017
+ * @version 0.2.0
  * @file Load.h
  * @addtogroup Load
  * @{
@@ -40,7 +40,9 @@ class Load : public Tag {
 protected:
     static const double multiplier;
 
-    unsigned step_tag, amplitude_tag;
+    unsigned start_step, amplitude_tag;
+
+    unsigned end_step = unsigned(-1);
 
     uvec nodes, dofs;
 
@@ -56,8 +58,11 @@ public:
 
     virtual int process(const shared_ptr<DomainBase>&) = 0;
 
-    void set_step_tag(const unsigned&);
-    const unsigned& get_step_tag() const;
+    void set_start_step(const unsigned&);
+    const unsigned& get_start_step() const;
+
+    void set_end_step(const unsigned&);
+    const unsigned& get_end_step() const;
 };
 
 #endif

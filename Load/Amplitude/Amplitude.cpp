@@ -19,7 +19,7 @@
 
 Amplitude::Amplitude(const unsigned& T, const unsigned& CT, const unsigned& ST)
     : Tag(T, CT)
-    , step_tag(ST) {}
+    , start_step(ST) {}
 
 Amplitude::~Amplitude() {}
 
@@ -32,9 +32,9 @@ double Amplitude::get_amplitude(const double& T) {
     return step_time;
 }
 
-void Amplitude::set_step_tag(const unsigned& T) { step_tag = T; }
+void Amplitude::set_start_step(const unsigned& T) { start_step = T; }
 
-const unsigned& Amplitude::get_step_tag() const { return step_tag; }
+const unsigned& Amplitude::get_start_step() const { return start_step; }
 
 void Amplitude::set_start_time(const double& T) { start_time = T; }
 

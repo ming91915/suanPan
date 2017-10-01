@@ -1,131 +1,124 @@
 Quick Start
 ===========
 
-**suanPan** has several wrappers. One of these resembles the OpenSees syntax. Users who are familiar with OpenSees modeling can quickly switch/adopt existing model to **suanPan** model. The input file is plain text file, the extension `.supan` is chosen to distinguish **suanPan** model from other files. But it is not compulsory.
+**suanPan** has several wrappers. One of those resembles the syntax of OpenSees. Users who are familiar with OpenSees modeling can quickly adapt existing models to run in **suanPan**.
 
-Basic Structure
----------------
+Run Program
+-----------
 
-The input file can be split into three parts. They are: model information, analysis configuration and data recording.
+The program can be run from terminal (cmd). Simply run `./suanPan` or `suanPan.exe`, the program will start in command line interface and wait for inputs.
 
 ``` text
-# a typical model has three parts
-model information <--- order does not matter
-analysis configuration <--- order matters between steps but does not matter within one step
-data recording <--- order does not matter
++--------------------------------------------------+
+|   __        __        suanPan is an open source  |
+|  /  \      |  \          FEM framework (64-bit)  |
+|  \__       |__/  __   __          Acrux (0.1.0)  |
+|     \ |  | |    |  \ |  |                        |
+|  \__/ |__| |    |__X |  |     maintained by tlc  |
+|                             all rights reserved  |
++--------------------------------------------------+
+
+suanPan --> _
 ```
 
-By default, **suanPan** creates a `domain` with tag 1 and uses it as the working domain. Analysts do not need to explicitly create a `domain` before defining other stuff. If needed, it is possible to switch from one domain to another or create a new domain, using `domain` command.
+In **suanPan**, no additional configuration is required so users can directly define the model.
+
+Uniaxial Tension of Truss Bar
+-----------------------------
+
+Let's start with a very simple example --- the uniaxial tension of a truss bar.
+
+First we define a uniaxial elastic material with tag 1, assume the elastic modulus is $100$.
 
 ``` text
-suanPan --> domain 1
-create_new_domain() switches to Domain 1.
-suanPan --> domain 2
-create_new_domain() successfully creates Domain 2.
-suanPan --> domain 3
-create_new_domain() successfully creates Domain 3.
-suanPan --> domain 2
-create_new_domain() switches to Domain 2.
-suanPan --> remove domain 2 3 1
-erase_domain() is about to delete Domain 2, are you sure? [Y/n]
-erase_domain() switches to Domain 1.
-erase_domain() is about to delete Domain 3, are you sure? [Y/n]
-erase_domain() switches to Domain 1.
-erase_domain() is about to delete Domain 1, are you sure? [Y/n]
-erase_domain() removes the last domain and switches to default Domain 1.
+material Elastic1D 1 100
+```
+
+Two nodes, which are assumed to be located at $(0,0)$ and $(1,0)$, are needed to define a truss member.
+
+``` text
+node 1 0 0
+node 2 1 0
+```
+
+Now we can define the truss element connecting those two nodes and using material 1 we just defined. Assume the cross section area is $10$.
+
+``` text
+element Truss2D 1 1 2 1 10
+```
+
+Assume the left node is pinned and right node is roller supported, apply a concentrated load pointing towards the positive direction of $x$ axis with a magnitude of $25$ at right node.
+
+``` text
+# define a fix BC with tag 1, restrain DoF 1 of node 1
+fix 1 1 1
+# define a fix BC with tag 2, restrain DoF 2 of node 1 and node 2
+fix 2 2 1 2
+# define a cload with tag 1, with a magnitude of 25, acting on node 2 dof 1
+cload 1 25 1 2
+```
+
+To create an analysis step, use `step` command.
+
+``` text
+step static 1
+```
+
+Now we can run the analysis and peek the displacement of node 2.
+
+``` text
+analyze
+
+peek node 2
+```
+
+The displacement at node 2 can be easily computed.
+
+$\begin{gather} \Delta{}U=\dfrac{P}{EA}\cdot{}l=\dfrac{25}{100\cdot10}\cdot{}1=0.0250\end{gather}$
+
+The output of `peek` command is directly printed on the screen.
+
+``` text
+...
+suanPan --> peek node 2
+Node 2:
+   1.0000        0
+Displacement:
+   0.0250        0
+
+suanPan -->
+```
+
+Screenshot
+----------
+
+The complete model is shown as follows. The execution time is printed when the program is terminated.
+
+``` text
++--------------------------------------------------+
+|   __        __        suanPan is an open source  |
+|  /  \      |  \          FEM framework (64-bit)  |
+|  \__       |__/  __   __          Acrux (0.1.0)  |
+|     \ |  | |    |  \ |  |                        |
+|  \__/ |__| |    |__X |  |     maintained by tlc  |
+|                             all rights reserved  |
++--------------------------------------------------+
+
+suanPan --> material Elastic1D 1 100
+suanPan --> node 1 0 0
+suanPan --> node 2 1 0
+suanPan --> element Truss2D 1 1 2 1 10
+suanPan --> fix 1 1 1
+suanPan --> fix 2 2 1 2
+suanPan --> cload 1 25 1 2
+suanPan --> step static 1
+suanPan --> analyze
+suanPan --> peek node 2
+Node 2:
+   1.0000        0
+Displacement:
+   0.0250        0
+
 suanPan --> exit
-```
-
-### Model Information
-
-In the first part, analysts are required to define the basic model information, such as nodes, elements and materials in this part. The order of those commands does not matter, **suanPan** does not initialize objects right after creation. So it is alright to define something like
-
-``` text
-node 1 0 0
-node 2 4 0
-node 3 0 -3
-
-material Elastic2D 1 1000 .2
-
-element CP3 1 1 3 2 1
-```
-
-Or in a reverse order
-
-``` text
-# define a CP3 element with tag 1 connects nodes 1 node 3 and node 2 and use material 1
-element CP3 1 1 3 2 1
-material Elastic2D 1 1000 .2
-node 3 0 -3
-node 2 4 0
-node 1 0 0
-```
-
-Although the first command `element` depends on the remaining commands.
-
-### Analysis Configuration
-
-The analysis configuration in **suanPan** resembles the one in ABAQUS. It is `step` oriented. By default, the analysis starts from `step 0`, users are allowed to create multi steps in a sequent order.
-
-``` text
-# starts with step 0
-# configuration for step 0
-
-fix 1 P 1 3 # boundary conditions
-cload 1 200 2 2 # add concentrated load
-
-# now starts a new analysis static step with tag 1
-step static 1
-
-# some steo confugurations
-set ini_step_size .1
-set fixed_step_size true
-
-# can further define more steps
-step static 2
-
-# use analyze to start analysis
-analyze
-```
-
-Everything defined under current step, before a new step uses current step by default. It is very similar to the ABAQUS work flow.
-
-### Data Recording
-
-If any recorder is defined before `analyze` command, users can save it to the disk. Users can also simply `peek` the information of current model component, for example
-
-``` text
-peek node 2
-peek element 1
-```
-
-To quit the problem, use `exit`.
-
-A Simple Example
-----------------
-
-``` text
-element CP3 1 1 3 2 1
-
-material Elastic2D 1 1000 .2
-
-node 3 0 -3
-node 2 4 0
-node 1 0 0
-
-fix 1 P 1 3
-
-cload 1 200 2 2
-
-step static 1
-set ini_step_size .1
-set fixed_step_size true
-
-analyze
-
-peek node 2
-
-peek element 1
-
-exit
+Finished in 6.611 seconds.
 ```

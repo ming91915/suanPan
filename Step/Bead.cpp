@@ -56,7 +56,10 @@ int Bead::analyze() {
 
     for(const auto& I : domain_pool)
         if(I.second->is_active() && I.second->initialize() == 0) {
-            for(const auto& J : I.second->get_step_pool()) code += J.second->analyze();
+            for(const auto& J : I.second->get_step_pool()) {
+                I.second->set_current_step_tag(J.second->get_tag());
+                code += J.second->analyze();
+            }
         }
 
     return code;
