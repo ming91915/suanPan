@@ -43,7 +43,7 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     auto start_time = 0.;
-    for(const auto& I : *D->get_step_anchor().lock()) {
+    for(const auto& I : D->get_step_pool()) {
         if(I.second->get_tag() >= step_tag) break;
         start_time += I.second->get_time_period();
     }
