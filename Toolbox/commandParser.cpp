@@ -52,31 +52,32 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(command_id == "file") return process_file(model, command);
 
     if(command_id == "domain") return create_new_domain(model, command);
-    if(command_id == "converger") return create_new_converger(model, command);
-    if(command_id == "step") return create_new_step(model, command);
-    if(command_id == "solver") return create_new_solver(model, command);
-    if(command_id == "fix") return create_new_bc(model, command);
-    if(command_id == "cload") return create_new_cload(model, command);
-    if(command_id == "disp") return create_new_dispload(model, command);
-    if(command_id == "dispload") return create_new_dispload(model, command);
-    if(command_id == "criterion") return create_new_criterion(model, command);
+
     if(command_id == "enable") return enable_object(model, command);
     if(command_id == "disable") return disable_object(model, command);
     if(command_id == "mute") return disable_object(model, command);
     if(command_id == "erase") return erase_object(model, command);
     if(command_id == "delete") return erase_object(model, command);
     if(command_id == "remove") return erase_object(model, command);
-    if(command_id == "set") return set_property(model, command);
     if(command_id == "save") return save_object(model, command);
 
     const auto& domain = get_current_domain(model);
-    if(domain == nullptr) return 0;
 
+    if(command_id == "converger") return create_new_converger(domain, command);
+    if(command_id == "step") return create_new_step(domain, command);
+    if(command_id == "solver") return create_new_solver(domain, command);
+    if(command_id == "fix") return create_new_bc(domain, command);
+    if(command_id == "cload") return create_new_cload(domain, command);
+    if(command_id == "disp") return create_new_dispload(domain, command);
+    if(command_id == "dispload") return create_new_dispload(domain, command);
+    if(command_id == "criterion") return create_new_criterion(domain, command);
     if(command_id == "import") return create_new_external_module(domain, command);
     if(command_id == "node") return create_new_node(domain, command);
     if(command_id == "material") return create_new_material(domain, command);
     if(command_id == "element") return create_new_element(domain, command);
     if(command_id == "recorder") return create_new_recorder(domain, command);
+
+    if(command_id == "set") return set_property(domain, command);
 
     if(command_id == "analyze") return model->analyze();
 
@@ -135,7 +136,7 @@ int create_new_domain(const shared_ptr<Bead>& model, istringstream& command) {
         return 0;
     }
 
-    model->set_current_domain(domain_id);
+    model->set_current_domain_tag(domain_id);
 
     auto& tmp_domain = get_domain(model, domain_id);
 
@@ -148,198 +149,162 @@ int create_new_domain(const shared_ptr<Bead>& model, istringstream& command) {
     return 0;
 }
 
-int create_new_step(const shared_ptr<Bead>& model, istringstream& command) {
-    string step_type;
-    if((command >> step_type).fail()) {
-        suanpan_info("create_new_step() requires step type.\n");
+int disable_object(const shared_ptr<Bead>& model, istringstream& command) {
+    const auto& domain = get_current_domain(model);
+    if(domain == nullptr) {
+        suanpan_info("disable_object() needs a valid domain.\n");
+        return 0;
+    }
+
+    string object_type;
+    if(!get_input(command, object_type)) {
+        suanpan_info("disable_object() needs object type.\n");
         return 0;
     }
 
     unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_step() requires a tag.\n");
-        return 0;
-    }
-
-    if(is_equal(step_type, "Static")) {
-        auto time = 1.;
-        if(!command.eof() && (command >> time).fail()) {
-            suanpan_info("create_new_step() reads a wrong time period.\n");
-            return 0;
-        }
-        if(model->insert(make_shared<Static>(tag, time))) {
-            model->set_current_step(tag);
-            model->get_current_step()->set_domain(model->get_current_domain());
-        } else
-            suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(is_equal(step_type, "Dynamic")) {
-        auto time = 1.;
-        if(!command.eof() && (command >> time).fail()) {
-            suanpan_info("create_new_step() reads a wrong time period.\n");
-            return 0;
-        }
-        if(model->insert(make_shared<Dynamic>(tag, time))) {
-            model->set_current_step(tag);
-            model->get_current_step()->set_domain(model->get_current_domain());
-        } else
-            suanpan_error("create_new_step() cannot create the new step.\n");
-    } else if(is_equal(step_type, "ArcLength")) {
-        unsigned node;
-        if((command >> node).fail()) {
-            suanpan_info("create_new_step() requires a node.\n");
-            return 0;
-        }
-
-        unsigned dof;
-        if((command >> dof).fail()) {
-            suanpan_info("create_new_step() requires a dof.\n");
-            return 0;
-        }
-
-        double magnitude;
-        if((command >> magnitude).fail()) {
-            suanpan_info("create_new_step() requires a magnitude.\n");
-            return 0;
-        }
-
-        if(model->insert(make_shared<ArcLength>(tag, node, dof, magnitude))) {
-            model->set_current_step(tag);
-            model->get_current_step()->set_domain(model->get_current_domain());
-        } else
-            suanpan_error("create_new_step() cannot create the new step.\n");
-    } else
-        suanpan_info("create_new_step() cannot identify step type.\n");
+    if(object_type == "domain")
+        while(get_input(command, tag)) model->disable_domain(tag);
+    else if(object_type == "step")
+        while(get_input(command, tag)) domain->disable_step(tag);
+    else if(object_type == "converger")
+        while(get_input(command, tag)) domain->disable_converger(tag);
+    else if(object_type == "bc")
+        while(get_input(command, tag)) domain->disable_constraint(tag);
+    else if(object_type == "constraint")
+        while(get_input(command, tag)) domain->disable_constraint(tag);
+    else if(object_type == "element")
+        while(get_input(command, tag)) domain->disable_element(tag);
+    else if(object_type == "load")
+        while(get_input(command, tag)) domain->disable_load(tag);
+    else if(object_type == "material")
+        while(get_input(command, tag)) domain->disable_material(tag);
+    else if(object_type == "node")
+        while(get_input(command, tag)) domain->disable_node(tag);
+    else if(object_type == "recorder")
+        while(get_input(command, tag)) domain->disable_recorder(tag);
 
     return 0;
 }
 
-int create_new_converger(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& t_step = get_current_step(model);
-    if(t_step == nullptr) {
-        suanpan_info("create_new_converger() needs a valid step.\n");
+int enable_object(const shared_ptr<Bead>& model, istringstream& command) {
+    const auto& domain = get_current_domain(model);
+    if(domain == nullptr) {
+        suanpan_info("enable_object() needs a valid domain.\n");
         return 0;
     }
 
-    string converger_id;
-    if((command >> converger_id).fail()) {
-        suanpan_info("create_new_converger() requires converger type.\n");
+    string object_type;
+    if((command >> object_type).fail()) {
+        suanpan_info("enable_object() needs object type.\n");
         return 0;
     }
 
     unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_converger() requires a tag.\n");
-        return 0;
-    }
-
-    auto tolerance = 1E-8;
-    if(!command.eof() && (command >> tolerance).fail()) {
-        suanpan_info("create_new_converger() reads wrong tolerance.\n");
-        return 0;
-    }
-
-    auto max_iteration = 10;
-    if(!command.eof() && (command >> max_iteration).fail()) {
-        suanpan_info("create_new_converger() reads wrong max iteration.\n");
-        return 0;
-    }
-
-    auto print_flag = 0;
-    if(!command.eof() && (command >> print_flag).fail()) {
-        suanpan_info("create_new_converger() reads wrong print flag.\n");
-        return 0;
-    }
-
-    if(is_equal(converger_id, "AbsResidual")) {
-        if(model->insert(make_shared<AbsResidual>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(is_equal(converger_id, "RelResidual")) {
-        if(model->insert(make_shared<RelResidual>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(is_equal(converger_id, "AbsIncreDisp")) {
-        if(model->insert(make_shared<AbsIncreDisp>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(is_equal(converger_id, "RelIncreDisp")) {
-        if(model->insert(make_shared<RelIncreDisp>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(is_equal(converger_id, "AbsIncreEnergy")) {
-        if(model->insert(make_shared<AbsIncreEnergy>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else if(is_equal(converger_id, "RelIncreEnergy")) {
-        if(model->insert(make_shared<RelIncreEnergy>(tag, tolerance, max_iteration, !!print_flag)))
-            t_step->set_converger(model->get_converger(tag));
-        else
-            suanpan_info("create_new_converger() fails to create the new converger.\n");
-    } else
-        suanpan_info("create_new_converger() cannot identify the converger type.\n");
+    if(object_type == "domain")
+        while(get_input(command, tag)) model->enable_domain(tag);
+    else if(object_type == "step")
+        while(get_input(command, tag)) domain->enable_step(tag);
+    else if(object_type == "converger")
+        while(get_input(command, tag)) domain->enable_converger(tag);
+    else if(object_type == "bc")
+        while(get_input(command, tag)) domain->enable_constraint(tag);
+    else if(object_type == "constraint")
+        while(get_input(command, tag)) domain->enable_constraint(tag);
+    else if(object_type == "element")
+        while(get_input(command, tag)) domain->enable_element(tag);
+    else if(object_type == "load")
+        while(get_input(command, tag)) domain->enable_load(tag);
+    else if(object_type == "material")
+        while(get_input(command, tag)) domain->enable_material(tag);
+    else if(object_type == "node")
+        while(get_input(command, tag)) domain->enable_node(tag);
+    else if(object_type == "recorder")
+        while(get_input(command, tag)) domain->enable_recorder(tag);
 
     return 0;
 }
 
-int create_new_solver(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& tmp_step = get_current_step(model);
-    if(tmp_step == nullptr) {
-        suanpan_info("create_new_solver() needs a valid step.\n");
+int erase_object(const shared_ptr<Bead>& model, istringstream& command) {
+    const auto& domain = get_current_domain(model);
+    if(domain == nullptr) {
+        suanpan_info("erase_object() needs a valid domain.\n");
         return 0;
     }
 
-    string solver_type;
-    if((command >> solver_type).fail()) {
-        suanpan_info("create_new_solver() requires solver type.\n");
+    string object_type;
+    if((command >> object_type).fail()) {
+        suanpan_info("erase_object() needs object type.\n");
         return 0;
     }
 
     unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_solver() requires a tag.\n");
-        return 0;
-    }
-
-    if(is_equal(solver_type, "Newton")) {
-        if(model->insert(make_shared<Newton>(tag)))
-            tmp_step->set_solver(model->get_solver(tag));
-        else
-            suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else if(is_equal(solver_type, "BFGS")) {
-        if(model->insert(make_shared<BFGS>(tag)))
-            tmp_step->set_solver(model->get_solver(tag));
-        else
-            suanpan_error("create_new_solver() cannot create the new solver.\n");
-    } else
-        suanpan_error("create_new_solver() cannot identify solver type.\n");
+    if(object_type == "domain")
+        while(get_input(command, tag)) model->erase_domain(tag);
+    else if(object_type == "step")
+        while(get_input(command, tag)) domain->erase_step(tag);
+    else if(object_type == "converger")
+        while(get_input(command, tag)) domain->erase_converger(tag);
+    else if(object_type == "bc")
+        while(get_input(command, tag)) domain->erase_constraint(tag);
+    else if(object_type == "constraint")
+        while(get_input(command, tag)) domain->erase_constraint(tag);
+    else if(object_type == "element")
+        while(get_input(command, tag)) domain->erase_element(tag);
+    else if(object_type == "load")
+        while(get_input(command, tag)) domain->erase_load(tag);
+    else if(object_type == "material")
+        while(get_input(command, tag)) domain->erase_material(tag);
+    else if(object_type == "node")
+        while(get_input(command, tag)) domain->erase_node(tag);
+    else if(object_type == "recorder")
+        while(get_input(command, tag)) domain->erase_recorder(tag);
 
     return 0;
 }
 
-int create_new_bc(const shared_ptr<Bead>& model, istringstream& command) {
+int save_object(const shared_ptr<Bead>& model, istringstream& command) {
+    const auto& domain = get_current_domain(model);
+    if(domain == nullptr) {
+        suanpan_info("erase_object() needs a valid domain.\n");
+        return 0;
+    }
+
+    string object_id;
+    if(!get_input(command, object_id)) {
+        suanpan_info("save_object() needs a valid object type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("save_object() needs a valid tag.\n");
+        return 0;
+    }
+
+    if(is_equal(object_id, "Recorder") && domain->find_recorder(tag)) domain->get_recorder(tag)->save();
+
+    return 0;
+}
+
+int create_new_bc(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned bc_id;
-    if((command >> bc_id).fail()) {
+    if(!get_input(command, bc_id)) {
         suanpan_info("create_new_bc() needs BC type.\n");
         return 0;
     }
 
     string dof_id;
-    if((command >> dof_id).fail()) {
+    if(!get_input(command, dof_id)) {
         suanpan_info("create_new_bc() needs valid DoFs.\n");
         return 0;
     }
 
     unsigned node;
     vector<uword> node_tag;
-    while(!(command >> node).fail()) node_tag.push_back(node);
+    while(get_input(command, node)) node_tag.push_back(node);
 
-    const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step_tag();
+    const auto& step_tag = domain->get_current_step_tag();
 
     const auto bc_type = tolower(dof_id[0]);
     if(bc_type == 'p')
@@ -368,21 +333,21 @@ int create_new_bc(const shared_ptr<Bead>& model, istringstream& command) {
     return 0;
 }
 
-int create_new_cload(const shared_ptr<Bead>& model, istringstream& command) {
+int create_new_cload(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned load_id;
-    if((command >> load_id).fail()) {
+    if(!get_input(command, load_id)) {
         suanpan_info("create_new_cload() needs a tag.\n");
         return 0;
     }
 
     double magnitude;
-    if((command >> magnitude).fail()) {
+    if(!get_input(command, magnitude)) {
         suanpan_info("create_new_cload() needs load magnitude.\n");
         return 0;
     }
 
     unsigned dof_id;
-    if((command >> dof_id).fail()) {
+    if(!get_input(command, dof_id)) {
         suanpan_info("create_new_cload() needs a valid DoF.\n");
         return 0;
     }
@@ -391,29 +356,133 @@ int create_new_cload(const shared_ptr<Bead>& model, istringstream& command) {
     vector<uword> node_tag;
     while(get_input(command, node)) node_tag.push_back(node);
 
-    const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step_tag();
+    const auto& step_tag = domain->get_current_step_tag();
 
     if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_cload() fails to create new load.\n");
 
     return 0;
 }
 
-int create_new_dispload(const shared_ptr<Bead>& model, istringstream& command) {
+int create_new_converger(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    if(domain->get_current_step_tag() == 0) {
+        suanpan_info("create_new_converger() needs a valid step.\n");
+        return 0;
+    }
+
+    string converger_id;
+    if(!get_input(command, converger_id)) {
+        suanpan_info("create_new_converger() requires converger type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("create_new_converger() requires a tag.\n");
+        return 0;
+    }
+
+    auto tolerance = 1E-6;
+    if(!command.eof() && !get_input(command, tolerance)) {
+        suanpan_info("create_new_converger() reads wrong tolerance.\n");
+        return 0;
+    }
+
+    auto max_iteration = 10;
+    if(!command.eof() && !get_input(command, max_iteration)) {
+        suanpan_info("create_new_converger() reads wrong max iteration.\n");
+        return 0;
+    }
+
+    auto print_flag = 0;
+    if(!command.eof() && !get_input(command, print_flag)) {
+        suanpan_info("create_new_converger() reads wrong print flag.\n");
+        return 0;
+    }
+
+    auto code = 0;
+    if(is_equal(converger_id, "AbsResidual")) {
+        if(domain->insert(make_shared<AbsResidual>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else if(is_equal(converger_id, "RelResidual")) {
+        if(domain->insert(make_shared<RelResidual>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else if(is_equal(converger_id, "AbsIncreDisp")) {
+        if(domain->insert(make_shared<AbsIncreDisp>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else if(is_equal(converger_id, "RelIncreDisp")) {
+        if(domain->insert(make_shared<RelIncreDisp>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else if(is_equal(converger_id, "AbsIncreEnergy")) {
+        if(domain->insert(make_shared<AbsIncreEnergy>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else if(is_equal(converger_id, "RelIncreEnergy")) {
+        if(domain->insert(make_shared<RelIncreEnergy>(tag, tolerance, max_iteration, !!print_flag))) code = 1;
+    } else
+        suanpan_info("create_new_converger() cannot identify the converger type.\n");
+
+    if(code == 1)
+        domain->set_current_converger_tag(tag);
+    else
+        suanpan_info("create_new_converger() fails to create the new converger.\n");
+
+    return 0;
+}
+
+int create_new_criterion(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    const auto& step_tag = domain->get_current_step_tag();
+    if(step_tag == 0) {
+        suanpan_info("create_new_criterion() needs a valid step.\n");
+        return 0;
+    }
+
+    string criterion_type;
+    if(!get_input(command, criterion_type)) {
+        suanpan_info("create_new_criterion() need a criterion type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("create_new_criterion() requires a tag.\n");
+        return 0;
+    }
+
+    unsigned node;
+    if(!get_input(command, node)) {
+        suanpan_info("create_new_criterion() requires a node.\n");
+        return 0;
+    }
+
+    unsigned dof;
+    if(!get_input(command, dof)) {
+        suanpan_info("create_new_criterion() requires a dof.\n");
+        return 0;
+    }
+
+    double limit;
+    if(!get_input(command, limit)) {
+        suanpan_info("create_new_criterion() requires a limit.\n");
+        return 0;
+    }
+
+    if(is_equal(criterion_type, "MaxDisplacement"))
+        domain->insert(make_shared<MaxDisplacement>(tag, step_tag, node, dof, limit));
+    else if(is_equal(criterion_type, "MinDisplacement"))
+        domain->insert(make_shared<MinDisplacement>(tag, step_tag, node, dof, limit));
+
+    return 0;
+}
+
+int create_new_dispload(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned load_id;
-    if((command >> load_id).fail()) {
+    if(!get_input(command, load_id)) {
         suanpan_info("create_new_dispload() needs a tag.\n");
         return 0;
     }
 
     double magnitude;
-    if((command >> magnitude).fail()) {
+    if(!get_input(command, magnitude)) {
         suanpan_info("create_new_dispload() needs load magnitude.\n");
         return 0;
     }
 
     unsigned dof_id;
-    if((command >> dof_id).fail()) {
+    if(!get_input(command, dof_id)) {
         suanpan_info("create_new_dispload() needs a valid DoF.\n");
         return 0;
     }
@@ -422,196 +491,16 @@ int create_new_dispload(const shared_ptr<Bead>& model, istringstream& command) {
     vector<uword> node_tag;
     while(get_input(command, node)) node_tag.push_back(node);
 
-    const auto& domain = model->get_current_domain();
-    const auto& step_tag = model->get_current_step_tag();
+    const auto& step_tag = domain->get_current_step_tag();
 
     if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
 
     return 0;
 }
 
-int create_new_criterion(const shared_ptr<Bead>& model, istringstream& command) {
-    string criterion_type;
-    if(!get_input(command, criterion_type)) {
-        suanpan_info("create_new_criterion() need a criterion type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_criterion() requires a tag.\n");
-        return 0;
-    }
-
-    unsigned node;
-    if((command >> node).fail()) {
-        suanpan_info("create_new_criterion() requires a node.\n");
-        return 0;
-    }
-
-    unsigned dof;
-    if((command >> dof).fail()) {
-        suanpan_info("create_new_criterion() requires a dof.\n");
-        return 0;
-    }
-
-    double limit;
-    if((command >> limit).fail()) {
-        suanpan_info("create_new_criterion() requires a limit.\n");
-        return 0;
-    }
-
-    auto& domain = model->get_current_domain();
-    if(is_equal(criterion_type, "MaxDisplacement"))
-        domain->insert(make_shared<MaxDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
-    else if(is_equal(criterion_type, "MinDisplacement"))
-        domain->insert(make_shared<MinDisplacement>(tag, model->get_current_step_tag(), node, dof, limit));
-
-    return 0;
-}
-
-int set_property(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& tmp_step = get_current_step(model);
-    if(tmp_step == nullptr) return 0;
-
-    string property_id;
-    if(!get_input(command, property_id)) {
-        suanpan_info("set_property() need a property type.\n");
-        return 0;
-    }
-
-    string value;
-    if(is_equal(property_id, "fixed_step_size"))
-        if(get_input(command, value))
-            tmp_step->set_fixed_step_size(is_true(value));
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    else if(is_equal(property_id, "symm_mat"))
-        if(get_input(command, value))
-            tmp_step->set_symm(is_true(value));
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    else if(is_equal(property_id, "band_mat"))
-        if(get_input(command, value))
-            tmp_step->set_band(is_true(value));
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    else if(is_equal(property_id, "ini_step_size")) {
-        double step_time;
-        if(get_input(command, step_time))
-            tmp_step->set_ini_step_size(step_time);
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    } else if(is_equal(property_id, "min_step_size")) {
-        double step_time;
-        if(get_input(command, step_time))
-            tmp_step->set_min_step_size(step_time);
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    } else if(is_equal(property_id, "max_step_size")) {
-        double step_time;
-        if(get_input(command, step_time))
-            tmp_step->set_max_step_size(step_time);
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    } else if(is_equal(property_id, "max_iteration")) {
-        unsigned max_number;
-        if(get_input(command, max_number))
-            tmp_step->set_max_substep(max_number);
-        else
-            suanpan_info("set_property() need a valid value.\n");
-    }
-
-    return 0;
-}
-
-int save_object(const shared_ptr<Bead>& model, istringstream& command) {
-    auto& domain = model->get_current_domain();
-
-    string object_id;
-    if(!get_input(command, object_id)) {
-        suanpan_info("save_object() needs a valid object type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if(!get_input(command, tag)) {
-        suanpan_info("save_object() needs a valid tag.\n");
-        return 0;
-    }
-
-    if(is_equal(object_id, "Recorder") && domain->find_recorder(tag)) domain->get_recorder(tag)->save();
-
-    return 0;
-}
-
-int create_new_node(const shared_ptr<Domain>& domain, istringstream& command) {
-    unsigned node_id;
-    if((command >> node_id).fail()) {
-        suanpan_info("create_new_node() needs a tag.\n");
-        return 0;
-    }
-
-    vector<double> coor;
-    double X;
-    while(get_input(command, X)) coor.push_back(X);
-
-    if(!domain->insert(make_shared<Node>(node_id, vec(coor)))) suanpan_debug("create_new_node() fails to insert Node %u.\n", node_id);
-
-    return 0;
-}
-
-int create_new_material(const shared_ptr<Domain>& domain, istringstream& command) {
-    string material_id;
-    if((command >> material_id).fail()) {
-        suanpan_info("create_new_material() needs a tag.\n");
-        return 0;
-    }
-
-    unique_ptr<Material> new_material = nullptr;
-
-    if(is_equal(material_id, "Elastic1D"))
-        new_elastic1d(new_material, command);
-    else if(is_equal(material_id, "Elastic2D"))
-        new_elastic2d(new_material, command);
-    else if(is_equal(material_id, "Elastic3D"))
-        new_elastic3d(new_material, command);
-    else if(is_equal(material_id, "Bilinear1D"))
-        new_bilinear1d(new_material, command);
-    else if(is_equal(material_id, "Bilinear2D"))
-        new_bilinear2d(new_material, command);
-    else if(is_equal(material_id, "Bilinear3D"))
-        new_bilinear3d(new_material, command);
-    else if(is_equal(material_id, "MPF"))
-        new_mpf(new_material, command);
-    else {
-        // check if the library is already loaded
-        auto code = 0;
-        for(const auto& I : domain->get_external_module_pool())
-            if(I->library_name == material_id) {
-                code = 1;
-                break;
-            }
-
-        // not loaded then try load it
-        if(code == 0 && domain->insert(make_shared<ExternalModule>(material_id))) code = 1;
-
-        // if loaded find corresponding function
-        if(code == 1)
-            for(const auto& I : domain->get_external_module_pool()) {
-                if(I->locate_module(material_id)) I->new_object(new_material, command);
-                if(new_material != nullptr) break;
-            }
-    }
-
-    if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
-
-    return 0;
-}
-
-int create_new_element(const shared_ptr<Domain>& domain, istringstream& command) {
+int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& command) {
     string element_id;
-    if((command >> element_id).fail()) {
+    if(!get_input(command, element_id)) {
         suanpan_info("create_new_element() needs element type.\n");
         return 0;
     }
@@ -665,193 +554,7 @@ int create_new_element(const shared_ptr<Domain>& domain, istringstream& command)
     return 0;
 }
 
-int create_new_recorder(const shared_ptr<Domain>& domain, istringstream& command) {
-    unsigned tag;
-    if((command >> tag).fail()) {
-        suanpan_info("create_new_recorder() needs a valid tag.\n");
-        return 0;
-    }
-
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("create_new_recorder() needs a valid object type.\n");
-        return 0;
-    }
-
-    string variable_type;
-    if((command >> variable_type).fail()) {
-        suanpan_info("create_new_recorder() needs a valid recorder type.\n");
-        return 0;
-    }
-
-    unsigned object_tag;
-    if((command >> object_tag).fail()) {
-        suanpan_info("create_new_recorder() needs a valid object tag.\n");
-        return 0;
-    }
-
-    if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
-
-    return 0;
-}
-
-int print_info(const shared_ptr<Domain>& domain, istringstream& command) {
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("print_info() needs object type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if(object_type == "node")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_node = get_node(domain, tag);
-            if(tmp_node != nullptr) tmp_node->print();
-            suanpan_info("\n");
-        }
-    else if(object_type == "element")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_element = get_element(domain, tag);
-            if(tmp_element != nullptr) tmp_element->print();
-            suanpan_info("\n");
-        }
-    else if(object_type == "material")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_material = get_material(domain, tag);
-            if(tmp_material != nullptr) tmp_material->print();
-            suanpan_info("\n");
-        }
-    else if(object_type == "constraint")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_constraint = get_constraint(domain, tag);
-            if(tmp_constraint != nullptr) tmp_constraint->print();
-            suanpan_info("\n");
-        }
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) {
-            const auto& tmp_recorder = get_recorder(domain, tag);
-            if(tmp_recorder != nullptr) tmp_recorder->print();
-            suanpan_info("\n");
-        }
-
-    return 0;
-}
-
-int enable_object(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& domain = get_current_domain(model);
-    if(domain == nullptr) {
-        suanpan_info("enable_object() needs a valid domain.\n");
-        return 0;
-    }
-
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("enable_object() needs object type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if(object_type == "domain")
-        while(!(command >> tag).fail()) model->enable_domain(tag);
-    else if(object_type == "step")
-        while(!(command >> tag).fail()) model->enable_step(tag);
-    else if(object_type == "converger")
-        while(!(command >> tag).fail()) model->enable_converger(tag);
-    else if(object_type == "bc")
-        while(!(command >> tag).fail()) domain->enable_constraint(tag);
-    else if(object_type == "constraint")
-        while(!(command >> tag).fail()) domain->enable_constraint(tag);
-    else if(object_type == "element")
-        while(!(command >> tag).fail()) domain->enable_element(tag);
-    else if(object_type == "load")
-        while(!(command >> tag).fail()) domain->enable_load(tag);
-    else if(object_type == "material")
-        while(!(command >> tag).fail()) domain->enable_material(tag);
-    else if(object_type == "node")
-        while(!(command >> tag).fail()) domain->enable_node(tag);
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) domain->enable_recorder(tag);
-
-    return 0;
-}
-
-int disable_object(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& domain = get_current_domain(model);
-    if(domain == nullptr) {
-        suanpan_info("disable_object() needs a valid domain.\n");
-        return 0;
-    }
-
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("disable_object() needs object type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if(object_type == "domain")
-        while(!(command >> tag).fail()) model->disable_domain(tag);
-    else if(object_type == "step")
-        while(!(command >> tag).fail()) model->disable_step(tag);
-    else if(object_type == "converger")
-        while(!(command >> tag).fail()) model->disable_converger(tag);
-    else if(object_type == "bc")
-        while(!(command >> tag).fail()) domain->disable_constraint(tag);
-    else if(object_type == "constraint")
-        while(!(command >> tag).fail()) domain->disable_constraint(tag);
-    else if(object_type == "element")
-        while(!(command >> tag).fail()) domain->disable_element(tag);
-    else if(object_type == "load")
-        while(!(command >> tag).fail()) domain->disable_load(tag);
-    else if(object_type == "material")
-        while(!(command >> tag).fail()) domain->disable_material(tag);
-    else if(object_type == "node")
-        while(!(command >> tag).fail()) domain->disable_node(tag);
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) domain->disable_recorder(tag);
-
-    return 0;
-}
-
-int erase_object(const shared_ptr<Bead>& model, istringstream& command) {
-    const auto& domain = get_current_domain(model);
-    if(domain == nullptr) {
-        suanpan_info("erase_object() needs a valid domain.\n");
-        return 0;
-    }
-
-    string object_type;
-    if((command >> object_type).fail()) {
-        suanpan_info("erase_object() needs object type.\n");
-        return 0;
-    }
-
-    unsigned tag;
-    if(object_type == "domain")
-        while(!(command >> tag).fail()) model->erase_domain(tag);
-    else if(object_type == "step")
-        while(!(command >> tag).fail()) model->erase_step(tag);
-    else if(object_type == "converger")
-        while(!(command >> tag).fail()) model->erase_converger(tag);
-    else if(object_type == "bc")
-        while(!(command >> tag).fail()) domain->erase_constraint(tag);
-    else if(object_type == "constraint")
-        while(!(command >> tag).fail()) domain->erase_constraint(tag);
-    else if(object_type == "element")
-        while(!(command >> tag).fail()) domain->erase_element(tag);
-    else if(object_type == "load")
-        while(!(command >> tag).fail()) domain->erase_load(tag);
-    else if(object_type == "material")
-        while(!(command >> tag).fail()) domain->erase_material(tag);
-    else if(object_type == "node")
-        while(!(command >> tag).fail()) domain->erase_node(tag);
-    else if(object_type == "recorder")
-        while(!(command >> tag).fail()) domain->erase_recorder(tag);
-
-    return 0;
-}
-
-int create_new_external_module(const shared_ptr<Domain>& domain, istringstream& command) {
+int create_new_external_module(const shared_ptr<DomainBase>& domain, istringstream& command) {
     string library_name;
 
     if(!get_input(command, library_name)) {
@@ -867,6 +570,278 @@ int create_new_external_module(const shared_ptr<Domain>& domain, istringstream& 
         }
 
     if(code == 0) domain->insert(make_shared<ExternalModule>(library_name));
+
+    return 0;
+}
+
+int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string material_id;
+    if(!get_input(command, material_id)) {
+        suanpan_info("create_new_material() needs a tag.\n");
+        return 0;
+    }
+
+    unique_ptr<Material> new_material = nullptr;
+
+    if(is_equal(material_id, "Elastic1D"))
+        new_elastic1d(new_material, command);
+    else if(is_equal(material_id, "Elastic2D"))
+        new_elastic2d(new_material, command);
+    else if(is_equal(material_id, "Elastic3D"))
+        new_elastic3d(new_material, command);
+    else if(is_equal(material_id, "Bilinear1D"))
+        new_bilinear1d(new_material, command);
+    else if(is_equal(material_id, "Bilinear2D"))
+        new_bilinear2d(new_material, command);
+    else if(is_equal(material_id, "Bilinear3D"))
+        new_bilinear3d(new_material, command);
+    else if(is_equal(material_id, "MPF"))
+        new_mpf(new_material, command);
+    else {
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == material_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(material_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(material_id)) I->new_object(new_material, command);
+                if(new_material != nullptr) break;
+            }
+    }
+
+    if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
+
+    return 0;
+}
+
+int create_new_node(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    unsigned node_id;
+    if(!get_input(command, node_id)) {
+        suanpan_info("create_new_node() needs a tag.\n");
+        return 0;
+    }
+
+    vector<double> coor;
+    double X;
+    while(get_input(command, X)) coor.push_back(X);
+
+    if(!domain->insert(make_shared<Node>(node_id, vec(coor)))) suanpan_debug("create_new_node() fails to insert Node %u.\n", node_id);
+
+    return 0;
+}
+
+int create_new_recorder(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("create_new_recorder() needs a valid tag.\n");
+        return 0;
+    }
+
+    string object_type;
+    if(!get_input(command, object_type)) {
+        suanpan_info("create_new_recorder() needs a valid object type.\n");
+        return 0;
+    }
+
+    string variable_type;
+    if(!get_input(command, variable_type)) {
+        suanpan_info("create_new_recorder() needs a valid recorder type.\n");
+        return 0;
+    }
+
+    unsigned object_tag;
+    if(!get_input(command, object_tag)) {
+        suanpan_info("create_new_recorder() needs a valid object tag.\n");
+        return 0;
+    }
+
+    if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+
+    return 0;
+}
+
+int create_new_solver(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    const auto& step_tag = domain->get_current_step_tag();
+    if(step_tag == 0) {
+        suanpan_info("create_new_solver() needs a valid step.\n");
+        return 0;
+    }
+
+    string solver_type;
+    if((command >> solver_type).fail()) {
+        suanpan_info("create_new_solver() requires solver type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if((command >> tag).fail()) {
+        suanpan_info("create_new_solver() requires a tag.\n");
+        return 0;
+    }
+
+    auto code = 0;
+    if(is_equal(solver_type, "Newton")) {
+        if(domain->insert(make_shared<Newton>(tag))) code = 1;
+    } else if(is_equal(solver_type, "BFGS")) {
+        if(domain->insert(make_shared<BFGS>(tag))) code = 1;
+    } else if(is_equal(solver_type, "Ramm")) {
+        if(domain->insert(make_shared<Ramm>(tag))) code = 1;
+    } else
+        suanpan_error("create_new_solver() cannot identify solver type.\n");
+
+    if(code == 1)
+        domain->set_current_solver_tag(tag);
+    else
+        suanpan_error("create_new_solver() cannot create the new solver.\n");
+
+    return 0;
+}
+
+int create_new_step(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string step_type;
+    if(!get_input(command, step_type)) {
+        suanpan_info("create_new_step() requires step type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("create_new_step() requires a tag.\n");
+        return 0;
+    }
+
+    if(is_equal(step_type, "Static")) {
+        auto time = 1.;
+        if(!command.eof() && !get_input(command, time)) {
+            suanpan_info("create_new_step() reads a wrong time period.\n");
+            return 0;
+        }
+        if(domain->insert(make_shared<Static>(tag, time)))
+            domain->set_current_step_tag(tag);
+        else
+            suanpan_error("create_new_step() cannot create the new step.\n");
+    } else if(is_equal(step_type, "Dynamic")) {
+        auto time = 1.;
+        if(!command.eof() && !get_input(command, time)) {
+            suanpan_info("create_new_step() reads a wrong time period.\n");
+            return 0;
+        }
+        if(domain->insert(make_shared<Dynamic>(tag, time)))
+            domain->set_current_step_tag(tag);
+        else
+            suanpan_error("create_new_step() cannot create the new step.\n");
+    } else if(is_equal(step_type, "ArcLength")) {
+        unsigned node;
+        if(!get_input(command, node)) {
+            suanpan_info("create_new_step() requires a node.\n");
+            return 0;
+        }
+
+        unsigned dof;
+        if(!get_input(command, dof)) {
+            suanpan_info("create_new_step() requires a dof.\n");
+            return 0;
+        }
+
+        double magnitude;
+        if(!get_input(command, magnitude)) {
+            suanpan_info("create_new_step() requires a magnitude.\n");
+            return 0;
+        }
+
+        if(domain->insert(make_shared<ArcLength>(tag, node, dof, magnitude)))
+            domain->set_current_step_tag(tag);
+        else
+            suanpan_error("create_new_step() cannot create the new step.\n");
+    } else
+        suanpan_info("create_new_step() cannot identify step type.\n");
+
+    return 0;
+}
+
+int set_property(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    if(domain->get_current_step_tag() == 0) return 0;
+
+    const auto& tmp_step = domain->get_current_step();
+
+    string property_id;
+    if(!get_input(command, property_id)) {
+        suanpan_info("set_property() need a property type.\n");
+        return 0;
+    }
+
+    if(is_equal(property_id, "fixed_step_size")) {
+        string value;
+        get_input(command, value) ? tmp_step->set_fixed_step_size(is_true(value)) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "symm_mat")) {
+        string value;
+        get_input(command, value) ? tmp_step->set_symm(is_true(value)) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "band_mat")) {
+        string value;
+        get_input(command, value) ? tmp_step->set_band(is_true(value)) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "ini_step_size")) {
+        double step_time;
+        get_input(command, step_time) ? tmp_step->set_ini_step_size(step_time) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "min_step_size")) {
+        double step_time;
+        get_input(command, step_time) ? tmp_step->set_min_step_size(step_time) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "max_step_size")) {
+        double step_time;
+        get_input(command, step_time) ? tmp_step->set_max_step_size(step_time) : suanpan_info("set_property() need a valid value.\n");
+    } else if(is_equal(property_id, "max_iteration")) {
+        unsigned max_number;
+        get_input(command, max_number) ? tmp_step->set_max_substep(max_number) : suanpan_info("set_property() need a valid value.\n");
+    }
+
+    return 0;
+}
+
+int print_info(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string object_type;
+    if((command >> object_type).fail()) {
+        suanpan_info("print_info() needs object type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(object_type == "node")
+        while(get_input(command, tag)) {
+            const auto& tmp_node = get_node(domain, tag);
+            if(tmp_node != nullptr) tmp_node->print();
+            suanpan_info("\n");
+        }
+    else if(object_type == "element")
+        while(get_input(command, tag)) {
+            const auto& tmp_element = get_element(domain, tag);
+            if(tmp_element != nullptr) tmp_element->print();
+            suanpan_info("\n");
+        }
+    else if(object_type == "material")
+        while(get_input(command, tag)) {
+            const auto& tmp_material = get_material(domain, tag);
+            if(tmp_material != nullptr) tmp_material->print();
+            suanpan_info("\n");
+        }
+    else if(object_type == "constraint")
+        while(get_input(command, tag)) {
+            const auto& tmp_constraint = get_constraint(domain, tag);
+            if(tmp_constraint != nullptr) tmp_constraint->print();
+            suanpan_info("\n");
+        }
+    else if(object_type == "recorder")
+        while(get_input(command, tag)) {
+            const auto& tmp_recorder = get_recorder(domain, tag);
+            if(tmp_recorder != nullptr) tmp_recorder->print();
+            suanpan_info("\n");
+        }
 
     return 0;
 }
