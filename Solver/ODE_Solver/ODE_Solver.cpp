@@ -73,7 +73,7 @@ int ODE_Solver::analyze() {
     while(time_left > 0.) {
         factory->update_incre_time(step);
         if(update_status() != 0) return -1;
-        if(tmp_converger->if_converged()) {
+        if(tmp_converger->is_converged()) {
             factory->commit_status();
             time_left -= step;
         }

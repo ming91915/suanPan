@@ -22,7 +22,7 @@
 RelResidual::RelResidual(const unsigned& T, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_RELRESIDUAL, E, M, P) {}
 
-const bool& RelResidual::if_converged() {
+const bool& RelResidual::is_converged() {
     const auto& D = get_domain().lock();
     auto& W = D->get_factory();
 
@@ -30,7 +30,7 @@ const bool& RelResidual::if_converged() {
 
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("relative residual: %.5E.\n", get_error());
+    if(is_print()) suanpan_info("relative residual: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

@@ -103,13 +103,13 @@ const bool& Converger::get_conv_flag() const { return conv_flag; }
  * \brief Method to return `print_flag`.
  * \return `print_flag`
  */
-const bool& Converger::if_print() const { return print_flag; }
+const bool& Converger::is_print() const { return print_flag; }
 
 /**
  * \brief Method to return `conv_flag`.
  * \return `conv_flag`
  */
-const bool& Converger::if_converged() {
+const bool& Converger::is_converged() {
     conv_flag = false;
     return conv_flag;
 }

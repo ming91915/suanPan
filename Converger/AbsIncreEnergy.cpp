@@ -33,7 +33,7 @@ AbsIncreEnergy::AbsIncreEnergy(const unsigned& T, const double& E, const unsigne
  * \brief
  * \return
  */
-const bool& AbsIncreEnergy::if_converged() {
+const bool& AbsIncreEnergy::is_converged() {
     const auto& D = get_domain().lock();
     auto& W = D->get_factory();
 
@@ -41,7 +41,7 @@ const bool& AbsIncreEnergy::if_converged() {
 
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("absolute energy increment error: %.5E.\n", get_error());
+    if(is_print()) suanpan_info("absolute energy increment error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

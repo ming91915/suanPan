@@ -33,11 +33,11 @@ AbsDisp::AbsDisp(const unsigned& T, const double& E, const unsigned& M, const bo
  * \brief
  * \return
  */
-const bool& AbsDisp::if_converged() {
+const bool& AbsDisp::is_converged() {
     set_error(norm(get_domain().lock()->get_factory()->get_incre_displacement()));
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("absolute displacement error: %.5E.\n", get_error());
+    if(is_print()) suanpan_info("absolute displacement error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

@@ -70,9 +70,9 @@ public:
     void set_conv_flag(const bool&);
     const bool& get_conv_flag() const;
 
-    const bool& if_print() const;
+    const bool& is_print() const;
 
-    virtual const bool& if_converged() = 0;
+    virtual const bool& is_converged() = 0;
 };
 
 #endif

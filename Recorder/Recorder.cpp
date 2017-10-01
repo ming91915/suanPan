@@ -51,6 +51,8 @@ const vector<double>& Recorder::get_time_pool() const { return time_pool; }
 
 void Recorder::save() {
 #ifndef SUANPAN_NO_HDF5
+    if(time_pool.empty()) return;
+
     ostringstream file_name;
 
     file_name << to_char(variable_type) << object_tag;

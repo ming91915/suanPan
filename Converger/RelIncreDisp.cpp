@@ -22,13 +22,13 @@
 RelIncreDisp::RelIncreDisp(const unsigned& T, const double& E, const unsigned& M, const bool& P)
     : Converger(T, CT_RELINCREDISP, E, M, P) {}
 
-const bool& RelIncreDisp::if_converged() {
-    const auto& t_factory = get_domain().lock()->get_factory();
+const bool& RelIncreDisp::is_converged() {
+    auto& t_factory = get_domain().lock()->get_factory();
 
     set_error(norm(t_factory->get_ninja()) / norm(t_factory->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());
 
-    if(if_print()) suanpan_info("relative incremental displacement error: %.5E.\n", get_error());
+    if(is_print()) suanpan_info("relative incremental displacement error: %.5E.\n", get_error());
 
     return get_conv_flag();
 }

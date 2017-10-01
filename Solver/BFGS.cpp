@@ -101,7 +101,7 @@ int BFGS::analyze() {
         G->update_trial_status();
 
         // exit if converged
-        if(C->if_converged()) return 0;
+        if(C->is_converged()) return 0;
         // exit if maximum iteration is hit
         if(++counter > max_iteration) return -1;
 

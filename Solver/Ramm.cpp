@@ -48,8 +48,9 @@ int Ramm::analyze() {
         G->assemble_resistance();
         // assemble stiffness
         G->assemble_stiffness();
-        // process constraints and loads
+        // process loads
         G->process_load();
+        // process constraints
         G->process_constraint();
 
         // solve ninja
@@ -98,7 +99,7 @@ int Ramm::analyze() {
             return -1;
         }
         // exit if converged
-        if(C->if_converged()) {
+        if(C->is_converged()) {
             if(!fixed_arc_length) arc_length *= sqrt(max_iteration / double(counter));
             return 0;
         }

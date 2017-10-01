@@ -112,18 +112,22 @@ node 1 0 0
 node 2 1 0
 element Truss2D 1 1 2 1 10
 
+recorder 1 Node U 2
+
 fix 1 1 1
 fix 2 2 1 2
 
 step static 1
-cload 1 25 1 2
+cload 1 40 1 2
 
 step static 2
-cload 2 25 1 2
+cload 2 10 1 2
 
 analyze
 
 peek node 2
+
+save recorder 1
 
 exit
 ```
@@ -138,3 +142,6 @@ Node 2:
 Displacement:
    0.0500        0
 ```
+
+The time against displacement plot can be seen as follows, which is a bilinear curve as expected.
+![Time-Displacement](https://image.ibb.co/bvk5bG/001.png)

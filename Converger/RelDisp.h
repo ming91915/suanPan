@@ -34,7 +34,7 @@ class RelDisp final : public Converger {
 public:
     explicit RelDisp(const unsigned& = 0, const double& = 1E-8, const unsigned& = 7, const bool& = false);
 
-    const bool& if_converged() override;
+    const bool& is_converged() override;
 };
 
 #endif
