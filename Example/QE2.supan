@@ -30,10 +30,10 @@ cload 1 150 2 6 12
 cload 2 -150 2 7
 
 step static 1
-# set ini_step_size 1
 
 analyze
 
+# 98.3718
 peek node 6
 
 exit

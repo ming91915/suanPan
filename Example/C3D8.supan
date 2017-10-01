@@ -93,11 +93,11 @@ fix 1 P 3 4 6 7 27 29
 cload 1 5 2 12 13
 
 step static 1
-set ini_step_size .1
-set fixed_step_size true
+set ini_step_size .2
 
 analyze
 
+# -2.5832 3.9715 -0.0031
 peek node 12
 
 peek element 1

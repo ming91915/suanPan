@@ -231,7 +231,6 @@ cload 1 5 2 12 13
 
 step static 1
 set ini_step_size .01
-set fixed_step_size true
 
 analyze
 

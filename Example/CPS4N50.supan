@@ -5109,18 +5109,11 @@ cload 1 .02 2 102 153 204 255 306 357 408 459 510 561 612 663 714 765 816 867 91
 
 cload 2 .01 2 51 2601
 
-# recorder 1 node U 1326
-
 step static 1
 set ini_step_size .01
-set fixed_step_size true
-
-# solver BFGS 1
 
 analyze
 
 peek node 1326
-
-# peek recorder 1
 
 exit

@@ -33,6 +33,7 @@ step static 1
 
 analyze
 
+# 97.5709
 peek node 6
 
 exit

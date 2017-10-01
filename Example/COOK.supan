@@ -8,7 +8,7 @@ node 7 0 44
 node 8 24 52
 node 9 48 60
 
-material Elastic2D 1 1 0.333333333333
+material Elastic2D 1 1 .333333333333
 
 element Proto01 1 1 2 5 4 1 1
 element Proto01 2 2 3 6 5 1 1
@@ -28,8 +28,6 @@ cload 1 .25 2 3 9
 cload 2 .5 2 6
 
 step static 1
-set ini_step_size .1
-set fixed_step_size true
 
 analyze
 

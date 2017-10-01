@@ -158,12 +158,10 @@ cload 2 .125 2 85 81
 
 step static 1
 set ini_step_size .1
-set fixed_step_size true
 
 analyze
 
 peek node 83
-
 peek element 1
 
 exit
