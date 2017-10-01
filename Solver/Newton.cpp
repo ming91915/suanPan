@@ -27,7 +27,7 @@ Newton::Newton(const unsigned& T)
 int Newton::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
-    const auto& W = G->get_domain()->get_factory().lock();
+    const auto& W = G->get_domain().lock()->get_factory();
 
     // suanpan_info("current step time: %.3E\n", W->get_trial_time());
 

@@ -38,8 +38,8 @@ Newmark::~Newmark() {}
 void Newmark::assemble_resistance() {
     update_parameter();
 
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     D->assemble_resistance();
 
@@ -49,8 +49,8 @@ void Newmark::assemble_resistance() {
 void Newmark::assemble_stiffness() {
     update_parameter();
 
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     D->assemble_mass();
     D->assemble_stiffness();
@@ -60,8 +60,8 @@ void Newmark::assemble_stiffness() {
 }
 
 void Newmark::commit_status() const {
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     W->update_trial_acceleration(C0 * W->get_incre_displacement() - C2 * W->get_current_velocity() - C3 * W->get_current_acceleration());
     W->update_trial_velocity(W->get_current_velocity() + C6 * W->get_current_acceleration() + C7 * W->get_trial_acceleration());
@@ -70,7 +70,7 @@ void Newmark::commit_status() const {
 }
 
 void Newmark::update_parameter() {
-    const auto& W = get_domain()->get_factory().lock();
+    const auto& W = get_domain().lock()->get_factory();
 
     if(DT != W->get_incre_time()) {
         DT = W->get_incre_time();

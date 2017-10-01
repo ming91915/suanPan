@@ -27,7 +27,7 @@ int CentralDifference::initialize() {
     const auto code = Integrator::initialize();
 
     if(code == 0) {
-        const auto& W = get_domain()->get_factory().lock();
+        const auto& W = get_domain().lock()->get_factory();
 
         // const auto eig_val = eig_sym(W->get_mass().i() * W->get_stiffness());
 
@@ -38,7 +38,7 @@ int CentralDifference::initialize() {
 }
 
 void CentralDifference::update_parameter() {
-    const auto& W = get_domain()->get_factory().lock();
+    const auto& W = get_domain().lock()->get_factory();
 
     if(DT != W->get_incre_time() || W->get_pre_displacement().is_empty()) {
         DT = W->get_incre_time();
@@ -56,8 +56,8 @@ void CentralDifference::update_parameter() {
 void CentralDifference::assemble_resistance() {
     update_parameter();
 
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     D->assemble_resistance();
 
@@ -67,8 +67,8 @@ void CentralDifference::assemble_resistance() {
 void CentralDifference::assemble_stiffness() {
     update_parameter();
 
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     D->assemble_mass();
     D->assemble_stiffness();
@@ -78,8 +78,8 @@ void CentralDifference::assemble_stiffness() {
 }
 
 void CentralDifference::commit_status() const {
-    auto& D = get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
 
     W->set_current_velocity(C1 * (W->get_trial_displacement() - W->get_pre_displacement()));
 

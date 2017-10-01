@@ -27,7 +27,7 @@ Ramm::Ramm(const unsigned& T)
 int Ramm::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
-    const auto& W = G->get_domain()->get_factory().lock();
+    const auto& W = G->get_domain().lock()->get_factory();
 
     auto& max_iteration = C->get_max_iteration();
 

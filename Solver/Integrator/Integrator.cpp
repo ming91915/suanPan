@@ -26,14 +26,14 @@ Integrator::Integrator(const unsigned& T, const unsigned& CT)
 
 Integrator::~Integrator() { suanpan_debug("Integrator %u dtor() called.\n", get_tag()); }
 
-void Integrator::set_domain(const shared_ptr<DomainBase>& D) {
-    if(database != D) database = D;
+void Integrator::set_domain(const weak_ptr<DomainBase>& D) {
+    if(database.lock() != D.lock()) database = D;
 }
 
-const shared_ptr<DomainBase>& Integrator::get_domain() const { return database; }
+const weak_ptr<DomainBase>& Integrator::get_domain() const { return database; }
 
 int Integrator::initialize() {
-    if(database == nullptr) {
+    if(database.lock() == nullptr) {
         suanpan_error("initialize() needs a valid domain.\n");
         return -1;
     }
@@ -41,30 +41,30 @@ int Integrator::initialize() {
     return 0;
 }
 
-int Integrator::process_load() const { return database->process_load(); }
+int Integrator::process_load() const { return database.lock()->process_load(); }
 
-int Integrator::process_constraint() const { return database->process_constraint(); }
+int Integrator::process_constraint() const { return database.lock()->process_constraint(); }
 
-int Integrator::process_criterion() const { return database->process_criterion(); }
+int Integrator::process_criterion() const { return database.lock()->process_criterion(); }
 
-void Integrator::record() const { database->record(); }
+void Integrator::record() const { database.lock()->record(); }
 
-void Integrator::assemble_resistance() { database->assemble_resistance(); }
+void Integrator::assemble_resistance() { database.lock()->assemble_resistance(); }
 
-void Integrator::assemble_stiffness() { database->assemble_stiffness(); }
+void Integrator::assemble_stiffness() { database.lock()->assemble_stiffness(); }
 
-void Integrator::update_trial_time(const double& T) const { database->get_factory().lock()->update_trial_time(T); }
+void Integrator::update_trial_time(const double& T) const { database.lock()->get_factory()->update_trial_time(T); }
 
-void Integrator::update_incre_time(const double& T) const { database->get_factory().lock()->update_incre_time(T); }
+void Integrator::update_incre_time(const double& T) const { database.lock()->get_factory()->update_incre_time(T); }
 
-void Integrator::update_trial_status() { database->update_trial_status(); }
+void Integrator::update_trial_status() { database.lock()->update_trial_status(); }
 
-void Integrator::update_incre_status() { database->update_incre_status(); }
+void Integrator::update_incre_status() { database.lock()->update_incre_status(); }
 
-void Integrator::erase_machine_error() const { database->erase_machine_error(); }
+void Integrator::erase_machine_error() const { database.lock()->erase_machine_error(); }
 
-void Integrator::commit_status() const { database->commit_status(); }
+void Integrator::commit_status() const { database.lock()->commit_status(); }
 
-void Integrator::clear_status() const { database->clear_status(); }
+void Integrator::clear_status() const { database.lock()->clear_status(); }
 
-void Integrator::reset_status() const { database->reset_status(); }
+void Integrator::reset_status() const { database.lock()->reset_status(); }

@@ -38,14 +38,14 @@
 class DomainBase;
 
 class Integrator : public Tag {
-    shared_ptr<DomainBase> database = nullptr;
+    weak_ptr<DomainBase> database;
 
 public:
     explicit Integrator(const unsigned& = 0, const unsigned& = CT_INTERGRATOR);
     virtual ~Integrator();
 
-    void set_domain(const shared_ptr<DomainBase>&);
-    const shared_ptr<DomainBase>& get_domain() const;
+    void set_domain(const weak_ptr<DomainBase>&);
+    const weak_ptr<DomainBase>& get_domain() const;
 
     virtual int initialize();
 

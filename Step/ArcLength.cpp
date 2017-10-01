@@ -23,7 +23,7 @@ int ArcLength::initialize() {
 
     auto& t_load_ref = get_reference_load(W);
 
-    auto& dof_anchor = get_domain()->get_node(node)->get_reordered_dof().at(dof - 1);
+    auto& dof_anchor = get_domain().lock()->get_node(node)->get_reordered_dof().at(dof - 1);
 
     t_load_ref(dof_anchor) = maginitude;
 

@@ -27,8 +27,8 @@ BFGS::BFGS(const unsigned& T)
 int BFGS::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
-    auto& D = C->get_domain();
-    const auto& W = D->get_factory().lock();
+    const auto& D = C->get_domain().lock();
+    const auto& W = D->get_factory();
 
     auto& max_iteration = C->get_max_iteration();
 
