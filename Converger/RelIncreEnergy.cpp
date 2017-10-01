@@ -34,7 +34,7 @@ RelIncreEnergy::RelIncreEnergy(const unsigned& T, const double& E, const unsigne
  * \return
  */
 const bool& RelIncreEnergy::if_converged() {
-    auto& D = get_domain();
+    const auto& D = get_domain().lock();
     auto& W = D->get_factory();
 
     set_error(1E6);

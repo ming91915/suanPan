@@ -23,7 +23,7 @@ RelDisp::RelDisp(const unsigned& T, const double& E, const unsigned& M, const bo
     : Converger(T, CT_RELDISP, E, M, P) {}
 
 const bool& RelDisp::if_converged() {
-    const auto& t_factory = get_domain()->get_factory().lock();
+    const auto& t_factory = get_domain().lock()->get_factory();
 
     set_error(norm(t_factory->get_incre_displacement() / t_factory->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());

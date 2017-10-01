@@ -23,7 +23,7 @@ RelIncreDisp::RelIncreDisp(const unsigned& T, const double& E, const unsigned& M
     : Converger(T, CT_RELINCREDISP, E, M, P) {}
 
 const bool& RelIncreDisp::if_converged() {
-    const auto& t_factory = get_domain()->get_factory().lock();
+    const auto& t_factory = get_domain().lock()->get_factory();
 
     set_error(norm(t_factory->get_ninja()) / norm(t_factory->get_trial_displacement()));
     set_conv_flag(get_tolerance() > get_error());

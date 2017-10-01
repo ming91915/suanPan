@@ -23,7 +23,7 @@ RelResidual::RelResidual(const unsigned& T, const double& E, const unsigned& M, 
     : Converger(T, CT_RELRESIDUAL, E, M, P) {}
 
 const bool& RelResidual::if_converged() {
-    auto& D = get_domain();
+    const auto& D = get_domain().lock();
     auto& W = D->get_factory();
 
     set_error(1E6);

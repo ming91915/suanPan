@@ -38,7 +38,7 @@
 class DomainBase;
 
 class Converger : public Tag {
-    shared_ptr<DomainBase> database; /**< pointer to DomainBase */
+    weak_ptr<DomainBase> database; /**< pointer to DomainBase */
 
     double tolerance; /**< tolerance */
 
@@ -61,8 +61,8 @@ public:
     void set_max_iteration(const unsigned&);
     const unsigned& get_max_iteration() const;
 
-    void set_domain(const shared_ptr<DomainBase>&);
-    const shared_ptr<DomainBase>& get_domain() const;
+    void set_domain(const weak_ptr<DomainBase>&);
+    const weak_ptr<DomainBase>& get_domain() const;
 
     void set_error(const double&);
     const double& get_error() const;
