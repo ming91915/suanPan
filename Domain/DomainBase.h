@@ -18,11 +18,11 @@
  * @class DomainBase
  * @brief The DomainBase class is a template.
  *
- * The DomainBase is simply an abstraction of the Domain class. It provides all methods signature that are used in Domain class. The purpose is to split the declaration and implementation apart. As the Domain class is widely used in many other classes. The dependency hierarchy is simplified if DomainBase is used.
+ * The DomainBase is simply an abstraction of the Domain class. It provides all methods signature that are used in Domain class. The purpose is to split the declaration and implementation apart. As the Domain class is widely used in many other classes. The dependency hierarchy is simplified if replaced by the DomainBase.
  *
  * @author T
- * @date 16/09/2017
- * @version 0.1.0
+ * @date 01/10/2017
+ * @version 0.2.0
  * @file DomainBase.h
  * @addtogroup Domain
  * @{
@@ -39,105 +39,177 @@ using std::unordered_set;
 using std::vector;
 
 template <typename T> class Factory;
-class Step;
 class Amplitude;
 class Constraint;
+class Converger;
+class Criterion;
 class Element;
+class ExternalModule;
+class Integrator;
 class Load;
 class Material;
 class Node;
 class Recorder;
-class Criterion;
-class ExternalModule;
+class Solver;
+class Step;
 
-using FacotoryAnchor = weak_ptr<Factory<double>>;
-using StepAnchor = weak_ptr<map<unsigned, shared_ptr<Step>>>;
+using AmplitudeQueue = vector<shared_ptr<Amplitude>>;
+using ConstraintQueue = vector<shared_ptr<Constraint>>;
+using ConvergerQueue = vector<shared_ptr<Converger>>;
+using CriterionQueue = vector<shared_ptr<Criterion>>;
+using ElementQueue = vector<shared_ptr<Element>>;
+using IntegratorQueue = vector<shared_ptr<Integrator>>;
+using LoadQueue = vector<shared_ptr<Load>>;
+using MaterialQueue = vector<shared_ptr<Material>>;
+using NodeQueue = vector<shared_ptr<Node>>;
+using RecorderQueue = vector<shared_ptr<Recorder>>;
+using SolverQueue = vector<shared_ptr<Solver>>;
+using StepQueue = map<unsigned, shared_ptr<Step>>;
+
+using LongFactory = Factory<double>;
 
 class DomainBase : public Tag {
 public:
     explicit DomainBase(const unsigned&);
     virtual ~DomainBase();
 
-    virtual void set_factory(const FacotoryAnchor&) = 0;
-    virtual const FacotoryAnchor& get_factory() const = 0;
-
-    virtual void set_step_anchor(const StepAnchor&) = 0;
-    virtual const StepAnchor& get_step_anchor() = 0;
+    virtual void set_factory(const shared_ptr<LongFactory>&) = 0;
+    virtual const shared_ptr<LongFactory>& get_factory() const = 0;
 
     virtual bool insert(const shared_ptr<ExternalModule>&) = 0;
     virtual const vector<shared_ptr<ExternalModule>>& get_external_module_pool() const = 0;
 
     virtual bool insert(const shared_ptr<Amplitude>&) = 0;
     virtual bool insert(const shared_ptr<Constraint>&) = 0;
+    virtual bool insert(const shared_ptr<Converger>&) = 0;
+    virtual bool insert(const shared_ptr<Criterion>&) = 0;
     virtual bool insert(const shared_ptr<Element>&) = 0;
+    virtual bool insert(const shared_ptr<Integrator>&) = 0;
     virtual bool insert(const shared_ptr<Load>&) = 0;
     virtual bool insert(const shared_ptr<Material>&) = 0;
     virtual bool insert(const shared_ptr<Node>&) = 0;
     virtual bool insert(const shared_ptr<Recorder>&) = 0;
-    virtual bool insert(const shared_ptr<Criterion>&) = 0;
+    virtual bool insert(const shared_ptr<Solver>&) = 0;
+    virtual bool insert(const shared_ptr<Step>&) = 0;
 
     virtual bool erase_amplitude(const unsigned&) = 0;
     virtual bool erase_constraint(const unsigned&) = 0;
+    virtual bool erase_converger(const unsigned&) = 0;
+    virtual bool erase_criterion(const unsigned&) = 0;
     virtual bool erase_element(const unsigned&) = 0;
+    virtual bool erase_integrator(const unsigned&) = 0;
     virtual bool erase_load(const unsigned&) = 0;
     virtual bool erase_material(const unsigned&) = 0;
     virtual bool erase_node(const unsigned&) = 0;
     virtual bool erase_recorder(const unsigned&) = 0;
-    virtual bool erase_criterion(const unsigned&) = 0;
+    virtual bool erase_solver(const unsigned&) = 0;
+    virtual bool erase_step(const unsigned&) = 0;
 
     virtual void disable_amplitude(const unsigned&) = 0;
     virtual void disable_constraint(const unsigned&) = 0;
+    virtual void disable_converger(const unsigned&) = 0;
+    virtual void disable_criterion(const unsigned&) = 0;
     virtual void disable_element(const unsigned&) = 0;
+    virtual void disable_integrator(const unsigned&) = 0;
     virtual void disable_load(const unsigned&) = 0;
     virtual void disable_material(const unsigned&) = 0;
     virtual void disable_node(const unsigned&) = 0;
     virtual void disable_recorder(const unsigned&) = 0;
-    virtual void disable_criterion(const unsigned&) = 0;
+    virtual void disable_solver(const unsigned&) = 0;
+    virtual void disable_step(const unsigned&) = 0;
 
     virtual void enable_amplitude(const unsigned&) = 0;
     virtual void enable_constraint(const unsigned&) = 0;
+    virtual void enable_converger(const unsigned&) = 0;
+    virtual void enable_criterion(const unsigned&) = 0;
     virtual void enable_element(const unsigned&) = 0;
+    virtual void enable_integrator(const unsigned&) = 0;
     virtual void enable_load(const unsigned&) = 0;
     virtual void enable_material(const unsigned&) = 0;
     virtual void enable_node(const unsigned&) = 0;
     virtual void enable_recorder(const unsigned&) = 0;
-    virtual void enable_criterion(const unsigned&) = 0;
+    virtual void enable_solver(const unsigned&) = 0;
+    virtual void enable_step(const unsigned&) = 0;
 
     virtual const shared_ptr<Amplitude>& get_amplitude(const unsigned&) const = 0;
     virtual const shared_ptr<Constraint>& get_constraint(const unsigned&) const = 0;
+    virtual const shared_ptr<Converger>& get_converger(const unsigned&) const = 0;
+    virtual const shared_ptr<Criterion>& get_criterion(const unsigned&) const = 0;
     virtual const shared_ptr<Element>& get_element(const unsigned&) const = 0;
+    virtual const shared_ptr<Integrator>& get_integrator(const unsigned&) const = 0;
     virtual const shared_ptr<Load>& get_load(const unsigned&) const = 0;
     virtual const shared_ptr<Material>& get_material(const unsigned&) const = 0;
     virtual const shared_ptr<Node>& get_node(const unsigned&) const = 0;
     virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const = 0;
-    virtual const shared_ptr<Criterion>& get_criterion(const unsigned&) const = 0;
+    virtual const shared_ptr<Solver>& get_solver(const unsigned&) const = 0;
+    virtual const shared_ptr<Step>& get_step(const unsigned&) const = 0;
 
-    virtual const vector<shared_ptr<Amplitude>>& get_amplitude_pool() const = 0;
-    virtual const vector<shared_ptr<Constraint>>& get_constraint_pool() const = 0;
-    virtual const vector<shared_ptr<Element>>& get_element_pool() const = 0;
-    virtual const vector<shared_ptr<Load>>& get_load_pool() const = 0;
-    virtual const vector<shared_ptr<Material>>& get_material_pool() const = 0;
-    virtual const vector<shared_ptr<Node>>& get_node_pool() const = 0;
-    virtual const vector<shared_ptr<Recorder>>& get_recorder_pool() const = 0;
-    virtual const vector<shared_ptr<Criterion>>& get_criterion_pool() const = 0;
+    virtual const AmplitudeQueue& get_amplitude_pool() const = 0;
+    virtual const ConstraintQueue& get_constraint_pool() const = 0;
+    virtual const ConvergerQueue& get_converger_pool() const = 0;
+    virtual const CriterionQueue& get_criterion_pool() const = 0;
+    virtual const ElementQueue& get_element_pool() const = 0;
+    virtual const IntegratorQueue& get_integrator_pool() const = 0;
+    virtual const LoadQueue& get_load_pool() const = 0;
+    virtual const MaterialQueue& get_material_pool() const = 0;
+    virtual const NodeQueue& get_node_pool() const = 0;
+    virtual const RecorderQueue& get_recorder_pool() const = 0;
+    virtual const SolverQueue& get_solver_pool() const = 0;
+    virtual const StepQueue& get_step_pool() const = 0;
+
+    friend shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Converger>& get_converger(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Criterion>& get_criterion(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Element>& get_element(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Integrator>& get_integrator(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Load>& get_load(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Solver>& get_solver(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Step>& get_step(const shared_ptr<DomainBase>&, const unsigned&);
 
     virtual size_t get_amplitude() const = 0;
     virtual size_t get_constraint() const = 0;
+    virtual size_t get_converger() const = 0;
+    virtual size_t get_criterion() const = 0;
     virtual size_t get_element() const = 0;
+    virtual size_t get_integrator() const = 0;
     virtual size_t get_load() const = 0;
     virtual size_t get_material() const = 0;
     virtual size_t get_node() const = 0;
     virtual size_t get_recorder() const = 0;
-    virtual size_t get_criterion() const = 0;
+    virtual size_t get_solver() const = 0;
+    virtual size_t get_step() const = 0;
 
     virtual bool find_amplitude(const unsigned&) const = 0;
     virtual bool find_constraint(const unsigned&) const = 0;
+    virtual bool find_converger(const unsigned&) const = 0;
+    virtual bool find_criterion(const unsigned&) const = 0;
     virtual bool find_element(const unsigned&) const = 0;
+    virtual bool find_integrator(const unsigned&) const = 0;
     virtual bool find_load(const unsigned&) const = 0;
     virtual bool find_material(const unsigned&) const = 0;
     virtual bool find_node(const unsigned&) const = 0;
     virtual bool find_recorder(const unsigned&) const = 0;
-    virtual bool find_criterion(const unsigned&) const = 0;
+    virtual bool find_solver(const unsigned&) const = 0;
+    virtual bool find_step(const unsigned&) const = 0;
+
+    virtual void set_current_step_tag(const unsigned&) = 0;
+    virtual void set_current_converger_tag(const unsigned&) = 0;
+    virtual void set_current_integrator_tag(const unsigned&) = 0;
+    virtual void set_current_solver_tag(const unsigned&) = 0;
+
+    virtual const unsigned& get_current_step_tag() = 0;
+    virtual const unsigned& get_current_converger_tag() = 0;
+    virtual const unsigned& get_current_integrator_tag() = 0;
+    virtual const unsigned& get_current_solver_tag() = 0;
+
+    virtual const shared_ptr<Step>& get_current_step() const = 0;
+    virtual const shared_ptr<Converger>& get_current_converger() const = 0;
+    virtual const shared_ptr<Integrator>& get_current_integrator() const = 0;
+    virtual const shared_ptr<Solver>& get_current_solver() const = 0;
 
     virtual bool insert_loaded_dof(const unsigned&) = 0;
     virtual bool insert_restrained_dof(const unsigned&) = 0;
@@ -159,10 +231,10 @@ public:
     virtual void summary() const = 0;
 
     virtual void assemble_resistance() const = 0;
-    virtual void assemble_mass() const = 0;
-    virtual void assemble_initial_stiffness() const = 0;
-    virtual void assemble_stiffness() const = 0;
     virtual void assemble_damping() const = 0;
+    virtual void assemble_initial_stiffness() const = 0;
+    virtual void assemble_mass() const = 0;
+    virtual void assemble_stiffness() const = 0;
 
     virtual void erase_machine_error() const = 0;
 

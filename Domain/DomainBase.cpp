@@ -18,6 +18,8 @@
 #include "DomainBase.h"
 
 DomainBase::DomainBase(const unsigned& T)
-    : Tag(T, CT_DOMAIN) {}
+    : Tag(T, CT_DOMAIN) {
+    suanpan_debug("Domain %u ctor() called.\n", T);
+}
 
-DomainBase::~DomainBase() {}
+DomainBase::~DomainBase() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }

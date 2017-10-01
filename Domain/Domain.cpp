@@ -18,12 +18,16 @@
 #include "Domain.h"
 #include <Constraint/Constraint.h>
 #include <Constraint/Criterion/Criterion.h>
+#include <Converger/Converger.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Element/Element.h>
 #include <Load/Amplitude/Amplitude.h>
 #include <Load/Load.h>
 #include <Recorder/Recorder.h>
+#include <Solver/Integrator/Integrator.h>
+#include <Solver/Solver.h>
+#include <Step/Step.h>
 #include <Toolbox/RCM.h>
 
 #if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
@@ -34,31 +38,24 @@
 #endif
 
 Domain::Domain(const unsigned& T)
-    : DomainBase(T) {
-    suanpan_debug("Domain %u ctor() called.\n", T);
-}
+    : DomainBase(T)
+    , factory(make_shared<Factory<double>>()) {}
 
-Domain::~Domain() { suanpan_debug("Domain %u dtor() called.\n", get_tag()); }
-
-void Domain::set_factory(const FacotoryAnchor& F) {
-    if(factory.lock() != F.lock()) {
+void Domain::set_factory(const shared_ptr<LongFactory>& F) {
+    if(factory != F) {
         factory = F;
         updated = false;
     }
 }
 
-const FacotoryAnchor& Domain::get_factory() const { return factory; }
-
-void Domain::set_step_anchor(const StepAnchor& S) { step_anchor = S; }
-
-const StepAnchor& Domain::get_step_anchor() { return step_anchor; }
+const shared_ptr<LongFactory>& Domain::get_factory() const { return factory; }
 
 bool Domain::insert(const shared_ptr<ExternalModule>& E) {
     external_module_pond.emplace_back(E);
     return true;
 }
 
-const vector<shared_ptr<ExternalModule>>& Domain::get_external_module_pool() const { return external_module_pond; }
+const ExternalModuleQueue& Domain::get_external_module_pool() const { return external_module_pond; }
 
 bool Domain::insert(const shared_ptr<Amplitude>& A) {
     if(updated) updated = false;
@@ -70,9 +67,24 @@ bool Domain::insert(const shared_ptr<Constraint>& C) {
     return constraint_pond.insert(C);
 }
 
+bool Domain::insert(const shared_ptr<Converger>& C) {
+    if(updated) updated = false;
+    return converger_pond.insert(C);
+}
+
+bool Domain::insert(const shared_ptr<Criterion>& C) {
+    if(updated) updated = false;
+    return criterion_pond.insert(C);
+}
+
 bool Domain::insert(const shared_ptr<Element>& E) {
     if(updated) updated = false;
     return element_pond.insert(E);
+}
+
+bool Domain::insert(const shared_ptr<Integrator>& I) {
+    if(updated) updated = false;
+    return integrator_pond.insert(I);
 }
 
 bool Domain::insert(const shared_ptr<Load>& L) {
@@ -95,9 +107,14 @@ bool Domain::insert(const shared_ptr<Recorder>& R) {
     return recorder_pond.insert(R);
 }
 
-bool Domain::insert(const shared_ptr<Criterion>& C) {
+bool Domain::insert(const shared_ptr<Solver>& S) {
     if(updated) updated = false;
-    return criterion_pond.insert(C);
+    return solver_pond.insert(S);
+}
+
+bool Domain::insert(const shared_ptr<Step>& S) {
+    if(updated) updated = false;
+    return step_pond.insert({ S->get_tag(), S }).second;
 }
 
 bool Domain::erase_amplitude(const unsigned& T) {
@@ -110,9 +127,24 @@ bool Domain::erase_constraint(const unsigned& T) {
     return constraint_pond.erase(T);
 }
 
+bool Domain::erase_converger(const unsigned& T) {
+    if(updated) updated = false;
+    return converger_pond.erase(T);
+}
+
+bool Domain::erase_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    return criterion_pond.erase(T);
+}
+
 bool Domain::erase_element(const unsigned& T) {
     if(updated) updated = false;
     return element_pond.erase(T);
+}
+
+bool Domain::erase_integrator(const unsigned& T) {
+    if(updated) updated = false;
+    return integrator_pond.erase(T);
 }
 
 bool Domain::erase_load(const unsigned& T) {
@@ -135,9 +167,14 @@ bool Domain::erase_recorder(const unsigned& T) {
     return recorder_pond.erase(T);
 }
 
-bool Domain::erase_criterion(const unsigned& T) {
+bool Domain::erase_solver(const unsigned& T) {
     if(updated) updated = false;
-    return criterion_pond.erase(T);
+    return solver_pond.erase(T);
+}
+
+bool Domain::erase_step(const unsigned& T) {
+    if(updated) updated = false;
+    return step_pond.erase(T);
 }
 
 void Domain::disable_amplitude(const unsigned& T) {
@@ -150,9 +187,24 @@ void Domain::disable_constraint(const unsigned& T) {
     constraint_pond.disable(T);
 }
 
+void Domain::disable_converger(const unsigned& T) {
+    if(updated) updated = false;
+    converger_pond.disable(T);
+}
+
+void Domain::disable_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    criterion_pond.disable(T);
+}
+
 void Domain::disable_element(const unsigned& T) {
     if(updated) updated = false;
     element_pond.disable(T);
+}
+
+void Domain::disable_integrator(const unsigned& T) {
+    if(updated) updated = false;
+    integrator_pond.disable(T);
 }
 
 void Domain::disable_load(const unsigned& T) {
@@ -175,9 +227,14 @@ void Domain::disable_recorder(const unsigned& T) {
     recorder_pond.disable(T);
 }
 
-void Domain::disable_criterion(const unsigned& T) {
+void Domain::disable_solver(const unsigned& T) {
     if(updated) updated = false;
-    criterion_pond.disable(T);
+    solver_pond.disable(T);
+}
+
+void Domain::disable_step(const unsigned& T) {
+    if(updated) updated = false;
+    if(step_pond.find(T) != step_pond.end()) step_pond.at(T)->disable();
 }
 
 void Domain::enable_amplitude(const unsigned& T) {
@@ -190,9 +247,24 @@ void Domain::enable_constraint(const unsigned& T) {
     constraint_pond.enable(T);
 }
 
+void Domain::enable_converger(const unsigned& T) {
+    if(updated) updated = false;
+    converger_pond.enable(T);
+}
+
+void Domain::enable_criterion(const unsigned& T) {
+    if(updated) updated = false;
+    criterion_pond.enable(T);
+}
+
 void Domain::enable_element(const unsigned& T) {
     if(updated) updated = false;
     element_pond.enable(T);
+}
+
+void Domain::enable_integrator(const unsigned& T) {
+    if(updated) updated = false;
+    integrator_pond.enable(T);
 }
 
 void Domain::enable_load(const unsigned& T) {
@@ -215,16 +287,27 @@ void Domain::enable_recorder(const unsigned& T) {
     recorder_pond.enable(T);
 }
 
-void Domain::enable_criterion(const unsigned& T) {
+void Domain::enable_solver(const unsigned& T) {
     if(updated) updated = false;
-    criterion_pond.enable(T);
+    solver_pond.enable(T);
+}
+
+void Domain::enable_step(const unsigned& T) {
+    if(updated) updated = false;
+    if(step_pond.find(T) != step_pond.end()) step_pond.at(T)->enable();
 }
 
 const shared_ptr<Amplitude>& Domain::get_amplitude(const unsigned& T) const { return amplitude_pond.at(T); }
 
 const shared_ptr<Constraint>& Domain::get_constraint(const unsigned& T) const { return constraint_pond.at(T); }
 
+const shared_ptr<Converger>& Domain::get_converger(const unsigned& T) const { return converger_pond.at(T); }
+
+const shared_ptr<Criterion>& Domain::get_criterion(const unsigned& T) const { return criterion_pond.at(T); }
+
 const shared_ptr<Element>& Domain::get_element(const unsigned& T) const { return element_pond.at(T); }
+
+const shared_ptr<Integrator>& Domain::get_integrator(const unsigned& T) const { return integrator_pond.at(T); }
 
 const shared_ptr<Load>& Domain::get_load(const unsigned& T) const { return load_pond.at(T); }
 
@@ -234,29 +317,45 @@ const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_
 
 const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
 
-const shared_ptr<Criterion>& Domain::get_criterion(const unsigned& T) const { return criterion_pond.at(T); }
+const shared_ptr<Solver>& Domain::get_solver(const unsigned& T) const { return solver_pond.at(T); }
 
-const vector<shared_ptr<Amplitude>>& Domain::get_amplitude_pool() const { return amplitude_pond.get(); }
+const shared_ptr<Step>& Domain::get_step(const unsigned& T) const { return step_pond.at(T); }
 
-const vector<shared_ptr<Constraint>>& Domain::get_constraint_pool() const { return constraint_pond.get(); }
+const AmplitudeQueue& Domain::get_amplitude_pool() const { return amplitude_pond.get(); }
 
-const vector<shared_ptr<Element>>& Domain::get_element_pool() const { return element_pond.get(); }
+const ConstraintQueue& Domain::get_constraint_pool() const { return constraint_pond.get(); }
 
-const vector<shared_ptr<Load>>& Domain::get_load_pool() const { return load_pond.get(); }
+const ConvergerQueue& Domain::get_converger_pool() const { return converger_pond.get(); }
 
-const vector<shared_ptr<Material>>& Domain::get_material_pool() const { return material_pond.get(); }
+const CriterionQueue& Domain::get_criterion_pool() const { return criterion_pond.get(); }
 
-const vector<shared_ptr<Node>>& Domain::get_node_pool() const { return node_pond.get(); }
+const ElementQueue& Domain::get_element_pool() const { return element_pond.get(); }
 
-const vector<shared_ptr<Recorder>>& Domain::get_recorder_pool() const { return recorder_pond.get(); }
+const IntegratorQueue& Domain::get_integrator_pool() const { return integrator_pond.get(); }
 
-const vector<shared_ptr<Criterion>>& Domain::get_criterion_pool() const { return criterion_pond.get(); }
+const LoadQueue& Domain::get_load_pool() const { return load_pond.get(); }
+
+const MaterialQueue& Domain::get_material_pool() const { return material_pond.get(); }
+
+const NodeQueue& Domain::get_node_pool() const { return node_pond.get(); }
+
+const RecorderQueue& Domain::get_recorder_pool() const { return recorder_pond.get(); }
+
+const SolverQueue& Domain::get_solver_pool() const { return solver_pond.get(); }
+
+const StepQueue& Domain::get_step_pool() const { return step_pond; }
 
 size_t Domain::get_amplitude() const { return amplitude_pond.size(); }
 
 size_t Domain::get_constraint() const { return constraint_pond.size(); }
 
+size_t Domain::get_converger() const { return converger_pond.size(); }
+
+size_t Domain::get_criterion() const { return criterion_pond.size(); }
+
 size_t Domain::get_element() const { return element_pond.size(); }
+
+size_t Domain::get_integrator() const { return integrator_pond.size(); }
 
 size_t Domain::get_load() const { return load_pond.size(); }
 
@@ -266,13 +365,21 @@ size_t Domain::get_node() const { return node_pond.size(); }
 
 size_t Domain::get_recorder() const { return recorder_pond.size(); }
 
-size_t Domain::get_criterion() const { return criterion_pond.size(); }
+size_t Domain::get_solver() const { return solver_pond.size(); }
+
+size_t Domain::get_step() const { return step_pond.size(); }
 
 bool Domain::find_amplitude(const unsigned& T) const { return amplitude_pond.find(T); }
 
 bool Domain::find_constraint(const unsigned& T) const { return constraint_pond.find(T); }
 
+bool Domain::find_converger(const unsigned& T) const { return converger_pond.find(T); }
+
+bool Domain::find_criterion(const unsigned& T) const { return criterion_pond.find(T); }
+
 bool Domain::find_element(const unsigned& T) const { return element_pond.find(T); }
+
+bool Domain::find_integrator(const unsigned& T) const { return integrator_pond.find(T); }
 
 bool Domain::find_load(const unsigned& T) const { return load_pond.find(T); }
 
@@ -282,7 +389,33 @@ bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
 
 bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
 
-bool Domain::find_criterion(const unsigned& T) const { return criterion_pond.find(T); }
+bool Domain::find_solver(const unsigned& T) const { return solver_pond.find(T); }
+
+bool Domain::find_step(const unsigned& T) const { return step_pond.find(T) != step_pond.end(); }
+
+void Domain::set_current_step_tag(const unsigned& T) { current_step_tag = T; }
+
+void Domain::set_current_converger_tag(const unsigned& T) { current_converger_tag = T; }
+
+void Domain::set_current_integrator_tag(const unsigned& T) { current_integrator_tag = T; }
+
+void Domain::set_current_solver_tag(const unsigned& T) { current_solver_tag = T; }
+
+const unsigned& Domain::get_current_step_tag() { return current_step_tag; }
+
+const unsigned& Domain::get_current_converger_tag() { return current_converger_tag; }
+
+const unsigned& Domain::get_current_integrator_tag() { return current_integrator_tag; }
+
+const unsigned& Domain::get_current_solver_tag() { return current_solver_tag; }
+
+const shared_ptr<Step>& Domain::get_current_step() const { return get_step(current_step_tag); }
+
+const shared_ptr<Converger>& Domain::get_current_converger() const { return get_converger(current_converger_tag); }
+
+const shared_ptr<Integrator>& Domain::get_current_integrator() const { return get_integrator(current_integrator_tag); }
+
+const shared_ptr<Solver>& Domain::get_current_solver() const { return get_solver(current_solver_tag); }
 
 bool Domain::insert_loaded_dof(const unsigned& T) { return loaded_dofs.insert(T).second; }
 
@@ -318,12 +451,15 @@ int Domain::initialize() {
     // ACTIVE FLAG IS NOW PROPERLY SET FOR NODE AND ELEMENT
     amplitude_pond.update();
     constraint_pond.update();
+    converger_pond.update();
+    criterion_pond.update();
     element_pond.update();
+    integrator_pond.update();
     load_pond.update();
     material_pond.update();
     node_pond.update();
     recorder_pond.update();
-    criterion_pond.update();
+    solver_pond.update();
 
     // RCM OPTIMIZATION
     // COLLECT CONNECTIVITY
@@ -356,7 +492,7 @@ int Domain::initialize() {
     auto low_bw = 1, up_bw = 1;
     for(unsigned i = 0; i < dof_counter; ++i) {
         for(const auto& j : adjacency[idx_rcm(i)]) {
-            const int t_bw = static_cast<int>(idx_sorted(j)) - i;
+            const int t_bw = int(idx_sorted(j)) - i;
             if(t_bw > low_bw)
                 low_bw = t_bw;
             else if(t_bw < up_bw)
@@ -365,24 +501,27 @@ int Domain::initialize() {
     }
 
     // ASSIGN NEW LABELS TO ACTIVE NODES
-    for(const auto& t_node : node_pond.get()) t_node->set_reordered_dof(idx_sorted(t_node->get_original_dof()));
+    auto& t_node_pond = node_pond.get();
+    suanpan_for_each(t_node_pond.cbegin(), t_node_pond.cend(), [&](const shared_ptr<Node>& t_node) { t_node->set_reordered_dof(idx_sorted(t_node->get_original_dof())); });
 
     // INITIALIZE DERIVED ELEMENTS
-    for(const auto& t_element : element_pond.get()) {
+    auto& t_element_pond = element_pond.get();
+    suanpan_for_each(t_element_pond.cbegin(), t_element_pond.cend(), [&](const shared_ptr<Element>& t_element) {
         if(!t_element->initialized) {
             t_element->initialize(shared_from_this());
             access::rw(t_element->initialized) = true;
         }
         t_element->update_dof_encoding();
-    }
+    });
 
-    const auto& t_factory = factory.lock();
+    factory->set_size(dof_counter);
 
-    if(t_factory == nullptr) return -1;
+    factory->set_bandwidth(unsigned(low_bw), unsigned(-up_bw));
 
-    t_factory->set_size(dof_counter);
-
-    t_factory->set_bandwidth(unsigned(low_bw), unsigned(-up_bw));
+    suanpan_for_each(step_pond.cbegin(), step_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Step>>& t_step) {
+        t_step.second->set_domain(shared_from_this());
+        t_step.second->initialize();
+    });
 
     updated = true;
 
@@ -392,7 +531,7 @@ int Domain::initialize() {
 int Domain::process_load() {
     loaded_dofs.clear();
 
-    get_trial_load(factory.lock()).zeros();
+    get_trial_load(factory).zeros();
 
     auto code = 0;
     for(const auto& I : load_pond.get()) code += I->process(shared_from_this());
@@ -438,43 +577,43 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     get_trial_resistance(t_factory).zeros();
     for(const auto& I : element_pond.get()) t_factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::assemble_mass() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     t_factory->clear_mass();
     for(const auto& I : element_pond.get()) t_factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::assemble_initial_stiffness() const {
-    auto t_factory = factory.lock();
+    auto t_factory = factory;
     t_factory->clear_stiffness();
     for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_stiffness() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     t_factory->clear_stiffness();
     for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_damping() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     t_factory->clear_damping();
     for(const auto& I : element_pond.get()) t_factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
 void Domain::erase_machine_error() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     auto& t_ninja = get_ninja(t_factory);
     for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
 void Domain::update_trial_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     const auto& analysis_type = t_factory->get_analysis_type();
 
     auto& trial_dsp = t_factory->get_trial_displacement();
@@ -493,7 +632,7 @@ void Domain::update_trial_status() const {
 }
 
 void Domain::update_incre_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     const auto& analysis_type = t_factory->get_analysis_type();
 
     auto& incre_dsp = t_factory->get_incre_displacement();
@@ -508,7 +647,7 @@ void Domain::update_incre_status() const {
 }
 
 void Domain::update_current_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
     const auto& analysis_type = t_factory->get_analysis_type();
 
     vec c_g_dsp(t_factory->get_size(), fill::zeros);
@@ -541,7 +680,7 @@ void Domain::update_current_status() const {
 }
 
 void Domain::commit_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
 
     t_factory->commit_status();
 
@@ -553,7 +692,7 @@ void Domain::commit_status() const {
 }
 
 void Domain::clear_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
 
     t_factory->clear_status();
 
@@ -568,7 +707,7 @@ void Domain::clear_status() const {
 }
 
 void Domain::reset_status() const {
-    const auto& t_factory = factory.lock();
+    const auto& t_factory = factory;
 
     t_factory->reset_status();
 
@@ -586,7 +725,13 @@ shared_ptr<Amplitude>& get_amplitude(const shared_ptr<Domain>& D, const unsigned
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<Domain>& D, const unsigned& T) { return D->constraint_pond[T]; }
 
+shared_ptr<Converger>& get_converger(const shared_ptr<Domain>& D, const unsigned& T) { return D->converger_pond[T]; }
+
+shared_ptr<Criterion>& get_criterion(const shared_ptr<Domain>& D, const unsigned& T) { return D->criterion_pond[T]; }
+
 shared_ptr<Element>& get_element(const shared_ptr<Domain>& D, const unsigned& T) { return D->element_pond[T]; }
+
+shared_ptr<Integrator>& get_integrator(const shared_ptr<Domain>& D, const unsigned& T) { return D->integrator_pond[T]; }
 
 shared_ptr<Load>& get_load(const shared_ptr<Domain>& D, const unsigned& T) { return D->load_pond[T]; }
 
@@ -596,13 +741,21 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { ret
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
-shared_ptr<Criterion>& get_criterion(const shared_ptr<Domain>& D, const unsigned& T) { return D->criterion_pond[T]; }
+shared_ptr<Solver>& get_solver(const shared_ptr<Domain>& D, const unsigned& T) { return D->solver_pond[T]; }
+
+shared_ptr<Step>& get_step(const shared_ptr<Domain>& D, const unsigned& T) { return D->step_pond[T]; }
 
 shared_ptr<Amplitude>& get_amplitude(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->amplitude_pond[T]; }
 
 shared_ptr<Constraint>& get_constraint(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->constraint_pond[T]; }
 
+shared_ptr<Converger>& get_converger(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->converger_pond[T]; }
+
+shared_ptr<Criterion>& get_criterion(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->criterion_pond[T]; }
+
 shared_ptr<Element>& get_element(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->element_pond[T]; }
+
+shared_ptr<Integrator>& get_integrator(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->integrator_pond[T]; }
 
 shared_ptr<Load>& get_load(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->load_pond[T]; }
 
@@ -612,4 +765,6 @@ shared_ptr<Node>& get_node(const shared_ptr<DomainBase>& D, const unsigned& T) {
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->recorder_pond[T]; }
 
-shared_ptr<Criterion>& get_criterion(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->criterion_pond[T]; }
+shared_ptr<Solver>& get_solver(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->solver_pond[T]; }
+
+shared_ptr<Step>& get_step(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->step_pond[T]; }
