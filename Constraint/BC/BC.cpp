@@ -135,7 +135,7 @@ const uvec& BC::get_dof() const { return dofs; }
  * \return 0
  */
 int BC::process(const shared_ptr<DomainBase>& D) {
-    auto& t_matrix = get_stiffness(D->get_factory().lock());
+    auto& t_matrix = get_stiffness(D->get_factory());
 
     auto& t_set_b = D->get_constrained_dof();
 

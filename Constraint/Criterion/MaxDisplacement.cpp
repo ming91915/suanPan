@@ -29,7 +29,7 @@ MaxDisplacement::MaxDisplacement(const unsigned& T, const unsigned& ST, const un
 int MaxDisplacement::process(const shared_ptr<DomainBase>& D) {
     auto& t_dof = D->get_node(node)->get_reordered_dof().at(dof - 1);
 
-    auto& t_disp = D->get_factory().lock()->get_current_displacement();
+    auto& t_disp = D->get_factory()->get_current_displacement();
 
     return t_disp(t_dof) > limit ? -1 : 0;
 }

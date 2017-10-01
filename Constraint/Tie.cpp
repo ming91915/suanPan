@@ -35,7 +35,7 @@ Tie::Tie(const unsigned& S, const unsigned& NA, const unsigned& DA, const unsign
     , dof_j(DB) {}
 
 int Tie::process(const shared_ptr<DomainBase>& D) {
-    const auto& t_factory = D->get_factory().lock();
+    const auto& t_factory = D->get_factory();
 
     const auto t_max = t_factory->get_stiffness()->max();
 
