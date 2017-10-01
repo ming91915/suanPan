@@ -2,8 +2,8 @@
  * @class Storage
  * @brief A candidate Storage class that stores FEM objects.
  * @author T
- * @date 26/09/2017
- * @version 0.2.2
+ * @date 01/10/2017
+ * @version 0.2.3
  * @file Storage.hpp
  * @{
  */
@@ -19,53 +19,54 @@ using std::unordered_map;
 using std::unordered_set;
 using std::vector;
 
-class Domain;
-class Solver;
-class Converger;
 class Amplitude;
 class Constraint;
+class Converger;
+class Criterion;
+class Domain;
+class DomainBase;
 class Element;
+class Integrator;
 class Load;
 class Material;
 class Node;
 class Recorder;
-class Criterion;
+class Solver;
 
 template <typename T> const char* StorageType() { return "Unknown"; }
-
-template <> inline const char* StorageType<Domain>() { return "Domain"; }
-template <> inline const char* StorageType<Solver>() { return "Solver"; }
-template <> inline const char* StorageType<Converger>() { return "Converger"; }
 template <> inline const char* StorageType<Amplitude>() { return "Amplitude"; }
 template <> inline const char* StorageType<Constraint>() { return "Constraint"; }
+template <> inline const char* StorageType<Converger>() { return "Converger"; }
+template <> inline const char* StorageType<Criterion>() { return "Criterion"; }
+template <> inline const char* StorageType<Domain>() { return "Domain"; }
+template <> inline const char* StorageType<DomainBase>() { return "Domain"; }
 template <> inline const char* StorageType<Element>() { return "Element"; }
+template <> inline const char* StorageType<Integrator>() { return "Integrator"; }
 template <> inline const char* StorageType<Load>() { return "Load"; }
 template <> inline const char* StorageType<Material>() { return "Material"; }
 template <> inline const char* StorageType<Node>() { return "Node"; }
 template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
-template <> inline const char* StorageType<Criterion>() { return "Criterion"; }
+template <> inline const char* StorageType<Solver>() { return "Solver"; }
 
-using std::enable_shared_from_this;
+template <typename T> class Storage : public std::enable_shared_from_this<Storage<T>> {
+    using const_iterator = typename unordered_map<unsigned, shared_ptr<T>>::const_iterator;
+    using iterator = typename unordered_map<unsigned, shared_ptr<T>>::iterator;
 
-template <typename T> class Storage : public enable_shared_from_this<Storage<T>> {
-    using const_storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::const_iterator;
-    using storage_iterator = typename unordered_map<unsigned, shared_ptr<T>>::iterator;
-
-    typedef T object_type;
-
-    const char* type_string = StorageType<object_type>();
+    const char* type = StorageType<object_type>();
 
     vector<shared_ptr<T>> fish;                  /**< data storage */
     unordered_set<unsigned> bait;                /**< data storage */
     unordered_map<unsigned, shared_ptr<T>> pond; /**< data storage */
 public:
+    typedef T object_type;
+
     Storage();
     ~Storage();
 
-    const_storage_iterator cbegin() const;
-    const_storage_iterator cend() const;
-    storage_iterator begin();
-    storage_iterator end();
+    const_iterator cbegin() const;
+    const_iterator cend() const;
+    iterator begin();
+    iterator end();
 
     bool insert(const shared_ptr<T>&);
     shared_ptr<T>& operator[](const unsigned&);
@@ -86,21 +87,21 @@ public:
     size_t size() const;
 };
 
-template <typename T> Storage<T>::Storage() { suanpan_debug("Storage of %s ctor() called.\n", type_string); }
+template <typename T> Storage<T>::Storage() { suanpan_debug("Storage of %s ctor() called.\n", type); }
 
-template <typename T> Storage<T>::~Storage() { suanpan_debug("Storage of %s dtor() called.\n", type_string); }
+template <typename T> Storage<T>::~Storage() { suanpan_debug("Storage of %s dtor() called.\n", type); }
 
-template <typename T> typename Storage<T>::const_storage_iterator Storage<T>::cbegin() const { return pond.cbegin(); }
+template <typename T> typename Storage<T>::const_iterator Storage<T>::cbegin() const { return pond.cbegin(); }
 
-template <typename T> typename Storage<T>::const_storage_iterator Storage<T>::cend() const { return pond.cend(); }
+template <typename T> typename Storage<T>::const_iterator Storage<T>::cend() const { return pond.cend(); }
 
-template <typename T> typename Storage<T>::storage_iterator Storage<T>::begin() { return pond.begin(); }
+template <typename T> typename Storage<T>::iterator Storage<T>::begin() { return pond.begin(); }
 
-template <typename T> typename Storage<T>::storage_iterator Storage<T>::end() { return pond.end(); }
+template <typename T> typename Storage<T>::iterator Storage<T>::end() { return pond.end(); }
 
 template <typename T> bool Storage<T>::insert(const shared_ptr<T>& I) {
     auto flag = pond.insert({ I->get_tag(), I }).second;
-    if(!flag) suanpan_warning("insert() fails to insert %s %u.\n", type_string, I->get_tag());
+    if(!flag) suanpan_warning("insert() fails to insert %s %u.\n", type, I->get_tag());
     return flag;
 }
 
@@ -148,25 +149,27 @@ template <typename T> void Storage<T>::clear() {
 
 template <typename T> size_t Storage<T>::size() const { return pond.size(); }
 
-template <typename T> typename Storage<T>::const_storage_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
+template <typename T> typename Storage<T>::const_iterator cbegin(const Storage<T>& S) { return S.cbegin(); }
 
-template <typename T> typename Storage<T>::const_storage_iterator cend(const Storage<T>& S) { return S.cend(); }
+template <typename T> typename Storage<T>::const_iterator cend(const Storage<T>& S) { return S.cend(); }
 
-template <typename T> typename Storage<T>::storage_iterator begin(Storage<T>& S) { return S.begin(); }
+template <typename T> typename Storage<T>::iterator begin(Storage<T>& S) { return S.begin(); }
 
-template <typename T> typename Storage<T>::storage_iterator end(Storage<T>& S) { return S.end(); }
+template <typename T> typename Storage<T>::iterator end(Storage<T>& S) { return S.end(); }
 
-using DomainStorage = Storage<Domain>;
-using SolverStorage = Storage<Solver>;
-using ConvergerStorage = Storage<Converger>;
 using AmplitudeStorage = Storage<Amplitude>;
 using ConstraintStorage = Storage<Constraint>;
+using ConvergerStorage = Storage<Converger>;
+using CriterionStorage = Storage<Criterion>;
+using DomainStorage = Storage<Domain>;
+using DomainBaseStorage = Storage<DomainBase>;
 using ElementStorage = Storage<Element>;
+using IntegratorStorage = Storage<Integrator>;
 using LoadStorage = Storage<Load>;
 using MaterialStorage = Storage<Material>;
 using NodeStorage = Storage<Node>;
 using RecorderStorage = Storage<Recorder>;
-using CriterionStorage = Storage<Criterion>;
+using SolverStorage = Storage<Solver>;
 
 #endif
 
