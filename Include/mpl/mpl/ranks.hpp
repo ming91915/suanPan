@@ -3,8 +3,8 @@
 #define MPL_RANKS_HPP
 
 #include <cstddef>
-#include <utility>
 #include <vector>
+#include <utility>
 
 namespace mpl {
 
@@ -17,13 +17,17 @@ public:
     typedef base::iterator iterator;
     typedef base::const_iterator const_iterator;
     explicit ranks(size_type n = 0)
-        : base(n, 0) {}
+        : base(n, 0) {
+    }
     ranks(std::initializer_list<int> init)
-        : base(init) {}
+        : base(init) {
+    }
     ranks(const ranks& other)
-        : base(other) {}
+        : base(other) {
+    }
     ranks(ranks&& other)
-        : base(std::move(other)) {}
+        : base(std::move(other)) {
+    }
     using base::operator=;
     using base::begin;
     using base::cbegin;
@@ -32,8 +36,12 @@ public:
     using base::operator[];
     using base::push_back;
     using base::size;
-    const int* operator()() const { return base::data(); }
-    int* operator()() { return base::data(); }
+    const int* operator()() const {
+        return base::data();
+    }
+    int* operator()() {
+        return base::data();
+    }
 };
 }
 

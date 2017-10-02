@@ -3,8 +3,8 @@
 #define MPL_DISPLACEMENTS_HPP
 
 #include <cstddef>
-#include <utility>
 #include <vector>
+#include <utility>
 
 namespace mpl {
 
@@ -17,13 +17,17 @@ public:
     typedef base::iterator iterator;
     typedef base::const_iterator const_iterator;
     explicit displacements(size_type n = 0)
-        : base(n, 0) {}
+        : base(n, 0) {
+    }
     displacements(std::initializer_list<MPI_Aint> init)
-        : base(init) {}
+        : base(init) {
+    }
     displacements(const displacements& other)
-        : base(other) {}
+        : base(other) {
+    }
     displacements(displacements&& other)
-        : base(std::move(other)) {}
+        : base(std::move(other)) {
+    }
     using base::operator=;
     using base::begin;
     using base::cbegin;
@@ -33,7 +37,9 @@ public:
     using base::push_back;
     using base::resize;
     using base::size;
-    const MPI_Aint* operator()() const { return base::data(); }
+    const MPI_Aint* operator()() const {
+        return base::data();
+    }
 };
 }
 

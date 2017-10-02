@@ -10,16 +10,19 @@ namespace mpl {
 
 namespace detail {
 
-    template <typename T> class request;
+    template <typename T>
+    class request;
 
-    template <typename T> class request_pool;
+    template <typename T>
+    class request_pool;
 
     class irequest {
         MPI_Request req = MPI_REQUEST_NULL;
 
     public:
         irequest(MPI_Request req)
-            : req(req) {}
+            : req(req) {
+        }
         friend class request<irequest>;
         friend class request_pool<irequest>;
     };
@@ -29,14 +32,16 @@ namespace detail {
 
     public:
         prequest(MPI_Request req)
-            : req(req) {}
+            : req(req) {
+        }
         friend class request<prequest>;
         friend class request_pool<prequest>;
     };
 
     //------------------------------------------------------------------
 
-    template <typename T> class request {
+    template <typename T>
+    class request {
     protected:
         MPI_Request req;
 
@@ -44,24 +49,29 @@ namespace detail {
         request() = delete;
         request(const request&) = delete;
         request(const T& other)
-            : req(other.req) {}
+            : req(other.req) {
+        }
         request(T&& other)
             : req(other.req) {
             other.req = MPI_REQUEST_NULL;
         }
         ~request() {
-            if(req != MPI_REQUEST_NULL) MPI_Request_free(&req);
+            if (req != MPI_REQUEST_NULL)
+                MPI_Request_free(&req);
         }
         void operator=(const request&) = delete;
         request& operator=(request&& other) {
-            if(this != &other) {
-                if(req != MPI_REQUEST_NULL) MPI_Request_free(&req);
+            if (this != &other) {
+                if (req != MPI_REQUEST_NULL)
+                    MPI_Request_free(&req);
                 req = other.req;
                 other.req = MPI_REQUEST_NULL;
             }
             return *this;
         }
-        void cancel() { MPI_Cancel(&req); }
+        void cancel() {
+            MPI_Cancel(&req);
+        }
         std::pair<bool, status> test() {
             int result;
             status s;
@@ -83,38 +93,52 @@ namespace detail {
 
     //------------------------------------------------------------------
 
-    template <typename T> class request_pool {
+    template <typename T>
+    class request_pool {
     protected:
         std::vector<MPI_Request> reqs;
         std::vector<status> stats;
 
     public:
         typedef std::vector<MPI_Request>::size_type size_type;
-        request_pool() {}
+        request_pool() {
+        }
         request_pool(const request_pool&) = delete;
         request_pool(request_pool&& other)
             : reqs(std::move(other.reqs))
-            , stats(std::move(other.stats)) {}
+            , stats(std::move(other.stats)) {
+        }
         ~request_pool() {
-            for(std::vector<MPI_Request>::iterator i(reqs.begin()), i_end(reqs.end()); i != i_end; ++i)
-                if((*i) != MPI_REQUEST_NULL) MPI_Request_free(&(*i));
+            for (std::vector<MPI_Request>::iterator i(reqs.begin()), i_end(reqs.end()); i != i_end; ++i)
+                if ((*i) != MPI_REQUEST_NULL)
+                    MPI_Request_free(&(*i));
         }
         void operator=(const request_pool&) = delete;
         request_pool& operator=(request_pool&& other) {
-            if(this != &other) {
-                for(std::vector<MPI_Request>::iterator i(reqs.begin()), i_end(reqs.end()); i != i_end; ++i)
-                    if((*i) != MPI_REQUEST_NULL) MPI_Request_free(&(*i));
+            if (this != &other) {
+                for (std::vector<MPI_Request>::iterator i(reqs.begin()), i_end(reqs.end()); i != i_end; ++i)
+                    if ((*i) != MPI_REQUEST_NULL)
+                        MPI_Request_free(&(*i));
                 reqs = std::move(other.reqs);
                 stats = std::move(other.stats);
             }
             return *this;
         }
-        size_type size() const { return reqs.size(); }
-        bool empty() const { return reqs.empty(); }
-        const status& get_status(size_type i) const { return stats[i]; }
-        void cancel(size_type i) { MPI_Cancel(&reqs[i]); }
+        size_type size() const {
+            return reqs.size();
+        }
+        bool empty() const {
+            return reqs.empty();
+        }
+        const status& get_status(size_type i) const {
+            return stats[i];
+        }
+        void cancel(size_type i) {
+            MPI_Cancel(&reqs[i]);
+        }
         void cancelall() {
-            for(size_type i = 0; i < reqs.size(); ++i) cancel(i);
+            for (size_type i = 0; i < reqs.size(); ++i)
+                cancel(i);
         }
         void push(const T& other) {
             reqs.push_back(other.req);
@@ -124,7 +148,7 @@ namespace detail {
             int index;
             status s;
             MPI_Waitany(size(), &reqs[0], &index, reinterpret_cast<MPI_Status*>(&s));
-            if(index != MPI_UNDEFINED) {
+            if (index != MPI_UNDEFINED) {
                 stats[index] = s;
                 return std::make_pair(true, static_cast<size_type>(index));
             }
@@ -134,30 +158,38 @@ namespace detail {
             int index, flag;
             status s;
             MPI_Testany(size(), &reqs[0], &index, &flag, reinterpret_cast<MPI_Status*>(&s));
-            if(flag and index != MPI_UNDEFINED) {
+            if (flag and index != MPI_UNDEFINED) {
                 stats[index] = s;
                 return std::make_pair(true, static_cast<size_type>(index));
             }
             return std::make_pair(static_cast<bool>(flag), size());
         }
-        void waitall() { MPI_Waitall(size(), &reqs[0], reinterpret_cast<MPI_Status*>(&stats[0])); }
+        void waitall() {
+            MPI_Waitall(size(), &reqs[0], reinterpret_cast<MPI_Status*>(&stats[0]));
+        }
         bool testall() {
             int flag;
             MPI_Testall(size(), &reqs[0], &flag, reinterpret_cast<MPI_Status*>(&stats[0]));
             return flag;
         }
-        template <typename I> I waitsome(I iter) {
+        template <typename I>
+        I waitsome(I iter) {
             flat_memory_out<int, I> indices(size(), iter);
             int count;
-            MPI_Waitsome(size(), &reqs[0], &count, indices.data(), reinterpret_cast<MPI_Status*>(&stats[0]));
-            if(count != MPI_UNDEFINED) return indices.copy_back(count);
+            MPI_Waitsome(size(), &reqs[0], &count, indices.data(),
+                reinterpret_cast<MPI_Status*>(&stats[0]));
+            if (count != MPI_UNDEFINED)
+                return indices.copy_back(count);
             return iter;
         }
-        template <typename I> I testsome(I iter) {
+        template <typename I>
+        I testsome(I iter) {
             flat_memory_out<int, I> indices(size(), iter);
             int count;
-            MPI_Testsome(size(), &reqs[0], &count, indices.data(), reinterpret_cast<MPI_Status*>(&stats[0]));
-            if(count != MPI_UNDEFINED) return indices.copy_back(count);
+            MPI_Testsome(size(), &reqs[0], &count, indices.data(),
+                reinterpret_cast<MPI_Status*>(&stats[0]));
+            if (count != MPI_UNDEFINED)
+                return indices.copy_back(count);
             return iter;
         }
     };
@@ -171,13 +203,16 @@ class irequest : public detail::request<detail::irequest> {
 
 public:
     irequest(const detail::irequest& r)
-        : base(r) {}
+        : base(r) {
+    }
     irequest(const irequest&) = delete;
     irequest(irequest&& r)
-        : base(std::move(r.req)) {}
+        : base(std::move(r.req)) {
+    }
     void operator=(const irequest&) = delete;
     irequest& operator=(irequest&& other) {
-        if(this != &other) base::operator=(std::move(other));
+        if (this != &other)
+            base::operator=(std::move(other));
         return *this;
     }
 };
@@ -188,13 +223,16 @@ class irequest_pool : public detail::request_pool<detail::irequest> {
     typedef detail::request_pool<detail::irequest> base;
 
 public:
-    irequest_pool() {}
+    irequest_pool() {
+    }
     irequest_pool(const irequest_pool&) = delete;
     irequest_pool(irequest_pool&& r)
-        : base(std::move(r)) {}
+        : base(std::move(r)) {
+    }
     void operator=(const irequest_pool&) = delete;
     irequest_pool& operator=(irequest_pool&& other) {
-        if(this != &other) base::operator=(std::move(other));
+        if (this != &other)
+            base::operator=(std::move(other));
         return *this;
     }
 };
@@ -207,16 +245,21 @@ class prequest : public detail::request<detail::prequest> {
 
 public:
     prequest(const detail::prequest& r)
-        : base(r) {}
+        : base(r) {
+    }
     prequest(const prequest&) = delete;
     prequest(prequest&& r)
-        : base(std::move(r.req)) {}
+        : base(std::move(r.req)) {
+    }
     void operator=(const prequest&) = delete;
     prequest& operator=(prequest&& other) {
-        if(this != &other) base::operator=(std::move(other));
+        if (this != &other)
+            base::operator=(std::move(other));
         return *this;
     }
-    void start() { MPI_Start(&req); }
+    void start() {
+        MPI_Start(&req);
+    }
 };
 
 //--------------------------------------------------------------------
@@ -226,15 +269,20 @@ class prequest_pool : public detail::request_pool<detail::prequest> {
     using base::reqs;
 
 public:
-    prequest_pool() {}
+    prequest_pool() {
+    }
     void operator=(const prequest_pool&) = delete;
     prequest_pool& operator=(prequest_pool&& other) {
-        if(this != &other) base::operator=(std::move(other));
+        if (this != &other)
+            base::operator=(std::move(other));
         return *this;
     }
     prequest_pool(prequest_pool&& r)
-        : base(std::move(r)) {}
-    void startall() { MPI_Startall(size(), &reqs[0]); }
+        : base(std::move(r)) {
+    }
+    void startall() {
+        MPI_Startall(size(), &reqs[0]);
+    }
 };
 }
 
