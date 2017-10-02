@@ -41,8 +41,9 @@ int Newton::analyze() {
         G->assemble_resistance();
         // assemble stiffness
         G->assemble_stiffness();
-        // process constraints and loads
+        // process loads
         G->process_load();
+        // process constraints
         G->process_constraint();
 
         // call solver

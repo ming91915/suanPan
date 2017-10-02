@@ -93,15 +93,17 @@ int Ramm::analyze() {
         // update for nodes and elements
         G->update_trial_status();
 
-        // exit if maximum iteration is hit
-        if(++counter > max_iteration) {
-            if(!fixed_arc_length) arc_length *= .5;
-            return -1;
-        }
+        ++counter;
+
         // exit if converged
         if(C->is_converged()) {
             if(!fixed_arc_length) arc_length *= sqrt(max_iteration / double(counter));
             return 0;
+        }
+        // exit if maximum iteration is hit
+        if(counter > max_iteration) {
+            if(!fixed_arc_length) arc_length *= .5;
+            return -1;
         }
     }
 }
