@@ -55,7 +55,7 @@ void Recorder::save() {
 
     ostringstream file_name;
 
-    file_name << to_char(variable_type) << object_tag;
+    file_name << to_char(variable_type) << object_tag << ".h5";
 
     mat data_to_write(data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size());
 

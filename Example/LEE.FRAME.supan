@@ -52,6 +52,6 @@ analyze
 
 peek node 11
 
-peek recorder 1
+save recorder 1
 
 exit
