@@ -21,7 +21,16 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    argument_parser(argc, argv);
+    // argument_parser(argc, argv);
+
+    vec A = { -.5, .4, .3 };
+    const auto B = principal_strain(A);
+    cout << "Angle: " << B << endl;
+    A.print();
+
+    const auto C = nominal_strain(A, B);
+
+    C.print();
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
 

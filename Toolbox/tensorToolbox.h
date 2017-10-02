@@ -52,4 +52,28 @@ mat shapeStrain7(const vec&, const double&);
 mat shapeStrain9(const vec&, const double&);
 mat shapeStrain11(const vec&, const double&);
 
+/**
+ * \brief take stress in Voigt form
+ * \return angle from nominal to principal
+ */
+double principal_stress(vec&);
+
+/**
+ * \brief take strain in Voigt form
+ * \return angle from nominal to principal
+ */
+double principal_strain(vec&);
+
+/**
+ * \brief take stress in Voigt form and angle from nominal to principal
+ * \return noninal stress
+ */
+vec nominal_stress(const vec&, const double);
+
+/**
+ * \brief take stress in Voigt form and angle from nominal to principal
+ * \return nominal strain
+ */
+vec nominal_strain(const vec&, const double);
+
 #endif

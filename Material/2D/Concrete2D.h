@@ -32,13 +32,16 @@
 #include <Material/Material.h>
 
 class Concrete2D : public Material {
+    unsigned tag_major, tag_minor;
     unique_ptr<Material> concrete_major, concrete_minor;
 
 public:
-    Concrete2D(const unsigned& T, // tag
-        const unsigned& XT,       // material tag along x axis
-        const unsigned& YT        // material tag along y axis
+    Concrete2D(const unsigned&, // tag
+        const unsigned&,        // material tag along x axis
+        const unsigned&,        // material tag along y axis
+        const double&           // density
     );
+    Concrete2D(const Concrete2D&);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

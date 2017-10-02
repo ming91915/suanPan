@@ -167,3 +167,63 @@ mat shapeStrain7(const vec& C, const double& V) { return shapeStrain(C, V, 7); }
 mat shapeStrain9(const vec& C, const double& V) { return shapeStrain(C, V, 9); }
 
 mat shapeStrain11(const vec& C, const double& V) { return shapeStrain(C, V, 11); }
+
+double principal_stress(vec& stress) {
+    auto& S11 = stress(0);
+    auto& S22 = stress(1);
+    auto& S12 = stress(2);
+
+    const auto theta = atan(2. * S12 / (S11 - S22)) / 2.;
+
+    const auto tmp_a = (S11 + S22) / 2.;
+    const auto tmp_b = sqrt(pow(S11 - S22, 2.) / 4. + S12 * S12);
+
+    S11 = tmp_a + tmp_b;
+    S22 = tmp_a - tmp_b;
+    S12 = 0.;
+
+    return theta;
+}
+
+double principal_strain(vec& strain) {
+    auto& E11 = strain(0);
+    auto& E22 = strain(1);
+    auto& E12 = strain(2);
+
+    const auto theta = atan(E12 / (E11 - E22)) / 2.;
+
+    const auto tmp_a = (E11 + E22) / 2.;
+    const auto tmp_b = sqrt(pow(E11 - E22, 2.) + E12 * E12) / 2.;
+
+    E11 = tmp_a + tmp_b;
+    E22 = tmp_a - tmp_b;
+    E12 = 0.;
+
+    return theta;
+}
+
+vec nominal_stress(const vec& in, const double theta) {
+    vec out(3);
+    const auto sin_theta = sin(theta);
+    const auto cos_theta = cos(theta);
+    const auto sin_square = sin_theta * sin_theta;
+    const auto cos_square = cos_theta * cos_theta;
+    const auto sin_cos = cos_theta * sin_theta;
+    out(0) = in(0) * cos_square + in(1) * sin_square;
+    out(1) = in(1) * cos_square + in(0) * sin_square;
+    out(2) = sin_cos * (in(0) - in(1));
+    return out;
+}
+
+vec nominal_strain(const vec& in, const double theta) {
+    vec out(3);
+    const auto sin_theta = sin(theta);
+    const auto cos_theta = cos(theta);
+    const auto sin_square = sin_theta * sin_theta;
+    const auto cos_square = cos_theta * cos_theta;
+    const auto sin_cos = cos_theta * sin_theta;
+    out(0) = in(0) * cos_square + in(1) * sin_square;
+    out(1) = in(1) * cos_square + in(0) * sin_square;
+    out(2) = 2. * sin_cos * (in(0) - in(1));
+    return out;
+}

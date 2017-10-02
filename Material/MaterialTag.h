@@ -48,5 +48,8 @@
 #ifndef MT_BILINEAR2D
 #define MT_BILINEAR2D 1009
 #endif
+#ifndef MT_CONCRETE2D
+#define MT_CONCRETE2D 1010
+#endif
 
 #endif

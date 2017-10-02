@@ -56,6 +56,8 @@ protected:
     mat current_stiffness; /**< stiffness matrix */
     mat trial_stiffness;   /**< stiffness matrix */
 public:
+    const bool initialized = false;
+
     explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D0, const double& = 0.);
 
     virtual ~Material();
