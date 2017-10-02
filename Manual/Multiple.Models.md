@@ -132,7 +132,7 @@ save recorder 1
 exit
 ```
 
-There are two steps and two loads are defined in those steps. The over all load is $50$ hence the displacement should be doubled. **Please be aware of that each object should have a unique tag.**
+There are two loads defined in two different steps. The overall load is $50$ hence the displacement should be doubled. **Please be aware of that each object should have a unique tag.**
 
 The output should be
 

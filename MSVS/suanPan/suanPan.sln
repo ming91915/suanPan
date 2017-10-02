@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "suanPan", "suanPan\suanPan.vcxproj", "{DFE098B0-CE36-42BC-AB34-3C7146543F57}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -22,6 +22,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Converger", "Converger\Converger.vcxproj", "{32BF8D17-E0BE-4EB5-8320-7B191DC17FB3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Solver", "Solver\Solver.vcxproj", "{D3861C83-A17B-4E86-9B74-C23A3F0D2454}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModuleBundle", "ModuleBundle\ModuleBundle.vcxproj", "{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,14 @@ Global
 		{D3861C83-A17B-4E86-9B74-C23A3F0D2454}.Release|x64.Build.0 = Release|x64
 		{D3861C83-A17B-4E86-9B74-C23A3F0D2454}.Release|x86.ActiveCfg = Release|Win32
 		{D3861C83-A17B-4E86-9B74-C23A3F0D2454}.Release|x86.Build.0 = Release|Win32
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Debug|x64.ActiveCfg = Debug|x64
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Debug|x64.Build.0 = Debug|x64
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Debug|x86.ActiveCfg = Debug|Win32
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Debug|x86.Build.0 = Debug|Win32
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Release|x64.ActiveCfg = Release|x64
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Release|x64.Build.0 = Release|x64
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Release|x86.ActiveCfg = Release|Win32
+		{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

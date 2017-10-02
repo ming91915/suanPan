@@ -22,11 +22,12 @@ $RECYCLE.BIN/
 /MSVS/Release/*
 /MSVS/suanPan/.vs/*
 /MSVS/suanPan/Converger/x64/*
-/MSVS/suanPan/Solver/x64/*
 /MSVS/suanPan/Element/x64/*
 /MSVS/suanPan/ElementExample/x64/*
 /MSVS/suanPan/Material/x64/*
 /MSVS/suanPan/MaterialExample/x64/*
+/MSVS/suanPan/ModuleBundle/x64/*
+/MSVS/suanPan/Solver/x64/*
 /MSVS/suanPan/suanPan/x64/*
 
 # Windows shortcuts
