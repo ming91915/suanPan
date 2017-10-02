@@ -35,6 +35,8 @@ class Concrete2D : public Material {
     unsigned tag_major, tag_minor;
     unique_ptr<Material> concrete_major, concrete_minor;
 
+    double principal_direction;
+
 public:
     Concrete2D(const unsigned&, // tag
         const unsigned&,        // material tag along x axis

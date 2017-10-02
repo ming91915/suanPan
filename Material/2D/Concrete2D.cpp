@@ -72,11 +72,10 @@ int Concrete2D::update_incre_status(const vec& i_strain) { return update_trial_s
 int Concrete2D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    // store a copy as will be modified
-    auto p_strain = trial_strain;
-
     // transform to principal direction
-    const auto theta = principal_strain(p_strain);
+    const auto trans = nominal_to_principal_strain(trial_strain, &principal_direction);
+
+    const vec p_strain = trans * trial_strain;
 
     // update status
     concrete_major->update_trial_status(vec{ p_strain(0) });
@@ -89,35 +88,19 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
     p_stress(1) = concrete_minor->get_stress().at(0);
 
     // transform back to nominal direction
-    trial_stress = nominal_stress(p_stress, theta);
+    solve(trial_stress, trans, p_stress);
 
     const auto& E11 = concrete_major->get_stiffness().at(0);
     const auto& E22 = concrete_minor->get_stiffness().at(0);
 
-    // collect stiffness components
+    // collect principal stiffness components
     trial_stiffness.zeros(3, 3);
     trial_stiffness(0, 0) = E11;
     trial_stiffness(1, 1) = E22;
     trial_stiffness(2, 2) = E11 * E22 / (E11 + E22);
 
-    const auto sin_theta = sin(theta);
-    const auto cos_theta = cos(theta);
-    const auto sin_square = sin_theta * sin_theta;
-    const auto cos_square = cos_theta * cos_theta;
-    const auto sin_cos = cos_theta * sin_theta;
-
-    mat trans(3, 3);
-    trans(0, 0) = cos_square;
-    trans(0, 1) = sin_square;
-    trans(0, 2) = sin_cos;
-    trans(1, 0) = sin_square;
-    trans(1, 1) = cos_square;
-    trans(1, 2) = -sin_cos;
-    trans(2, 0) = -2. * sin_cos;
-    trans(2, 1) = sin_cos;
-    trans(2, 2) = cos_square - sin_square;
-
-    trial_stiffness = trans.t() * trial_stiffness * trans;
+    // transform back to nominal direction
+    trial_stiffness = solve(trans, trial_stiffness * trans);
 
     return 0;
 }

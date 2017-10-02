@@ -168,62 +168,39 @@ mat shapeStrain9(const vec& C, const double& V) { return shapeStrain(C, V, 9); }
 
 mat shapeStrain11(const vec& C, const double& V) { return shapeStrain(C, V, 11); }
 
-double principal_stress(vec& stress) {
-    auto& S11 = stress(0);
-    auto& S22 = stress(1);
-    auto& S12 = stress(2);
+mat form_trans(const double angle) {
+    const auto sin_angle = sin(angle);
+    const auto cos_angle = cos(angle);
+    const auto sin_sin = sin_angle * sin_angle;
+    const auto cos_cos = cos_angle * cos_angle;
+    const auto sin_cos = sin_angle * cos_angle;
 
-    const auto theta = atan(2. * S12 / (S11 - S22)) / 2.;
+    mat trans(3, 3);
+    trans(0, 0) = cos_cos;
+    trans(0, 1) = sin_sin;
+    trans(0, 2) = 2. * sin_cos;
+    trans(1, 0) = sin_sin;
+    trans(1, 1) = cos_cos;
+    trans(1, 2) = -2. * sin_cos;
+    trans(2, 0) = -sin_cos;
+    trans(2, 1) = sin_cos;
+    trans(2, 2) = cos_cos - sin_sin;
 
-    const auto tmp_a = (S11 + S22) / 2.;
-    const auto tmp_b = sqrt(pow(S11 - S22, 2.) / 4. + S12 * S12);
-
-    S11 = tmp_a + tmp_b;
-    S22 = tmp_a - tmp_b;
-    S12 = 0.;
-
-    return theta;
+    return trans;
 }
 
-double principal_strain(vec& strain) {
-    auto& E11 = strain(0);
-    auto& E22 = strain(1);
-    auto& E12 = strain(2);
+mat nominal_to_principal_strain(const vec& strain, double* theta) {
+    const auto angle = atan(strain(2) / (strain(0) - strain(1))) / 2.;
 
-    const auto theta = atan(E12 / (E11 - E22)) / 2.;
+    if(theta != nullptr) *theta = angle;
 
-    const auto tmp_a = (E11 + E22) / 2.;
-    const auto tmp_b = sqrt(pow(E11 - E22, 2.) + E12 * E12) / 2.;
-
-    E11 = tmp_a + tmp_b;
-    E22 = tmp_a - tmp_b;
-    E12 = 0.;
-
-    return theta;
+    return form_trans(angle);
 }
 
-vec nominal_stress(const vec& in, const double theta) {
-    vec out(3);
-    const auto sin_theta = sin(theta);
-    const auto cos_theta = cos(theta);
-    const auto sin_square = sin_theta * sin_theta;
-    const auto cos_square = cos_theta * cos_theta;
-    const auto sin_cos = cos_theta * sin_theta;
-    out(0) = in(0) * cos_square + in(1) * sin_square;
-    out(1) = in(1) * cos_square + in(0) * sin_square;
-    out(2) = sin_cos * (in(0) - in(1));
-    return out;
-}
+mat nominal_to_principal_stress(const vec& stress, double* theta) {
+    const auto angle = atan(2. * stress(2) / (stress(0) - stress(1))) / 2.;
 
-vec nominal_strain(const vec& in, const double theta) {
-    vec out(3);
-    const auto sin_theta = sin(theta);
-    const auto cos_theta = cos(theta);
-    const auto sin_square = sin_theta * sin_theta;
-    const auto cos_square = cos_theta * cos_theta;
-    const auto sin_cos = cos_theta * sin_theta;
-    out(0) = in(0) * cos_square + in(1) * sin_square;
-    out(1) = in(1) * cos_square + in(0) * sin_square;
-    out(2) = 2. * sin_cos * (in(0) - in(1));
-    return out;
+    if(theta != nullptr) *theta = angle;
+
+    return form_trans(angle);
 }
