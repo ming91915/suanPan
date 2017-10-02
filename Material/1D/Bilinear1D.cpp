@@ -19,30 +19,15 @@
 #include <Toolbox/utility.h>
 
 Bilinear1D::Bilinear1D(const unsigned& T, const double& E, const double& Y, const double& H, const double& B, const double& R)
-    : Material(T, MT_BILINEAR1D)
+    : Material(T, MT_BILINEAR1D, MaterialType::D1, R)
     , elastic_modulus(E)
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , tolerance(1E-10 * yield_stress) {
-    density = R;
-    Bilinear1D::initialize();
-}
+    , tolerance(1E-14 * yield_stress) {}
 
-Bilinear1D::Bilinear1D(const double& E, const double& Y, const double& H, const double& B, const double& R)
-    : Material(0, MT_BILINEAR1D)
-    , elastic_modulus(E)
-    , yield_stress(Y)
-    , hardening_ratio(H)
-    , beta(B)
-    , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , tolerance(1E-10 * yield_stress) {
-    density = R;
-    Bilinear1D::initialize();
-}
-
-void Bilinear1D::initialize() {
+void Bilinear1D::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     current_stress.zeros(1);
 
@@ -90,7 +75,7 @@ int Bilinear1D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear1D::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

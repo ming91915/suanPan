@@ -18,16 +18,14 @@
 #include "Concrete01.h"
 #include <Toolbox/utility.h>
 
-Concrete01::Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO)
-    : Material(T, MT_CONCRETE01)
+Concrete01::Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO, const double& R)
+    : Material(T, MT_CONCRETE01, MaterialType::D1, R)
     , peak_strain(EP)
     , peak_stress(SP)
     , backbone_type(TP)
-    , center_oriented(CO) {
-    Concrete01::initialize();
-}
+    , center_oriented(CO) {}
 
-void Concrete01::initialize() {
+void Concrete01::initialize(const shared_ptr<DomainBase>&) {
     switch(backbone_type) {
     case BackboneType::POPOVICS: {
         N = .05802 * abs(peak_stress) + 1;

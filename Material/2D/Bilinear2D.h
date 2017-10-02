@@ -33,9 +33,10 @@ public:
         const double& = .05,                 /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
         const unsigned& = 0,                 /**< plane stress or plane strain */
-        const double& = 0.);                 /**< density */
+        const double& = 0.                   /**< density */
+    );
 
-    void initialize() override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     double get_parameter(const unsigned& = 0) const override;
 

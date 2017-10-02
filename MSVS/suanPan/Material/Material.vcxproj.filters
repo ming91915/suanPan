@@ -55,6 +55,9 @@
     <ClCompile Include="..\..\..\Material\MaterialParser.cpp">
       <Filter>Base</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Material\MaterialTag.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\2D\Concrete2D.h">
+      <Filter>2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

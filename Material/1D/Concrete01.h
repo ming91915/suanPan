@@ -47,14 +47,14 @@ class Concrete01 : public Material {
     virtual void compute_backbone();
 
 public:
-    Concrete01(const unsigned& T, // tag
-        const double& EP,         // peak strain in negative
-        const double& SP,         // peak stress in negative
-        const BackboneType& TP,   // backbone type
-        const bool& CO = false    // center oriented or using unloading criterion
-    );
+    Concrete01(const unsigned&, // tag
+        const double&,          // peak strain in negative
+        const double&,          // peak stress in negative
+        const BackboneType&,    // backbone type
+        const bool& = false,    // center oriented or using unloading criterion
+        const double& = 0.);
 
-    void initialize() override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Material> get_copy() override;
 

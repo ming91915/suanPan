@@ -18,20 +18,14 @@
 #include "Elastic1D.h"
 
 Elastic1D::Elastic1D(const unsigned& T, const double& E, const double& R)
-    : Material(T, MT_ELASTIC1D)
-    , elastic_modulus(E) {
-    density = R;
-    Elastic1D::initialize();
-}
+    : Material(T, MT_ELASTIC1D, MaterialType::D1, R)
+    , elastic_modulus(E) {}
 
 Elastic1D::Elastic1D(const double& E, const double& R)
-    : Material(0, MT_ELASTIC1D)
-    , elastic_modulus(E) {
-    density = R;
-    Elastic1D::initialize();
-}
+    : Material(0, MT_ELASTIC1D, MaterialType::D1, R)
+    , elastic_modulus(E) {}
 
-void Elastic1D::initialize() {
+void Elastic1D::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     current_stress.zeros(1);
     trial_strain.zeros(1);

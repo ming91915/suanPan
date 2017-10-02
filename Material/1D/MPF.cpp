@@ -19,7 +19,7 @@
 #include <Toolbox/utility.h>
 
 MPF::MPF(const unsigned& T, const double& E, const double& Y, const double& H, const double& R, const double& B1, const double& B2, const double& B3, const double& B4, const bool& ISO, const bool& CON, const double& D)
-    : Material(T, MT_MPF)
+    : Material(T, MT_MPF, MaterialType::D1, D)
     , elastic_modulus(E)
     , yield_stress(Y)
     , hardening_ratio(H)
@@ -30,12 +30,9 @@ MPF::MPF(const unsigned& T, const double& E, const double& Y, const double& H, c
     , A4(B4)
     , isotropic_hardening(ISO)
     , constant_radius(CON)
-    , yield_strain(Y / E) {
-    density = D;
-    MPF::initialize();
-}
+    , yield_strain(Y / E) {}
 
-void MPF::initialize() {
+void MPF::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     trial_strain.zeros(1);
 
@@ -115,7 +112,7 @@ int MPF::update_trial_status(const vec& t_strain) {
 }
 
 int MPF::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

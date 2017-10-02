@@ -18,24 +18,11 @@
 #include "Elastic3D.h"
 
 Elastic3D::Elastic3D(const unsigned& T, const double& E, const double& P, const double& R)
-    : Material(T, MT_ELASTIC3D)
+    : Material(T, MT_ELASTIC3D, MaterialType::D3, R)
     , elastic_modulus(E)
-    , poissons_ratio(P) {
-    density = R;
-    Elastic3D::initialize();
-}
+    , poissons_ratio(P) {}
 
-Elastic3D::Elastic3D(const double& E, const double& P, const double& R)
-    : Material(0, MT_ELASTIC3D)
-    , elastic_modulus(E)
-    , poissons_ratio(P) {
-    density = R;
-    Elastic3D::initialize();
-}
-
-Elastic3D::~Elastic3D() {}
-
-void Elastic3D::initialize() {
+void Elastic3D::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);
@@ -43,7 +30,7 @@ void Elastic3D::initialize() {
     // incre_strain.zeros(6);
     // incre_stress.zeros(6);
 
-    const auto shear_modulus = elastic_modulus / (2. + 2. * poissons_ratio);
+    const auto shear_modulus = elastic_modulus / (1. + poissons_ratio) / 2.;
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);

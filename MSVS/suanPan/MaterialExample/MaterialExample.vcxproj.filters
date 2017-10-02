@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Domain\DomainBase.cpp">
+      <Filter>Depend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Developer\Material\MaterialExample.h">

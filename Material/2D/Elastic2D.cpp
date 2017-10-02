@@ -18,12 +18,10 @@
 #include "Elastic2D.h"
 
 Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const double& R, const unsigned& TP)
-    : Material(T, MT_ELASTIC2D)
+    : Material(T, MT_ELASTIC2D, MaterialType::D2, R)
     , elastic_modulus(E)
     , poissons_ratio(P)
     , material_type(TP) {
-    density = R;
-
     const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
     const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
@@ -34,34 +32,9 @@ Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const 
     initial_stiffness(0, 1) = VV;
     initial_stiffness(1, 0) = VV;
     initial_stiffness *= EE / (1. - VV * VV);
-
-    Elastic2D::initialize();
 }
 
-Elastic2D::Elastic2D(const double& E, const double& P, const double& R, const unsigned& TP)
-    : Material(0, MT_ELASTIC2D)
-    , elastic_modulus(E)
-    , poissons_ratio(P)
-    , material_type(TP) {
-    density = R;
-
-    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
-    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
-
-    initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1.;
-    initial_stiffness(1, 1) = 1.;
-    initial_stiffness(2, 2) = (1. - VV) / 2.;
-    initial_stiffness(0, 1) = VV;
-    initial_stiffness(1, 0) = VV;
-    initial_stiffness *= EE / (1. - VV * VV);
-
-    Elastic2D::initialize();
-}
-
-Elastic2D::~Elastic2D() {}
-
-void Elastic2D::initialize() {
+void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(3);
     current_stress.zeros(3);
     trial_strain.zeros(3);
@@ -84,7 +57,7 @@ int Elastic2D::update_trial_status(const vec& t_strain) {
 }
 
 int Elastic2D::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

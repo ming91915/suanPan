@@ -53,7 +53,7 @@ public:
         const double& = 0.,                       /**< isotropic/kinematic hardening factor */
         const double& = 0.);                      /**< density */
 
-    void initialize() override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Material> get_copy() override;
 

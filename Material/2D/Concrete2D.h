@@ -15,46 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class MPF
- * @brief A 1-D Elastic class.
+ * @class Concrete2D
+ * @brief A Concrete2D material class.
  * @author T
- * @date 11/08/2017
- * @version 0.1.0
- * @file MPF.h
+ * @date 03/10/2017
+ * @version 0.1.1
+ * @file Concrete2D.h
  * @addtogroup Material-1D
  * @ingroup Material
  * @{
  */
 
-#ifndef MPF_H
-#define MPF_H
+#ifndef CONCRETE2D_H
+#define CONCRETE2D_H
 
 #include <Material/Material.h>
 
-class MPF final : public Material {
-    const double elastic_modulus;    // elastic modulus
-    const double yield_stress;       // yield stress
-    const double hardening_ratio;    // hardening ratio
-    const double R0, A1, A2, A3, A4; // model parameters
-
-    const bool isotropic_hardening; // isotropic hardening switch
-    const bool constant_radius;     // constant radius switch
-
-    const double yield_strain; // yield strain
+class Concrete2D : public Material {
+    unique_ptr<Material> concrete_major, concrete_minor;
 
 public:
-    explicit MPF(const unsigned& = 0, // tag
-        const double& = 2E5,          // elastic modulus
-        const double& = 400.,         // yield stress
-        const double& = .05,          // hardening ratio
-        const double& = 20.,          // R0
-        const double& = 18.5,         // A1
-        const double& = .15,          // A2
-        const double& = .01,          // A3
-        const double& = 7.,           // A4
-        const bool& = false,          // isotropic hardening switch
-        const bool& = false,          // constant radius switch
-        const double& = 0.            // density
+    Concrete2D(const unsigned& T, // tag
+        const unsigned& XT,       // material tag along x axis
+        const unsigned& YT        // material tag along y axis
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
@@ -67,8 +50,6 @@ public:
     int clear_status() override;
     int commit_status() override;
     int reset_status() override;
-
-    void print() override;
 };
 
 #endif

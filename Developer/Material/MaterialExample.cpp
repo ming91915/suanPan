@@ -74,18 +74,15 @@ SUANPAN_EXPORT void new_materialexample(unique_ptr<Material>& return_obj, istrin
 #endif
 
 MaterialExample::MaterialExample(const unsigned& T, const double& E, const double& Y, const double& H, const double& B, const double& R)
-    : Material(T, MT_MATERIALEXAMPLE)
+    : Material(T, MT_MATERIALEXAMPLE, MaterialType::D1, R)
     , elastic_modulus(E)
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , tolerance(1E-10 * yield_stress) {
-    density = R;
-    MaterialExample::initialize();
-}
+    , tolerance(1E-10 * yield_stress) {}
 
-void MaterialExample::initialize() {
+void MaterialExample::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     current_stress.zeros(1);
 
@@ -133,7 +130,7 @@ int MaterialExample::update_trial_status(const vec& t_strain) {
 }
 
 int MaterialExample::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

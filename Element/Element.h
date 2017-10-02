@@ -30,7 +30,6 @@
 
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
-#include <Domain/Tag.h>
 #include <Material/Material.h> // for derived class
 
 class Element : public Tag {

@@ -28,10 +28,14 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <Domain/Tag.h>
+#include <Domain/DomainBase.h>
+
+enum class MaterialType { D0, D1, D2, D3 };
 
 class Material : public Tag {
 protected:
+    const MaterialType material_type;
+
     double density = 0.; /**< density */
 
     vec current_strain;      /**< current status */
@@ -45,18 +49,18 @@ protected:
     vec trial_history;     /**< trial status */
 
     vec incre_strain;      /**< incremental status */
-    vec incre_stress;      /**< incremental status */
     vec incre_strain_rate; /**< incremental status */
+    vec incre_stress;      /**< incremental status */
 
     mat initial_stiffness; /**< stiffness matrix */
     mat current_stiffness; /**< stiffness matrix */
     mat trial_stiffness;   /**< stiffness matrix */
 public:
-    explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL);
+    explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D0, const double& = 0.);
 
     virtual ~Material();
 
-    virtual void initialize() = 0;
+    virtual void initialize(const shared_ptr<DomainBase>&) = 0;
 
     virtual double get_parameter(const unsigned& = 0) const;
 

@@ -19,15 +19,12 @@
 #include <Toolbox/utility.h>
 
 Gap01::Gap01(const unsigned& T, const double& E, const double& Y, const double& G, const double& R)
-    : Material(T, MT_GAP01)
+    : Material(T, MT_GAP01, MaterialType::D1, R)
     , elastic_modulus(E)
     , yield_stress(Y)
-    , gap_strain(G) {
-    density = R;
-    Gap01::initialize();
-}
+    , gap_strain(G) {}
 
-void Gap01::initialize() {
+void Gap01::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     trial_strain.zeros(1);
 
@@ -88,7 +85,7 @@ int Gap01::update_trial_status(const vec& t_strain) {
 }
 
 int Gap01::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

@@ -52,13 +52,8 @@ public:
         const double& = .05,                 /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
         const double& = 0.);                 /**< density */
-    explicit Bilinear1D(const double&,       /**< elastic modulus */
-        const double& = 0.,                  /**< initial yield stress */
-        const double& = 0.,                  /**< hardening ratio */
-        const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const double& = 0.);                 /**< density */
 
-    void initialize() override;
+    void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Material> get_copy() override;
 

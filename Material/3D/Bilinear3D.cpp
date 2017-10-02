@@ -18,25 +18,23 @@
 #include "Bilinear3D.h"
 #include <Toolbox/tensorToolbox.h>
 
-const vec Bilinear3D::norm_weight = { 1, 1, 1, 2, 2, 2 };
+const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>({ 1, 1, 1, 2, 2, 2 }));
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);
 const mat Bilinear3D::unit_dev_tensor = unitDevTensor4();
 
 Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const double& R)
-    : Material(T, MT_BILINEAR3D)
+    : Material(T, MT_BILINEAR3D, MaterialType::D3, R)
     , elastic_modulus(E)
     , poissons_ratio(V)
     , yield_stress(Y)
     , hardening_ratio(H)
     , beta(B)
-    , tolerance(1E-10 * yield_stress)
+    , tolerance(1E-14 * yield_stress)
     , shear_modulus(elastic_modulus / (2. + 2. * poissons_ratio))
     , double_shear(2. * shear_modulus)
     , square_double_shear(double_shear * double_shear)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
     , factor(2. / 3. * plastic_modulus) {
-    density = R;
-
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
@@ -47,11 +45,9 @@ Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, cons
     for(auto I = 0; I < 3; ++I) initial_stiffness(I, I) += double_shear;
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
-
-    Bilinear3D::initialize();
 }
 
-void Bilinear3D::initialize() {
+void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(6);
     current_stress.zeros(6);
     trial_strain.zeros(6);
@@ -104,7 +100,7 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear3D::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

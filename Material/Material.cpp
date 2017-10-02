@@ -17,14 +17,16 @@
 
 #include "Material.h"
 
-Material::Material(const unsigned& T, const unsigned& CT)
-    : Tag(T, CT) {
+Material::Material(const unsigned& T, const unsigned& CT, const MaterialType& MT, const double& D)
+    : Tag(T, CT)
+    , material_type(MT)
+    , density(D) {
     suanpan_debug("Material %u ctor() called.\n", T);
 }
 
 Material::~Material() { suanpan_debug("Material %u dtor() called.\n", get_tag()); }
 
-void Material::initialize() {}
+void Material::initialize(const shared_ptr<DomainBase>&) {}
 
 double Material::get_parameter(const unsigned&) const { return density; }
 

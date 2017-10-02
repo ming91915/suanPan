@@ -18,11 +18,9 @@
 #include "Bilinear2D.h"
 
 Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const unsigned& M, const double& D)
-    : Material(T, MT_BILINEAR2D)
+    : Material(T, MT_BILINEAR2D, MaterialType::D2, D)
     , material_type(M)
     , base(0, E, V, Y, H, B, D) {
-    density = D;
-
     const auto EE = material_type == 0 ? E : E / (1 - V * V);
     const auto VV = material_type == 0 ? V : V / (1 - V);
 
@@ -33,11 +31,9 @@ Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, cons
     initial_stiffness(0, 1) = VV;
     initial_stiffness(1, 0) = VV;
     initial_stiffness *= EE / (1. - VV * VV);
-
-    Bilinear2D::initialize();
 }
 
-void Bilinear2D::initialize() {
+void Bilinear2D::initialize(const shared_ptr<DomainBase>&) {
     trial_full_strain.zeros(6);
 
     current_strain.zeros(3);
@@ -112,7 +108,7 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear2D::clear_status() {
-    initialize();
+    initialize(nullptr);
     return base.clear_status();
 }
 

@@ -19,18 +19,15 @@
 #include <Toolbox/utility.h>
 
 RambergOsgood::RambergOsgood(const unsigned& T, const double& E, const double& Y, const double& O, const double& N, const double& R)
-    : Material(T, MT_RAMBERGOSGOOD)
+    : Material(T, MT_RAMBERGOSGOOD, MaterialType::D1, R)
     , elastic_modulus(E)
     , yield_stress(Y)
     , offset(O)
     , n(N)
     , nm(N - 1.)
-    , tolerance(1E-10 * yield_stress) {
-    density = R;
-    RambergOsgood::initialize();
-}
+    , tolerance(1E-10 * yield_stress) {}
 
-void RambergOsgood::initialize() {
+void RambergOsgood::initialize(const shared_ptr<DomainBase>&) {
     current_strain.zeros(1);
     trial_strain.zeros(1);
 
@@ -87,7 +84,7 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
 }
 
 int RambergOsgood::clear_status() {
-    initialize();
+    initialize(nullptr);
     return 0;
 }
 

@@ -2,7 +2,7 @@ node 1 0 0
 node 2 4 0
 node 3 0 -3
 
-import MaterialExample
+import ModuleBundle
 
 material Elastic2D 1 1000 .2
 

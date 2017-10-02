@@ -163,6 +163,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Developer\Material\MaterialExample.cpp" />
+    <ClCompile Include="..\..\..\Domain\DomainBase.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Material\Material.cpp" />
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
