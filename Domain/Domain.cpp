@@ -434,7 +434,10 @@ const bool& Domain::is_updated() const { return updated; }
 int Domain::initialize() {
     if(updated) return 0;
 
-    suanpan_for_each(material_pond.cbegin(), material_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Material>>& t_material) { t_material.second->initialize(shared_from_this()); });
+    suanpan_for_each(material_pond.cbegin(), material_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Material>>& t_material) {
+        t_material.second->Material::initialize(shared_from_this());
+        t_material.second->initialize(shared_from_this());
+    });
 
     suanpan_for_each(node_pond.cbegin(), node_pond.cend(), [](const std::pair<unsigned, shared_ptr<Node>>& t_node) { t_node.second->set_dof_number(0); });
 

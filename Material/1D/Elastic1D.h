@@ -34,7 +34,6 @@ class Elastic1D : public Material {
     const double elastic_modulus; /**< elastic modulus */
 public:
     explicit Elastic1D(const unsigned& = 0, const double& = 2E5, const double& = 0.);
-    explicit Elastic1D(const double&, const double& = 0.);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

@@ -46,12 +46,6 @@ void Concrete01::initialize(const shared_ptr<DomainBase>&) {
         break;
     }
 
-    current_strain.zeros(1);
-    current_stress.zeros(1);
-
-    trial_strain.zeros(1);
-    trial_stress.zeros(1);
-
     current_history.zeros(4);
     trial_history.zeros(4);
 
@@ -121,30 +115,23 @@ int Concrete01::update_trial_status(const vec& t_strain) {
 int Concrete01::clear_status() {
     current_strain.zeros();
     current_stress.zeros();
-
-    trial_strain.zeros();
-    trial_stress.zeros();
-
+    current_history.zeros();
     current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
-
-    current_history.zeros(4);
-    trial_history.zeros(4);
-
-    return 0;
+    return reset_status();
 }
 
 int Concrete01::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
-    current_stiffness = trial_stiffness;
     current_history = trial_history;
+    current_stiffness = trial_stiffness;
     return 0;
 }
 
 int Concrete01::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
+    trial_history = current_history;
     trial_stiffness = current_stiffness;
     return 0;
 }

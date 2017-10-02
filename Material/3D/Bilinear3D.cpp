@@ -30,11 +30,13 @@ Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, cons
     , hardening_ratio(H)
     , beta(B)
     , tolerance(1E-14 * yield_stress)
-    , shear_modulus(elastic_modulus / (2. + 2. * poissons_ratio))
+    , shear_modulus(elastic_modulus / (1. + poissons_ratio) / 2.)
     , double_shear(2. * shear_modulus)
     , square_double_shear(double_shear * double_shear)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , factor(2. / 3. * plastic_modulus) {
+    , factor(2. / 3. * plastic_modulus) {}
+
+void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
@@ -45,22 +47,15 @@ Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, cons
     for(auto I = 0; I < 3; ++I) initial_stiffness(I, I) += double_shear;
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
-}
 
-void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(6);
-    current_stress.zeros(6);
-    trial_strain.zeros(6);
-    trial_stress.zeros(6);
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
 
     current_back_stress.zeros(6);
     trial_back_stress.zeros(6);
 
     current_plastic_strain = 0.;
     trial_plastic_strain = 0.;
-
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
 }
 
 unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
@@ -100,8 +95,12 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear3D::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_stiffness = initial_stiffness;
+    current_back_stress.zeros();
+    current_plastic_strain = 0.;
+    return reset_status();
 }
 
 int Bilinear3D::commit_status() {
@@ -110,7 +109,6 @@ int Bilinear3D::commit_status() {
     current_stiffness = trial_stiffness;
     current_back_stress = trial_back_stress;
     current_plastic_strain = trial_plastic_strain;
-
     return 0;
 }
 
@@ -120,6 +118,5 @@ int Bilinear3D::reset_status() {
     trial_stiffness = current_stiffness;
     trial_back_stress = current_back_stress;
     trial_plastic_strain = current_plastic_strain;
-
     return 0;
 }

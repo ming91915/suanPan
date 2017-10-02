@@ -25,12 +25,6 @@ Gap01::Gap01(const unsigned& T, const double& E, const double& Y, const double& 
     , gap_strain(G) {}
 
 void Gap01::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    trial_strain.zeros(1);
-
-    current_stress.zeros(1);
-    trial_stress.zeros(1);
-
     initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -85,8 +79,12 @@ int Gap01::update_trial_status(const vec& t_strain) {
 }
 
 int Gap01::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_stiffness = initial_stiffness;
+    current_load_flag = 0.;
+    current_reverse_strain = 0.;
+    return reset_status();
 }
 
 int Gap01::commit_status() {

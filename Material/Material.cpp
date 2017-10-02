@@ -26,7 +26,30 @@ Material::Material(const unsigned& T, const unsigned& CT, const MaterialType& MT
 
 Material::~Material() { suanpan_debug("Material %u dtor() called.\n", get_tag()); }
 
-void Material::initialize(const shared_ptr<DomainBase>&) {}
+void Material::initialize(const shared_ptr<DomainBase>&) {
+    unsigned size = 0;
+    switch(material_type) {
+    case MaterialType::D0:
+        break;
+    case MaterialType::D1:
+        size = 1;
+        break;
+    case MaterialType::D2:
+        size = 3;
+        break;
+    case MaterialType::D3:
+        size = 6;
+        break;
+    }
+
+    if(size == 0) return;
+
+    current_strain.zeros(size);
+    current_stress.zeros(size);
+
+    trial_strain.zeros(size);
+    trial_stress.zeros(size);
+}
 
 double Material::get_parameter(const unsigned&) const { return density; }
 

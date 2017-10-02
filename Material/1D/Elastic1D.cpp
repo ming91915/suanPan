@@ -21,18 +21,7 @@ Elastic1D::Elastic1D(const unsigned& T, const double& E, const double& R)
     : Material(T, MT_ELASTIC1D, MaterialType::D1, R)
     , elastic_modulus(E) {}
 
-Elastic1D::Elastic1D(const double& E, const double& R)
-    : Material(0, MT_ELASTIC1D, MaterialType::D1, R)
-    , elastic_modulus(E) {}
-
 void Elastic1D::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    current_stress.zeros(1);
-    trial_strain.zeros(1);
-    trial_stress.zeros(1);
-    // incre_strain.zeros(1);
-    // incre_stress.zeros(1);
-
     initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -50,26 +39,22 @@ int Elastic1D::update_trial_status(const vec& t_strain) {
 }
 
 int Elastic1D::clear_status() {
-    current_strain.zeros(1);
-    current_stress.zeros(1);
-    trial_strain.zeros(1);
-    trial_stress.zeros(1);
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    current_strain.zeros();
+    current_stress.zeros();
+    trial_strain.zeros();
+    trial_stress.zeros();
     return 0;
 }
 
 int Elastic1D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
-    // current_stiffness = trial_stiffness;
     return 0;
 }
 
 int Elastic1D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
-    // trial_stiffness = current_stiffness;
     return 0;
 }
 

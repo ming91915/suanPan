@@ -21,7 +21,9 @@ Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const 
     : Material(T, MT_ELASTIC2D, MaterialType::D2, R)
     , elastic_modulus(E)
     , poissons_ratio(P)
-    , material_type(TP) {
+    , material_type(TP) {}
+
+void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
     const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
     const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
@@ -32,13 +34,6 @@ Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const 
     initial_stiffness(0, 1) = VV;
     initial_stiffness(1, 0) = VV;
     initial_stiffness *= EE / (1. - VV * VV);
-}
-
-void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(3);
-    current_stress.zeros(3);
-    trial_strain.zeros(3);
-    trial_stress.zeros(3);
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -57,21 +52,20 @@ int Elastic2D::update_trial_status(const vec& t_strain) {
 }
 
 int Elastic2D::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    return reset_status();
 }
 
 int Elastic2D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
-    // current_stiffness = trial_stiffness;
     return 0;
 }
 
 int Elastic2D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
-    // trial_stiffness = current_stiffness;
     return 0;
 }
 

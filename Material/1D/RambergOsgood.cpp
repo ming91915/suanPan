@@ -25,15 +25,9 @@ RambergOsgood::RambergOsgood(const unsigned& T, const double& E, const double& Y
     , offset(O)
     , n(N)
     , nm(N - 1.)
-    , tolerance(1E-10 * yield_stress) {}
+    , tolerance(1E-14 * yield_stress) {}
 
 void RambergOsgood::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    trial_strain.zeros(1);
-
-    current_stress.zeros(1);
-    trial_stress.zeros(1);
-
     current_history.zeros(3);
     trial_history.zeros(3);
 
@@ -84,22 +78,25 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
 }
 
 int RambergOsgood::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_history.zeros();
+    current_stiffness = initial_stiffness;
+    return reset_status();
 }
 
 int RambergOsgood::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
-    current_stiffness = trial_stiffness;
     current_history = trial_history;
+    current_stiffness = trial_stiffness;
     return 0;
 }
 
 int RambergOsgood::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
-    trial_stiffness = current_stiffness;
     trial_history = current_history;
+    trial_stiffness = current_stiffness;
     return 0;
 }

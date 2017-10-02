@@ -40,11 +40,6 @@ class Bilinear1D final : public Material {
 
     const double tolerance;
 
-    double current_back_stress = 0.;
-    double current_plastic_strain = 0.;
-    double trial_back_stress = 0.;
-    double trial_plastic_strain = 0.;
-
 public:
     explicit Bilinear1D(const unsigned& = 0, /**< tag */
         const double& = 2E5,                 /**< elastic modulus */

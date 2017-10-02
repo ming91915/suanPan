@@ -50,7 +50,7 @@ fix 2 2 1 21
 
 recorder 1 Node U 7
 
-step arclength 1 7 2 -50
+step arclength 1 7 2 -300
 
 criterion MinDisplacement 1 7 2 -1.8
 

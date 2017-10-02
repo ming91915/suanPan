@@ -83,12 +83,6 @@ MaterialExample::MaterialExample(const unsigned& T, const double& E, const doubl
     , tolerance(1E-10 * yield_stress) {}
 
 void MaterialExample::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    current_stress.zeros(1);
-
-    trial_strain.zeros(1);
-    trial_stress.zeros(1);
-
     current_back_stress = 0.;
     current_plastic_strain = 0.;
 
@@ -130,8 +124,12 @@ int MaterialExample::update_trial_status(const vec& t_strain) {
 }
 
 int MaterialExample::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_stiffness = initial_stiffness;
+    current_back_stress = 0.;
+    current_plastic_strain = 0.;
+    return reset_status();
 }
 
 int MaterialExample::commit_status() {

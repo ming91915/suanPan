@@ -28,17 +28,8 @@ Bilinear1D::Bilinear1D(const unsigned& T, const double& E, const double& Y, cons
     , tolerance(1E-14 * yield_stress) {}
 
 void Bilinear1D::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    current_stress.zeros(1);
-
-    trial_strain.zeros(1);
-    trial_stress.zeros(1);
-
-    current_back_stress = 0.;
-    current_plastic_strain = 0.;
-
-    trial_back_stress = 0.;
-    trial_plastic_strain = 0.;
+    current_history.zeros(2);
+    trial_history.zeros(2);
 
     initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
@@ -53,15 +44,17 @@ int Bilinear1D::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
-    trial_back_stress = current_back_stress;
-    trial_plastic_strain = current_plastic_strain;
+    trial_history = current_history;
+    auto& trial_back_stress = trial_history(0);
+    auto& trial_plastic_strain = trial_history(1);
+
     trial_stiffness = initial_stiffness;
 
     trial_stress = current_stress + elastic_modulus * incre_strain;
 
-    const auto shifted_stress = trial_stress(0) - current_back_stress;
+    const auto shifted_stress = trial_stress(0) - trial_back_stress;
 
-    const auto yield_func = abs(shifted_stress) - yield_stress - (1. - beta) * plastic_modulus * current_plastic_strain;
+    const auto yield_func = abs(shifted_stress) - yield_stress - (1. - beta) * plastic_modulus * trial_plastic_strain;
 
     if(yield_func > tolerance) {
         const auto incre_plastic_strain = yield_func / (elastic_modulus + plastic_modulus);
@@ -75,24 +68,25 @@ int Bilinear1D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear1D::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_history.zeros();
+    current_stiffness = initial_stiffness;
+    return reset_status();
 }
 
 int Bilinear1D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
+    current_history = trial_history;
     current_stiffness = trial_stiffness;
-    current_back_stress = trial_back_stress;
-    current_plastic_strain = trial_plastic_strain;
     return 0;
 }
 
 int Bilinear1D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
+    trial_history = current_history;
     trial_stiffness = current_stiffness;
-    trial_back_stress = current_back_stress;
-    trial_plastic_strain = current_plastic_strain;
     return 0;
 }

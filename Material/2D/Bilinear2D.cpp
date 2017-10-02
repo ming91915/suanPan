@@ -36,11 +36,6 @@ Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, cons
 void Bilinear2D::initialize(const shared_ptr<DomainBase>&) {
     trial_full_strain.zeros(6);
 
-    current_strain.zeros(3);
-    current_stress.zeros(3);
-    trial_strain.zeros(3);
-    trial_stress.zeros(3);
-
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 }
@@ -108,7 +103,16 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
 }
 
 int Bilinear2D::clear_status() {
-    initialize(nullptr);
+    trial_full_strain.zeros();
+
+    current_strain.zeros();
+    current_stress.zeros();
+    current_stiffness = initial_stiffness;
+
+    trial_strain.zeros();
+    trial_stress.zeros();
+    trial_stiffness = initial_stiffness;
+
     return base.clear_status();
 }
 

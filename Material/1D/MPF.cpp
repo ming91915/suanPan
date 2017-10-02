@@ -33,12 +33,6 @@ MPF::MPF(const unsigned& T, const double& E, const double& Y, const double& H, c
     , yield_strain(Y / E) {}
 
 void MPF::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(1);
-    trial_strain.zeros(1);
-
-    current_stress.zeros(1);
-    trial_stress.zeros(1);
-
     initial_stiffness = elastic_modulus;
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -112,8 +106,13 @@ int MPF::update_trial_status(const vec& t_strain) {
 }
 
 int MPF::clear_status() {
-    initialize(nullptr);
-    return 0;
+    current_strain.zeros();
+    current_stress.zeros();
+    current_stiffness = initial_stiffness;
+    current_history.zeros();
+    current_history(2) = yield_stress;
+    current_history(3) = yield_strain;
+    return reset_status();
 }
 
 int MPF::commit_status() {

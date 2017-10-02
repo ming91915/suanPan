@@ -23,13 +23,6 @@ Elastic3D::Elastic3D(const unsigned& T, const double& E, const double& P, const 
     , poissons_ratio(P) {}
 
 void Elastic3D::initialize(const shared_ptr<DomainBase>&) {
-    current_strain.zeros(6);
-    current_stress.zeros(6);
-    trial_strain.zeros(6);
-    trial_stress.zeros(6);
-    // incre_strain.zeros(6);
-    // incre_stress.zeros(6);
-
     const auto shear_modulus = elastic_modulus / (1. + poissons_ratio) / 2.;
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
@@ -57,26 +50,22 @@ int Elastic3D::update_trial_status(const vec& t_strain) {
 }
 
 int Elastic3D::clear_status() {
-    current_strain.zeros(6);
-    current_stress.zeros(6);
-    trial_strain.zeros(6);
-    trial_stress.zeros(6);
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    current_strain.zeros();
+    current_stress.zeros();
+    trial_strain.zeros();
+    trial_stress.zeros();
     return 0;
 }
 
 int Elastic3D::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
-    // current_stiffness = trial_stiffness;
     return 0;
 }
 
 int Elastic3D::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
-    // trial_stiffness = current_stiffness;
     return 0;
 }
 

@@ -38,8 +38,8 @@
 #include <Material/Material.h>
 
 class Elastic3D : public Material {
-    double elastic_modulus = 2E5; /**< elastic modulus */
-    double poissons_ratio = .2;
+    double elastic_modulus; /**< elastic modulus */
+    double poissons_ratio;  /**< poissons ratio */
 
 public:
     explicit Elastic3D(const unsigned& = 0, const double& = 2E5, const double& = .2, const double& = 0);

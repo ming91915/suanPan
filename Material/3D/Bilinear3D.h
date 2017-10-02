@@ -53,8 +53,8 @@ class Bilinear3D : public Material {
 
     const double factor;
 
-    double current_plastic_strain;
-    double trial_plastic_strain;
+    double current_plastic_strain = 0.;
+    double trial_plastic_strain = 0.;
 
     vec current_back_stress;
     vec trial_back_stress;
