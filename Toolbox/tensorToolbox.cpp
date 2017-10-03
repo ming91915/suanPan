@@ -189,18 +189,36 @@ mat form_trans(const double angle) {
     return trans;
 }
 
-mat nominal_to_principal_strain(const vec& strain, double* theta) {
-    const auto angle = atan(strain(2) / (strain(0) - strain(1))) / 2.;
+void nominal_to_principal_strain(vec& strain) {
+    const auto tmp_a = (strain(0) + strain(1)) / 2.;
+    const auto tmp_b = sqrt(pow(strain(0) - strain(1), 2.) + pow(strain(2), 2.)) / 2.;
 
-    if(theta != nullptr) *theta = angle;
-
-    return form_trans(angle);
+    strain(0) = tmp_a + tmp_b;
+    strain(1) = tmp_a - tmp_b;
+    strain(2) = 0.;
 }
 
-mat nominal_to_principal_stress(const vec& stress, double* theta) {
-    const auto angle = atan(2. * stress(2) / (stress(0) - stress(1))) / 2.;
+void nominal_to_principal_stress(vec& stress) {
+    const auto tmp_a = (stress(0) + stress(1)) / 2.;
+    const auto tmp_b = sqrt(pow(stress(0) - stress(1), 2.) + pow(2. * stress(2), 2.)) / 2.;
 
-    if(theta != nullptr) *theta = angle;
+    stress(0) = tmp_a + tmp_b;
+    stress(1) = tmp_a - tmp_b;
+    stress(2) = 0.;
+}
 
-    return form_trans(angle);
+mat nominal_to_principal_strain(vec& strain, double& theta) {
+    theta = atan(strain(2) / (strain(0) - strain(1))) / 2.;
+
+    nominal_to_principal_strain(strain);
+
+    return form_trans(theta);
+}
+
+mat nominal_to_principal_stress(vec& stress, double& theta) {
+    theta = atan(2. * stress(2) / (stress(0) - stress(1))) / 2.;
+
+    nominal_to_principal_stress(stress);
+
+    return form_trans(theta);
 }

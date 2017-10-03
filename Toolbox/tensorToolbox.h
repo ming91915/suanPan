@@ -53,7 +53,9 @@ mat shapeStrain9(const vec&, const double&);
 mat shapeStrain11(const vec&, const double&);
 
 mat form_trans(const double);
-mat nominal_to_principal_strain(const vec&, double* = nullptr);
-mat nominal_to_principal_stress(const vec&, double* = nullptr);
+void nominal_to_principal_strain(vec&);
+void nominal_to_principal_stress(vec&);
+mat nominal_to_principal_strain(vec&, double&);
+mat nominal_to_principal_stress(vec&, double&);
 
 #endif
