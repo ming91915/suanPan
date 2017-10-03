@@ -18,38 +18,27 @@
 #include "Concrete2D.h"
 #include <Toolbox/tensorToolbox.h>
 
-Concrete2D::Concrete2D(const unsigned& T, const unsigned& XT, const unsigned& YT, const double& R)
+Concrete2D::Concrete2D(const unsigned& T, const unsigned& MT, const double& R)
     : Material(T, MT_CONCRETE2D, MaterialType::D2, R)
-    , tag_major(XT)
-    , tag_minor(YT) {}
+    , concrete_tag(MT) {}
 
 Concrete2D::Concrete2D(const Concrete2D& P)
     : Material(P.get_tag(), MT_CONCRETE2D, MaterialType::D2, P.density)
-    , tag_major(P.tag_major)
-    , tag_minor(P.tag_minor) {
-    concrete_major = P.concrete_major->get_copy();
-    concrete_minor = P.concrete_minor->get_copy();
+    , concrete_tag(P.concrete_tag) {
+    if(P.concrete_major != nullptr) concrete_major = P.concrete_major->get_copy();
+    if(P.concrete_minor != nullptr) concrete_minor = P.concrete_minor->get_copy();
 }
 
 void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
-    if(D->find_material(tag_major)) {
-        concrete_major = D->get_material(tag_major)->get_copy();
+    if(D->find_material(concrete_tag)) {
+        concrete_major = D->get_material(concrete_tag)->get_copy();
         if(!concrete_major->initialized) {
             concrete_major->Material::initialize(D);
             concrete_major->initialize(D);
         }
+        concrete_minor = concrete_major->get_copy();
     } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_major);
-        return;
-    }
-    if(D->find_material(tag_minor)) {
-        concrete_minor = D->get_material(tag_minor)->get_copy();
-        if(!concrete_minor->initialized) {
-            concrete_minor->Material::initialize(D);
-            concrete_minor->initialize(D);
-        }
-    } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_minor);
+        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", concrete_tag);
         return;
     }
 
@@ -72,10 +61,10 @@ int Concrete2D::update_incre_status(const vec& i_strain) { return update_trial_s
 int Concrete2D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    // transform to principal direction
-    const auto trans = nominal_to_principal_strain(trial_strain, &principal_direction);
+    auto p_strain = trial_strain;
 
-    const vec p_strain = trans * trial_strain;
+    // transform to principal direction
+    const auto trans = nominal_to_principal_strain(p_strain, principal_direction);
 
     // update status
     concrete_major->update_trial_status(vec{ p_strain(0) });

@@ -149,6 +149,7 @@
     <ClCompile Include="..\..\..\Material\2D\Bilinear2D.cpp" />
     <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp" />
     <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp" />
+    <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp" />
     <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp" />
     <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp" />
     <ClCompile Include="..\..\..\Material\Material.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\..\..\Material\2D\Bilinear2D.h" />
     <ClInclude Include="..\..\..\Material\2D\Concrete2D.h" />
     <ClInclude Include="..\..\..\Material\2D\Elastic2D.h" />
+    <ClInclude Include="..\..\..\Material\2D\RebarLayer.h" />
     <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h" />
     <ClInclude Include="..\..\..\Material\3D\Elastic3D.h" />
     <ClInclude Include="..\..\..\Material\Material.h" />

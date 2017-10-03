@@ -15,34 +15,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Concrete2D
- * @brief A Concrete2D material class.
+ * @class RebarLayer
+ * @brief A RebarLayer material class.
  * @author T
  * @date 03/10/2017
  * @version 0.1.1
- * @file Concrete2D.h
+ * @file RebarLayer.h
  * @addtogroup Material-1D
  * @ingroup Material
  * @{
  */
 
-#ifndef CONCRETE2D_H
-#define CONCRETE2D_H
+#ifndef REBARLAYER_H
+#define REBARLAYER_H
 
 #include <Material/Material.h>
 
-class Concrete2D : public Material {
-    unsigned concrete_tag;
-    unique_ptr<Material> concrete_major, concrete_minor;
+class RebarLayer : public Material {
+    const unsigned tag_major, tag_minor;
 
-    double principal_direction = 0.;
+    const double rebar_ratio_major, rebar_ratio_minor;
+
+    unique_ptr<Material> rebar_major, rebar_minor;
+
+    const double inclinement;
+
+    const mat trans;
 
 public:
-    Concrete2D(const unsigned&, // tag
-        const unsigned&,        // material tag
-        const double&           // density
+    RebarLayer(const unsigned&, // tag
+        const unsigned&,        // material tag along major axis
+        const unsigned&,        // material tag along minor axis
+        const double&,          // reinforcement ratio along major axis
+        const double&,          // reinforcement ratio along minor axis
+        const double& = 0.,     // inclinement
+        const double& = 0.      // density
     );
-    Concrete2D(const Concrete2D&);
+    RebarLayer(const RebarLayer&);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

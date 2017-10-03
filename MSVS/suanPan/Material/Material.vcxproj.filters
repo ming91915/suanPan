@@ -58,6 +58,9 @@
     <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp">
       <Filter>2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp">
+      <Filter>2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -103,6 +106,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Material\2D\Concrete2D.h">
+      <Filter>2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\2D\RebarLayer.h">
       <Filter>2D</Filter>
     </ClInclude>
   </ItemGroup>
