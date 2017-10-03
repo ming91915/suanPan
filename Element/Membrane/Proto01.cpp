@@ -124,7 +124,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
     mat L(11, 12, fill::zeros);
     mat LI(11, 2, fill::zeros);
     for(const auto& I : int_pt) {
-        const auto pn = shapeFunctionQuad(I->coor, 1);
+        const auto pn = shape::quad(I->coor, 1);
 
         const mat jacob = pn * ele_coor;
 
@@ -200,7 +200,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
     const auto t_density = material_proto->get_parameter() * thickness;
     if(t_density != 0.) {
         for(const auto& I : int_pt) {
-            const auto n_int = shapeFunctionQuad(I->coor, 0);
+            const auto n_int = shape::quad(I->coor, 0);
             const auto tmp_a = t_density * I->jacob_det * I->weight;
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);

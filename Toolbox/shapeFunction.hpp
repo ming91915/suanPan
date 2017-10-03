@@ -19,7 +19,8 @@
 
 using namespace arma;
 
-template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 4) {
+namespace shape {
+template <typename T> Mat<T> quad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 4) {
     Mat<T> N;
 
     if(ORDER != 0 && ORDER != 1) return N;
@@ -94,7 +95,7 @@ template <typename T> Mat<T> shapeFunctionQuad(const Col<T>& INTPTS, const unsig
     return N;
 }
 
-template <typename T> Mat<T> shapeFunctionCube(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 8) {
+template <typename T> Mat<T> cube(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 8) {
     Mat<T> N;
 
     if(ORDER == 0)
@@ -242,6 +243,7 @@ template <typename T> Mat<T> shapeFunctionCube(const Col<T>& INTPTS, const unsig
     }
 
     return N;
+}
 }
 
 #endif

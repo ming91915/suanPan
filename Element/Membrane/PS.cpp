@@ -52,7 +52,7 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mat jacob_center = shapeFunctionQuad(vec(2, fill::zeros), 1) * ele_coor;
+    mat jacob_center = shape::quad(vec(2, fill::zeros), 1) * ele_coor;
 
     const auto jacob_a = jacob_center(0, 0) * jacob_center(0, 0);
     const auto jacob_b = jacob_center(1, 0) * jacob_center(1, 0);
@@ -65,12 +65,12 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
     tmp_a.zeros();
     tmp_c.zeros();
     for(const auto& I : int_pt) {
-        const auto pn = shapeFunctionQuad(I->coor, 1);
+        const auto pn = shape::quad(I->coor, 1);
         const mat jacob = pn * ele_coor;
         mat pn_pxy = solve(jacob, pn);
         const auto tmp_factor = thickness * det(jacob) * I->weight;
 
-        auto n_int = shapeFunctionQuad(I->coor, 0);
+        auto n_int = shape::quad(I->coor, 0);
 
         auto tmp_density = I->m_material->get_parameter();
         if(tmp_density != 0.) {

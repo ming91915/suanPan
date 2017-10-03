@@ -58,7 +58,7 @@ void GQ12::initialize(const shared_ptr<DomainBase>& D) {
     mat pnt(2, 8);
 
     for(const auto& I : int_pt) {
-        const auto pn = shapeFunctionQuad(I->coor, 1);
+        const auto pn = shape::quad(I->coor, 1);
         const mat jacob = pn * ele_coor;
         I->jacob_det = det(jacob);
         const mat pn_pxy = solve(jacob, pn);

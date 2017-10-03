@@ -48,7 +48,7 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     for(const auto& I : int_pt) {
-        const auto pn = shapeFunctionCube(I->coor, 1, 20);
+        const auto pn = shape::cube(I->coor, 1, 20);
         const mat jacob = pn * ele_coor;
         I->jacob_det = det(jacob);
         const mat pn_pxy = solve(jacob, pn);
@@ -70,7 +70,7 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
-            const auto n_int = shapeFunctionCube(I->coor, 0, 20);
+            const auto n_int = shape::cube(I->coor, 0, 20);
             const auto tmp_a = tmp_density * I->jacob_det * I->weight;
             for(auto J = 0; J < c_node; ++J)
                 for(auto K = J; K < c_node; ++K) mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
