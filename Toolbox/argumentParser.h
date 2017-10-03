@@ -16,7 +16,7 @@
  ******************************************************************************/
 /**
  * @fn argumentParser
- * @brief An shapeFunctionQuad function.
+ * @brief An argumentParser function.
  *
  * @author T
  * @date 21/07/2017
