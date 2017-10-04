@@ -21,17 +21,7 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    // argument_parser(argc, argv);
-
-    double C;
-    vec A = { 0.669, 0.560, 1.310 };
-    A /= 1000;
-    // vec A = { 0.5,-0.2,0.6 };
-    auto B = nominal_to_principal_strain(A, C);
-
-    cout << C / datum::pi * 180. << endl;
-    A(2) /= 2.;
-    (B * A).print();
+    argument_parser(argc, argv);
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
 

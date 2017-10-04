@@ -32,7 +32,12 @@
 #include <Material/Material.h>
 
 class Concrete2D : public Material {
-    unsigned concrete_tag;
+    const unsigned concrete_tag;
+
+    const PlaneType plane_type;
+
+    const double poissons_ratio;
+
     unique_ptr<Material> concrete_major, concrete_minor;
 
     double principal_direction = 0.;
@@ -40,7 +45,9 @@ class Concrete2D : public Material {
 public:
     Concrete2D(const unsigned&, // tag
         const unsigned&,        // material tag
-        const double&           // density
+        const double&,          // poissons_ratio
+        const PlaneType& = PlaneType::S,
+        const double& = 0. // density
     );
     Concrete2D(const Concrete2D&);
 

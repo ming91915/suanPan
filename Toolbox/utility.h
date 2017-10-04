@@ -52,6 +52,8 @@ bool is_false(const string&);
 #include <memory>
 
 template <typename T> arma::mat material_tester(const std::shared_ptr<T>& obj, const std::vector<unsigned>& idx, const double& incre) {
+    obj->Material::initialize(nullptr);
+    obj->initialize(nullptr);
     std::vector<double> A{ 0 }, B{ 0 };
     arma::vec E{ incre };
     for(const auto& I : idx) {

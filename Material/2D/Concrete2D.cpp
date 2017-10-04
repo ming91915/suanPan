@@ -18,13 +18,17 @@
 #include "Concrete2D.h"
 #include <Toolbox/tensorToolbox.h>
 
-Concrete2D::Concrete2D(const unsigned& T, const unsigned& MT, const double& R)
+Concrete2D::Concrete2D(const unsigned& T, const unsigned& M, const double& P, const PlaneType& PT, const double& R)
     : Material(T, MT_CONCRETE2D, MaterialType::D2, R)
-    , concrete_tag(MT) {}
+    , concrete_tag(M)
+    , plane_type(PT)
+    , poissons_ratio(P) {}
 
 Concrete2D::Concrete2D(const Concrete2D& P)
     : Material(P.get_tag(), MT_CONCRETE2D, MaterialType::D2, P.density)
-    , concrete_tag(P.concrete_tag) {
+    , concrete_tag(P.concrete_tag)
+    , plane_type(P.plane_type)
+    , poissons_ratio(P.poissons_ratio) {
     if(P.concrete_major != nullptr) concrete_major = P.concrete_major->get_copy();
     if(P.concrete_minor != nullptr) concrete_minor = P.concrete_minor->get_copy();
 }
@@ -42,13 +46,16 @@ void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
         return;
     }
 
-    initial_stiffness.zeros(3, 3);
     const auto& E11 = concrete_major->get_initial_stiffness().at(0);
-    const auto& E22 = concrete_minor->get_initial_stiffness().at(0);
+    const auto VV = plane_type == PlaneType::S ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
-    initial_stiffness(0, 0) = E11;
-    initial_stiffness(1, 1) = E22;
-    initial_stiffness(2, 2) = E11 * E22 / (E11 + E22);
+    initial_stiffness.zeros(3, 3);
+    initial_stiffness(0, 0) = 1.;
+    initial_stiffness(1, 1) = 1.;
+    initial_stiffness(2, 2) = (1. - VV) / 2.;
+    initial_stiffness(0, 1) = VV;
+    initial_stiffness(1, 0) = VV;
+    initial_stiffness *= (plane_type == PlaneType::S ? E11 : E11 / (1. - poissons_ratio * poissons_ratio)) / (1. - VV * VV);
 
     trial_stiffness = initial_stiffness;
     current_stiffness = initial_stiffness;
