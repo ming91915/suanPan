@@ -116,9 +116,6 @@
     <ClCompile Include="..\..\..\Load\Load.cpp">
       <Filter>Load</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Load\DisplacementLoad.cpp">
-      <Filter>Load</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\IntegrationPlan.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -144,6 +141,12 @@
       <Filter>SRC</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Load\Mass.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Load\Displacement.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Load\Acceleration.cpp">
       <Filter>Load</Filter>
     </ClCompile>
   </ItemGroup>
@@ -247,9 +250,6 @@
     <ClInclude Include="..\..\..\suanPan.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Load\DisplacementLoad.h">
-      <Filter>Load</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\IntegrationPlan.h">
       <Filter>SRC</Filter>
     </ClInclude>
@@ -275,6 +275,12 @@
       <Filter>SRC</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Mass.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Displacement.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Acceleration.h">
       <Filter>Load</Filter>
     </ClInclude>
   </ItemGroup>

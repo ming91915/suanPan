@@ -159,8 +159,8 @@
 #ifndef CT_RELINCREENERGY
 #define CT_RELINCREENERGY 47
 #endif
-#ifndef CT_DISPLACEMENTLOAD
-#define CT_DISPLACEMENTLOAD 48
+#ifndef CT_DISPLACEMENT
+#define CT_DISPLACEMENT 48
 #endif
 #ifndef CT_RAMM
 #define CT_RAMM 49
@@ -179,6 +179,9 @@
 #endif
 #ifndef CT_MASS
 #define CT_MASS 54
+#endif
+#ifndef CT_ACCELERATION
+#define CT_ACCELERATION 55
 #endif
 
 #endif
