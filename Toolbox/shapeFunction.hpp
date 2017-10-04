@@ -5,8 +5,8 @@
  * The function is designed to return the shape function for four- and eight-node quad elements.
  *
  * @author T
- * @date 11/09/2017
- * @version 0.1.1
+ * @date 04/10/2017
+ * @version 0.1.2
  * @file shapeFunction.hpp
  * @addtogroup Utility
  * @{
@@ -244,6 +244,129 @@ template <typename T> Mat<T> cube(const Col<T>& INTPTS, const unsigned& ORDER, c
 
     return N;
 }
+
+template <typename T> Mat<T> stress(const T X, const T Y, const unsigned S) {
+    Mat<T> N = zeros(3, S);
+
+    for(auto I = 0; I < 3; ++I) N(I, I) = 1;
+
+    if(S >= 5) {
+        N(0, 4) = Y;
+        N(1, 3) = X;
+        if(S >= 7) {
+            N(0, 6) = X;
+            N(1, 5) = Y;
+            N(2, 5) = -X;
+            N(2, 6) = -Y;
+            if(S >= 9) {
+                const auto X2 = X * X;
+                const auto Y2 = Y * Y;
+                const auto XY = X * Y;
+                N(0, 8) = 2. * XY;
+                N(1, 7) = N(0, 8);
+                N(2, 7) = -X2;
+                N(2, 8) = -Y2;
+                if(S == 11) {
+                    N(0, 9) = -X2;
+                    N(1, 9) = 2. * X2 - Y2;
+                    N(2, 9) = 2. * XY;
+
+                    N(0, 10) = 2. * Y2 - X2;
+                    N(1, 10) = -Y2;
+                    N(2, 10) = N(2, 9);
+                }
+            }
+        }
+    }
+
+    return N;
+}
+
+template <typename T> Mat<T> stress(const Col<T>& C, const unsigned S) { return stress(C(0), C(1), S); }
+
+template <typename T> Mat<T> stress5(const Col<T>& C) { return stress(C, 5); }
+template <typename T> Mat<T> stress7(const Col<T>& C) { return stress(C, 7); }
+template <typename T> Mat<T> stress9(const Col<T>& C) { return stress(C, 9); }
+template <typename T> Mat<T> stress11(const Col<T>& C) { return stress(C, 11); }
+
+template <typename T> Mat<T> stress5(const T X, const T Y) { return stress(X, Y, 5); }
+template <typename T> Mat<T> stress7(const T X, const T Y) { return stress(X, Y, 7); }
+template <typename T> Mat<T> stress9(const T X, const T Y) { return stress(X, Y, 9); }
+template <typename T> Mat<T> stress11(const T X, const T Y) { return stress(X, Y, 11); }
+
+inline mat stress5(const vec& C) { return stress(C, 5); }
+inline mat stress7(const vec& C) { return stress(C, 7); }
+inline mat stress9(const vec& C) { return stress(C, 9); }
+inline mat stress11(const vec& C) { return stress(C, 11); }
+
+template <typename T> Mat<T> strain(const T X, const T Y, const T V, const unsigned S) {
+    Mat<T> N(3, S, fill::zeros);
+
+    for(auto I = 0; I < 3; ++I) N(I, I) = 1;
+
+    N(0, 1) = -V;
+    N(1, 0) = -V;
+
+    if(S >= 5) {
+        N(0, 3) = -V * X;
+        N(0, 4) = Y;
+
+        N(1, 3) = X;
+        N(1, 4) = -V * Y;
+        if(S >= 7) {
+            N(0, 5) = N(1, 4);
+            N(0, 6) = N(1, 3);
+
+            N(1, 5) = N(0, 4);
+            N(1, 6) = N(0, 3);
+
+            N(2, 5) = -2. * X * (1. + V);
+            N(2, 6) = -2. * Y * (1. + V);
+            if(S >= 9) {
+                const auto X2 = X * X;
+                const auto Y2 = Y * Y;
+                const auto XY = X * Y;
+
+                N(0, 8) = XY;
+                N(0, 7) = -V * N(0, 8);
+
+                N(1, 7) = N(0, 8);
+                N(1, 8) = N(0, 7);
+
+                N(2, 7) = -X2 * (1. + V);
+                N(2, 8) = -Y2 * (1. + V);
+                if(S == 11) {
+                    N(0, 9) = V * Y2 - (2. * V + 1.) * X2;
+                    N(1, 9) = (2. + V) * X2 - Y2;
+                    N(2, 9) = 4. * XY * (1. + V);
+
+                    N(0, 10) = (2. + V) * Y2 - X2;
+                    N(1, 10) = V * X2 - (2. * V + 1.) * Y2;
+                    N(2, 10) = N(2, 9);
+                }
+            }
+        }
+    }
+
+    return N;
+}
+
+template <typename T> Mat<T> strain(const Col<T>& C, const T V, const unsigned S) { return strain(C(0), C(1), V, S); }
+
+template <typename T> Mat<T> strain5(const T X, const T Y, const T V) { return strain(X, Y, V, 5); }
+template <typename T> Mat<T> strain7(const T X, const T Y, const T V) { return strain(X, Y, V, 7); }
+template <typename T> Mat<T> strain9(const T X, const T Y, const T V) { return strain(X, Y, V, 9); }
+template <typename T> Mat<T> strain11(const T X, const T Y, const T V) { return strain(X, Y, V, 11); }
+
+template <typename T> Mat<T> strain5(const Col<T>& C, const T V) { return strain(C, V, 5); }
+template <typename T> Mat<T> strain7(const Col<T>& C, const T V) { return strain(C, V, 7); }
+template <typename T> Mat<T> strain9(const Col<T>& C, const T V) { return strain(C, V, 9); }
+template <typename T> Mat<T> strain11(const Col<T>& C, const T V) { return strain(C, V, 11); }
+
+inline mat strain5(const vec& C, const double V) { return strain(C, V, 5); }
+inline mat strain7(const vec& C, const double V) { return strain(C, V, 7); }
+inline mat strain9(const vec& C, const double V) { return strain(C, V, 9); }
+inline mat strain11(const vec& C, const double V) { return strain(C, V, 11); }
 }
 
 #endif
