@@ -143,6 +143,9 @@
     <ClCompile Include="..\..\..\Toolbox\arpack_wrapper.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Load\Mass.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -270,6 +273,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\arpack_wrapper.h">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Mass.h">
+      <Filter>Load</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

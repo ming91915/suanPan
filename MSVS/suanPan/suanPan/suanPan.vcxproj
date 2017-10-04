@@ -177,6 +177,7 @@
     <ClCompile Include="..\..\..\Load\CLoad.cpp" />
     <ClCompile Include="..\..\..\Load\DisplacementLoad.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
+    <ClCompile Include="..\..\..\Load\Mass.cpp" />
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
     <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="..\..\..\Load\CLoad.h" />
     <ClInclude Include="..\..\..\Load\DisplacementLoad.h" />
     <ClInclude Include="..\..\..\Load\Load.h" />
+    <ClInclude Include="..\..\..\Load\Mass.h" />
     <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
     <ClInclude Include="..\..\..\Recorder\OutputList.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />

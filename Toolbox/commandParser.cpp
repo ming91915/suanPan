@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "commandParser.h"
+#include "Load/Mass.h"
 #include "argumentParser.h"
 #include <Constraint/BC/BC.h>
 #include <Constraint/Criterion/Criterion>
@@ -63,19 +64,21 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
 
     const auto& domain = get_current_domain(model);
 
-    if(command_id == "converger") return create_new_converger(domain, command);
-    if(command_id == "step") return create_new_step(domain, command);
-    if(command_id == "solver") return create_new_solver(domain, command);
-    if(command_id == "fix") return create_new_bc(domain, command);
     if(command_id == "cload") return create_new_cload(domain, command);
-    if(command_id == "disp") return create_new_dispload(domain, command);
-    if(command_id == "dispload") return create_new_dispload(domain, command);
+    if(command_id == "converger") return create_new_converger(domain, command);
     if(command_id == "criterion") return create_new_criterion(domain, command);
-    if(command_id == "import") return create_new_external_module(domain, command);
-    if(command_id == "node") return create_new_node(domain, command);
-    if(command_id == "material") return create_new_material(domain, command);
+    if(command_id == "disp") return create_new_dispload(domain, command);
+    if(command_id == "displacement") return create_new_dispload(domain, command);
+    if(command_id == "dispload") return create_new_dispload(domain, command);
     if(command_id == "element") return create_new_element(domain, command);
+    if(command_id == "fix") return create_new_bc(domain, command);
+    if(command_id == "import") return create_new_external_module(domain, command);
+    if(command_id == "material") return create_new_material(domain, command);
+    if(command_id == "mass") return create_new_mass(domain, command);
+    if(command_id == "node") return create_new_node(domain, command);
     if(command_id == "recorder") return create_new_recorder(domain, command);
+    if(command_id == "solver") return create_new_solver(domain, command);
+    if(command_id == "step") return create_new_step(domain, command);
 
     if(command_id == "set") return set_property(domain, command);
 
@@ -340,6 +343,12 @@ int create_new_cload(const shared_ptr<DomainBase>& domain, istringstream& comman
         return 0;
     }
 
+    unsigned amplitude_id;
+    if(!get_input(command, amplitude_id)) {
+        suanpan_info("create_new_cload() needs a valid amplitude tag.\n");
+        return 0;
+    }
+
     double magnitude;
     if(!get_input(command, magnitude)) {
         suanpan_info("create_new_cload() needs load magnitude.\n");
@@ -358,7 +367,7 @@ int create_new_cload(const shared_ptr<DomainBase>& domain, istringstream& comman
 
     const auto& step_tag = domain->get_current_step_tag();
 
-    if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id, 0))) suanpan_error("create_new_cload() fails to create new load.\n");
+    if(!domain->insert(make_shared<CLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id, amplitude_id))) suanpan_error("create_new_cload() fails to create new load.\n");
 
     return 0;
 }
@@ -475,6 +484,12 @@ int create_new_dispload(const shared_ptr<DomainBase>& domain, istringstream& com
         return 0;
     }
 
+    unsigned amplitude_id;
+    if(!get_input(command, amplitude_id)) {
+        suanpan_info("create_new_dispload() needs a valid amplitude tag.\n");
+        return 0;
+    }
+
     double magnitude;
     if(!get_input(command, magnitude)) {
         suanpan_info("create_new_dispload() needs load magnitude.\n");
@@ -493,7 +508,7 @@ int create_new_dispload(const shared_ptr<DomainBase>& domain, istringstream& com
 
     const auto& step_tag = domain->get_current_step_tag();
 
-    if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
+    if(!domain->insert(make_shared<DisplacementLoad>(load_id, step_tag, magnitude, uvec(node_tag), dof_id, amplitude_id))) suanpan_error("create_new_dispload() fails to create new load.\n");
 
     return 0;
 }
@@ -620,6 +635,36 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
     }
 
     if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
+
+    return 0;
+}
+
+int create_new_mass(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_info("create_new_mass() needs a valid tag.\n");
+        return 0;
+    }
+
+    double magnitude;
+    if(!get_input(command, magnitude)) {
+        suanpan_info("create_new_mass() needs load magnitude.\n");
+        return 0;
+    }
+
+    unsigned dof_id;
+    if(!get_input(command, dof_id)) {
+        suanpan_info("create_new_mass() needs a valid DoF.\n");
+        return 0;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    while(get_input(command, node)) node_tag.push_back(node);
+
+    const auto& step_tag = domain->get_current_step_tag();
+
+    if(!domain->insert(make_shared<Mass>(tag, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_mass() fails to create new load.\n");
 
     return 0;
 }
