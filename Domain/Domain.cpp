@@ -524,10 +524,12 @@ int Domain::initialize() {
 
     factory->set_bandwidth(unsigned(low_bw), unsigned(-up_bw));
 
+    auto code = 0;
     suanpan_for_each(step_pond.cbegin(), step_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Step>>& t_step) {
         t_step.second->set_domain(shared_from_this());
-        t_step.second->initialize();
+        code += t_step.second->initialize();
     });
+    if(code != 0) return -1;
 
     updated = true;
 

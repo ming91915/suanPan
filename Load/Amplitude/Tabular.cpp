@@ -27,7 +27,10 @@ Tabular::Tabular(const unsigned& T, const vec& TI, const vec& M, const unsigned&
 Tabular::Tabular(const unsigned& T, const char* P, const unsigned& ST)
     : Amplitude(T, CT_TABULAR, ST) {
     mat ext_data;
-    ext_data.load(P);
+    if(!ext_data.load(P, auto_detect)) {
+        suanpan_error("cannot load file.\n");
+        throw;
+    }
     if(ext_data.n_cols == 2) {
         time = ext_data.col(0);
         magnitude = ext_data.col(1);

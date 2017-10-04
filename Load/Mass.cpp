@@ -34,8 +34,7 @@ int Mass::process(const shared_ptr<DomainBase>& D) {
         if(t_node != nullptr && t_node->is_active()) {
             auto& t_dof = t_node->get_reordered_dof();
             for(const auto& J : dofs)
-                if(J <= t_dof.n_elem)
-                    t_mass->at(t_dof(J - 1), t_dof(J - 1)) += pattern;
+                if(J <= t_dof.n_elem) t_mass->at(t_dof(J - 1), t_dof(J - 1)) += pattern;
         }
     }
 

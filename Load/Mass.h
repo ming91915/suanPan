@@ -36,9 +36,9 @@
 class Mass : public Load {
 public:
     explicit Mass(const unsigned& = 0, // tag
-        const unsigned& = 0,            // start step tag
-        const double& = 0.,             // maginitude
-        const uvec& = {},               // node tags
+        const unsigned& = 0,           // start step tag
+        const double& = 0.,            // maginitude
+        const uvec& = {},              // node tags
         const unsigned& = 0            // dof tag
     );
 
