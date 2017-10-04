@@ -30,3 +30,29 @@ bool is_false(const char* S) { return is_equal(S, "Off") || is_equal(S, "False")
 bool is_true(const string& S) { return is_true(S.c_str()); }
 
 bool is_false(const string& S) { return is_false(S.c_str()); }
+
+mat material_tester(const shared_ptr<Material>& obj, const vector<unsigned>& idx, const double incre) {
+    if(!obj->initialized) {
+        obj->Material::initialize(nullptr);
+        obj->initialize(nullptr);
+    }
+
+    vector<double> A{ 0 }, B{ 0 };
+
+    vec E{ incre };
+    for(const auto& I : idx) {
+        for(unsigned J = 0; J < I; ++J) {
+            obj->update_incre_status(E);
+            obj->commit_status();
+            A.emplace_back(obj->get_strain().at(0));
+            B.emplace_back(obj->get_stress().at(0));
+        }
+        E = -E;
+    }
+
+    mat response(A.size(), 2);
+    response.col(0) = vec{ A };
+    response.col(1) = vec{ B };
+
+    return response;
+}
