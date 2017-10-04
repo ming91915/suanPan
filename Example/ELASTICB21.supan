@@ -9,7 +9,7 @@ element ElasticB21 1 1 2 1 1 1 0
 
 fix 1 P 1
 
-cload 1 1 2 2
+cload 1 0 1 2 2
 
 step static 1
 

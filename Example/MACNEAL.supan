@@ -60,11 +60,11 @@ set ini_step_size 1
 fix 1 P 1 8
 
 # Moment
-# cload 1 1 1 14
-# cload 2 -1 1 7
+# cload 1 0 1 1 14
+# cload 2 0 -1 1 7
 
 # Shear
-cload 1 -.5 2 7 14
+cload 1 0 -.5 2 7 14
 
 analyze
 

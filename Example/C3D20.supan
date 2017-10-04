@@ -227,7 +227,7 @@ element C3D20 20 34 33 12 13 61 66 43 39 192 201 200 199 179 188 187 186 198 197
 
 fix 1 P 3 4 6 7 27 29
 
-cload 1 5 2 12 13
+cload 1 0 5 2 12 13
 
 step static 1
 set ini_step_size .01

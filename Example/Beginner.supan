@@ -8,11 +8,11 @@ fix 2 2 1 2
 
 step static 1
 
-cload 1 25 1 2
+cload 1 0 25 1 2
 
 step static 2
 
-cload 2 25 1 2
+cload 2 0 25 1 2
 
 analyze
 

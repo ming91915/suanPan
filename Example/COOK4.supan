@@ -62,8 +62,8 @@ element Proto01 16 19 20 25 24 1 1
 
 fix 1 P 1 6 11 16 21
 
-cload 1 .125 2 5 25
-cload 2 .25 2 10 15 20
+cload 1 0 .125 2 5 25
+cload 2 0 .25 2 10 15 20
 
 step static 1
 

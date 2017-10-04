@@ -153,8 +153,8 @@ element CP4 64 79 84 85 80 1 1 0 1
 
 fix 1 P 1 2 3 4 5
 
-cload 1 .25 2 84 83 82
-cload 2 .125 2 85 81
+cload 1 0 .25 2 84 83 82
+cload 2 0 .125 2 85 81
 
 recorder 1 Node U 83
 
