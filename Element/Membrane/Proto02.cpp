@@ -92,7 +92,7 @@ void Proto02::initialize(const shared_ptr<DomainBase>& D) {
         disp_mode(2) = Y;
         disp_mode(3) = X * Y;
 
-        I->P = shapeStress11(t_factor * disp_mode);
+        I->P = shape::stress11(t_factor * disp_mode);
 
         I->A = solve(ini_stiffness, I->P);
 

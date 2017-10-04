@@ -83,7 +83,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
         disp_mode(2) = I->coor(1);
         disp_mode(3) = I->coor(0) * I->coor(1);
 
-        I->P = shapeStress7(t_factor * disp_mode);
+        I->P = shape::stress7(t_factor * disp_mode);
 
         I->A = solve(ini_stiffness, I->P);
 
