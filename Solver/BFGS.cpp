@@ -56,7 +56,7 @@ int BFGS::analyze() {
 
         if(counter == 0) {
             // asemble stiffness for the first iteration
-            G->assemble_stiffness();
+            G->assemble_matrix();
             // process loads and constraints
             G->process_load();
             G->process_constraint();

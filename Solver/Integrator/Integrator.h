@@ -56,7 +56,7 @@ public:
     void record() const;
 
     virtual void assemble_resistance();
-    virtual void assemble_stiffness();
+    virtual void assemble_matrix();
 
     void update_trial_time(const double&) const;
     void update_incre_time(const double&) const;

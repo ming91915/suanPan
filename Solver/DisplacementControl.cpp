@@ -27,7 +27,7 @@ int DisplacementControl::analyze() {
         // assemble resistance
         G->assemble_resistance();
         // assemble stiffness
-        G->assemble_stiffness();
+        G->assemble_matrix();
         // process loads
         G->process_load();
         // process constraints

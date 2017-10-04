@@ -79,11 +79,6 @@ int Step::initialize() {
         modifier->set_domain(t_domain);
         break;
     case CT_DYNAMIC:
-        if(modifier == nullptr) {
-            suanpan_error("initialize() needs a valid integrator.\n");
-            return -1;
-        }
-        modifier->set_domain(t_domain);
         factory->set_analysis_type(AnalysisType::DYNAMICS);
         if(modifier == nullptr) modifier = make_shared<Newmark>();
         modifier->set_domain(t_domain);

@@ -56,7 +56,7 @@ public:
     ~Newmark();
 
     void assemble_resistance() override;
-    void assemble_stiffness() override;
+    void assemble_matrix() override;
 
     void commit_status() const override;
 
