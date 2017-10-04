@@ -1,0 +1,35 @@
+# A TEST MODEL
+
+node	1	0	0
+node	2	0	1
+
+material Elastic1D 1 10 1E-6
+
+element	ElasticB21	1	1	2	1000	1	1	0
+
+fix 1 P 1
+
+mass 1 10 1 2
+
+amplitude Tabular 1 EZ.dat
+
+acceleration 2 1 .2 1 2
+
+recorder 1 Node U 2
+
+# cload 3 0 1 1 2
+
+#step static 1 1
+step dynamic 1 14
+set ini_step_size .03
+set fixed_step_size true
+
+converger AbsIncreDisp 1 1E-4 10 1
+
+analyze
+
+peek node 2
+
+save recorder 1
+
+exit

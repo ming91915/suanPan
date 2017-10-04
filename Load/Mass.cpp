@@ -29,6 +29,8 @@ int Mass::process(const shared_ptr<DomainBase>& D) {
 
     auto& t_mass = D->get_factory()->get_mass();
 
+    if(t_mass == nullptr || t_mass->is_empty()) return 0;
+
     for(const auto& I : nodes) {
         auto& t_node = D->get_node(unsigned(I));
         if(t_node != nullptr && t_node->is_active()) {

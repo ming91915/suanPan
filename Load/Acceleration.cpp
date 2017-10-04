@@ -33,6 +33,8 @@ int Acceleration::process(const shared_ptr<DomainBase>& D) {
 
     const auto& t_factory = D->get_factory();
 
+    if(t_factory->get_mass() == nullptr) return 0;
+
     vec ref_acc(t_factory->get_size(), fill::zeros);
     for(const auto& I : nodes) {
         auto& t_node = D->get_node(unsigned(I));
