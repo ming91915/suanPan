@@ -583,48 +583,41 @@ void Domain::summary() const {
 }
 
 void Domain::assemble_resistance() const {
-    const auto& t_factory = factory;
-    get_trial_resistance(t_factory).zeros();
-    for(const auto& I : element_pond.get()) t_factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    get_trial_resistance(factory).zeros();
+    for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
 }
 
 void Domain::assemble_mass() const {
-    const auto& t_factory = factory;
-    t_factory->clear_mass();
-    for(const auto& I : element_pond.get()) t_factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
+    factory->clear_mass();
+    for(const auto& I : element_pond.get()) factory->assemble_mass(I->get_mass(), I->get_dof_encoding());
 }
 
 void Domain::assemble_initial_stiffness() const {
-    auto t_factory = factory;
-    t_factory->clear_stiffness();
-    for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
+    factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_initial_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_stiffness() const {
-    const auto& t_factory = factory;
-    t_factory->clear_stiffness();
-    for(const auto& I : element_pond.get()) t_factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
+    factory->clear_stiffness();
+    for(const auto& I : element_pond.get()) factory->assemble_stiffness(I->get_stiffness(), I->get_dof_encoding());
 }
 
 void Domain::assemble_damping() const {
-    const auto& t_factory = factory;
-    t_factory->clear_damping();
-    for(const auto& I : element_pond.get()) t_factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
+    factory->clear_damping();
+    for(const auto& I : element_pond.get()) factory->assemble_damping(I->get_damping(), I->get_dof_encoding());
 }
 
 void Domain::erase_machine_error() const {
-    const auto& t_factory = factory;
-    auto& t_ninja = get_ninja(t_factory);
+    auto& t_ninja = get_ninja(factory);
     for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
 void Domain::update_trial_status() const {
-    const auto& t_factory = factory;
-    const auto& analysis_type = t_factory->get_analysis_type();
+    const auto& analysis_type = factory->get_analysis_type();
 
-    auto& trial_dsp = t_factory->get_trial_displacement();
-    auto& trial_vel = t_factory->get_trial_velocity();
-    auto& trial_acc = t_factory->get_trial_acceleration();
+    auto& trial_dsp = factory->get_trial_displacement();
+    auto& trial_vel = factory->get_trial_velocity();
+    auto& trial_acc = factory->get_trial_acceleration();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
@@ -638,12 +631,11 @@ void Domain::update_trial_status() const {
 }
 
 void Domain::update_incre_status() const {
-    const auto& t_factory = factory;
-    const auto& analysis_type = t_factory->get_analysis_type();
+    const auto& analysis_type = factory->get_analysis_type();
 
-    auto& incre_dsp = t_factory->get_incre_displacement();
-    auto& incre_vel = t_factory->get_incre_velocity();
-    auto& incre_acc = t_factory->get_incre_acceleration();
+    auto& incre_dsp = factory->get_incre_displacement();
+    auto& incre_vel = factory->get_incre_velocity();
+    auto& incre_acc = factory->get_incre_acceleration();
 
     if(analysis_type == AnalysisType::STATICS)
         for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
@@ -653,12 +645,11 @@ void Domain::update_incre_status() const {
 }
 
 void Domain::update_current_status() const {
-    const auto& t_factory = factory;
-    const auto& analysis_type = t_factory->get_analysis_type();
+    const auto& analysis_type = factory->get_analysis_type();
 
-    vec c_g_dsp(t_factory->get_size(), fill::zeros);
-    vec c_g_vel(t_factory->get_size(), fill::zeros);
-    vec c_g_acc(t_factory->get_size(), fill::zeros);
+    vec c_g_dsp(factory->get_size(), fill::zeros);
+    vec c_g_vel(factory->get_size(), fill::zeros);
+    vec c_g_acc(factory->get_size(), fill::zeros);
 
     if(analysis_type == AnalysisType::STATICS) {
         for(const auto& I : node_pond.get()) {
@@ -666,7 +657,7 @@ void Domain::update_current_status() const {
             auto& current_dsp = I->get_current_displacement();
             for(auto J = 0; J < t_dof.size(); ++J) c_g_dsp(t_dof(J)) = current_dsp(J);
         }
-        t_factory->update_current_displacement(c_g_dsp);
+        factory->update_current_displacement(c_g_dsp);
     } else if(analysis_type == AnalysisType::DYNAMICS) {
         for(const auto& I : node_pond.get()) {
             auto& t_dof = I->get_reordered_dof();
@@ -679,16 +670,14 @@ void Domain::update_current_status() const {
                 c_g_acc(t_dof(J)) = current_acc(J);
             }
         }
-        t_factory->update_current_displacement(c_g_dsp);
-        t_factory->update_current_velocity(c_g_vel);
-        t_factory->update_current_acceleration(c_g_acc);
+        factory->update_current_displacement(c_g_dsp);
+        factory->update_current_velocity(c_g_vel);
+        factory->update_current_acceleration(c_g_acc);
     }
 }
 
 void Domain::commit_status() const {
-    const auto& t_factory = factory;
-
-    t_factory->commit_status();
+    factory->commit_status();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
@@ -698,9 +687,7 @@ void Domain::commit_status() const {
 }
 
 void Domain::clear_status() const {
-    const auto& t_factory = factory;
-
-    t_factory->clear_status();
+    factory->clear_status();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
@@ -713,9 +700,7 @@ void Domain::clear_status() const {
 }
 
 void Domain::reset_status() const {
-    const auto& t_factory = factory;
-
-    t_factory->reset_status();
+    factory->reset_status();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
