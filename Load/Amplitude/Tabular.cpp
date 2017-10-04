@@ -17,9 +17,6 @@
 
 #include "Tabular.h"
 
-Tabular::Tabular(const unsigned& T, const unsigned& ST)
-    : Amplitude(T, CT_TABULAR, ST) {}
-
 Tabular::Tabular(const unsigned& T, const vec& TI, const vec& M, const unsigned& ST)
     : Amplitude(T, CT_TABULAR, ST)
     , time(TI)
@@ -43,8 +40,10 @@ Tabular::Tabular(const unsigned& T, const char* P, const unsigned& ST)
 double Tabular::get_amplitude(const double& T) {
     const auto step_time = T - start_time;
     uword IDX = 0;
-    for(; IDX < time.n_elem; ++IDX)
+    while(IDX < time.n_elem) {
         if(time(IDX) >= step_time) break;
+        ++IDX;
+    }
     auto A = magnitude(IDX);
     if(IDX == 0)
         A = 0.;
