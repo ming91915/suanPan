@@ -31,6 +31,7 @@
 #include <Domain/DomainBase.h>
 
 enum class MaterialType { D0, D1, D2, D3 };
+enum class PlaneType { S, E };
 
 class Material : public Tag {
 protected:

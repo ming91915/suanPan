@@ -63,15 +63,15 @@ const mat& Material::get_stiffness() const { return trial_stiffness; }
 
 const mat& Material::get_initial_stiffness() const { return initial_stiffness; }
 
-unique_ptr<Material> Material::get_copy() { return nullptr; }
+unique_ptr<Material> Material::get_copy() { throw; }
 
-int Material::update_incre_status(const vec&) { return -1; }
+int Material::update_incre_status(const vec&) { throw; }
 
-int Material::update_incre_status(const vec&, const vec&) { return -1; }
+int Material::update_incre_status(const vec&, const vec&) { throw; }
 
-int Material::update_trial_status(const vec&) { return -1; }
+int Material::update_trial_status(const vec&) { throw; }
 
-int Material::update_trial_status(const vec&, const vec&) { return -1; }
+int Material::update_trial_status(const vec&, const vec&) { throw; }
 
 int Material::clear_status() {
     if(!current_strain.is_empty()) current_strain.zeros();

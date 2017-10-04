@@ -17,15 +17,15 @@
 
 #include "Elastic2D.h"
 
-Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const double& R, const unsigned& TP)
+Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const double& R, const PlaneType& PT)
     : Material(T, MT_ELASTIC2D, MaterialType::D2, R)
     , elastic_modulus(E)
     , poissons_ratio(P)
-    , material_type(TP) {}
+    , plane_type(PT) {}
 
 void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
-    const auto EE = material_type == 0 ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
-    const auto VV = material_type == 0 ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
+    const auto EE = plane_type == PlaneType::S ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
+    const auto VV = plane_type == PlaneType::S ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
     initial_stiffness.zeros(3, 3);
     initial_stiffness(0, 0) = 1.;

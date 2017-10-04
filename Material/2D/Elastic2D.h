@@ -20,17 +20,11 @@
  * plane stress and
  * plane strain problems.
  *
- * The Young's modulus is stored in `elastic_modulus`. The Poisson's
- * ratio is stored in
- * `poissons_ratio`. The `material_type` labels if it is plane stress or
- * plane strain. The
- * default value `0` represents plane stress. Initializing the object
- * with a nonzero value
- * gives a plane strain type response.
+ * The Young's modulus is stored in `elastic_modulus`. The Poisson's ratio is stored in `poissons_ratio`. The `plane_type` labels if it is plane stress or plane strain. The default value `PlaneType::S` represents plane stress. Initializing the object with a `PlaneType::E` value gives a plane strain type response.
  *
  * @author T
- * @date 29/07/2017
- * @version 0.1.1
+ * @date 04/10/2017
+ * @version 0.1.2
  * @file Elastic2D.h
  * @addtogroup Material-2D
  * @ingroup Material
@@ -46,10 +40,10 @@ class Elastic2D : public Material {
     const double elastic_modulus; // elastic modulus
     const double poissons_ratio;  // poissons ratio
 
-    const unsigned material_type;
+    const PlaneType plane_type;
 
 public:
-    explicit Elastic2D(const unsigned& = 0, const double& = 2E5, const double& = .2, const double& = 0, const unsigned& = 0);
+    explicit Elastic2D(const unsigned& = 0, const double& = 2E5, const double& = .2, const double& = 0, const PlaneType& = PlaneType::S);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

@@ -17,12 +17,12 @@
 
 #include "Bilinear2D.h"
 
-Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const unsigned& M, const double& D)
+Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const PlaneType& M, const double& D)
     : Material(T, MT_BILINEAR2D, MaterialType::D2, D)
-    , material_type(M)
+    , plane_type(M)
     , base(0, E, V, Y, H, B, D) {
-    const auto EE = material_type == 0 ? E : E / (1 - V * V);
-    const auto VV = material_type == 0 ? V : V / (1 - V);
+    const auto EE = plane_type == PlaneType::S ? E : E / (1 - V * V);
+    const auto VV = plane_type == PlaneType::S ? V : V / (1 - V);
 
     initial_stiffness.zeros(3, 3);
     initial_stiffness(0, 0) = 1;
@@ -54,7 +54,7 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
     base.update_trial_status(trial_full_strain);
 
     // PLANE STRESS
-    if(material_type == 0)
+    if(plane_type == PlaneType::S)
         while(fabs(base.get_stress().at(2)) > 1E-10) {
             trial_full_strain(2) -= base.get_stress().at(2) / base.get_stiffness().at(2, 2);
             base.update_trial_status(trial_full_strain);
@@ -81,7 +81,7 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
     trial_stiffness(2, 1) = tmp_stiffness.at(3, 1);
     trial_stiffness(2, 2) = tmp_stiffness.at(3, 3);
 
-    if(material_type == 0) {
+    if(plane_type == PlaneType::S) {
         if(tmp_stiffness(2, 2) != 0.) {
             const auto tmp_a = tmp_stiffness(2, 0) / tmp_stiffness(2, 2);
             const auto tmp_b = tmp_stiffness(2, 1) / tmp_stiffness(2, 2);

@@ -14,12 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class Bilinear2D
+ * @brief A Bilinear2D class.
+ * @author T
+ * @date 04/10/2017
+ * @version 0.1.0
+ * @file Bilinear2D.h
+ * @addtogroup Material
+ * @{
+ */
 
-#pragma once
+#ifndef BILINEAR2D_H
+#define BILINEAR2D_H
+
 #include <Material/3D/Bilinear3D.h>
 
 class Bilinear2D : public Material {
-    const unsigned material_type;
+    const PlaneType plane_type;
 
     vec trial_full_strain;
 
@@ -32,7 +44,7 @@ public:
         const double& = 400.,                /**< initial yield stress */
         const double& = .05,                 /**< hardening ratio */
         const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const unsigned& = 0,                 /**< plane stress or plane strain */
+        const PlaneType& = PlaneType::S,     /**< plane stress or plane strain */
         const double& = 0.                   /**< density */
     );
 
@@ -49,3 +61,7 @@ public:
     int commit_status() override;
     int reset_status() override;
 };
+
+#endif
+
+//! @}
