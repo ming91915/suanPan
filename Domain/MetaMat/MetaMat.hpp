@@ -44,8 +44,6 @@ public:
     T max() const;
 
     virtual const T& operator()(const uword&, const uword&) const;
-    virtual const T& at(const uword&, const uword&) const;
-    virtual T& operator()(const uword&, const uword&);
     virtual T& at(const uword&, const uword&);
 
     const T* memptr() const;
@@ -148,10 +146,6 @@ template <typename T> void MetaMat<T>::reset() {
 template <typename T> T MetaMat<T>::max() const { return op_max::direct_max(memptr(), n_elem); }
 
 template <typename T> const T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row + in_col * n_rows]; }
-
-template <typename T> const T& MetaMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row + in_col * n_rows]; }
-
-template <typename T> T& MetaMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row + in_col * n_rows]); }
 
 template <typename T> T& MetaMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row + in_col * n_rows]); }
 

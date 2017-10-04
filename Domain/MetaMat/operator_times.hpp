@@ -1,4 +1,3 @@
-
 #ifndef OPERATOR_TIMES_HPP
 #define OPERATOR_TIMES_HPP
 

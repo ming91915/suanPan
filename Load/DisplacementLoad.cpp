@@ -48,9 +48,9 @@ int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
                     if(D->insert_constrained_dof(unsigned(t_idx))) {
                         if(t_stiff(t_idx, t_idx) == 0) {
                             auto& t_set = D->get_constrained_dof();
-                            t_stiff(t_idx, t_idx) = t_set.size() == 1 ? multiplier * t_stiff.max() : *t_set.cbegin() == t_idx ? t_stiff(*++t_set.cbegin(), *++t_set.cbegin()) : t_stiff(*t_set.cbegin(), *t_set.cbegin());
+                            t_stiff.at(t_idx, t_idx) = t_set.size() == 1 ? multiplier * t_stiff.max() : *t_set.cbegin() == t_idx ? t_stiff(*++t_set.cbegin(), *++t_set.cbegin()) : t_stiff(*t_set.cbegin(), *t_set.cbegin());
                         } else
-                            t_stiff(t_idx, t_idx) *= multiplier;
+                            t_stiff.at(t_idx, t_idx) *= multiplier;
                     }
                     t_load(t_idx) = t_stiff(t_idx, t_idx) * (final_load - t_factory->get_trial_displacement().at(t_idx)); // add unbalanced eqv. load
                 }

@@ -16,6 +16,7 @@
 #include <Toolbox/debug.h>
 
 template <typename T> class BandMat : public MetaMat<T> {
+    static T bin;
     using MetaMat<T>::i;
     using MetaMat<T>::inv;
 
@@ -37,8 +38,6 @@ public:
     BandMat(const unsigned&, const unsigned&, const unsigned&);
 
     const T& operator()(const uword&, const uword&) const override;
-    const T& at(const uword&, const uword&) const override;
-    T& operator()(const uword&, const uword&) override;
     T& at(const uword&, const uword&) override;
 
     Mat<T> operator*(const Mat<T>&)override;
@@ -50,6 +49,8 @@ public:
 template <typename T> struct is_Band { static const bool value = false; };
 
 template <typename T> struct is_Band<BandMat<T>> { static const bool value = true; };
+
+template <typename T> T BandMat<T>::bin = 0.;
 
 template <typename T>
 BandMat<T>::BandMat()
@@ -65,13 +66,24 @@ BandMat<T>::BandMat(const unsigned& in_size, const unsigned& in_l, const unsigne
     , up_bw(in_u)
     , shift_bw(low_bw + up_bw) {}
 
-template <typename T> const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
+template <typename T> const T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) const {
+    const auto n_bw = int(in_row) - int(in_col);
+    if(n_bw > int(low_bw) || n_bw < -int(up_bw)) {
+        bin = 0.;
+        return bin;
+    }
 
-template <typename T> const T& BandMat<T>::at(const uword& in_row, const uword& in_col) const { return memory[in_row - in_col + shift_bw + in_col * n_rows]; }
+    return memory[in_row - in_col + shift_bw + in_col * n_rows];
+}
 
-template <typename T> T& BandMat<T>::operator()(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
+template <typename T> T& BandMat<T>::at(const uword& in_row, const uword& in_col) {
+#ifdef SUANPAN_DEBUG
+    const auto n_bw = int(in_row) - int(in_col);
+    if(n_bw > int(low_bw) || n_bw < -int(up_bw)) throw logic_error("index overflows.");
+#endif
 
-template <typename T> T& BandMat<T>::at(const uword& in_row, const uword& in_col) { return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]); }
+    return access::rw(memory[in_row - in_col + shift_bw + in_col * n_rows]);
+}
 
 template <typename T> Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
     if(X.is_colvec()) {

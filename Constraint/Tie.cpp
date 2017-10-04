@@ -42,12 +42,12 @@ int Tie::process(const shared_ptr<DomainBase>& D) {
     auto& t_dof_i = D->get_node(node_i)->get_reordered_dof().at(dof_i - 1);
     auto& t_dof_j = D->get_node(node_j)->get_reordered_dof().at(dof_j - 1);
 
-    auto& t_matrix = get_stiffness(t_factory);
+    auto& t_matrix = t_factory->get_stiffness();
 
-    t_matrix(t_dof_i, t_dof_i) += t_max;
-    t_matrix(t_dof_j, t_dof_j) += t_max;
-    t_matrix(t_dof_i, t_dof_j) -= t_max;
-    t_matrix(t_dof_j, t_dof_i) -= t_max;
+    t_matrix->at(t_dof_i, t_dof_i) += t_max;
+    t_matrix->at(t_dof_j, t_dof_j) += t_max;
+    t_matrix->at(t_dof_i, t_dof_j) -= t_max;
+    t_matrix->at(t_dof_j, t_dof_i) -= t_max;
 
     return 0;
 }
