@@ -3,22 +3,32 @@
 node 1 0 0
 node 2 1 0
 
-material Elastic1D 1 1
+material Elastic1D 1 1 7850E-12
 
 element ElasticB21 1 1 2 1 1 1 0
 
+amplitude Tabular 1 EZ.dat
+
 fix 1 P 1
 
-cload 1 0 1 2 2
+mass 1 2E-4 2 2
 
-step static 1
+acceleration 2 1 .2 2 2
 
-converger AbsIncreDisp 1 1E-4 10 0
+recorder 1 Node U 2
+
+step dynamic 1 14
+set ini_step_size .05
+set fixed_step_size true
+
+converger AbsIncreDisp 1 1E-6 10 1
 
 analyze
 
 peek node 2
 
 peek element 1
+
+save recorder 1
 
 exit
