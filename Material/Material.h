@@ -32,6 +32,7 @@
 
 enum class MaterialType { D0, D1, D2, D3 };
 enum class PlaneType { S, E };
+enum class ParameterType { DENSITY, POISSONSRATIO };
 
 class Material : public Tag {
 protected:
@@ -65,7 +66,7 @@ public:
 
     virtual void initialize(const shared_ptr<DomainBase>&) = 0;
 
-    virtual double get_parameter(const unsigned& = 0) const;
+    virtual double get_parameter(const ParameterType& = ParameterType::DENSITY) const;
 
     virtual const vec& get_strain() const;
     virtual const vec& get_strain_rate() const;

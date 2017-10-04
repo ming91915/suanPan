@@ -26,7 +26,7 @@ MaterialTemplate::MaterialTemplate(const unsigned& T)
 
 void MaterialTemplate::initialize(const shared_ptr<DomainBase>&) {}
 
-double MaterialTemplate::get_parameter(const unsigned& T) const { return 0.; }
+double MaterialTemplate::get_parameter(const ParameterType& T) const { return 0.; }
 
 unique_ptr<Material> MaterialTemplate::get_copy() { return make_unique<MaterialTemplate>(*this); }
 

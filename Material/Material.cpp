@@ -51,7 +51,11 @@ void Material::initialize(const shared_ptr<DomainBase>&) {
     trial_stress.zeros(size);
 }
 
-double Material::get_parameter(const unsigned&) const { return density; }
+double Material::get_parameter(const ParameterType& T) const {
+    if(T == ParameterType::DENSITY) return density;
+
+    return 0.;
+}
 
 const vec& Material::get_strain() const { return trial_strain; }
 

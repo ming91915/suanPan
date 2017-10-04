@@ -58,7 +58,7 @@ public:
 
     void print() override;
 
-    double get_parameter(const unsigned& = 0) const override;
+    double get_parameter(const ParameterType& = ParameterType::DENSITY) const override;
 };
 
 #endif

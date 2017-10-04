@@ -76,11 +76,11 @@ void Elastic2D::print() {
     get_stress().t().print();
 }
 
-double Elastic2D::get_parameter(const unsigned& F) const {
-    switch(F) {
-    case 0:
+double Elastic2D::get_parameter(const ParameterType& T) const {
+    switch(T) {
+    case ParameterType::DENSITY:
         return density;
-    case 1:
+    case ParameterType::POISSONSRATIO:
         return poissons_ratio;
     default:
         return 0.;

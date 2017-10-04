@@ -39,7 +39,7 @@ public:
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
-    double get_parameter(const unsigned& = 0) const override;
+    double get_parameter(const ParameterType& = ParameterType::DENSITY) const override;
 
     unique_ptr<Material> get_copy() override;
 
