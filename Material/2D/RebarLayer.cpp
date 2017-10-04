@@ -79,10 +79,7 @@ int RebarLayer::update_incre_status(const vec& i_strain) { return update_trial_s
 int RebarLayer::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    auto p_strain = trial_strain;
-    p_strain(2) /= 2.;
-    p_strain = trans * p_strain;
-    p_strain(2) *= 2.;
+    auto p_strain = rotate_strain(trial_strain, trans);
 
     // update status
     rebar_major->update_trial_status(vec{ p_strain(0) });
