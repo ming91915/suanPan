@@ -15,19 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "DisplacementLoad.h"
+#include "Displacement.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 #include <Load/Amplitude/Amplitude.h>
 
-DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
-    : Load(T, CT_DISPLACEMENTLOAD, ST, AT, N, uvec{ D }, L) {}
+Displacement::Displacement(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
+    : Load(T, CT_DISPLACEMENT, ST, AT, N, uvec{ D }, L) {}
 
-DisplacementLoad::DisplacementLoad(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
-    : Load(T, CT_DISPLACEMENTLOAD, ST, AT, N, D, L) {}
+Displacement::Displacement(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
+    : Load(T, CT_DISPLACEMENT, ST, AT, N, D, L) {}
 
-int DisplacementLoad::process(const shared_ptr<DomainBase>& D) {
+int Displacement::process(const shared_ptr<DomainBase>& D) {
     const auto& t_step = D->get_current_step_tag();
     if(t_step < start_step || t_step >= end_step) return 0;
 

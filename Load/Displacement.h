@@ -15,38 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class DisplacementLoad
- * @brief A DisplacementLoad class.
+ * @class Displacement
+ * @brief A Displacement class.
  *
- * The DisplacementLoad class is in charge of handling displacement load.
+ * The Displacement class is in charge of handling displacement load.
  *
  * @author T
  * @date 17/09/2017
  * @version 0.1.0
- * @file DisplacementLoad.h
+ * @file Displacement.h
  * @addtogroup Load
  * @{
  */
 
-#ifndef DISPLACEMENTLOAD_H
-#define DISPLACEMENTLOAD_H
+#ifndef DISPLACEMENT_H
+#define DISPLACEMENT_H
 
 #include "Load.h"
 
-class DisplacementLoad : public Load {
+class Displacement : public Load {
 public:
-    explicit DisplacementLoad(const unsigned& = 0, // tag
-        const unsigned& = 0,                       // step tag
-        const double& = 0.,                        // magnitude
-        const uvec& = {},                          // node tags
-        const unsigned& = 0,                       // dof tag
-        const unsigned& = 0);                      // amplitude tag
-    DisplacementLoad(const unsigned&,              // tag
-        const unsigned&,                           // step tag
-        const double&,                             // magnitude
-        const uvec&,                               // node tags
-        const uvec&,                               // dof tags
-        const unsigned& = 0);                      // amplitude tag
+    explicit Displacement(const unsigned& = 0, // tag
+        const unsigned& = 0,                   // step tag
+        const double& = 0.,                    // magnitude
+        const uvec& = {},                      // node tags
+        const unsigned& = 0,                   // dof tag
+        const unsigned& = 0);                  // amplitude tag
+    Displacement(const unsigned&,              // tag
+        const unsigned&,                       // step tag
+        const double&,                         // magnitude
+        const uvec&,                           // node tags
+        const uvec&,                           // dof tags
+        const unsigned& = 0);                  // amplitude tag
 
     int process(const shared_ptr<DomainBase>&) override;
 };

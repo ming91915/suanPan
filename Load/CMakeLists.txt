@@ -1,7 +1,8 @@
 target_sources(${PROJECT_NAME} PRIVATE
-        "Load/Load.cpp"
+        "Load/Acceleration.cpp"
         "Load/CLoad.cpp"
-        "Load/DisplacementLoad.cpp"
+        "Load/Displacement.cpp"
+        "Load/Load.cpp"
         "Load/Mass.cpp"
         )
 
