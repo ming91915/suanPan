@@ -406,6 +406,32 @@ void new_elasticb21(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<ElasticB21>(tag, uvec(node_tag), area, moment_inertia, material_tag, !!nonlinear);
 }
 
+void new_mass(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_mass() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    if(!get_input(command, node)) {
+        suanpan_debug("new_mass() needs one valid node.\n");
+        return;
+    }
+
+    double magnitude;
+    if(!get_input(command, magnitude)) {
+        suanpan_debug("new_mass() needs a valid magnitude.\n");
+        return;
+    }
+
+    unsigned dof;
+    vector<uword> dof_tag;
+    while(get_input(command, dof)) dof_tag.push_back(dof);
+
+    return_obj = make_unique<Mass>(tag, node, magnitude, uvec(dof_tag));
+}
+
 void new_proto01(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {

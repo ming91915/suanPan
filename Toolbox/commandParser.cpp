@@ -25,6 +25,7 @@
 #include <Domain/Node.h>
 #include <Element/Element.h>
 #include <Element/ElementParser.h>
+#include <Element/Special/Mass.h>
 #include <Load/Acceleration.h>
 #include <Load/Amplitude/Tabular.h>
 #include <Load/CLoad.h>
@@ -606,6 +607,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_elasticb21(new_element, command);
     else if(is_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
+    else if(is_equal(element_id, "Mass"))
+        new_mass(new_element, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -704,27 +707,27 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
 int create_new_mass(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
-        suanpan_info("create_new_mass() needs a valid tag.\n");
+        suanpan_debug("create_new_mass() needs a valid tag.\n");
+        return 0;
+    }
+
+    unsigned node;
+    if(!get_input(command, node)) {
+        suanpan_debug("create_new_mass() needs one valid node.\n");
         return 0;
     }
 
     double magnitude;
     if(!get_input(command, magnitude)) {
-        suanpan_info("create_new_mass() needs load magnitude.\n");
+        suanpan_debug("create_new_mass() needs a valid magnitude.\n");
         return 0;
     }
 
-    unsigned dof_id;
-    if(!get_input(command, dof_id)) {
-        suanpan_info("create_new_mass() needs a valid DoF.\n");
-        return 0;
-    }
+    unsigned dof;
+    vector<uword> dof_tag;
+    while(get_input(command, dof)) dof_tag.push_back(dof);
 
-    unsigned node;
-    vector<uword> node_tag;
-    while(get_input(command, node)) node_tag.push_back(node);
-
-    const auto& step_tag = domain->get_current_step_tag();
+    domain->insert(make_shared<Mass>(tag, node, magnitude, uvec(dof_tag)));
 
     return 0;
 }

@@ -32,7 +32,9 @@
 #include <Element/Element.h>
 
 class Mass : public Element {
-    const double mass;
+    const double magnitude;
+
+    const uvec dof_label;
 
 public:
     Mass(const unsigned&, const unsigned&, const double&, const uvec&);

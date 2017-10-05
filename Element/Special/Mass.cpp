@@ -18,10 +18,13 @@
 #include "Mass.h"
 
 Mass::Mass(const unsigned& T, const unsigned& NT, const double& MA, const uvec& DT)
-    : Element(T, ET_MASS, 1, DT.max(), uvec{ NT }, {}, false)
-    , mass(MA) {}
+    : Element(T, ET_MASS, 1, unsigned(DT.max()), uvec{ NT }, {}, false)
+    , magnitude(MA)
+    , dof_label(DT) {}
 
-void Mass::initialize(const shared_ptr<DomainBase>& D) {}
+void Mass::initialize(const shared_ptr<DomainBase>&) {
+    for(const auto& I : dof_label) mass(I - 1, I - 1) = magnitude;
+}
 
 int Mass::update_status() { return 0; }
 
