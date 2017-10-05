@@ -62,49 +62,49 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
 
     // mass
     const auto density = b_material->get_parameter(ParameterType::DENSITY);
-    if(density == 0.) suanpan_warning("zero density detected.\n");
+    if(density != 0.) {
+        mass(1, 1) = 156.;
+        mass(4, 4) = 156.;
+        mass(1, 4) = 54.;
+        mass(4, 1) = 54.;
 
-    mass(1, 1) = 156.;
-    mass(4, 4) = 156.;
-    mass(1, 4) = 54.;
-    mass(4, 1) = 54.;
+        mass(1, 2) = 22. * length;
+        mass(2, 1) = mass(1, 2);
+        mass(4, 5) = -mass(1, 2);
+        mass(5, 4) = -mass(1, 2);
 
-    mass(1, 2) = 22. * length;
-    mass(2, 1) = mass(1, 2);
-    mass(4, 5) = -mass(1, 2);
-    mass(5, 4) = -mass(1, 2);
+        mass(1, 5) = -13. * length;
+        mass(5, 1) = mass(1, 5);
+        mass(2, 4) = -mass(1, 5);
+        mass(4, 2) = -mass(1, 5);
 
-    mass(1, 5) = -13. * length;
-    mass(5, 1) = mass(1, 5);
-    mass(2, 4) = -mass(1, 5);
-    mass(4, 2) = -mass(1, 5);
+        mass(2, 2) = 4. * length * length;
+        mass(5, 5) = mass(2, 2);
+        mass(2, 5) = -.75 * mass(2, 2);
+        mass(5, 2) = mass(2, 5);
 
-    mass(2, 2) = 4. * length * length;
-    mass(5, 5) = mass(2, 2);
-    mass(2, 5) = -.75 * mass(2, 2);
-    mass(5, 2) = mass(2, 5);
+        mass(0, 0) = 280.;
+        mass(3, 3) = mass(0, 0);
+        mass(0, 3) = 140.;
+        mass(3, 0) = mass(0, 3);
 
-    mass(0, 0) = 280.;
-    mass(3, 3) = mass(0, 0);
-    mass(0, 3) = 140.;
-    mass(3, 0) = mass(0, 3);
+        mass *= density * area * length / 420.;
 
-    mass *= density * area * length / 420.;
+        mat trans(6, 6, fill::zeros);
+        trans(5, 5) = 1.;
+        trans(2, 2) = 1.;
 
-    mat trans(6, 6, fill::zeros);
-    trans(5, 5) = 1.;
-    trans(2, 2) = 1.;
+        trans(0, 0) = direction_cosine(0);
+        trans(1, 1) = direction_cosine(0);
+        trans(3, 3) = direction_cosine(0);
+        trans(4, 4) = direction_cosine(0);
+        trans(0, 1) = direction_cosine(1);
+        trans(3, 4) = direction_cosine(1);
+        trans(1, 0) = -direction_cosine(1);
+        trans(4, 3) = -direction_cosine(1);
 
-    trans(0, 0) = direction_cosine(0);
-    trans(1, 1) = direction_cosine(0);
-    trans(3, 3) = direction_cosine(0);
-    trans(4, 4) = direction_cosine(0);
-    trans(0, 1) = direction_cosine(1);
-    trans(3, 4) = direction_cosine(1);
-    trans(1, 0) = -direction_cosine(1);
-    trans(4, 3) = -direction_cosine(1);
-
-    mass = trans.t() * mass * trans;
+        mass = trans.t() * mass * trans;
+    }
 
     mass.zeros();
 

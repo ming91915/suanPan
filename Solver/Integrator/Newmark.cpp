@@ -43,6 +43,9 @@ void Newmark::assemble_resistance() {
 
     D->assemble_resistance();
 
+    D->assemble_mass();
+    D->assemble_damping();
+
     get_trial_resistance(W) -= get_mass(W) * (C0 * W->get_current_displacement() + C2 * W->get_current_velocity() + C3 * W->get_current_acceleration()) + get_damping(W) * (C1 * W->get_current_displacement() + C4 * W->get_current_velocity() + C5 * W->get_current_acceleration());
 }
 
@@ -52,9 +55,7 @@ void Newmark::assemble_matrix() {
     const auto& D = get_domain().lock();
     const auto& W = D->get_factory();
 
-    D->assemble_mass();
     D->assemble_stiffness();
-    D->assemble_damping();
 
     get_stiffness(W) += C0 * get_mass(W) + C1 * get_damping(W);
 }
@@ -70,10 +71,10 @@ void Newmark::commit_status() const {
 }
 
 void Newmark::update_parameter() {
-    const auto& W = get_domain().lock()->get_factory();
+    const auto& NT = get_domain().lock()->get_factory()->get_incre_time();
 
-    if(DT != W->get_incre_time()) {
-        DT = W->get_incre_time();
+    if(DT != NT) {
+        DT = NT;
         C2 = 1. / alpha / DT;
         C0 = C2 / DT;
         C1 = C2 * beta;
