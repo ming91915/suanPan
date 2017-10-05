@@ -4,4 +4,3 @@
 #include "CLoad.h"
 #include "Displacement.h"
 #include "Load.h"
-#include "Mass.h"

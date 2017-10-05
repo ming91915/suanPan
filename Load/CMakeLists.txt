@@ -3,7 +3,6 @@ target_sources(${PROJECT_NAME} PRIVATE
         "Load/CLoad.cpp"
         "Load/Displacement.cpp"
         "Load/Load.cpp"
-        "Load/Mass.cpp"
         )
 
 add_subdirectory(Amplitude)
