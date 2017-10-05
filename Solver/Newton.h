@@ -16,8 +16,7 @@
  ******************************************************************************/
 /**
  * @class Newton
- * @brief A Newton class defines a solver using Newton--Raphson
- * iteration.
+ * @brief A Newton class defines a solver using Newton--Raphson iteration.
  * @author T
  * @date 27/08/2017
  * @version 0.1.2

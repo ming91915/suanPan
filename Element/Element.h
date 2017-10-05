@@ -30,6 +30,7 @@
 
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
+// ReSharper disable once CppUnusedIncludeDirective
 #include <Material/Material.h> // for derived class
 
 class Element : public Tag {
