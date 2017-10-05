@@ -7,6 +7,8 @@ material Elastic1D 1 100
 
 element	ElasticB21	1	1	2	10	1	1	0
 
+element Mass 2 2 10 1
+
 fix 1 P 1
 
 amplitude Tabular 1 EZ.dat
