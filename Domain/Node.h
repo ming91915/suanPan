@@ -65,8 +65,10 @@ public:
     Node(const unsigned&, const vec&);
     Node(const unsigned&, const unsigned&);
     Node(const unsigned&, const unsigned&, const vec&);
-    Node(const Node&) { suanpan_debug("Node copy ctor() called.\n"); }
-    Node(Node&&) noexcept { suanpan_debug("Node move ctor() called.\n"); }
+    Node(const Node&) = delete;            // copy forbidden
+    Node(Node&&) = delete;                 // move forbidden
+    Node& operator=(const Node&) = delete; // assign forbidden
+    Node& operator=(Node&&) = delete;      // assign forbidden
     ~Node();
 
     void initialize(const shared_ptr<DomainBase>&);
