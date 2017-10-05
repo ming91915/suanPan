@@ -29,7 +29,6 @@
 #include <Load/Amplitude/Tabular.h>
 #include <Load/CLoad.h>
 #include <Load/Displacement.h>
-#include <Load/Mass.h>
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
 #include <Solver/Solver>
@@ -730,8 +729,6 @@ int create_new_mass(const shared_ptr<DomainBase>& domain, istringstream& command
     while(get_input(command, node)) node_tag.push_back(node);
 
     const auto& step_tag = domain->get_current_step_tag();
-
-    if(!domain->insert(make_shared<Mass>(tag, step_tag, magnitude, uvec(node_tag), dof_id))) suanpan_error("create_new_mass() fails to create new load.\n");
 
     return 0;
 }
