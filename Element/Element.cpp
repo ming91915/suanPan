@@ -108,15 +108,12 @@ const mat& Element::get_stiffness() const { return stiffness; }
 
 const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
-/**
- * \brief Method to update status.
- */
-int Element::update_status() { return -1; }
+int Element::update_status() { throw; }
 
-int Element::commit_status() { return -1; }
+int Element::commit_status() { throw; }
 
-int Element::clear_status() { return -1; }
+int Element::clear_status() { throw; }
 
-int Element::reset_status() { return -1; }
+int Element::reset_status() { throw; }
 
 vector<vec> Element::record(const OutputList&) { return {}; }

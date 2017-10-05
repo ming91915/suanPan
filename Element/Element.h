@@ -63,10 +63,10 @@ public:
         const uvec& = {},                 // material tags
         const bool& = false               // nonlinear geometry switch
     );
-    Element(const Element&) = delete;
-    Element(Element&&) = delete;
-    Element& operator=(const Element&) = delete;
-    Element& operator=(Element&&) = delete;
+    Element(const Element&) = delete;            // copy forbidden
+    Element(Element&&) = delete;                 // move forbidden
+    Element& operator=(const Element&) = delete; // assign forbidden
+    Element& operator=(Element&&) = delete;      // assign forbidden
 
     virtual ~Element();
 
