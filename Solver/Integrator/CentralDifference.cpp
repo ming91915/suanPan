@@ -61,6 +61,10 @@ void CentralDifference::assemble_resistance() {
 
     D->assemble_resistance();
 
+    D->assemble_mass();
+    D->assemble_stiffness();
+    D->assemble_damping();
+
     get_trial_resistance(W) += (get_stiffness(W) - C2 * get_mass(W)) * W->get_current_displacement() + (C0 * get_mass(W) - C1 * get_damping(W)) * W->get_pre_displacement();
 }
 
@@ -69,10 +73,6 @@ void CentralDifference::assemble_matrix() {
 
     const auto& D = get_domain().lock();
     const auto& W = D->get_factory();
-
-    D->assemble_mass();
-    D->assemble_stiffness();
-    D->assemble_damping();
 
     get_stiffness(W) = C0 * get_mass(W) + C1 * get_damping(W);
 }
@@ -83,7 +83,7 @@ void CentralDifference::commit_status() const {
 
     W->set_current_velocity(C1 * (W->get_trial_displacement() - W->get_pre_displacement()));
 
-    W->set_current_acceleration(C0 * (W->get_pre_displacement() - 2 * W->get_current_displacement() + W->get_trial_displacement()));
+    W->set_current_acceleration(C0 * (W->get_pre_displacement() - 2. * W->get_current_displacement() + W->get_trial_displacement()));
 
     D->commit_status();
 
