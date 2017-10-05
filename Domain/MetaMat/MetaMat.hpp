@@ -65,6 +65,8 @@ public:
 
     virtual MetaMat i();
     virtual MetaMat inv();
+
+    virtual void print();
 };
 
 template <typename T>
@@ -314,6 +316,14 @@ template <typename T> MetaMat<T> MetaMat<T>::i() {
 }
 
 template <typename T> MetaMat<T> MetaMat<T>::inv() { return i(); }
+
+template <typename T> void MetaMat<T>::print() {
+    for(unsigned I = 0; I < n_rows; ++I) {
+        for(unsigned J = 0; J < n_cols; ++J) suanpan_info("%+.3E\t", operator()(I, J));
+        suanpan_info("\n");
+    }
+    suanpan_info("\n");
+}
 
 #endif
 
