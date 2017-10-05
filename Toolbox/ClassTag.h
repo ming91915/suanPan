@@ -177,11 +177,8 @@
 #ifndef CT_MINDISPLACEMENT
 #define CT_MINDISPLACEMENT 53
 #endif
-#ifndef CT_MASS
-#define CT_MASS 54
-#endif
 #ifndef CT_ACCELERATION
-#define CT_ACCELERATION 55
+#define CT_ACCELERATION 54
 #endif
 
 #endif

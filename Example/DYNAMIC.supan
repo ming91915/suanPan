@@ -11,7 +11,7 @@ fix 1 P 1
 
 amplitude Tabular 1 EZ.dat
 
-acceleration 2 1 .2 1 1 2
+acceleration 2 1 .2 1 2
 
 recorder 1 Node U 2
 

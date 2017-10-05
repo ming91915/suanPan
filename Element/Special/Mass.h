@@ -14,51 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class Mass
+ * @brief The Mass class.
+ *
+ * @author T
+ * @date 06/10/2017
+ * @version 0.1.0
+ * @file Mass.h
+ * @addtogroup Element
+ * @{
+ */
 
-#ifndef ELEMENTTAG_H
-#define ELEMENTTAG_H
+#ifndef ELEMENTTEMPLATE_H
+#define ELEMENTTEMPLATE_H
 
-#ifndef ET_TRUSS2D
-#define ET_TRUSS2D 2000
-#endif
-#ifndef ET_CP4
-#define ET_CP4 2001
-#endif
-#ifndef ET_PS
-#define ET_PS 2002
-#endif
-#ifndef ET_QE2
-#define ET_QE2 2003
-#endif
-#ifndef ET_GQ12
-#define ET_GQ12 2004
-#endif
-#ifndef ET_CP3
-#define ET_CP3 2005
-#endif
-#ifndef ET_C3D8
-#define ET_C3D8 2006
-#endif
-#ifndef ET_PROTO01
-#define ET_PROTO01 2007
-#endif
-#ifndef ET_CP8
-#define ET_CP8 2008
-#endif
-#ifndef ET_C3D20
-#define ET_C3D20 2009
-#endif
-#ifndef ST_RECTANGLE
-#define ST_RECTANGLE 2010
-#endif
-#ifndef ET_PROTO02
-#define ET_PROTO02 2011
-#endif
-#ifndef ET_ELASTICB21
-#define ET_ELASTICB21 2012
-#endif
-#ifndef ET_MASS
-#define ET_MASS 2013
-#endif
+#include <Element/Element.h>
+
+class Mass : public Element {
+    const double mass;
+public:
+    Mass(const unsigned&, const unsigned&, const double&, const uvec& );
+
+    void initialize(const shared_ptr<DomainBase>&) override;
+
+    int update_status() override;
+
+    int commit_status() override;
+    int clear_status() override;
+    int reset_status() override;
+};
 
 #endif
+
+//! @}

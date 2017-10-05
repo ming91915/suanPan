@@ -37,8 +37,8 @@ class Element : public Tag {
     const unsigned num_node; /**< number of nodes */
     const unsigned num_dof;  /**< number of DoFs */
 protected:
-    uvec node_encoding; /**< node encoding */
-    uvec material_tag;  /**< material tags */
+    const uvec node_encoding; /**< node encoding */
+    const uvec material_tag;  /**< material tags */
 
     bool nlgeom = false; /**< nonlinear geometry switch */
 
@@ -55,7 +55,14 @@ protected:
 public:
     const bool initialized = false;
 
-    explicit Element(const unsigned& = 0, const unsigned& = CT_ELEMENT, const unsigned& = 0, const unsigned& = 0, const uvec& = {}, const uvec& = {}, const bool& = false);
+    explicit Element(const unsigned& = 0, // tag
+        const unsigned& = CT_ELEMENT,     // class tag
+        const unsigned& = 0,              // number of nodes
+        const unsigned& = 0,              // number of dofs
+        const uvec& = {},                 // node encoding
+        const uvec& = {},                 // material tags
+        const bool& = false               // nonlinear geometry switch
+    );
     Element(const Element&) = delete;
     Element(Element&&) = delete;
     Element& operator=(const Element&) = delete;

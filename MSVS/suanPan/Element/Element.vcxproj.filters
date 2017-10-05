@@ -22,6 +22,9 @@
     <Filter Include="Beam">
       <UniqueIdentifier>{580a6752-6e34-4ac5-bc48-5ac90ca7cb6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Special">
+      <UniqueIdentifier>{b0cb6ad3-7064-4d04-bd0a-f7d4e9908ede}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp">
@@ -77,6 +80,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Beam\ElasticB21.cpp">
       <Filter>Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Special\Mass.cpp">
+      <Filter>Special</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Beam\ElasticB21.h">
       <Filter>Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Special\Mass.h">
+      <Filter>Special</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
