@@ -42,17 +42,11 @@ Tabular::Tabular(const unsigned& T, const char* P, const unsigned& ST)
 
 double Tabular::get_amplitude(const double& T) {
     const auto step_time = T - start_time;
+
     uword IDX = 0;
-    while(IDX < time.n_elem) {
-        if(time(IDX) >= step_time) break;
-        ++IDX;
-    }
-    auto A = magnitude(IDX);
-    if(IDX == 0)
-        A = 0.;
-    else if(IDX != time.n_elem - 1)
-        A += (step_time - time(IDX)) * (magnitude(IDX + 1) - magnitude(IDX)) / (time(IDX + 1) - time(IDX));
-    return A;
+    while(IDX < time.n_elem && time(IDX) < step_time) ++IDX;
+
+    return IDX == 0 ? 0. : IDX == time.n_elem ? magnitude(magnitude.n_elem - 1) : magnitude(IDX - 1) + (step_time - time(IDX - 1)) * (magnitude(IDX) - magnitude(IDX - 1)) / (time(IDX) - time(IDX - 1));
 }
 
 void Tabular::print() { suanpan_info("Tabular.\n"); }
