@@ -33,8 +33,9 @@
 
 class Mass : public Element {
     const double mass;
+
 public:
-    Mass(const unsigned&, const unsigned&, const double&, const uvec& );
+    Mass(const unsigned&, const unsigned&, const double&, const uvec&);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

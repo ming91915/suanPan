@@ -17,26 +17,16 @@
 
 #include "Mass.h"
 
-Mass::Mass(const unsigned&T, const unsigned&NT, const double&MA, const uvec&DT) : Element(T, ET_MASS, 1, DT.max(), uvec{NT}, {}, false),
-                                                                                  mass(MA) {
-}
+Mass::Mass(const unsigned& T, const unsigned& NT, const double& MA, const uvec& DT)
+    : Element(T, ET_MASS, 1, DT.max(), uvec{ NT }, {}, false)
+    , mass(MA) {}
 
-void Mass::initialize(const shared_ptr<DomainBase>&D) {
+void Mass::initialize(const shared_ptr<DomainBase>& D) {}
 
-}
+int Mass::update_status() { return 0; }
 
-int Mass::update_status() {
-    return 0;
-}
+int Mass::commit_status() { return 0; }
 
-int Mass::commit_status() {
-    return 0;
-}
+int Mass::clear_status() { return 0; }
 
-int Mass::clear_status() {
-    return 0;
-}
-
-int Mass::reset_status() {
-    return 0;
-}
+int Mass::reset_status() { return 0; }

@@ -40,7 +40,7 @@ protected:
     const uvec node_encoding; /**< node encoding */
     const uvec material_tag;  /**< material tags */
 
-    bool nlgeom = false; /**< nonlinear geometry switch */
+    const bool nlgeom = false; /**< nonlinear geometry switch */
 
     uvec dof_encoding; /**< DoF encoding vector */
 
