@@ -3,27 +3,23 @@
 node	1	0	0
 node	2	0	1
 
-material Elastic1D 1 100 7.85E-9
+material Elastic1D 1 100
 
-element	ElasticB21	1	1	2	1000	1	1	0
+element	ElasticB21	1	1	2	10	1	1	0
 
 fix 1 P 1
 
-# mass 1 10 1 2
-
 amplitude Tabular 1 EZ.dat
 
-acceleration 2 1 .2 1 2
+acceleration 2 1 .2 1 1 2
 
 recorder 1 Node U 2
 
-step dynamic 1 10
-set symm_mat false
-set band_mat false
+step dynamic 1 20
 set ini_step_size .01
 set fixed_step_size true
 
-converger AbsIncreDisp 1 1E-4 10 0
+converger AbsIncreDisp 1 1E-6 10 0
 
 analyze
 

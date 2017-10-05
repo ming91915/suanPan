@@ -1,9 +1,10 @@
 #ifndef OPERATOR_TIMES_HPP
 #define OPERATOR_TIMES_HPP
 
-template <typename T> MetaMat<T>& operator*(const T& value, MetaMat<T>& M) {
-    arrayops::inplace_mul(M.memptr(), value, M.n_elem);
-    return M;
+template <typename T> MetaMat<T> operator*(const T& value, const MetaMat<T>& M) {
+    auto N = M;
+    arrayops::inplace_mul(N.memptr(), value, N.n_elem);
+    return N;
 }
 
 template <typename T> Mat<T> operator*(const Mat<T>& A, const FullMat<T>& B) {

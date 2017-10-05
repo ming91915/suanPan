@@ -49,12 +49,12 @@ public:
     const T* memptr() const;
     T* memptr();
 
-    virtual MetaMat& operator+(const MetaMat&);
-    virtual MetaMat& operator-(const MetaMat&);
+    virtual MetaMat operator+(const MetaMat&);
+    virtual MetaMat operator-(const MetaMat&);
     virtual MetaMat& operator+=(const MetaMat&);
     virtual MetaMat& operator-=(const MetaMat&);
 
-    virtual MetaMat& operator*(const T&);
+    virtual MetaMat operator*(const T&);
     virtual Mat<T> operator*(const Mat<T>&);
 
     virtual Mat<T> solve(const Mat<T>&);
@@ -155,9 +155,17 @@ template <typename T> const T* MetaMat<T>::memptr() const { return memory; }
 
 template <typename T> T* MetaMat<T>::memptr() { return const_cast<T*>(memory); }
 
-template <typename T> MetaMat<T>& MetaMat<T>::operator+(const MetaMat& M) { return *this += M; }
+template <typename T> MetaMat<T> MetaMat<T>::operator+(const MetaMat& M) {
+    auto N = *this;
+    N += M;
+    return N;
+}
 
-template <typename T> MetaMat<T>& MetaMat<T>::operator-(const MetaMat& M) { return *this -= M; }
+template <typename T> MetaMat<T> MetaMat<T>::operator-(const MetaMat& M) {
+    auto N = *this;
+    N -= M;
+    return N;
+}
 
 template <typename T> MetaMat<T>& MetaMat<T>::operator+=(const MetaMat& M) {
     if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) arrayops::inplace_plus(memptr(), M.memptr(), n_elem);
@@ -169,9 +177,10 @@ template <typename T> MetaMat<T>& MetaMat<T>::operator-=(const MetaMat& M) {
     return *this;
 }
 
-template <typename T> MetaMat<T>& MetaMat<T>::operator*(const T& value) {
-    arrayops::inplace_mul(memptr(), value, n_elem);
-    return *this;
+template <typename T> MetaMat<T> MetaMat<T>::operator*(const T& value) {
+    auto new_mat = *this;
+    arrayops::inplace_mul(new_mat.memptr(), value, new_mat.n_elem);
+    return new_mat;
 }
 
 template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
