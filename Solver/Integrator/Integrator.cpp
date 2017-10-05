@@ -53,9 +53,9 @@ void Integrator::assemble_resistance() { database.lock()->assemble_resistance();
 
 void Integrator::assemble_matrix() { database.lock()->assemble_stiffness(); }
 
-void Integrator::update_trial_time(const double& T) const { database.lock()->get_factory()->update_trial_time(T); }
+void Integrator::update_trial_time(const double T) const { database.lock()->get_factory()->update_trial_time(T); }
 
-void Integrator::update_incre_time(const double& T) const { database.lock()->get_factory()->update_incre_time(T); }
+void Integrator::update_incre_time(const double T) const { database.lock()->get_factory()->update_incre_time(T); }
 
 void Integrator::update_trial_status() { database.lock()->update_trial_status(); }
 

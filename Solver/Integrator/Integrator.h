@@ -58,8 +58,8 @@ public:
     virtual void assemble_resistance();
     virtual void assemble_matrix();
 
-    void update_trial_time(const double&) const;
-    void update_incre_time(const double&) const;
+    void update_trial_time(const double) const;
+    void update_incre_time(const double) const;
     virtual void update_trial_status();
     virtual void update_incre_status();
 
