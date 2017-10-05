@@ -38,13 +38,11 @@ public:
     explicit Acceleration(const unsigned& = 0, // tag
         const unsigned& = 0,                   // step tag
         const double& = 0.,                    // magnitude
-        const uvec& = {},                      // node tags
         const unsigned& = 0,                   // dof tag
         const unsigned& = 0);                  // amplitude tag
     Acceleration(const unsigned&,              // tag
         const unsigned&,                       // step tag
         const double&,                         // magnitude
-        const uvec&,                           // node tags
         const uvec&,                           // dof tags
         const unsigned& = 0);                  // amplitude tag
 

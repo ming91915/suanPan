@@ -318,13 +318,9 @@ int create_new_acceleration(const shared_ptr<DomainBase>& domain, istringstream&
         return 0;
     }
 
-    unsigned node;
-    vector<uword> node_tag;
-    while(get_input(command, node)) node_tag.push_back(node);
-
     const auto& step_tag = domain->get_current_step_tag();
 
-    if(!domain->insert(make_shared<Acceleration>(load_id, step_tag, magnitude, uvec(node_tag), dof_id, amplitude_id))) suanpan_error("create_new_acceleration() fails to create new load.\n");
+    if(!domain->insert(make_shared<Acceleration>(load_id, step_tag, magnitude, dof_id, amplitude_id))) suanpan_error("create_new_acceleration() fails to create new load.\n");
 
     return 0;
 }

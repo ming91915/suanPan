@@ -21,11 +21,11 @@
 #include <Domain/Node.h>
 #include <Load/Amplitude/Amplitude.h>
 
-Acceleration::Acceleration(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const unsigned& D, const unsigned& AT)
-    : Load(T, CT_ACCELERATION, ST, AT, N, uvec{ D }, L) {}
+Acceleration::Acceleration(const unsigned& T, const unsigned& ST, const double& L, const unsigned& D, const unsigned& AT)
+    : Load(T, CT_ACCELERATION, ST, AT, {}, uvec{ D }, L) {}
 
-Acceleration::Acceleration(const unsigned& T, const unsigned& ST, const double& L, const uvec& N, const uvec& D, const unsigned& AT)
-    : Load(T, CT_ACCELERATION, ST, AT, N, D, L) {}
+Acceleration::Acceleration(const unsigned& T, const unsigned& ST, const double& L, const uvec& D, const unsigned& AT)
+    : Load(T, CT_ACCELERATION, ST, AT, {}, D, L) {}
 
 int Acceleration::process(const shared_ptr<DomainBase>& D) {
     const auto& t_step = D->get_current_step_tag();
@@ -36,13 +36,10 @@ int Acceleration::process(const shared_ptr<DomainBase>& D) {
     if(t_factory->get_mass() == nullptr) return 0;
 
     vec ref_acc(t_factory->get_size(), fill::zeros);
-    for(const auto& I : nodes) {
-        auto& t_node = D->get_node(unsigned(I));
-        if(t_node != nullptr && t_node->is_active()) {
-            auto& t_dof = t_node->get_reordered_dof();
-            for(const auto& J : dofs)
-                if(J <= t_dof.n_elem) ref_acc(t_dof(J - 1)) = 1.;
-        }
+    for(const auto& I : D->get_node_pool()) {
+        auto& t_dof = I->get_reordered_dof();
+        for(const auto& J : dofs)
+            if(J <= t_dof.n_elem) ref_acc(t_dof(J - 1)) = 1.;
     }
 
     const vec ref_load = get_mass(t_factory) * ref_acc;
