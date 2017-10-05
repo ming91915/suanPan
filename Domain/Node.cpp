@@ -473,4 +473,12 @@ void Node::print() {
     coordinate.t().print();
     suanpan_info("Displacement:\n");
     current_displacement.t().print();
+    if(!current_velocity.is_empty()) {
+        suanpan_info("Velocity:\n");
+        current_velocity.t().print();
+    }
+    if(!current_acceleration.is_empty()) {
+        suanpan_info("Acceleration:\n");
+        current_acceleration.t().print();
+    }
 }
