@@ -186,7 +186,8 @@ int ElasticB21::update_status() {
 
         const mat tmp_a = R * Z.t();
 
-        stiffness += local_force(0) / new_length * Z * Z.t() + (local_force(1) + local_force(2)) / new_length / new_length * (tmp_a + tmp_a.t());
+        geometry = local_force(0) / new_length * Z * Z.t() + (local_force(1) + local_force(2)) / new_length / new_length * (tmp_a + tmp_a.t());
+        stiffness += geometry;
     }
 
     return 0;
