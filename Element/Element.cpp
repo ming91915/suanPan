@@ -108,6 +108,8 @@ const mat& Element::get_stiffness() const { return stiffness; }
 
 const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
+const mat& Element::get_geometry() const { return geometry; }
+
 int Element::update_status() { throw; }
 
 int Element::commit_status() { throw; }

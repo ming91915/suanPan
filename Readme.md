@@ -14,6 +14,8 @@ Intro
 
 **suanPan** is partially influenced by some popular (non-)commercial FEA packages, such as [ABAQUS UNIFIED FEA](https://www.3ds.com/products-services/simulia/products/abaqus/), [ANSYS](http://www.ansys.com/) and [OpenSees](http://opensees.berkeley.edu/).
 
+Check out the [documentation](https://tlcfem.gitbooks.io/suanpan/content/).
+
 Features
 --------
 

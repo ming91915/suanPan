@@ -105,9 +105,6 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
 
         mass = trans.t() * mass * trans;
     }
-
-    // damping
-    // damping = mass;
 }
 
 int ElasticB21::update_status() {

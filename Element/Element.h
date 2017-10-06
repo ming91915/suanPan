@@ -50,6 +50,7 @@ protected:
     mat damping;           /**< damping matrix */
     mat stiffness;         /**< stiffness matrix */
     mat initial_stiffness; /**< initial stiffness matrix */
+    mat geometry;          /**< geometry matrix */
 
     vector<weak_ptr<Node>> node_ptr; /**< node pointers */
 public:
@@ -86,6 +87,7 @@ public:
     virtual const mat& get_damping() const;
     virtual const mat& get_stiffness() const;
     virtual const mat& get_initial_stiffness() const;
+    virtual const mat& get_geometry() const;
 
     virtual int update_status() = 0;
     virtual int commit_status() = 0;

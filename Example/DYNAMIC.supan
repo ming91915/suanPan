@@ -3,7 +3,7 @@
 node	1	0	0
 node	2	0	1
 
-material Elastic1D 1 100
+material Elastic1D 1 100 1
 
 element	ElasticB21	1	1	2	10	1	1	0
 
