@@ -45,7 +45,7 @@ class Concrete2D : public Material {
 public:
     Concrete2D(const unsigned&, // tag
         const unsigned&,        // material tag
-        const double&,          // poissons_ratio
+        const double& = .2,     // poissons_ratio
         const PlaneType& = PlaneType::S,
         const double& = 0. // density
     );
