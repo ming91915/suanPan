@@ -22,8 +22,6 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
 
 template <typename T> class Factory final {
-    bool initialized = false;
-
     unsigned n_size = 0; /**< number of DoFs */
     unsigned n_lobw = 0; /**< low bandwidth */
     unsigned n_upbw = 0; /**< up bandwidth */
@@ -84,6 +82,8 @@ template <typename T> class Factory final {
 
     Mat<T> eigenvector; /**< eigenvectors */
 public:
+    const bool initialized = false;
+
     explicit Factory(const unsigned& = 0, const AnalysisType& = AnalysisType::NONE, const StorageScheme& = StorageScheme::FULL);
 
     void set_size(const unsigned&);
@@ -365,7 +365,7 @@ Factory<T>::Factory(const unsigned& D, const AnalysisType& AT, const StorageSche
 template <typename T> void Factory<T>::set_size(const unsigned& D) {
     if(n_size != D) {
         n_size = D;
-        initialized = false;
+        access::rw(initialized) = false;
     }
 }
 
@@ -374,7 +374,7 @@ template <typename T> const unsigned& Factory<T>::get_size() const { return n_si
 template <typename T> void Factory<T>::set_analysis_type(const AnalysisType& AT) {
     if(analysis_type != AT) {
         analysis_type = AT;
-        initialized = false;
+        access::rw(initialized) = false;
     }
 }
 
@@ -383,7 +383,7 @@ template <typename T> const AnalysisType& Factory<T>::get_analysis_type() const 
 template <typename T> void Factory<T>::set_storage_scheme(const StorageScheme& SS) {
     if(storage_type != SS) {
         storage_type = SS;
-        initialized = false;
+        access::rw(initialized) = false;
     }
 }
 
@@ -394,7 +394,7 @@ template <typename T> void Factory<T>::set_bandwidth(const unsigned& L, const un
         n_lobw = L;
         n_upbw = U;
         n_sfbw = L + U;
-        initialized = false;
+        access::rw(initialized) = false;
     }
 }
 
@@ -406,7 +406,7 @@ template <typename T> void Factory<T>::get_bandwidth(unsigned& L, unsigned& U) c
 template <typename T> void Factory<T>::set_reference_size(const unsigned& S) {
     if(n_rfld != S) {
         n_rfld = S;
-        initialized = false;
+        access::rw(initialized) = false;
     }
 }
 
@@ -452,7 +452,7 @@ template <typename T> int Factory<T>::initialize() {
         break;
     }
 
-    initialized = true;
+    access::rw(initialized) = true;
 
     return 0;
 }

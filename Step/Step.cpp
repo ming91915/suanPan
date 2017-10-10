@@ -36,8 +36,6 @@ const bool& Step::is_updated() const { return updated; }
 int Step::initialize() {
     const auto& t_domain = database.lock();
 
-    factory = t_domain->get_factory();
-
     if(t_domain->get_current_converger_tag() != 0) tester = t_domain->get_current_converger();
     if(t_domain->get_current_integrator_tag() != 0) modifier = t_domain->get_current_integrator();
     if(t_domain->get_current_solver_tag() != 0) solver = t_domain->get_current_solver();
@@ -58,6 +56,8 @@ int Step::initialize() {
     }
 
     if(tester == nullptr) tester = make_shared<RelIncreDisp>();
+
+    factory = t_domain->get_factory();
 
     if(get_class_tag() != CT_ARCLENGTH) {
         if(symm_mat && band_mat)
@@ -96,6 +96,8 @@ int Step::initialize() {
     tester->set_domain(t_domain);
     solver->set_converger(tester);
     solver->set_integrator(modifier);
+
+    t_domain->update_current_status();
 
     return 0;
 }
