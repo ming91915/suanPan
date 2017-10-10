@@ -33,6 +33,18 @@
 
 class MVLEM final : public Element {
     static const unsigned b_node, b_dof;
+
+    struct Fibre {
+        double eccentricity, width, thickness;
+        unique_ptr<Material> t_material;
+    };
+
+    vector<unique_ptr<Fibre>> axial_spring;
+
+    unique_ptr<Material> shear_spring;
+
+public:
+    MVLEM() {}
 };
 
 #endif

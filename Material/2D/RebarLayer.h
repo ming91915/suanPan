@@ -38,7 +38,7 @@ class RebarLayer : public Material {
 
     unique_ptr<Material> rebar_major, rebar_minor;
 
-    const double inclinement;
+    const double inclination;
 
     const mat trans;
 
@@ -48,7 +48,7 @@ public:
         const unsigned&,        // material tag along minor axis
         const double&,          // reinforcement ratio along major axis
         const double&,          // reinforcement ratio along minor axis
-        const double& = 0.,     // inclinement
+        const double& = 0.,     // inclination
         const double& = 0.      // density
     );
     RebarLayer(const RebarLayer&);

@@ -24,8 +24,8 @@ RebarLayer::RebarLayer(const unsigned& T, const unsigned& XT, const unsigned& YT
     , tag_minor(YT)
     , rebar_ratio_major(RX)
     , rebar_ratio_minor(RY)
-    , inclinement(A)
-    , trans(transform::form_trans(inclinement)) {}
+    , inclination(A)
+    , trans(transform::form_trans(inclination)) {}
 
 RebarLayer::RebarLayer(const RebarLayer& P)
     : Material(P.get_tag(), MT_CONCRETE2D, MaterialType::D2, P.density)
@@ -33,7 +33,7 @@ RebarLayer::RebarLayer(const RebarLayer& P)
     , tag_minor(P.tag_minor)
     , rebar_ratio_major(P.rebar_ratio_major)
     , rebar_ratio_minor(P.rebar_ratio_minor)
-    , inclinement(P.inclinement)
+    , inclination(P.inclination)
     , trans(P.trans) {
     if(P.rebar_major != nullptr) rebar_major = P.rebar_major->get_copy();
     if(P.rebar_minor != nullptr) rebar_minor = P.rebar_minor->get_copy();

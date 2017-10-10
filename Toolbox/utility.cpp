@@ -23,6 +23,8 @@ bool is_equal(const char* A, const char* B) { return _strcmpi(A, B) == 0; }
 
 bool is_equal(const string& A, const char* B) { return is_equal(A.c_str(), B); }
 
+bool is_equal(const string& A, const string& B) { return is_equal(A.c_str(), B.c_str()); }
+
 bool is_true(const char* S) { return is_equal(S, "On") || is_equal(S, "True") || is_equal(S, "1") || is_equal(S, "Yes"); }
 
 bool is_false(const char* S) { return is_equal(S, "Off") || is_equal(S, "False") || is_equal(S, "0") || is_equal(S, "No"); }

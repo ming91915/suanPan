@@ -42,6 +42,7 @@ template <typename T> bool get_optional_input(istringstream& I, T& O) { return !
 
 bool is_equal(const char*, const char*);
 bool is_equal(const string&, const char*);
+bool is_equal(const string&, const string&);
 
 bool is_true(const char*);
 bool is_false(const char*);
