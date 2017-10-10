@@ -9,7 +9,7 @@ DisplacementControl::DisplacementControl() {}
 int DisplacementControl::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
-    const auto& W = G->get_domain().lock()->get_factory();
+    auto& W = G->get_domain().lock()->get_factory();
 
     auto& max_iteration = C->get_max_iteration();
 

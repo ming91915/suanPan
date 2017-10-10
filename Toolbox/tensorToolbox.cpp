@@ -43,7 +43,7 @@ vec dev(const vec& S) {
     return D;
 }
 
-mat form_trans(const double angle) {
+mat transform::form_trans(const double angle) {
     const auto sin_angle = sin(angle);
     const auto cos_angle = cos(angle);
     const auto sin_sin = sin_angle * sin_angle;
@@ -64,7 +64,7 @@ mat form_trans(const double angle) {
     return trans;
 }
 
-vec nominal_to_principal_strain(const vec& strain) {
+vec transform::nominal_to_principal_strain(const vec& strain) {
     const auto tmp_a = (strain(0) + strain(1)) / 2.;
     const auto tmp_b = sqrt(pow(strain(0) - strain(1), 2.) + pow(strain(2), 2.)) / 2.;
 
@@ -76,7 +76,7 @@ vec nominal_to_principal_strain(const vec& strain) {
     return p_strain;
 }
 
-vec nominal_to_principal_stress(const vec& stress) {
+vec transform::nominal_to_principal_stress(const vec& stress) {
     const auto tmp_a = (stress(0) + stress(1)) / 2.;
     const auto tmp_b = sqrt(pow(stress(0) - stress(1), 2.) + pow(2. * stress(2), 2.)) / 2.;
 
@@ -88,7 +88,7 @@ vec nominal_to_principal_stress(const vec& stress) {
     return p_stress;
 }
 
-mat nominal_to_principal_strain(vec& strain, double& theta) {
+mat transform::nominal_to_principal_strain(vec& strain, double& theta) {
     theta = atan(strain(2) / (strain(0) - strain(1))) / 2.;
 
     strain = nominal_to_principal_strain(strain);
@@ -96,7 +96,7 @@ mat nominal_to_principal_strain(vec& strain, double& theta) {
     return form_trans(theta);
 }
 
-mat nominal_to_principal_stress(vec& stress, double& theta) {
+mat transform::nominal_to_principal_stress(vec& stress, double& theta) {
     theta = atan(2. * stress(2) / (stress(0) - stress(1))) / 2.;
 
     stress = nominal_to_principal_stress(stress);
@@ -110,7 +110,7 @@ mat nominal_to_principal_stress(vec& stress, double& theta) {
  * \param trans tranformation matrix
  * \return new rotated strain
  */
-vec rotate_strain(const vec& strain, const mat& trans) {
+vec transform::rotate_strain(const vec& strain, const mat& trans) {
     auto n_strain = strain;
     n_strain(2) /= 2.;
     n_strain = trans * n_strain;
@@ -124,7 +124,7 @@ vec rotate_strain(const vec& strain, const mat& trans) {
  * \param trans tranformation matrix
  * \return new rotated stress
  */
-vec rotate_stress(const vec& stress, const mat& trans) { return trans * stress; }
+vec transform::rotate_stress(const vec& stress, const mat& trans) { return trans * stress; }
 
 /**
  * \brief
@@ -132,7 +132,7 @@ vec rotate_stress(const vec& stress, const mat& trans) { return trans * stress; 
  * \param theta rotated auto-clock angle in radians
  * \return new rotated strain
  */
-vec rotate_strain(const vec& strain, const double theta) { return rotate_strain(strain, form_trans(theta)); }
+vec transform::rotate_strain(const vec& strain, const double theta) { return rotate_strain(strain, form_trans(theta)); }
 
 /**
  * \brief
@@ -140,4 +140,4 @@ vec rotate_strain(const vec& strain, const double theta) { return rotate_strain(
  * \param theta rotated auto-clock angle in radians
  * \return new rotated stress
  */
-vec rotate_stress(const vec& stress, const double theta) { return rotate_stress(stress, form_trans(theta)); }
+vec transform::rotate_stress(const vec& stress, const double theta) { return rotate_stress(stress, form_trans(theta)); }

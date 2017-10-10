@@ -68,7 +68,7 @@ void Recorder::save() {
     hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };
 
     const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    const auto group_id = H5Gcreate2(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    const auto group_id = H5Gcreate(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
     H5LTmake_dataset(group_id, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
 

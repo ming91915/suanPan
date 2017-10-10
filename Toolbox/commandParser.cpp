@@ -49,60 +49,60 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     const auto command_id = get_input<string>(command);
     if(command.fail()) return 0;
 
-    if(command_id == "exit") return SUANPAN_EXIT;
-    if(command_id == "quit") return SUANPAN_EXIT;
+    if(is_equal(command_id, "exit")) return SUANPAN_EXIT;
+    if(is_equal(command_id, "quit")) return SUANPAN_EXIT;
 
-    if(command_id == "file") return process_file(model, command);
+    if(is_equal(command_id, "file")) return process_file(model, command);
 
-    if(command_id == "domain") return create_new_domain(model, command);
+    if(is_equal(command_id, "domain")) return create_new_domain(model, command);
 
-    if(command_id == "enable") return enable_object(model, command);
-    if(command_id == "disable") return disable_object(model, command);
-    if(command_id == "mute") return disable_object(model, command);
-    if(command_id == "erase") return erase_object(model, command);
-    if(command_id == "delete") return erase_object(model, command);
-    if(command_id == "remove") return erase_object(model, command);
-    if(command_id == "save") return save_object(model, command);
+    if(is_equal(command_id, "enable")) return enable_object(model, command);
+    if(is_equal(command_id, "disable")) return disable_object(model, command);
+    if(is_equal(command_id, "mute")) return disable_object(model, command);
+    if(is_equal(command_id, "erase")) return erase_object(model, command);
+    if(is_equal(command_id, "delete")) return erase_object(model, command);
+    if(is_equal(command_id, "remove")) return erase_object(model, command);
+    if(is_equal(command_id, "save")) return save_object(model, command);
 
     const auto& domain = get_current_domain(model);
 
-    if(command_id == "acceleration") return create_new_acceleration(domain, command);
-    if(command_id == "amplitude") return create_new_amplitude(domain, command);
-    if(command_id == "cload") return create_new_cload(domain, command);
-    if(command_id == "converger") return create_new_converger(domain, command);
-    if(command_id == "criterion") return create_new_criterion(domain, command);
-    if(command_id == "disp") return create_new_displacement(domain, command);
-    if(command_id == "displacement") return create_new_displacement(domain, command);
-    if(command_id == "dispload") return create_new_displacement(domain, command);
-    if(command_id == "element") return create_new_element(domain, command);
-    if(command_id == "fix") return create_new_bc(domain, command);
-    if(command_id == "import") return create_new_external_module(domain, command);
-    if(command_id == "material") return create_new_material(domain, command);
-    if(command_id == "mass") return create_new_mass(domain, command);
-    if(command_id == "node") return create_new_node(domain, command);
-    if(command_id == "recorder") return create_new_recorder(domain, command);
-    if(command_id == "solver") return create_new_solver(domain, command);
-    if(command_id == "step") return create_new_step(domain, command);
+    if(is_equal(command_id, "acceleration")) return create_new_acceleration(domain, command);
+    if(is_equal(command_id, "amplitude")) return create_new_amplitude(domain, command);
+    if(is_equal(command_id, "cload")) return create_new_cload(domain, command);
+    if(is_equal(command_id, "converger")) return create_new_converger(domain, command);
+    if(is_equal(command_id, "criterion")) return create_new_criterion(domain, command);
+    if(is_equal(command_id, "disp")) return create_new_displacement(domain, command);
+    if(is_equal(command_id, "displacement")) return create_new_displacement(domain, command);
+    if(is_equal(command_id, "dispload")) return create_new_displacement(domain, command);
+    if(is_equal(command_id, "element")) return create_new_element(domain, command);
+    if(is_equal(command_id, "fix")) return create_new_bc(domain, command);
+    if(is_equal(command_id, "import")) return create_new_external_module(domain, command);
+    if(is_equal(command_id, "material")) return create_new_material(domain, command);
+    if(is_equal(command_id, "mass")) return create_new_mass(domain, command);
+    if(is_equal(command_id, "node")) return create_new_node(domain, command);
+    if(is_equal(command_id, "recorder")) return create_new_recorder(domain, command);
+    if(is_equal(command_id, "solver")) return create_new_solver(domain, command);
+    if(is_equal(command_id, "step")) return create_new_step(domain, command);
 
-    if(command_id == "set") return set_property(domain, command);
+    if(is_equal(command_id, "set")) return set_property(domain, command);
 
-    if(command_id == "analyze") return model->analyze();
+    if(is_equal(command_id, "analyze")) return model->analyze();
 
-    if(command_id == "clear") {
+    if(is_equal(command_id, "clear")) {
         domain->clear_status();
         return 0;
     }
 
-    if(command_id == "summary") {
+    if(is_equal(command_id, "summary")) {
         domain->summary();
         return 0;
     }
 
-    if(command_id == "peek") return print_info(domain, command);
+    if(is_equal(command_id, "peek")) return print_info(domain, command);
 
-    if(command_id == "version")
+    if(is_equal(command_id, "version"))
         print_version();
-    else if(command_id == "help")
+    else if(is_equal(command_id, "help"))
         print_command_usage(command);
 
     return 0;

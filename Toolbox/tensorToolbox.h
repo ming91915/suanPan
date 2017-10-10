@@ -26,6 +26,7 @@ double tr(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
 
+namespace transform {
 mat form_trans(const double);
 vec nominal_to_principal_strain(const vec&);
 vec nominal_to_principal_stress(const vec&);
@@ -35,5 +36,6 @@ vec rotate_strain(const vec&, const mat&);
 vec rotate_stress(const vec&, const mat&);
 vec rotate_strain(const vec&, const double);
 vec rotate_stress(const vec&, const double);
+}
 
 #endif

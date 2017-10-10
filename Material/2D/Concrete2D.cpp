@@ -71,7 +71,7 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
     auto p_strain = trial_strain;
 
     // transform to principal direction
-    const auto trans = nominal_to_principal_strain(p_strain, principal_direction);
+    const auto trans = transform::nominal_to_principal_strain(p_strain, principal_direction);
 
     // update status
     concrete_major->update_trial_status(vec{ p_strain(0) });

@@ -25,7 +25,7 @@ RebarLayer::RebarLayer(const unsigned& T, const unsigned& XT, const unsigned& YT
     , rebar_ratio_major(RX)
     , rebar_ratio_minor(RY)
     , inclinement(A)
-    , trans(form_trans(inclinement)) {}
+    , trans(transform::form_trans(inclinement)) {}
 
 RebarLayer::RebarLayer(const RebarLayer& P)
     : Material(P.get_tag(), MT_CONCRETE2D, MaterialType::D2, P.density)
@@ -79,7 +79,7 @@ int RebarLayer::update_incre_status(const vec& i_strain) { return update_trial_s
 int RebarLayer::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    auto p_strain = rotate_strain(trial_strain, trans);
+    auto p_strain = transform::rotate_strain(trial_strain, trans);
 
     // update status
     rebar_major->update_trial_status(vec{ p_strain(0) });
