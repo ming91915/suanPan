@@ -1,7 +1,6 @@
 #include "Beam/Beam"
 #include "Cube/Cube"
 #include "Membrane/Membrane"
-#include "Section/Section"
 #include "Special/Special"
 #include "Truss/Truss"
 

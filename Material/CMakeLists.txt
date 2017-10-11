@@ -11,7 +11,14 @@ include(${ROOT}/.config.cmake)
 include(1D/CMakeLists.txt)
 include(2D/CMakeLists.txt)
 include(3D/CMakeLists.txt)
+include(Section/CMakeLists.txt)
 
 add_library(${PROJECT_NAME} STATIC
-    Material.cpp MaterialTemplate.cpp MaterialParser.cpp
-    ${M1D} ${M2D} ${M3D})
+    Material.cpp
+    MaterialTemplate.cpp
+    MaterialParser.cpp
+    ${M1D}
+    ${M2D}
+    ${M3D}
+    ${Section}
+    )
