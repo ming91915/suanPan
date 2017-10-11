@@ -183,6 +183,7 @@
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
     <ClCompile Include="..\..\..\Step\ArcLength.cpp" />
     <ClCompile Include="..\..\..\Step\Bead.cpp" />
+    <ClCompile Include="..\..\..\Step\Buckle.cpp" />
     <ClCompile Include="..\..\..\Step\Dynamic.cpp" />
     <ClCompile Include="..\..\..\Step\Frequence.cpp" />
     <ClCompile Include="..\..\..\Step\Static.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
     <ClInclude Include="..\..\..\Step\ArcLength.h" />
     <ClInclude Include="..\..\..\Step\Bead.h" />
+    <ClInclude Include="..\..\..\Step\Buckle.h" />
     <ClInclude Include="..\..\..\Step\Dynamic.h" />
     <ClInclude Include="..\..\..\Step\Frequence.h" />
     <ClInclude Include="..\..\..\Step\Static.h" />

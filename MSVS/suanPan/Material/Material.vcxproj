@@ -155,6 +155,8 @@
     <ClCompile Include="..\..\..\Material\Material.cpp" />
     <ClCompile Include="..\..\..\Material\MaterialParser.cpp" />
     <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp" />
+    <ClCompile Include="..\..\..\Material\Section\Rectangle.cpp" />
+    <ClCompile Include="..\..\..\Material\Section\Section.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h" />
@@ -173,6 +175,8 @@
     <ClInclude Include="..\..\..\Material\MaterialParser.h" />
     <ClInclude Include="..\..\..\Material\MaterialTag.h" />
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h" />
+    <ClInclude Include="..\..\..\Material\Section\Rectangle.h" />
+    <ClInclude Include="..\..\..\Material\Section\Section.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

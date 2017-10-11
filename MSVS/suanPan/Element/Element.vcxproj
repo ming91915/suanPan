@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Element\Beam\B21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\ElasticB21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\MVLEM.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp" />
@@ -155,12 +156,11 @@
     <ClCompile Include="..\..\..\Element\Membrane\Proto02.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
-    <ClCompile Include="..\..\..\Element\Section\Rectangle.cpp" />
-    <ClCompile Include="..\..\..\Element\Section\Section.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Element\Beam\B21.h" />
     <ClInclude Include="..\..\..\Element\Beam\ElasticB21.h" />
     <ClInclude Include="..\..\..\Element\Beam\MVLEM.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D20.h" />
@@ -177,8 +177,6 @@
     <ClInclude Include="..\..\..\Element\Membrane\Proto02.h" />
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
-    <ClInclude Include="..\..\..\Element\Section\Rectangle.h" />
-    <ClInclude Include="..\..\..\Element\Section\Section.h" />
     <ClInclude Include="..\..\..\Element\Special\Mass.h" />
     <ClInclude Include="..\..\..\Element\Truss\Truss2D.h" />
   </ItemGroup>

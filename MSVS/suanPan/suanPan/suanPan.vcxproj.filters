@@ -146,6 +146,9 @@
     <ClCompile Include="..\..\..\Load\Acceleration.cpp">
       <Filter>Load</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Step\Buckle.cpp">
+      <Filter>Step</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -276,6 +279,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Acceleration.h">
       <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Step\Buckle.h">
+      <Filter>Step</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

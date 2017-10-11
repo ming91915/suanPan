@@ -13,9 +13,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Section">
-      <UniqueIdentifier>{56f5edb3-ffb4-4e65-9226-8b8ee150dd6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Cube">
       <UniqueIdentifier>{33b9a486-b7d8-42c7-84ec-96b32a9b6b7b}</UniqueIdentifier>
     </Filter>
@@ -51,9 +48,6 @@
     <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp">
       <Filter>Truss</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Element\Section\Section.cpp">
-      <Filter>Section</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp">
       <Filter>Cube</Filter>
     </ClCompile>
@@ -72,9 +66,6 @@
     <ClCompile Include="..\..\..\Element\Beam\MVLEM.cpp">
       <Filter>Beam</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Element\Section\Rectangle.cpp">
-      <Filter>Section</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Element\Membrane\Proto02.cpp">
       <Filter>Membrane</Filter>
     </ClCompile>
@@ -83,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp">
       <Filter>Special</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Beam\B21.cpp">
+      <Filter>Beam</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,9 +104,6 @@
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h">
       <Filter>Membrane</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Element\Section\Section.h">
-      <Filter>Section</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Element\Truss\Truss2D.h">
       <Filter>Truss</Filter>
     </ClInclude>
@@ -134,9 +125,6 @@
     <ClInclude Include="..\..\..\Element\Beam\MVLEM.h">
       <Filter>Beam</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Element\Section\Rectangle.h">
-      <Filter>Section</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Element\Membrane\Proto02.h">
       <Filter>Membrane</Filter>
     </ClInclude>
@@ -145,6 +133,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Special\Mass.h">
       <Filter>Special</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Beam\B21.h">
+      <Filter>Beam</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
