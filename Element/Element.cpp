@@ -56,6 +56,7 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
     damping.zeros(total_dof, total_dof);
     stiffness.zeros(total_dof, total_dof);
     initial_stiffness.zeros(total_dof, total_dof);
+    if(nlgeom) geometry.zeros(total_dof, total_dof);
 
     // check if nodes are still valid
     node_ptr.clear();

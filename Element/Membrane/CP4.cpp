@@ -94,6 +94,8 @@ int CP4::update_status() {
     mat ele_disp(m_node, m_dof);
     mat sigma(4, 4, fill::zeros);
 
+    if(nlgeom) geometry.zeros();
+
     stiffness.zeros();
     resistance.zeros();
     for(const auto& I : int_pt) {
@@ -145,7 +147,8 @@ int CP4::update_status() {
             sigma(1, 0) = t_stress(2);
             sigma(2, 3) = t_stress(2);
             sigma(3, 2) = t_stress(2);
-            stiffness += t_factor * (I->BN.t() * t_stiff * I->BN + I->BG.t() * sigma * I->BG);
+            geometry += t_factor * I->BG.t() * sigma * I->BG;
+            stiffness += t_factor * I->BN.t() * t_stiff * I->BN;
             resistance += I->BN.t() * t_stress * t_factor;
         } else {
             const auto& NX1 = I->pn_pxy(0, 0);
@@ -281,7 +284,9 @@ int CP4::update_status() {
         }
     }
 
-    if(!nlgeom)
+    if(nlgeom)
+        stiffness += geometry;
+    else
         for(auto I = 0; I < 7; ++I)
             for(auto J = I + 1; J < 8; ++J) stiffness(J, I) = stiffness(I, J);
 
