@@ -48,17 +48,17 @@
 #ifndef ET_C3D20
 #define ET_C3D20 2009
 #endif
-#ifndef ST_RECTANGLE
-#define ST_RECTANGLE 2010
-#endif
 #ifndef ET_PROTO02
-#define ET_PROTO02 2011
+#define ET_PROTO02 2010
 #endif
 #ifndef ET_ELASTICB21
-#define ET_ELASTICB21 2012
+#define ET_ELASTICB21 2011
 #endif
 #ifndef ET_MASS
-#define ET_MASS 2013
+#define ET_MASS 2012
+#endif
+#ifndef ET_B21
+#define ET_B21 2013
 #endif
 
 #endif

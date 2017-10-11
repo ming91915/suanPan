@@ -52,4 +52,8 @@
 #define MT_CONCRETE2D 1010
 #endif
 
+#ifndef ST_RECTANGLE
+#define ST_RECTANGLE 1011
+#endif
+
 #endif
