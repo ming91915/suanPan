@@ -26,7 +26,7 @@
 #ifndef Rectangle_H
 #define Rectangle_H
 
-#include <Element/Section/Section.h>
+#include <Material/Section/Section.h>
 
 class Rectangle : public Section {
     const double width, height;

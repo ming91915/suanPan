@@ -26,12 +26,12 @@
 #ifndef SECTION_H
 #define SECTION_H
 
-#include <Element/Element.h>
+#include <Material/Material.h>
 
-class Section : public Element {
+class Section : public Material {
 public:
     explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION)
-        : Element(T, CT) {}
+        : Material(T, CT) {}
 
     virtual ~Section() {}
 
