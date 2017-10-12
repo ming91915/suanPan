@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -20,10 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{70659FC4-75F8-410A-9550-EFD0583861DB}</ProjectGuid>
+    <ProjectGuid>{0F973FA2-307D-4C60-8DAC-E62348E7E10B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Material</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <RootNamespace>Section</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,9 +71,17 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
     <OutDir>../../$(Configuration)/Libs/</OutDir>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>../../$(Configuration)/Libs/</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -86,10 +94,10 @@
       <AdditionalIncludeDirectories>../../../;../../../Include/armadillo/;../../../Include/hdf5-common/;../../../Include/hdf5-msvc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -102,13 +110,14 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -118,61 +127,38 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>Full</Optimization>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <AdditionalIncludeDirectories>../../../;../../../Include/armadillo/;../../../Include/hdf5-common/;../../../Include/hdf5-msvc/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Concrete01.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Gap01.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\MPF.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\RambergOsgood.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Bilinear2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp" />
-    <ClCompile Include="..\..\..\Material\Material.cpp" />
-    <ClCompile Include="..\..\..\Material\MaterialParser.cpp" />
-    <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp" />
+    <ClCompile Include="..\..\..\Section\Rectangle.cpp" />
+    <ClCompile Include="..\..\..\Section\Section.cpp" />
+    <ClCompile Include="..\..\..\Section\SectionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h" />
-    <ClInclude Include="..\..\..\Material\1D\Concrete01.h" />
-    <ClInclude Include="..\..\..\Material\1D\Elastic1D.h" />
-    <ClInclude Include="..\..\..\Material\1D\Gap01.h" />
-    <ClInclude Include="..\..\..\Material\1D\MPF.h" />
-    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h" />
-    <ClInclude Include="..\..\..\Material\2D\Bilinear2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\Concrete2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\Elastic2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\RebarLayer.h" />
-    <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h" />
-    <ClInclude Include="..\..\..\Material\3D\Elastic3D.h" />
-    <ClInclude Include="..\..\..\Material\Material.h" />
-    <ClInclude Include="..\..\..\Material\MaterialParser.h" />
-    <ClInclude Include="..\..\..\Material\MaterialTag.h" />
-    <ClInclude Include="..\..\..\Material\MaterialTemplate.h" />
+    <ClInclude Include="..\..\..\Section\Rectangle.h" />
+    <ClInclude Include="..\..\..\Section\Section.h" />
+    <ClInclude Include="..\..\..\Section\SectionParser.h" />
+    <ClInclude Include="..\..\..\Section\SectionTag.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

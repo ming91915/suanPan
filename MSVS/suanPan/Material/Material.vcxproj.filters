@@ -14,9 +14,6 @@
     <Filter Include="3D">
       <UniqueIdentifier>{af05f7dd-291f-47a1-85c8-9cdc30cf3b59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Section">
-      <UniqueIdentifier>{38cb37f3-ff52-47f8-87b0-74b86c7bf16b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Material\Material.cpp">
@@ -63,12 +60,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp">
       <Filter>2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\Section\Section.cpp">
-      <Filter>Section</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\Section\Rectangle.cpp">
-      <Filter>Section</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,12 +110,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Material\2D\RebarLayer.h">
       <Filter>2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\Section\Rectangle.h">
-      <Filter>Section</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\Section\Section.h">
-      <Filter>Section</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
