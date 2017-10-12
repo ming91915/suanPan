@@ -25,5 +25,6 @@ using std::istringstream;
 class Section;
 
 void new_rectangle(unique_ptr<Section>&, istringstream&);
+void new_circle(unique_ptr<Section>&, istringstream&);
 
 #endif

@@ -21,5 +21,8 @@
 #ifndef ST_RECTANGLE
 #define ST_RECTANGLE 3001
 #endif
+#ifndef ST_CIRCLE
+#define ST_CIRCLE 3002
+#endif
 
 #endif

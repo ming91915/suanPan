@@ -794,6 +794,8 @@ int create_new_section(const shared_ptr<DomainBase>& domain, istringstream& comm
 
     if(is_equal(section_id, "Rectangle"))
         new_rectangle(new_section, command);
+    else if(is_equal(section_id, "Circle"))
+        new_circle(new_section, command);
     else {
         // check if the library is already loaded
         auto code = 0;
