@@ -58,6 +58,7 @@ class Domain : public DomainBase, public std::enable_shared_from_this<Domain> {
     MaterialStorage material_pond;
     NodeStorage node_pond;
     RecorderStorage recorder_pond;
+    SectionStorage section_pond;
     SolverStorage solver_pond;
 
     unordered_set<unsigned> constrained_dofs; /**< data storage */
@@ -82,6 +83,7 @@ public:
     bool insert(const shared_ptr<Material>&) override;
     bool insert(const shared_ptr<Node>&) override;
     bool insert(const shared_ptr<Recorder>&) override;
+    bool insert(const shared_ptr<Section>&) override;
     bool insert(const shared_ptr<Solver>&) override;
     bool insert(const shared_ptr<Step>&) override;
 
@@ -95,6 +97,7 @@ public:
     bool erase_material(const unsigned&) override;
     bool erase_node(const unsigned&) override;
     bool erase_recorder(const unsigned&) override;
+    bool erase_section(const unsigned&) override;
     bool erase_solver(const unsigned&) override;
     bool erase_step(const unsigned&) override;
 
@@ -108,6 +111,7 @@ public:
     void disable_material(const unsigned&) override;
     void disable_node(const unsigned&) override;
     void disable_recorder(const unsigned&) override;
+    void disable_section(const unsigned&) override;
     void disable_solver(const unsigned&) override;
     void disable_step(const unsigned&) override;
 
@@ -121,6 +125,7 @@ public:
     void enable_material(const unsigned&) override;
     void enable_node(const unsigned&) override;
     void enable_recorder(const unsigned&) override;
+    void enable_section(const unsigned&) override;
     void enable_solver(const unsigned&) override;
     void enable_step(const unsigned&) override;
 
@@ -134,6 +139,7 @@ public:
     const shared_ptr<Material>& get_material(const unsigned&) const override;
     const shared_ptr<Node>& get_node(const unsigned&) const override;
     const shared_ptr<Recorder>& get_recorder(const unsigned&) const override;
+    const shared_ptr<Section>& get_section(const unsigned&) const override;
     const shared_ptr<Solver>& get_solver(const unsigned&) const override;
     const shared_ptr<Step>& get_step(const unsigned&) const override;
 
@@ -147,6 +153,7 @@ public:
     const MaterialQueue& get_material_pool() const override;
     const NodeQueue& get_node_pool() const override;
     const RecorderQueue& get_recorder_pool() const override;
+    const SectionQueue& get_section_pool() const override;
     const SolverQueue& get_solver_pool() const override;
     const StepQueue& get_step_pool() const override;
 
@@ -160,6 +167,7 @@ public:
     friend shared_ptr<Material>& get_material(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Node>& get_node(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>&, const unsigned&);
+    friend shared_ptr<Section>& get_section(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Solver>& get_solver(const shared_ptr<Domain>&, const unsigned&);
     friend shared_ptr<Step>& get_step(const shared_ptr<Domain>&, const unsigned&);
 
@@ -173,6 +181,7 @@ public:
     friend shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Section>& get_section(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Solver>& get_solver(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Step>& get_step(const shared_ptr<DomainBase>&, const unsigned&);
 
@@ -186,6 +195,7 @@ public:
     size_t get_material() const override;
     size_t get_node() const override;
     size_t get_recorder() const override;
+    size_t get_section() const override;
     size_t get_solver() const override;
     size_t get_step() const override;
 
@@ -199,6 +209,7 @@ public:
     bool find_material(const unsigned&) const override;
     bool find_node(const unsigned&) const override;
     bool find_recorder(const unsigned&) const override;
+    bool find_section(const unsigned&) const override;
     bool find_solver(const unsigned&) const override;
     bool find_step(const unsigned&) const override;
 

@@ -24,6 +24,7 @@
 #include <Element/Element.h>
 #include <Load/Amplitude/Amplitude.h>
 #include <Load/Load.h>
+#include <Material/Section/Section.h>
 #include <Recorder/Recorder.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
@@ -107,6 +108,11 @@ bool Domain::insert(const shared_ptr<Recorder>& R) {
     return recorder_pond.insert(R);
 }
 
+bool Domain::insert(const shared_ptr<Section>& S) {
+    if(updated) updated = false;
+    return section_pond.insert(S);
+}
+
 bool Domain::insert(const shared_ptr<Solver>& S) {
     if(updated) updated = false;
     return solver_pond.insert(S);
@@ -165,6 +171,11 @@ bool Domain::erase_node(const unsigned& T) {
 bool Domain::erase_recorder(const unsigned& T) {
     if(updated) updated = false;
     return recorder_pond.erase(T);
+}
+
+bool Domain::erase_section(const unsigned& T) {
+    if(updated) updated = false;
+    return section_pond.erase(T);
 }
 
 bool Domain::erase_solver(const unsigned& T) {
@@ -227,6 +238,11 @@ void Domain::disable_recorder(const unsigned& T) {
     recorder_pond.disable(T);
 }
 
+void Domain::disable_section(const unsigned& T) {
+    if(updated) updated = false;
+    section_pond.disable(T);
+}
+
 void Domain::disable_solver(const unsigned& T) {
     if(updated) updated = false;
     solver_pond.disable(T);
@@ -287,6 +303,11 @@ void Domain::enable_recorder(const unsigned& T) {
     recorder_pond.enable(T);
 }
 
+void Domain::enable_section(const unsigned& T) {
+    if(updated) updated = false;
+    section_pond.enable(T);
+}
+
 void Domain::enable_solver(const unsigned& T) {
     if(updated) updated = false;
     solver_pond.enable(T);
@@ -317,6 +338,8 @@ const shared_ptr<Node>& Domain::get_node(const unsigned& T) const { return node_
 
 const shared_ptr<Recorder>& Domain::get_recorder(const unsigned& T) const { return recorder_pond.at(T); }
 
+const shared_ptr<Section>& Domain::get_section(const unsigned& T) const { return section_pond.at(T); }
+
 const shared_ptr<Solver>& Domain::get_solver(const unsigned& T) const { return solver_pond.at(T); }
 
 const shared_ptr<Step>& Domain::get_step(const unsigned& T) const { return step_pond.at(T); }
@@ -340,6 +363,8 @@ const MaterialQueue& Domain::get_material_pool() const { return material_pond.ge
 const NodeQueue& Domain::get_node_pool() const { return node_pond.get(); }
 
 const RecorderQueue& Domain::get_recorder_pool() const { return recorder_pond.get(); }
+
+const SectionQueue& Domain::get_section_pool() const { return section_pond.get(); }
 
 const SolverQueue& Domain::get_solver_pool() const { return solver_pond.get(); }
 
@@ -365,6 +390,8 @@ size_t Domain::get_node() const { return node_pond.size(); }
 
 size_t Domain::get_recorder() const { return recorder_pond.size(); }
 
+size_t Domain::get_section() const { return section_pond.size(); }
+
 size_t Domain::get_solver() const { return solver_pond.size(); }
 
 size_t Domain::get_step() const { return step_pond.size(); }
@@ -388,6 +415,8 @@ bool Domain::find_material(const unsigned& T) const { return material_pond.find(
 bool Domain::find_node(const unsigned& T) const { return node_pond.find(T); }
 
 bool Domain::find_recorder(const unsigned& T) const { return recorder_pond.find(T); }
+
+bool Domain::find_section(const unsigned& T) const { return section_pond.find(T); }
 
 bool Domain::find_solver(const unsigned& T) const { return solver_pond.find(T); }
 
@@ -734,6 +763,8 @@ shared_ptr<Node>& get_node(const shared_ptr<Domain>& D, const unsigned& T) { ret
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<Domain>& D, const unsigned& T) { return D->recorder_pond[T]; }
 
+shared_ptr<Section>& get_section(const shared_ptr<Domain>& D, const unsigned& T) { return D->section_pond[T]; }
+
 shared_ptr<Solver>& get_solver(const shared_ptr<Domain>& D, const unsigned& T) { return D->solver_pond[T]; }
 
 shared_ptr<Step>& get_step(const shared_ptr<Domain>& D, const unsigned& T) { return D->step_pond[T]; }
@@ -757,6 +788,8 @@ shared_ptr<Material>& get_material(const shared_ptr<DomainBase>& D, const unsign
 shared_ptr<Node>& get_node(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->node_pond[T]; }
 
 shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->recorder_pond[T]; }
+
+shared_ptr<Section>& get_section(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->section_pond[T]; }
 
 shared_ptr<Solver>& get_solver(const shared_ptr<DomainBase>& D, const unsigned& T) { return std::dynamic_pointer_cast<Domain>(D)->solver_pond[T]; }
 

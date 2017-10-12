@@ -50,6 +50,7 @@ class Load;
 class Material;
 class Node;
 class Recorder;
+class Section;
 class Solver;
 class Step;
 
@@ -63,6 +64,7 @@ using LoadQueue = vector<shared_ptr<Load>>;
 using MaterialQueue = vector<shared_ptr<Material>>;
 using NodeQueue = vector<shared_ptr<Node>>;
 using RecorderQueue = vector<shared_ptr<Recorder>>;
+using SectionQueue = vector<shared_ptr<Section>>;
 using SolverQueue = vector<shared_ptr<Solver>>;
 using StepQueue = map<unsigned, shared_ptr<Step>>;
 
@@ -89,6 +91,7 @@ public:
     virtual bool insert(const shared_ptr<Material>&) = 0;
     virtual bool insert(const shared_ptr<Node>&) = 0;
     virtual bool insert(const shared_ptr<Recorder>&) = 0;
+    virtual bool insert(const shared_ptr<Section>&) = 0;
     virtual bool insert(const shared_ptr<Solver>&) = 0;
     virtual bool insert(const shared_ptr<Step>&) = 0;
 
@@ -102,6 +105,7 @@ public:
     virtual bool erase_material(const unsigned&) = 0;
     virtual bool erase_node(const unsigned&) = 0;
     virtual bool erase_recorder(const unsigned&) = 0;
+    virtual bool erase_section(const unsigned&) = 0;
     virtual bool erase_solver(const unsigned&) = 0;
     virtual bool erase_step(const unsigned&) = 0;
 
@@ -115,6 +119,7 @@ public:
     virtual void disable_material(const unsigned&) = 0;
     virtual void disable_node(const unsigned&) = 0;
     virtual void disable_recorder(const unsigned&) = 0;
+    virtual void disable_section(const unsigned&) = 0;
     virtual void disable_solver(const unsigned&) = 0;
     virtual void disable_step(const unsigned&) = 0;
 
@@ -128,6 +133,7 @@ public:
     virtual void enable_material(const unsigned&) = 0;
     virtual void enable_node(const unsigned&) = 0;
     virtual void enable_recorder(const unsigned&) = 0;
+    virtual void enable_section(const unsigned&) = 0;
     virtual void enable_solver(const unsigned&) = 0;
     virtual void enable_step(const unsigned&) = 0;
 
@@ -141,6 +147,7 @@ public:
     virtual const shared_ptr<Material>& get_material(const unsigned&) const = 0;
     virtual const shared_ptr<Node>& get_node(const unsigned&) const = 0;
     virtual const shared_ptr<Recorder>& get_recorder(const unsigned&) const = 0;
+    virtual const shared_ptr<Section>& get_section(const unsigned&) const = 0;
     virtual const shared_ptr<Solver>& get_solver(const unsigned&) const = 0;
     virtual const shared_ptr<Step>& get_step(const unsigned&) const = 0;
 
@@ -154,6 +161,7 @@ public:
     virtual const MaterialQueue& get_material_pool() const = 0;
     virtual const NodeQueue& get_node_pool() const = 0;
     virtual const RecorderQueue& get_recorder_pool() const = 0;
+    virtual const SectionQueue& get_section_pool() const = 0;
     virtual const SolverQueue& get_solver_pool() const = 0;
     virtual const StepQueue& get_step_pool() const = 0;
 
@@ -167,6 +175,7 @@ public:
     friend shared_ptr<Material>& get_material(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Node>& get_node(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Recorder>& get_recorder(const shared_ptr<DomainBase>&, const unsigned&);
+    friend shared_ptr<Section>& get_section(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Solver>& get_solver(const shared_ptr<DomainBase>&, const unsigned&);
     friend shared_ptr<Step>& get_step(const shared_ptr<DomainBase>&, const unsigned&);
 
@@ -180,6 +189,7 @@ public:
     virtual size_t get_material() const = 0;
     virtual size_t get_node() const = 0;
     virtual size_t get_recorder() const = 0;
+    virtual size_t get_section() const = 0;
     virtual size_t get_solver() const = 0;
     virtual size_t get_step() const = 0;
 
@@ -193,6 +203,7 @@ public:
     virtual bool find_material(const unsigned&) const = 0;
     virtual bool find_node(const unsigned&) const = 0;
     virtual bool find_recorder(const unsigned&) const = 0;
+    virtual bool find_section(const unsigned&) const = 0;
     virtual bool find_solver(const unsigned&) const = 0;
     virtual bool find_step(const unsigned&) const = 0;
 

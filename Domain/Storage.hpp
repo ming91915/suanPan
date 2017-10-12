@@ -31,6 +31,7 @@ class Load;
 class Material;
 class Node;
 class Recorder;
+class Section;
 class Solver;
 
 template <typename T> const char* StorageType() { return "Unknown"; }
@@ -46,6 +47,7 @@ template <> inline const char* StorageType<Load>() { return "Load"; }
 template <> inline const char* StorageType<Material>() { return "Material"; }
 template <> inline const char* StorageType<Node>() { return "Node"; }
 template <> inline const char* StorageType<Recorder>() { return "Recorder"; }
+template <> inline const char* StorageType<Section>() { return "Section"; }
 template <> inline const char* StorageType<Solver>() { return "Solver"; }
 
 template <typename T> class Storage : public std::enable_shared_from_this<Storage<T>> {
@@ -169,6 +171,7 @@ using LoadStorage = Storage<Load>;
 using MaterialStorage = Storage<Material>;
 using NodeStorage = Storage<Node>;
 using RecorderStorage = Storage<Recorder>;
+using SectionStorage = Storage<Section>;
 using SolverStorage = Storage<Solver>;
 
 #endif
