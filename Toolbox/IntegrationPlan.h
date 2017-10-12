@@ -60,6 +60,8 @@
 #ifndef INTEGRATIONPLAN_H
 #define INTEGRATIONPLAN_H
 
+enum class IntegrationType { GAUSS, LOBATTO };
+
 class IntegrationPlan final {
     double** int_pts;
 
@@ -68,7 +70,7 @@ public:
     const unsigned n_cols;
     const unsigned n_elem;
 
-    explicit IntegrationPlan(const unsigned& = 2, const unsigned& = 2, const unsigned& = 1);
+    explicit IntegrationPlan(const unsigned& = 2, const unsigned& = 2, const IntegrationType& = IntegrationType::GAUSS);
     ~IntegrationPlan();
 
     double** get_integration_scheme() const;
