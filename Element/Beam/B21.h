@@ -18,7 +18,7 @@
  * @class B21
  * @brief The B21 class.
  * @author T
- * @date 14/09/2017
+ * @date 11/10/2017
  * @version 0.1.1
  * @file B21.h
  * @addtogroup Beam
@@ -36,21 +36,27 @@ class Section;
 class B21 final : public Element {
     static const unsigned b_node, b_dof;
 
-    double length = 0.;
+    const unsigned int_pt_num;
+
+    double length = 0., inclination = 0.;
 
     vec direction_cosine; /**< direction cosine */
-    double ini_angle = 0.;
-    mat strain_mat;
 
-    vector<unique_ptr<Section>> b_section;
+    struct IntegrationPoint {
+        double coor, weight;
+        unique_ptr<Section> b_section;
+    };
 
-    mat local_stiff;
+    vector<IntegrationPoint> int_pt;
+
+    mat trans_mat;
 
 public:
-    B21(const unsigned&,    // tag
-        const uvec&,        // node tags
-        const uvec&,        // section tags
-        const bool& = false // nonliear geometry switch
+    B21(const unsigned&,     // tag
+        const uvec&,         // node tags
+        const unsigned&,     // section tags
+        const unsigned& = 3, // integration points
+        const bool& = false  // nonliear geometry switch
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
