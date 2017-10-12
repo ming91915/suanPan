@@ -25,6 +25,7 @@
 
 using element_creator = void (*)(unique_ptr<Element>&, istringstream&);
 using material_creator = void (*)(unique_ptr<Material>&, istringstream&);
+using section_creator = void (*)(unique_ptr<Section>&, istringstream&);
 
 ExternalModule::ExternalModule(const string& L)
     : library_name(L) {
@@ -90,3 +91,5 @@ bool ExternalModule::locate_module(string module_name) {
 void ExternalModule::new_object(unique_ptr<Element>& return_obj, istringstream& command) const { (element_creator(ext_creator))(return_obj, command); }
 
 void ExternalModule::new_object(unique_ptr<Material>& return_obj, istringstream& command) const { (material_creator(ext_creator))(return_obj, command); }
+
+void ExternalModule::new_object(unique_ptr<Section>& return_obj, istringstream& command) const { (section_creator(ext_creator))(return_obj, command); }

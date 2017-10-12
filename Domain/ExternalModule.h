@@ -33,6 +33,7 @@
 
 class Element;
 class Material;
+class Section;
 
 class ExternalModule {
     void* ext_library = nullptr;
@@ -52,6 +53,7 @@ public:
 
     void new_object(unique_ptr<Element>&, istringstream&) const;
     void new_object(unique_ptr<Material>&, istringstream&) const;
+    void new_object(unique_ptr<Section>&, istringstream&) const;
 };
 
 #endif
