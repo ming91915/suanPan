@@ -31,13 +31,13 @@ SUANPAN_EXPORT void new_sectionexample(unique_ptr<Section>& return_obj, istrings
         return;
     }
 
-    unsigned material_id;
-    if(!get_input(command, material_id)) {
-        suanpan_error("new_sectionexample() requires a material tag.\n");
+    double elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_sectionexample() requires a valid modulus.\n");
         return;
     }
 
-    return_obj = make_unique<SectionExample>(tag, edge, material_id);
+    return_obj = make_unique<SectionExample>(tag, edge, elastic_modulus);
 }
 
 #ifndef ST_SECTIONEXAMPLE
