@@ -51,7 +51,7 @@ int Rectangle::update_status(const vec& t_strain) {
         stiffness(1, 1) += tmp_a * I.coor * I.coor;
         const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
         resistance(0) += tmp_b;
-        resistance(1) += tmp_b * I.coor;
+        resistance(1) -= tmp_b * I.coor;
     }
 
     return code;

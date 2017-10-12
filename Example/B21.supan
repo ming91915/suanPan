@@ -5,7 +5,7 @@ node 2 1 0
 
 material Elastic1D 1 100
 
-section Rectangle 1 1 1 1 5
+section Rectangle 1 12 1 1 7
 
 element B21 1 1 2 1 5
 
@@ -14,6 +14,10 @@ fix 1 P 1
 cload 1 0 1 2 2
 
 step static 1 1
+set ini_step_size 1
+set fixed_step_size true
+
+converger AbsIncreDisp 1 1E-4 10 0
 
 analyze
 
