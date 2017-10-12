@@ -608,6 +608,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_truss2d(new_element, command);
     else if(is_equal(element_id, "ElasticB21"))
         new_elasticb21(new_element, command);
+    else if(is_equal(element_id, "B21"))
+        new_b21(new_element, command);
     else if(is_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else if(is_equal(element_id, "Mass"))

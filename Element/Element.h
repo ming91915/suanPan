@@ -32,6 +32,8 @@
 #include <Domain/Node.h>
 // ReSharper disable once CppUnusedIncludeDirective
 #include <Material/Material.h> // for derived class
+// ReSharper disable once CppUnusedIncludeDirective
+#include <Section/Section.h> // for derived class
 
 class Element : public Tag {
     const unsigned num_node; /**< number of nodes */

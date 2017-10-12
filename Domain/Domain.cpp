@@ -469,6 +469,8 @@ int Domain::initialize() {
         access::rw(t_material.second->initialized) = true;
     });
 
+    suanpan_for_each(section_pond.cbegin(), section_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Section>>& t_section) { t_section.second->initialize(shared_from_this()); });
+
     suanpan_for_each(node_pond.cbegin(), node_pond.cend(), [](const std::pair<unsigned, shared_ptr<Node>>& t_node) { t_node.second->set_dof_number(0); });
 
     suanpan_for_each(element_pond.cbegin(), element_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Element>>& t_element) {
@@ -494,6 +496,7 @@ int Domain::initialize() {
     material_pond.update();
     node_pond.update();
     recorder_pond.update();
+    section_pond.update();
     solver_pond.update();
 
     // RCM OPTIMIZATION

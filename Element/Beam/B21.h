@@ -31,8 +31,6 @@
 
 #include <Element/Element.h>
 
-class Section;
-
 class B21 final : public Element {
     static const unsigned b_node, b_dof;
 

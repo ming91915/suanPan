@@ -406,6 +406,44 @@ void new_elasticb21(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<ElasticB21>(tag, uvec(node_tag), area, moment_inertia, material_tag, !!nonlinear);
 }
 
+void new_b21(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_b21() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 2; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_b21() needs two valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned section_id;
+    if(!get_input(command, section_id)) {
+        suanpan_debug("new_b21() needs a valid section tag.\n");
+        return;
+    }
+
+    unsigned int_pt;
+    if(!get_input(command, int_pt)) {
+        suanpan_debug("new_b21() needs a valid number of integration points.\n");
+        return;
+    }
+
+    unsigned nonlinear = 0;
+    if(!command.eof()) {
+        if(!get_input(command, nonlinear)) suanpan_debug("new_b21() needs a valid nonlinear geomtery switch (0,1).\n");
+    } else
+        suanpan_debug("new_b21() assumes linear geometry.\n");
+
+    return_obj = make_unique<B21>(tag, uvec(node_tag), section_id, int_pt, !!nonlinear);
+}
+
 void new_mass(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {

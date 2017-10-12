@@ -1,0 +1,24 @@
+# A TEST MODEL
+
+node 1 0 0
+node 2 1 0
+
+material Elastic1D 1 100
+
+section Rectangle 1 1 1 1 5
+
+element B21 1 1 2 1 5
+
+fix 1 P 1
+
+cload 1 0 1 2 2
+
+step static 1 1
+
+analyze
+
+peek node 2
+
+peek element 1
+
+exit
