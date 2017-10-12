@@ -20,6 +20,69 @@
 using namespace arma;
 
 namespace shape {
+template <typename T> Mat<T> truss(const T& INTPTS, const unsigned& ORDER = 0, const unsigned& NODENUM = 2) {
+    Mat<T> N(1, NODENUM);
+
+    const auto& X = INTPTS;
+
+    if(NODENUM == 2) {
+        if(ORDER == 0) {
+            N(0, 0) = 1. - X;
+            N(0, 1) = 1. + X;
+        } else {
+            N(0, 0) = -1.;
+            N(0, 1) = 1.;
+        }
+        N /= 2.;
+    } else if(NODENUM == 3) {
+        if(ORDER == 0) {
+            const auto XX = X * X;
+            N(0, 0) = .5 * (XX - X);
+            N(0, 1) = 1. - XX;
+            N(0, 2) = .5 * (XX + X);
+        } else {
+            N(0, 0) = X - .5;
+            N(0, 1) = -2. * X;
+            N(0, 2) = X + .5;
+        }
+    }
+
+    return N;
+}
+
+/**
+ * \brief
+ * \tparam T input argument type
+ * \param INTPTS location of point
+ * \param ORDER displacement (0) or rotation (1)
+ * \param LENGTH beam length
+ * \return vector of shape functions
+ */
+template <typename T> Col<T> beam(const T& INTPTS, const unsigned& ORDER, const double& LENGTH) {
+    Col<T> N(4);
+
+    const auto XP = 1. + INTPTS;
+    const auto XM = 1. - INTPTS;
+    const auto XPP = XP * XP;
+    const auto XMM = XM * XM;
+
+    if(ORDER == 0) {
+        N(0) = 2. * XMM * (XP + 1.);
+        N(1) = LENGTH * XMM * XP;
+        N(2) = -2. * XPP * (XM - 1.);
+        N(3) = LENGTH * XM * XPP;
+    } else if(ORDER == 1) {
+        N(0) = -6. * XP * XM;
+        N(1) = LENGTH * XM * (3. * INTPTS + 1.);
+        N(2) = 6. * XP * XM;
+        N(3) = LENGTH * XP * (3. * INTPTS - 1.);
+    }
+
+    N /= 8.;
+
+    return N;
+}
+
 template <typename T> Mat<T> quad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 4) {
     Mat<T> N;
 
