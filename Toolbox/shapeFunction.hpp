@@ -69,7 +69,7 @@ template <typename T> Col<T> beam(const T& INTPTS, const unsigned& ORDER, const 
     if(ORDER == 0) {
         N(0) = 2. * XMM * (XP + 1.);
         N(1) = LENGTH * XMM * XP;
-        N(2) = -2. * XPP * (XM - 1.);
+        N(2) = 2. * XPP * (XM + 1.);
         N(3) = LENGTH * XM * XPP;
     } else if(ORDER == 1) {
         N(0) = -6. * XP * XM;

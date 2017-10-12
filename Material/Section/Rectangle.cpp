@@ -25,22 +25,17 @@ Rectangle::Rectangle(const unsigned& T, const double& B, const double& H, const 
     , int_pt_num(S) {}
 
 void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
-    const auto material_proto = D->get_material(material_tag);
+    auto& material_proto = D->get_material(material_tag);
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::GAUSS);
 
     int_pt.clear();
     int_pt.reserve(int_pt_num);
-    for(unsigned I = 0; I < int_pt_num; ++I) {
-        int_pt.emplace_back();
-        int_pt[I].coor = plan(I, 0);
-        int_pt[I].weight = plan(I, 1);
-        int_pt[I].s_material = material_proto->get_copy();
-    }
+    for(unsigned I = 0; I < int_pt_num; ++I) int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
 
     resistance.zeros(2);
-    stiffness.zeros(2, 1);
-    initial_stiffness.zeros(2, 1);
+    stiffness.zeros(2, 2);
+    initial_stiffness.zeros(2, 2);
 }
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
@@ -50,13 +45,14 @@ int Rectangle::update_status(const vec& t_strain) {
 
     auto code = 0;
     for(const auto& I : int_pt) {
-        const auto eccentricity = .5 * height * I.coor;
-        code += I.s_material->update_trial_status(vec{ t_strain(0) + t_strain(1) * eccentricity });
+        code += I.s_material->update_trial_status(vec{ t_strain(0) + t_strain(1) * I.coor });
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
-        stiffness(0) += tmp_a;
-        stiffness(1) += tmp_a * eccentricity * eccentricity;
+        stiffness(0, 0) += tmp_a;
+        stiffness(1, 1) += tmp_a * I.coor * I.coor;
+        const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
+        resistance(0) += tmp_b;
+        resistance(1) += tmp_b * I.coor;
     }
-    stiffness *= width;
 
     return code;
 }

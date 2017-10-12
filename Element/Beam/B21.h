@@ -44,6 +44,7 @@ class B21 final : public Element {
 
     struct IntegrationPoint {
         double coor, weight;
+        mat strain_mat;
         unique_ptr<Section> b_section;
     };
 

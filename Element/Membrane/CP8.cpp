@@ -34,8 +34,9 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
     const IntegrationPlan plan(2, order, IntegrationType::GAUSS);
 
     int_pt.clear();
+    int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
-        int_pt.push_back(make_unique<IntegrationPoint>());
+        int_pt.emplace_back(make_unique<IntegrationPoint>());
         int_pt[I]->coor.zeros(2);
         for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
         int_pt[I]->weight = plan(I, 2);
