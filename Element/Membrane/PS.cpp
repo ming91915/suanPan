@@ -22,7 +22,7 @@
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;
 
-PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const unsigned& TY, const bool& F)
+PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const PlaneType& TY, const bool& F)
     : Element(T, ET_PS, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
     , element_type(TY)
@@ -34,9 +34,9 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
 
     inv_stiffness = inv(material_proto->get_initial_stiffness());
 
-    const IntegrationPlan plan(2, 2, 1);
+    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
 
-    if(element_type == PLANE_STRAIN) thickness = 1.;
+    if(element_type == PlaneType::E) thickness = 1.;
 
     for(unsigned I = 0; I < 4; ++I) {
         int_pt.at(I) = make_unique<IntegrationPoint>();

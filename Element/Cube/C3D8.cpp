@@ -30,7 +30,7 @@ void C3D8::initialize(const shared_ptr<DomainBase>& D) {
     const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
 
     const unsigned order = reduced_scheme ? 1 : 2;
-    const IntegrationPlan plan(3, order, 1);
+    const IntegrationPlan plan(3, order, IntegrationType::GAUSS);
 
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {

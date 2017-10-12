@@ -48,7 +48,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
     // INTEGRATION POINTS INITIALIZATION
-    const IntegrationPlan plan(2, 2, 1);
+    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
     int_pt.clear();
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         int_pt.push_back(make_unique<IntegrationPoint>());
