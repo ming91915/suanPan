@@ -36,10 +36,10 @@ class ElasticB21 final : public Element {
 
     const double area, moment_inertia;
 
-    double length = 0.;
+    double length = 0., inclination = 0.;
 
     vec direction_cosine; /**< direction cosine */
-    double ini_angle = 0.;
+
     mat strain_mat;
 
     unique_ptr<Material> b_material;

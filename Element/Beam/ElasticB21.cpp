@@ -24,7 +24,7 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
     length = norm(pos_diff);
 
     direction_cosine = pos_diff / length;
-    ini_angle = atan2(direction_cosine(1), direction_cosine(0));
+    inclination = atan2(direction_cosine(1), direction_cosine(0));
 
     b_material = D->get_material(unsigned(material_tag(0)))->get_copy();
 
@@ -114,15 +114,15 @@ int ElasticB21::update_status() {
     auto& disp_i = node_i->get_trial_displacement();
     auto& disp_j = node_j->get_trial_displacement();
 
-    vec disp_diff(2);
-    disp_diff(0) = disp_j(0) - disp_i(0);
-    disp_diff(1) = disp_j(1) - disp_i(1);
-
     auto new_length = length;
 
     vec local_deformation(3);
 
     if(nlgeom) {
+        vec disp_diff(2);
+        disp_diff(0) = disp_j(0) - disp_i(0);
+        disp_diff(1) = disp_j(1) - disp_i(1);
+
         disp_diff += node_j->get_coordinate() - node_i->get_coordinate();
 
         new_length = norm(disp_diff);
@@ -147,13 +147,13 @@ int ElasticB21::update_status() {
 
         local_deformation(0) = new_length - length;
 
-        auto tmp_angle = ini_angle + disp_i(2);
+        auto tmp_angle = inclination + disp_i(2);
         auto tmp_a = sin(tmp_angle);
         auto tmp_b = cos(tmp_angle);
 
         local_deformation(1) = atan((direction_cosine(0) * tmp_a - direction_cosine(1) * tmp_b) / (direction_cosine(0) * tmp_b + direction_cosine(1) * tmp_a));
 
-        tmp_angle = ini_angle + disp_j(2);
+        tmp_angle = inclination + disp_j(2);
         tmp_a = sin(tmp_angle);
         tmp_b = cos(tmp_angle);
 
@@ -173,8 +173,7 @@ int ElasticB21::update_status() {
     resistance = strain_mat.t() * local_force;
 
     if(nlgeom) {
-        vec R(6, fill::zeros);
-        vec Z(6, fill::zeros);
+        vec R(6, fill::zeros), Z(6, fill::zeros);
         R(0) = -direction_cosine(0);
         R(1) = -direction_cosine(1);
         R(3) = direction_cosine(0);
