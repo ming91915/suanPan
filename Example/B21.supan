@@ -5,9 +5,9 @@ node 2 1 0
 
 material Elastic1D 1 100
 
-section Rectangle 1 12 1 1 7
+section Rectangle 1 12 1 1
 
-element B21 1 1 2 1 5
+element B21 1 1 2 1 3
 
 fix 1 P 1
 

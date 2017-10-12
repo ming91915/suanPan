@@ -44,7 +44,7 @@ void new_rectangle(unique_ptr<Section>& return_obj, istringstream& command) {
         return;
     }
 
-    unsigned int_pt;
+    unsigned int_pt = 4;
     if(!get_input(command, int_pt)) {
         suanpan_error("new_rectangle() requires a number of integration points.\n");
         return;
