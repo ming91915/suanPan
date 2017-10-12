@@ -150,11 +150,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Section\Circle.cpp" />
     <ClCompile Include="..\..\..\Section\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Section\Section.cpp" />
     <ClCompile Include="..\..\..\Section\SectionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Section\Circle.h" />
     <ClInclude Include="..\..\..\Section\Rectangle.h" />
     <ClInclude Include="..\..\..\Section\Section.h" />
     <ClInclude Include="..\..\..\Section\SectionParser.h" />

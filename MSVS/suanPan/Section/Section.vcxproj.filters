@@ -20,6 +20,9 @@
     <ClCompile Include="..\..\..\Section\Rectangle.cpp">
       <Filter>TEMP</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Section\Circle.cpp">
+      <Filter>TEMP</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Section\Section.h">
@@ -32,6 +35,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Section\Rectangle.h">
+      <Filter>TEMP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Circle.h">
       <Filter>TEMP</Filter>
     </ClInclude>
   </ItemGroup>

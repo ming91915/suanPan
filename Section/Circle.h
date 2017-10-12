@@ -15,23 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Rectangle
- * @brief A Rectangle class.
+ * @class Circle
+ * @brief A Circle class.
  * @author T
- * @date 13/10/2017
+ * @date 15/09/2017
  * @version 0.1.0
- * @file Rectangle.h
+ * @file Circle.h
  * @addtogroup Section
  * @{
  */
 
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef Circle_H
+#define Circle_H
 
 #include <Section/Section.h>
 
-class Rectangle : public Section {
-    const double width, height;
+class Circle : public Section {
+    const double radius;
     const unsigned int_pt_num;
 
     struct IntegrationPoint {
@@ -50,11 +50,10 @@ class Rectangle : public Section {
     vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Rectangle(const unsigned&, // tag
-        const double&,                  // width
-        const double&,                  // height
-        const unsigned&,                // material tag
-        const unsigned&                 // number of integration points
+    explicit Circle(const unsigned&, // tag
+        const double&,               // radius
+        const unsigned&,             // material tag
+        const unsigned&              // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
