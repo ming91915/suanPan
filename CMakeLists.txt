@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
 add_subdirectory(Converger)
 add_subdirectory(Element)
 add_subdirectory(Material)
+add_subdirectory(Section)
 add_subdirectory(Solver)
 
 add_subdirectory(Constraint)
@@ -36,4 +37,4 @@ if(BUILD_DLL_EXAMPLE)
     add_subdirectory(Developer/ModuleBundle)
 endif()
 
-target_link_libraries(${PROJECT_NAME} Converger Element Material Solver)
+target_link_libraries(${PROJECT_NAME} Converger Element Material Section Solver)
