@@ -141,3 +141,38 @@ vec transform::rotate_strain(const vec& strain, const double theta) { return rot
  * \return new rotated stress
  */
 vec transform::rotate_stress(const vec& stress, const double theta) { return rotate_stress(stress, form_trans(theta)); }
+
+mat transform::beam::global_to_local(const double, const double, const double, const double) {
+    mat trans_mat(5, 12, fill::zeros);
+    return trans_mat;
+}
+
+mat transform::beam::global_to_local(const double cosine, const double sine, const double length) {
+
+    const auto tmp_a = cosine / length;
+    const auto tmp_b = sine / length;
+
+    mat trans_mat(3, 6, fill::zeros);
+    trans_mat(0, 0) = -cosine;
+    trans_mat(0, 1) = -sine;
+    trans_mat(0, 3) = cosine;
+    trans_mat(0, 4) = sine;
+    trans_mat(1, 0) = -tmp_b;
+    trans_mat(1, 1) = tmp_a;
+    trans_mat(1, 3) = tmp_b;
+    trans_mat(1, 4) = -tmp_a;
+    trans_mat(1, 2) = 1.;
+    trans_mat(2, 0) = -tmp_b;
+    trans_mat(2, 1) = tmp_a;
+    trans_mat(2, 3) = tmp_b;
+    trans_mat(2, 4) = -tmp_a;
+    trans_mat(2, 5) = 1.;
+
+    return trans_mat;
+}
+
+mat transform::beam::global_to_local(const vec& direction_cosine, const double length) {
+    if(direction_cosine.n_elem == 2) return global_to_local(direction_cosine(0), direction_cosine(1), length);
+    if(direction_cosine.n_elem == 3) return global_to_local(direction_cosine(0), direction_cosine(1), direction_cosine(2), length);
+    throw logic_error("direction cosine must contains two or three elements.\n");
+}

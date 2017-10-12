@@ -1,6 +1,7 @@
 #include "B21.h"
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
+#include <Toolbox/tensorToolbox.h>
 
 const unsigned B21::b_node = 2;
 const unsigned B21::b_dof = 3;
@@ -39,24 +40,7 @@ void B21::initialize(const shared_ptr<DomainBase>& D) {
         int_pt[I].b_section = section_proto->get_copy();
     }
 
-    const auto tmp_d = direction_cosine(0) / length;
-    const auto tmp_e = direction_cosine(1) / length;
-
-    trans_mat.zeros(3, 6);
-    trans_mat(0, 0) = -direction_cosine(0);
-    trans_mat(0, 1) = -direction_cosine(1);
-    trans_mat(0, 3) = direction_cosine(0);
-    trans_mat(0, 4) = direction_cosine(1);
-    trans_mat(1, 0) = -tmp_e;
-    trans_mat(1, 1) = tmp_d;
-    trans_mat(1, 3) = tmp_e;
-    trans_mat(1, 4) = -tmp_d;
-    trans_mat(1, 2) = 1.;
-    trans_mat(2, 0) = -tmp_e;
-    trans_mat(2, 1) = tmp_d;
-    trans_mat(2, 3) = tmp_e;
-    trans_mat(2, 4) = -tmp_d;
-    trans_mat(2, 5) = 1.;
+    trans_mat = transform::beam::global_to_local(direction_cosine, length);
 }
 
 int B21::update_status() {

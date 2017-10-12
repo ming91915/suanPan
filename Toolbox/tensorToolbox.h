@@ -36,6 +36,11 @@ vec rotate_strain(const vec&, const mat&);
 vec rotate_stress(const vec&, const mat&);
 vec rotate_strain(const vec&, const double);
 vec rotate_stress(const vec&, const double);
+namespace beam {
+    mat global_to_local(const double, const double, const double, const double);
+    mat global_to_local(const double, const double, const double);
+    mat global_to_local(const vec&, const double);
+}
 }
 
 #endif

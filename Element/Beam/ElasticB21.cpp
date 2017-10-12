@@ -1,4 +1,5 @@
 #include "ElasticB21.h"
+#include <Toolbox/tensorToolbox.h>
 
 const unsigned ElasticB21::b_node = 2;
 const unsigned ElasticB21::b_dof = 3;
@@ -41,24 +42,7 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
     local_stiff(2, 1) = tmp_b;
     local_stiff(2, 2) = tmp_c;
 
-    const auto tmp_d = direction_cosine(0) / length;
-    const auto tmp_e = direction_cosine(1) / length;
-
-    strain_mat.zeros(3, 6);
-    strain_mat(0, 0) = -direction_cosine(0);
-    strain_mat(0, 1) = -direction_cosine(1);
-    strain_mat(0, 3) = direction_cosine(0);
-    strain_mat(0, 4) = direction_cosine(1);
-    strain_mat(1, 0) = -tmp_e;
-    strain_mat(1, 1) = tmp_d;
-    strain_mat(1, 3) = tmp_e;
-    strain_mat(1, 4) = -tmp_d;
-    strain_mat(1, 2) = 1.;
-    strain_mat(2, 0) = -tmp_e;
-    strain_mat(2, 1) = tmp_d;
-    strain_mat(2, 3) = tmp_e;
-    strain_mat(2, 4) = -tmp_d;
-    strain_mat(2, 5) = 1.;
+    strain_mat = transform::beam::global_to_local(direction_cosine, length);
 
     // mass
     const auto density = b_material->get_parameter(ParameterType::DENSITY);
@@ -129,21 +113,7 @@ int ElasticB21::update_status() {
 
         direction_cosine = disp_diff / new_length;
 
-        const auto tmp_d = direction_cosine(0) / new_length;
-        const auto tmp_e = direction_cosine(1) / new_length;
-
-        strain_mat(0, 0) = -direction_cosine(0);
-        strain_mat(0, 1) = -direction_cosine(1);
-        strain_mat(0, 3) = direction_cosine(0);
-        strain_mat(0, 4) = direction_cosine(1);
-        strain_mat(1, 0) = -tmp_e;
-        strain_mat(1, 1) = tmp_d;
-        strain_mat(1, 3) = tmp_e;
-        strain_mat(1, 4) = -tmp_d;
-        strain_mat(2, 0) = -tmp_e;
-        strain_mat(2, 1) = tmp_d;
-        strain_mat(2, 3) = tmp_e;
-        strain_mat(2, 4) = -tmp_d;
+        strain_mat = transform::beam::global_to_local(direction_cosine, new_length);
 
         local_deformation(0) = new_length - length;
 
