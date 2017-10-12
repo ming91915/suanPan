@@ -24,8 +24,8 @@
 #include <Element/Element.h>
 #include <Load/Amplitude/Amplitude.h>
 #include <Load/Load.h>
-#include <Material/Section/Section.h>
 #include <Recorder/Recorder.h>
+#include <Section/Section.h>
 #include <Solver/Integrator/Integrator.h>
 #include <Solver/Solver.h>
 #include <Step/Step.h>

@@ -51,6 +51,7 @@ int create_new_material(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_mass(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_node(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_recorder(const shared_ptr<DomainBase>&, istringstream&);
+int create_new_section(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_solver(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_step(const shared_ptr<DomainBase>&, istringstream&);
 

@@ -32,6 +32,8 @@
 #include <Load/Displacement.h>
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
+#include <Section/Section.h>
+#include <Section/SectionParser.h>
 #include <Solver/Solver>
 #include <Step/ArcLength.h>
 #include <Step/Bead.h>
@@ -774,6 +776,42 @@ int create_new_recorder(const shared_ptr<DomainBase>& domain, istringstream& com
     }
 
     if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+
+    return 0;
+}
+
+int create_new_section(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string section_id;
+    if(!get_input(command, section_id)) {
+        suanpan_info("create_new_section() needs a section type.\n");
+        return 0;
+    }
+
+    unique_ptr<Section> new_section = nullptr;
+
+    if(is_equal(section_id, "Rectangle"))
+        new_rectangle(new_section, command);
+    else {
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == section_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(section_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(section_id)) I->new_object(new_section, command);
+                if(new_section != nullptr) break;
+            }
+    }
+
+    if(new_section == nullptr || !domain->insert(move(new_section))) suanpan_debug("create_new_material() fails to insert new material.\n");
 
     return 0;
 }

@@ -1,5 +1,5 @@
 #include "B21.h"
-#include <Material/Section/Section.h>
+#include <Section/Section.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 

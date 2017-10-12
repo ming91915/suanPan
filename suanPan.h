@@ -123,6 +123,7 @@
 
 #include <Element/ElementTag.h>
 #include <Material/MaterialTag.h>
+#include <Section/SectionTag.h>
 #include <Toolbox/ClassTag.h>
 #include <Toolbox/debug.h>
 
