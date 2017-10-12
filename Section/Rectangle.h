@@ -48,7 +48,12 @@ class Rectangle : public Section {
     vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Rectangle(const unsigned&, const double&, const double&, const unsigned&, const unsigned&);
+    explicit Rectangle(const unsigned&, // tag
+        const double&,                  // width
+        const double&,                  // height
+        const unsigned&,                // material tag
+        const unsigned&                 // number of integration points
+    );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

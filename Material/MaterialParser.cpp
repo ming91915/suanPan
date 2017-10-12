@@ -16,8 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "MaterialParser.h"
-#include "Toolbox/utility.h"
 #include <Material/Material>
+#include <Toolbox/utility.h>
 
 using std::vector;
 

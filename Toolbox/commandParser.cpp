@@ -83,6 +83,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(is_equal(command_id, "mass")) return create_new_mass(domain, command);
     if(is_equal(command_id, "node")) return create_new_node(domain, command);
     if(is_equal(command_id, "recorder")) return create_new_recorder(domain, command);
+    if(is_equal(command_id, "section")) return create_new_section(domain, command);
     if(is_equal(command_id, "solver")) return create_new_solver(domain, command);
     if(is_equal(command_id, "step")) return create_new_step(domain, command);
 
@@ -811,7 +812,7 @@ int create_new_section(const shared_ptr<DomainBase>& domain, istringstream& comm
             }
     }
 
-    if(new_section == nullptr || !domain->insert(move(new_section))) suanpan_debug("create_new_material() fails to insert new material.\n");
+    if(new_section == nullptr || !domain->insert(move(new_section))) suanpan_debug("create_new_section() fails to insert new section.\n");
 
     return 0;
 }
