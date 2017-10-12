@@ -161,11 +161,13 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Developer\Element\ElementExample.cpp" />
     <ClCompile Include="..\..\..\Developer\Material\MaterialExample.cpp" />
+    <ClCompile Include="..\..\..\Developer\Section\SectionExample.cpp" />
     <ClCompile Include="..\..\..\Domain\DomainBase.cpp" />
     <ClCompile Include="..\..\..\Domain\Node.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Material\Material.cpp" />
+    <ClCompile Include="..\..\..\Section\Section.cpp" />
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

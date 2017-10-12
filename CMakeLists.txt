@@ -34,6 +34,7 @@ add_subdirectory(Toolbox)
 if(BUILD_DLL_EXAMPLE)
     add_subdirectory(Developer/Element)
     add_subdirectory(Developer/Material)
+    add_subdirectory(Developer/Section)
     add_subdirectory(Developer/ModuleBundle)
 endif()
 

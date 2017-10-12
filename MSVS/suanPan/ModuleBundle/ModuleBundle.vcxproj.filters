@@ -35,5 +35,11 @@
     <ClCompile Include="..\..\..\Toolbox\debug.cpp">
       <Filter>Depend</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Developer\Section\SectionExample.cpp">
+      <Filter>SRC</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section.cpp">
+      <Filter>Depend</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

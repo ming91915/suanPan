@@ -13,12 +13,14 @@ include_directories(../Element)
 include_directories(../Material)
 
 add_library(${PROJECT_NAME} SHARED
-    "../Material/MaterialExample.cpp"
-    "../Element/ElementExample.cpp"
     "${ROOT}/Domain/DomainBase.cpp"
     "${ROOT}/Domain/Node.cpp"
     "${ROOT}/Domain/Tag.cpp"
     "${ROOT}/Element/Element.cpp"
     "${ROOT}/Material/Material.cpp"
+    "${ROOT}/Section/Section.cpp"
     "${ROOT}/Toolbox/debug.cpp"
+    "../Element/ElementExample.cpp"
+    "../Material/MaterialExample.cpp"
+    "../Section/SectionExample.cpp"
     )
