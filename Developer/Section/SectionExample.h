@@ -15,45 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Circle
- * @brief A Circle class.
+ * @class SectionExample
+ * @brief A SectionExample class.
  * @author T
  * @date 15/09/2017
  * @version 0.1.0
- * @file Circle.h
+ * @file SectionExample.h
  * @addtogroup Section
  * @{
  */
 
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef SECTIONEXAMPLE_H
+#define SECTIONEXAMPLE_H
 
 #include <Section/Section.h>
 
-class Circle : public Section {
-    const double radius;
-    const unsigned int_pt_num;
-
-    struct IntegrationPoint {
-        double coor, weight;
-        unique_ptr<Material> s_material;
-        IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
-            : coor(C)
-            , weight(W)
-            , s_material(move(M)) {}
-        IntegrationPoint(const IntegrationPoint& old_obj)
-            : coor(old_obj.coor)
-            , weight(old_obj.weight)
-            , s_material(old_obj.s_material->get_copy()) {}
-    };
-
-    vector<IntegrationPoint> int_pt;
+class SectionExample : public Section {
+    const double edge_length, area, moment_inertia, elastic_modulus;
 
 public:
-    explicit Circle(const unsigned&, // tag
-        const double&,               // radius
-        const unsigned&,             // material tag
-        const unsigned&              // number of integration points
+    explicit SectionExample(const unsigned&, // tag
+        const double&,                       // edge length
+        const double&                        // elastic modulus
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
