@@ -26,16 +26,37 @@
 #ifndef SECTION_H
 #define SECTION_H
 
-#include <Material/Material.h>
+#include <Domain/DomainBase.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <Material/Material.h> // for derived class
 
-class Section : public Material {
+class Section : public Tag {
+protected:
+    const unsigned material_tag; /**< material tags */
+
+    vec resistance;        /**< resistance vector. */
+    mat stiffness;         /**< stiffness matrix */
+    mat initial_stiffness; /**< initial stiffness matrix */
 public:
-    explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION)
-        : Material(T, CT) {}
+    explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION, const unsigned& MT = 0)
+        : Tag(T, CT)
+        , material_tag(MT) {}
 
     virtual ~Section() {}
 
-    void print() override;
+    virtual void initialize(const shared_ptr<DomainBase>&) = 0;
+
+    virtual const vec& get_resistance() const;
+    virtual const mat& get_stiffness() const;
+    virtual const mat& get_initial_stiffness() const;
+
+    virtual unique_ptr<Section> get_copy() = 0;
+
+    virtual int update_status(const vec&);
+    virtual int update_status(const vec&, const vec&);
+    virtual int clear_status() = 0;
+    virtual int commit_status() = 0;
+    virtual int reset_status() = 0;
 };
 
 #endif

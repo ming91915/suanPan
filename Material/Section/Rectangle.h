@@ -30,9 +30,32 @@
 
 class Rectangle : public Section {
     const double width, height;
+    const unsigned int_pt_num;
+
+    struct IntegrationPoint {
+        double coor = 0., weight = 0.;
+        unique_ptr<Material> s_material;
+        IntegrationPoint() {}
+        IntegrationPoint(const IntegrationPoint& old_obj)
+            : coor(old_obj.coor)
+            , weight(old_obj.weight)
+            , s_material(old_obj.s_material->get_copy()) {}
+    };
+
+    vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Rectangle(const unsigned& = 0);
+    explicit Rectangle(const unsigned&, const double&, const double&, const unsigned&, const unsigned&);
+
+    void initialize(const shared_ptr<DomainBase>&) override;
+
+    unique_ptr<Section> get_copy() override;
+
+    int update_status(const vec&) override;
+
+    int clear_status() override;
+    int commit_status() override;
+    int reset_status() override;
 
     void print() override;
 };

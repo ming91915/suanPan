@@ -17,4 +17,22 @@
 
 #include "Section.h"
 
-void Section::print() { suanpan_info("This is a Section base class.\n"); }
+void Section::initialize(const shared_ptr<DomainBase>&) {}
+
+const vec& Section::get_resistance() const { return resistance; }
+
+const mat& Section::get_stiffness() const { return stiffness; }
+
+const mat& Section::get_initial_stiffness() const { return initial_stiffness; }
+
+unique_ptr<Section> Section::get_copy() { throw; }
+
+int Section::update_status(const vec&) { throw; }
+
+int Section::update_status(const vec&, const vec&) { throw; }
+
+int Section::clear_status() { throw; }
+
+int Section::commit_status() { throw; }
+
+int Section::reset_status() { throw; }
