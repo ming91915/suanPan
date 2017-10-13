@@ -17,7 +17,12 @@
 
 #include "Section.h"
 
-void Section::initialize(const shared_ptr<DomainBase>&) {}
+void Section::initialize(const shared_ptr<DomainBase>& D) {
+    if(!D->find_material(material_tag)) {
+        D->disable_section(get_tag());
+        suanpan_error("initialize() cannot find material %u, now disable it.\n", material_tag);
+    }
+}
 
 const vec& Section::get_resistance() const { return resistance; }
 

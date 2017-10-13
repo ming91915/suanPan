@@ -73,12 +73,14 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     // check if material models are valid
-    for(const auto& tmp_materail : material_tag)
-        if(!D->find_material(unsigned(tmp_materail)) && !D->find_section(unsigned(tmp_materail))) {
-            suanpan_debug("Element %u cannot find valid material/section %u, now disable it.\n", get_tag(), unsigned(tmp_materail));
+    for(const auto& tmp_materail : material_tag) {
+        const auto t_tag = unsigned(tmp_materail);
+        if(!D->find_material(t_tag) && (!D->find_section(t_tag) || !D->get_section(t_tag)->is_active())) {
+            suanpan_debug("Element %u cannot find valid material/section %u, now disable it.\n", get_tag(), t_tag);
             D->disable_element(get_tag());
             return;
         }
+    }
 }
 
 void Element::update_dof_encoding() {
