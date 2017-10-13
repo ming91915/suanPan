@@ -553,6 +553,7 @@ int Domain::initialize() {
             access::rw(t_element->initialized) = true;
         }
         t_element->update_dof_encoding();
+        t_element->update_status();
     });
 
     factory->set_size(dof_counter);
@@ -606,12 +607,18 @@ void Domain::record() {
 void Domain::enable_all() {
     if(updated) updated = false;
 
+    amplitude_pond.enable();
     constraint_pond.enable();
+    converger_pond.enable();
+    criterion_pond.enable();
     element_pond.enable();
+    integrator_pond.enable();
     load_pond.enable();
     material_pond.enable();
     node_pond.enable();
     recorder_pond.enable();
+    section_pond.enable();
+    solver_pond.enable();
 }
 
 void Domain::summary() const {

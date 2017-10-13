@@ -34,7 +34,7 @@ int ArcLength::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    G->update_trial_status();
+    // G->update_trial_status();
 
     unsigned num_iteration = 0;
 
