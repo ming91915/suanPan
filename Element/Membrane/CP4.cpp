@@ -28,7 +28,13 @@ CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, 
     , reduced_scheme(R) {}
 
 void CP4::initialize(const shared_ptr<DomainBase>& D) {
-    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
+    mat ele_coor(m_node, m_dof);
+    for(unsigned I = 0; I < m_node; ++I) {
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
+        for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
+    }
+
+    const auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
     const unsigned order = reduced_scheme ? 1 : 2;
     const IntegrationPlan plan(2, order, IntegrationType::GAUSS);
@@ -36,35 +42,21 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
     int_pt.clear();
     int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
-        int_pt.emplace_back(make_unique<IntegrationPoint>());
-        int_pt[I]->coor.zeros(2);
-        for(auto J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
-        int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->get_copy();
-    }
-
-    mat ele_coor(m_node, m_dof);
-    for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
-        for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
-    }
-
-    for(const auto& I : int_pt) {
-        const auto pn = shape::quad(I->coor, 1);
+        const vec t_vec{ plan(I, 0), plan(I, 1) };
+        const auto pn = shape::quad(t_vec, 1);
         const mat jacob = pn * ele_coor;
-        I->jacob_det = det(jacob);
-        I->pn_pxy = solve(jacob, pn);
+        int_pt.emplace_back(t_vec, plan(I, 2), det(jacob), material_proto->get_copy(), solve(jacob, pn));
     }
 
     if(nlgeom)
-        for(const auto& I : int_pt) {
-            I->BN.zeros(3, m_node * m_dof);
-            I->BG.zeros(m_dof * m_dof, m_node * m_dof);
+        for(auto&& I : int_pt) {
+            I.BN.zeros(3, m_node * m_dof);
+            I.BG.zeros(m_dof * m_dof, m_node * m_dof);
             for(auto J = 0; J < m_node; ++J) {
-                I->BG(0, m_dof * J) = I->pn_pxy(0, J);
-                I->BG(1, m_dof * J) = I->pn_pxy(1, J);
-                I->BG(2, m_dof * J + 1) = I->pn_pxy(0, J);
-                I->BG(3, m_dof * J + 1) = I->pn_pxy(1, J);
+                I.BG(0, m_dof * J) = I.pn_pxy(0, J);
+                I.BG(1, m_dof * J) = I.pn_pxy(1, J);
+                I.BG(2, m_dof * J + 1) = I.pn_pxy(0, J);
+                I.BG(3, m_dof * J + 1) = I.pn_pxy(1, J);
             }
         }
 
@@ -72,8 +64,8 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
-            const auto n_int = shape::quad(I->coor, 0);
-            const auto tmp_a = tmp_density * I->jacob_det * I->weight * thickness;
+            const auto n_int = shape::quad(I.coor, 0);
+            const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
@@ -99,13 +91,13 @@ int CP4::update_status() {
 
     stiffness.zeros();
     resistance.zeros();
-    for(const auto& I : int_pt) {
+    for(auto& I : int_pt) {
         if(nlgeom) {
             for(auto J = 0; J < m_node; ++J) {
                 auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
                 for(auto K = 0; K < m_dof; ++K) ele_disp(J, K) = t_disp(K);
             }
-            mat gradient = I->pn_pxy * ele_disp;
+            mat gradient = I.pn_pxy * ele_disp;
             gradient(0, 0) += 1.;
             gradient(1, 1) += 1.;
             mat t_mat = gradient * gradient.t() / 2.;
@@ -115,29 +107,29 @@ int CP4::update_status() {
             for(auto J = 0; J < m_node; ++J) {
                 const auto tmp_a = m_dof * J;
                 const auto tmp_b = tmp_a + 1;
-                I->BN(0, tmp_a) = I->pn_pxy(0, J) * gradient(0, 0);
-                I->BN(1, tmp_a) = I->pn_pxy(1, J) * gradient(1, 0);
-                I->BN(2, tmp_a) = I->pn_pxy(0, J) * gradient(1, 0) + I->pn_pxy(1, J) * gradient(0, 0);
-                I->BN(0, tmp_b) = I->pn_pxy(0, J) * gradient(0, 1);
-                I->BN(1, tmp_b) = I->pn_pxy(1, J) * gradient(1, 1);
-                I->BN(2, tmp_b) = I->pn_pxy(0, J) * gradient(1, 1) + I->pn_pxy(1, J) * gradient(0, 1);
+                I.BN(0, tmp_a) = I.pn_pxy(0, J) * gradient(0, 0);
+                I.BN(1, tmp_a) = I.pn_pxy(1, J) * gradient(1, 0);
+                I.BN(2, tmp_a) = I.pn_pxy(0, J) * gradient(1, 0) + I.pn_pxy(1, J) * gradient(0, 0);
+                I.BN(0, tmp_b) = I.pn_pxy(0, J) * gradient(0, 1);
+                I.BN(1, tmp_b) = I.pn_pxy(1, J) * gradient(1, 1);
+                I.BN(2, tmp_b) = I.pn_pxy(0, J) * gradient(1, 1) + I.pn_pxy(1, J) * gradient(0, 1);
             }
         } else {
             t_strain.zeros();
             for(auto J = 0; J < m_node; ++J) {
                 const auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
-                t_strain(0) += t_disp(0) * I->pn_pxy(0, J);
-                t_strain(1) += t_disp(1) * I->pn_pxy(1, J);
-                t_strain(2) += t_disp(0) * I->pn_pxy(1, J) + t_disp(1) * I->pn_pxy(0, J);
+                t_strain(0) += t_disp(0) * I.pn_pxy(0, J);
+                t_strain(1) += t_disp(1) * I.pn_pxy(1, J);
+                t_strain(2) += t_disp(0) * I.pn_pxy(1, J) + t_disp(1) * I.pn_pxy(0, J);
             }
         }
 
-        code += I->m_material->update_trial_status(t_strain);
+        code += I.m_material->update_trial_status(t_strain);
 
-        const auto t_factor = I->jacob_det * I->weight * thickness;
+        const auto t_factor = I.jacob_det * I.weight * thickness;
 
-        auto& t_stiff = I->m_material->get_stiffness();
-        auto& t_stress = I->m_material->get_stress();
+        auto& t_stiff = I.m_material->get_stiffness();
+        auto& t_stress = I.m_material->get_stress();
 
         if(nlgeom) {
             sigma(0, 0) = t_stress(0);
@@ -148,18 +140,18 @@ int CP4::update_status() {
             sigma(1, 0) = t_stress(2);
             sigma(2, 3) = t_stress(2);
             sigma(3, 2) = t_stress(2);
-            geometry += t_factor * I->BG.t() * sigma * I->BG;
-            stiffness += t_factor * I->BN.t() * t_stiff * I->BN;
-            resistance += I->BN.t() * t_stress * t_factor;
+            geometry += t_factor * I.BG.t() * sigma * I.BG;
+            stiffness += t_factor * I.BN.t() * t_stiff * I.BN;
+            resistance += I.BN.t() * t_stress * t_factor;
         } else {
-            const auto& NX1 = I->pn_pxy(0, 0);
-            const auto& NY1 = I->pn_pxy(1, 0);
-            const auto& NX2 = I->pn_pxy(0, 1);
-            const auto& NY2 = I->pn_pxy(1, 1);
-            const auto& NX3 = I->pn_pxy(0, 2);
-            const auto& NY3 = I->pn_pxy(1, 2);
-            const auto& NX4 = I->pn_pxy(0, 3);
-            const auto& NY4 = I->pn_pxy(1, 3);
+            const auto& NX1 = I.pn_pxy(0, 0);
+            const auto& NY1 = I.pn_pxy(1, 0);
+            const auto& NX2 = I.pn_pxy(0, 1);
+            const auto& NY2 = I.pn_pxy(1, 1);
+            const auto& NX3 = I.pn_pxy(0, 2);
+            const auto& NY3 = I.pn_pxy(1, 2);
+            const auto& NX4 = I.pn_pxy(0, 3);
+            const auto& NY4 = I.pn_pxy(1, 3);
 
             const auto D11 = t_factor * t_stiff(0, 0);
             const auto D12 = t_factor * t_stiff(0, 1);
@@ -296,19 +288,19 @@ int CP4::update_status() {
 
 int CP4::commit_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commit_status();
+    for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int CP4::clear_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clear_status();
+    for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int CP4::reset_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->reset_status();
+    for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;
 }
 

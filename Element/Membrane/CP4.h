@@ -35,9 +35,15 @@ class CP4 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
+        unique_ptr<Material> m_material;
         mat pn_pxy;
         mat BN, BG;
-        unique_ptr<Material> m_material;
+        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
+            : coor(C)
+            , weight(W)
+            , jacob_det(J)
+            , m_material(move(M))
+            , pn_pxy(PNPXY) {}
     };
 
     static const unsigned m_node, m_dof;
@@ -46,7 +52,7 @@ class CP4 final : public Element {
 
     const bool reduced_scheme;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    vector<IntegrationPoint> int_pt;
 
 public:
     CP4(const unsigned&,      // tag
