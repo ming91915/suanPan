@@ -39,14 +39,15 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
         initial_stiffness(1, 1) += tmp_a * int_pt[I].coor * int_pt[I].coor;
     }
 
-    stiffness.zeros(2, 2);
     resistance.zeros(2);
+    stiffness = initial_stiffness;
 }
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
 
 int Rectangle::update_status(const vec& t_strain) {
     stiffness.zeros();
+    resistance.zeros();
 
     auto code = 0;
     for(const auto& I : int_pt) {

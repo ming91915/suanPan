@@ -58,7 +58,7 @@ class B21 final : public Element {
 public:
     B21(const unsigned&,     // tag
         const uvec&,         // node tags
-        const unsigned&,     // section tags
+        const unsigned&,     // section tag
         const unsigned& = 3, // integration points
         const bool& = false  // nonliear geometry switch
     );

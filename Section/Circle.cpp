@@ -39,13 +39,14 @@ void Circle::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     resistance.zeros(2);
-    stiffness.zeros(2, 2);
+    stiffness = initial_stiffness;
 }
 
 unique_ptr<Section> Circle::get_copy() { return make_unique<Circle>(*this); }
 
 int Circle::update_status(const vec& t_strain) {
     stiffness.zeros();
+    resistance.zeros();
 
     auto code = 0;
     for(const auto& I : int_pt) {
@@ -57,8 +58,6 @@ int Circle::update_status(const vec& t_strain) {
         resistance(0) += tmp_b;
         resistance(1) -= tmp_b * I.coor;
     }
-
-    stiffness.print("\n");
 
     return code;
 }
