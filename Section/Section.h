@@ -52,8 +52,8 @@ public:
 
     virtual unique_ptr<Section> get_copy() = 0;
 
-    virtual int update_status(const vec&);
-    virtual int update_status(const vec&, const vec&);
+    virtual int update_trial_status(const vec&);
+    virtual int update_trial_status(const vec&, const vec&);
     virtual int clear_status() = 0;
     virtual int commit_status() = 0;
     virtual int reset_status() = 0;

@@ -44,7 +44,7 @@ void Circle::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Section> Circle::get_copy() { return make_unique<Circle>(*this); }
 
-int Circle::update_status(const vec& t_strain) {
+int Circle::update_trial_status(const vec& t_strain) {
     stiffness.zeros();
     resistance.zeros();
 

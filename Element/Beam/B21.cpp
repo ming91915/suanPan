@@ -59,7 +59,7 @@ int B21::update_status() {
     mat local_stiffness(3, 3, fill::zeros);
     vec local_resistance(3, fill::zeros);
     for(const auto& I : int_pt) {
-        I.b_section->update_status(I.strain_mat * local_deformation);
+        I.b_section->update_trial_status(I.strain_mat * local_deformation);
         const mat tmp_a = I.strain_mat.t() * I.weight * new_length / 2.;
         local_stiffness += tmp_a * I.b_section->get_stiffness() * I.strain_mat;
         local_resistance += tmp_a * I.b_section->get_resistance();

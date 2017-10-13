@@ -32,9 +32,9 @@ const mat& Section::get_initial_stiffness() const { return initial_stiffness; }
 
 unique_ptr<Section> Section::get_copy() { throw; }
 
-int Section::update_status(const vec&) { throw; }
+int Section::update_trial_status(const vec&) { throw; }
 
-int Section::update_status(const vec&, const vec&) { throw; }
+int Section::update_trial_status(const vec&, const vec&) { throw; }
 
 int Section::clear_status() { throw; }
 

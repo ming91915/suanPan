@@ -59,7 +59,7 @@ void SectionExample::initialize(const shared_ptr<DomainBase>&) {
 
 unique_ptr<Section> SectionExample::get_copy() { return make_unique<SectionExample>(*this); }
 
-int SectionExample::update_status(const vec& t_strain) {
+int SectionExample::update_trial_status(const vec& t_strain) {
     resistance = stiffness * t_strain;
     return 0;
 }

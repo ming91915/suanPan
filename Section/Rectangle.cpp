@@ -45,7 +45,7 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
 
-int Rectangle::update_status(const vec& t_strain) {
+int Rectangle::update_trial_status(const vec& t_strain) {
     stiffness.zeros();
     resistance.zeros();
 

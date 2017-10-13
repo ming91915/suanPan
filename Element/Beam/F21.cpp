@@ -80,7 +80,7 @@ int F21::update_status() {
             const vec residual = I.trial_section_resistance - I.b_section->get_resistance();
             const vec incre_deformation{ residual.at(0) / I.b_section->get_stiffness().at(0, 0), residual.at(1) / I.b_section->get_stiffness().at(1, 1) };
             I.trial_section_deformation += incre_deformation;
-            I.b_section->update_status(I.trial_section_deformation);
+            I.b_section->update_trial_status(I.trial_section_deformation);
             const mat tmp_a = I.B.t() * I.weight * new_length / 2.;
             trial_local_flexibility += tmp_a * solve(I.b_section->get_stiffness(), I.B);
             incre_local_deformation += tmp_a * incre_deformation;
