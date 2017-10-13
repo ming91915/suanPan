@@ -30,14 +30,10 @@ void B21::initialize(const shared_ptr<DomainBase>& D) {
     int_pt.clear();
     int_pt.reserve(int_pt_num);
     for(unsigned I = 0; I < int_pt_num; ++I) {
-        int_pt.emplace_back();
-        int_pt[I].coor = plan(I, 0);
-        int_pt[I].weight = plan(I, 1);
-        int_pt[I].strain_mat.zeros(2, 3);
+        int_pt.emplace_back(plan(I, 0), plan(I, 1), section_proto->get_copy());
         int_pt[I].strain_mat(0, 0) = 1. / length;
         int_pt[I].strain_mat(1, 1) = (3. * plan(I, 0) - 1.) / length;
         int_pt[I].strain_mat(1, 2) = (3. * plan(I, 0) + 1.) / length;
-        int_pt[I].b_section = section_proto->get_copy();
     }
 
     trans_mat = transform::beam::global_to_local(direction_cosine, length);

@@ -42,8 +42,13 @@ class B21 final : public Element {
 
     struct IntegrationPoint {
         double coor, weight;
-        mat strain_mat;
         unique_ptr<Section> b_section;
+        mat strain_mat;
+        IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
+            : coor(C)
+            , weight(W)
+            , b_section(move(M))
+            , strain_mat(2, 3, fill::zeros) {}
     };
 
     vector<IntegrationPoint> int_pt;
