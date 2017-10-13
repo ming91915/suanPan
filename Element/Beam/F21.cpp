@@ -65,7 +65,7 @@ int F21::update_status() {
     trial_local_deformation = trans_mat * t_disp;
 
     vec incre_local_deformation = trial_local_deformation - current_local_deformation;
-    vec incre_local_resistance = trial_local_flexibility * incre_local_deformation;
+    vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
 
     auto counter = 0;
 
