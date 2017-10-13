@@ -52,7 +52,7 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
-            const auto n_int = shape::quad(I.coor, 0);
+            const auto n_int = shape::quad(I.coor, 0, 8);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
