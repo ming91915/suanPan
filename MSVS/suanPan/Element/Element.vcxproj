@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\Beam\B21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\ElasticB21.cpp" />
+    <ClCompile Include="..\..\..\Element\Beam\F21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\MVLEM.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D20.cpp" />
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Beam\B21.h" />
     <ClInclude Include="..\..\..\Element\Beam\ElasticB21.h" />
+    <ClInclude Include="..\..\..\Element\Beam\F21.h" />
     <ClInclude Include="..\..\..\Element\Beam\MVLEM.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D20.h" />
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h" />
