@@ -30,11 +30,16 @@ void Circle::initialize(const shared_ptr<DomainBase>& D) {
 
     int_pt.clear();
     int_pt.reserve(int_pt_num);
-    for(unsigned I = 0; I < int_pt_num; ++I) int_pt.emplace_back(radius * plan(I, 0), plan(I, 1), material_proto->get_copy());
+    initial_stiffness.zeros(2, 2);
+    for(unsigned I = 0; I < int_pt_num; ++I) {
+        int_pt.emplace_back(radius * plan(I, 0), 2. * radius * radius * sqrt(1. - plan(I, 0) * plan(I, 0)) * plan(I, 1), material_proto->get_copy());
+        const auto t_factor = int_pt[I].s_material->get_stiffness().at(0) * int_pt[I].weight;
+        initial_stiffness(0, 0) += t_factor;
+        initial_stiffness(1, 1) += t_factor * int_pt[I].coor * int_pt[I].coor;
+    }
 
     resistance.zeros(2);
     stiffness.zeros(2, 2);
-    initial_stiffness.zeros(2, 2);
 }
 
 unique_ptr<Section> Circle::get_copy() { return make_unique<Circle>(*this); }
@@ -45,13 +50,12 @@ int Circle::update_status(const vec& t_strain) {
     auto code = 0;
     for(const auto& I : int_pt) {
         code += I.s_material->update_trial_status(vec{ t_strain(0) - t_strain(1) * I.coor });
-        const auto tmp_a = I.weight * 2. * sqrt(radius * radius - I.coor * I.coor) * radius;
-        const auto tmp_b = I.s_material->get_stiffness().at(0) * tmp_a;
-        stiffness(0, 0) += tmp_b;
-        stiffness(1, 1) += tmp_b * I.coor * I.coor;
-        const auto tmp_c = I.s_material->get_stress().at(0) * tmp_a;
-        resistance(0) += tmp_c;
-        resistance(1) -= tmp_c * I.coor;
+        const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
+        stiffness(0, 0) += tmp_a;
+        stiffness(1, 1) += tmp_a * I.coor * I.coor;
+        const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
+        resistance(0) += tmp_b;
+        resistance(1) -= tmp_b * I.coor;
     }
 
     stiffness.print("\n");

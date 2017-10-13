@@ -31,11 +31,16 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
 
     int_pt.clear();
     int_pt.reserve(int_pt_num);
-    for(unsigned I = 0; I < int_pt_num; ++I) int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
-
-    resistance.zeros(2);
-    stiffness.zeros(2, 2);
     initial_stiffness.zeros(2, 2);
+    for(unsigned I = 0; I < int_pt_num; ++I) {
+        int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
+        const auto tmp_a = int_pt[I].s_material->get_initial_stiffness().at(0) * int_pt[I].weight;
+        initial_stiffness(0, 0) += tmp_a;
+        initial_stiffness(1, 1) += tmp_a * int_pt[I].coor * int_pt[I].coor;
+    }
+
+    stiffness.zeros(2, 2);
+    resistance.zeros(2);
 }
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
