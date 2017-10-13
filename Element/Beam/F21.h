@@ -43,14 +43,13 @@ class F21 final : public Element {
     struct IntegrationPoint {
         double coor, weight;
         unique_ptr<Section> b_section;
-        mat A, B;
+        mat B;
         vec current_section_deformation, trial_section_deformation;
         vec current_section_resistance, trial_section_resistance;
         IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
             : coor(C)
             , weight(W)
             , b_section(move(M))
-            , A(2, 3, fill::zeros)
             , B(2, 3, fill::zeros)
             , current_section_deformation(2, fill::zeros)
             , trial_section_deformation(2, fill::zeros)
@@ -74,7 +73,7 @@ class F21 final : public Element {
 
     vector<IntegrationPoint> int_pt;
 
-    mat trans_mat, initial_local_stiffness;
+    mat trans_mat, initial_local_flexibility;
 
     mat current_local_flexibility, trial_local_flexibility;
     vec current_local_deformation, trial_local_deformation;

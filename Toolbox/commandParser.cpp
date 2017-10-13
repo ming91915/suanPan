@@ -610,6 +610,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_elasticb21(new_element, command);
     else if(is_equal(element_id, "B21"))
         new_b21(new_element, command);
+    else if(is_equal(element_id, "F21"))
+        new_f21(new_element, command);
     else if(is_equal(element_id, "Proto01"))
         new_proto01(new_element, command);
     else if(is_equal(element_id, "Mass"))
