@@ -65,28 +65,23 @@ int F21::update_status() {
     trial_local_deformation = trans_mat * t_disp;
 
     vec incre_local_deformation = trial_local_deformation - current_local_deformation;
-    vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
 
     auto counter = 0;
 
     while(true) {
-        cout << norm(incre_local_deformation) << "\t" << counter << endl;
+        const vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
         trial_local_resistance += incre_local_resistance;
         trial_local_flexibility.zeros();
-        incre_local_deformation.zeros();
         for(auto&& I : int_pt) {
-            const vec incre_resistance = I.B * incre_local_resistance;
-            I.trial_section_resistance += incre_resistance;
-            const vec residual = I.trial_section_resistance - I.b_section->get_resistance();
-            const vec incre_deformation{ residual.at(0) / I.b_section->get_stiffness().at(0, 0), residual.at(1) / I.b_section->get_stiffness().at(1, 1) };
-            I.trial_section_deformation += incre_deformation;
+            I.trial_section_resistance += I.B * incre_local_resistance;
+            const vec incre_deformation = (I.b_section->get_resistance() - I.trial_section_resistance) / I.b_section->get_stiffness().diag();
+            I.trial_section_deformation -= incre_deformation;
             I.b_section->update_trial_status(I.trial_section_deformation);
             const mat tmp_a = I.B.t() * I.weight * new_length / 2.;
             trial_local_flexibility += tmp_a * solve(I.b_section->get_stiffness(), I.B);
             incre_local_deformation += tmp_a * incre_deformation;
         }
-        incre_local_resistance = -solve(trial_local_flexibility, incre_local_deformation);
-        if(norm(incre_local_deformation) < 1E-8 || counter++ > 10) break;
+        if(norm(incre_local_deformation) < 1E-12 || ++counter > 10) break;
     }
 
     stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);

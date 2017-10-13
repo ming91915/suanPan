@@ -3,8 +3,8 @@
 node 1 0 0
 node 2 1 0
 
-material Elastic1D 1 100
-# material MPF 1 100 .2 .3
+# material Elastic1D 1 100
+material MPF 1 100 .2 .1
 
 section Rectangle 1 12 1 1
 

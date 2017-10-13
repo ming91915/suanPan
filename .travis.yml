@@ -42,6 +42,7 @@ after_success:
   - ./suanPan -f ../Example/SHALLOW.ARC.supan > /dev/null
   - ./suanPan -f ../Example/TRUSS2D.supan > /dev/null
   - ./suanPan -f ../Example/B21.supan > /dev/null
+  - ./suanPan -f ../Example/F21.supan > /dev/null
   - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
   - bash <(curl -s https://codecov.io/bash)
 notifications:
