@@ -68,9 +68,17 @@ int F21::update_status() {
     vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
 
     auto counter = 0;
+    bool converged;
 
     while(true) {
-        if(norm(incre_local_resistance) < 1E-10 || counter++ > 20) break;
+        if(norm(incre_local_resistance) < 1E-10) {
+            converged = true;
+            break;
+        }
+        if(counter++ > 20) {
+            converged = false;
+            break;
+        }
         trial_local_resistance += incre_local_resistance;
         trial_local_flexibility.zeros();
         incre_local_deformation.zeros();
@@ -87,7 +95,7 @@ int F21::update_status() {
         incre_local_resistance = -solve(trial_local_flexibility, incre_local_deformation);
     }
 
-    stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
+    stiffness = trans_mat.t() * solve(converged ? trial_local_flexibility : initial_local_flexibility, trans_mat);
     resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;
@@ -132,4 +140,4 @@ int F21::reset_status() {
     return code;
 }
 
-void F21::print() {}
+void F21::print() { suanpan_info("A Forced-Based Beam Element.\nhttps://doi.org/10.1016/0045-7949(95)00103-N\n"); }
