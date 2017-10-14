@@ -39,7 +39,7 @@ int Load::initialize(const shared_ptr<DomainBase>& D) {
         auto t_tag = unsigned(D->get_amplitude()) + 1;
         while(D->find_amplitude(t_tag)) t_tag++;
         magnitude = make_shared<Ramp>(t_tag);
-        D->insert(magnitude);
+        // D->insert(magnitude);
     }
 
     auto start_time = 0.;

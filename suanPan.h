@@ -110,6 +110,10 @@
 #define SUANPAN_EXIT 1
 #endif
 
+#ifndef SUANPAN_MT
+#define SUANPAN_MT
+#endif
+
 #ifdef _OPENMP
 #ifndef SUANPAN_MT
 #define SUANPAN_MT
