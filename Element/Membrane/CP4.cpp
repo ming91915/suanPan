@@ -142,7 +142,7 @@ int CP4::update_status() {
             sigma(0, 1) = sigma(1, 0) = sigma(2, 3) = sigma(3, 2) = t_stress(2);
             geometry += t_factor * I.BG.t() * sigma * I.BG;
             stiffness += t_factor * I.BN.t() * t_stiff * I.BN;
-            resistance += I.BN.t() * t_stress * t_factor;
+            resistance += t_factor * I.BN.t() * t_stress;
         } else {
             const auto& NX1 = I.pn_pxy(0, 0);
             const auto& NY1 = I.pn_pxy(1, 0);
