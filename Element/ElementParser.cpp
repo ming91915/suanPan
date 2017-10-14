@@ -16,7 +16,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include <Element/Element>
-#include <Section/Section.h>
 #include <Toolbox/utility.h>
 
 using std::vector;

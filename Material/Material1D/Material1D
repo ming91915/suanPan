@@ -5,3 +5,4 @@
 #include "Material1D.h"
 #include "MPF.h"
 #include "RambergOsgood.h"
+#include "Tester1D.h"

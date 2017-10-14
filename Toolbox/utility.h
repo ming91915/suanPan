@@ -49,8 +49,4 @@ bool is_false(const char*);
 bool is_true(const string&);
 bool is_false(const string&);
 
-#include <Material/Material.h>
-
-mat material_tester(const shared_ptr<Material>&, const std::vector<unsigned>&, const double);
-
 #endif
