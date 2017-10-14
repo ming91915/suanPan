@@ -59,9 +59,12 @@ int Circle::update_trial_status(const vec& t_strain) {
     stiffness.zeros();
     resistance.zeros();
 
+    vec fibre_strain;
+
     auto code = 0;
     for(const auto& I : int_pt) {
-        code += I.s_material->update_trial_status(vec{ t_strain(0) - t_strain(1) * I.coor });
+        fibre_strain = t_strain(0) - t_strain(1) * I.coor;
+        code += I.s_material->update_trial_status(fibre_strain);
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
         stiffness(0, 0) += tmp_a;
         stiffness(1, 1) += tmp_a * I.coor * I.coor;
