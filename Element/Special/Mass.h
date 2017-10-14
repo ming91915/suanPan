@@ -38,8 +38,8 @@
  * @{
  */
 
-#ifndef ELEMENTTEMPLATE_H
-#define ELEMENTTEMPLATE_H
+#ifndef MASS_H
+#define MASS_H
 
 #include <Element/Element.h>
 

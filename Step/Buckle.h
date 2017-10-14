@@ -28,7 +28,7 @@
 #ifndef BUCKLE_H
 #define BUCKLE_H
 
-#include "Step.h"
+#include <Step/Step.h>
 
 class Buckle : public Step {
 public:

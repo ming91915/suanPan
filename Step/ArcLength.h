@@ -31,7 +31,7 @@
 #ifndef ARCLENGTH_H
 #define ARCLENGTH_H
 
-#include "Step.h"
+#include <Step/Step.h>
 
 class ArcLength : public Step {
     unsigned node, dof;

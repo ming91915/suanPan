@@ -31,7 +31,7 @@
 #ifndef CLOAD_H
 #define CLOAD_H
 
-#include "Load.h"
+#include <Load/Load.h>
 
 class CLoad : public Load {
 public:

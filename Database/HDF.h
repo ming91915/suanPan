@@ -18,7 +18,7 @@
 #ifndef HDF_H
 #define HDF_H
 
-#include "Database.h"
+#include <Database/Database.h>
 
 class HDF : public Database {
     hid_t file_id = 0;

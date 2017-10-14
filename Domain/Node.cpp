@@ -17,6 +17,7 @@
 
 #include "Node.h"
 #include <Domain/DomainBase.h>
+#include <Recorder/OutputList.h>
 
 /**
  * \brief Empty constructor.

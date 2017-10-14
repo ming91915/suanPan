@@ -29,22 +29,22 @@
 #ifndef TAG_H
 #define TAG_H
 
-//! Will be used in derived classes.
-#include <suanPan.h>
+// ReSharper disable once CppUnusedIncludeDirective
+#include <suanPan.h> // for derived classes
 
 class Tag {
     bool alive = true; /**< Status flag. */
 
-    unsigned unique_tag = 0; /**< The unique tag of the object. */
-    unsigned class_tag = 0;  /**< The tag of the class type. */
+    const unsigned unique_tag; /**< The unique tag of the object. */
+    const unsigned class_tag;  /**< The tag of the class type. */
 public:
     explicit Tag(const unsigned& = 0, const unsigned& = 0);
     virtual ~Tag();
 
-    void set_tag(const unsigned&);
+    void set_tag(const unsigned&) const;
     const unsigned& get_tag() const;
 
-    void set_class_tag(const unsigned&);
+    void set_class_tag(const unsigned&) const;
     const unsigned& get_class_tag() const;
 
     void enable();

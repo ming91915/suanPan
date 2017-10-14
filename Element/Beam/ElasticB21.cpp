@@ -1,4 +1,6 @@
 #include "ElasticB21.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
 #include <Material/Material1D/Material1D.h>
 #include <Toolbox/tensorToolbox.h>
 
@@ -48,30 +50,18 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
     // mass
     const auto density = b_material->get_parameter(ParameterType::DENSITY);
     if(density != 0.) {
-        mass(1, 1) = 156.;
-        mass(4, 4) = 156.;
-        mass(1, 4) = 54.;
-        mass(4, 1) = 54.;
+        mass(1, 1) = mass(4, 4) = 156.;
+        mass(1, 4) = mass(4, 1) = 54.;
 
-        mass(1, 2) = 22. * length;
-        mass(2, 1) = mass(1, 2);
-        mass(4, 5) = -mass(1, 2);
-        mass(5, 4) = -mass(1, 2);
+        mass(4, 5) = mass(5, 4) = -(mass(2, 1) = mass(1, 2) = 22. * length);
 
-        mass(1, 5) = -13. * length;
-        mass(5, 1) = mass(1, 5);
-        mass(2, 4) = -mass(1, 5);
-        mass(4, 2) = -mass(1, 5);
+        mass(2, 4) = mass(4, 2) = -(mass(5, 1) = mass(1, 5) = -13. * length);
 
-        mass(2, 2) = 4. * length * length;
-        mass(5, 5) = mass(2, 2);
-        mass(2, 5) = -.75 * mass(2, 2);
-        mass(5, 2) = mass(2, 5);
+        mass(5, 5) = mass(2, 2) = 4. * length * length;
+        mass(5, 2) = mass(2, 5) = -.75 * mass(2, 2);
 
-        mass(0, 0) = 280.;
-        mass(3, 3) = mass(0, 0);
-        mass(0, 3) = 140.;
-        mass(3, 0) = mass(0, 3);
+        mass(3, 3) = mass(0, 0) = 280.;
+        mass(3, 0) = mass(0, 3) = 140.;
 
         mass *= density * area * length / 420.;
 

@@ -28,8 +28,15 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
-#include <Domain/DomainBase.h>
-#include <Domain/Node.h>
+#include <Domain/Tag.h>
+
+class Node;
+class DomainBase;
+enum class OutputList;
+class Material;
+class Section;
+
+using std::vector;
 
 class Element : public Tag {
     const unsigned num_node; /**< number of nodes */

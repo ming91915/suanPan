@@ -33,7 +33,7 @@
 #ifndef STATIC_H
 #define STATIC_H
 
-#include "Step.h"
+#include <Step/Step.h>
 
 class Static : public Step {
 public:

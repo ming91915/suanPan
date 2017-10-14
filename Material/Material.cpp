@@ -19,8 +19,8 @@
 
 Material::Material(const unsigned& T, const unsigned& CT, const MaterialType& MT, const double& D)
     : Tag(T, CT)
-    , material_type(MT)
-    , density(D) {
+    , density(D)
+    , material_type(MT) {
     suanpan_debug("Material %u ctor() called.\n", T);
 }
 

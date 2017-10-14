@@ -42,7 +42,7 @@ class GQ12 : public Element {
         double weight, jacob_det;
         unique_ptr<Material> m_material;
         mat strain_mat;
-        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M);
+        IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
     static const unsigned m_node;

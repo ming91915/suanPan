@@ -17,7 +17,7 @@
 
 #include "tensorToolbox.h"
 
-mat unitDevTensor4() {
+mat tensor::unitDevTensor4() {
     mat T = zeros(6, 6);
 
     for(auto I = 3; I < 6; ++I) T(I, I) = .5;
@@ -28,15 +28,15 @@ mat unitDevTensor4() {
     return T;
 }
 
-double tr(const vec& S) {
+double tensor::tr(const vec& S) {
     auto T = 0.;
     for(auto I = 0; I < 3; ++I) T += S(I);
     return T;
 }
 
-double mean(const vec& S) { return tr(S) / 3.; }
+double tensor::mean(const vec& S) { return tr(S) / 3.; }
 
-vec dev(const vec& S) {
+vec tensor::dev(const vec& S) {
     auto D = S;
     const auto M = mean(S);
     for(auto I = 0; I < 3; ++I) D(I) -= M;

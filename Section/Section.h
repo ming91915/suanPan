@@ -26,7 +26,12 @@
 #ifndef SECTION_H
 #define SECTION_H
 
-#include <Domain/DomainBase.h>
+#include <Domain/Tag.h>
+
+class DomainBase;
+class Material;
+
+using std::vector;
 
 class Section : public Tag {
 protected:

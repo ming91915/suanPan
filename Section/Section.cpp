@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Section.h"
+#include <Domain/DomainBase.h>
 
 Section::Section(const unsigned& T, const unsigned& CT, const unsigned& MT)
     : Tag(T, CT)

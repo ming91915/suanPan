@@ -33,13 +33,13 @@ bool is_true(const string& S) { return is_true(S.c_str()); }
 
 bool is_false(const string& S) { return is_false(S.c_str()); }
 
-mat material_tester(const shared_ptr<Material>& obj, const vector<unsigned>& idx, const double incre) {
+mat material_tester(const shared_ptr<Material>& obj, const std::vector<unsigned>& idx, const double incre) {
     if(!obj->initialized) {
         obj->Material::initialize(nullptr);
         obj->initialize(nullptr);
     }
 
-    vector<double> A{ 0 }, B{ 0 };
+    std::vector<double> A{ 0 }, B{ 0 };
 
     vec E{ incre };
     for(const auto& I : idx) {

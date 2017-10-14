@@ -28,7 +28,7 @@
 #ifndef DYNAMIC_H
 #define DYNAMIC_H
 
-#include "Step.h"
+#include <Step/Step.h>
 
 class Dynamic : public Step {
 public:

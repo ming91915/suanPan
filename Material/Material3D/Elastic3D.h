@@ -16,12 +16,9 @@
  ******************************************************************************/
 /**
  * @class Elastic3D
- * @brief The Elastic3D class defines a isotropic elastic material for
- * 3-D problems.
+ * @brief The Elastic3D class defines a isotropic elastic material for 3-D problems.
  *
- * The Young's modulus is stored in `elastic_modulus`. The Poisson's
- * ratio is stored in
- * `poissons_ratio`.
+ * The Young's modulus is stored in `elastic_modulus`. The Poisson's ratio is stored in `poissons_ratio`.
  *
  * @author T
  * @date 30/07/2017

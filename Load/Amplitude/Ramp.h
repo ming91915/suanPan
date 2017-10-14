@@ -32,7 +32,7 @@
 #ifndef RAMP_H
 #define RAMP_H
 
-#include "Amplitude.h"
+#include <Load/Amplitude/Amplitude.h>
 
 class Ramp : public Amplitude {
 public:

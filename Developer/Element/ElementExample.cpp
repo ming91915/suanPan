@@ -16,6 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "ElementExample.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
 #include <Material/Material.h>
 
 SUANPAN_EXPORT void new_elementexample(unique_ptr<Element>& return_obj, std::istringstream& command) {

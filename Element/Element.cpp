@@ -16,6 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Element.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
 #include <Section/Section.h>
 
 Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, const unsigned& ND, const uvec& NT, const uvec& MT, const bool& F)

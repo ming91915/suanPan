@@ -27,8 +27,8 @@
 #ifndef RECORDER_H
 #define RECORDER_H
 
-#include "OutputList.h"
 #include <Domain/Tag.h>
+#include <Recorder/OutputList.h>
 
 class DomainBase;
 

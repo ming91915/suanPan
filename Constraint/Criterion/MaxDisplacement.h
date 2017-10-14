@@ -31,7 +31,7 @@
 #ifndef MAXDISPLACEMENT_H
 #define MAXDISPLACEMENT_H
 
-#include "Criterion.h"
+#include <Constraint/Criterion/Criterion.h>
 
 class MaxDisplacement : public Criterion {
     unsigned node, dof;

@@ -26,8 +26,8 @@
  * @{
  */
 
-#ifndef MaterialExample_H
-#define MaterialExample_H
+#ifndef MATERIALEXAMPLE_H
+#define MATERIALEXAMPLE_H
 
 #include <Material/Material.h>
 

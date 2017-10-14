@@ -20,11 +20,13 @@
 
 #include <suanPan.h>
 
+namespace tensor {
 mat unitDevTensor4();
 
 double tr(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
+}
 
 namespace transform {
 mat form_trans(const double);

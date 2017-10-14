@@ -28,7 +28,7 @@
 #ifndef FREQUENCE_H
 #define FREQUENCE_H
 
-#include "Step.h"
+#include <Step/Step.h>
 
 class Frequence : public Step {
     unsigned eigen_number;

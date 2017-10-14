@@ -33,7 +33,7 @@
 #ifndef CONVERGER_H
 #define CONVERGER_H
 
-#include "Domain/Tag.h"
+#include <Domain/Tag.h>
 
 class DomainBase;
 

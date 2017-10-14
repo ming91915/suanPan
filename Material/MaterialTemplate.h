@@ -31,7 +31,7 @@
 #ifndef MaterialTemplate_H
 #define MaterialTemplate_H
 
-#include "Material.h"
+#include <Material/Material.h>
 
 class MaterialTemplate : public Material {
 public:

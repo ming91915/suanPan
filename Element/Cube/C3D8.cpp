@@ -16,7 +16,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "C3D8.h"
-#include <Material/Material.h>
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
+#include <Material/Material3D/Material3D.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 

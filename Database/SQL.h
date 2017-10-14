@@ -18,7 +18,7 @@
 #ifndef SQL_H
 #define SQL_H
 
-#include "Database.h"
+#include <Database/Database.h>
 
 class SQL : public Database {
 public:

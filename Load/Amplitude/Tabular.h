@@ -29,7 +29,7 @@
 #ifndef TABULAR_H
 #define TABULAR_H
 
-#include "Amplitude.h"
+#include <Load/Amplitude/Amplitude.h>
 
 class Tabular : public Amplitude {
     vec time;      /**< time */

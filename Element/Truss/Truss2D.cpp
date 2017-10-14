@@ -16,6 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Truss2D.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
 #include <Material/Material1D/Material1D.h>
 
 const unsigned Truss2D::t_node = 2;

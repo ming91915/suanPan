@@ -31,7 +31,7 @@
 #ifndef TIE_H
 #define TIE_H
 
-#include "MPC.h"
+#include <Constraint/MPC.h>
 
 class Tie final : public MPC {
     unsigned node_i;

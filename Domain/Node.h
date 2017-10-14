@@ -32,11 +32,11 @@
 #define NODE_H
 
 #include <Domain/Tag.h>
-#include <Recorder/OutputList.h>
 
 using std::vector;
 
 class DomainBase;
+enum class OutputList;
 
 class Node final : public Tag {
     bool initialized = false;

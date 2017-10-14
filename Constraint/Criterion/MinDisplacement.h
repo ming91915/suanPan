@@ -31,7 +31,7 @@
 #ifndef MINDISPLACEMENT_H
 #define MINDISPLACEMENT_H
 
-#include "Criterion.h"
+#include <Constraint/Criterion/Criterion.h>
 
 class MinDisplacement : public Criterion {
     unsigned node, dof;

@@ -29,7 +29,7 @@
 #ifndef MPC_H
 #define MPC_H
 
-#include "Constraint.h"
+#include <Constraint/Constraint.h>
 
 class MPC : public Constraint {
 public:

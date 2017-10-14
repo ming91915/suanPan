@@ -28,7 +28,7 @@
 #ifndef NEWTON_H
 #define NEWTON_H
 
-#include "Solver.h"
+#include <Solver/Solver.h>
 
 class Newton : public Solver {
 public:

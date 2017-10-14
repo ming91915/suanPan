@@ -20,7 +20,7 @@
 
 const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>({ 1, 1, 1, 2, 2, 2 }));
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);
-const mat Bilinear3D::unit_dev_tensor = unitDevTensor4();
+const mat Bilinear3D::unit_dev_tensor = tensor::unitDevTensor4();
 
 Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const double& R)
     : Material3D(T, MT_BILINEAR3D, R)
@@ -70,7 +70,7 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
     trial_plastic_strain = current_plastic_strain;
     trial_stiffness = initial_stiffness;
 
-    const vec shifted_stress = dev(trial_stress) - current_back_stress;
+    const vec shifted_stress = tensor::dev(trial_stress) - current_back_stress;
 
     const auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
 

@@ -38,7 +38,7 @@
 #ifndef BFGS_H
 #define BFGS_H
 
-#include "Solver.h"
+#include <Solver/Solver.h>
 #include <deque>
 
 using std::deque;

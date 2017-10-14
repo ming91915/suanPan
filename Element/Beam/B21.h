@@ -30,7 +30,6 @@
 #define B21_H
 
 #include <Element/Element.h>
-#include <Section/Section.h>
 
 class B21 final : public Element {
     static const unsigned b_node, b_dof;

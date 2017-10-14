@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Concrete2D.h"
+#include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
 Concrete2D::Concrete2D(const unsigned& T, const unsigned& M, const double& P, const PlaneType& PT, const double& R)

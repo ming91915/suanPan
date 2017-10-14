@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Rectangle.h"
+#include <Domain/DomainBase.h>
 #include <Material/Material1D/Material1D.h>
 #include <Toolbox/IntegrationPlan.h>
 
@@ -40,8 +41,7 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::GAUSS);
 
-    int_pt.clear();
-    int_pt.reserve(int_pt_num);
+    int_pt.clear(), int_pt.reserve(int_pt_num);
     initial_stiffness.zeros(2, 2);
     for(unsigned I = 0; I < int_pt_num; ++I) {
         int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());

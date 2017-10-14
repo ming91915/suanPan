@@ -16,7 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Proto02.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
 #include <Material/Material2D/Material2D.h>
+#include <Recorder/OutputList.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>

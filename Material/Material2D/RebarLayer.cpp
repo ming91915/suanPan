@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "RebarLayer.h"
+#include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
 RebarLayer::RebarLayer(const unsigned& T, const unsigned& XT, const unsigned& YT, const double& RX, const double& RY, const double& A, const double& D)

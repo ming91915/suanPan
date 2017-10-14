@@ -26,11 +26,11 @@ MaterialTemplate::MaterialTemplate(const unsigned& T)
 
 void MaterialTemplate::initialize(const shared_ptr<DomainBase>&) {}
 
-double MaterialTemplate::get_parameter(const ParameterType& T) const { return 0.; }
+double MaterialTemplate::get_parameter(const ParameterType&) const { return 0.; }
 
 unique_ptr<Material> MaterialTemplate::get_copy() { return make_unique<MaterialTemplate>(*this); }
 
-int MaterialTemplate::update_trial_status(const vec& t_strain) { return 0; }
+int MaterialTemplate::update_trial_status(const vec&) { return 0; }
 
 int MaterialTemplate::clear_status() { return 0; }
 

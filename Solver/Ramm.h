@@ -26,7 +26,7 @@
 #ifndef RAMM_H
 #define RAMM_H
 
-#include "Solver.h"
+#include <Solver/Solver.h>
 
 class Ramm : public Solver {
     double arc_length = 1E-1;

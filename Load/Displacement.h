@@ -31,7 +31,7 @@
 #ifndef DISPLACEMENT_H
 #define DISPLACEMENT_H
 
-#include "Load.h"
+#include <Load/Load.h>
 
 class Displacement : public Load {
 public:

@@ -1,4 +1,7 @@
 #include "B21.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Node.h>
+#include <Section/Section.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>

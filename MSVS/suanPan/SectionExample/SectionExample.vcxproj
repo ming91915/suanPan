@@ -151,7 +151,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Developer\Section\SectionExample.cpp" />
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
-    <ClCompile Include="..\..\..\Material\Material.cpp" />
     <ClCompile Include="..\..\..\Section\Section.cpp" />
     <ClCompile Include="..\..\..\Toolbox\debug.cpp" />
   </ItemGroup>

@@ -31,7 +31,7 @@
 #ifndef ACCELERATION_H
 #define ACCELERATION_H
 
-#include "Load.h"
+#include <Load/Load.h>
 
 class Acceleration : public Load {
 public:
