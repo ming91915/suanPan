@@ -1,4 +1,5 @@
 #include "ElasticB21.h"
+#include <Material/Material1D/Material1D.h>
 #include <Toolbox/tensorToolbox.h>
 
 const unsigned ElasticB21::b_node = 2;
@@ -78,14 +79,8 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
         trans(5, 5) = 1.;
         trans(2, 2) = 1.;
 
-        trans(0, 0) = direction_cosine(0);
-        trans(1, 1) = direction_cosine(0);
-        trans(3, 3) = direction_cosine(0);
-        trans(4, 4) = direction_cosine(0);
-        trans(0, 1) = direction_cosine(1);
-        trans(3, 4) = direction_cosine(1);
-        trans(1, 0) = -direction_cosine(1);
-        trans(4, 3) = -direction_cosine(1);
+        trans(0, 0) = trans(1, 1) = trans(3, 3) = trans(4, 4) = direction_cosine(0);
+        trans(1, 0) = trans(4, 3) = -(trans(0, 1) = trans(3, 4) = direction_cosine(1));
 
         mass = trans.t() * mass * trans;
     }
@@ -144,14 +139,8 @@ int ElasticB21::update_status() {
 
     if(nlgeom) {
         vec R(6, fill::zeros), Z(6, fill::zeros);
-        R(0) = -direction_cosine(0);
-        R(1) = -direction_cosine(1);
-        R(3) = direction_cosine(0);
-        R(4) = direction_cosine(1);
-        Z(0) = direction_cosine(1);
-        Z(1) = -direction_cosine(0);
-        Z(3) = -direction_cosine(1);
-        Z(4) = direction_cosine(0);
+        R(0) = Z(1) = -(R(3) = Z(4) = direction_cosine(0));
+        R(1) = Z(3) = -(R(4) = Z(0) = direction_cosine(1));
 
         const mat tmp_a = R * Z.t();
 

@@ -31,13 +31,11 @@
 #include <Domain/DomainBase.h>
 
 enum class MaterialType { D0, D1, D2, D3 };
-enum class PlaneType { S, E };
+enum class PlaneType { S, E, N };
 enum class ParameterType { DENSITY, POISSONSRATIO };
 
 class Material : public Tag {
 protected:
-    const MaterialType material_type;
-
     double density = 0.; /**< density */
 
     vec current_strain;      /**< current status */
@@ -59,6 +57,8 @@ protected:
     mat trial_stiffness;   /**< stiffness matrix */
 public:
     const bool initialized = false;
+
+    const MaterialType material_type;
 
     explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D0, const double& = 0.);
 

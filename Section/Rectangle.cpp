@@ -16,7 +16,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Rectangle.h"
+#include <Material/Material1D/Material1D.h>
 #include <Toolbox/IntegrationPlan.h>
+
+Rectangle::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
+    : coor(C)
+    , weight(W)
+    , s_material(move(M)) {}
+
+Rectangle::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
+    : coor(old_obj.coor)
+    , weight(old_obj.weight)
+    , s_material(old_obj.s_material->get_copy()) {}
 
 Rectangle::Rectangle(const unsigned& T, const double& B, const double& H, const unsigned& M, const unsigned& S)
     : Section(T, ST_RECTANGLE, M)

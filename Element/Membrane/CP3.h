@@ -32,8 +32,7 @@
 #include <Element/Element.h>
 
 class CP3 final : public Element {
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof;
 
     const double thickness; /**< thickness */
 

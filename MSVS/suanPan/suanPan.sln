@@ -15,6 +15,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Material", "Material\Material.vcxproj", "{70659FC4-75F8-410A-9550-EFD0583861DB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Element", "Element\Element.vcxproj", "{1811B701-0D47-4AE8-81AC-666F1CC678C4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0F973FA2-307D-4C60-8DAC-E62348E7E10B} = {0F973FA2-307D-4C60-8DAC-E62348E7E10B}
+		{70659FC4-75F8-410A-9550-EFD0583861DB} = {70659FC4-75F8-410A-9550-EFD0583861DB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ElementExample", "ElementExample\ElementExample.vcxproj", "{3763B48A-A715-4CA6-A768-BE3E071E2081}"
 EndProject
@@ -27,6 +31,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModuleBundle", "ModuleBundle\ModuleBundle.vcxproj", "{DA37F05E-F5C7-4298-AFB6-F11B9E3D1EB8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Section", "Section\Section.vcxproj", "{0F973FA2-307D-4C60-8DAC-E62348E7E10B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70659FC4-75F8-410A-9550-EFD0583861DB} = {70659FC4-75F8-410A-9550-EFD0583861DB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SectionExample", "SectionExample\SectionExample.vcxproj", "{72658EE3-801C-4789-8310-302142BF6805}"
 EndProject

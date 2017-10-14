@@ -27,8 +27,6 @@
 #define SECTION_H
 
 #include <Domain/DomainBase.h>
-// ReSharper disable once CppUnusedIncludeDirective
-#include <Material/Material.h> // for derived class
 
 class Section : public Tag {
 protected:
@@ -38,11 +36,9 @@ protected:
     mat stiffness;         /**< stiffness matrix */
     mat initial_stiffness; /**< initial stiffness matrix */
 public:
-    explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION, const unsigned& MT = 0)
-        : Tag(T, CT)
-        , material_tag(MT) {}
+    explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION, const unsigned& MT = 0);
 
-    virtual ~Section() {}
+    virtual ~Section();
 
     virtual void initialize(const shared_ptr<DomainBase>&) = 0;
 

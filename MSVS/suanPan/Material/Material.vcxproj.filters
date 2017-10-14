@@ -5,13 +5,13 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="1D">
-      <UniqueIdentifier>{d0255a2f-49fe-4e18-ac88-2e804b10730b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="2D">
+    <Filter Include="Material2D">
       <UniqueIdentifier>{c788e7e3-f70e-4c07-8486-4a6c86010cf2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3D">
+    <Filter Include="Material1D">
+      <UniqueIdentifier>{d0255a2f-49fe-4e18-ac88-2e804b10730b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Material3D">
       <UniqueIdentifier>{af05f7dd-291f-47a1-85c8-9cdc30cf3b59}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -22,44 +22,53 @@
     <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\Concrete01.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\MPF.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\RambergOsgood.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp">
-      <Filter>2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp">
-      <Filter>3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp">
-      <Filter>3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\1D\Gap01.cpp">
-      <Filter>1D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Material\2D\Bilinear2D.cpp">
-      <Filter>2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Material\MaterialParser.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp">
-      <Filter>2D</Filter>
+    <ClCompile Include="..\..\..\Material\Material1D\Gap01.cpp">
+      <Filter>Material1D</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp">
-      <Filter>2D</Filter>
+    <ClCompile Include="..\..\..\Material\Material1D\Material1D.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\MPF.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\RambergOsgood.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\Bilinear1D.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\Concrete01.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\Elastic1D.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material3D\Bilinear3D.cpp">
+      <Filter>Material3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material3D\Elastic3D.cpp">
+      <Filter>Material3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material3D\Material3D.cpp">
+      <Filter>Material3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\Bilinear2D.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\Concrete2D.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\Elastic2D.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\Material2D.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\RebarLayer.cpp">
+      <Filter>Material2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,47 +78,56 @@
     <ClInclude Include="..\..\..\Material\Material.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\Concrete01.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\Elastic1D.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\MPF.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\2D\Elastic2D.h">
-      <Filter>2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h">
-      <Filter>3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\3D\Elastic3D.h">
-      <Filter>3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\1D\Gap01.h">
-      <Filter>1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\2D\Bilinear2D.h">
-      <Filter>2D</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Material\MaterialParser.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Material\MaterialTag.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Material\2D\Concrete2D.h">
-      <Filter>2D</Filter>
+    <ClInclude Include="..\..\..\Material\Material1D\Bilinear1D.h">
+      <Filter>Material1D</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Material\2D\RebarLayer.h">
-      <Filter>2D</Filter>
+    <ClInclude Include="..\..\..\Material\Material1D\Concrete01.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\Elastic1D.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\Gap01.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\Material1D.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\MPF.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\RambergOsgood.h">
+      <Filter>Material1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material3D\Material3D.h">
+      <Filter>Material3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material3D\Bilinear3D.h">
+      <Filter>Material3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material3D\Elastic3D.h">
+      <Filter>Material3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\Bilinear2D.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\Concrete2D.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\Elastic2D.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\Material2D.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\RebarLayer.h">
+      <Filter>Material2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

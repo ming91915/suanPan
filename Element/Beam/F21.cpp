@@ -6,6 +6,33 @@
 const unsigned F21::b_node = 2;
 const unsigned F21::b_dof = 3;
 
+F21::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
+    : coor(C)
+    , weight(W)
+    , b_section(move(M))
+    , B(2, 3, fill::zeros)
+    , current_section_deformation(2, fill::zeros)
+    , trial_section_deformation(2, fill::zeros)
+    , current_section_resistance(2, fill::zeros)
+    , trial_section_resistance(2, fill::zeros) {}
+
+void F21::IntegrationPoint::commit_status() {
+    current_section_deformation = trial_section_deformation;
+    current_section_resistance = trial_section_resistance;
+}
+
+void F21::IntegrationPoint::clear_status() {
+    current_section_deformation.zeros();
+    trial_section_deformation.zeros();
+    current_section_resistance.zeros();
+    trial_section_resistance.zeros();
+}
+
+void F21::IntegrationPoint::reset_status() {
+    trial_section_deformation = current_section_deformation;
+    trial_section_resistance = current_section_resistance;
+}
+
 F21::F21(const unsigned& T, const uvec& N, const unsigned& S, const unsigned& P, const bool& F)
     : Element(T, ET_F21, b_node, b_dof, N, uvec{ S }, F)
     , int_pt_num(P) {}

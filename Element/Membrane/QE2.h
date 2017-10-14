@@ -38,8 +38,9 @@ class QE2 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat P, A, B, BI;
         unique_ptr<Material> m_material;
+        mat P, A, B, BI;
+        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M);
     };
 
     static const unsigned m_node, m_dof;
@@ -48,7 +49,7 @@ class QE2 : public Element {
 
     const double thickness;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    vector<IntegrationPoint> int_pt;
 
     mat t_factor; // temporaty factor matrix used to recover stress and strain
 

@@ -467,7 +467,7 @@ void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
         return;
     }
 
-    unsigned int_pt;
+    unsigned int_pt = 6;
     if(!get_input(command, int_pt)) {
         suanpan_debug("new_f21() needs a valid number of integration points.\n");
         return;

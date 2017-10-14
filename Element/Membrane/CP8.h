@@ -37,12 +37,7 @@ class CP8 final : public Element {
         double weight, jacob_det;
         unique_ptr<Material> m_material;
         mat pn_pxy;
-        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
-            : coor(C)
-            , weight(W)
-            , jacob_det(J)
-            , m_material(move(M))
-            , pn_pxy(PNPXY) {}
+        IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&, const mat&);
     };
 
     static const unsigned m_node;

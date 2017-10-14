@@ -1,6 +1,6 @@
-#include "1D/1D"
-#include "2D/2D"
-#include "3D/3D"
+#include "Material1D/Material1D"
+#include "Material2D/Material2D"
+#include "Material3D/Material3D"
 
 #include "Material.h"
 #include "MaterialTag.h"

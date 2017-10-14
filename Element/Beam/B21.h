@@ -30,6 +30,7 @@
 #define B21_H
 
 #include <Element/Element.h>
+#include <Section/Section.h>
 
 class B21 final : public Element {
     static const unsigned b_node, b_dof;
@@ -44,11 +45,7 @@ class B21 final : public Element {
         double coor, weight;
         unique_ptr<Section> b_section;
         mat strain_mat;
-        IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
-            : coor(C)
-            , weight(W)
-            , b_section(move(M))
-            , strain_mat(2, 3, fill::zeros) {}
+        IntegrationPoint(const double, const double, unique_ptr<Section>&&);
     };
 
     vector<IntegrationPoint> int_pt;

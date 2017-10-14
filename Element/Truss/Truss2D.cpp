@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Truss2D.h"
+#include <Material/Material1D/Material1D.h>
 
 const unsigned Truss2D::t_node = 2;
 const unsigned Truss2D::t_dof = 2;
@@ -50,29 +51,12 @@ void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
     direction_cosine = pos_diff / length;
 
     const auto tmp_d = area / length * as_scalar(t_material->get_initial_stiffness());
-    const auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);
-    const auto tmp_b = tmp_d * direction_cosine(1) * direction_cosine(1);
-    const auto tmp_c = tmp_d * direction_cosine(0) * direction_cosine(1);
 
-    initial_stiffness(0, 0) = tmp_a;
-    initial_stiffness(0, 1) = tmp_c;
-    initial_stiffness(0, 2) = -tmp_a;
-    initial_stiffness(0, 3) = -tmp_c;
+    initial_stiffness(0, 2) = initial_stiffness(2, 0) = -(initial_stiffness(0, 0) = initial_stiffness(2, 2) = tmp_d * direction_cosine(0) * direction_cosine(0));
 
-    initial_stiffness(1, 0) = tmp_c;
-    initial_stiffness(1, 1) = tmp_b;
-    initial_stiffness(1, 2) = -tmp_c;
-    initial_stiffness(1, 3) = -tmp_b;
+    initial_stiffness(1, 3) = initial_stiffness(3, 1) = -(initial_stiffness(1, 1) = initial_stiffness(3, 3) = tmp_d * direction_cosine(1) * direction_cosine(1));
 
-    initial_stiffness(2, 0) = -tmp_a;
-    initial_stiffness(2, 1) = -tmp_c;
-    initial_stiffness(2, 2) = tmp_a;
-    initial_stiffness(2, 3) = tmp_c;
-
-    initial_stiffness(3, 0) = -tmp_c;
-    initial_stiffness(3, 1) = -tmp_b;
-    initial_stiffness(3, 2) = tmp_c;
-    initial_stiffness(3, 3) = tmp_b;
+    initial_stiffness(0, 3) = initial_stiffness(1, 2) = initial_stiffness(2, 1) = initial_stiffness(3, 0) = -(initial_stiffness(0, 1) = initial_stiffness(1, 0) = initial_stiffness(2, 3) = initial_stiffness(3, 2) = tmp_d * direction_cosine(0) * direction_cosine(1));
 }
 
 int Truss2D::update_status() {
@@ -108,29 +92,14 @@ int Truss2D::update_status() {
     t_material->update_trial_status(vec{ trial_strain });
 
     const auto tmp_d = new_area / new_length * as_scalar(t_material->get_stiffness());
-    const auto tmp_a = tmp_d * direction_cosine(0) * direction_cosine(0);
-    const auto tmp_b = tmp_d * direction_cosine(1) * direction_cosine(1);
-    const auto tmp_c = tmp_d * direction_cosine(0) * direction_cosine(1);
 
-    stiffness(0, 0) = tmp_a;
-    stiffness(0, 1) = tmp_c;
-    stiffness(0, 2) = -tmp_a;
-    stiffness(0, 3) = -tmp_c;
-    stiffness(1, 1) = tmp_b;
-    stiffness(1, 2) = -tmp_c;
-    stiffness(1, 3) = -tmp_b;
-    stiffness(2, 2) = tmp_a;
-    stiffness(2, 3) = tmp_c;
-    stiffness(3, 3) = tmp_b;
+    stiffness(0, 2) = -(stiffness(0, 0) = stiffness(2, 2) = tmp_d * direction_cosine(0) * direction_cosine(0));
+    stiffness(1, 3) = -(stiffness(1, 1) = stiffness(3, 3) = tmp_d * direction_cosine(1) * direction_cosine(1));
+    stiffness(0, 3) = stiffness(1, 2) = -(stiffness(0, 1) = stiffness(2, 3) = tmp_d * direction_cosine(0) * direction_cosine(1));
 
     if(nlgeom) {
-        const auto tmp_e = new_area / new_length * as_scalar(t_material->get_stress());
-        stiffness(0, 0) += tmp_e;
-        stiffness(1, 1) += tmp_e;
-        stiffness(2, 2) += tmp_e;
-        stiffness(3, 3) += tmp_e;
-        stiffness(0, 2) -= tmp_e;
-        stiffness(1, 3) -= tmp_e;
+        geometry(0, 2) = geometry(1, 3) = -(geometry(0, 0) = geometry(1, 1) = geometry(2, 2) = geometry(3, 3) = new_area / new_length * as_scalar(t_material->get_stress()));
+        stiffness += geometry;
     }
 
     for(auto I = 0; I < 3; ++I)

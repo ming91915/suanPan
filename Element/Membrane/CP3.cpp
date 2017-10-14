@@ -16,6 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CP3.h"
+#include <Material/Material2D/Material2D.h>
+#include <Toolbox/utility.h>
 
 const unsigned CP3::m_node = 3;
 const unsigned CP3::m_dof = 2;
@@ -25,7 +27,11 @@ CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH
     , thickness(TH) {}
 
 void CP3::initialize(const shared_ptr<DomainBase>& D) {
-    m_material = D->get_material(static_cast<unsigned>(material_tag(0)))->get_copy();
+    auto& material_proto = D->get_material(unsigned(material_tag(0)));
+
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
+
+    m_material = material_proto->get_copy();
 
     mat ele_coor(m_node, m_node, fill::ones);
     for(auto I = 0; I < m_node; ++I) {
@@ -47,11 +53,7 @@ void CP3::initialize(const shared_ptr<DomainBase>& D) {
             for(auto J = I; J < m_node; ++J) mass(m_dof * I, m_dof * J) += t_density * n(I) * n(J);
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
-                mass(J, I) = mass(I, J);
-                mass(I + 1, J + 1) = mass(I, J);
-                mass(J + 1, I + 1) = mass(I, J);
-            }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
     }
 }

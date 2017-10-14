@@ -40,8 +40,9 @@ class GQ12 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat strain_mat;
         unique_ptr<Material> m_material;
+        mat strain_mat;
+        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M);
     };
 
     static const unsigned m_node;
@@ -49,7 +50,7 @@ class GQ12 : public Element {
 
     const double thickness;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    vector<IntegrationPoint> int_pt;
 
 public:
     GQ12(const unsigned&, const uvec&, const unsigned&, const double& = 1.);

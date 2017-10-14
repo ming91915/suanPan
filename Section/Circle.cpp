@@ -16,7 +16,18 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Circle.h"
+#include <Material/Material1D/Material1D.h>
 #include <Toolbox/IntegrationPlan.h>
+
+Circle::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
+    : coor(C)
+    , weight(W)
+    , s_material(move(M)) {}
+
+Circle::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
+    : coor(old_obj.coor)
+    , weight(old_obj.weight)
+    , s_material(old_obj.s_material->get_copy()) {}
 
 Circle::Circle(const unsigned& T, const double& R, const unsigned& M, const unsigned& S)
     : Section(T, ST_CIRCLE, M)

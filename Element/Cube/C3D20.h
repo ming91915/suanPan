@@ -35,15 +35,16 @@ class C3D20 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat strain_mat;
         unique_ptr<Material> c_material;
+        mat strain_mat;
+        IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
     static const unsigned c_node, c_dof;
 
     const bool reduced_scheme;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    vector<IntegrationPoint> int_pt;
 
 public:
     C3D20(const unsigned&,    // tag

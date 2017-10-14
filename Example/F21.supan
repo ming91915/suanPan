@@ -4,7 +4,7 @@ node 1 0 0
 node 2 1 0
 
 # material Elastic1D 1 100
-material MPF 1 100 .2 .1
+material MPF 1 100 .2 .005
 
 section Rectangle 1 12 1 1
 
@@ -20,7 +20,7 @@ step static 1 1
 set ini_step_size .01
 set fixed_step_size true
 
-converger AbsIncreDisp 1 1E-4 10 1
+converger AbsIncreDisp 1 1E-4 10 0
 
 analyze
 

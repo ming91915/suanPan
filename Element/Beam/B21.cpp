@@ -6,6 +6,12 @@
 const unsigned B21::b_node = 2;
 const unsigned B21::b_dof = 3;
 
+B21::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
+    : coor(C)
+    , weight(W)
+    , b_section(move(M))
+    , strain_mat(2, 3, fill::zeros) {}
+
 B21::B21(const unsigned& T, const uvec& N, const unsigned& S, const unsigned& P, const bool& F)
     : Element(T, ET_B21, b_node, b_dof, N, uvec{ S }, F)
     , int_pt_num(P) {}

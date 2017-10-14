@@ -16,13 +16,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "QE2.h"
+#include <Material/Material2D/Material2D.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>
+#include <Toolbox/utility.h>
 
 const unsigned QE2::m_node = 4;
 const unsigned QE2::m_dof = 2;
 mat QE2::mapping;
+
+QE2::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M)
+    : coor(C)
+    , weight(W)
+    , jacob_det(J)
+    , m_material(move(M))
+    , B(3, m_node * m_dof, fill::zeros)
+    , BI(3, 2, fill::zeros) {}
 
 QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     : Element(T, ET_QE2, m_node, m_dof, N, uvec{ M })
@@ -33,29 +43,7 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
         mapping.fill(.25);
-        mapping(1, 0) = -.25;
-        mapping(1, 3) = -.25;
-        mapping(2, 0) = -.25;
-        mapping(2, 1) = -.25;
-        mapping(3, 1) = -.25;
-        mapping(3, 3) = -.25;
-    }
-
-    // MATERIAL MODEL PROTOTYPE
-    const auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
-
-    // INITIAL FLEXIBILITY
-    auto& ini_stiffness = material_proto->get_initial_stiffness();
-
-    // INTEGRATION POINTS INITIALIZATION
-    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
-    int_pt.clear();
-    for(unsigned I = 0; I < plan.n_rows; ++I) {
-        int_pt.push_back(make_unique<IntegrationPoint>());
-        int_pt[I]->coor.zeros(2);
-        for(unsigned J = 0; J < 2; ++J) int_pt[I]->coor(J) = plan(I, J);
-        int_pt[I]->weight = plan(I, 2);
-        int_pt[I]->m_material = material_proto->get_copy();
+        mapping(1, 0) = mapping(1, 3) = mapping(2, 0) = mapping(2, 1) = mapping(3, 1) = mapping(3, 3) = -.25;
     }
 
     // ELEMENT COORDINATES
@@ -67,64 +55,64 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
 
     t_factor = trans(mapping * ele_coor);
 
+    // MATERIAL MODEL PROTOTYPE
+    auto& material_proto = D->get_material(unsigned(material_tag(0)));
+
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
+
+    // INITIAL FLEXIBILITY
+    auto& ini_stiffness = material_proto->get_initial_stiffness();
+
+    // INTEGRATION POINTS INITIALIZATION
+    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
+
     vec disp_mode(4, fill::zeros);
 
-    mat H(7, 7, fill::zeros);
-    mat L(7, 8, fill::zeros);
-    mat LI(7, 2, fill::zeros);
-    for(const auto& I : int_pt) {
-        const auto pn = shape::quad(I->coor, 1);
+    mat H(7, 7, fill::zeros), L(7, 8, fill::zeros), LI(7, 2, fill::zeros);
 
+    int_pt.clear(), int_pt.reserve(plan.n_rows);
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
+        const vec t_vec{ plan(I, 0), plan(I, 1) };
+        const auto pn = shape::quad(t_vec, 1);
         const mat jacob = pn * ele_coor;
+        int_pt.emplace_back(t_vec, plan(I, 2), det(jacob), material_proto->get_copy());
 
-        I->jacob_det = det(jacob);
+        disp_mode(1) = int_pt[I].coor(0);
+        disp_mode(2) = int_pt[I].coor(1);
+        disp_mode(3) = int_pt[I].coor(0) * int_pt[I].coor(1);
 
-        disp_mode(1) = I->coor(0);
-        disp_mode(2) = I->coor(1);
-        disp_mode(3) = I->coor(0) * I->coor(1);
+        int_pt[I].P = shape::stress7(t_factor * disp_mode);
 
-        I->P = shape::stress7(t_factor * disp_mode);
+        int_pt[I].A = solve(ini_stiffness, int_pt[I].P);
 
-        I->A = solve(ini_stiffness, I->P);
-
-        I->B = zeros(3, m_node * m_dof);
         const mat pn_pxy = solve(jacob, pn);
         for(unsigned K = 0; K < m_node; ++K) {
-            I->B(2, m_dof * K + 1) = pn_pxy(0, K);
-            I->B(2, m_dof * K) = pn_pxy(1, K);
-            I->B(1, m_dof * K + 1) = pn_pxy(1, K);
-            I->B(0, m_dof * K) = pn_pxy(0, K);
+            int_pt[I].B(0, m_dof * K) = int_pt[I].B(2, m_dof * K + 1) = pn_pxy(0, K);
+            int_pt[I].B(2, m_dof * K) = int_pt[I].B(1, m_dof * K + 1) = pn_pxy(1, K);
         }
 
-        I->BI = zeros(3, 2);
-        const vec tmp_vec = I->coor / I->jacob_det;
-        I->BI(0, 0) = -t_factor(1, 2) * tmp_vec(0) - t_factor(1, 1) * tmp_vec(1);
-        I->BI(1, 1) = t_factor(0, 2) * tmp_vec(0) + t_factor(0, 1) * tmp_vec(1);
-        I->BI(2, 0) = I->BI(1, 1);
-        I->BI(2, 1) = I->BI(0, 0);
+        const vec tmp_vec = int_pt[I].coor / int_pt[I].jacob_det;
+        int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = -t_factor(1, 2) * tmp_vec(0) - t_factor(1, 1) * tmp_vec(1);
+        int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_factor(0, 2) * tmp_vec(0) + t_factor(0, 1) * tmp_vec(1);
 
-        const mat tmp_mat = I->P.t() * I->jacob_det * I->weight * thickness;
-        H += tmp_mat * I->A;
-        L += tmp_mat * I->B;
-        LI += tmp_mat * I->BI;
+        const mat tmp_mat = int_pt[I].P.t() * int_pt[I].jacob_det * int_pt[I].weight * thickness;
+        H += tmp_mat * int_pt[I].A;
+        L += tmp_mat * int_pt[I].B;
+        LI += tmp_mat * int_pt[I].BI;
     }
 
     mass.zeros();
     const auto tmp_density = material_proto->get_parameter() * thickness;
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
-            const auto n_int = shape::quad(I->coor, 0);
-            const auto tmp_a = tmp_density * I->jacob_det * I->weight;
+            const auto n_int = shape::quad(I.coor, 0);
+            const auto tmp_a = tmp_density * I.jacob_det * I.weight;
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
-                mass(J, I) = mass(I, J);
-                mass(I + 1, J + 1) = mass(I, J);
-                mass(J + 1, I + 1) = mass(I, J);
-            }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
     }
 
@@ -179,12 +167,12 @@ int QE2::update_status() {
     vec FI(2, fill::zeros);
     auto code = 0;
     for(const auto& t_pt : int_pt) {
-        code += t_pt->m_material->update_trial_status(t_pt->A * trial_alpha);
-        const auto t_factor = t_pt->jacob_det * t_pt->weight * thickness;
-        const vec t_vector = t_pt->P * trial_beta * t_factor;
-        trial_ht += t_pt->A.t() * t_pt->m_material->get_stiffness() * t_pt->A * t_factor; // eq. 56
-        resistance += t_pt->B.t() * t_vector;                                             // eq. 54
-        FI += t_pt->BI.t() * t_vector;                                                    // eq. 54
+        code += t_pt.m_material->update_trial_status(t_pt.A * trial_alpha);
+        const auto t_factor = t_pt.jacob_det * t_pt.weight * thickness;
+        const vec t_vector = t_pt.P * trial_beta * t_factor;
+        trial_ht += t_pt.A.t() * t_pt.m_material->get_stiffness() * t_pt.A * t_factor; // eq. 56
+        resistance += t_pt.B.t() * t_vector;                                           // eq. 54
+        FI += t_pt.BI.t() * t_vector;                                                  // eq. 54
     }
 
     const mat QT = HILI.t() * trial_ht * HILI;                   // eq. 60
@@ -210,7 +198,7 @@ int QE2::commit_status() {
     current_ht = trial_ht;
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commit_status();
+    for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
@@ -235,7 +223,7 @@ int QE2::clear_status() {
     current_disp.zeros();
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clear_status();
+    for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
@@ -256,7 +244,7 @@ int QE2::reset_status() {
     }
 
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->reset_status();
+    for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;
 }
 
@@ -264,10 +252,10 @@ vector<vec> QE2::record(const OutputList& T) {
     vector<vec> data;
     switch(T) {
     case OutputList::E:
-        for(const auto& I : int_pt) data.push_back(I->A * current_alpha);
+        for(const auto& I : int_pt) data.push_back(I.A * current_alpha);
         break;
     case OutputList::S:
-        for(const auto& I : int_pt) data.push_back(I->P * current_beta);
+        for(const auto& I : int_pt) data.push_back(I.P * current_beta);
         break;
     default:
         break;
@@ -281,14 +269,14 @@ void QE2::print() {
     suanpan_info("Material model response:\n");
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);
-        int_pt[I]->m_material->print();
+        int_pt[I].m_material->print();
     }
     suanpan_info("Element model response:\n");
     for(auto I = 0; I < int_pt.size(); ++I) {
         suanpan_info("Integration Point %u:\n", I + 1);
         suanpan_info("Strain:\n");
-        (int_pt[I]->A * current_alpha).t().print();
+        (int_pt[I].A * current_alpha).t().print();
         suanpan_info("Stress:\n");
-        (int_pt[I]->P * current_beta).t().print();
+        (int_pt[I].P * current_beta).t().print();
     }
 }

@@ -37,14 +37,8 @@ class Rectangle : public Section {
     struct IntegrationPoint {
         double coor, weight;
         unique_ptr<Material> s_material;
-        IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
-            : coor(C)
-            , weight(W)
-            , s_material(move(M)) {}
-        IntegrationPoint(const IntegrationPoint& old_obj)
-            : coor(old_obj.coor)
-            , weight(old_obj.weight)
-            , s_material(old_obj.s_material->get_copy()) {}
+        IntegrationPoint(const double, const double, unique_ptr<Material>&&);
+        IntegrationPoint(const IntegrationPoint&);
     };
 
     vector<IntegrationPoint> int_pt;

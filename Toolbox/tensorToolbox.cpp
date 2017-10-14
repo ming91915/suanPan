@@ -171,6 +171,12 @@ mat transform::beam::global_to_local(const double cosine, const double sine, con
     return trans_mat;
 }
 
+/**
+ * \brief a subroutine to get transformation matrix between global and local coordinate system
+ * \param direction_cosine the direction cosine consists of either two or three elements
+ * \param length the length of the member
+ * \return a matrix that transforms global quantities to local quantities with rigid body motions removed
+ */
 mat transform::beam::global_to_local(const vec& direction_cosine, const double length) {
     if(direction_cosine.n_elem == 2) return global_to_local(direction_cosine(0), direction_cosine(1), length);
     if(direction_cosine.n_elem == 3) return global_to_local(direction_cosine(0), direction_cosine(1), direction_cosine(2), length);

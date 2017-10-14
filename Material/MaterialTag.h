@@ -51,5 +51,14 @@
 #ifndef MT_CONCRETE2D
 #define MT_CONCRETE2D 1010
 #endif
+#ifndef MT_MATERIAL1D
+#define MT_MATERIAL1D 1011
+#endif
+#ifndef MT_MATERIAL2D
+#define MT_MATERIAL2D 1012
+#endif
+#ifndef MT_MATERIAL3D
+#define MT_MATERIAL3D 1013
+#endif
 
 #endif

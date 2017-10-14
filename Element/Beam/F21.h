@@ -30,6 +30,7 @@
 #define F21_H
 
 #include <Element/Element.h>
+#include <Section/Section.h>
 
 class F21 final : public Element {
     static const unsigned b_node, b_dof;
@@ -46,29 +47,10 @@ class F21 final : public Element {
         mat B;
         vec current_section_deformation, trial_section_deformation;
         vec current_section_resistance, trial_section_resistance;
-        IntegrationPoint(const double C, const double W, unique_ptr<Section>&& M)
-            : coor(C)
-            , weight(W)
-            , b_section(move(M))
-            , B(2, 3, fill::zeros)
-            , current_section_deformation(2, fill::zeros)
-            , trial_section_deformation(2, fill::zeros)
-            , current_section_resistance(2, fill::zeros)
-            , trial_section_resistance(2, fill::zeros) {}
-        void commit_status() {
-            current_section_deformation = trial_section_deformation;
-            current_section_resistance = trial_section_resistance;
-        }
-        void clear_status() {
-            current_section_deformation.zeros();
-            trial_section_deformation.zeros();
-            current_section_resistance.zeros();
-            trial_section_resistance.zeros();
-        }
-        void reset_status() {
-            trial_section_deformation = current_section_deformation;
-            trial_section_resistance = current_section_resistance;
-        }
+        IntegrationPoint(const double, const double, unique_ptr<Section>&&);
+        void commit_status();
+        void clear_status();
+        void reset_status();
     };
 
     vector<IntegrationPoint> int_pt;
@@ -83,7 +65,7 @@ public:
     F21(const unsigned&,     // tag
         const uvec&,         // node tags
         const unsigned&,     // section tags
-        const unsigned& = 3, // integration points
+        const unsigned& = 6, // integration points
         const bool& = false  // nonliear geometry switch
     );
 

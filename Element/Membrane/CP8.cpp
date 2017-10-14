@@ -16,11 +16,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CP8.h"
+#include <Material/Material2D/Material2D.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
+#include <Toolbox/utility.h>
 
 const unsigned CP8::m_node = 8;
 const unsigned CP8::m_dof = 2;
+
+CP8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
+    : coor(C)
+    , weight(W)
+    , jacob_det(J)
+    , m_material(move(M))
+    , pn_pxy(PNPXY) {}
 
 CP8::CP8(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
     : Element(T, ET_CP8, m_node, m_dof, N, uvec{ M }, F)
@@ -36,8 +45,9 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    const unsigned order = reduced_scheme ? 2 : 3;
-    const IntegrationPlan plan(2, order, IntegrationType::GAUSS);
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
+
+    const IntegrationPlan plan(2, reduced_scheme ? 2 : 3, IntegrationType::GAUSS);
 
     int_pt.clear();
     int_pt.reserve(plan.n_rows);
@@ -60,11 +70,7 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
 
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
-                mass(J, I) = mass(I, J);
-                mass(I + 1, J + 1) = mass(I, J);
-                mass(J + 1, I + 1) = mass(I, J);
-            }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
     }
 }

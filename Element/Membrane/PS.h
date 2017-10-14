@@ -30,31 +30,26 @@
 #define PS_H
 
 #include <Element/Element.h>
-#include <array>
-
-using std::array;
 
 class PS final : public Element {
     struct IntegrationPoint {
         vec coor;
-        double weight;
+        double weight, jacob_det;
         unique_ptr<Material> m_material;
         mat strain_mat, n_stress;
+        IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M);
     };
 
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof;
 
-    double thickness = 1.;
+    const double thickness;
 
-    PlaneType element_type = PlaneType::S;
+    vector<IntegrationPoint> int_pt;
 
-    array<unique_ptr<IntegrationPoint>, 4> int_pt;
-
-    mat ele_coor, inv_stiffness, tmp_a, tmp_c;
+    mat tmp_a, tmp_c;
 
 public:
-    PS(const unsigned&, const uvec&, const unsigned&, const double& = 1., const PlaneType& = PlaneType::S, const bool& = false);
+    PS(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

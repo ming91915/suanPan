@@ -16,11 +16,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CP4.h"
+#include <Material/Material2D/Material2D.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
+#include <Toolbox/utility.h>
 
 const unsigned CP4::m_node = 4;
 const unsigned CP4::m_dof = 2;
+
+CP4::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
+    : coor(C)
+    , weight(W)
+    , jacob_det(J)
+    , m_material(move(M))
+    , pn_pxy(PNPXY) {}
 
 CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
     : Element(T, ET_CP4, m_node, m_dof, N, uvec{ M }, F)
@@ -34,13 +43,13 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    const auto& material_proto = D->get_material(unsigned(material_tag(0)));
+    auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    const unsigned order = reduced_scheme ? 1 : 2;
-    const IntegrationPlan plan(2, order, IntegrationType::GAUSS);
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
 
-    int_pt.clear();
-    int_pt.reserve(plan.n_rows);
+    const IntegrationPlan plan(2, reduced_scheme ? 1 : 2, IntegrationType::GAUSS);
+
+    int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         const vec t_vec{ plan(I, 0), plan(I, 1) };
         const auto pn = shape::quad(t_vec, 1);
@@ -53,10 +62,8 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
             I.BN.zeros(3, m_node * m_dof);
             I.BG.zeros(m_dof * m_dof, m_node * m_dof);
             for(auto J = 0; J < m_node; ++J) {
-                I.BG(0, m_dof * J) = I.pn_pxy(0, J);
-                I.BG(1, m_dof * J) = I.pn_pxy(1, J);
-                I.BG(2, m_dof * J + 1) = I.pn_pxy(0, J);
-                I.BG(3, m_dof * J + 1) = I.pn_pxy(1, J);
+                I.BG(0, m_dof * J) = I.BG(2, m_dof * J + 1) = I.pn_pxy(0, J);
+                I.BG(1, m_dof * J) = I.BG(3, m_dof * J + 1) = I.pn_pxy(1, J);
             }
         }
 
@@ -71,11 +78,7 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
-                mass(J, I) = mass(I, J);
-                mass(I + 1, J + 1) = mass(I, J);
-                mass(J + 1, I + 1) = mass(I, J);
-            }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
     }
 }
@@ -132,14 +135,9 @@ int CP4::update_status() {
         auto& t_stress = I.m_material->get_stress();
 
         if(nlgeom) {
-            sigma(0, 0) = t_stress(0);
-            sigma(2, 2) = t_stress(0);
-            sigma(1, 1) = t_stress(1);
-            sigma(3, 3) = t_stress(1);
-            sigma(0, 1) = t_stress(2);
-            sigma(1, 0) = t_stress(2);
-            sigma(2, 3) = t_stress(2);
-            sigma(3, 2) = t_stress(2);
+            sigma(0, 0) = sigma(2, 2) = t_stress(0);
+            sigma(1, 1) = sigma(3, 3) = t_stress(1);
+            sigma(0, 1) = sigma(1, 0) = sigma(2, 3) = sigma(3, 2) = t_stress(2);
             geometry += t_factor * I.BG.t() * sigma * I.BG;
             stiffness += t_factor * I.BN.t() * t_stiff * I.BN;
             resistance += I.BN.t() * t_stress * t_factor;

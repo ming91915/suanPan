@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "ElementTemplate.h"
+#include <Material/Material2D/Material2D.h>
 
 const unsigned ElementTemplate::m_node = 3;
 const unsigned ElementTemplate::m_dof = 2;

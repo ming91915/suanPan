@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Element.h"
+#include <Section/Section.h>
 
 Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, const unsigned& ND, const uvec& NT, const uvec& MT, const bool& F)
     : Tag(T, CT)

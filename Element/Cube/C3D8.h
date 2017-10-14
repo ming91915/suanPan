@@ -35,15 +35,16 @@ class C3D8 final : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat pn_pxy;
         unique_ptr<Material> c_material;
+        mat pn_pxy;
+        IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&, const mat&);
     };
 
     static const unsigned c_node, c_dof;
 
     const bool reduced_scheme;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    vector<IntegrationPoint> int_pt;
 
 public:
     C3D8(const unsigned&,     // tag

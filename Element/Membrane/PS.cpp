@@ -16,43 +16,36 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "PS.h"
+#include <Material/Material2D/Material2D.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
+#include <Toolbox/utility.h>
 
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;
 
-PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const PlaneType& TY, const bool& F)
-    : Element(T, ET_PS, m_node, m_dof, N, uvec{ M }, F)
+PS::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M)
+    : coor(C)
+    , weight(W)
+    , jacob_det(J)
+    , m_material(move(M))
+    , strain_mat(3, m_node * m_dof, fill::zeros)
+    , n_stress(3, 5, fill::zeros) {}
+
+PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
+    : Element(T, ET_PS, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH)
-    , element_type(TY)
     , tmp_a(5, 5)
     , tmp_c(5, 8) {}
 
 void PS::initialize(const shared_ptr<DomainBase>& D) {
-    auto& material_proto = D->get_material(static_cast<unsigned>(material_tag(0)));
-
-    inv_stiffness = inv(material_proto->get_initial_stiffness());
-
-    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
-
-    if(element_type == PlaneType::E) thickness = 1.;
-
-    for(unsigned I = 0; I < 4; ++I) {
-        int_pt.at(I) = make_unique<IntegrationPoint>();
-        int_pt.at(I)->coor.zeros(2);
-        for(unsigned J = 0; J < 2; ++J) int_pt.at(I)->coor(J) = plan(I, J);
-        int_pt.at(I)->weight = plan(I, 2);
-        int_pt.at(I)->m_material = material_proto->get_copy();
-    }
-
-    ele_coor.zeros(m_node, m_dof);
+    mat ele_coor(m_node, m_dof);
     for(unsigned I = 0; I < m_node; ++I) {
-        auto& tmp_coor = node_ptr.at(I).lock()->get_coordinate();
+        auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
-    mat jacob_center = shape::quad(vec(2, fill::zeros), 1) * ele_coor;
+    mat jacob_center = shape::quad(vec{ 0., 0. }, 1) * ele_coor;
 
     const auto jacob_a = jacob_center(0, 0) * jacob_center(0, 0);
     const auto jacob_b = jacob_center(1, 0) * jacob_center(1, 0);
@@ -61,55 +54,56 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
     const auto jacob_e = jacob_center(0, 0) * jacob_center(0, 1);
     const auto jacob_f = jacob_center(1, 0) * jacob_center(1, 1);
 
-    mass.zeros();
-    tmp_a.zeros();
-    tmp_c.zeros();
-    for(const auto& I : int_pt) {
-        const auto pn = shape::quad(I->coor, 1);
+    auto& material_proto = D->get_material(unsigned(material_tag(0)));
+
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
+
+    const auto& t_stiffness = material_proto->get_initial_stiffness();
+
+    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
+
+    tmp_a.zeros(), tmp_c.zeros();
+    int_pt.clear(), int_pt.reserve(plan.n_rows);
+    for(unsigned I = 0; I < plan.n_rows; ++I) {
+        const vec t_vec{ plan(I, 0), plan(I, 1) };
+        const auto pn = shape::quad(t_vec, 1);
         const mat jacob = pn * ele_coor;
+        int_pt.emplace_back(t_vec, plan(I, 2), det(jacob), material_proto->get_copy());
+
         mat pn_pxy = solve(jacob, pn);
-        const auto tmp_factor = thickness * det(jacob) * I->weight;
-
-        auto n_int = shape::quad(I->coor, 0);
-
-        auto tmp_density = I->m_material->get_parameter();
-        if(tmp_density != 0.) {
-            tmp_density *= tmp_factor;
-            for(unsigned J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_density * n_int(J) * n_int(K);
-        }
-
-        I->strain_mat.zeros(3, m_node * m_dof);
         for(unsigned J = 0; J < m_node; ++J) {
-            I->strain_mat(2, 2 * J + 1) = pn_pxy(0, J);
-            I->strain_mat(2, 2 * J) = pn_pxy(1, J);
-            I->strain_mat(1, 2 * J + 1) = pn_pxy(1, J);
-            I->strain_mat(0, 2 * J) = pn_pxy(0, J);
+            int_pt[I].strain_mat(2, 2 * J + 1) = int_pt[I].strain_mat(0, 2 * J) = pn_pxy(0, J);
+            int_pt[I].strain_mat(2, 2 * J) = int_pt[I].strain_mat(1, 2 * J + 1) = pn_pxy(1, J);
         }
 
-        I->n_stress.zeros(3, 5);
-        for(auto J = 0; J < 3; ++J) I->n_stress(J, J) = 1.;
-        I->n_stress(0, 3) = jacob_a * I->coor(1);
-        I->n_stress(0, 4) = jacob_b * I->coor(0);
-        I->n_stress(1, 3) = jacob_c * I->coor(1);
-        I->n_stress(1, 4) = jacob_d * I->coor(0);
-        I->n_stress(2, 3) = jacob_e * I->coor(1);
-        I->n_stress(2, 4) = jacob_f * I->coor(0);
+        for(auto J = 0; J < 3; ++J) int_pt[I].n_stress(J, J) = 1.;
+        int_pt[I].n_stress(0, 3) = jacob_a * int_pt[I].coor(1);
+        int_pt[I].n_stress(0, 4) = jacob_b * int_pt[I].coor(0);
+        int_pt[I].n_stress(1, 3) = jacob_c * int_pt[I].coor(1);
+        int_pt[I].n_stress(1, 4) = jacob_d * int_pt[I].coor(0);
+        int_pt[I].n_stress(2, 3) = jacob_e * int_pt[I].coor(1);
+        int_pt[I].n_stress(2, 4) = jacob_f * int_pt[I].coor(0);
 
-        const mat tmp_mat = I->n_stress.t() * tmp_factor;
-        tmp_c += tmp_mat * I->strain_mat;
-        tmp_a += tmp_mat * inv_stiffness * I->n_stress;
+        const auto t_factor = thickness * int_pt[I].jacob_det * int_pt[I].weight;
+        const mat t_mat = int_pt[I].n_stress.t() * t_factor;
+        tmp_c += t_mat * int_pt[I].strain_mat;
+        tmp_a += t_mat * solve(t_stiffness, int_pt[I].n_stress);
     }
 
-    if(mass(0, 0) != 0.)
+    mass.zeros();
+    const auto tmp_density = material_proto->get_parameter(ParameterType::DENSITY);
+    if(tmp_density != 0.) {
+        for(const auto& I : int_pt) {
+            const auto n_int = shape::quad(I.coor, 0);
+            const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
+            for(auto J = 0; J < m_node; ++J)
+                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+        }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) {
-                mass(J, I) = mass(I, J);
-                mass(I + 1, J + 1) = mass(I, J);
-                mass(J + 1, I + 1) = mass(I, J);
-            }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
+    }
 
     stiffness = tmp_c.t() * solve(tmp_a, tmp_c);
 }
@@ -130,18 +124,18 @@ int PS::update_status() {
 
 int PS::commit_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->commit_status();
+    for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int PS::clear_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->clear_status();
+    for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int PS::reset_status() {
     auto code = 0;
-    for(const auto& I : int_pt) code += I->m_material->reset_status();
+    for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;
 }

@@ -140,36 +140,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Material\1D\Bilinear1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Concrete01.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Elastic1D.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\Gap01.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\MPF.cpp" />
-    <ClCompile Include="..\..\..\Material\1D\RambergOsgood.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Bilinear2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Concrete2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\Elastic2D.cpp" />
-    <ClCompile Include="..\..\..\Material\2D\RebarLayer.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Bilinear3D.cpp" />
-    <ClCompile Include="..\..\..\Material\3D\Elastic3D.cpp" />
     <ClCompile Include="..\..\..\Material\Material.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Bilinear1D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Concrete01.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Elastic1D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Gap01.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Material1D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\MPF.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\RambergOsgood.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\Bilinear2D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\Concrete2D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\Elastic2D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\Material2D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\RebarLayer.cpp" />
+    <ClCompile Include="..\..\..\Material\Material3D\Bilinear3D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material3D\Elastic3D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material3D\Material3D.cpp" />
     <ClCompile Include="..\..\..\Material\MaterialParser.cpp" />
     <ClCompile Include="..\..\..\Material\MaterialTemplate.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Material\1D\Bilinear1D.h" />
-    <ClInclude Include="..\..\..\Material\1D\Concrete01.h" />
-    <ClInclude Include="..\..\..\Material\1D\Elastic1D.h" />
-    <ClInclude Include="..\..\..\Material\1D\Gap01.h" />
-    <ClInclude Include="..\..\..\Material\1D\MPF.h" />
-    <ClInclude Include="..\..\..\Material\1D\RambergOsgood.h" />
-    <ClInclude Include="..\..\..\Material\2D\Bilinear2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\Concrete2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\Elastic2D.h" />
-    <ClInclude Include="..\..\..\Material\2D\RebarLayer.h" />
-    <ClInclude Include="..\..\..\Material\3D\Bilinear3D.h" />
-    <ClInclude Include="..\..\..\Material\3D\Elastic3D.h" />
     <ClInclude Include="..\..\..\Material\Material.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Bilinear1D.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Concrete01.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Elastic1D.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Gap01.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Material1D.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\MPF.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\RambergOsgood.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\Bilinear2D.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\Concrete2D.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\Elastic2D.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\Material2D.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\RebarLayer.h" />
+    <ClInclude Include="..\..\..\Material\Material3D\Bilinear3D.h" />
+    <ClInclude Include="..\..\..\Material\Material3D\Elastic3D.h" />
+    <ClInclude Include="..\..\..\Material\Material3D\Material3D.h" />
     <ClInclude Include="..\..\..\Material\MaterialParser.h" />
     <ClInclude Include="..\..\..\Material\MaterialTag.h" />
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h" />

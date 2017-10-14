@@ -39,7 +39,7 @@ class MVLEM final : public Element {
         unique_ptr<Material> t_material;
     };
 
-    vector<unique_ptr<Fibre>> axial_spring;
+    vector<Fibre> axial_spring;
 
     unique_ptr<Material> shear_spring;
 

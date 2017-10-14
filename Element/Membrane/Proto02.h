@@ -36,8 +36,8 @@ class Proto02 : public Element {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;
-        mat P, A, B, BI;
         unique_ptr<Material> m_material;
+        mat P, A, B, BI;
     };
 
     static const unsigned m_node, m_dof;

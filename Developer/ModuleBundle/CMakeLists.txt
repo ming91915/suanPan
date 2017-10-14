@@ -11,6 +11,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../..)
 include(${ROOT}/.config.cmake)
 include_directories(../Element)
 include_directories(../Material)
+include_directories(../Section)
 
 add_library(${PROJECT_NAME} SHARED
     "${ROOT}/Domain/DomainBase.cpp"

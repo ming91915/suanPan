@@ -17,6 +17,12 @@
 
 #include "Section.h"
 
+Section::Section(const unsigned& T, const unsigned& CT, const unsigned& MT)
+    : Tag(T, CT)
+    , material_tag(MT) {}
+
+Section::~Section() {}
+
 void Section::initialize(const shared_ptr<DomainBase>& D) {
     if(!D->find_material(material_tag)) {
         D->disable_section(get_tag());
