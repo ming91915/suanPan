@@ -32,11 +32,16 @@
 #include <Step/Step.h>
 #include <Toolbox/RCM.h>
 
-#if defined(SUANPAN_MT) && defined(SUANPAN_MSVC)
+#ifdef SUANPAN_MT
+#ifdef SUANPAN_MSVC
 #include <ppl.h>
 #define suanpan_for_each Concurrency::parallel_for_each
+#elif defined(SUANPAN_INTEL)
+#include <tbb/parallel_for_each.h>
+#define suanpan_for_each tbb::parallel_for_each
 #else
 #define suanpan_for_each std::for_each
+#endif
 #endif
 
 Domain::Domain(const unsigned& T)

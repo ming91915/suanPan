@@ -27,9 +27,6 @@
 #define ARMA_NO_DEBUG
 #endif
 
-#if defined(__cplusplus)
-#endif
-
 // SUANPAN_ARCH SUANPAN_WIN
 // WIN32 _WIN32 __WIN32 __WIN32__ --> MSVC GCC
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(__WIN32__)
@@ -72,19 +69,43 @@
 #endif
 
 // SUANPAN_VERSION SUANPAN_COMPILER
-// __VERSION__ --> GCC
-#ifdef __VERSION__
+// __GNUG__ --> GCC
+#ifdef __GNUG__
 #define SUANPAN_VERSION __VERSION__
 #define SUANPAN_COMPILER "GCC"
 #define SUANPAN_GCC
 #endif
-// _MSC_FULL_VER --> MSVC
-#ifdef _MSC_FULL_VER
-#define SUANPAN_VERSION _MSC_FULL_VER
+// _MSC_BUILD --> MSVC
+#ifdef _MSC_BUILD
+#define SUANPAN_VERSION _MSC_BUILD
 #define SUANPAN_COMPILER "MSVC"
 #define SUANPAN_MSVC
 // deprecated asctime() and gmtime()
 #pragma warning(disable : 4996)
+#endif
+// __ICC --> Intel C++
+#ifdef __ICC
+#define SUANPAN_VERSION __ICC
+#define SUANPAN_COMPILER "INTEL"
+#define SUANPAN_INTEL
+#ifdef SUANPAN_WIN
+#undef SUANPAN_WIN
+#endif
+#ifndef SUANPAN_UNIX
+#define SUANPAN_UNIX
+#endif
+#endif
+// __ICL --> Intel C++
+#ifdef __ICL
+#define SUANPAN_VERSION __ICL
+#define SUANPAN_COMPILER "INTEL"
+#define SUANPAN_INTEL
+#ifdef SUANPAN_UNIX
+#undef SUANPAN_UNIX
+#endif
+#ifndef SUANPAN_WIN
+#define SUANPAN_WIN
+#endif
 #endif
 
 // _USRDLL --> MSVC
