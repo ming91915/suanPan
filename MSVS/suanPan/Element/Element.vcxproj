@@ -159,7 +159,8 @@
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp" />
-    <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp" />
+    <ClCompile Include="..\..\..\Element\Truss\T2D2.cpp" />
+    <ClCompile Include="..\..\..\Element\Truss\T3D2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Beam\B21.h" />
@@ -182,7 +183,8 @@
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
     <ClInclude Include="..\..\..\Element\Special\Mass.h" />
-    <ClInclude Include="..\..\..\Element\Truss\Truss2D.h" />
+    <ClInclude Include="..\..\..\Element\Truss\T2D2.h" />
+    <ClInclude Include="..\..\..\Element\Truss\T3D2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

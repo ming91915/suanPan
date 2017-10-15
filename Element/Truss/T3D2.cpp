@@ -15,27 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Truss2D.h"
+#include "T3D2.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
 #include <Material/Material1D/Material1D.h>
 
-const unsigned Truss2D::t_node = 2;
-const unsigned Truss2D::t_dof = 2;
+const unsigned T3D2::t_node = 2;
+const unsigned T3D2::t_dof = 3;
 
-Truss2D::Truss2D(const unsigned& T)
-    : Element(T, ET_TRUSS2D)
-    , update_area(false)
-    , log_strain(false) {}
-
-Truss2D::Truss2D(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
-    : Element(T, ET_TRUSS2D, t_node, t_dof, N, uvec{ M }, F)
+T3D2::T3D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
+    : Element(T, ET_T3D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , direction_cosine(2)
     , update_area(UA)
     , log_strain(LS) {}
 
-void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
+void T3D2::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
     auto& coord_j = node_ptr.at(1).lock()->get_coordinate();
 
@@ -61,7 +56,7 @@ void Truss2D::initialize(const shared_ptr<DomainBase>& D) {
     initial_stiffness(0, 3) = initial_stiffness(1, 2) = initial_stiffness(2, 1) = initial_stiffness(3, 0) = -(initial_stiffness(0, 1) = initial_stiffness(1, 0) = initial_stiffness(2, 3) = initial_stiffness(3, 2) = tmp_d * direction_cosine(0) * direction_cosine(1));
 }
 
-int Truss2D::update_status() {
+int T3D2::update_status() {
     const auto& node_i = node_ptr.at(0).lock();
     const auto& node_j = node_ptr.at(1).lock();
 
@@ -116,13 +111,13 @@ int Truss2D::update_status() {
     return 0;
 }
 
-int Truss2D::commit_status() { return t_material->commit_status(); }
+int T3D2::commit_status() { return t_material->commit_status(); }
 
-int Truss2D::clear_status() { return t_material->clear_status(); }
+int T3D2::clear_status() { return t_material->clear_status(); }
 
-int Truss2D::reset_status() { return t_material->reset_status(); }
+int T3D2::reset_status() { return t_material->reset_status(); }
 
-void Truss2D::print() {
+void T3D2::print() {
     suanpan_info("2-D truss element with ");
     if(nlgeom)
         suanpan_info("corotational formulation, assuming constant %s and %s strain. ", update_area ? "volume" : "area", log_strain ? "logarithmic" : "engineering");

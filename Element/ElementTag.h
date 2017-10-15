@@ -18,8 +18,8 @@
 #ifndef ELEMENTTAG_H
 #define ELEMENTTAG_H
 
-#ifndef ET_TRUSS2D
-#define ET_TRUSS2D 2000
+#ifndef ET_T2D2
+#define ET_T2D2 2000
 #endif
 #ifndef ET_CP4
 #define ET_CP4 2001
@@ -65,6 +65,9 @@
 #endif
 #ifndef ET_F21H
 #define ET_F21H 2015
+#endif
+#ifndef ET_T3D2
+#define ET_T3D2 2016
 #endif
 
 #endif

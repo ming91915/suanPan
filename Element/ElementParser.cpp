@@ -47,8 +47,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_qe2(new_element, command);
     else if(is_equal(element_id, "GQ12"))
         new_gq12(new_element, command);
-    else if(is_equal(element_id, "Truss2D"))
-        new_truss2d(new_element, command);
+    else if(is_equal(element_id, "T2D2"))
+        new_t2d2(new_element, command);
     else if(is_equal(element_id, "ElasticB21"))
         new_elasticb21(new_element, command);
     else if(is_equal(element_id, "B21"))
@@ -302,10 +302,10 @@ void new_qe2(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<QE2>(tag, uvec(node_tag), material_tag, thickness);
 }
 
-void new_truss2d(unique_ptr<Element>& return_obj, istringstream& command) {
+void new_t2d2(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if((command >> tag).fail()) {
-        suanpan_debug("new_truss2d() needs a valid tag.\n");
+        suanpan_debug("new_t2d2() needs a valid tag.\n");
         return;
     }
 
@@ -313,7 +313,7 @@ void new_truss2d(unique_ptr<Element>& return_obj, istringstream& command) {
     vector<uword> node_tag;
     for(auto I = 0; I < 2; ++I) {
         if((command >> node).fail()) {
-            suanpan_debug("new_truss2d() needs two valid nodes.\n");
+            suanpan_debug("new_t2d2() needs two valid nodes.\n");
             return;
         }
         node_tag.push_back(node);
@@ -321,34 +321,34 @@ void new_truss2d(unique_ptr<Element>& return_obj, istringstream& command) {
 
     unsigned material_tag;
     if((command >> material_tag).fail()) {
-        suanpan_debug("new_truss2d() needs a valid material tag.\n");
+        suanpan_debug("new_t2d2() needs a valid material tag.\n");
         return;
     }
 
     double area;
     if((command >> area).fail()) {
-        suanpan_debug("new_truss2d() needs a valid area.\n");
+        suanpan_debug("new_t2d2() needs a valid area.\n");
         return;
     }
 
     unsigned nonlinear = 0, update_area = 0, log_strain = 0;
 
     if(!command.eof()) {
-        if((command >> nonlinear).fail()) suanpan_debug("new_truss2d() needs a valid nonlinear geometry switch (0,1).\n");
+        if((command >> nonlinear).fail()) suanpan_debug("new_t2d2() needs a valid nonlinear geometry switch (0,1).\n");
     } else
-        suanpan_debug("new_truss2d() assumes linear geometry.\n");
+        suanpan_extra_debug("new_t2d2() assumes linear geometry.\n");
 
     if(!command.eof()) {
-        if((command >> update_area).fail()) suanpan_debug("new_truss2d() needs a valid switch (0,1) to indicate if update area.\n");
+        if((command >> update_area).fail()) suanpan_debug("new_t2d2() needs a valid switch (0,1) to indicate if update area.\n");
     } else
-        suanpan_debug("new_truss2d() assumes constant area.\n");
+        suanpan_extra_debug("new_truss2d() assumes constant area.\n");
 
     if(!command.eof()) {
-        if((command >> log_strain).fail()) suanpan_debug("new_truss2d() needs a valid switch (0,1) to indicate if to use engineering strain.\n");
+        if((command >> log_strain).fail()) suanpan_debug("new_t2d2() needs a valid switch (0,1) to indicate if to use engineering strain.\n");
     } else
-        suanpan_debug("new_truss2d() assumes engineering strain.\n");
+        suanpan_extra_debug("new_t2d2() assumes engineering strain.\n");
 
-    return_obj = make_unique<Truss2D>(tag, uvec(node_tag), material_tag, area, !!nonlinear, !!update_area, !!log_strain);
+    return_obj = make_unique<T2D2>(tag, uvec(node_tag), material_tag, area, !!nonlinear, !!update_area, !!log_strain);
 }
 
 void new_c3d8(unique_ptr<Element>& return_obj, istringstream& command) {

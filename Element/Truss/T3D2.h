@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Truss2D
- * @brief The Truss2D class handles both linear and nonlinear problems by
+ * @class T3D2
+ * @brief The T3D2 class handles both linear and nonlinear problems by
  * using a
  * corotational
  * transformation.
  * @author T
  * @date 14/08/2017
  * @version 0.1.1
- * @file Truss2D.h
+ * @file T3D2.h
  * @addtogroup Truss
  * @ingroup Element
  * @{
  */
 
-#ifndef TRUSS2D_H
-#define TRUSS2D_H
+#ifndef T3D2_H
+#define T3D2_H
 
 #include <Element/Element.h>
 
-class Truss2D final : public Element {
+class T3D2 final : public Element {
     static const unsigned t_node;
     static const unsigned t_dof;
 
@@ -47,8 +47,7 @@ class Truss2D final : public Element {
     const bool update_area; /**<  */
     const bool log_strain;  /**<  */
 public:
-    explicit Truss2D(const unsigned& T = 0);
-    Truss2D(const unsigned&, // tag
+    T3D2(const unsigned&,    // tag
         const uvec&,         // node tag
         const unsigned&,     // material tag
         const double&,       // area

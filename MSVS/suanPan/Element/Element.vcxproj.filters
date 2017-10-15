@@ -45,9 +45,6 @@
     <ClCompile Include="..\..\..\Element\Membrane\GQ12.cpp">
       <Filter>Membrane</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Element\Truss\Truss2D.cpp">
-      <Filter>Truss</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Element\Cube\C3D8.cpp">
       <Filter>Cube</Filter>
     </ClCompile>
@@ -84,6 +81,12 @@
     <ClCompile Include="..\..\..\Element\Beam\F21H.cpp">
       <Filter>Beam</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Truss\T2D2.cpp">
+      <Filter>Truss</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Truss\T3D2.cpp">
+      <Filter>Truss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -109,9 +112,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h">
       <Filter>Membrane</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Element\Truss\Truss2D.h">
-      <Filter>Truss</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Membrane\Proto01.h">
       <Filter>Membrane</Filter>
@@ -148,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Beam\F21H.h">
       <Filter>Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Truss\T2D2.h">
+      <Filter>Truss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Truss\T3D2.h">
+      <Filter>Truss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
