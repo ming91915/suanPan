@@ -19,7 +19,7 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
 #include <Material/Material2D/Material2D.h>
-#include <Recorder/OutputList.h>
+#include <Recorder/OutputType.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
 #include <Toolbox/tensorToolbox.h>
@@ -306,13 +306,13 @@ int Proto02::reset_status() {
     return code;
 }
 
-vector<vec> Proto02::record(const OutputList& T) {
+vector<vec> Proto02::record(const OutputType& T) {
     vector<vec> data;
     switch(T) {
-    case OutputList::E:
+    case OutputType::E:
         for(const auto& I : int_pt) data.emplace_back(I->A * current_alpha);
         break;
-    case OutputList::S:
+    case OutputType::S:
         for(const auto& I : int_pt) data.emplace_back(I->P * current_beta);
         break;
     default:

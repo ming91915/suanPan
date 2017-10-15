@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-#ifndef OUTPUTLIST_H
-#define OUTPUTLIST_H
+#ifndef OUTPUTTYPE_H
+#define OUTPUTTYPE_H
 
-enum class OutputList {
+enum class OutputType {
     S,
     S11,
     S22,
@@ -94,7 +94,7 @@ enum class OutputList {
     NL
 };
 
-const char* to_char(const OutputList&);
-OutputList to_list(const char*);
+const char* to_char(const OutputType&);
+OutputType to_list(const char*);
 
 #endif

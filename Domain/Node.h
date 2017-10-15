@@ -36,7 +36,7 @@
 using std::vector;
 
 class DomainBase;
-enum class OutputList;
+enum class OutputType;
 
 class Node final : public Tag {
     bool initialized = false;
@@ -126,7 +126,7 @@ public:
     void reset_status();
     void clear_status();
 
-    vector<vec> record(const OutputList&) const;
+    vector<vec> record(const OutputType&) const;
 
     void print() override;
 };

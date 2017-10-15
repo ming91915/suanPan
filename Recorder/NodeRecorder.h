@@ -33,7 +33,7 @@
 
 class NodeRecorder : public Recorder {
 public:
-    explicit NodeRecorder(const unsigned& = 0, const unsigned& = 0, const OutputList& = OutputList::NL, const bool& = true);
+    explicit NodeRecorder(const unsigned& = 0, const unsigned& = 0, const OutputType& = OutputType::NL, const bool& = true);
 
     void record(const shared_ptr<DomainBase>&) override;
 

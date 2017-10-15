@@ -21,7 +21,7 @@
 #include <hdf5_hl.h>
 #endif
 
-Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, const OutputList& L, const bool& R)
+Recorder::Recorder(const unsigned& T, const unsigned& CT, const unsigned& B, const OutputType& L, const bool& R)
     : Tag(T, CT)
     , object_tag(B)
     , variable_type(L)
@@ -35,9 +35,9 @@ void Recorder::set_object_tag(const unsigned& T) { object_tag = T; }
 
 const unsigned& Recorder::get_object_tag() const { return object_tag; }
 
-void Recorder::set_variable_type(const OutputList& T) { variable_type = T; }
+void Recorder::set_variable_type(const OutputType& T) { variable_type = T; }
 
-const OutputList& Recorder::get_variable_type() const { return variable_type; }
+const OutputType& Recorder::get_variable_type() const { return variable_type; }
 
 const bool& Recorder::if_record_time() const { return record_time; }
 

@@ -28,7 +28,7 @@
 #define RECORDER_H
 
 #include <Domain/Tag.h>
-#include <Recorder/OutputList.h>
+#include <Recorder/OutputType.h>
 
 class DomainBase;
 
@@ -36,14 +36,14 @@ using std::vector;
 
 class Recorder : public Tag {
     unsigned object_tag;
-    OutputList variable_type;
+    OutputType variable_type;
     vector<double> time_pool;      /**< recorded data */
     vector<vector<vec>> data_pool; /**< recorded data */
 
     bool record_time;
 
 public:
-    explicit Recorder(const unsigned& = 0, const unsigned& = CT_RECORDER, const unsigned& = 0, const OutputList& = OutputList::NL, const bool& = true);
+    explicit Recorder(const unsigned& = 0, const unsigned& = CT_RECORDER, const unsigned& = 0, const OutputType& = OutputType::NL, const bool& = true);
     Recorder(const Recorder&) = delete;
     Recorder& operator=(const Recorder&) = delete;
     virtual ~Recorder();
@@ -51,8 +51,8 @@ public:
     void set_object_tag(const unsigned&);
     const unsigned& get_object_tag() const;
 
-    void set_variable_type(const OutputList&);
-    const OutputList& get_variable_type() const;
+    void set_variable_type(const OutputType&);
+    const OutputType& get_variable_type() const;
 
     const bool& if_record_time() const;
 

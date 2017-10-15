@@ -17,7 +17,7 @@
 
 #include "Node.h"
 #include <Domain/DomainBase.h>
-#include <Recorder/OutputList.h>
+#include <Recorder/OutputType.h>
 
 /**
  * \brief Empty constructor.
@@ -446,17 +446,17 @@ void Node::clear_status() {
     }
 }
 
-vector<vec> Node::record(const OutputList& L) const {
+vector<vec> Node::record(const OutputType& L) const {
     vector<vec> data;
 
     switch(L) {
-    case OutputList::U:
+    case OutputType::U:
         data.push_back(current_displacement);
         break;
-    case OutputList::V:
+    case OutputType::V:
         data.push_back(current_velocity);
         break;
-    case OutputList::A:
+    case OutputType::A:
         data.push_back(current_acceleration);
         break;
     default:

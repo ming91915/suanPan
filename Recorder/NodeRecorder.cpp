@@ -20,7 +20,7 @@
 #include <Domain/Factory.hpp>
 #include <Domain/Node.h>
 
-NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputList& L, const bool& R)
+NodeRecorder::NodeRecorder(const unsigned& T, const unsigned& B, const OutputType& L, const bool& R)
     : Recorder(T, CT_NODERECORDER, B, L, R) {}
 
 void NodeRecorder::record(const shared_ptr<DomainBase>& D) {
