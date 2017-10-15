@@ -43,6 +43,8 @@ vec tensor::dev(const vec& S) {
     return D;
 }
 
+double transform::atan2(const vec& direction_cosine) { return std::atan2(direction_cosine(1), direction_cosine(0)); }
+
 mat transform::form_trans(const double angle) {
     const auto sin_angle = sin(angle);
     const auto cos_angle = cos(angle);

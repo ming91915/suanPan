@@ -29,6 +29,7 @@ vec dev(const vec&);
 }
 
 namespace transform {
+double atan2(const vec&);
 mat form_trans(const double);
 vec nominal_to_principal_strain(const vec&);
 vec nominal_to_principal_stress(const vec&);
