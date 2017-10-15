@@ -27,6 +27,7 @@
 #define SECTION_H
 
 #include <Domain/Tag.h>
+#include <Section/ParameterType.h>
 
 class DomainBase;
 class Material;
@@ -52,6 +53,8 @@ public:
     virtual const mat& get_initial_stiffness() const;
 
     virtual unique_ptr<Section> get_copy() = 0;
+
+    virtual double get_parameter(const ParameterType& = ParameterType::NONE);
 
     virtual int update_trial_status(const vec&);
     virtual int update_trial_status(const vec&, const vec&);

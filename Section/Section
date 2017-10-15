@@ -4,5 +4,6 @@
 #include "Section.h"
 #include "SectionTag.h"
 #include "SectionParser.h"
+#include "ParameterType.h"
 
 #include <Material/Material.h>

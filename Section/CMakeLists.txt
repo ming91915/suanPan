@@ -13,4 +13,5 @@ add_library(${PROJECT_NAME} STATIC
     SectionParser.cpp
     Rectangle.cpp
     Circle.cpp
+    ParameterType.cpp
     )
