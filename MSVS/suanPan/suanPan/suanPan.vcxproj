@@ -179,7 +179,7 @@
     <ClCompile Include="..\..\..\Load\Displacement.cpp" />
     <ClCompile Include="..\..\..\Load\Load.cpp" />
     <ClCompile Include="..\..\..\Recorder\NodeRecorder.cpp" />
-    <ClCompile Include="..\..\..\Recorder\OutputList.cpp" />
+    <ClCompile Include="..\..\..\Recorder\OutputType.cpp" />
     <ClCompile Include="..\..\..\Recorder\Recorder.cpp" />
     <ClCompile Include="..\..\..\Step\ArcLength.cpp" />
     <ClCompile Include="..\..\..\Step\Bead.cpp" />
@@ -222,7 +222,7 @@
     <ClInclude Include="..\..\..\Load\Displacement.h" />
     <ClInclude Include="..\..\..\Load\Load.h" />
     <ClInclude Include="..\..\..\Recorder\NodeRecorder.h" />
-    <ClInclude Include="..\..\..\Recorder\OutputList.h" />
+    <ClInclude Include="..\..\..\Recorder\OutputType.h" />
     <ClInclude Include="..\..\..\Recorder\Recorder.h" />
     <ClInclude Include="..\..\..\Step\ArcLength.h" />
     <ClInclude Include="..\..\..\Step\Bead.h" />

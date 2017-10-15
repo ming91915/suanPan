@@ -23,6 +23,9 @@
     <ClCompile Include="..\..\..\Section\Circle.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Section\ParameterType.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Section\Section.h">
@@ -39,6 +42,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Section\Circle.h">
       <Filter>SRC</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\ParameterType.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

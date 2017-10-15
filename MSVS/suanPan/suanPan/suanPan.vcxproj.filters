@@ -68,9 +68,6 @@
     <ClCompile Include="..\..\..\Toolbox\utility.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Recorder\OutputList.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Toolbox\RCM.cpp">
       <Filter>SRC</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Step\Buckle.cpp">
       <Filter>Step</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Recorder\OutputType.cpp">
+      <Filter>Recorder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +232,6 @@
     <ClInclude Include="..\..\..\Database\HDF.h">
       <Filter>SRC</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Recorder\OutputList.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Toolbox\PropertyType.h">
       <Filter>SRC</Filter>
     </ClInclude>
@@ -282,6 +279,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Step\Buckle.h">
       <Filter>Step</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\OutputType.h">
+      <Filter>Recorder</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

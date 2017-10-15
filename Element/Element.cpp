@@ -124,4 +124,4 @@ int Element::clear_status() { throw; }
 
 int Element::reset_status() { throw; }
 
-vector<vec> Element::record(const OutputList&) { return {}; }
+vector<vec> Element::record(const OutputType&) { return {}; }

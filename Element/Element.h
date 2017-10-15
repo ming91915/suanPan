@@ -32,7 +32,7 @@
 
 class Node;
 class DomainBase;
-enum class OutputList;
+enum class OutputType;
 class Material;
 class Section;
 
@@ -99,7 +99,7 @@ public:
     virtual int clear_status() = 0;
     virtual int reset_status() = 0;
 
-    virtual vector<vec> record(const OutputList&);
+    virtual vector<vec> record(const OutputType&);
 };
 
 #endif
