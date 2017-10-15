@@ -57,7 +57,7 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
     t_stiffness(1, 1) = 1. / t_stiffness(1, 1);
 
     // perform integration of elastic region
-    const IntegrationPlan plan(1, 4, IntegrationType::GAUSS);
+    const IntegrationPlan plan(1, 3, IntegrationType::GAUSS);
     const auto int_pt_num = plan.n_rows + 4;
     const auto elastic_length = 1. - 8. * hinge_length;
     initial_local_flexibility.zeros(3, 3);
@@ -74,10 +74,10 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
             coor = 1. - 16. / 3. * hinge_length;
             weight = 3. * hinge_length;
         } else if(I == int_pt_num - 1) {
-            coor = -1.;
+            coor = 1.;
             weight = hinge_length;
         } else {
-            coor = plan(I - 2, 0);
+            coor = plan(I - 2, 0) * elastic_length;
             weight = plan(I - 2, 1) * elastic_length / 2.;
         }
         int_pt.emplace_back(coor, weight, section_proto->get_copy());
@@ -86,7 +86,7 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
         int_pt[I].B(1, 2) = (coor + 1.) / 2.;
         initial_local_flexibility += int_pt[I].B.t() * t_stiffness * int_pt[I].B * weight * length;
     }
-    inv(initial_local_flexibility).print("\n");
+
     current_local_flexibility = initial_local_flexibility;
     trial_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros(3);
