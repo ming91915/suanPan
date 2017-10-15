@@ -580,68 +580,6 @@ int create_new_displacement(const shared_ptr<DomainBase>& domain, istringstream&
     return 0;
 }
 
-int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& command) {
-    string element_id;
-    if(!get_input(command, element_id)) {
-        suanpan_info("create_new_element() needs element type.\n");
-        return 0;
-    }
-
-    unique_ptr<Element> new_element = nullptr;
-
-    if(is_equal(element_id, "CP3"))
-        new_cp3(new_element, command);
-    else if(is_equal(element_id, "CP4"))
-        new_cp4(new_element, command);
-    else if(is_equal(element_id, "CP8"))
-        new_cp8(new_element, command);
-    else if(is_equal(element_id, "C3D8"))
-        new_c3d8(new_element, command);
-    else if(is_equal(element_id, "C3D20"))
-        new_c3d20(new_element, command);
-    else if(is_equal(element_id, "PS"))
-        new_ps(new_element, command);
-    else if(is_equal(element_id, "QE2"))
-        new_qe2(new_element, command);
-    else if(is_equal(element_id, "GQ12"))
-        new_gq12(new_element, command);
-    else if(is_equal(element_id, "Truss2D"))
-        new_truss2d(new_element, command);
-    else if(is_equal(element_id, "ElasticB21"))
-        new_elasticb21(new_element, command);
-    else if(is_equal(element_id, "B21"))
-        new_b21(new_element, command);
-    else if(is_equal(element_id, "F21"))
-        new_f21(new_element, command);
-    else if(is_equal(element_id, "Proto01"))
-        new_proto01(new_element, command);
-    else if(is_equal(element_id, "Mass"))
-        new_mass(new_element, command);
-    else {
-        // check if the library is already loaded
-        auto code = 0;
-        for(const auto& I : domain->get_external_module_pool())
-            if(I->library_name == element_id) {
-                code = 1;
-                break;
-            }
-
-        // not loaded then try load it
-        if(code == 0 && domain->insert(make_shared<ExternalModule>(element_id))) code = 1;
-
-        // if loaded find corresponding function
-        if(code == 1)
-            for(const auto& I : domain->get_external_module_pool()) {
-                if(I->locate_module(element_id)) I->new_object(new_element, command);
-                if(new_element != nullptr) break;
-            }
-    }
-
-    if(new_element == nullptr || !domain->insert(move(new_element))) suanpan_error("create_new_element() fails to create new element.\n");
-
-    return 0;
-}
-
 int create_new_external_module(const shared_ptr<DomainBase>& domain, istringstream& command) {
     string library_name;
 

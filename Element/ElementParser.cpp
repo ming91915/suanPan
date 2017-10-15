@@ -15,10 +15,76 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <Domain/DomainBase.h>
+#include <Domain/ExternalModule.h>
 #include <Element/Element>
 #include <Toolbox/utility.h>
 
 using std::vector;
+
+int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string element_id;
+    if(!get_input(command, element_id)) {
+        suanpan_info("create_new_element() needs element type.\n");
+        return 0;
+    }
+
+    unique_ptr<Element> new_element = nullptr;
+
+    if(is_equal(element_id, "CP3"))
+        new_cp3(new_element, command);
+    else if(is_equal(element_id, "CP4"))
+        new_cp4(new_element, command);
+    else if(is_equal(element_id, "CP8"))
+        new_cp8(new_element, command);
+    else if(is_equal(element_id, "C3D8"))
+        new_c3d8(new_element, command);
+    else if(is_equal(element_id, "C3D20"))
+        new_c3d20(new_element, command);
+    else if(is_equal(element_id, "PS"))
+        new_ps(new_element, command);
+    else if(is_equal(element_id, "QE2"))
+        new_qe2(new_element, command);
+    else if(is_equal(element_id, "GQ12"))
+        new_gq12(new_element, command);
+    else if(is_equal(element_id, "Truss2D"))
+        new_truss2d(new_element, command);
+    else if(is_equal(element_id, "ElasticB21"))
+        new_elasticb21(new_element, command);
+    else if(is_equal(element_id, "B21"))
+        new_b21(new_element, command);
+    else if(is_equal(element_id, "F21"))
+        new_f21(new_element, command);
+    else if(is_equal(element_id, "F21H"))
+        new_f21h(new_element, command);
+    else if(is_equal(element_id, "Proto01"))
+        new_proto01(new_element, command);
+    else if(is_equal(element_id, "Mass"))
+        new_mass(new_element, command);
+    else {
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == element_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(element_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(element_id)) I->new_object(new_element, command);
+                if(new_element != nullptr) break;
+            }
+    }
+
+    if(new_element == nullptr || !domain->insert(move(new_element))) suanpan_error("create_new_element() fails to create new element.\n");
+
+    return 0;
+}
 
 void new_cp3(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
@@ -479,6 +545,44 @@ void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
         suanpan_debug("new_b21() assumes linear geometry.\n");
 
     return_obj = make_unique<F21>(tag, uvec(node_tag), section_id, int_pt, !!nonlinear);
+}
+
+void new_f21h(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_f21h() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 2; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_f21h() needs two valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned section_id;
+    if(!get_input(command, section_id)) {
+        suanpan_debug("new_f21h() needs a valid section tag.\n");
+        return;
+    }
+
+    auto elastic_length = .2;
+    if(!command.eof() && !get_input(command, elastic_length)) {
+        suanpan_debug("new_f21h() needs a valid number of integration points.\n");
+        return;
+    }
+
+    unsigned nonlinear = 0;
+    if(!command.eof()) {
+        if(!get_input(command, nonlinear)) suanpan_debug("new_f21h() needs a valid nonlinear geomtery switch (0,1).\n");
+    } else
+        suanpan_extra_debug("new_b21() assumes linear geometry.\n");
+
+    return_obj = make_unique<F21H>(tag, uvec(node_tag), section_id, elastic_length, !!nonlinear);
 }
 
 void new_mass(unique_ptr<Element>& return_obj, istringstream& command) {

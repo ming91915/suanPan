@@ -45,7 +45,6 @@ int create_new_cload(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_converger(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_criterion(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_displacement(const shared_ptr<DomainBase>&, istringstream&);
-int create_new_element(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_external_module(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_material(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_mass(const shared_ptr<DomainBase>&, istringstream&);

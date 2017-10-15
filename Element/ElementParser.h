@@ -20,9 +20,7 @@
 
 #include <suanPan.h>
 
-using std::istringstream;
-
-class Element;
+int create_new_element(const shared_ptr<DomainBase>&, istringstream&);
 
 void new_cp3(unique_ptr<Element>&, istringstream&);
 void new_cp4(unique_ptr<Element>&, istringstream&);
@@ -36,6 +34,7 @@ void new_c3d20(unique_ptr<Element>&, istringstream&);
 void new_elasticb21(unique_ptr<Element>&, istringstream&);
 void new_b21(unique_ptr<Element>&, istringstream&);
 void new_f21(unique_ptr<Element>&, istringstream&);
+void new_f21h(unique_ptr<Element>&, istringstream&);
 void new_mass(unique_ptr<Element>&, istringstream&);
 
 void new_proto01(unique_ptr<Element>&, istringstream&);
