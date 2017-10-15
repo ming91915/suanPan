@@ -418,6 +418,14 @@ IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& i
         }
     } else if(intType == IntegrationType::RADAU) {
         switch(intOrder) {
+        case 2: {
+            PTL[0] = -1.;
+            PTL[1] = 1. / 3.;
+
+            PTW[0] = .5;
+            PTW[1] = 1.5;
+            break;
+        }
         case 3: {
             PTL[0] = -1.;
             PTL[1] = -.2898979485;
