@@ -55,7 +55,7 @@ public:
     B21(const unsigned&,     // tag
         const uvec&,         // node tags
         const unsigned&,     // section tag
-        const unsigned& = 3, // integration points
+        const unsigned& = 6, // integration points
         const bool& = false  // nonliear geometry switch
     );
 

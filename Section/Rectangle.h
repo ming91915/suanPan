@@ -48,7 +48,7 @@ public:
         const double&,                  // width
         const double&,                  // height
         const unsigned&,                // material tag
-        const unsigned&                 // number of integration points
+        const unsigned& = 6             // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
