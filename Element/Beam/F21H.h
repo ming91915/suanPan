@@ -61,11 +61,11 @@ class F21H final : public Element {
     vec current_local_resistance, trial_local_resistance;
 
 public:
-    F21H(const unsigned&,     // tag
-        const uvec&,         // node tags
-        const unsigned&,     // section tags
+    F21H(const unsigned&,   // tag
+        const uvec&,        // node tags
+        const unsigned&,    // section tags
         const double& = .2, // hinge length
-        const bool& = false  // nonliear geometry switch
+        const bool& = false // nonliear geometry switch
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

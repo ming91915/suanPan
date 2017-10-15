@@ -59,38 +59,34 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
     // perform integration of elastic region
     const IntegrationPlan plan(1, 4, IntegrationType::GAUSS);
     const auto int_pt_num = plan.n_rows + 4;
-    const auto elastic_length = 1. - 8.*hinge_length;
+    const auto elastic_length = 1. - 8. * hinge_length;
+    initial_local_flexibility.zeros(3, 3);
     int_pt.clear(), int_pt.reserve(int_pt_num);
     double coor, weight;
-    for (unsigned I = 0; I < int_pt_num; ++I) {
-        if(I==0)
-        {
+    for(unsigned I = 0; I < int_pt_num; ++I) {
+        if(I == 0) {
             coor = -1.;
             weight = hinge_length;
-        }else if(I==1)
-        {
-            coor = 16./3.*hinge_length -1.;
-            weight = 3.*hinge_length;
-        }else if(I== int_pt_num - 2)
-        {
-            coor = 1.-16. / 3.*hinge_length;
-            weight = 3.*hinge_length;
-        }else if(I == int_pt_num - 1)
-        {
+        } else if(I == 1) {
+            coor = 16. / 3. * hinge_length - 1.;
+            weight = 3. * hinge_length;
+        } else if(I == int_pt_num - 2) {
+            coor = 1. - 16. / 3. * hinge_length;
+            weight = 3. * hinge_length;
+        } else if(I == int_pt_num - 1) {
             coor = -1.;
             weight = hinge_length;
-        }else
-        {
-            coor = plan(I,0);
-            weight = plan(I, 1)*elastic_length/2.;
+        } else {
+            coor = plan(I - 2, 0);
+            weight = plan(I - 2, 1) * elastic_length / 2.;
         }
         int_pt.emplace_back(coor, weight, section_proto->get_copy());
         int_pt[I].B(0, 0) = 1.;
         int_pt[I].B(1, 1) = (coor - 1.) / 2.;
         int_pt[I].B(1, 2) = (coor + 1.) / 2.;
-        initial_local_flexibility += int_pt[I].B.t() * t_stiffness * int_pt[I].B * weight*length;
+        initial_local_flexibility += int_pt[I].B.t() * t_stiffness * int_pt[I].B * weight * length;
     }
-
+    inv(initial_local_flexibility).print("\n");
     current_local_flexibility = initial_local_flexibility;
     trial_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros(3);
@@ -121,14 +117,14 @@ int F21H::update_status() {
         const vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
         trial_local_resistance += incre_local_resistance;
         trial_local_flexibility.zeros();
-        for (auto I = 0; I < int_pt.size();++I) {
+        for(auto I = 0; I < int_pt.size(); ++I) {
             int_pt[I].trial_section_resistance += int_pt[I].B * incre_local_resistance;
-            const vec incre_deformation = (int_pt[I].b_section->get_resistance() - int_pt[I].trial_section_resistance) / (I == 0 || I == end_num ? int_pt[I].b_section->get_stiffness().diag(): int_pt[I].b_section->get_initial_stiffness().diag());
+            const vec incre_deformation = (int_pt[I].b_section->get_resistance() - int_pt[I].trial_section_resistance) / (I == 0 || I == end_num ? int_pt[I].b_section->get_stiffness().diag() : int_pt[I].b_section->get_initial_stiffness().diag());
             int_pt[I].trial_section_deformation -= incre_deformation;
             int_pt[I].b_section->update_trial_status(int_pt[I].trial_section_deformation);
             // factor .5 is moved to weight
             const mat tmp_a = int_pt[I].B.t() * int_pt[I].weight * new_length;
-            auto tmp_b = I==0||I== end_num? int_pt[I].b_section->get_stiffness(): int_pt[I].b_section->get_initial_stiffness();
+            auto tmp_b = I == 0 || I == end_num ? int_pt[I].b_section->get_stiffness() : int_pt[I].b_section->get_initial_stiffness();
             tmp_b(0, 0) = 1. / tmp_b(0, 0), tmp_b(1, 1) = 1. / tmp_b(1, 1);
             trial_local_flexibility += tmp_a * tmp_b * int_pt[I].B;
             incre_local_deformation += tmp_a * incre_deformation;
