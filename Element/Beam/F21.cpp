@@ -46,29 +46,27 @@ void F21::initialize(const shared_ptr<DomainBase>& D) {
 
     // chord vector
     const vec pos_diff = coord_j - coord_i;
-
     length = norm(pos_diff);
-
     direction_cosine = pos_diff / length;
-
-    inclination = atan2(direction_cosine(1), direction_cosine(0));
+    trans_mat = transform::beam::global_to_local(direction_cosine, length);
+    inclination = transform::atan2(direction_cosine);
 
     const auto& section_proto = D->get_section(unsigned(material_tag(0)));
+    auto t_stiffness = section_proto->get_initial_stiffness();
+    t_stiffness(0, 0) = 1. / t_stiffness(0, 0);
+    t_stiffness(1, 1) = 1. / t_stiffness(1, 1);
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
 
-    int_pt.clear();
-    int_pt.reserve(int_pt_num);
+    int_pt.clear(), int_pt.reserve(int_pt_num);
     initial_local_flexibility.zeros(3, 3);
     for(unsigned I = 0; I < int_pt_num; ++I) {
         int_pt.emplace_back(plan(I, 0), plan(I, 1), section_proto->get_copy());
         int_pt[I].B(0, 0) = 1.;
         int_pt[I].B(1, 1) = (plan(I, 0) - 1.) / 2.;
         int_pt[I].B(1, 2) = (plan(I, 0) + 1.) / 2.;
-        initial_local_flexibility += int_pt[I].B.t() * solve(int_pt[I].b_section->get_initial_stiffness(), int_pt[I].B) * int_pt[I].weight * length / 2.;
+        initial_local_flexibility += int_pt[I].B.t() * t_stiffness * int_pt[I].B * int_pt[I].weight * length / 2.;
     }
-
-    trans_mat = transform::beam::global_to_local(direction_cosine, length);
 
     current_local_flexibility = initial_local_flexibility;
     trial_local_flexibility = initial_local_flexibility;
@@ -88,16 +86,13 @@ int F21::update_status() {
 
     // transform global deformation to local one (remove rigid body motion)
     vec t_disp(6);
-    for(auto I = 0; I < 3; ++I) {
-        t_disp(I) = disp_i(I);
-        t_disp(I + 3) = disp_j(I);
-    }
+    for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
     trial_local_deformation = trans_mat * t_disp;
 
     vec incre_local_deformation = trial_local_deformation - current_local_deformation;
 
     auto counter = 0;
-
+    auto converged = false;
     while(true) {
         const vec incre_local_resistance = solve(trial_local_flexibility, incre_local_deformation);
         trial_local_resistance += incre_local_resistance;
@@ -108,13 +103,19 @@ int F21::update_status() {
             I.trial_section_deformation -= incre_deformation;
             I.b_section->update_trial_status(I.trial_section_deformation);
             const mat tmp_a = I.B.t() * I.weight * new_length / 2.;
-            trial_local_flexibility += tmp_a * solve(I.b_section->get_stiffness(), I.B);
+            auto tmp_b = I.b_section->get_stiffness();
+            tmp_b(0, 0) = 1. / tmp_b(0, 0), tmp_b(1, 1) = 1. / tmp_b(1, 1);
+            trial_local_flexibility += tmp_a * tmp_b * I.B;
             incre_local_deformation += tmp_a * incre_deformation;
         }
-        if(norm(incre_local_deformation) < 1E-12 || ++counter > 10) break;
+        if(norm(incre_local_deformation) < 1E-12) {
+            converged = true;
+            break;
+        }
+        if(++counter > 10) break;
     }
 
-    stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
+    stiffness = trans_mat.t() * solve(converged ? trial_local_flexibility : initial_local_flexibility, trans_mat);
     resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;
