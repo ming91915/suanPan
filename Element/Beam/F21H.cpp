@@ -90,13 +90,13 @@ int F21H::update_status() {
     vec t_disp(6);
     for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
 
-    vec residual = -trial_local_deformation;
+    vec residual_deformation = -trial_local_deformation;
 
     // transform global deformation to local one (remove rigid body motion)
     trial_local_deformation = trans_mat * t_disp;
 
     // initial residual be aware of how to compute it
-    residual += trial_local_deformation;
+    residual_deformation += trial_local_deformation;
 
     const auto new_length = length;
 
@@ -104,28 +104,25 @@ int F21H::update_status() {
 
     auto counter = 0;
     while(true) {
-        trial_local_resistance += solve(trial_local_flexibility, residual);
+        trial_local_resistance += solve(trial_local_flexibility, residual_deformation);
+        residual_deformation.zeros();
         trial_local_flexibility.zeros();
-        residual = trial_local_deformation;
         for(auto I = 0; I < int_pt.size(); ++I) {
-            // set an anchor
             auto& stiffness_anchor = I == 0 || I == end_num ? int_pt[I].b_section->get_stiffness() : int_pt[I].b_section->get_initial_stiffness();
-
+            const vec target_section_resistance = int_pt[I].B * trial_local_resistance;
             // compute unbalanced deformation
-            const vec incre_deformation = (int_pt[I].B * trial_local_resistance - int_pt[I].b_section->get_resistance()) / stiffness_anchor.diag();
-
+            const vec incre_deformation = (target_section_resistance - int_pt[I].b_section->get_resistance()) / stiffness_anchor.diag();
             // update status
             int_pt[I].b_section->update_trial_status(int_pt[I].b_section->get_deformation() + incre_deformation);
-
             // collect new flexibility and deformation
-            const mat t_factor = int_pt[I].B.t() * int_pt[I].weight * new_length;
-            trial_local_flexibility += t_factor * quick_inverse(stiffness_anchor) * int_pt[I].B;
-            residual -= t_factor * int_pt[I].b_section->get_deformation();
+            const mat t_flexibility = int_pt[I].B.t() * quick_inverse(stiffness_anchor) * int_pt[I].weight * new_length;
+            trial_local_flexibility += t_flexibility * int_pt[I].B;
+            residual_deformation += t_flexibility * (int_pt[I].b_section->get_resistance() - target_section_resistance);
         }
         // quit if converged
-        if(norm(residual) < 1E-10) break;
+        if(norm(residual_deformation) < 1E-12) break;
         // impose a relatively more strict rule
-        if(++counter > 5) {
+        if(++counter > 10) {
             suanpan_extra_debug("iteration fails to converge at element level.\n");
             return -1;
         }
