@@ -101,7 +101,7 @@ int F21::update_status() {
         // quit if converged
         if(norm(residual_deformation) < 1E-12) break;
         // impose a relatively more strict rule
-        if(++counter > 10) {
+        if(++counter > 5) {
             suanpan_extra_debug("iteration fails to converge at element level.\n");
             return -1;
         }

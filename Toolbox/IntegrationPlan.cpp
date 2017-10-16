@@ -248,8 +248,8 @@ IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& i
             PTL[1] = -.8302238962;
             PTL[2] = -.4688487934;
             PTL[3] = 0.;
-            PTL[4] = -.4688487934;
-            PTL[5] = -.8302238962;
+            PTL[4] = .4688487934;
+            PTL[5] = .8302238962;
             PTL[6] = 1.;
 
             PTW[0] = .0476190476;

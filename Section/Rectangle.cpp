@@ -39,7 +39,7 @@ Rectangle::Rectangle(const unsigned& T, const double& B, const double& H, const 
 void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
     auto& material_proto = D->get_material(material_tag);
 
-    const IntegrationPlan plan(1, int_pt_num, IntegrationType::GAUSS);
+    const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
 
     int_pt.clear(), int_pt.reserve(int_pt_num);
     initial_stiffness.zeros(2, 2);
