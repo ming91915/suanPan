@@ -38,9 +38,18 @@ class Section : public Tag {
 protected:
     const unsigned material_tag; /**< material tags */
 
-    vec resistance;        /**< resistance vector. */
-    mat stiffness;         /**< stiffness matrix */
+    vec trial_deformation;   /**< trial deformation */
+    vec current_deformation; /**< current deformation */
+
+    vec trial_deformation_rate;   /**< trial deformation rate */
+    vec current_deformation_rate; /**< current deformation rate */
+
+    vec trial_resistance;   /**< trial resistance */
+    vec current_resistance; /**< current resistance */
+
     mat initial_stiffness; /**< initial stiffness matrix */
+    mat current_stiffness; /**< stiffness matrix */
+    mat trial_stiffness;   /**< stiffness matrix */
 public:
     explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION, const unsigned& MT = 0);
 
@@ -48,6 +57,8 @@ public:
 
     virtual void initialize(const shared_ptr<DomainBase>&) = 0;
 
+    virtual const vec& get_deformation() const;
+    virtual const vec& get_deformation_rate() const;
     virtual const vec& get_resistance() const;
     virtual const mat& get_stiffness() const;
     virtual const mat& get_initial_stiffness() const;
@@ -56,6 +67,8 @@ public:
 
     virtual double get_parameter(const ParameterType& = ParameterType::NONE);
 
+    virtual int update_incre_status(const vec&);
+    virtual int update_incre_status(const vec&, const vec&);
     virtual int update_trial_status(const vec&);
     virtual int update_trial_status(const vec&, const vec&);
     virtual int clear_status() = 0;

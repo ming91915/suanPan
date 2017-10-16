@@ -82,14 +82,14 @@ int F21::update_status() {
 
     const auto new_length = length;
 
-    // transform global deformation to local one (remove rigid body motion)
     vec t_disp(6);
     for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
 
-    vec incre_local_deformation = trans_mat * t_disp - trial_local_deformation;
-    incre_local_deformation.t().print("\n");
-
-    trial_local_deformation += incre_local_deformation;
+    const auto t_local_deformation = trial_local_deformation;
+    // transform global deformation to local one (remove rigid body motion)
+    trial_local_deformation = trans_mat * t_disp;
+    vec incre_local_deformation = trial_local_deformation - t_local_deformation;
+    incre_local_deformation.t().print();
 
     auto counter = 0;
     auto converged = false;
@@ -117,7 +117,7 @@ int F21::update_status() {
     }
 
     if(!converged) {
-        suanpan_extra_debug("iteration fails to converge at element level.\n");
+        suanpan_info("iteration fails to converge at element level.\n");
         return -1;
     }
 

@@ -28,25 +28,49 @@ void Section::initialize(const shared_ptr<DomainBase>& D) {
     if(!D->find_material(material_tag)) {
         D->disable_section(get_tag());
         suanpan_error("initialize() cannot find material %u, now disable it.\n", material_tag);
+        return;
     }
+
+    const auto size = 2;
+
+    current_deformation.zeros(size);
+    trial_deformation.zeros(size);
+
+    // current_deformation_rate.zeros(size);
+    // trial_deformation_rate.zeros(size);
+
+    current_resistance.zeros(size);
+    trial_resistance.zeros(size);
+
+    // initial_stiffness.zeros(size, size);
+    // trial_stiffness.zeros(size, size);
+    // current_stiffness.zeros(size, size);
 }
 
-const vec& Section::get_resistance() const { return resistance; }
+const vec& Section::get_deformation() const { return trial_deformation; }
 
-const mat& Section::get_stiffness() const { return stiffness; }
+const vec& Section::get_deformation_rate() const { return trial_deformation_rate; }
+
+const vec& Section::get_resistance() const { return trial_resistance; }
+
+const mat& Section::get_stiffness() const { return trial_stiffness; }
 
 const mat& Section::get_initial_stiffness() const { return initial_stiffness; }
 
-unique_ptr<Section> Section::get_copy() { throw; }
+unique_ptr<Section> Section::get_copy() { throw invalid_argument("hidden method called.\n"); }
 
 double Section::get_parameter(const ParameterType&) { return 0.; }
 
-int Section::update_trial_status(const vec&) { throw; }
+int Section::update_incre_status(const vec& i_deformation) { return update_trial_status(current_deformation + i_deformation); }
 
-int Section::update_trial_status(const vec&, const vec&) { throw; }
+int Section::update_incre_status(const vec& i_deformation, const vec& i_deformation_rate) { return update_trial_status(current_deformation + i_deformation, current_deformation_rate + i_deformation_rate); }
 
-int Section::clear_status() { throw; }
+int Section::update_trial_status(const vec&) { throw invalid_argument("hidden method called.\n"); }
 
-int Section::commit_status() { throw; }
+int Section::update_trial_status(const vec& t_deformation, const vec&) { return update_trial_status(t_deformation); }
 
-int Section::reset_status() { throw; }
+int Section::clear_status() { throw invalid_argument("hidden method called.\n"); }
+
+int Section::commit_status() { throw invalid_argument("hidden method called.\n"); }
+
+int Section::reset_status() { throw invalid_argument("hidden method called.\n"); }

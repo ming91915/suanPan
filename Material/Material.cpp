@@ -67,15 +67,15 @@ const mat& Material::get_stiffness() const { return trial_stiffness; }
 
 const mat& Material::get_initial_stiffness() const { return initial_stiffness; }
 
-unique_ptr<Material> Material::get_copy() { throw; }
+unique_ptr<Material> Material::get_copy() { throw invalid_argument("hidden method called.\n"); }
 
-int Material::update_incre_status(const vec&) { throw; }
+int Material::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
-int Material::update_incre_status(const vec&, const vec&) { throw; }
+int Material::update_incre_status(const vec& i_strain, const vec& i_strain_rate) { return update_trial_status(current_strain + i_strain, current_strain_rate + i_strain_rate); }
 
-int Material::update_trial_status(const vec&) { throw; }
+int Material::update_trial_status(const vec&) { throw invalid_argument("hidden method called.\n"); }
 
-int Material::update_trial_status(const vec&, const vec&) { throw; }
+int Material::update_trial_status(const vec& t_strain, const vec&) { return update_trial_status(t_strain); }
 
 int Material::clear_status() {
     if(!current_strain.is_empty()) current_strain.zeros();

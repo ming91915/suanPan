@@ -52,22 +52,39 @@ SectionExample::SectionExample(const unsigned& T, const double& S, const double&
     , elastic_modulus(E) {}
 
 void SectionExample::initialize(const shared_ptr<DomainBase>&) {
-    stiffness.zeros(2, 2);
-    stiffness(0, 0) = elastic_modulus * area;
-    stiffness(1, 1) = elastic_modulus * moment_inertia;
+    initial_stiffness.zeros(2, 2);
+    initial_stiffness(0, 0) = elastic_modulus * area;
+    initial_stiffness(1, 1) = elastic_modulus * moment_inertia;
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
 }
 
 unique_ptr<Section> SectionExample::get_copy() { return make_unique<SectionExample>(*this); }
 
-int SectionExample::update_trial_status(const vec& t_strain) {
-    resistance = stiffness * t_strain;
+int SectionExample::update_trial_status(const vec& t_deformation) {
+    trial_deformation = t_deformation;
+    trial_resistance = trial_stiffness * trial_deformation;
     return 0;
 }
 
-int SectionExample::clear_status() { return 0; }
+int SectionExample::clear_status() {
+    current_deformation.zeros();
+    trial_deformation.zeros();
+    current_resistance.zeros();
+    trial_resistance.zeros();
+    return 0;
+}
 
-int SectionExample::commit_status() { return 0; }
+int SectionExample::commit_status() {
+    current_deformation = trial_deformation;
+    current_resistance = trial_resistance;
+    return 0;
+}
 
-int SectionExample::reset_status() { return 0; }
+int SectionExample::reset_status() {
+    trial_deformation = current_deformation;
+    trial_resistance = current_resistance;
+    return 0;
+}
 
 void SectionExample::print() { suanpan_info("This is an example section object represents the square elastic section.\n"); }

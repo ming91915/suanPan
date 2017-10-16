@@ -19,7 +19,7 @@ recorder 1 Node U 2
 
 step static 1 1
 set ini_step_size .4
-# set fixed_step_size true
+set fixed_step_size true
 
 converger AbsIncreDisp 1 1E-6 10 1
 

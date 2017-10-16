@@ -50,46 +50,66 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
         initial_stiffness(1, 1) += tmp_a * int_pt[I].coor * int_pt[I].coor;
     }
 
-    resistance.zeros(2);
-    stiffness = initial_stiffness;
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
 }
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
 
-double Rectangle::get_parameter(const ParameterType& P) { return 0.; }
+double Rectangle::get_parameter(const ParameterType&) { return 0.; }
 
-int Rectangle::update_trial_status(const vec& t_strain) {
-    stiffness.zeros();
-    resistance.zeros();
+int Rectangle::update_trial_status(const vec& t_deformation) {
+    trial_deformation = t_deformation;
+
+    trial_stiffness.zeros();
+    trial_resistance.zeros();
 
     auto code = 0;
+
     for(const auto& I : int_pt) {
-        const vec fibre_strain{ t_strain(0) - t_strain(1) * I.coor };
+        const vec fibre_strain{ trial_deformation(0) - trial_deformation(1) * I.coor };
         code += I.s_material->update_trial_status(fibre_strain);
-        const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
-        stiffness(0, 0) += tmp_a;
-        stiffness(1, 1) += tmp_a * I.coor * I.coor;
-        const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
-        resistance(0) += tmp_b;
-        resistance(1) -= tmp_b * I.coor;
     }
 
-    return code;
+    if(code != 0) return code;
+
+    for(const auto& I : int_pt) {
+        const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
+        trial_stiffness(0, 0) += tmp_a;
+        trial_stiffness(1, 1) += tmp_a * I.coor * I.coor;
+        const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
+        trial_resistance(0) += tmp_b;
+        trial_resistance(1) -= tmp_b * I.coor;
+    }
+
+    return 0;
 }
 
 int Rectangle::clear_status() {
+    current_deformation.zeros();
+    trial_deformation.zeros();
+    current_resistance.zeros();
+    trial_resistance.zeros();
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
     auto code = 0;
     for(const auto& I : int_pt) code += I.s_material->clear_status();
     return code;
 }
 
 int Rectangle::commit_status() {
+    current_deformation = trial_deformation;
+    current_resistance = trial_resistance;
+    current_stiffness = trial_stiffness;
     auto code = 0;
     for(const auto& I : int_pt) code += I.s_material->commit_status();
     return code;
 }
 
 int Rectangle::reset_status() {
+    trial_deformation = current_deformation;
+    trial_resistance = current_resistance;
+    trial_stiffness = current_stiffness;
     auto code = 0;
     for(const auto& I : int_pt) code += I.s_material->reset_status();
     return code;
