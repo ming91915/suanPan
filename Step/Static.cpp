@@ -32,7 +32,7 @@ int Static::analyze() {
     auto time_left = get_time_period();
     auto step = get_ini_step_size();
 
-    unsigned num_increment = 0;
+    unsigned num_increment = 0, num_converged_step = 0;
 
     while(true) {
         // check if the target time point is hit
@@ -53,6 +53,10 @@ int Static::analyze() {
             G->record();
             // eat current increment
             time_left -= step;
+            if(!is_fixed_step_size() && ++num_converged_step > 5) {
+                step *= 1.2;
+                num_converged_step = 0;
+            }
             // check if time overflows
             if(step > time_left) step = time_left;
         } else if(code == -1) { // failed step
@@ -70,6 +74,8 @@ int Static::analyze() {
             }
             // step size is allowed to decrease
             step /= 2.;
+            set_max_substep(num_increment + unsigned(time_left / step) + 1);
+            if(num_converged_step != 0) num_converged_step = 0;
         } else // positive codes are from lapack subroutines
             return -1;
     }

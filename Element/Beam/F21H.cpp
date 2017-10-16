@@ -45,7 +45,7 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
     const auto t_flexibility = quick_inverse(section_proto->get_initial_stiffness());
 
     // perform integration of elastic region
-    const IntegrationPlan plan(1, 4, IntegrationType::GAUSS);
+    const IntegrationPlan plan(1, 3, IntegrationType::GAUSS);
     const auto int_pt_num = plan.n_rows + 4;
     const auto elastic_length = 1. - 8. * hinge_length;
     initial_local_flexibility.zeros(3, 3);

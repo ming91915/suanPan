@@ -533,7 +533,7 @@ void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
     }
 
     unsigned int_pt = 6;
-    if(!get_input(command, int_pt)) {
+    if(!command.eof() && !get_input(command, int_pt)) {
         suanpan_debug("new_f21() needs a valid number of integration points.\n");
         return;
     }
@@ -542,7 +542,7 @@ void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
     if(!command.eof()) {
         if(!get_input(command, nonlinear)) suanpan_debug("new_f21() needs a valid nonlinear geomtery switch (0,1).\n");
     } else
-        suanpan_debug("new_f21() assumes linear geometry.\n");
+        suanpan_extra_debug("new_f21() assumes linear geometry.\n");
 
     return_obj = make_unique<F21>(tag, uvec(node_tag), section_id, int_pt, !!nonlinear);
 }
