@@ -249,9 +249,9 @@ public:
 
     virtual void erase_machine_error() const = 0;
 
-    virtual void update_current_status() const = 0;
-    virtual void update_incre_status() const = 0;
-    virtual void update_trial_status() const = 0;
+    virtual int update_current_status() const = 0;
+    virtual int update_incre_status() const = 0;
+    virtual int update_trial_status() const = 0;
 
     virtual void commit_status() const = 0;
     virtual void clear_status() const = 0;

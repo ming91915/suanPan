@@ -60,8 +60,8 @@ public:
 
     void update_trial_time(const double) const;
     void update_incre_time(const double) const;
-    virtual void update_trial_status();
-    virtual void update_incre_status();
+    virtual int update_trial_status();
+    virtual int update_incre_status();
 
     virtual void erase_machine_error() const;
 

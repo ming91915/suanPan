@@ -23,6 +23,7 @@
 // DEBUG --> GCC
 #if defined(_DEBUG) || defined(DEBUG)
 #define SUANPAN_DEBUG
+#define SUANPAN_EXTRA_DEBUG
 #else
 #define ARMA_NO_DEBUG
 #endif

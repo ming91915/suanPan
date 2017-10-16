@@ -57,9 +57,9 @@ void Integrator::update_trial_time(const double T) const { database.lock()->get_
 
 void Integrator::update_incre_time(const double T) const { database.lock()->get_factory()->update_incre_time(T); }
 
-void Integrator::update_trial_status() { database.lock()->update_trial_status(); }
+int Integrator::update_trial_status() { return database.lock()->update_trial_status(); }
 
-void Integrator::update_incre_status() { database.lock()->update_incre_status(); }
+int Integrator::update_incre_status() { return database.lock()->update_incre_status(); }
 
 void Integrator::erase_machine_error() const { database.lock()->erase_machine_error(); }
 

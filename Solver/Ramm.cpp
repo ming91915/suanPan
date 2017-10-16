@@ -91,7 +91,7 @@ int Ramm::analyze() {
         // set time to load factor
         W->update_trial_time(W->get_trial_load_factor().at(0));
         // update for nodes and elements
-        G->update_trial_status();
+        if(G->update_trial_status() != 0) return -1;
 
         ++counter;
 

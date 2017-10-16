@@ -51,7 +51,7 @@ void suanpan_debug(const char* M, ...) {
 
 void suanpan_extra_debug(const char* M, ...) {
 #ifdef SUANPAN_EXTRA_DEBUG
-    cout << "debug: ";
+    cout << "extra debug: ";
     va_list arguments_a, arguments_b;
     va_start(arguments_a, M);
     va_copy(arguments_b, arguments_a);

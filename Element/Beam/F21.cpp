@@ -82,14 +82,14 @@ int F21::update_status() {
 
     const auto new_length = length;
 
-    current_local_deformation = trial_local_deformation;
-
     // transform global deformation to local one (remove rigid body motion)
     vec t_disp(6);
     for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
-    trial_local_deformation = trans_mat * t_disp;
 
-    vec incre_local_deformation = trial_local_deformation - current_local_deformation;
+    vec incre_local_deformation = trans_mat * t_disp - trial_local_deformation;
+    incre_local_deformation.t().print("\n");
+
+    trial_local_deformation += incre_local_deformation;
 
     auto counter = 0;
     auto converged = false;
@@ -99,23 +99,29 @@ int F21::update_status() {
         trial_local_flexibility.zeros();
         for(auto&& I : int_pt) {
             I.trial_section_resistance += I.B * incre_local_resistance;
-            const vec incre_deformation = (I.b_section->get_resistance() - I.trial_section_resistance) / I.b_section->get_stiffness().diag();
-            I.trial_section_deformation -= incre_deformation;
+            const vec incre_deformation = (I.trial_section_resistance - I.b_section->get_resistance()) / I.b_section->get_stiffness().diag();
+            I.trial_section_deformation += incre_deformation;
             I.b_section->update_trial_status(I.trial_section_deformation);
             const mat tmp_a = I.B.t() * I.weight * new_length / 2.;
             auto tmp_b = I.b_section->get_stiffness();
             tmp_b(0, 0) = 1. / tmp_b(0, 0), tmp_b(1, 1) = 1. / tmp_b(1, 1);
             trial_local_flexibility += tmp_a * tmp_b * I.B;
-            incre_local_deformation += tmp_a * incre_deformation;
+            incre_local_deformation -= tmp_a * incre_deformation;
         }
-        if(norm(incre_local_deformation) < 1E-12) {
+        cout << norm(incre_local_deformation) << endl;
+        if(norm(incre_local_deformation) < 1E-10) {
             converged = true;
             break;
         }
-        if(++counter > 10) break;
+        if(++counter > 5) break;
     }
 
-    stiffness = trans_mat.t() * solve(converged ? trial_local_flexibility : initial_local_flexibility, trans_mat);
+    if(!converged) {
+        suanpan_extra_debug("iteration fails to converge at element level.\n");
+        return -1;
+    }
+
+    stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
     resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;

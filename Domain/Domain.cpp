@@ -662,7 +662,7 @@ void Domain::erase_machine_error() const {
     for(const auto& I : restrained_dofs) t_ninja(I) = 0.;
 }
 
-void Domain::update_trial_status() const {
+int Domain::update_trial_status() const {
     const auto& analysis_type = factory->get_analysis_type();
 
     auto& trial_dsp = factory->get_trial_displacement();
@@ -677,24 +677,36 @@ void Domain::update_trial_status() const {
     else if(analysis_type == AnalysisType::DYNAMICS)
         suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
 
-    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->update_status(); });
+    auto code = 0;
+
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [&](const shared_ptr<Element>& t_element) { code += t_element->update_status(); });
+
+    return code;
 }
 
-void Domain::update_incre_status() const {
+int Domain::update_incre_status() const {
     const auto& analysis_type = factory->get_analysis_type();
 
     auto& incre_dsp = factory->get_incre_displacement();
     auto& incre_vel = factory->get_incre_velocity();
     auto& incre_acc = factory->get_incre_acceleration();
 
+    auto& t_node_pool = node_pond.get();
+    auto& t_element_pool = element_pond.get();
+
     if(analysis_type == AnalysisType::STATICS)
-        for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp);
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_incre_status(incre_dsp); });
     else if(analysis_type == AnalysisType::DYNAMICS)
-        for(const auto& I : node_pond.get()) I->update_incre_status(incre_dsp, incre_vel, incre_acc);
-    for(const auto& I : element_pond.get()) I->update_status();
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_incre_status(incre_dsp, incre_vel, incre_acc); });
+
+    auto code = 0;
+
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [&](const shared_ptr<Element>& t_element) { code += t_element->update_status(); });
+
+    return code;
 }
 
-void Domain::update_current_status() const {
+int Domain::update_current_status() const {
     const auto& analysis_type = factory->get_analysis_type();
 
     vec c_g_dsp(factory->get_size(), fill::zeros);
@@ -724,6 +736,8 @@ void Domain::update_current_status() const {
         factory->update_current_velocity(c_g_vel);
         factory->update_current_acceleration(c_g_acc);
     }
+
+    return 0;
 }
 
 void Domain::commit_status() const {

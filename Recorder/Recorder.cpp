@@ -57,12 +57,13 @@ void Recorder::save() {
 
     file_name << to_char(variable_type) << object_tag << ".h5";
 
-    mat data_to_write(data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size());
+    mat data_to_write(data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size() + 1);
+    data_to_write.col(0).zeros();
 
     for(size_t I = 0; I < time_pool.size(); ++I) {
-        data_to_write(0, I) = time_pool[I];
+        data_to_write(0, I + 1) = time_pool[I];
         for(const auto& J : data_pool[I])
-            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I) = J[K];
+            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I + 1) = J[K];
     }
 
     hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };

@@ -542,7 +542,7 @@ void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
     if(!command.eof()) {
         if(!get_input(command, nonlinear)) suanpan_debug("new_f21() needs a valid nonlinear geomtery switch (0,1).\n");
     } else
-        suanpan_debug("new_b21() assumes linear geometry.\n");
+        suanpan_debug("new_f21() assumes linear geometry.\n");
 
     return_obj = make_unique<F21>(tag, uvec(node_tag), section_id, int_pt, !!nonlinear);
 }
@@ -580,7 +580,7 @@ void new_f21h(unique_ptr<Element>& return_obj, istringstream& command) {
     if(!command.eof()) {
         if(!get_input(command, nonlinear)) suanpan_debug("new_f21h() needs a valid nonlinear geomtery switch (0,1).\n");
     } else
-        suanpan_extra_debug("new_b21() assumes linear geometry.\n");
+        suanpan_extra_debug("new_f21h() assumes linear geometry.\n");
 
     return_obj = make_unique<F21H>(tag, uvec(node_tag), section_id, elastic_length, !!nonlinear);
 }

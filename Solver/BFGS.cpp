@@ -98,7 +98,7 @@ int BFGS::analyze() {
         // update trial status for factory
         W->update_trial_displacement(W->get_trial_displacement() + W->get_ninja());
         // update for nodes and elements
-        G->update_trial_status();
+        if(G->update_trial_status() != 0) return -1;
 
         // exit if converged
         if(C->is_converged()) return 0;

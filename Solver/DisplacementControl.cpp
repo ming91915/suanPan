@@ -53,7 +53,7 @@ int DisplacementControl::analyze() {
         // update trial displacement
         W->update_trial_displacement(W->get_trial_displacement() + t_ninja);
         // update for nodes and elements
-        G->update_trial_status();
+        if(G->update_trial_status() != 0) return -1;
 
         // exit if converged
         if(C->is_converged()) return 0;
