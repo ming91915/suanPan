@@ -494,8 +494,8 @@ void new_b21(unique_ptr<Element>& return_obj, istringstream& command) {
         return;
     }
 
-    unsigned int_pt;
-    if(!get_input(command, int_pt)) {
+    unsigned int_pt = 6;
+    if(!command.eof() && !get_input(command, int_pt)) {
         suanpan_debug("new_b21() needs a valid number of integration points.\n");
         return;
     }

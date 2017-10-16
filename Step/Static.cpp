@@ -26,9 +26,6 @@ int Static::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    // make sure the stiffness and resistance are correct
-    // G->update_trial_status();
-
     auto time_left = get_time_period();
     auto step = get_ini_step_size();
 

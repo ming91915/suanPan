@@ -4,7 +4,7 @@ node 1 0 0
 node 2 1 0
 
 # material Elastic1D 1 10
-material MPF 1 10 .2 .05
+material Bilinear1D 1 10 .6 .05
 
 section Rectangle 1 12 1 1
 
@@ -13,15 +13,15 @@ element F21H 1 1 2 1 .2
 
 fix 1 P 1
 
-cload 1 0 1 2 2
+cload 1 0 3 2 2
 
 recorder 1 Node U 2
 
 step static 1 1
-set ini_step_size .01
+set ini_step_size 1
 set fixed_step_size true
 
-converger AbsIncreDisp 1 1E-6 10 0
+converger AbsIncreDisp 1 1E-4 10 1
 
 analyze
 
