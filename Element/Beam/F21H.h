@@ -19,7 +19,7 @@
  * @brief The F21H class.
  * @author T
  * @date 11/10/2017
- * @version 0.1.1
+ * @version 0.2.1
  * @file F21H.h
  * @addtogroup Beam
  * @ingroup Element
@@ -44,12 +44,7 @@ class F21H final : public Element {
         double coor, weight;
         unique_ptr<Section> b_section;
         mat B;
-        vec current_section_deformation, trial_section_deformation;
-        vec current_section_resistance, trial_section_resistance;
         IntegrationPoint(const double, const double, unique_ptr<Section>&&);
-        void commit_status();
-        void clear_status();
-        void reset_status();
     };
 
     vector<IntegrationPoint> int_pt;
@@ -60,20 +55,22 @@ class F21H final : public Element {
     vec current_local_deformation, trial_local_deformation;
     vec current_local_resistance, trial_local_resistance;
 
+    static mat quick_inverse(const mat&);
+
 public:
-    F21H(const unsigned&,   // tag
-        const uvec&,        // node tags
-        const unsigned&,    // section tags
-        const double& = .2, // hinge length
-        const bool& = false // nonliear geometry switch
+    F21H(const unsigned,   // tag
+        const uvec&,       // node tags
+        const unsigned,    // section tags
+        const double = .2, // hinge length
+        const bool = false // nonliear geometry switch
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
     int update_status() override;
 
-    int commit_status() override;
     int clear_status() override;
+    int commit_status() override;
     int reset_status() override;
 
     void print() override;
