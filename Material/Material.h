@@ -78,6 +78,11 @@ public:
 
     virtual unique_ptr<Material> get_copy() = 0;
 
+    int update_incre_status(const double);
+    int update_incre_status(const double, const double);
+    int update_trial_status(const double);
+    int update_trial_status(const double, const double);
+
     virtual int update_incre_status(const vec&);
     virtual int update_incre_status(const vec&, const vec&);
     virtual int update_trial_status(const vec&);
@@ -87,6 +92,8 @@ public:
     virtual int commit_status() = 0;
     virtual int reset_status() = 0;
 };
+
+unique_ptr<Material>&& make_copy(const shared_ptr<Material>&);
 
 #endif
 

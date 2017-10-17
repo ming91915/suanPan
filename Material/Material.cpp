@@ -69,6 +69,28 @@ const mat& Material::get_initial_stiffness() const { return initial_stiffness; }
 
 unique_ptr<Material> Material::get_copy() { throw invalid_argument("hidden method called.\n"); }
 
+int Material::update_incre_status(const double i_strain) {
+    const vec i_vec_strain{ i_strain };
+    return update_incre_status(i_vec_strain);
+}
+
+int Material::update_incre_status(const double i_strain, const double i_strain_rate) {
+    const vec i_vec_strain{ i_strain };
+    const vec i_vec_strain_rate{ i_strain_rate };
+    return update_incre_status(i_vec_strain, i_vec_strain_rate);
+}
+
+int Material::update_trial_status(const double t_strain) {
+    const vec t_vec_strain{ t_strain };
+    return update_trial_status(t_vec_strain);
+}
+
+int Material::update_trial_status(const double t_strain, const double t_strain_rate) {
+    const vec t_vec_strain{ t_strain };
+    const vec t_vec_strain_rate{ t_strain_rate };
+    return update_trial_status(t_vec_strain, t_vec_strain_rate);
+}
+
 int Material::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
 int Material::update_incre_status(const vec& i_strain, const vec& i_strain_rate) { return update_trial_status(current_strain + i_strain, current_strain_rate + i_strain_rate); }
@@ -115,3 +137,5 @@ int Material::reset_status() {
 
     return 0;
 }
+
+unique_ptr<Material>&& make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }
