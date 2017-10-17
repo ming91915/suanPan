@@ -69,5 +69,11 @@
 #ifndef ET_T3D2
 #define ET_T3D2 2016
 #endif
+#ifndef ET_B21H
+#define ET_B21H 2017
+#endif
+#ifndef ET_SPRING01
+#define ET_SPRING01 2018
+#endif
 
 #endif

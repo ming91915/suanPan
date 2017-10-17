@@ -53,6 +53,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_elasticb21(new_element, command);
     else if(is_equal(element_id, "B21"))
         new_b21(new_element, command);
+    else if(is_equal(element_id, "B21H"))
+        new_b21h(new_element, command);
     else if(is_equal(element_id, "F21"))
         new_f21(new_element, command);
     else if(is_equal(element_id, "F21H"))
@@ -507,6 +509,44 @@ void new_b21(unique_ptr<Element>& return_obj, istringstream& command) {
         suanpan_debug("new_b21() assumes linear geometry.\n");
 
     return_obj = make_unique<B21>(tag, uvec(node_tag), section_id, int_pt, !!nonlinear);
+}
+
+void new_b21h(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_b21h() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 2; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_b21h() needs two valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned section_id;
+    if(!get_input(command, section_id)) {
+        suanpan_debug("new_b21h() needs a valid section tag.\n");
+        return;
+    }
+
+    auto elastic_length = .2;
+    if(!command.eof() && !get_input(command, elastic_length)) {
+        suanpan_debug("new_b21h() needs a valid number of integration points.\n");
+        return;
+    }
+
+    unsigned nonlinear = 0;
+    if(!command.eof()) {
+        if(!get_input(command, nonlinear)) suanpan_debug("new_b21h() needs a valid nonlinear geomtery switch (0,1).\n");
+    } else
+        suanpan_extra_debug("new_b21h() assumes linear geometry.\n");
+
+    return_obj = make_unique<B21H>(tag, uvec(node_tag), section_id, elastic_length, !!nonlinear);
 }
 
 void new_f21(unique_ptr<Element>& return_obj, istringstream& command) {
