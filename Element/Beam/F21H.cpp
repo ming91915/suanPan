@@ -41,7 +41,7 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
     trans_mat = transform::beam::global_to_local(direction_cosine, length);
     inclination = transform::atan2(direction_cosine);
 
-    const auto& section_proto = D->get_section(unsigned(material_tag(0)));
+    auto& section_proto = D->get_section(unsigned(material_tag(0)));
 
     // quick computation of section flexibility
     elastic_section_flexibility = quick_inverse(section_proto->get_initial_stiffness());
