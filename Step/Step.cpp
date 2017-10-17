@@ -167,7 +167,7 @@ const double& Step::get_time_period() const { return time_period; }
 
 void Step::set_ini_step_size(const double& T) {
     if(ini_step_size != T) {
-        ini_step_size = T;
+        ini_step_size = T > time_period ? time_period : T;
         updated = false;
         const auto tmp_iteration = static_cast<unsigned>(floor(time_period / ini_step_size)) + 1;
         if(tmp_iteration > max_substep && max_substep != 0)

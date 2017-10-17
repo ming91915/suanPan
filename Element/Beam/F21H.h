@@ -47,9 +47,9 @@ class F21H final : public Element {
         IntegrationPoint(const double, const double, unique_ptr<Section>&&);
     };
 
-    vector<IntegrationPoint> int_pt;
+    vector<IntegrationPoint> int_pt, elastic_int_pt;
 
-    mat trans_mat, initial_local_flexibility;
+    mat trans_mat, initial_local_flexibility, elastic_local_flexibility, elastic_section_flexibility;
 
     mat current_local_flexibility, trial_local_flexibility;
     vec current_local_deformation, trial_local_deformation;

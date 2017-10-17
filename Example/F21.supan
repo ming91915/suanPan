@@ -4,12 +4,12 @@ node 1 0 0
 node 2 1 0
 
 # material Elastic1D 1 10
-material Bilinear1D 1 10 .6 .05
+material Bilinear1D 1 10 .8 .4
 
-section Rectangle 1 12 1 1
+section Rectangle 1 12 1 1 10
 
 # element F21 1 1 2 1
-element F21H 1 1 2 1 .2
+element F21H 1 1 2 1 .3
 
 fix 1 P 1
 

@@ -13,7 +13,9 @@ F21H::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_
     : coor(C)
     , weight(W)
     , b_section(move(M))
-    , B(2, 3, fill::zeros) {}
+    , B(2, 3, fill::zeros) {
+    B(0, 0) = 1.;
+}
 
 mat F21H::quick_inverse(const mat& stiffness) {
     mat flexibility(2, 2, fill::zeros);
@@ -41,38 +43,49 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto& section_proto = D->get_section(unsigned(material_tag(0)));
 
-    // quick computation of flexibility
-    const auto t_flexibility = quick_inverse(section_proto->get_initial_stiffness());
+    // quick computation of section flexibility
+    elastic_section_flexibility = quick_inverse(section_proto->get_initial_stiffness());
 
     // perform integration of elastic region
-    const IntegrationPlan plan(1, 3, IntegrationType::GAUSS);
-    const auto int_pt_num = plan.n_rows + 4;
+    const IntegrationPlan plan(1, 2, IntegrationType::GAUSS);
+    // add two inner points of Radau quadrature
+    const auto int_pt_num = plan.n_rows + 2;
     const auto elastic_length = 1. - 8. * hinge_length;
-    initial_local_flexibility.zeros(3, 3);
-    int_pt.clear(), int_pt.reserve(int_pt_num);
-    double coor, weight;
+    // elastic part will be reused in computation
+    elastic_local_flexibility.zeros(3, 3);
+    // build up the elastic interior
+    elastic_int_pt.clear(), elastic_int_pt.reserve(int_pt_num);
     for(unsigned I = 0; I < int_pt_num; ++I) {
+        double coor, weight;
         if(I == 0) {
-            coor = -1.;
-            weight = hinge_length;
-        } else if(I == 1) {
+            // left inner Radau point
             coor = 16. / 3. * hinge_length - 1.;
             weight = 3. * hinge_length;
-        } else if(I == int_pt_num - 2) {
+        } else if(I == int_pt_num - 1) {
+            // right inner Radau point
             coor = 1. - 16. / 3. * hinge_length;
             weight = 3. * hinge_length;
-        } else if(I == int_pt_num - 1) {
-            coor = 1.;
-            weight = hinge_length;
         } else {
-            coor = plan(I - 2, 0) * elastic_length;
-            weight = plan(I - 2, 1) * elastic_length / 2.;
+            // Gauss points
+            coor = plan(I - 1, 0) * elastic_length;
+            weight = plan(I - 1, 1) * elastic_length / 2.;
         }
-        int_pt.emplace_back(coor, weight, section_proto->get_copy());
-        int_pt[I].B(0, 0) = 1.;
-        int_pt[I].B(1, 1) = (coor - 1.) / 2.;
-        int_pt[I].B(1, 2) = (coor + 1.) / 2.;
-        initial_local_flexibility += int_pt[I].B.t() * t_flexibility * int_pt[I].B * weight * length;
+        elastic_int_pt.emplace_back(coor, weight, section_proto->get_copy());
+        // first element moved to ctor
+        elastic_int_pt[I].B(1, 1) = (coor - 1.) / 2.;
+        elastic_int_pt[I].B(1, 2) = (coor + 1.) / 2.;
+        elastic_local_flexibility += elastic_int_pt[I].B.t() * elastic_section_flexibility * elastic_int_pt[I].B * weight * length;
+    }
+
+    // perform integration of hinge part
+    initial_local_flexibility = elastic_local_flexibility;
+    int_pt.clear(), int_pt.reserve(2);
+    int_pt.emplace_back(-1., hinge_length, section_proto->get_copy());
+    int_pt.emplace_back(1., hinge_length, section_proto->get_copy());
+    for(auto& I : int_pt) {
+        I.B(1, 1) = (I.coor - 1.) / 2.;
+        I.B(1, 2) = (I.coor + 1.) / 2.;
+        initial_local_flexibility += I.B.t() * elastic_section_flexibility * I.B * I.weight * length;
     }
 
     current_local_flexibility = initial_local_flexibility;
@@ -91,38 +104,43 @@ int F21H::update_status() {
     for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
 
     vec residual_deformation = -trial_local_deformation;
-
     // transform global deformation to local one (remove rigid body motion)
     trial_local_deformation = trans_mat * t_disp;
-
     // initial residual be aware of how to compute it
     residual_deformation += trial_local_deformation;
 
     const auto new_length = length;
 
-    const auto end_num = int_pt.size() - 1;
-
     auto counter = 0;
     while(true) {
         trial_local_resistance += solve(trial_local_flexibility, residual_deformation);
         residual_deformation.zeros();
-        trial_local_flexibility.zeros();
-        for(auto I = 0; I < int_pt.size(); ++I) {
-            auto& stiffness_anchor = I == 0 || I == end_num ? int_pt[I].b_section->get_stiffness() : int_pt[I].b_section->get_initial_stiffness();
-            const vec target_section_resistance = int_pt[I].B * trial_local_resistance;
-            // compute unbalanced deformation
-            const vec incre_deformation = (target_section_resistance - int_pt[I].b_section->get_resistance()) / stiffness_anchor.diag();
+        // consider elastic interior no residual generated
+        trial_local_flexibility = elastic_local_flexibility;
+        // computation of hinge part
+        for(const auto& I : int_pt) {
+            const vec target_section_resistance = I.B * trial_local_resistance;
+            // compute unbalanced deformation use section stiffness
+            const vec incre_deformation = (target_section_resistance - I.b_section->get_resistance()) / I.b_section->get_stiffness().diag();
             // update status
-            int_pt[I].b_section->update_trial_status(int_pt[I].b_section->get_deformation() + incre_deformation);
+            I.b_section->update_trial_status(I.b_section->get_deformation() + incre_deformation);
             // collect new flexibility and deformation
-            const mat t_flexibility = int_pt[I].B.t() * quick_inverse(stiffness_anchor) * int_pt[I].weight * new_length;
-            trial_local_flexibility += t_flexibility * int_pt[I].B;
-            residual_deformation += t_flexibility * (int_pt[I].b_section->get_resistance() - target_section_resistance);
+            const mat t_flexibility = I.B.t() * quick_inverse(I.b_section->get_stiffness()) * I.weight * new_length;
+            trial_local_flexibility += t_flexibility * I.B;
+            residual_deformation += t_flexibility * (I.b_section->get_resistance() - target_section_resistance);
+        }
+        // computation of elastic part
+        // only for deformation tracking no necessary for response
+        for(const auto& I : elastic_int_pt) {
+            // compute unbalanced deformation use initial section stiffness
+            const vec incre_deformation = (I.B * trial_local_resistance - I.b_section->get_resistance()) % elastic_section_flexibility.diag();
+            // update status
+            I.b_section->update_trial_status(I.b_section->get_deformation() + incre_deformation);
         }
         // quit if converged
         if(norm(residual_deformation) < 1E-12) break;
         // impose a relatively more strict rule
-        if(++counter > 10) {
+        if(++counter > 5) {
             suanpan_extra_debug("iteration fails to converge at element level.\n");
             return -1;
         }
