@@ -55,6 +55,17 @@ void Circle::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Section> Circle::get_copy() { return make_unique<Circle>(*this); }
 
+double Circle::get_parameter(const ParameterType& P) {
+    switch(P) {
+    case ParameterType::AREA:
+        return radius * radius * datum::pi;
+    case ParameterType::DENSITY:
+        return int_pt.cbegin()->s_material->get_parameter(ParameterType::DENSITY);
+    default:
+        return 0.;
+    }
+}
+
 int Circle::update_trial_status(const vec& t_deformation) {
     trial_deformation = t_deformation;
 

@@ -56,7 +56,16 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
 
-double Rectangle::get_parameter(const ParameterType&) { return 0.; }
+double Rectangle::get_parameter(const ParameterType& P) {
+    switch(P) {
+    case ParameterType::AREA:
+        return width * height;
+    case ParameterType::DENSITY:
+        return int_pt.cbegin()->s_material->get_parameter(ParameterType::DENSITY);
+    default:
+        return 0.;
+    }
+}
 
 int Rectangle::update_trial_status(const vec& t_deformation) {
     trial_deformation = t_deformation;

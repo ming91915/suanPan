@@ -18,6 +18,6 @@
 #ifndef PARAMETERTYPE_H
 #define PARAMETERTYPE_H
 
-enum class ParameterType { NONE, DENSITY, POISSONSRATIO };
+enum class ParameterType { NONE, DENSITY, POISSONSRATIO, AREA };
 
 #endif

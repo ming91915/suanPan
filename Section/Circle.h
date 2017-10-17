@@ -54,6 +54,8 @@ public:
 
     unique_ptr<Section> get_copy() override;
 
+    double get_parameter(const ParameterType&) override;
+
     int update_trial_status(const vec&) override;
 
     int clear_status() override;
