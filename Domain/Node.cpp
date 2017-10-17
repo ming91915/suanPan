@@ -474,11 +474,11 @@ void Node::print() {
     coordinate.t().print();
     suanpan_info("Displacement:\n");
     current_displacement.t().print();
-    if(!current_velocity.is_empty()) {
+    if(accu(current_velocity) != 0.) {
         suanpan_info("Velocity:\n");
         current_velocity.t().print();
     }
-    if(!current_acceleration.is_empty()) {
+    if(accu(current_acceleration) != 0.) {
         suanpan_info("Acceleration:\n");
         current_acceleration.t().print();
     }
