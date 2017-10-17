@@ -160,6 +160,7 @@
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp" />
+    <ClCompile Include="..\..\..\Element\Special\SingleSection.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Spring01.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\T2D2.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\T3D2.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
     <ClInclude Include="..\..\..\Element\Special\Mass.h" />
+    <ClInclude Include="..\..\..\Element\Special\SingleSection.h" />
     <ClInclude Include="..\..\..\Element\Special\Spring01.h" />
     <ClInclude Include="..\..\..\Element\Truss\T2D2.h" />
     <ClInclude Include="..\..\..\Element\Truss\T3D2.h" />

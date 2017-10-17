@@ -76,4 +76,6 @@ public:
     virtual int reset_status() = 0;
 };
 
+unique_ptr<Section> make_copy(const shared_ptr<Section>&);
+
 #endif

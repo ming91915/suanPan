@@ -63,6 +63,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_proto01(new_element, command);
     else if(is_equal(element_id, "Mass"))
         new_mass(new_element, command);
+    else if(is_equal(element_id, "SingleSection"))
+        new_singlesection(new_element, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -649,6 +651,28 @@ void new_mass(unique_ptr<Element>& return_obj, istringstream& command) {
     while(get_input(command, dof)) dof_tag.push_back(dof);
 
     return_obj = make_unique<Mass>(tag, node, magnitude, uvec(dof_tag));
+}
+
+void new_singlesection(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_singlesection() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    if(!get_input(command, node)) {
+        suanpan_debug("new_singlesection() needs one valid node.\n");
+        return;
+    }
+
+    unsigned section_tag;
+    if(!get_input(command, section_tag)) {
+        suanpan_debug("new_singlesection() needs a valid section tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<SingleSection>(tag, node, section_tag);
 }
 
 void new_proto01(unique_ptr<Element>& return_obj, istringstream& command) {

@@ -1,0 +1,29 @@
+# A TEST MODEL
+
+node 1 0 0
+
+material Bilinear1D 1 10 .8 .02
+
+section Rectangle 1 12 1 1
+
+element SingleSection 1 1 1
+
+cload 1 0 3 2 1
+
+recorder 1 Node U 1
+
+step static 1 1
+set ini_step_size .01
+set fixed_step_size true
+
+converger AbsIncreDisp 1 1E-8 10 0
+
+analyze
+
+peek node 1
+
+peek element 1
+
+save recorder 1
+
+exit

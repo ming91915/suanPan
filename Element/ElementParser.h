@@ -37,6 +37,7 @@ void new_b21h(unique_ptr<Element>&, istringstream&);
 void new_f21(unique_ptr<Element>&, istringstream&);
 void new_f21h(unique_ptr<Element>&, istringstream&);
 void new_mass(unique_ptr<Element>&, istringstream&);
+void new_singlesection(unique_ptr<Element>&, istringstream&);
 
 void new_proto01(unique_ptr<Element>&, istringstream&);
 

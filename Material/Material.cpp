@@ -138,4 +138,4 @@ int Material::reset_status() {
     return 0;
 }
 
-unique_ptr<Material>&& make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }
+unique_ptr<Material> make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }

@@ -74,3 +74,5 @@ int Section::clear_status() { throw invalid_argument("hidden method called.\n");
 int Section::commit_status() { throw invalid_argument("hidden method called.\n"); }
 
 int Section::reset_status() { throw invalid_argument("hidden method called.\n"); }
+
+unique_ptr<Section> make_copy(const shared_ptr<Section>& S) { return S->get_copy(); }

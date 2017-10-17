@@ -93,7 +93,7 @@ public:
     virtual int reset_status() = 0;
 };
 
-unique_ptr<Material>&& make_copy(const shared_ptr<Material>&);
+unique_ptr<Material> make_copy(const shared_ptr<Material>&);
 
 #endif
 

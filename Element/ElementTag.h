@@ -75,5 +75,8 @@
 #ifndef ET_SPRING01
 #define ET_SPRING01 2018
 #endif
+#ifndef ET_SINGLESECTION
+#define ET_SINGLESECTION 2019
+#endif
 
 #endif

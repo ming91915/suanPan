@@ -93,6 +93,9 @@
     <ClCompile Include="..\..\..\Element\Special\Spring01.cpp">
       <Filter>Special</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Special\SingleSection.cpp">
+      <Filter>Special</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -165,6 +168,9 @@
       <Filter>Beam</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Special\Spring01.h">
+      <Filter>Special</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Special\SingleSection.h">
       <Filter>Special</Filter>
     </ClInclude>
   </ItemGroup>
