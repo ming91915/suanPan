@@ -25,27 +25,22 @@ void B21::initialize(const shared_ptr<DomainBase>& D) {
 
     // chord vector
     const vec pos_diff = coord_j - coord_i;
-
     length = norm(pos_diff);
-
     direction_cosine = pos_diff / length;
+    trans_mat = transform::beam::global_to_local(direction_cosine, length);
+    inclination = transform::atan2(direction_cosine);
 
-    inclination = atan2(direction_cosine(1), direction_cosine(0));
-
-    const auto& section_proto = D->get_section(unsigned(material_tag(0)));
+    auto& section_proto = D->get_section(unsigned(material_tag(0)));
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
 
-    int_pt.clear();
-    int_pt.reserve(int_pt_num);
+    int_pt.clear(), int_pt.reserve(int_pt_num);
     for(unsigned I = 0; I < int_pt_num; ++I) {
-        int_pt.emplace_back(plan(I, 0), plan(I, 1), section_proto->get_copy());
+        int_pt.emplace_back(plan(I, 0), plan(I, 1) / 2., section_proto->get_copy());
         int_pt[I].strain_mat(0, 0) = 1. / length;
         int_pt[I].strain_mat(1, 1) = (3. * plan(I, 0) - 1.) / length;
         int_pt[I].strain_mat(1, 2) = (3. * plan(I, 0) + 1.) / length;
     }
-
-    trans_mat = transform::beam::global_to_local(direction_cosine, length);
 }
 
 int B21::update_status() {
@@ -59,17 +54,15 @@ int B21::update_status() {
 
     // transform global deformation to local one (remove rigid body motion)
     vec t_disp(6);
-    for(auto I = 0; I < 3; ++I) {
-        t_disp(I) = disp_i(I);
-        t_disp(I + 3) = disp_j(I);
-    }
+    for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
+
     const vec local_deformation = trans_mat * t_disp;
 
     mat local_stiffness(3, 3, fill::zeros);
     vec local_resistance(3, fill::zeros);
     for(const auto& I : int_pt) {
         I.b_section->update_trial_status(I.strain_mat * local_deformation);
-        const mat tmp_a = I.strain_mat.t() * I.weight * new_length / 2.;
+        const mat tmp_a = I.strain_mat.t() * I.weight * new_length;
         local_stiffness += tmp_a * I.b_section->get_stiffness() * I.strain_mat;
         local_resistance += tmp_a * I.b_section->get_resistance();
     }
