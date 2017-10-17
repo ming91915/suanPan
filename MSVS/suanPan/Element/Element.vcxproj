@@ -141,6 +141,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\Beam\B21.cpp" />
+    <ClCompile Include="..\..\..\Element\Beam\B21H.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\ElasticB21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\F21.cpp" />
     <ClCompile Include="..\..\..\Element\Beam\F21H.cpp" />
@@ -159,11 +160,13 @@
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp" />
+    <ClCompile Include="..\..\..\Element\Special\Spring01.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\T2D2.cpp" />
     <ClCompile Include="..\..\..\Element\Truss\T3D2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Beam\B21.h" />
+    <ClInclude Include="..\..\..\Element\Beam\B21H.h" />
     <ClInclude Include="..\..\..\Element\Beam\ElasticB21.h" />
     <ClInclude Include="..\..\..\Element\Beam\F21.h" />
     <ClInclude Include="..\..\..\Element\Beam\F21H.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
     <ClInclude Include="..\..\..\Element\Special\Mass.h" />
+    <ClInclude Include="..\..\..\Element\Special\Spring01.h" />
     <ClInclude Include="..\..\..\Element\Truss\T2D2.h" />
     <ClInclude Include="..\..\..\Element\Truss\T3D2.h" />
   </ItemGroup>

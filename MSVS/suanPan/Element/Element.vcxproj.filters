@@ -87,6 +87,12 @@
     <ClCompile Include="..\..\..\Element\Truss\T3D2.cpp">
       <Filter>Truss</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Beam\B21H.cpp">
+      <Filter>Beam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Special\Spring01.cpp">
+      <Filter>Special</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Truss\T3D2.h">
       <Filter>Truss</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Beam\B21H.h">
+      <Filter>Beam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Special\Spring01.h">
+      <Filter>Special</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -22,13 +22,11 @@
  *
  * The first method is a common way, the acceleration can be converted to D'Alembert force then added to the right hand side of the system.
  *
- * But before applying the acceleration, the mass matrix should be formed. As the acceleration is also treated as external loads, and the program has no idea about the order of the loads.
- *
- * This simply means, the acceleration load can be applied before the mass load. This can only be resolved if the storage is ordered and the mass load is defined before acceleration load in the input file.
+ * But before applying the acceleration, the mass matrix should be formed. As the acceleration is also treated as external loads, and the program has no idea about the order of the loads. This simply means, the acceleration load can be applied before the mass load. This can only be resolved if the storage is ordered and the mass load is defined before acceleration load in the input file. Even though, in general, there is no neat way to identify which load should be applied first.
  *
  * Or it can be treated as a node attribute. It is not consistent with the logic concepts. Nodes are simply abstract points in space. It is alright to associate displacement, velocity, etc. with the node but the mass is a physical concept thus should be handle by the elemnt.
  *
- * Here we define mass as a special element, that only has mass matrix and optional damping matrix but no stiffness matrix. By such the matrices are formed readily before applying any external constraints or loads.
+ * Here we define mass as a special element, that only has mass matrix and optional damping matrix but no stiffness matrix, in consistent with the definition of point mass element in ABAQUS. By such the matrices are formed readily before applying any external constraints or loads.
  *
  * @author T
  * @date 06/10/2017
