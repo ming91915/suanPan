@@ -23,15 +23,9 @@
 const unsigned T2D2::t_node = 2;
 const unsigned T2D2::t_dof = 2;
 
-T2D2::T2D2(const unsigned& T)
-    : Element(T, ET_T2D2)
-    , update_area(false)
-    , log_strain(false) {}
-
 T2D2::T2D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
     : Element(T, ET_T2D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
-    , direction_cosine(2)
     , update_area(UA)
     , log_strain(LS) {}
 
@@ -91,7 +85,7 @@ int T2D2::update_status() {
     } else
         trial_strain = dot(disp_diff, direction_cosine) / new_length;
 
-    t_material->update_trial_status(vec{ trial_strain });
+    t_material->update_trial_status(trial_strain);
 
     const auto tmp_d = new_area / new_length * as_scalar(t_material->get_stiffness());
 

@@ -35,8 +35,7 @@
 #include <Element/Element.h>
 
 class T2D2 final : public Element {
-    static const unsigned t_node;
-    static const unsigned t_dof;
+    static const unsigned t_node, t_dof;
 
     double length = 0.;   /**< length of the element */
     double area = 0.;     /**< area of the cross section */
@@ -47,14 +46,14 @@ class T2D2 final : public Element {
     const bool update_area; /**<  */
     const bool log_strain;  /**<  */
 public:
-    explicit T2D2(const unsigned& T = 0);
     T2D2(const unsigned&,    // tag
         const uvec&,         // node tag
         const unsigned&,     // material tag
         const double&,       // area
         const bool& = false, // nonlinear geometry switch
         const bool& = true,  // update area swicth
-        const bool& = true); // log strain swicth
+        const bool& = true   // log strain swicth
+    );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
