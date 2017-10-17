@@ -35,16 +35,36 @@ class MVLEM final : public Element {
     static const unsigned b_node, b_dof;
 
     struct Fibre {
-        double eccentricity, width, thickness;
-        unique_ptr<Material> t_material;
+        double eccentricity = 0., width, thickness, c_area, s_area;
+        unique_ptr<Material> c_material, s_material;
+        Fibre(const double, const double, const double);
     };
 
+    double total_area = 0.;
+
     vector<Fibre> axial_spring;
+
+    const unsigned shear_spring_tag;
 
     unique_ptr<Material> shear_spring;
 
 public:
-    MVLEM() {}
+    MVLEM(const unsigned, // tag
+        const uvec&,      // node tags
+        const vec&,       // width
+        const vec&,       // thickness
+        const vec&,       // reinforcement ratio
+        const uvec&,      // concrete material tags
+        const uvec&,      // steel material tags
+        const unsigned    // shear spring tag
+    );
+
+    void initialize(const shared_ptr<DomainBase>&) override;
+
+    int update_status() override;
+    int commit_status() override;
+    int clear_status() override;
+    int reset_status() override;
 };
 
 #endif
