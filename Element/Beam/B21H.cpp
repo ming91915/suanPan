@@ -80,6 +80,7 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
         elastic_int_pt[I].strain_mat(1, 2) = (3. * coor + 1.) / length;
         elastic_local_stiffness += elastic_int_pt[I].strain_mat.t() * elastic_section_stiffness * elastic_int_pt[I].strain_mat * weight * length;
     }
+    elastic_local_stiffness.print();
 
     int_pt.clear(), int_pt.reserve(2);
     int_pt.emplace_back(-1., hinge_length, section_proto->get_copy());
@@ -119,7 +120,7 @@ int B21H::update_status() {
 
     stiffness = trans_mat.t() * local_stiffness * trans_mat;
     resistance = trans_mat.t() * local_resistance;
-
+    // stiffness.print("\n");
     return 0;
 }
 

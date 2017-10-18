@@ -1,14 +1,13 @@
+#include <array>
 #include <cstdlib>
 #include <iostream>
-#include <array>
-#include <vector>
-#include <numeric>
 #include <mpl/mpl.hpp>
+#include <numeric>
+#include <vector>
 
-template <typename I>
-void print_range(const char* const str, I i1, I i2) {
+template <typename I> void print_range(const char* const str, I i1, I i2) {
     std::cout << str;
-    while (i1 != i2) {
+    while(i1 != i2) {
         std::cout << (*i1);
         ++i1;
         std::cout << ((i1 != i2) ? ' ' : '\n');
@@ -18,13 +17,12 @@ void print_range(const char* const str, I i1, I i2) {
 int main() {
     const mpl::communicator& comm_world = mpl::environment::comm_world();
     // run the program with two or more processes
-    if (comm_world.size() < 2)
-        return EXIT_FAILURE;
+    if(comm_world.size() < 2) return EXIT_FAILURE;
     const int n = 12;
     std::vector<int> v1(n), v2(n), v3(n), v4(n);
     mpl::contiguous_layout<int> l(n);
     // process 0 sends
-    if (comm_world.rank() == 0) {
+    if(comm_world.rank() == 0) {
         // see MPI Standard for the semantics of standard send, buffered send,
         // synchronous send and ready send
         double x = 1.23456;
@@ -68,9 +66,9 @@ int main() {
             r.push(comm_world.issend(v3.data(), l, 1));            // send v3 to rank 1 via synchronous send
             r.push(comm_world.irsend(v4.data(), l, 1));            // send v4 to rank 1 via ready send
             std::array<mpl::irequest_pool::size_type, 4> finished; // memory to store indices of finished send operatons
-            while (true) {
+            while(true) {
                 auto i = r.waitsome(finished.begin()); // wait until one ore more sends have finished
-                if (i == finished.begin())             // there have been no pending sends
+                if(i == finished.begin())              // there have been no pending sends
                     break;
                 // print indces of finished sends
                 std::cout << "send finished : ";
@@ -80,7 +78,7 @@ int main() {
         }
     }
     // process 1 recieves
-    if (comm_world.rank() == 1) {
+    if(comm_world.rank() == 1) {
         double x;
         mpl::irequest r(comm_world.irecv(x, 0)); // receive x from rank 0
         r.wait();                                // wait until receive has finished
@@ -112,10 +110,10 @@ int main() {
             r.push(comm_world.irecv(v2.data(), l, 0)); // receive v2 from rank 0
             r.push(comm_world.irecv(v3.data(), l, 0)); // receive v3 from rank 0
             r.push(comm_world.irecv(v4.data(), l, 0)); // receive v4 from rank 0
-            while (true) {
+            while(true) {
                 std::array<mpl::irequest_pool::size_type, 4> finished; // memory to store indices of finished recv operatons
                 auto i = r.waitsome(finished.begin());                 // wait until one ore more receives have finished
-                if (i == finished.begin())                             // there have been no pending receives
+                if(i == finished.begin())                              // there have been no pending receives
                     break;
                 // print indces of finished receives
                 std::cout << "recv finished : ";

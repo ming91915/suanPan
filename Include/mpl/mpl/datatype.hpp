@@ -2,55 +2,37 @@
 
 #define MPL_DATATYPE_HPP
 
-#include <mpi.h>
-#include <cstddef>
-#include <vector>
-#include <complex>
-#include <utility>
-#include <tuple>
 #include <array>
+#include <complex>
 #include <cstddef>
+#include <mpi.h>
+#include <tuple>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 namespace mpl {
 
 //--- forward declarations -------------------------------------------
 
-template <typename T>
-class datatype_traits;
+template <typename T> class datatype_traits;
 
 namespace detail {
 
-    template <typename T, typename E>
-    class datatype_traits_impl;
+    template <typename T, typename E> class datatype_traits_impl;
 }
 
-template <typename T>
-class base_struct_builder;
+template <typename T> class base_struct_builder;
 
-template <typename T>
-class struct_builder;
+template <typename T> class struct_builder;
 
 //--------------------------------------------------------------------
 
-template <typename S>
-class struct_layout {
-    template <typename T>
-    inline std::size_t size(T) {
-        return sizeof(T);
-    }
-    template <typename T>
-    inline std::size_t size(T*) {
-        return sizeof(T);
-    }
-    template <typename T>
-    inline MPI_Datatype get_datatype(T) {
-        return datatype_traits<T>().get_datatype();
-    }
-    template <typename T>
-    inline MPI_Datatype get_datatype(T*) {
-        return datatype_traits<T>().get_datatype();
-    }
+template <typename S> class struct_layout {
+    template <typename T> inline std::size_t size(T) { return sizeof(T); }
+    template <typename T> inline std::size_t size(T*) { return sizeof(T); }
+    template <typename T> inline MPI_Datatype get_datatype(T) { return datatype_traits<T>().get_datatype(); }
+    template <typename T> inline MPI_Datatype get_datatype(T*) { return datatype_traits<T>().get_datatype(); }
     MPI_Aint base;
     std::vector<int> blocklengths;
     std::vector<MPI_Aint> displacements;
@@ -61,8 +43,7 @@ public:
         MPI_Get_address(const_cast<S*>(&x), &base);
         return *this;
     }
-    template <typename T>
-    struct_layout& register_element(T& x) {
+    template <typename T> struct_layout& register_element(T& x) {
         static_assert(not std::is_const<T>::value, "type must not be const");
         blocklengths.push_back(sizeof(x) / size(x));
         MPI_Aint address;
@@ -71,8 +52,7 @@ public:
         datatypes.push_back(get_datatype(x));
         return *this;
     }
-    template <typename T>
-    struct_layout& register_vector(T* x, std::ptrdiff_t N) {
+    template <typename T> struct_layout& register_vector(T* x, std::ptrdiff_t N) {
         static_assert(not std::is_const<T>::value, "type must not be const");
         blocklengths.push_back(N);
         MPI_Aint address;
@@ -86,18 +66,14 @@ public:
 
 //--------------------------------------------------------------------
 
-template <typename T>
-class base_struct_builder {
+template <typename T> class base_struct_builder {
 private:
     MPI_Datatype type;
 
 public:
     void define_struct(const struct_layout<T>& str) {
         MPI_Datatype temp_type;
-        MPI_Type_create_struct(str.blocklengths.size(),
-            str.blocklengths.data(),
-            str.displacements.data(),
-            str.datatypes.data(), &temp_type);
+        MPI_Type_create_struct(str.blocklengths.size(), str.blocklengths.data(), str.displacements.data(), str.datatypes.data(), &temp_type);
         MPI_Type_commit(&temp_type);
         MPI_Type_create_resized(temp_type, 0, sizeof(T), &type);
         MPI_Type_commit(&type);
@@ -106,16 +82,13 @@ public:
     base_struct_builder() = default;
     base_struct_builder(const base_struct_builder&) = delete;
     void operator=(const base_struct_builder&) = delete;
-    ~base_struct_builder() {
-        MPI_Type_free(&type);
-    }
+    ~base_struct_builder() { MPI_Type_free(&type); }
     friend class detail::datatype_traits_impl<T, void>;
 };
 
 //--------------------------------------------------------------------
 
-template <typename T1, typename T2>
-class struct_builder<std::pair<T1, T2>> : public base_struct_builder<std::pair<T1, T2>> {
+template <typename T1, typename T2> class struct_builder<std::pair<T1, T2>> : public base_struct_builder<std::pair<T1, T2>> {
     typedef base_struct_builder<std::pair<T1, T2>> base;
     struct_layout<std::pair<T1, T2>> layout;
 
@@ -133,14 +106,12 @@ public:
 
 namespace detail {
 
-    template <typename F, typename T, std::size_t n>
-    class apply_n {
+    template <typename F, typename T, std::size_t n> class apply_n {
         F& f;
 
     public:
         apply_n(F& f)
-            : f(f) {
-        }
+            : f(f) {}
         void operator()(T& x) const {
             apply_n<F, T, n - 1> next(f);
             next(x);
@@ -148,42 +119,31 @@ namespace detail {
         }
     };
 
-    template <typename F, typename T>
-    struct apply_n<F, T, 1> {
+    template <typename F, typename T> struct apply_n<F, T, 1> {
         F& f;
 
     public:
         apply_n(F& f)
-            : f(f) {
-        }
-        void operator()(T& x) const {
-            f(std::get<0>(x));
-        }
+            : f(f) {}
+        void operator()(T& x) const { f(std::get<0>(x)); }
     };
 
-    template <typename F, typename... Args>
-    void apply(std::tuple<Args...>& t, F& f) {
+    template <typename F, typename... Args> void apply(std::tuple<Args...>& t, F& f) {
         apply_n<F, std::tuple<Args...>, std::tuple_size<std::tuple<Args...>>::value> app(f);
         app(t);
     }
 
-    template <typename... Ts>
-    class register_element {
+    template <typename... Ts> class register_element {
         struct_layout<std::tuple<Ts...>>& layout;
 
     public:
         register_element(struct_layout<std::tuple<Ts...>>& layout)
-            : layout(layout) {
-        }
-        template <typename T>
-        void operator()(T& x) const {
-            layout.register_element(x);
-        }
+            : layout(layout) {}
+        template <typename T> void operator()(T& x) const { layout.register_element(x); }
     };
 }
 
-template <typename... Ts>
-class struct_builder<std::tuple<Ts...>> : public base_struct_builder<std::tuple<Ts...>> {
+template <typename... Ts> class struct_builder<std::tuple<Ts...>> : public base_struct_builder<std::tuple<Ts...>> {
     typedef base_struct_builder<std::tuple<Ts...>> base;
     struct_layout<std::tuple<Ts...>> layout;
 
@@ -200,8 +160,7 @@ public:
 
 //--------------------------------------------------------------------
 
-template <typename T, std::size_t N>
-class struct_builder<T[N]> : public base_struct_builder<T[N]> {
+template <typename T, std::size_t N> class struct_builder<T[N]> : public base_struct_builder<T[N]> {
     typedef base_struct_builder<T[N]> base;
     struct_layout<T[N]> layout;
 
@@ -214,8 +173,7 @@ public:
     }
 };
 
-template <typename T, std::size_t N0, std::size_t N1>
-class struct_builder<T[N0][N1]> : public base_struct_builder<T[N0][N1]> {
+template <typename T, std::size_t N0, std::size_t N1> class struct_builder<T[N0][N1]> : public base_struct_builder<T[N0][N1]> {
     typedef base_struct_builder<T[N0][N1]> base;
     struct_layout<T[N0][N1]> layout;
 
@@ -228,8 +186,7 @@ public:
     }
 };
 
-template <typename T, std::size_t N0, std::size_t N1, std::size_t N2>
-class struct_builder<T[N0][N1][N2]> : public base_struct_builder<T[N0][N1][N2]> {
+template <typename T, std::size_t N0, std::size_t N1, std::size_t N2> class struct_builder<T[N0][N1][N2]> : public base_struct_builder<T[N0][N1][N2]> {
     typedef base_struct_builder<T[N0][N1][N2]> base;
     struct_layout<T[N0][N1][N2]> layout;
 
@@ -242,8 +199,7 @@ public:
     }
 };
 
-template <typename T, std::size_t N0, std::size_t N1, std::size_t N2, std::size_t N3>
-class struct_builder<T[N0][N1][N2][N3]> : public base_struct_builder<T[N0][N1][N2][N3]> {
+template <typename T, std::size_t N0, std::size_t N1, std::size_t N2, std::size_t N3> class struct_builder<T[N0][N1][N2][N3]> : public base_struct_builder<T[N0][N1][N2][N3]> {
     typedef base_struct_builder<T[N0][N1][N2][N3]> base;
     struct_layout<T[N0][N1][N2][N3]> layout;
 
@@ -258,8 +214,7 @@ public:
 
 //--------------------------------------------------------------------
 
-template <typename T, std::size_t N>
-class struct_builder<std::array<T, N>> : public base_struct_builder<std::array<T, N>> {
+template <typename T, std::size_t N> class struct_builder<std::array<T, N>> : public base_struct_builder<std::array<T, N>> {
     typedef base_struct_builder<std::array<T, N>> base;
     struct_layout<std::array<T, N>> layout;
 
@@ -276,8 +231,7 @@ public:
 
 namespace detail {
 
-    template <typename T, typename Enable = void>
-    class datatype_traits_impl {
+    template <typename T, typename Enable = void> class datatype_traits_impl {
     public:
         static MPI_Datatype get_datatype() {
             static struct_builder<T> builder;
@@ -285,40 +239,28 @@ namespace detail {
         }
     };
 
-    template <typename T>
-    class datatype_traits_impl<T, typename std::enable_if<std::is_enum<T>::value>::type> {
+    template <typename T> class datatype_traits_impl<T, typename std::enable_if<std::is_enum<T>::value>::type> {
     public:
-        static MPI_Datatype get_datatype() {
-            return datatype_traits<typename std::underlying_type<T>::type>::get_datatype();
-        }
+        static MPI_Datatype get_datatype() { return datatype_traits<typename std::underlying_type<T>::type>::get_datatype(); }
     };
 
 #if defined MPL_HOMOGENEOUS
-    template <typename T>
-    class datatype_traits_impl<T, typename std::enable_if<std::is_trivially_copyable<T>::value and std::is_copy_assignable<T>::value and not std::is_enum<T>::value and not std::is_array<T>::value>::type> {
+    template <typename T> class datatype_traits_impl<T, typename std::enable_if<std::is_trivially_copyable<T>::value and std::is_copy_assignable<T>::value and not std::is_enum<T>::value and not std::is_array<T>::value>::type> {
     public:
-        static MPI_Datatype get_datatype() {
-            return datatype_traits_impl<unsigned char[sizeof(T)]>::get_datatype();
-        }
+        static MPI_Datatype get_datatype() { return datatype_traits_impl<unsigned char[sizeof(T)]>::get_datatype(); }
     };
 #endif
 }
 
-template <typename T>
-class datatype_traits {
+template <typename T> class datatype_traits {
 public:
-    static MPI_Datatype get_datatype() {
-        return detail::datatype_traits_impl<T>::get_datatype();
-    }
+    static MPI_Datatype get_datatype() { return detail::datatype_traits_impl<T>::get_datatype(); }
 };
 
-#define MPL_DATATYPE_TRAITS(type, mpi_type)  \
-    template <>                              \
-    class datatype_traits<type> {            \
-    public:                                  \
-        static MPI_Datatype get_datatype() { \
-            return mpi_type;                 \
-        }                                    \
+#define MPL_DATATYPE_TRAITS(type, mpi_type)                     \
+    template <> class datatype_traits<type> {                   \
+    public:                                                     \
+        static MPI_Datatype get_datatype() { return mpi_type; } \
     }
 
 MPL_DATATYPE_TRAITS(char, MPI_CHAR);

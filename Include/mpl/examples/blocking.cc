@@ -5,10 +5,9 @@
 int main() {
     const mpl::communicator& comm_world = mpl::environment::comm_world();
     // run the program with two or more processes
-    if (comm_world.size() < 2)
-        return EXIT_FAILURE;
+    if(comm_world.size() < 2) return EXIT_FAILURE;
     // process 0 sends
-    if (comm_world.rank() == 0) {
+    if(comm_world.rank() == 0) {
         // see MPI Standard for the semantics of standard send, buffered send,
         // synchronous send and ready send
         double x = 1.23456;
@@ -27,7 +26,7 @@ int main() {
         comm_world.rsend(x, 1); // send x to rank 1 via ready send
     }
     // process 1 recieves
-    if (comm_world.rank() == 1) {
+    if(comm_world.rank() == 1) {
         double x;
         comm_world.recv(x, 0); // receive x from rank 0
         std::cout << "x = " << x << '\n';

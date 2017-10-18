@@ -1,14 +1,13 @@
+#include <algorithm>
 #include <cstdlib>
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <numeric>
 #include <mpl/mpl.hpp>
+#include <numeric>
+#include <vector>
 
-template <typename I>
-void print_range(const char* const str, I i1, I i2) {
+template <typename I> void print_range(const char* const str, I i1, I i2) {
     std::cout << str;
-    while (i1 != i2) {
+    while(i1 != i2) {
         std::cout << (*i1);
         ++i1;
         std::cout << ((i1 != i2) ? ' ' : '\n');
@@ -18,13 +17,12 @@ void print_range(const char* const str, I i1, I i2) {
 int main() {
     const mpl::communicator& comm_world = mpl::environment::comm_world();
     // run the program with two or more processes
-    if (comm_world.size() < 2)
-        return EXIT_FAILURE;
+    if(comm_world.size() < 2) return EXIT_FAILURE;
     const int n = 12;
     std::vector<int> v(n);            // vector of n elements lieing contiguously in memory
     mpl::contiguous_layout<int> l(n); // corresponding memory layout
     // process 0 sends
-    if (comm_world.rank() == 0) {
+    if(comm_world.rank() == 0) {
         // see MPI Standard for the semantics of standard send, buffered send,
         // synchronous send and ready send
         std::iota(v.begin(), v.end(), 0); // fill vector with some data
@@ -44,7 +42,7 @@ int main() {
         comm_world.rsend(v.data(), l, 1);                       // send x to rank 1 via ready send
     }
     // process 1 recieves
-    if (comm_world.rank() == 1) {
+    if(comm_world.rank() == 1) {
         comm_world.recv(v.data(), l, 0); // receive vector from rank 0
         print_range("v = ", v.begin(), v.end());
         comm_world.recv(v.data(), l, 0); // receive vector from rank 0
