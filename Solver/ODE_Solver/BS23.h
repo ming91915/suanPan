@@ -44,7 +44,7 @@ class BS23 final : public ODE_Solver {
     vec S1, S2, S3, S4; /**< intermediate variables */
 
 public:
-    explicit BS23(const unsigned& = 0);
+    explicit BS23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr);
 
     int update_status() override;
 

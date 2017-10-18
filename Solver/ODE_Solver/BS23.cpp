@@ -18,27 +18,27 @@
 #include "BS23.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-BS23::BS23(const unsigned& T)
-    : ODE_Solver(T, CT_BS23) {}
+BS23::BS23(const unsigned& T, const shared_ptr<ODE>& O)
+    : ODE_Solver(T, CT_BS23, O) {}
 
 int BS23::update_status() {
     auto& D = get_ode();
-    auto& W = get_factory();
 
-    auto& c_time = W->get_current_time();
-    auto& t_time = W->get_trial_time();
-    auto& i_time = W->get_incre_time();
-    auto& c_disp = W->get_current_displacement();
+    const auto c_time = D->get_current_time();
+    const auto t_time = D->get_trial_time();
+    const auto i_time = D->get_incre_time();
+
+    auto& c_disp = D->get_current_displacement();
 
     S1 = D->eval(c_time, c_disp);
     S2 = D->eval(c_time + .5 * i_time, c_disp + i_time * .5 * S1);
     S3 = D->eval(c_time + .75 * i_time, c_disp + i_time * .75 * S2);
 
-    W->update_incre_displacement(i_time * (2. * S1 + 3. * S2 + 4. * S3) / 9.);
+    D->update_incre_displacement(i_time * (2. * S1 + 3. * S2 + 4. * S3) / 9.);
 
-    S4 = D->eval(t_time, W->get_trial_displacement());
+    S4 = D->eval(t_time, D->get_trial_displacement());
 
-    W->set_error(norm(i_time * (-5. * S1 + 6. * S2 + 8. * S3 - 9. * S4) / 72.));
+    D->set_error(norm(i_time * (-5. * S1 + 6. * S2 + 8. * S3 - 9. * S4) / 72.));
 
     return 0;
 }

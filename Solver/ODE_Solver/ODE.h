@@ -60,24 +60,53 @@
 #include <Domain/Tag.h>
 
 class ODE : public Tag {
-    unsigned n_size; /**< The dimension of the problem. */
+    double error = 0.;
+    double tolerance = 1E-10;
+
+    double trial_time = 0.;
+    double incre_time = 0.;
+    double current_time = 0.;
+
+    vec trial_displacement;
+    vec incre_displacement;
+    vec current_displacement;
+
 public:
-    //! Default ctor.
-    explicit ODE(const unsigned& = 0, const unsigned& = CT_ODE, const unsigned& = 1);
+    const unsigned n_size; /**< the dimension of the problem */
 
-    //! Method to set dimension of the problem.
-    virtual void set_dimension(const unsigned&);
-    virtual void operator()(const unsigned&);
-    //! Method to return dimension of the problem, will be used to determine the size of input vector.
-    virtual const unsigned& get_dimension() const;
-    virtual unsigned operator()();
+    //! default ctor
+    explicit ODE(const unsigned = 0, const unsigned = CT_ODE, const unsigned = 1);
 
-    //! Override the base class's print function.
-    void print() override;
+    //! method to return LHS --- the derivatives
+    virtual vec eval(const double, const vec&) = 0;
 
-    //! Method to return LHS --- the derivatives.
-    virtual vec eval(const double&, const vec&) = 0;
-    virtual vec operator()(const double&, const vec&) = 0;
+    vec operator()(const double, const vec&);
+
+    bool is_converged() const;
+
+    double get_error() const;
+    double get_tolerance() const;
+
+    void set_error(const double);
+    void set_tolerance(const double);
+
+    double get_trial_time() const;
+    double get_incre_time() const;
+    double get_current_time() const;
+
+    const vec& get_trial_displacement() const;
+    const vec& get_incre_displacement() const;
+    const vec& get_current_displacement() const;
+
+    void update_incre_time(const double);
+    void update_trial_time(const double);
+
+    void update_incre_displacement(const vec&);
+    void update_trial_displacement(const vec&);
+
+    void commit_status();
+    void clear_status();
+    void reset_status();
 };
 
 #endif

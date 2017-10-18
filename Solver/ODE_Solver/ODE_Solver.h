@@ -33,29 +33,24 @@
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H
 
-#include <Domain/Factory.hpp>
-#include <Solver/Solver.h>
+#include "Domain/Tag.h"
 
 class ODE;
 
-class ODE_Solver : public Solver {
-    shared_ptr<ODE> ode_system = nullptr;
-    shared_ptr<Factory<double>> factory = nullptr;
+class ODE_Solver : public Tag {
+    shared_ptr<ODE> ode_system;
 
 public:
-    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER);
+    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr);
 
-    int initialize() override;
+    int initialize() const;
 
-    int analyze() final;
+    int analyze();
 
     virtual int update_status() = 0;
 
     void set_ode(const shared_ptr<ODE>&);
     const shared_ptr<ODE>& get_ode() const;
-
-    void set_factory(const shared_ptr<Factory<double>>&);
-    const shared_ptr<Factory<double>>& get_factory() const;
 };
 
 #endif
