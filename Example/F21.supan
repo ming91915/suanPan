@@ -4,12 +4,12 @@ node 1 0 0
 node 2 1 0
 
 # material Elastic1D 1 10
-material Bilinear1D 1 10 .8 .02
+material Bilinear1D 1 10 .7 .02
 
 section Rectangle 1 12 1 1 12
 
-# element B21 1 1 2 1
-element B21H 1 1 2 1 .2
+element F21 1 1 2 1
+# element F21H 1 1 2 1 .5
 
 fix 1 P 1
 
@@ -18,7 +18,7 @@ cload 1 0 3 2 2
 recorder 1 Node U 2
 
 step static 1 1
-set ini_step_size 1
+set ini_step_size .01
 set fixed_step_size true
 set symm_mat false
 

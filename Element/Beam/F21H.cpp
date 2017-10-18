@@ -45,7 +45,7 @@ mat F21H::quick_inverse(const mat& stiffness) {
 
 F21H::F21H(const unsigned T, const uvec& N, const unsigned S, const double L, const bool F)
     : Element(T, ET_F21H, b_node, b_dof, N, uvec{ S }, F)
-    , hinge_length(L) {}
+    , hinge_length(L > .5 ? .5 : L) {}
 
 void F21H::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
