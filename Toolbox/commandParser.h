@@ -55,8 +55,6 @@ int create_new_step(const shared_ptr<DomainBase>&, istringstream&);
 
 int set_property(const shared_ptr<DomainBase>&, istringstream&);
 
-int test_material(const shared_ptr<DomainBase>&, istringstream&);
-
 int print_info(const shared_ptr<DomainBase>&, istringstream&);
 
 void print_command_usage(istringstream&);

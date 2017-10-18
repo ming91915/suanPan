@@ -931,27 +931,3 @@ void print_command_usage(istringstream& command) {
         suanpan_info("\t$density --- density -> 0.0\n\n");
     }
 }
-
-int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
-    unsigned material_tag;
-    if(!get_input(command, material_tag)) {
-        suanpan_error("test_material() needs a valid material tag.\n");
-        return 0;
-    }
-
-    double step_size;
-    if(!get_input(command, step_size)) {
-        suanpan_error("test_material() needs a valid step size.\n");
-        return 0;
-    }
-
-    vector<unsigned> load_step;
-    unsigned step;
-    while(get_input(command, step)) load_step.push_back(step);
-
-    auto result = material_tester(domain->get_material(material_tag), load_step, step_size);
-
-    result.save("RESULT.h5", hdf5_binary_trans);
-
-    return 0;
-}

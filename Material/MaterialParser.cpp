@@ -45,6 +45,10 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_mpf(new_material, command);
     else if(is_equal(material_id, "RambergOsgood"))
         new_rambergosgood(new_material, command);
+    else if(is_equal(material_id, "Gap01"))
+        new_gap01(new_material, command);
+    else if(is_equal(material_id, "Concrete01"))
+        new_concrete01(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -331,6 +335,95 @@ void new_bilinear3d(unique_ptr<Material>& return_obj, istringstream& command) {
     return_obj = make_unique<Bilinear3D>(tag, elastic_modulus, poissons_ratio, yield_stress, hardening_ratio, beta, density);
 }
 
+void new_concrete01(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_concrete01() requires a valid tag.\n");
+        return;
+    }
+
+    double peak_c_strain;
+    if(!get_input(command, peak_c_strain)) {
+        suanpan_error("new_concrete01() requires a valid compression strain.\n");
+        return;
+    }
+
+    double peak_c_stress;
+    if(!get_input(command, peak_c_stress)) {
+        suanpan_error("new_concrete01() requires a valid compression stress.\n");
+        return;
+    }
+
+    string backbone_type;
+    if(!get_input(command, backbone_type)) {
+        suanpan_error("new_concrete01() requires a valid backbone type.\n");
+        return;
+    }
+
+    string center_oriented = "false";
+    if(!command.eof() && !get_input(command, center_oriented)) {
+        suanpan_error("new_concrete01() requires a valid center oriented switch.\n");
+        return;
+    }
+
+    auto density = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_concrete01() requires a valid density.\n");
+            return;
+        }
+    } else
+        suanpan_extra_debug("new_concrete01() assumes zero density.\n");
+
+    BackboneType type;
+    if(is_equal(backbone_type, "THORENFELDT"))
+        type = BackboneType::THORENFELDT;
+    else if(is_equal(backbone_type, "POPOVICS"))
+        type = BackboneType::POPOVICS;
+    else if(is_equal(backbone_type, "TSAI"))
+        type = BackboneType::TSAI;
+    else if(is_equal(backbone_type, "KPSC"))
+        type = BackboneType::KPSC;
+    else if(is_equal(backbone_type, "KPSU"))
+        type = BackboneType::KPSU;
+
+    return_obj = make_unique<Concrete01>(tag, peak_c_strain, peak_c_stress, type, is_true(center_oriented), density);
+}
+
+void new_gap01(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_gap01() requires a valid tag.\n");
+        return;
+    }
+
+    double elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_gap01() requires a valid elastic modulus.\n");
+        return;
+    }
+
+    double yield_stress;
+    if(!get_input(command, yield_stress)) {
+        suanpan_error("new_gap01() requires a valid yield stress.\n");
+        return;
+    }
+
+    auto gap_strain = 0.;
+    if(!command.eof() && !get_input(command, gap_strain)) {
+        suanpan_error("new_gap01() requires a valid hardening ratio.\n");
+        return;
+    }
+
+    auto density = 0.;
+    if(!command.eof() && !get_input(command, density)) {
+        suanpan_error("new_gap01() requires a valid density.\n");
+        return;
+    }
+
+    return_obj = make_unique<Gap01>(tag, elastic_modulus, yield_stress, gap_strain, density);
+}
+
 void new_mpf(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
@@ -445,4 +538,32 @@ void new_rambergosgood(unique_ptr<Material>& return_obj, istringstream& command)
     }
 
     return_obj = make_unique<RambergOsgood>(tag, elastic_modulus, yield_stress, offset, n, density);
+}
+
+int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    unsigned material_tag;
+    if(!get_input(command, material_tag)) {
+        suanpan_error("test_material() needs a valid material tag.\n");
+        return 0;
+    }
+
+    double step_size;
+    if(!get_input(command, step_size)) {
+        suanpan_error("test_material() needs a valid step size.\n");
+        return 0;
+    }
+
+    vector<unsigned> load_step;
+    unsigned step;
+    while(get_input(command, step)) load_step.push_back(step);
+
+    auto& material_proto = domain->get_material(material_tag);
+
+    if(material_proto == nullptr) return 0;
+
+    auto result = material_tester(material_proto->get_copy(), load_step, step_size);
+
+    result.save("RESULT.h5", hdf5_binary_trans);
+
+    return 0;
 }
