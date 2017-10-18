@@ -20,9 +20,7 @@
 
 #include <suanPan.h>
 
-using std::istringstream;
-
-class Material;
+int create_new_material(const shared_ptr<DomainBase>&, istringstream&);
 
 void new_elastic1d(unique_ptr<Material>&, istringstream&);
 void new_elastic2d(unique_ptr<Material>&, istringstream&);

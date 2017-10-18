@@ -25,7 +25,7 @@ RambergOsgood::RambergOsgood(const unsigned& T, const double& E, const double& Y
     , offset(O)
     , n(N)
     , nm(N - 1.)
-    , tolerance(1E-14 * yield_stress) {}
+    , tolerance(1E-12 * yield_stress) {}
 
 void RambergOsgood::initialize(const shared_ptr<DomainBase>&) {
     current_history.zeros(3);
@@ -37,8 +37,6 @@ void RambergOsgood::initialize(const shared_ptr<DomainBase>&) {
 }
 
 unique_ptr<Material> RambergOsgood::get_copy() { return make_unique<RambergOsgood>(*this); }
-
-int RambergOsgood::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
 int RambergOsgood::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
@@ -53,9 +51,11 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
     auto& load_sign = trial_history(2);
 
     const auto trial_load_sign = sign(incre_strain(0));
-    if(trial_load_sign != load_sign) {
-        reverse_strain = current_strain(0);
-        reverse_stress = current_stress(0);
+    if(trial_load_sign != 0. && trial_load_sign != load_sign) {
+        if(load_sign != 0.) {
+            reverse_strain = current_strain(0);
+            reverse_stress = current_stress(0);
+        }
         load_sign = trial_load_sign;
     }
 
@@ -64,10 +64,13 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
     const auto elastic_predictor = elastic_modulus * abs(trial_strain(0) - reverse_strain);
 
     auto incre_norm_stress = yield_stress;
-    while(abs(incre_norm_stress) > tolerance) {
-        const auto tmp_a = offset * pow(norm_stress / (yield_stress + abs(reverse_stress)), nm);
-        trial_stiffness = 1. + tmp_a * n;
-        incre_norm_stress = (elastic_predictor - norm_stress * (1. + tmp_a)) / trial_stiffness(0);
+    auto counter = 0;
+    while(true) {
+        if(++counter > 10) break;
+        if(abs(incre_norm_stress) < tolerance) break;
+        const auto t_factor = offset * pow(norm_stress / (yield_stress + abs(reverse_stress)), nm);
+        trial_stiffness = 1. + t_factor * n;
+        incre_norm_stress = (elastic_predictor - norm_stress * (1. + t_factor)) / trial_stiffness(0);
         norm_stress += incre_norm_stress;
     }
 

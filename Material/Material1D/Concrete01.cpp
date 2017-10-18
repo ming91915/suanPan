@@ -56,18 +56,18 @@ void Concrete01::initialize(const shared_ptr<DomainBase>&) {
 
 unique_ptr<Material> Concrete01::get_copy() { return make_unique<Concrete01>(*this); }
 
-int Concrete01::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
-
 int Concrete01::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
+
+    if(incre_strain(0) == 0.) return 0;
 
     trial_history = current_history;
 
     auto& trial_max_strain = trial_history(0);      // maximum compression strain logged
     auto& trial_residual_strain = trial_history(1); // residual strain in unloading path
-    auto& trial_reverse_strain = trial_history(2);  // unloading point
-    auto& trial_reverse_stress = trial_history(3);  // unloading point
+    auto& trial_reverse_strain = trial_history(2);  // unloading point strain
+    auto& trial_reverse_stress = trial_history(3);  // unloading point stress
 
     if(trial_strain(0) < trial_max_strain) {
         trial_max_strain = trial_strain(0);
@@ -81,12 +81,12 @@ int Concrete01::update_trial_status(const vec& t_strain) {
     if(side == -1)
         // the trial position is in compression zone
         // if current position is on backbone
-        if(on_backbone)
+        if(on_backbone) {
             // yes on backbone
-            if(load_direction == -1)
+            if(load_direction == -1.)
                 // loading
                 compute_backbone();
-            else {
+            else if(load_direction == 1.) {
                 // unloading
                 on_backbone = false;
                 trial_reverse_strain = current_strain(0);
@@ -94,7 +94,7 @@ int Concrete01::update_trial_status(const vec& t_strain) {
                 trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
                 trial_stress = trial_stiffness * strain_a;
             }
-        else if(trial_strain(0) >= trial_reverse_strain) {
+        } else if(trial_strain(0) >= trial_reverse_strain) {
             // still inside backbone
             if(trial_stiffness(0) == 0.) trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
             trial_stress = trial_stiffness * strain_a;

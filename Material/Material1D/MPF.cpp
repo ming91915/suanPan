@@ -46,12 +46,11 @@ void MPF::initialize(const shared_ptr<DomainBase>&) {
 
 unique_ptr<Material> MPF::get_copy() { return make_unique<MPF>(*this); }
 
-int MPF::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
-
 int MPF::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
 
+    // quick return is important not only for performance but also for forbidding updating the history data
     if(incre_strain(0) == 0.) return 0;
 
     trial_history = current_history;
@@ -66,41 +65,45 @@ int MPF::update_trial_status(const vec& t_strain) {
 
     auto shift_stress = 0.;
     if(isotropic_hardening) {
-        if(abs(trial_strain(0)) > max_strain) max_strain = abs(trial_strain(0));
         shift_stress = A3 * yield_stress * (max_strain / yield_strain - A4);
         if(shift_stress < 0.) shift_stress = 0.;
+        const auto trial_max_strain = abs(trial_strain(0));
+        if(trial_max_strain > max_strain) max_strain = trial_max_strain;
     }
 
     const auto trial_load_sign = sign(incre_strain(0));
 
-    if(trial_load_sign != load_sign) {
-        reverse_stress = current_stress(0);
-        reverse_strain = current_strain(0);
-        pre_inter_strain = inter_strain;
-        inter_strain = yield_strain * hardening_ratio * elastic_modulus - yield_stress - shift_stress;
-        if(trial_load_sign > 0.) inter_strain = -inter_strain;
-        inter_strain = (inter_strain + elastic_modulus * reverse_strain - reverse_stress) / (1. - hardening_ratio) / elastic_modulus;
-        inter_stress = elastic_modulus * (inter_strain - reverse_strain) + reverse_stress;
-    }
-
-    load_sign = trial_load_sign;
-
     auto R = R0;
 
-    if(!constant_radius && reverse_strain != 0.) {
-        const auto XI = abs(reverse_strain - pre_inter_strain) / yield_strain;
-        R -= A1 * XI / (A2 + XI);
+    if(load_sign != 0.) {
+        // double check of current load sign
+        if(trial_load_sign != 0. && trial_load_sign != load_sign) {
+            reverse_stress = current_stress(0);
+            reverse_strain = current_strain(0);
+            pre_inter_strain = inter_strain;
+            inter_strain = yield_strain * hardening_ratio * elastic_modulus - yield_stress - shift_stress;
+            if(trial_load_sign > 0.) inter_strain = -inter_strain;
+            inter_strain = (inter_strain + elastic_modulus * reverse_strain - reverse_stress) / (1. - hardening_ratio) / elastic_modulus;
+            inter_stress = elastic_modulus * (inter_strain - reverse_strain) + reverse_stress;
+        }
+        // update radius
+        if(!constant_radius) {
+            const auto XI = abs(reverse_strain - pre_inter_strain) / yield_strain;
+            R -= A1 * XI / (A2 + XI);
+        }
     }
 
-    const auto normal_strain = (trial_strain(0) - reverse_strain) / (inter_strain - reverse_strain);
-    const auto tmp_a = 1. + pow(normal_strain, R);
-    const auto tmp_b = (1. - hardening_ratio) / pow(tmp_a, 1. / R);
+    if(trial_load_sign != 0. && trial_load_sign != load_sign) load_sign = trial_load_sign;
 
-    const auto normal_stress = (hardening_ratio + tmp_b) * normal_strain;
+    const auto tmp_a = inter_strain - reverse_strain;
+    const auto normal_strain = (trial_strain(0) - reverse_strain) / tmp_a;
+    const auto tmp_b = 1. + pow(normal_strain, R);
+    const auto tmp_c = (1. - hardening_ratio) / pow(tmp_b, 1. / R);
+    const auto normal_stress = (hardening_ratio + tmp_c) * normal_strain;
+    const auto tmp_d = inter_stress - reverse_stress;
 
-    trial_stress = normal_stress * (inter_stress - reverse_stress) + reverse_stress;
-
-    trial_stiffness = (inter_stress - reverse_stress) / (inter_strain - reverse_strain) * (hardening_ratio + tmp_b / tmp_a);
+    trial_stress = normal_stress * tmp_d + reverse_stress;
+    trial_stiffness = tmp_d / tmp_a * (hardening_ratio + tmp_c / tmp_b);
 
     return 0;
 }
@@ -127,7 +130,6 @@ int MPF::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;
-    trial_history = current_history;
     return 0;
 }
 

@@ -43,11 +43,6 @@ class Gap01 : public Material1D {
     const double yield_stress;
     const double gap_strain;
 
-    double current_load_flag = 0.;
-    double trial_load_flag = 0.;
-    double current_reverse_strain = 0.;
-    double trial_reverse_strain = 0.;
-
 public:
     explicit Gap01(const unsigned& = 0, // tag
         const double& = 2E5,            // elastic modulus
@@ -59,7 +54,6 @@ public:
 
     unique_ptr<Material> get_copy() override;
 
-    int update_incre_status(const vec&) override;
     int update_trial_status(const vec&) override;
 
     int clear_status() override;

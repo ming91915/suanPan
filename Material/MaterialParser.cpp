@@ -15,10 +15,60 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <Domain/DomainBase.h>
+#include <Domain/ExternalModule.h>
 #include <Material/Material>
 #include <Toolbox/utility.h>
 
-using std::vector;
+int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string material_id;
+    if(!get_input(command, material_id)) {
+        suanpan_info("create_new_material() needs a tag.\n");
+        return 0;
+    }
+
+    unique_ptr<Material> new_material = nullptr;
+
+    if(is_equal(material_id, "Elastic1D"))
+        new_elastic1d(new_material, command);
+    else if(is_equal(material_id, "Elastic2D"))
+        new_elastic2d(new_material, command);
+    else if(is_equal(material_id, "Elastic3D"))
+        new_elastic3d(new_material, command);
+    else if(is_equal(material_id, "Bilinear1D"))
+        new_bilinear1d(new_material, command);
+    else if(is_equal(material_id, "Bilinear2D"))
+        new_bilinear2d(new_material, command);
+    else if(is_equal(material_id, "Bilinear3D"))
+        new_bilinear3d(new_material, command);
+    else if(is_equal(material_id, "MPF"))
+        new_mpf(new_material, command);
+    else if(is_equal(material_id, "RambergOsgood"))
+        new_rambergosgood(new_material, command);
+    else {
+        // check if the library is already loaded
+        auto code = 0;
+        for(const auto& I : domain->get_external_module_pool())
+            if(I->library_name == material_id) {
+                code = 1;
+                break;
+            }
+
+        // not loaded then try load it
+        if(code == 0 && domain->insert(make_shared<ExternalModule>(material_id))) code = 1;
+
+        // if loaded find corresponding function
+        if(code == 1)
+            for(const auto& I : domain->get_external_module_pool()) {
+                if(I->locate_module(material_id)) I->new_object(new_material, command);
+                if(new_material != nullptr) break;
+            }
+    }
+
+    if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
+
+    return 0;
+}
 
 void new_elastic1d(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
@@ -336,15 +386,15 @@ void new_mpf(unique_ptr<Material>& return_obj, istringstream& command) {
         return;
     }
 
-    auto iso = 0;
+    string iso = "false";
     if(!command.eof() && !get_input(command, iso)) {
         suanpan_error("new_mpf() requires a valid isotropic hardening switch.\n");
         return;
     }
 
-    auto con = 0;
+    string con = "false";
     if(!command.eof() && !get_input(command, con)) {
-        suanpan_error("new_mpf() requires a valid constant R switch.\n");
+        suanpan_error("new_mpf() requires a valid constant radius switch.\n");
         return;
     }
 
@@ -354,7 +404,7 @@ void new_mpf(unique_ptr<Material>& return_obj, istringstream& command) {
         return;
     }
 
-    return_obj = make_unique<MPF>(tag, elastic_modulus, yield_stress, hardening_ratio, R0, A1, A2, A3, A4, !!iso, !!con, density);
+    return_obj = make_unique<MPF>(tag, elastic_modulus, yield_stress, hardening_ratio, R0, A1, A2, A3, A4, is_true(iso), is_true(con), density);
 }
 
 void new_rambergosgood(unique_ptr<Material>& return_obj, istringstream& command) {

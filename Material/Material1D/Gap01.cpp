@@ -29,15 +29,11 @@ void Gap01::initialize(const shared_ptr<DomainBase>&) {
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
-    current_load_flag = 0.;
-    trial_load_flag = 0.;
-    current_reverse_strain = 0.;
-    trial_reverse_strain = 0.;
+    current_history.zeros(2);
+    trial_history.zeros(2);
 }
 
 unique_ptr<Material> Gap01::get_copy() { return make_unique<Gap01>(*this); }
-
-int Gap01::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
 int Gap01::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
@@ -45,28 +41,33 @@ int Gap01::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
-    trial_reverse_strain = current_reverse_strain;
+    trial_history = current_history;
 
-    trial_load_flag = sign(incre_strain(0));
+    auto& reverse_strain = trial_history(0);
+    auto& load_flag = trial_history(1);
 
-    // LOAD FROM SILENT
-    if(current_load_flag > 0. && current_load_flag == trial_load_flag && current_stress(0) == 0) {
-        incre_strain = trial_strain - gap_strain - trial_reverse_strain;
-        if(incre_strain(0) < 0) incre_strain(0) = 0.;
-    }
+    const auto trial_load_flag = sign(incre_strain(0));
 
-    // UNLOAD
-    if(current_load_flag < 0. && current_load_flag != trial_load_flag) {
-        trial_reverse_strain = current_strain(0);
-        if(current_stress(0) == 0) {
-            incre_strain = trial_strain - gap_strain - trial_reverse_strain;
-            if(incre_strain(0) < 0) incre_strain(0) = 0.;
+    if(load_flag > 0. && trial_load_flag > 0. && current_stress(0) == 0.) {
+        // load from silent
+        incre_strain = trial_strain - gap_strain - reverse_strain;
+        if(incre_strain(0) < 0.) incre_strain(0) = 0.;
+    } else if(load_flag < 0. && trial_load_flag > 0.) {
+        // unload
+        reverse_strain = current_strain(0);
+        if(current_stress(0) == 0.) {
+            incre_strain = trial_strain - gap_strain - reverse_strain;
+            if(incre_strain(0) < 0.) incre_strain(0) = 0.;
         }
     }
 
-    // UPDATE AND BOUND STRESS AND STIFFNESS
+    if(trial_load_flag != 0. && trial_load_flag != load_flag) load_flag = trial_load_flag;
+
+    // update and bound stress and stiffness
     trial_stress = current_stress + elastic_modulus * incre_strain;
     trial_stiffness = initial_stiffness;
+
+    // clamp stress and stiffness
     if(trial_stress(0) < 0.) {
         trial_stress(0) = 0.;
         trial_stiffness(0) = 0.;
@@ -82,8 +83,7 @@ int Gap01::clear_status() {
     current_strain.zeros();
     current_stress.zeros();
     current_stiffness = initial_stiffness;
-    current_load_flag = 0.;
-    current_reverse_strain = 0.;
+    current_history.zeros();
     return reset_status();
 }
 
@@ -91,8 +91,7 @@ int Gap01::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
-    current_load_flag = trial_load_flag;
-    current_reverse_strain = trial_reverse_strain;
+    current_history = trial_history;
     return 0;
 }
 
@@ -100,7 +99,5 @@ int Gap01::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;
-    trial_load_flag = current_load_flag;
-    trial_reverse_strain = current_reverse_strain;
     return 0;
 }

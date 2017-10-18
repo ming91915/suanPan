@@ -1,0 +1,5 @@
+material MPF 1 2E3 100 0.02 20 18.5 .15 .01 7 true
+
+materialtest 1 .005 50 70 80 60 100 130 25 20 100
+
+exit

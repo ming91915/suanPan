@@ -23,14 +23,13 @@
 #include <Domain/Domain.h>
 #include <Domain/ExternalModule.h>
 #include <Domain/Node.h>
-#include <Element/Element.h>
 #include <Element/ElementParser.h>
 #include <Element/Special/Mass.h>
 #include <Load/Acceleration.h>
 #include <Load/Amplitude/Tabular.h>
 #include <Load/CLoad.h>
 #include <Load/Displacement.h>
-#include <Material/Material.h>
+#include <Material/Material>
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
 #include <Section/Section.h>
@@ -90,6 +89,10 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
 
     if(is_equal(command_id, "set")) return set_property(domain, command);
 
+    if(is_equal(command_id, "materialtest")) return test_material(domain, command);
+
+    if(is_equal(command_id, "peek")) return print_info(domain, command);
+
     if(is_equal(command_id, "analyze")) return model->analyze();
 
     if(is_equal(command_id, "clear")) {
@@ -101,8 +104,6 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
         domain->summary();
         return 0;
     }
-
-    if(is_equal(command_id, "peek")) return print_info(domain, command);
 
     if(is_equal(command_id, "version"))
         print_version();
@@ -600,56 +601,6 @@ int create_new_external_module(const shared_ptr<DomainBase>& domain, istringstre
     return 0;
 }
 
-int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
-    string material_id;
-    if(!get_input(command, material_id)) {
-        suanpan_info("create_new_material() needs a tag.\n");
-        return 0;
-    }
-
-    unique_ptr<Material> new_material = nullptr;
-
-    if(is_equal(material_id, "Elastic1D"))
-        new_elastic1d(new_material, command);
-    else if(is_equal(material_id, "Elastic2D"))
-        new_elastic2d(new_material, command);
-    else if(is_equal(material_id, "Elastic3D"))
-        new_elastic3d(new_material, command);
-    else if(is_equal(material_id, "Bilinear1D"))
-        new_bilinear1d(new_material, command);
-    else if(is_equal(material_id, "Bilinear2D"))
-        new_bilinear2d(new_material, command);
-    else if(is_equal(material_id, "Bilinear3D"))
-        new_bilinear3d(new_material, command);
-    else if(is_equal(material_id, "MPF"))
-        new_mpf(new_material, command);
-    else if(is_equal(material_id, "RambergOsgood"))
-        new_rambergosgood(new_material, command);
-    else {
-        // check if the library is already loaded
-        auto code = 0;
-        for(const auto& I : domain->get_external_module_pool())
-            if(I->library_name == material_id) {
-                code = 1;
-                break;
-            }
-
-        // not loaded then try load it
-        if(code == 0 && domain->insert(make_shared<ExternalModule>(material_id))) code = 1;
-
-        // if loaded find corresponding function
-        if(code == 1)
-            for(const auto& I : domain->get_external_module_pool()) {
-                if(I->locate_module(material_id)) I->new_object(new_material, command);
-                if(new_material != nullptr) break;
-            }
-    }
-
-    if(new_material == nullptr || !domain->insert(move(new_material))) suanpan_debug("create_new_material() fails to insert new material.\n");
-
-    return 0;
-}
-
 int create_new_mass(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
@@ -979,4 +930,28 @@ void print_command_usage(istringstream& command) {
         suanpan_info("\t$beta --- mixed hardening 0.0 for isotropic hardening 1.0 for kinematic hardening -> 0.0\n");
         suanpan_info("\t$density --- density -> 0.0\n\n");
     }
+}
+
+int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    unsigned material_tag;
+    if(!get_input(command, material_tag)) {
+        suanpan_error("test_material() needs a valid material tag.\n");
+        return 0;
+    }
+
+    double step_size;
+    if(!get_input(command, step_size)) {
+        suanpan_error("test_material() needs a valid step size.\n");
+        return 0;
+    }
+
+    vector<unsigned> load_step;
+    unsigned step;
+    while(get_input(command, step)) load_step.push_back(step);
+
+    auto result = material_tester(domain->get_material(material_tag), load_step, step_size);
+
+    result.save("RESULT.h5", hdf5_binary_trans);
+
+    return 0;
 }

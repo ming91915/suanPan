@@ -845,8 +845,8 @@ template <typename eT> inline bool diskio::save_hdf5_binary(const Mat<eT>& x, co
 
         // We need to create a dataset, datatype, and dataspace
         hsize_t dims[2];
-        dims[0] = x.n_rows;
-        dims[1] = x.n_cols;
+        dims[1] = x.n_rows;
+        dims[0] = x.n_cols;
 
         hid_t dataspace = arma_H5Screate_simple(2, dims, NULL); // treat the matrix as a 2d array dataspace
         hid_t datatype = hdf5_misc::get_hdf5_type<eT>();

@@ -46,7 +46,6 @@ int create_new_converger(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_criterion(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_displacement(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_external_module(const shared_ptr<DomainBase>&, istringstream&);
-int create_new_material(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_mass(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_node(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_recorder(const shared_ptr<DomainBase>&, istringstream&);
@@ -55,6 +54,8 @@ int create_new_solver(const shared_ptr<DomainBase>&, istringstream&);
 int create_new_step(const shared_ptr<DomainBase>&, istringstream&);
 
 int set_property(const shared_ptr<DomainBase>&, istringstream&);
+
+int test_material(const shared_ptr<DomainBase>&, istringstream&);
 
 int print_info(const shared_ptr<DomainBase>&, istringstream&);
 
