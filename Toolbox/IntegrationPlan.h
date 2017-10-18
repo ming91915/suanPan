@@ -70,12 +70,12 @@ public:
     const unsigned n_cols;
     const unsigned n_elem;
 
-    explicit IntegrationPlan(const unsigned& = 2, const unsigned& = 2, const IntegrationType& = IntegrationType::GAUSS);
+    explicit IntegrationPlan(const unsigned = 2, const unsigned = 2, const IntegrationType& = IntegrationType::GAUSS);
     ~IntegrationPlan();
 
     double** get_integration_scheme() const;
 
-    double operator()(const unsigned&, const unsigned&) const;
+    double operator()(const unsigned, const unsigned) const;
 
     void print() const;
 };

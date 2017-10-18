@@ -174,8 +174,4 @@ using std::istringstream;
 using std::ostringstream;
 using std::string;
 
-//#ifndef ARMA_64BIT_WORD
-//#define uword unsigned
-//#endif
-
 #endif

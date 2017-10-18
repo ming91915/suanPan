@@ -20,9 +20,6 @@
 
 #include <suanPan.h>
 
-using std::istringstream;
-using std::string;
-
 class Bead;
 class DomainBase;
 

@@ -29,7 +29,7 @@
 #include <Load/Amplitude/Tabular.h>
 #include <Load/CLoad.h>
 #include <Load/Displacement.h>
-#include <Material/Material>
+#include <Material/Material.h>
 #include <Material/MaterialParser.h>
 #include <Recorder/NodeRecorder.h>
 #include <Section/Section.h>

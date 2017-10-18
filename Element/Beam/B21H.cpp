@@ -34,7 +34,7 @@ B21H::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_
 
 B21H::B21H(const unsigned T, const uvec& N, const unsigned S, const double L, const bool F)
     : Element(T, ET_B21H, b_node, b_dof, N, uvec{ S }, F)
-    , hinge_length(L) {}
+    , hinge_length(L > .5 ? .5 : L) {}
 
 void B21H::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
@@ -51,40 +51,28 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
 
     elastic_section_stiffness = section_proto->get_initial_stiffness();
 
-    const IntegrationPlan plan(1, 2, IntegrationType::GAUSS);
-    // add two inner points of Radau quadrature
-    const auto int_pt_num = plan.n_rows + 2;
-    const auto elastic_length = 1. - 8. * hinge_length;
+    const auto elastic_length = 1. - 2. * hinge_length;
+
+    // build up the elastic interior
+    const IntegrationPlan elastic_plan(1, 2, IntegrationType::GAUSS);
+    elastic_int_pt.clear(), elastic_int_pt.reserve(elastic_plan.n_rows);
+    for(unsigned I = 0; I < elastic_plan.n_rows; ++I) elastic_int_pt.emplace_back(elastic_plan(I, 0) * elastic_length, elastic_plan(I, 1) * elastic_length / 2., section_proto->get_copy());
+
+    int_pt.clear(), int_pt.reserve(4);
+    int_pt.emplace_back(-1., .25 * hinge_length, section_proto->get_copy());
+    int_pt.emplace_back(4. / 3. * hinge_length - 1., .75 * hinge_length, section_proto->get_copy());
+    int_pt.emplace_back(1. - 4. / 3. * hinge_length, .75 * hinge_length, section_proto->get_copy());
+    int_pt.emplace_back(1., .25 * hinge_length, section_proto->get_copy());
+
     // elastic part will be reused in computation
     elastic_local_stiffness.zeros(3, 3);
-    // build up the elastic interior
-    elastic_int_pt.clear(), elastic_int_pt.reserve(int_pt_num);
-    for(unsigned I = 0; I < int_pt_num; ++I) {
-        double coor, weight;
-        if(I == 0) {
-            // left inner Radau point
-            coor = 16. / 3. * hinge_length - 1.;
-            weight = 3. * hinge_length;
-        } else if(I == int_pt_num - 1) {
-            // right inner Radau point
-            coor = 1. - 16. / 3. * hinge_length;
-            weight = 3. * hinge_length;
-        } else {
-            // Gauss points
-            coor = plan(I - 1, 0) * elastic_length;
-            weight = plan(I - 1, 1) * elastic_length / 2.;
-        }
-        elastic_int_pt.emplace_back(coor, weight, section_proto->get_copy());
-        elastic_int_pt[I].strain_mat(0, 0) = 1. / length;
-        elastic_int_pt[I].strain_mat(1, 1) = (3. * coor - 1.) / length;
-        elastic_int_pt[I].strain_mat(1, 2) = (3. * coor + 1.) / length;
-        elastic_local_stiffness += elastic_int_pt[I].strain_mat.t() * elastic_section_stiffness * elastic_int_pt[I].strain_mat * weight * length;
+    for(auto& I : elastic_int_pt) {
+        I.strain_mat(0, 0) = 1. / length;
+        I.strain_mat(1, 1) = (3. * I.coor - 1.) / length;
+        I.strain_mat(1, 2) = (3. * I.coor + 1.) / length;
+        elastic_local_stiffness += I.strain_mat.t() * elastic_section_stiffness * I.strain_mat * I.weight * length;
     }
-    elastic_local_stiffness.print();
 
-    int_pt.clear(), int_pt.reserve(2);
-    int_pt.emplace_back(-1., hinge_length, section_proto->get_copy());
-    int_pt.emplace_back(1., hinge_length, section_proto->get_copy());
     for(auto& I : int_pt) {
         I.strain_mat(0, 0) = 1. / length;
         I.strain_mat(1, 1) = (3. * I.coor - 1.) / length;
@@ -120,7 +108,7 @@ int B21H::update_status() {
 
     stiffness = trans_mat.t() * local_stiffness * trans_mat;
     resistance = trans_mat.t() * local_resistance;
-    // stiffness.print("\n");
+
     return 0;
 }
 

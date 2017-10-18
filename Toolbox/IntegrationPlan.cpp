@@ -19,8 +19,8 @@
 #include <cmath>
 #include <cstdio>
 
-IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& intOrder, const IntegrationType& intType)
-    : n_rows(static_cast<int>(pow(intOrder, intDimension) + .5))
+IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned intOrder, const IntegrationType& intType)
+    : n_rows(unsigned(pow(intOrder, intDimension) + .5))
     , n_cols(intDimension + 1)
     , n_elem(n_rows * n_cols) {
     const auto PTL = new double[intOrder];
@@ -104,7 +104,7 @@ IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& i
             PTL[0] = -.9491079123;
             PTL[1] = -.7415311856;
             PTL[2] = -.4058451514;
-            PTL[3] = 0;
+            PTL[3] = 0.;
             PTL[4] = .4058451514;
             PTL[5] = .7415311856;
             PTL[6] = .9491079123;
@@ -141,7 +141,7 @@ IntegrationPlan::IntegrationPlan(const unsigned& intDimension, const unsigned& i
             PTL[1] = -.8360311073;
             PTL[2] = -.6133714327;
             PTL[3] = -.3242534234;
-            PTL[4] = 0;
+            PTL[4] = 0.;
             PTL[5] = .3242534234;
             PTL[6] = .6133714327;
             PTL[7] = .8360311073;
@@ -606,7 +606,7 @@ IntegrationPlan::~IntegrationPlan() {
 
 double** IntegrationPlan::get_integration_scheme() const { return int_pts; }
 
-double IntegrationPlan::operator()(const unsigned& i, const unsigned& j) const {
+double IntegrationPlan::operator()(const unsigned i, const unsigned j) const {
     if(i < n_rows && j < n_cols) return int_pts[i][j];
     printf("OUT OF BOUND.\n");
     return 0.;

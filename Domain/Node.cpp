@@ -132,7 +132,7 @@ void Node::set_original_dof(unsigned& F) {
             original_dof(I) = F;
             initialized = false;
         }
-        F++;
+        ++F;
     }
 }
 
@@ -148,7 +148,7 @@ void Node::set_original_dof(const uvec& D) {
         auto code = 0;
         for(auto I = 0; I < D.size(); ++I)
             if(original_dof(I) != D(I)) {
-                code += 1;
+                ++code;
                 break;
             }
         if(code != 0) {
