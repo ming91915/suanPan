@@ -60,5 +60,8 @@
 #ifndef MT_MATERIAL3D
 #define MT_MATERIAL3D 1013
 #endif
+#ifndef MT_DAMPER01
+#define MT_DAMPER01 1014
+#endif
 
 #endif

@@ -17,8 +17,8 @@
 
 #include "ODE.h"
 
-ODE::ODE(const unsigned T, const unsigned CT, const unsigned D)
-    : Tag(T, CT)
+ODE::ODE(const unsigned T, const unsigned D)
+    : Tag(T, CT_ODE)
     , trial_displacement(D, fill::zeros)
     , incre_displacement(D, fill::zeros)
     , current_displacement(D, fill::zeros)
@@ -49,6 +49,18 @@ const vec& ODE::get_trial_displacement() const { return trial_displacement; }
 const vec& ODE::get_incre_displacement() const { return incre_displacement; }
 
 const vec& ODE::get_current_displacement() const { return current_displacement; }
+
+void ODE::update_current_time(const double c_time) {
+    current_time = c_time;
+    trial_time = current_time;
+    incre_time = 0.;
+}
+
+void ODE::update_current_displacement(const vec& c_displacement) {
+    current_displacement = c_displacement;
+    trial_displacement = current_displacement;
+    incre_displacement.zeros();
+}
 
 void ODE::update_incre_time(const double i_time) {
     incre_time = i_time;

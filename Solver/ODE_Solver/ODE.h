@@ -70,12 +70,12 @@ class ODE : public Tag {
     vec trial_displacement;
     vec incre_displacement;
     vec current_displacement;
+    vec pre_displacement;
 
 public:
     const unsigned n_size; /**< the dimension of the problem */
 
-    //! default ctor
-    explicit ODE(const unsigned = 0, const unsigned = CT_ODE, const unsigned = 1);
+    explicit ODE(const unsigned = 0, const unsigned = 1);
 
     //! method to return LHS --- the derivatives
     virtual vec eval(const double, const vec&) = 0;
@@ -98,9 +98,11 @@ public:
     const vec& get_incre_displacement() const;
     const vec& get_current_displacement() const;
 
+    void update_current_time(const double);
     void update_incre_time(const double);
     void update_trial_time(const double);
 
+    void update_current_displacement(const vec&);
     void update_incre_displacement(const vec&);
     void update_trial_displacement(const vec&);
 

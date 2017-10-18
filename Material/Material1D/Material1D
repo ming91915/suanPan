@@ -1,5 +1,6 @@
 #include "Bilinear1D.h"
 #include "Concrete01.h"
+#include "Damper01.h"
 #include "Elastic1D.h"
 #include "Gap01.h"
 #include "Material1D.h"
