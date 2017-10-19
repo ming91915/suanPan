@@ -24,6 +24,7 @@ int create_new_element(const shared_ptr<DomainBase>&, istringstream&);
 
 void new_cp3(unique_ptr<Element>&, istringstream&);
 void new_cp4(unique_ptr<Element>&, istringstream&);
+void new_cp4r(unique_ptr<Element>&, istringstream&);
 void new_cp8(unique_ptr<Element>&, istringstream&);
 void new_gq12(unique_ptr<Element>&, istringstream&);
 void new_ps(unique_ptr<Element>&, istringstream&);

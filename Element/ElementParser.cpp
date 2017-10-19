@@ -35,6 +35,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_cp3(new_element, command);
     else if(is_equal(element_id, "CP4"))
         new_cp4(new_element, command);
+    else if(is_equal(element_id, "CP4R"))
+        new_cp4r(new_element, command);
     else if(is_equal(element_id, "CP8"))
         new_cp8(new_element, command);
     else if(is_equal(element_id, "C3D8"))
@@ -164,6 +166,44 @@ void new_cp4(unique_ptr<Element>& return_obj, istringstream& command) {
         suanpan_debug("new_cp4() assumes linear geometry.\n");
 
     return_obj = make_unique<CP4>(tag, uvec(node_tag), material_tag, thickness, !!reduced_scheme, !!nonlinear);
+}
+
+void new_cp4r(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_cp4r() needs a tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 4; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_cp4r() needs four valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    unsigned material_tag;
+    if(!get_input(command, material_tag)) {
+        suanpan_debug("new_cp4r() needs a valid material tag.\n");
+        return;
+    }
+
+    auto thickness = 1.;
+    if(!command.eof()) {
+        if(!get_input(command, thickness)) suanpan_debug("new_cp4r() needs a valid thickness.\n");
+    } else
+        suanpan_debug("new_cp4r() assumes thickness to be unit.\n");
+
+    unsigned nonlinear = 0;
+    if(!command.eof()) {
+        if(!get_input(command, nonlinear)) suanpan_debug("new_cp4r() needs a valid nonlinear geometry switch (0,1).\n");
+    } else
+        suanpan_debug("new_cp4r() assumes linear geometry.\n");
+
+    return_obj = make_unique<CP4>(tag, uvec(node_tag), material_tag, thickness, true, !!nonlinear);
 }
 
 void new_cp8(unique_ptr<Element>& return_obj, istringstream& command) {
