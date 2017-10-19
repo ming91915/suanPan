@@ -8,7 +8,7 @@ material Bilinear1D 1 10 .7 .02
 
 section Rectangle 1 12 1 1 12
 
-element F21 1 1 2 1
+element F21 1 1 2 1 10
 # element F21H 1 1 2 1 .5
 
 fix 1 P 1

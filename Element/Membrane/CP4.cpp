@@ -304,6 +304,16 @@ int CP4::reset_status() {
     return code;
 }
 
+vector<vec> CP4::record(const OutputType& P) {
+    vector<vec> output;
+    output.reserve(int_pt.size());
+
+    for(const auto& I : int_pt)
+        for(const auto& J : I.m_material->record(P)) output.emplace_back(J);
+
+    return output;
+}
+
 void CP4::print() {
     suanpan_info("Element %u is a four-node membrane element (CP4)%s.\n", get_tag(), nlgeom ? " with nonlinear geomotry (TL formulation)" : "");
     suanpan_info("The nodes connected are:\n");

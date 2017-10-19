@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Elastic2D.h"
+#include <Recorder/OutputType.h>
 
 Elastic2D::Elastic2D(const unsigned& T, const double& E, const double& P, const double& R, const PlaneType& PT)
     : Material2D(T, MT_ELASTIC2D, PT, R)
@@ -84,4 +85,35 @@ double Elastic2D::get_parameter(const ParameterType& T) const {
     default:
         return 0.;
     }
+}
+
+vector<vec> Elastic2D::record(const OutputType& P) {
+    vector<vec> output;
+    output.reserve(1);
+
+    const auto sigma_33 = elastic_modulus * poissons_ratio / (1. + poissons_ratio) / (1. - 2. * poissons_ratio) * (trial_strain(0) + trial_strain(1));
+
+    if(P == OutputType::MISES) {
+        vec trial_mises(1);
+        if(plane_type == PlaneType::S) {
+            trial_mises(0) = sqrt(trial_stress(0) * trial_stress(0) - trial_stress(0) * trial_stress(1) + trial_stress(1) * trial_stress(1) + 3. * trial_stress(2) * trial_stress(2));
+        } else if(plane_type == PlaneType::E) {
+            const auto tmp_a = trial_stress(0) - trial_stress(1);
+            const auto tmp_b = trial_stress(1) - sigma_33;
+            const auto tmp_c = sigma_33 - trial_stress(0);
+            trial_mises(0) = sqrt(.5 * (tmp_a * tmp_a + tmp_b * tmp_b + tmp_c * tmp_c + 6. * trial_stress(2) * trial_stress(2)));
+        }
+        output.emplace_back(trial_mises);
+    } else if(P == OutputType::S) {
+        vec trail_sigma(4);
+
+        trail_sigma(0) = trial_stress(0);
+        trail_sigma(1) = trial_stress(1);
+        trail_sigma(3) = trial_stress(2);
+        trail_sigma(2) = plane_type == PlaneType::S ? 0. : sigma_33;
+
+        output.emplace_back(trail_sigma);
+    }
+
+    return output;
 }

@@ -162,6 +162,5 @@ set ini_step_size .1
 analyze
 
 peek node 83
-peek element 1
 
 exit

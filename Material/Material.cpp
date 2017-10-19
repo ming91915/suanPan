@@ -138,4 +138,6 @@ int Material::reset_status() {
     return 0;
 }
 
+vector<vec> Material::record(const OutputType&) { return {}; }
+
 unique_ptr<Material> make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }

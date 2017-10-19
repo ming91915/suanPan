@@ -56,6 +56,8 @@ public:
     void print() override;
 
     double get_parameter(const ParameterType& = ParameterType::DENSITY) const override;
+
+    vector<vec> record(const OutputType&) override;
 };
 
 #endif

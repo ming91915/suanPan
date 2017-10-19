@@ -35,6 +35,9 @@ enum class MaterialType { D0, D1, D2, D3 };
 enum class PlaneType { S, E, N };
 
 class DomainBase;
+enum class OutputType;
+
+using std::vector;
 
 class Material : public Tag {
 protected:
@@ -91,6 +94,8 @@ public:
     virtual int clear_status() = 0;
     virtual int commit_status() = 0;
     virtual int reset_status() = 0;
+
+    virtual vector<vec> record(const OutputType&);
 };
 
 unique_ptr<Material> make_copy(const shared_ptr<Material>&);
