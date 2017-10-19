@@ -16,6 +16,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Arnoldi.h"
+#include <Domain/DomainBase.h>
+#include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
 Arnoldi::Arnoldi(const unsigned& T)
@@ -23,6 +25,7 @@ Arnoldi::Arnoldi(const unsigned& T)
 
 int Arnoldi::analyze() {
     auto& G = get_integrator();
+    auto& W = G->get_domain().lock()->get_factory();
 
     // assemble resistance
     G->assemble_resistance();
@@ -32,6 +35,13 @@ int Arnoldi::analyze() {
     G->process_load();
     // process constraints
     G->process_constraint();
+
+    auto& mass = W->get_mass();
+    auto& stiffness = W->get_stiffness();
+
+    auto factorized_mass = mass->factorize();
+
+    bool success = factorized_mass.n_elem == 0;
 
     return 0;
 }
