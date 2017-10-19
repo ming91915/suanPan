@@ -18,6 +18,7 @@
 #include "F21H.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
+#include <Recorder/OutputType.h>
 #include <Section/Section.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
@@ -197,6 +198,33 @@ int F21H::reset_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->reset_status();
     return code;
+}
+
+vector<vec> F21H::record(const OutputType& P) {
+    vector<vec> output;
+    output.reserve(int_pt.size() + elastic_int_pt.size());
+
+    if(P == OutputType::E) {
+        output.emplace_back(int_pt[0].b_section->get_deformation());
+        output.emplace_back(int_pt[1].b_section->get_deformation());
+        for(const auto& I : elastic_int_pt) output.emplace_back(I.b_section->get_deformation());
+        output.emplace_back(int_pt[2].b_section->get_deformation());
+        output.emplace_back(int_pt[3].b_section->get_deformation());
+    } else if(P == OutputType::S) {
+        output.emplace_back(int_pt[0].b_section->get_resistance());
+        output.emplace_back(int_pt[1].b_section->get_resistance());
+        for(const auto& I : int_pt) output.emplace_back(I.b_section->get_resistance());
+        output.emplace_back(int_pt[2].b_section->get_resistance());
+        output.emplace_back(int_pt[3].b_section->get_resistance());
+    } else if(P == OutputType::PE) {
+        output.emplace_back(int_pt[0].b_section->get_deformation() - int_pt[0].b_section->get_resistance() / int_pt[0].b_section->get_initial_stiffness().diag());
+        output.emplace_back(int_pt[1].b_section->get_deformation() - int_pt[1].b_section->get_resistance() / int_pt[1].b_section->get_initial_stiffness().diag());
+        for(const auto& I : int_pt) output.emplace_back(I.b_section->get_deformation() - I.b_section->get_resistance() / I.b_section->get_initial_stiffness().diag());
+        output.emplace_back(int_pt[2].b_section->get_deformation() - int_pt[2].b_section->get_resistance() / int_pt[2].b_section->get_initial_stiffness().diag());
+        output.emplace_back(int_pt[3].b_section->get_deformation() - int_pt[3].b_section->get_resistance() / int_pt[3].b_section->get_initial_stiffness().diag());
+    }
+
+    return output;
 }
 
 void F21H::print() { suanpan_info("A Forced-Based Beam Element.\nhttps://doi.org/10.1016/0045-7949(95)00103-N\n"); }

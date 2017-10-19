@@ -15,7 +15,8 @@ fix 1 P 1
 
 cload 1 0 3 2 2
 
-recorder 1 Node U 2
+# recorder 1 Node U 2
+recorder 2 Element E 1
 
 step static 1 1
 set ini_step_size .01
@@ -29,6 +30,7 @@ peek node 2
 
 peek element 1
 
-save recorder 1
+# save recorder 1
+save recorder 2
 
 exit

@@ -57,19 +57,23 @@ void Recorder::save() {
 
     file_name << to_char(variable_type) << object_tag << ".h5";
 
-    mat data_to_write(data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size() + 1);
+    mat data_to_write(data_pool.cbegin()->size() * data_pool.cbegin()->cbegin()->n_elem + 1, time_pool.size() + 1);
     data_to_write.col(0).zeros();
 
     for(size_t I = 0; I < time_pool.size(); ++I) {
         data_to_write(0, I + 1) = time_pool[I];
+        auto idx = 1;
         for(const auto& J : data_pool[I])
-            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(K + 1, I + 1) = J[K];
+            for(unsigned K = 0; K < J.n_elem; ++K) data_to_write(idx++, I + 1) = J[K];
     }
 
     hsize_t dimention[2] = { data_to_write.n_cols, data_to_write.n_rows };
 
+    string group_name = "/";
+    group_name += to_char(get_variable_type());
+
     const auto file_id = H5Fcreate(file_name.str().c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
-    const auto group_id = H5Gcreate(file_id, "/DISPLACEMENT", H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
+    const auto group_id = H5Gcreate(file_id, group_name.c_str(), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
 
     H5LTmake_dataset(group_id, file_name.str().c_str(), 2, dimention, H5T_NATIVE_DOUBLE, data_to_write.mem);
 

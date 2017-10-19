@@ -15,31 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "commandParser.h"
-#include "argumentParser.h"
-#include <Constraint/BC/BC.h>
-#include <Constraint/Criterion/Criterion>
-#include <Converger/Converger>
-#include <Domain/Domain.h>
-#include <Domain/ExternalModule.h>
-#include <Domain/Node.h>
-#include <Element/ElementParser.h>
-#include <Element/Special/Mass.h>
-#include <Load/Acceleration.h>
-#include <Load/Amplitude/Tabular.h>
-#include <Load/CLoad.h>
-#include <Load/Displacement.h>
-#include <Material/Material.h>
-#include <Material/MaterialParser.h>
-#include <Recorder/NodeRecorder.h>
-#include <Section/Section.h>
-#include <Section/SectionParser.h>
-#include <Solver/Solver>
-#include <Step/ArcLength.h>
-#include <Step/Bead.h>
-#include <Step/Dynamic.h>
-#include <Step/Static.h>
-#include <Toolbox/utility.h>
+#include <suanPan>
 
 using std::ifstream;
 using std::string;
@@ -670,7 +646,10 @@ int create_new_recorder(const shared_ptr<DomainBase>& domain, istringstream& com
         return 0;
     }
 
-    if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true))) suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+    if(is_equal(object_type, "Node") && !domain->insert(make_shared<NodeRecorder>(tag, object_tag, to_list(variable_type.c_str()), true)))
+        suanpan_info("create_new_recorder() fails to create a new node recorder.\n");
+    else if(is_equal(object_type, "Element") && !domain->insert(make_shared<ElementRecorder>(tag, object_tag, to_list(variable_type.c_str()), true)))
+        suanpan_info("create_new_recorder() fails to create a new element recorder.\n");
 
     return 0;
 }

@@ -18,6 +18,7 @@
 #include "B21.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
+#include <Recorder/OutputType.h>
 #include <Section/Section.h>
 #include <Toolbox/IntegrationPlan.h>
 #include <Toolbox/shapeFunction.hpp>
@@ -106,6 +107,20 @@ int B21::reset_status() {
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->reset_status();
     return code;
+}
+
+vector<vec> B21::record(const OutputType& P) {
+    vector<vec> output;
+    output.reserve(int_pt.size());
+
+    if(P == OutputType::E)
+        for(const auto& I : int_pt) output.emplace_back(I.b_section->get_deformation());
+    else if(P == OutputType::S)
+        for(const auto& I : int_pt) output.emplace_back(I.b_section->get_resistance());
+    else if(P == OutputType::PE)
+        for(const auto& I : int_pt) output.emplace_back(I.b_section->get_deformation() - I.b_section->get_resistance() / I.b_section->get_initial_stiffness().diag());
+
+    return output;
 }
 
 void B21::print() {}
