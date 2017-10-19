@@ -149,6 +149,9 @@
     <ClCompile Include="..\..\..\Recorder\OutputType.cpp">
       <Filter>Recorder</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Recorder\ElementRecorder.cpp">
+      <Filter>Recorder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -281,6 +284,9 @@
       <Filter>Step</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Recorder\OutputType.h">
+      <Filter>Recorder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Recorder\ElementRecorder.h">
       <Filter>Recorder</Filter>
     </ClInclude>
   </ItemGroup>

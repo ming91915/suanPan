@@ -183,5 +183,8 @@
 #ifndef CT_ARNOLDI
 #define CT_ARNOLDI 55
 #endif
+#ifndef CT_ELEMENTRECORDER
+#define CT_ELEMENTRECORDER 56
+#endif
 
 #endif
