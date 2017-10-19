@@ -27,6 +27,7 @@ public:
     using MetaMat<T>::memory;
     using MetaMat<T>::solve;
     using MetaMat<T>::solve_trs;
+    using MetaMat<T>::factorize;
 
     SymmPackMat();
     explicit SymmPackMat(const unsigned&);
@@ -38,6 +39,8 @@ public:
 
     int solve(Mat<T>&, const Mat<T>&) override;
     int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> factorize() override;
 
     MetaMat<T> i() override;
 };
@@ -76,10 +79,10 @@ template <typename T> Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_sspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+            arma_fortran(arma_sspmv)(&UPLO, &N, (E*)&ALPHA, (E*)this->memptr(), (E*)X.memptr(), &INC, (E*)&BETA, (E*)Y.memptr(), &INC);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dspmv)(&UPLO, &N, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), (E*)(X.memptr()), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+            arma_fortran(arma_dspmv)(&UPLO, &N, (E*)&ALPHA, (E*)this->memptr(), (E*)X.memptr(), &INC, (E*)&BETA, (E*)Y.memptr(), &INC);
         }
 
         return Y;
@@ -92,9 +95,8 @@ template <typename T> int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_rows;
-    auto NRHS = static_cast<int>(B.n_cols);
-    IPIV.zeros(N);
-    auto LDB = static_cast<int>(B.n_rows);
+    auto NRHS = int(B.n_cols);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -109,13 +111,11 @@ template <typename T> int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 }
 
 template <typename T> int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
-    if(IPIV.is_empty()) return -1;
-
     X = B;
 
     int N = n_rows;
-    auto NRHS = static_cast<int>(B.n_cols);
-    auto LDB = static_cast<int>(B.n_rows);
+    auto NRHS = int(B.n_cols);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -129,11 +129,32 @@ template <typename T> int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
     return INFO;
 }
 
+template <typename T> MetaMat<T> SymmPackMat<T>::factorize() {
+    auto X = *this;
+
+    int N = n_rows;
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_spptrf)(&UPLO, &N, (E*)X.memptr(), &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dpptrf)(&UPLO, &N, (E*)X.memptr(), &INFO);
+    }
+
+    if(INFO != 0) {
+        suanpan_error("factorize() fails.\n");
+        X.reset();
+    }
+
+    return X;
+}
+
 template <typename T> MetaMat<T> SymmPackMat<T>::i() {
     auto X = *this;
 
     int N = X.n_rows;
-    IPIV.zeros(N);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {

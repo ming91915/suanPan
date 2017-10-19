@@ -24,6 +24,8 @@
 
 #define arma_sgbsv SGBSV
 #define arma_dgbsv DGBSV
+#define arma_sgbtrf SGBTRF
+#define arma_dgbtrf DGBTRF
 #define arma_sgbtrs SGBTRS
 #define arma_dgbtrs DGBTRS
 
@@ -35,6 +37,8 @@
 
 #define arma_spbsv SPBSV
 #define arma_dpbsv DPBSV
+#define arma_spbtrf SPBTRF
+#define arma_dpbtrf DPBTRF
 #define arma_spbtrs SPBTRS
 #define arma_dpbtrs DPBTRS
 
@@ -82,6 +86,8 @@
 
 #define arma_sgbsv sgbsv
 #define arma_dgbsv dgbsv
+#define arma_sgbtrf sgbtrf
+#define arma_dgbtrf dgbtrf
 #define arma_sgbtrs sgbtrs
 #define arma_dgbtrs dgbtrs
 
@@ -93,6 +99,8 @@
 
 #define arma_spbsv spbsv
 #define arma_dpbsv dpbsv
+#define arma_spbtrf spbtrf
+#define arma_dpbtrf dpbtrf
 #define arma_spbtrs spbtrs
 #define arma_dpbtrs dpbtrs
 
@@ -157,6 +165,10 @@ void arma_fortran(arma_sgbsv)(const int* N, const int* KL, const int* KU, const 
 
 void arma_fortran(arma_dgbsv)(const int* N, const int* KL, const int* KU, const int* NRHS, double* AB, const int* LDAB, int* IPIV, double* B, const int* LDB, int* INFO);
 
+void arma_fortran(arma_sgbtrf)(const int* M, const int* N, const int* KL, const int* KU, float* AB, const int* LDAB, int* IPIV, int* INFO);
+
+void arma_fortran(arma_dgbtrf)(const int* M, const int* N, const int* KL, const int* KU, double* AB, const int* LDAB, int* IPIV, int* INFO);
+
 void arma_fortran(arma_sgbtrs)(const char* TRANS, const int* N, const int* KL, const int* KU, const int* NRHS, const float* AB, const int* LDAB, const int* IPIV, float* B, const int* LDB, int* INFO);
 
 void arma_fortran(arma_dgbtrs)(const char* TRANS, const int* N, const int* KL, const int* KU, const int* NRHS, const double* AB, const int* LDAB, const int* IPIV, double* B, const int* LDB, int* INFO);
@@ -175,6 +187,10 @@ void arma_fortran(arma_dposv)(const char* UPLO, const int* N, const int* NRHS, d
 void arma_fortran(arma_spbsv)(const char* UPLO, const int* N, const int* KD, const int* NRHS, float* AB, const int* LDAB, float* B, const int* LDB, int* INFO);
 
 void arma_fortran(arma_dpbsv)(const char* UPLO, const int* N, const int* KD, const int* NRHS, double* AB, const int* LDAB, double* B, const int* LDB, int* INFO);
+
+void arma_fortran(arma_spbtrf)(const char* UPLO, const int* N, const int* KD, float* AB, const int* LDAB, int* INFO);
+
+void arma_fortran(arma_dpbtrf)(const char* UPLO, const int* N, const int* KD, double* AB, const int* LDAB, int* INFO);
 
 void arma_fortran(arma_spbtrs)(const char* UPLO, const int* N, const int* KD, const int* NRHS, float* AB, const int* LDAB, float* B, const int* LDB, int* INFO);
 

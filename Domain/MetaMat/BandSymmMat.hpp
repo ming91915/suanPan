@@ -30,6 +30,7 @@ public:
     using MetaMat<T>::memory;
     using MetaMat<T>::solve;
     using MetaMat<T>::solve_trs;
+    using MetaMat<T>::factorize;
 
     BandSymmMat();
     BandSymmMat(const unsigned&, const unsigned&);
@@ -41,6 +42,8 @@ public:
 
     int solve(Mat<T>&, const Mat<T>&) override;
     int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> factorize() override;
 };
 
 template <typename T> struct is_BandSymm { static const bool value = false; };
@@ -89,10 +92,10 @@ template <typename T> Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
 
         if(std::is_same<T, float>::value) {
             using E = float;
-            arma_fortran(arma_ssbmv)(&UPLO, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+            arma_fortran(arma_ssbmv)(&UPLO, &N, &K, (E*)&ALPHA, (E*)this->memptr(), &LDA, (E*)X.memptr(), &INC, (E*)&BETA, (E*)Y.memptr(), &INC);
         } else if(std::is_same<T, double>::value) {
             using E = double;
-            arma_fortran(arma_dsbmv)(&UPLO, &N, &K, reinterpret_cast<E*>(&ALPHA), reinterpret_cast<E*>(this->memptr()), &LDA, (E*)X.memptr(), &INC, reinterpret_cast<E*>(&BETA), reinterpret_cast<E*>(Y.memptr()), &INC);
+            arma_fortran(arma_dsbmv)(&UPLO, &N, &K, (E*)&ALPHA, (E*)this->memptr(), &LDA, (E*)X.memptr(), &INC, (E*)&BETA, (E*)Y.memptr(), &INC);
         }
 
         return Y;
@@ -106,9 +109,9 @@ template <typename T> int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 
     int N = n_cols;
     int KD = bw;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     int LDAB = n_rows;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -129,9 +132,9 @@ template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
 
     int N = n_cols;
     int KD = bw;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     int LDAB = n_rows;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -145,6 +148,30 @@ template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
     if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
 
     return INFO;
+}
+
+template <typename T> MetaMat<T> BandSymmMat<T>::factorize() {
+    auto X = *this;
+
+    int N = n_cols;
+    int KD = bw;
+    int LDAB = n_rows;
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_spbtrf)(&UPLO, &N, &KD, (E*)X.memptr(), &LDAB, &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dpbtrf)(&UPLO, &N, &KD, (E*)X.memptr(), &LDAB, &INFO);
+    }
+
+    if(INFO != 0) {
+        suanpan_error("factorize() fails.\n");
+        X.reset();
+    }
+
+    return X;
 }
 
 #endif

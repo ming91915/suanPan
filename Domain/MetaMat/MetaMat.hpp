@@ -63,6 +63,8 @@ public:
     virtual Mat<T> solve_trs(const Mat<T>&);
     virtual int solve_trs(Mat<T>&, const Mat<T>&);
 
+    virtual MetaMat factorize();
+
     virtual MetaMat i();
     virtual MetaMat inv();
 
@@ -204,7 +206,7 @@ template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
         }
     } else {
         int M = n_rows;
-        auto N = static_cast<int>(B.n_cols);
+        auto N = int(B.n_cols);
         int K = n_cols;
         T ALPHA = 1.;
         auto LDA = M;
@@ -234,9 +236,9 @@ template <typename T> int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     X = B;
 
     int N = n_rows;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     auto LDA = N;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     IPIV.zeros(N);
     auto INFO = 0;
 
@@ -266,9 +268,9 @@ template <typename T> int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
 
     auto TRANS = 'N';
     int N = n_rows;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     auto LDA = N;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -280,6 +282,33 @@ template <typename T> int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     }
 
     return INFO;
+}
+
+template <typename T> MetaMat<T> MetaMat<T>::factorize() {
+    auto X = *this;
+
+    arma_debug_check(X.n_rows != X.n_cols, "i() only accepts sqaure matrix.");
+
+    int M = X.n_rows;
+    auto N = M;
+    auto LDA = M;
+    X.IPIV.zeros(N);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_sgetrf)(&M, &N, (E*)X.memptr(), &LDA, X.IPIV.memptr(), &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dgetrf)(&M, &N, (E*)X.memptr(), &LDA, X.IPIV.memptr(), &INFO);
+    }
+
+    if(INFO != 0) {
+        suanpan_error("factorize() fails.\n");
+        X.reset();
+    }
+
+    return X;
 }
 
 template <typename T> MetaMat<T> MetaMat<T>::i() {

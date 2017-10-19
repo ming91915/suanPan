@@ -33,6 +33,7 @@ public:
     using MetaMat<T>::memory;
     using MetaMat<T>::solve;
     using MetaMat<T>::solve_trs;
+    using MetaMat<T>::factorize;
 
     BandMat();
     BandMat(const unsigned&, const unsigned&, const unsigned&);
@@ -44,6 +45,8 @@ public:
 
     int solve(Mat<T>&, const Mat<T>&) override;
     int solve_trs(Mat<T>&, const Mat<T>&) override;
+
+    MetaMat<T> factorize() override;
 };
 
 template <typename T> struct is_Band { static const bool value = false; };
@@ -118,9 +121,9 @@ template <typename T> int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
     int N = n_cols;
     int KL = low_bw;
     int KU = up_bw;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     int LDAB = n_rows;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     IPIV.zeros(N);
     auto INFO = 0;
 
@@ -145,9 +148,9 @@ template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     int N = n_cols;
     int KL = low_bw;
     int KU = up_bw;
-    auto NRHS = static_cast<int>(B.n_cols);
+    auto NRHS = int(B.n_cols);
     int LDAB = n_rows;
-    auto LDB = static_cast<int>(B.n_rows);
+    auto LDB = int(B.n_rows);
     auto INFO = 0;
 
     if(std::is_same<T, float>::value) {
@@ -161,6 +164,33 @@ template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
     if(INFO != 0) suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
 
     return INFO;
+}
+
+template <typename T> MetaMat<T> BandMat<T>::factorize() {
+    auto X = *this;
+
+    int M = n_cols;
+    auto N = M;
+    int KL = low_bw;
+    int KU = up_bw;
+    int LDAB = n_rows;
+    X.IPIV.zeros(N);
+    auto INFO = 0;
+
+    if(std::is_same<T, float>::value) {
+        using E = float;
+        arma_fortran(arma_sgbtrf)(&M, &N, &KL, &KU, (E*)X.memptr(), &LDAB, X.IPIV.memptr(), &INFO);
+    } else if(std::is_same<T, double>::value) {
+        using E = double;
+        arma_fortran(arma_dgbtrf)(&M, &N, &KL, &KU, (E*)X.memptr(), &LDAB, X.IPIV.memptr(), &INFO);
+    }
+
+    if(INFO != 0) {
+        suanpan_error("factorize() fails.\n");
+        X.reset();
+    }
+
+    return X;
 }
 
 #endif
