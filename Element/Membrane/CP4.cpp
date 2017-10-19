@@ -45,6 +45,27 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
         for(unsigned J = 0; J < m_dof; ++J) ele_coor(I, J) = tmp_coor(J);
     }
 
+    if(reduced_scheme) {
+        hourglassing.zeros(m_node * m_dof);
+        const auto area = .5 * ((ele_coor(2, 0) - ele_coor(0, 0)) * (ele_coor(3, 1) - ele_coor(1, 1)) + (ele_coor(1, 0) - ele_coor(3, 0)) * (ele_coor(2, 1) - ele_coor(0, 1)));
+        vec b1(4), b2(4);
+        b1(0) = ele_coor(1, 1) - ele_coor(3, 1);
+        b1(1) = ele_coor(2, 1) - ele_coor(0, 1);
+        b1(2) = ele_coor(3, 1) - ele_coor(1, 1);
+        b1(3) = ele_coor(0, 1) - ele_coor(2, 1);
+        b2(0) = ele_coor(3, 0) - ele_coor(1, 0);
+        b2(1) = ele_coor(0, 0) - ele_coor(2, 0);
+        b2(2) = ele_coor(1, 0) - ele_coor(3, 0);
+        b2(3) = ele_coor(2, 0) - ele_coor(0, 0);
+        b1 /= 2. * area, b2 /= 2. * area;
+        const vec h{ std::initializer_list<double>{ 1., -1., 1., -1. } };
+        vec gamma = h - dot(h, ele_coor.col(0)) * b1 - dot(h, ele_coor.col(1)) * b2;
+        gamma /= area;
+        mat t_hourglassing = gamma * gamma.t();
+        for(auto I = 0; I < m_node; ++I)
+            for(auto J = 0; J < m_node; ++J) hourglassing(m_dof * I + 1, m_dof * J + 1) = hourglassing(m_dof * I, m_dof * J) = t_hourglassing(I, J);
+    }
+
     auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
     if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) modifier(thickness) = 1.;
@@ -90,6 +111,10 @@ int CP4::update_status() {
 
     vec t_strain(3);
     mat ele_disp(m_node, m_dof);
+    for(auto I = 0; I < m_node; ++I) {
+        auto& t_disp = node_ptr[I].lock()->get_trial_displacement();
+        for(auto J = 0; J < m_dof; ++J) ele_disp(I, J) = t_disp(J);
+    }
     mat sigma(4, 4, fill::zeros);
 
     if(nlgeom) geometry.zeros();
@@ -98,10 +123,6 @@ int CP4::update_status() {
     resistance.zeros();
     for(auto& I : int_pt) {
         if(nlgeom) {
-            for(auto J = 0; J < m_node; ++J) {
-                auto& t_disp = node_ptr[J].lock()->get_trial_displacement();
-                for(auto K = 0; K < m_dof; ++K) ele_disp(J, K) = t_disp(K);
-            }
             mat gradient = I.pn_pxy * ele_disp;
             gradient(0, 0) += 1.;
             gradient(1, 1) += 1.;
@@ -282,6 +303,11 @@ int CP4::update_status() {
     else
         for(auto I = 0; I < 7; ++I)
             for(auto J = I + 1; J < 8; ++J) stiffness(J, I) = stiffness(I, J);
+
+    if(reduced_scheme) {
+        stiffness += hourglassing;
+        resistance += hourglassing * vectorise(ele_disp.t());
+    }
 
     return code;
 }

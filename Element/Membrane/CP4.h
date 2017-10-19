@@ -49,6 +49,8 @@ class CP4 final : public Element {
 
     vector<IntegrationPoint> int_pt;
 
+    mat hourglassing;
+
 public:
     CP4(const unsigned&,      // tag
         const uvec&,          // node tags
