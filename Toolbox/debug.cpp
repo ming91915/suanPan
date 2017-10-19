@@ -35,6 +35,7 @@ void suanpan_info(const char* M, ...) {
     cout << buffer.data();
 }
 
+// empty function call will automatically be optimized out
 void suanpan_debug(const char* M, ...) {
 #ifdef SUANPAN_DEBUG
     cout << "debug: ";
@@ -49,6 +50,7 @@ void suanpan_debug(const char* M, ...) {
 #endif
 }
 
+// empty function call will automatically be optimized out
 void suanpan_extra_debug(const char* M, ...) {
 #ifdef SUANPAN_EXTRA_DEBUG
     cout << "extra debug: ";

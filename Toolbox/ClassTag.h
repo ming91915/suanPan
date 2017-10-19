@@ -180,5 +180,8 @@
 #ifndef CT_ACCELERATION
 #define CT_ACCELERATION 54
 #endif
+#ifndef CT_ARNOLDI
+#define CT_ARNOLDI 55
+#endif
 
 #endif

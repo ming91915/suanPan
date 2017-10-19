@@ -15,17 +15,25 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Frequence.h"
-#include <Solver/Solver.h>
+#include "Arnoldi.h"
+#include <Solver/Integrator/Integrator.h>
 
-Frequence::Frequence(const unsigned& T, const unsigned& N)
-    : Step(T, CT_FREQUENCE, 0.)
-    , eigen_number(N) {}
+Arnoldi::Arnoldi(const unsigned& T)
+    : Solver(T, CT_ARNOLDI) {}
 
-int Frequence::initialize() { return 0; }
+int Arnoldi::analyze() {
+    auto& G = get_integrator();
 
-int Frequence::analyze() { return get_solver()->analyze(); }
+    // assemble resistance
+    G->assemble_resistance();
+    // assemble stiffness
+    G->assemble_matrix();
+    // process loads
+    G->process_load();
+    // process constraints
+    G->process_constraint();
 
-void Frequence::set_eigen_number(const unsigned& N) { eigen_number = N; }
+    return 0;
+}
 
-const unsigned& Frequence::get_eigen_number() const { return eigen_number; }
+void Arnoldi::print() { suanpan_info("A solver using Arnoldi--Raphson iteration method.\n"); }

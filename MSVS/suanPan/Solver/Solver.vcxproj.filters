@@ -57,6 +57,9 @@
     <ClCompile Include="..\..\..\Solver\DisplacementControl.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Arnoldi.cpp">
+      <Filter>Solver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
@@ -99,6 +102,9 @@
       <Filter>ODE Solver</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\DisplacementControl.h">
+      <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Arnoldi.h">
       <Filter>Solver</Filter>
     </ClInclude>
   </ItemGroup>

@@ -156,6 +156,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Solver\Arnoldi.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
     <ClCompile Include="..\..\..\Solver\DisplacementControl.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp" />
@@ -172,6 +173,7 @@
     <ClCompile Include="..\..\..\Solver\Solver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Solver\Arnoldi.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
     <ClInclude Include="..\..\..\Solver\DisplacementControl.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h" />

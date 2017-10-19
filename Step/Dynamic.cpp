@@ -26,13 +26,10 @@ int Dynamic::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    // make sure the stiffness and resistance are correct
-    // G->update_trial_status();
-
     auto time_left = get_time_period();
     auto step = get_ini_step_size();
 
-    unsigned num_increment = 0;
+    unsigned num_increment = 0, num_converged_step = 0;
 
     while(true) {
         // check if the target time point is hit
@@ -53,6 +50,10 @@ int Dynamic::analyze() {
             G->record();
             // eat current increment
             time_left -= step;
+            if(!is_fixed_step_size() && ++num_converged_step > 5) {
+                step *= 1.2;
+                num_converged_step = 0;
+            }
             // check if time overflows
             if(step > time_left) step = time_left;
         } else if(code == -1) { // failed step
