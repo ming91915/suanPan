@@ -49,19 +49,20 @@ int ODE_Solver::analyze() {
 
     auto time_left = ode_system->get_incre_time();
     auto step = time_left;
+    auto counter = 0;
 
-    while(time_left > 0.) {
-        ode_system->update_incre_time(step);
+    while(true) {
         if(update_status() != 0) return -1;
         if(ode_system->is_converged()) {
             ode_system->commit_status();
             time_left -= step;
         }
+        if(time_left <= 0.) return 0;
+        if(++counter > 20) return -1;
         step *= .8 * pow(ode_system->get_tolerance() / ode_system->get_error(), factor);
         if(step > time_left) step = time_left;
+        ode_system->update_incre_time(step);
     }
-
-    return 0;
 }
 
 void ODE_Solver::set_ode(const shared_ptr<ODE>& E) { ode_system = E; }
