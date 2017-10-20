@@ -26,6 +26,11 @@ ElementRecorder::ElementRecorder(const unsigned& T, const unsigned& B, const Out
 void ElementRecorder::record(const shared_ptr<DomainBase>& D) {
     auto& t_obj = D->get_element(get_object_tag());
 
+    if(t_obj == nullptr) {
+        D->disable_recorder(get_tag());
+        return;
+    }
+
     insert(t_obj->record(get_variable_type()));
 
     if(if_record_time()) insert(D->get_factory()->get_current_time());

@@ -46,16 +46,19 @@ protected:
     vec current_strain;      /**< current status */
     vec current_strain_rate; /**< current status */
     vec current_stress;      /**< current status */
+    vec current_stress_rate; /**< current status */
     vec current_history;     /**< current status */
 
     vec trial_strain;      /**< trial status */
     vec trial_strain_rate; /**< trial status */
     vec trial_stress;      /**< trial status */
+    vec trial_stress_rate; /**< trial status */
     vec trial_history;     /**< trial status */
 
     vec incre_strain;      /**< incremental status */
     vec incre_strain_rate; /**< incremental status */
     vec incre_stress;      /**< incremental status */
+    vec incre_stress_rate; /**< incremental status */
 
     mat initial_stiffness; /**< stiffness matrix */
     mat current_stiffness; /**< stiffness matrix */

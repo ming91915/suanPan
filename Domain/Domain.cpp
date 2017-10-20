@@ -607,7 +607,8 @@ int Domain::process_criterion() {
 }
 
 void Domain::record() {
-    for(const auto& I : recorder_pond.get()) I->record(shared_from_this());
+    for(const auto& I : recorder_pond.get())
+        if(I->is_active()) I->record(shared_from_this());
 }
 
 void Domain::enable_all() {
