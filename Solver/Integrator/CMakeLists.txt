@@ -1,5 +1,6 @@
 set(Integrator
-    Integrator/Integrator.cpp
     Integrator/CentralDifference.cpp
+    Integrator/GeneralizedAlpha.cpp
+    Integrator/Integrator.cpp
     Integrator/Newmark.cpp
     )

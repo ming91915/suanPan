@@ -186,5 +186,8 @@
 #ifndef CT_ELEMENTRECORDER
 #define CT_ELEMENTRECORDER 56
 #endif
+#ifndef CT_GENERALIZEDALPHA
+#define CT_GENERALIZEDALPHA 57
+#endif
 
 #endif

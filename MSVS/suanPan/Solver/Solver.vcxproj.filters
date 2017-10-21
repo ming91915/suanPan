@@ -60,6 +60,9 @@
     <ClCompile Include="..\..\..\Solver\Arnoldi.cpp">
       <Filter>Solver</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\Integrator\GeneralizedAlpha.cpp">
+      <Filter>Integrator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\Arnoldi.h">
       <Filter>Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\Integrator\GeneralizedAlpha.h">
+      <Filter>Integrator</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
