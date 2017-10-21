@@ -22,6 +22,7 @@ template <typename T> class MetaMat {
 public:
     Col<int> IPIV;
     const char TRAN = 'N';
+    bool factored = false;
     const unsigned n_rows;
     const unsigned n_cols;
     const unsigned n_elem;
@@ -56,6 +57,8 @@ public:
 
     virtual MetaMat operator*(const T&);
     virtual Mat<T> operator*(const Mat<T>&);
+
+    virtual MetaMat& operator*=(const T&);
 
     virtual Mat<T> solve(const Mat<T>&);
     virtual int solve(Mat<T>&, const Mat<T>&);
@@ -137,7 +140,10 @@ template <typename T> void MetaMat<T>::init() {
     access::rw(memory) = is_empty() ? nullptr : memory::acquire<T>(n_elem);
 }
 
-template <typename T> void MetaMat<T>::zeros() { arrayops::fill_zeros(memptr(), n_elem); }
+template <typename T> void MetaMat<T>::zeros() {
+    arrayops::fill_zeros(memptr(), n_elem);
+    factored = false;
+}
 
 template <typename T> void MetaMat<T>::reset() {
     access::rw(n_rows) = 0;
@@ -145,6 +151,7 @@ template <typename T> void MetaMat<T>::reset() {
     access::rw(n_elem) = 0;
     if(memory != nullptr) memory::release(access::rw(memory));
     access::rw(memory) = nullptr;
+    factored = false;
 }
 
 template <typename T> T MetaMat<T>::max() const { return op_max::direct_max(memptr(), n_elem); }
@@ -226,6 +233,11 @@ template <typename T> Mat<T> MetaMat<T>::operator*(const Mat<T>& B) {
     return C;
 }
 
+template <typename T> MetaMat<T>& MetaMat<T>::operator*=(const T& value) {
+    arrayops::inplace_mul(memptr(), value, n_elem);
+    return *this;
+}
+
 template <typename T> Mat<T> MetaMat<T>::solve(const Mat<T>& B) {
     Mat<T> X;
     if(solve(X, B) != 0) X.reset();
@@ -233,6 +245,11 @@ template <typename T> Mat<T> MetaMat<T>::solve(const Mat<T>& B) {
 }
 
 template <typename T> int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return solve_trs(X, B);
+    }
+
     X = B;
 
     int N = n_rows;
@@ -250,7 +267,10 @@ template <typename T> int MetaMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dgesv)(&N, &NRHS, (E*)memptr(), &LDA, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+    if(INFO != 0)
+        suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+    else
+        factored = true;
 
     return INFO;
 }
@@ -262,6 +282,11 @@ template <typename T> Mat<T> MetaMat<T>::solve_trs(const Mat<T>& B) {
 }
 
 template <typename T> int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(!factored) {
+        suanpan_warning("the matrix is not factored.\n");
+        return solve(X, B);
+    }
+
     if(IPIV.is_empty()) return -1;
 
     X = B;
@@ -287,6 +312,11 @@ template <typename T> int MetaMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
 template <typename T> MetaMat<T> MetaMat<T>::factorize() {
     auto X = *this;
 
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return X;
+    }
+
     arma_debug_check(X.n_rows != X.n_cols, "i() only accepts sqaure matrix.");
 
     int M = X.n_rows;
@@ -306,7 +336,8 @@ template <typename T> MetaMat<T> MetaMat<T>::factorize() {
     if(INFO != 0) {
         suanpan_error("factorize() fails.\n");
         X.reset();
-    }
+    } else
+        X.factored = true;
 
     return X;
 }

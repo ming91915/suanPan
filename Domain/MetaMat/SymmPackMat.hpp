@@ -21,6 +21,7 @@ template <typename T> class SymmPackMat : public MetaMat<T> {
 public:
     using MetaMat<T>::IPIV;
     using MetaMat<T>::TRAN;
+    using MetaMat<T>::factored;
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
@@ -92,6 +93,11 @@ template <typename T> Mat<T> SymmPackMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T> int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return this->solve_trs(X, B);
+    }
+
     X = B;
 
     int N = n_rows;
@@ -107,10 +113,20 @@ template <typename T> int SymmPackMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dppsv)(&UPLO, &N, &NRHS, (E*)this->memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
+    if(INFO != 0)
+        suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+    else
+        factored = true;
+
     return INFO;
 }
 
 template <typename T> int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(!factored) {
+        suanpan_warning("the matrix is not factored.\n");
+        return this->solve(X, B);
+    }
+
     X = B;
 
     int N = n_rows;
@@ -132,6 +148,11 @@ template <typename T> int SymmPackMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
 template <typename T> MetaMat<T> SymmPackMat<T>::factorize() {
     auto X = *this;
 
+    if(factored) {
+        suanpan_warning("them matrix is factored.\n");
+        return X;
+    }
+
     int N = n_rows;
     auto INFO = 0;
 
@@ -146,7 +167,8 @@ template <typename T> MetaMat<T> SymmPackMat<T>::factorize() {
     if(INFO != 0) {
         suanpan_error("factorize() fails.\n");
         X.reset();
-    }
+    } else
+        X.factored = true;
 
     return X;
 }

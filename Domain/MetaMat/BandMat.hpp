@@ -27,6 +27,7 @@ template <typename T> class BandMat : public MetaMat<T> {
 public:
     using MetaMat<T>::IPIV;
     using MetaMat<T>::TRAN;
+    using MetaMat<T>::factored;
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
@@ -116,6 +117,11 @@ template <typename T> Mat<T> BandMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T> int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return this->solve_trs(X, B);
+    }
+
     X = B;
 
     int N = n_cols;
@@ -141,6 +147,11 @@ template <typename T> int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
 }
 
 template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(!factored) {
+        suanpan_warning("the matrix is not factored.\n");
+        return this->solve(X, B);
+    }
+
     if(IPIV.is_empty()) return -1;
 
     X = B;
@@ -161,13 +172,21 @@ template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dgbtrs)(&TRAN, &N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    if(INFO != 0) suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
+    if(INFO != 0)
+        suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
+    else
+        factored = true;
 
     return INFO;
 }
 
 template <typename T> MetaMat<T> BandMat<T>::factorize() {
     auto X = *this;
+
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return X;
+    }
 
     int M = n_cols;
     auto N = M;
@@ -188,7 +207,8 @@ template <typename T> MetaMat<T> BandMat<T>::factorize() {
     if(INFO != 0) {
         suanpan_error("factorize() fails.\n");
         X.reset();
-    }
+    } else
+        X.factored = true;
 
     return X;
 }

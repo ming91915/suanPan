@@ -24,6 +24,7 @@ template <typename T> class BandSymmMat : public MetaMat<T> {
     const unsigned bw;
 
 public:
+    using MetaMat<T>::factored;
     using MetaMat<T>::n_cols;
     using MetaMat<T>::n_rows;
     using MetaMat<T>::n_elem;
@@ -105,6 +106,11 @@ template <typename T> Mat<T> BandSymmMat<T>::operator*(const Mat<T>& X) {
 }
 
 template <typename T> int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return this->solve_trs(X, B);
+    }
+
     X = B;
 
     int N = n_cols;
@@ -122,12 +128,20 @@ template <typename T> int BandSymmMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dpbsv)(&UPLO, &N, &KD, &NRHS, (E*)this->memptr(), &LDAB, (E*)X.memptr(), &LDB, &INFO);
     }
 
-    if(INFO != 0) suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+    if(INFO != 0)
+        suanpan_error("solve() receives error code %u from the base driver, the matrix is probably singular.\n", INFO);
+    else
+        factored = true;
 
     return INFO;
 }
 
 template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
+    if(!factored) {
+        suanpan_warning("the matrix is not factored.\n");
+        return this->solve(X, B);
+    }
+
     X = B;
 
     int N = n_cols;
@@ -153,6 +167,11 @@ template <typename T> int BandSymmMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) 
 template <typename T> MetaMat<T> BandSymmMat<T>::factorize() {
     auto X = *this;
 
+    if(factored) {
+        suanpan_warning("the matrix is factored.\n");
+        return X;
+    }
+
     int N = n_cols;
     int KD = bw;
     int LDAB = n_rows;
@@ -169,7 +188,8 @@ template <typename T> MetaMat<T> BandSymmMat<T>::factorize() {
     if(INFO != 0) {
         suanpan_error("factorize() fails.\n");
         X.reset();
-    }
+    } else
+        X.factored = true;
 
     return X;
 }
