@@ -459,6 +459,15 @@ vector<vec> Node::record(const OutputType& L) const {
     case OutputType::A:
         data.push_back(current_acceleration);
         break;
+    case OutputType::U1:
+        if(current_displacement.n_elem >= 1) data.emplace_back(std::initializer_list<double>{ current_displacement(0) });
+        break;
+    case OutputType::U2:
+        if(current_displacement.n_elem >= 2) data.emplace_back(std::initializer_list<double>{ current_displacement(1) });
+        break;
+    case OutputType::U3:
+        if(current_displacement.n_elem >= 3) data.emplace_back(std::initializer_list<double>{ current_displacement(2) });
+        break;
     default:
         break;
     }
