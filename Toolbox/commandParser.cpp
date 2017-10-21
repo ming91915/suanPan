@@ -602,10 +602,10 @@ int create_new_integrator(const shared_ptr<DomainBase>& domain, istringstream& c
                 suanpan_error("create_new_integrator() needs a valid beta.\n");
                 return 0;
             }
-            domain->insert(make_shared<Newmark>(tag, alpha, beta));
+            if(domain->insert(make_shared<Newmark>(tag, alpha, beta))) domain->set_current_integrator_tag(tag);
         }
     } else if(integrator_type == "GeneralizedAlpha") {
-        auto alpha_m = .0, alpha_f = .0, beta = .5;
+        auto alpha_m = .0, alpha_f = .0;
         if(!command.eof()) {
             if(!get_input(command, alpha_m)) {
                 suanpan_error("create_new_integrator() needs a valid alpha_m.\n");
@@ -615,14 +615,10 @@ int create_new_integrator(const shared_ptr<DomainBase>& domain, istringstream& c
                 suanpan_error("create_new_integrator() needs a valid alpha_f.\n");
                 return 0;
             }
-            if(!get_input(command, beta)) {
-                suanpan_error("create_new_integrator() needs a valid beta.\n");
-                return 0;
-            }
-            domain->insert(make_shared<GeneralizedAlpha>(tag, alpha_m, alpha_f, beta));
+            if(domain->insert(make_shared<GeneralizedAlpha>(tag, alpha_m, alpha_f))) domain->set_current_integrator_tag(tag);
         }
     } else if(integrator_type == "CentralDifference")
-        domain->insert(make_shared<CentralDifference>(tag));
+        if(domain->insert(make_shared<CentralDifference>(tag))) domain->set_current_integrator_tag(tag);
 
     return 0;
 }

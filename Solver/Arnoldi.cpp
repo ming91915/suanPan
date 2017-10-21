@@ -39,9 +39,9 @@ int Arnoldi::analyze() {
     auto& mass = W->get_mass();
     auto& stiffness = W->get_stiffness();
 
-    auto factorized_mass = mass->factorize();
+    const auto factorized_mass = mass->factorize();
 
-    bool success = factorized_mass.n_elem == 0;
+    auto success = factorized_mass.n_elem == 0;
 
     return 0;
 }

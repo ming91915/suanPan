@@ -3,7 +3,7 @@
 node	1	0	0
 node	2	0	1
 
-material Elastic1D 1 100 .01
+material Elastic1D 1 100 0
 
 element	ElasticB21	1	1	2	10	1	1	0
 
@@ -15,15 +15,15 @@ amplitude Tabular 1 EZ.dat
 
 acceleration 2 1 .2 1 2
 
-recorder 1 Node V 2
+recorder 1 Node U 2
 
 step dynamic 1 20
 set ini_step_size .01
 set fixed_step_size true
 
-intgerator GeneralizedAlpha 1 0 0 .5
+integrator GeneralizedAlpha 1 .2 -.5
 
-converger AbsIncreDisp 1 1E-6 10 0
+converger AbsIncreDisp 1 1E-4 4 1
 
 analyze
 
