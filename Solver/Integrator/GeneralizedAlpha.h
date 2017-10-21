@@ -32,19 +32,21 @@
 #include "Integrator.h"
 
 class GeneralizedAlpha final : public Integrator {
-    const double alpha_f; /**< parameter = .25 */
+    const double alpha_f;
     const double alpha_m;
-    const double beta; /**< parameter = .5 */
     const double gamma;
+    const double beta;
 
     double DT = 0.; /**< previous incremental time */
 
     double C0 = 0., C1 = 0., C2 = 0., C3 = 0., C4 = 0., C5 = 0., C6 = 0., C7 = 0., C8 = 0., C9 = 0., C10 = 0., C11 = 0., C12 = 0.; /**< parameters */
 
+    vec current_resistance;
+
     void update_parameter();
 
 public:
-    explicit GeneralizedAlpha(const unsigned& = 0, const double& = .25, const double& = .25, const double& = .5);
+    explicit GeneralizedAlpha(const unsigned& = 0, const double& = 0., const double& = 0.);
 
     void assemble_resistance() override;
     void assemble_matrix() override;

@@ -19,15 +19,19 @@
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 
-GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const double& AM, const double& B)
+GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const double& AM)
     : Integrator(T, CT_GENERALIZEDALPHA)
     , alpha_f(AF)
     , alpha_m(AM)
-    , beta(B)
-    , gamma(.5 - alpha_m + alpha_f) {
-    if(alpha_m <= alpha_f && alpha_f <= .5 && beta >= .25 + .5 * (alpha_f - alpha_m)) {
-    } else
-        suanpan_error("GeneralizedAlpha() parameters are not acceptable.\n");
+    , gamma(.5 - alpha_m + alpha_f)
+    , beta(.25 * (gamma + .5) * (gamma + .5)) {
+    if(alpha_m > alpha_f || alpha_f > .5) suanpan_error("GeneralizedAlpha() parameters are not acceptable.\n");
+
+    C9 = alpha_f;
+    C8 = 1. - C9;
+    C4 = C8 / beta * gamma - 1.;
+    C3 = (1. - alpha_m) / 2. / beta - 1.;
+    C12 = 1. - .5 / beta;
 }
 
 void GeneralizedAlpha::assemble_resistance() {
@@ -42,7 +46,11 @@ void GeneralizedAlpha::assemble_resistance() {
     D->assemble_damping();
     D->assemble_stiffness();
 
-    get_trial_resistance(W) -= get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) + get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement()) + get_stiffness(W) * C9 * W->get_incre_displacement();
+    auto& t_sushi = get_sushi(W);
+
+    t_sushi *= C8;
+
+    t_sushi -= get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) + get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement()) - C9 * W->get_current_resistance();
 }
 
 void GeneralizedAlpha::assemble_matrix() {
@@ -50,9 +58,13 @@ void GeneralizedAlpha::assemble_matrix() {
 
     const auto& W = get_domain().lock()->get_factory();
 
-    get_stiffness(W) *= C8;
+    auto& t_stiffness = get_stiffness(W);
 
-    get_stiffness(W) += C0 * get_mass(W) + C1 * get_damping(W);
+    t_stiffness *= C8;
+
+    C0 == 1. ? t_stiffness += get_mass(W) : C0 == -1. ? t_stiffness -= get_mass(W) : t_stiffness += C0 * get_mass(W);
+
+    C1 == 1. ? t_stiffness += get_damping(W) : C1 == -1. ? t_stiffness -= get_damping(W) : t_stiffness += C1 * get_damping(W);
 }
 
 int GeneralizedAlpha::process_load() const {
@@ -66,11 +78,11 @@ int GeneralizedAlpha::process_load() const {
 
     W->update_trial_time(new_time);
 
-    D->process_load();
+    const auto code = D->process_load();
 
     W->update_trial_time(trial_time);
 
-    return 0;
+    return code;
 }
 
 void GeneralizedAlpha::commit_status() const {
@@ -88,19 +100,14 @@ void GeneralizedAlpha::update_parameter() {
 
     if(DT != NT) {
         DT = NT;
-        C9 = alpha_f;
-        C8 = 1. - C9;
         C7 = DT * gamma;
         C6 = DT - C7;
         C11 = -1. / beta / DT;
         C10 = -C11 / DT;
         C1 = -gamma * C11 * C8;
-        C2 = (alpha_m - 1.) / C11;
+        C2 = (alpha_m - 1.) * C11;
         C0 = C2 / DT;
-        C4 = C8 / beta * gamma - 1.;
         C5 = C8 * (C7 / 2. / beta - DT);
-        C3 = (1. + alpha_m) / 2. / beta - 1.;
-        C12 = 1. - .5 / beta;
     }
 }
 
