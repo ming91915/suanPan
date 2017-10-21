@@ -52,8 +52,6 @@ class Newmark final : public Integrator {
 
 public:
     explicit Newmark(const unsigned& = 0, const double& = .25, const double& = .5);
-    explicit Newmark(const double&, const double&);
-    ~Newmark();
 
     void assemble_resistance() override;
     void assemble_matrix() override;

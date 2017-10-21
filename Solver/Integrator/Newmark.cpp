@@ -26,15 +26,6 @@ Newmark::Newmark(const unsigned& T, const double& A, const double& B)
     if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta)) suanpan_error("Newmark() parameters are not acceptable.\n");
 }
 
-Newmark::Newmark(const double& A, const double& B)
-    : Integrator(0, CT_NEWMARK)
-    , alpha(A)
-    , beta(B) {
-    if(beta < .5 || alpha < .25 * (.5 + beta) * (.5 + beta)) suanpan_error("Newmark() parameters are not acceptable.\n");
-}
-
-Newmark::~Newmark() {}
-
 void Newmark::assemble_resistance() {
     update_parameter();
 
