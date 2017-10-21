@@ -55,6 +55,7 @@ int process_command(const shared_ptr<Bead>& model, istringstream& command) {
     if(is_equal(command_id, "element")) return create_new_element(domain, command);
     if(is_equal(command_id, "fix")) return create_new_bc(domain, command);
     if(is_equal(command_id, "import")) return create_new_external_module(domain, command);
+    if(is_equal(command_id, "integrator")) return create_new_integrator(domain, command);
     if(is_equal(command_id, "material")) return create_new_material(domain, command);
     if(is_equal(command_id, "mass")) return create_new_mass(domain, command);
     if(is_equal(command_id, "node")) return create_new_node(domain, command);
@@ -573,6 +574,55 @@ int create_new_external_module(const shared_ptr<DomainBase>& domain, istringstre
         }
 
     if(code == 0) domain->insert(make_shared<ExternalModule>(library_name));
+
+    return 0;
+}
+
+int create_new_integrator(const shared_ptr<DomainBase>& domain, istringstream& command) {
+    string integrator_type;
+    if(!get_input(command, integrator_type)) {
+        suanpan_error("create_new_integrator() needs a valid integrator type.\n");
+        return 0;
+    }
+
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("create_new_integrator() needs a valid tag.\n");
+        return 0;
+    }
+
+    if(integrator_type == "Newmark") {
+        auto alpha = .25, beta = .5;
+        if(!command.eof()) {
+            if(!get_input(command, alpha)) {
+                suanpan_error("create_new_integrator() needs a valid alpha.\n");
+                return 0;
+            }
+            if(!get_input(command, beta)) {
+                suanpan_error("create_new_integrator() needs a valid beta.\n");
+                return 0;
+            }
+            domain->insert(make_shared<Newmark>(tag, alpha, beta));
+        }
+    } else if(integrator_type == "GeneralizedAlpha") {
+        auto alpha_m = .0, alpha_f = .0, beta = .5;
+        if(!command.eof()) {
+            if(!get_input(command, alpha_m)) {
+                suanpan_error("create_new_integrator() needs a valid alpha_m.\n");
+                return 0;
+            }
+            if(!get_input(command, alpha_f)) {
+                suanpan_error("create_new_integrator() needs a valid alpha_f.\n");
+                return 0;
+            }
+            if(!get_input(command, beta)) {
+                suanpan_error("create_new_integrator() needs a valid beta.\n");
+                return 0;
+            }
+            domain->insert(make_shared<GeneralizedAlpha>(tag, alpha_m, alpha_f, beta));
+        }
+    } else if(integrator_type == "CentralDifference")
+        domain->insert(make_shared<CentralDifference>(tag));
 
     return 0;
 }
