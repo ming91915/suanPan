@@ -636,6 +636,7 @@ void Domain::summary() const {
 void Domain::assemble_resistance() const {
     get_trial_resistance(factory).zeros();
     for(const auto& I : element_pond.get()) factory->assemble_resistance(I->get_resistance(), I->get_dof_encoding());
+    factory->set_sushi(factory->get_trial_resistance());
 }
 
 void Domain::assemble_mass() const {

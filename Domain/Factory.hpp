@@ -34,6 +34,7 @@ template <typename T> class Factory final {
     T error = 0.; /**< error produced by certain solvers */
 
     Col<T> ninja; /**< the result from A*X=B */
+    Col<T> sushi; /**< modified right hand side B */
 
     Mat<T> reference_load;
 
@@ -124,6 +125,7 @@ public:
     /*************************SETTER*************************/
 
     void set_ninja(const Col<T>&);
+    void set_sushi(const Col<T>&);
 
     void set_reference_load(const Mat<T>&);
 
@@ -173,6 +175,7 @@ public:
     /*************************GETTER*************************/
 
     const Col<T>& get_ninja() const;
+    const Col<T>& get_sushi() const;
 
     const Mat<T>& get_reference_load() const;
 
@@ -251,6 +254,7 @@ public:
     /*************************FRIEND*************************/
 
     template <typename T1> friend Col<T1>& get_ninja(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_sushi(const shared_ptr<Factory<T1>>&);
 
     template <typename T1> friend Mat<T1>& get_reference_load(const shared_ptr<Factory<T1>>&);
 
@@ -560,6 +564,8 @@ template <typename T> void Factory<T>::initialize_eigen() {
 
 template <typename T> void Factory<T>::set_ninja(const Col<T>& N) { ninja = N; }
 
+template <typename T> void Factory<T>::set_sushi(const Col<T>& S) { sushi = S; }
+
 template <typename T> void Factory<T>::set_reference_load(const Mat<T>& L) { reference_load = L; }
 
 template <typename T> void Factory<T>::set_trial_time(const T& M) { trial_time = M; }
@@ -637,6 +643,8 @@ template <typename T> void Factory<T>::set_eigenvalue(const Col<T>& L) { eigenva
 template <typename T> void Factory<T>::set_eigenvector(const Mat<T>& V) { eigenvector = V; }
 
 template <typename T> const Col<T>& Factory<T>::get_ninja() const { return ninja; }
+
+template <typename T> const Col<T>& Factory<T>::get_sushi() const { return sushi; }
 
 template <typename T> const Mat<T>& Factory<T>::get_reference_load() const { return reference_load; }
 
@@ -1128,6 +1136,8 @@ template <typename T> void Factory<T>::assemble_stiffness(const Mat<T>& EK, cons
 template <typename T> void Factory<T>::print() const { suanpan_info("This is a Factory object with size of %u.\n", n_size); }
 
 template <typename T> Col<T>& get_ninja(const shared_ptr<Factory<T>>& W) { return W->ninja; }
+
+template <typename T> Col<T>& get_sushi(const shared_ptr<Factory<T>>& W) { return W->sushi; }
 
 template <typename T> Mat<T>& get_reference_load(const shared_ptr<Factory<T>>& W) { return W->reference_load; }
 

@@ -64,7 +64,7 @@ void CentralDifference::assemble_resistance() {
     D->assemble_mass();
     D->assemble_damping();
 
-    get_trial_resistance(W) += get_mass(W) * (C0 * W->get_pre_displacement() - C2 * W->get_current_displacement()) - get_damping(W) * C1 * W->get_pre_displacement();
+    get_sushi(W) += get_mass(W) * (C0 * W->get_pre_displacement() - C2 * W->get_current_displacement()) - get_damping(W) * C1 * W->get_pre_displacement();
 }
 
 void CentralDifference::assemble_matrix() {

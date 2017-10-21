@@ -61,7 +61,7 @@ int BFGS::analyze() {
             G->process_load();
             G->process_constraint();
             // commit current residual
-            hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
+            hist_residual.emplace_back(W->get_trial_load() - W->get_sushi());
             // solve the system and commit current displacement increment
             hist_ninja.emplace_back(W->get_stiffness()->solve(*hist_residual.crbegin()));
             // copy current displacement increment to ninja
@@ -70,7 +70,7 @@ int BFGS::analyze() {
             // clear temporary factor container
             alpha.clear();
             // commit current residual
-            hist_residual.emplace_back(W->get_trial_load() - W->get_trial_resistance());
+            hist_residual.emplace_back(W->get_trial_load() - W->get_sushi());
             // copy current residual to ninja
             ninja = *hist_residual.crbegin();
             // perform two-step recursive loop

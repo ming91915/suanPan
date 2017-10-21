@@ -47,7 +47,7 @@ int Newton::analyze() {
         G->process_constraint();
 
         // call solver
-        const auto flag = W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_trial_resistance());
+        const auto flag = W->get_stiffness()->solve(get_ninja(W), W->get_trial_load() - W->get_sushi());
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
 

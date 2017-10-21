@@ -37,7 +37,7 @@ void Newmark::assemble_resistance() {
     D->assemble_mass();
     D->assemble_damping();
 
-    get_trial_resistance(W) -= get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) + get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement());
+    get_sushi(W) -= get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) + get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement());
 }
 
 void Newmark::assemble_matrix() {

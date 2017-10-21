@@ -54,7 +54,7 @@ int Ramm::analyze() {
         G->process_constraint();
 
         // solve ninja
-        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_load_factor() + W->get_trial_load() - W->get_trial_resistance());
+        auto flag = W->get_stiffness()->solve(t_ninja, load_ref * W->get_trial_load_factor() + W->get_trial_load() - W->get_sushi());
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
         // solve reference displacement
