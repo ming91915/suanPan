@@ -15,11 +15,13 @@ amplitude Tabular 1 EZ.dat
 
 acceleration 2 1 .2 1 2
 
-recorder 1 Node U 2
+recorder 1 Node V 2
 
 step dynamic 1 20
 set ini_step_size .01
 set fixed_step_size true
+
+intgerator GeneralizedAlpha 1 0 0 .5
 
 converger AbsIncreDisp 1 1E-6 10 0
 
