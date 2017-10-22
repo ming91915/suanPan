@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 // auto C = material_tester(A, B, 0.0001);
 // C.save("K", raw_ascii);
 
-// ABM2 B(1, make_shared<Program68>(), 20, true);
+// ABM2 B(1, make_shared<ODE_INSTANCE>(), 20, true);
 // B.get_ode()->update_current_displacement(vec{ 1 });
 // B.get_ode()->update_incre_time(1.);
 // B.analyze();

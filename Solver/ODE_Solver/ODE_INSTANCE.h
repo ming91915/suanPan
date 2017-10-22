@@ -30,14 +30,4 @@ public:
     vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
 };
 
-class Program68 : public ODE {
-public:
-    Program68()
-        : ODE(0, 1) {}
-
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
-};
-
 #endif
