@@ -26,14 +26,15 @@
  * @date 22/10/2017
  * @version 0.1.0
  * @file ODE_Implicit.h
- * @addtogroup ODE_Solver
+ * @addtogroup ODE_Implicit
+ * @ingroup ODE_Solver
  * @{
  */
 
 #ifndef ODE_IMPLICIT_H
 #define ODE_IMPLICIT_H
 
-#include "ODE_Solver.h"
+#include <Solver/ODE_Solver/ODE_Solver.h>
 #include <deque>
 
 using std::deque;

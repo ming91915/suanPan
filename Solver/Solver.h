@@ -23,6 +23,7 @@
  * @version 0.2.1
  * @file Solver.h
  * @addtogroup Solver
+ * @ingroup Analysis
  * @{
  */
 

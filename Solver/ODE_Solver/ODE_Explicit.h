@@ -26,14 +26,15 @@
  * @date 22/10/2017
  * @version 0.1.0
  * @file ODE_Explicit.h
- * @addtogroup ODE_Solver
+ * @addtogroup ODE_Explicit
+ * @ingroup ODE_Solver
  * @{
  */
 
 #ifndef ODE_EXPLICIT_H
 #define ODE_EXPLICIT_H
 
-#include "ODE_Solver.h"
+#include <Solver/ODE_Solver/ODE_Solver.h>
 
 class ODE_Explicit : public ODE_Solver {
     double factor = .2;

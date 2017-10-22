@@ -27,7 +27,6 @@
  * @version 0.1.2
  * @file Elastic2D.h
  * @addtogroup Material-2D
- * @ingroup Material
  * @{
  */
 

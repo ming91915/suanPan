@@ -22,7 +22,6 @@
  * @version 0.1.1
  * @file Concrete01.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

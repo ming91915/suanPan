@@ -21,7 +21,6 @@
  * @date 27/07/2017
  * @file Elastic1D.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

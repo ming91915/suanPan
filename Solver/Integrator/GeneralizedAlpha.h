@@ -24,6 +24,8 @@
  * @date 21/10/2017
  * @version 0.1.0
  * @file GeneralizedAlpha.h
+ * @addtogroup Integrator
+ * @{
  */
 
 #ifndef GENERALIZEDALPHA_H
@@ -59,3 +61,5 @@ public:
 };
 
 #endif
+
+//! @}

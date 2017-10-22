@@ -27,6 +27,7 @@
  * @version 0.1.2
  * @file Integrator.h
  * @addtogroup Integrator
+ * @ingroup Analysis
  * @{
  */
 

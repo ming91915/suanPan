@@ -22,7 +22,6 @@
  * @version 0.1.0
  * @file MPF.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

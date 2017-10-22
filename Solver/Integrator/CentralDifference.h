@@ -23,6 +23,8 @@
  * @date 29/07/2017
  * @version 0.1.0
  * @file CentralDifference.h
+ * @addtogroup Integrator
+ * @{
  */
 
 #ifndef CENTRALDIFFERENCE_H
@@ -51,3 +53,5 @@ public:
 };
 
 #endif
+
+//! @}

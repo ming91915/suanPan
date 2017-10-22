@@ -27,13 +27,14 @@
  * @version 0.1.0
  * @file ODE_Solver.h
  * @addtogroup ODE_Solver
+ * @ingroup Solver
  * @{
  */
 
 #ifndef ODE_SOLVER_H
 #define ODE_SOLVER_H
 
-#include "Domain/Tag.h"
+#include <Domain/Tag.h>
 
 class ODE;
 

@@ -22,7 +22,7 @@
  * @date 22/10/2017
  * @version 0.1.1
  * @file ABM3.h
- * @addtogroup ODE_Solver
+ * @addtogroup ODE_Implicit
  * @{
  */
 

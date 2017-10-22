@@ -21,7 +21,6 @@
  * @date 19/10/2017
  * @file Damper01.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

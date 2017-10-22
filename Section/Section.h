@@ -21,6 +21,8 @@
  * @date 27/07/2017
  * @version 0.1.0
  * @file Section.h
+ * @addtogroup Section
+ * @{
  */
 
 #ifndef SECTION_H
@@ -79,3 +81,5 @@ public:
 unique_ptr<Section> make_copy(const shared_ptr<Section>&);
 
 #endif
+
+//! @}

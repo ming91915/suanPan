@@ -25,7 +25,6 @@
  * @version 0.1.1
  * @file Elastic3D.h
  * @addtogroup Material-3D
- * @ingroup Material
  * @{
  */
 

@@ -33,6 +33,8 @@
  * @date 25/08/2017
  * @version 0.1.1
  * @file Newmark.h
+ * @addtogroup Integrator
+ * @{
  */
 
 #ifndef NEWMARK_H
@@ -62,3 +64,5 @@ public:
 };
 
 #endif
+
+//! @}

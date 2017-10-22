@@ -29,7 +29,6 @@
  * @version 0.1.0
  * @file Gap01.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

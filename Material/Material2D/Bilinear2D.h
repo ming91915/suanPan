@@ -21,7 +21,7 @@
  * @date 04/10/2017
  * @version 0.1.0
  * @file Bilinear2D.h
- * @addtogroup Material
+ * @addtogroup Material-2D
  * @{
  */
 

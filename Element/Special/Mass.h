@@ -32,7 +32,8 @@
  * @date 06/10/2017
  * @version 0.1.0
  * @file Mass.h
- * @addtogroup Element
+ * @addtogroup Special
+ * @ingroup Element
  * @{
  */
 

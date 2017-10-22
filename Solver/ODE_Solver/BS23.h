@@ -31,7 +31,7 @@
  * @date 27/07/2017
  * @version 0.1.1
  * @file BS23.h
- * @addtogroup ODE_Solver
+ * @addtogroup ODE_Explicit
  * @{
  */
 

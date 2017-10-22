@@ -23,7 +23,6 @@
  * @version 0.1.0
  * @file Material3D.h
  * @addtogroup Material-3D
- * @ingroup Material
  * @{
  */
 

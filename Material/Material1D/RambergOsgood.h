@@ -22,7 +22,6 @@
  * @version 0.1.2
  * @file RambergOsgood.h
  * @addtogroup Material-1D
- * @ingroup Material
  * @{
  */
 

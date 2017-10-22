@@ -21,8 +21,7 @@
  * @date 03/10/2017
  * @version 0.1.1
  * @file Concrete2D.h
- * @addtogroup Material-1D
- * @ingroup Material
+ * @addtogroup Material-2D
  * @{
  */
 
