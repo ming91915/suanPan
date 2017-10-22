@@ -70,7 +70,6 @@ class ODE : public Tag {
     vec trial_displacement;
     vec incre_displacement;
     vec current_displacement;
-    vec pre_displacement;
 
 public:
     const unsigned n_size; /**< the dimension of the problem */

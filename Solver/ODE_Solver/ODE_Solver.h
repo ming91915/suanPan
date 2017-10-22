@@ -45,7 +45,7 @@ public:
 
     int initialize() const;
 
-    int analyze();
+    virtual int analyze() = 0;
 
     virtual int update_status() = 0;
 

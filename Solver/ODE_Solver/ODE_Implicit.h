@@ -14,30 +14,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class ODE_Implicit
+ * @brief A ODE_Implicit class.
+ *
+ * The ODE_Implicit object stores ODE system status and calls an ODE object
+ * to get trial
+ * status.
+ *
+ * @author T
+ * @date 22/10/2017
+ * @version 0.1.0
+ * @file ODE_Implicit.h
+ * @addtogroup ODE_Solver
+ * @{
+ */
 
-#ifndef ODE_INSTANCE_H
-#define ODE_INSTANCE_H
+#ifndef ODE_IMPLICIT_H
+#define ODE_IMPLICIT_H
 
-#include "ODE.h"
+#include "ODE_Solver.h"
+#include <deque>
 
-class ODE_INSTANCE : public ODE {
+using std::deque;
+
+class ODE_Implicit : public ODE_Solver {
+protected:
+    const unsigned step_num;
+
+    const bool use_corrector;
+
+    deque<vec> history_step;
+
 public:
-    ODE_INSTANCE()
-        : ODE(0, 1) {}
+    explicit ODE_Implicit(const unsigned = 0, const unsigned = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const unsigned = 20, const bool = false);
 
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
-};
+    virtual ~ODE_Implicit();
 
-class Program68 : public ODE {
-public:
-    Program68()
-        : ODE(0, 1) {}
-
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
+    int analyze() override;
 };
 
 #endif
+
+//! @}

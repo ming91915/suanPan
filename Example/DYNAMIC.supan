@@ -23,7 +23,7 @@ set fixed_step_size true
 
 integrator GeneralizedAlpha 1 .2 -.5
 
-converger AbsIncreDisp 1 1E-4 4 1
+converger AbsIncreDisp 1 1E-4 4 0
 
 analyze
 

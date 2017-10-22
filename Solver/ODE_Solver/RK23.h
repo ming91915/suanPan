@@ -37,9 +37,9 @@
 #ifndef RK23_H
 #define RK23_H
 
-#include "ODE_Solver.h"
+#include "ODE_Explicit.h"
 
-class RK23 final : public ODE_Solver {
+class RK23 final : public ODE_Explicit {
     vec S1, S2, S3; /**< intermediate variables */
 public:
     explicit RK23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr);

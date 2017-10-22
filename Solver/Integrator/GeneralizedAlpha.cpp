@@ -44,7 +44,6 @@ void GeneralizedAlpha::assemble_resistance() {
 
     D->assemble_mass();
     D->assemble_damping();
-    D->assemble_stiffness();
 
     auto& t_sushi = get_sushi(W);
 
@@ -56,7 +55,10 @@ void GeneralizedAlpha::assemble_resistance() {
 void GeneralizedAlpha::assemble_matrix() {
     update_parameter();
 
-    const auto& W = get_domain().lock()->get_factory();
+    const auto& D = get_domain().lock();
+    const auto& W = D->get_factory();
+
+    D->assemble_stiffness();
 
     auto& t_stiffness = get_stiffness(W);
 

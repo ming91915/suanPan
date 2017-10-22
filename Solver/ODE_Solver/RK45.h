@@ -40,9 +40,9 @@
 #ifndef RK45_H
 #define RK45_H
 
-#include "ODE_Solver.h"
+#include "ODE_Explicit.h"
 
-class RK45 final : public ODE_Solver {
+class RK45 final : public ODE_Explicit {
     static const std::array<double, 28> F; /**< constants array */
     vec S1, S2, S3, S4, S5, S6;            /**< intermediate variables */
 public:

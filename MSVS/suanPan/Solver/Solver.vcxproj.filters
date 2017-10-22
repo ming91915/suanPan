@@ -63,6 +63,21 @@
     <ClCompile Include="..\..\..\Solver\Integrator\GeneralizedAlpha.cpp">
       <Filter>Integrator</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE_Explicit.cpp">
+      <Filter>ODE Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ODE_Implicit.cpp">
+      <Filter>ODE Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ABM4.cpp">
+      <Filter>ODE Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ABM2.cpp">
+      <Filter>ODE Solver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Solver\ODE_Solver\ABM3.cpp">
+      <Filter>ODE Solver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h">
@@ -112,6 +127,24 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Solver\Integrator\GeneralizedAlpha.h">
       <Filter>Integrator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE_Explicit.h">
+      <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE_Implicit.h">
+      <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ODE_INSTANCE.h">
+      <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ABM4.h">
+      <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ABM2.h">
+      <Filter>ODE Solver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Solver\ODE_Solver\ABM3.h">
+      <Filter>ODE Solver</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

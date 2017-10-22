@@ -14,30 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class ODE_Explicit
+ * @brief A ODE_Explicit class.
+ *
+ * The ODE_Explicit object stores ODE system status and calls an ODE object
+ * to get trial
+ * status.
+ *
+ * @author T
+ * @date 22/10/2017
+ * @version 0.1.0
+ * @file ODE_Explicit.h
+ * @addtogroup ODE_Solver
+ * @{
+ */
 
-#ifndef ODE_INSTANCE_H
-#define ODE_INSTANCE_H
+#ifndef ODE_EXPLICIT_H
+#define ODE_EXPLICIT_H
 
-#include "ODE.h"
+#include "ODE_Solver.h"
 
-class ODE_INSTANCE : public ODE {
+class ODE_Explicit : public ODE_Solver {
+    double factor = .2;
+
 public:
-    ODE_INSTANCE()
-        : ODE(0, 1) {}
+    explicit ODE_Explicit(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr);
 
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
-};
+    virtual ~ODE_Explicit();
 
-class Program68 : public ODE {
-public:
-    Program68()
-        : ODE(0, 1) {}
-
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
+    int analyze() override;
 };
 
 #endif
+
+//! @}

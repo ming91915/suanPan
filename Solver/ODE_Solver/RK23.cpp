@@ -19,7 +19,7 @@
 #include <Solver/ODE_Solver/ODE.h>
 
 RK23::RK23(const unsigned& T, const shared_ptr<ODE>& O)
-    : ODE_Solver(T, CT_RK23, O) {}
+    : ODE_Explicit(T, CT_RK23, O) {}
 
 int RK23::update_status() {
     auto& D = get_ode();

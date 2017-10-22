@@ -14,30 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class ABM2
+ * @brief A solver using Adams--Moulton four--step method.
+ *
+ * @author T
+ * @date 22/10/2017
+ * @version 0.1.1
+ * @file ABM2.h
+ * @addtogroup ODE_Solver
+ * @{
+ */
 
-#ifndef ODE_INSTANCE_H
-#define ODE_INSTANCE_H
+#ifndef ABM2_H
+#define ABM2_H
 
-#include "ODE.h"
+#include "ODE_Implicit.h"
 
-class ODE_INSTANCE : public ODE {
+class ABM2 final : public ODE_Implicit {
 public:
-    ODE_INSTANCE()
-        : ODE(0, 1) {}
+    explicit ABM2(const unsigned = 0, const shared_ptr<ODE>& = nullptr, const unsigned = 20, const bool = false);
 
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
-};
+    int update_status() override;
 
-class Program68 : public ODE {
-public:
-    Program68()
-        : ODE(0, 1) {}
-
-    //! Analytical solution:
-    //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
-    vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
+    void print() override;
 };
 
 #endif
+
+//! @}

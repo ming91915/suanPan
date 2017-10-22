@@ -189,5 +189,14 @@
 #ifndef CT_GENERALIZEDALPHA
 #define CT_GENERALIZEDALPHA 57
 #endif
+#ifndef CT_ABM4
+#define CT_ABM4 58
+#endif
+#ifndef CT_ABM3
+#define CT_ABM3 59
+#endif
+#ifndef CT_ABM2
+#define CT_ABM2 60
+#endif
 
 #endif

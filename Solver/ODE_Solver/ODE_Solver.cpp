@@ -33,37 +33,7 @@ int ODE_Solver::initialize() const {
 
 int ODE_Solver::update_status() { throw; }
 
-int ODE_Solver::analyze() {
-    auto factor = .2;
-
-    switch(get_class_tag()) {
-    case CT_BS23:
-    case CT_RK23:
-        factor = 1. / 3.;
-        break;
-    case CT_RK45:
-    case CT_DP45:
-    default:
-        break;
-    }
-
-    auto time_left = ode_system->get_incre_time();
-    auto step = time_left;
-    auto counter = 0;
-
-    while(true) {
-        if(update_status() != 0) return -1;
-        if(ode_system->is_converged()) {
-            ode_system->commit_status();
-            time_left -= step;
-        }
-        if(time_left <= 0.) return 0;
-        if(++counter > 20) return -1;
-        step *= .8 * pow(ode_system->get_tolerance() / ode_system->get_error(), factor);
-        if(step > time_left) step = time_left;
-        ode_system->update_incre_time(step);
-    }
-}
+int ODE_Solver::analyze() { throw; }
 
 void ODE_Solver::set_ode(const shared_ptr<ODE>& E) { ode_system = E; }
 

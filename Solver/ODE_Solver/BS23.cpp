@@ -19,7 +19,7 @@
 #include <Solver/ODE_Solver/ODE.h>
 
 BS23::BS23(const unsigned& T, const shared_ptr<ODE>& O)
-    : ODE_Solver(T, CT_BS23, O) {}
+    : ODE_Explicit(T, CT_BS23, O) {}
 
 int BS23::update_status() {
     auto& D = get_ode();

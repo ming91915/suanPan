@@ -41,9 +41,9 @@
 #ifndef DP45_H
 #define DP45_H
 
-#include "ODE_Solver.h"
+#include "ODE_Explicit.h"
 
-class DP45 final : public ODE_Solver {
+class DP45 final : public ODE_Explicit {
     static const std::array<double, 29> F; /**< constants array */
     vec S1, S2, S3, S4, S5, S6, S7;        /**< intermediate variables */
 public:

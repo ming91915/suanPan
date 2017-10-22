@@ -17,7 +17,7 @@
 /**
  * @class BS23
  * @brief A solver using Bogacki--Shampine 2/3 pair.
-
+ *
  * The Bogacki--Shampine order 2/order 3 embedded pair.
  * \f{align}{
  * s_1&=f\left(t_i,w_i\right)\\
@@ -38,9 +38,9 @@
 #ifndef BS23_H
 #define BS23_H
 
-#include "ODE_Solver.h"
+#include "ODE_Explicit.h"
 
-class BS23 final : public ODE_Solver {
+class BS23 final : public ODE_Explicit {
     vec S1, S2, S3, S4; /**< intermediate variables */
 
 public:
