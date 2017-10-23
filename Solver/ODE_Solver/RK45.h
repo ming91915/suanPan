@@ -46,7 +46,7 @@ class RK45 final : public ODE_Explicit {
     static const std::array<double, 28> F; /**< constants array */
     vec S1, S2, S3, S4, S5, S6;            /**< intermediate variables */
 public:
-    explicit RK45(const unsigned& = 0, const shared_ptr<ODE>& = nullptr);
+    explicit RK45(const unsigned = 0);
 
     unique_ptr<ODE_Solver> get_copy() override;
 

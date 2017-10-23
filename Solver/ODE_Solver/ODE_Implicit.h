@@ -41,14 +41,14 @@ using std::deque;
 
 class ODE_Implicit : public ODE_Solver {
 protected:
-    const unsigned step_num;
+    const unsigned step_number;
 
     const bool use_corrector;
 
     deque<vec> history_step;
 
 public:
-    explicit ODE_Implicit(const unsigned = 0, const unsigned = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr, const unsigned = 20, const bool = false);
+    explicit ODE_Implicit(const unsigned = 0, const unsigned = CT_ODESOLVER, const unsigned = 20, const bool = false);
 
     virtual ~ODE_Implicit();
 

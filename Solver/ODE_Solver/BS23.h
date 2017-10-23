@@ -38,13 +38,13 @@
 #ifndef BS23_H
 #define BS23_H
 
-#include "ODE_Explicit.h"
+#include <Solver/ODE_Solver/ODE_Explicit.h>
 
 class BS23 final : public ODE_Explicit {
     vec S1, S2, S3, S4; /**< intermediate variables */
 
 public:
-    explicit BS23(const unsigned& = 0, const shared_ptr<ODE>& = nullptr);
+    explicit BS23(const unsigned = 0);
 
     unique_ptr<ODE_Solver> get_copy() override;
 

@@ -17,9 +17,9 @@
 
 #include "ODE_Implicit.h"
 
-ODE_Implicit::ODE_Implicit(const unsigned T, const unsigned CT, const shared_ptr<ODE>& D, const unsigned N, const bool C)
-    : ODE_Solver(T, CT, D)
-    , step_num(N)
+ODE_Implicit::ODE_Implicit(const unsigned T, const unsigned CT, const unsigned N, const bool C)
+    : ODE_Solver(T, CT)
+    , step_number(N)
     , use_corrector(C) {}
 
 ODE_Implicit::~ODE_Implicit() {}

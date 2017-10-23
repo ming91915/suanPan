@@ -18,29 +18,27 @@
 #include "ODE_Explicit.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ODE_Explicit::ODE_Explicit(const unsigned& T, const unsigned& CT, const shared_ptr<ODE>& D)
-    : ODE_Solver(T, CT, D) {
+ODE_Explicit::ODE_Explicit(const unsigned T, const unsigned CT)
+    : ODE_Solver(T, CT) {
     if(CT == CT_BS23 || CT == CT_RK23) factor = 1. / 3.;
 }
 
 ODE_Explicit::~ODE_Explicit() {}
 
 int ODE_Explicit::analyze() {
-    const auto& D = get_ode();
-
-    auto time_left = D->get_incre_time();
+    auto time_left = ode_system->get_incre_time();
     auto step = time_left;
     auto counter = 0;
 
     while(true) {
         if(update_status() != 0 || ++counter > 20) return -1;
-        if(D->is_converged()) {
-            D->commit_status();
+        if(ode_system->is_converged()) {
+            ode_system->commit_status();
             time_left -= step;
         }
         if(time_left <= 0.) return 0;
-        step *= .8 * pow(D->get_tolerance() / D->get_error(), factor);
+        step *= .8 * pow(ode_system->get_tolerance() / ode_system->get_error(), factor);
         if(step > time_left) step = time_left;
-        D->update_incre_time(step);
+        ode_system->set_incre_time(step);
     }
 }

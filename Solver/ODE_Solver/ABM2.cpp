@@ -18,38 +18,36 @@
 #include "ABM2.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ABM2::ABM2(const unsigned T, const shared_ptr<ODE>& D, const unsigned N, const bool C)
-    : ODE_Implicit(T, CT_ABM2, D, N, C) {}
+ABM2::ABM2(const unsigned T, const unsigned N, const bool C)
+    : ODE_Implicit(T, CT_ABM2, N, C) {}
 
 unique_ptr<ODE_Solver> ABM2::get_copy() { return make_unique<ABM2>(*this); }
 
 int ABM2::update_status() {
     history_step.clear();
 
-    auto& D = get_ode();
+    const auto step_size = ode_system->get_incre_time() / double(step_number);
 
-    const auto step_size = D->get_incre_time() / double(step_num);
+    auto c_time = ode_system->get_current_time();
+    auto c_disp = ode_system->get_current_variable();
 
-    auto c_time = D->get_current_time();
-    auto c_disp = D->get_current_variable();
-
-    history_step.emplace_back(D->eval(c_time, c_disp));
+    history_step.emplace_back(ode_system->eval(c_time, c_disp));
 
     c_time += step_size;
 
-    history_step.emplace_back(D->eval(c_time, c_disp += .5 * step_size * (history_step[0] + D->eval(c_time, c_disp + step_size * history_step[0]))));
+    history_step.emplace_back(ode_system->eval(c_time, c_disp += .5 * step_size * (history_step[0] + ode_system->eval(c_time, c_disp + step_size * history_step[0]))));
 
     vec i_disp = step_size * (1.5 * history_step[1] - .5 * history_step[0]);
 
     unsigned counter = 2;
 
-    while(counter++ <= step_num) {
-        history_step.emplace_back(D->eval(c_time += step_size, c_disp += use_corrector ? step_size / 2. * (D->eval(c_time + step_size, c_disp + i_disp) + history_step[1]) : i_disp));
+    while(counter++ <= step_number) {
+        history_step.emplace_back(ode_system->eval(c_time += step_size, c_disp += use_corrector ? step_size / 2. * (ode_system->eval(c_time + step_size, c_disp + i_disp) + history_step[1]) : i_disp));
         history_step.pop_front();
         i_disp = step_size * (1.5 * history_step[1] - .5 * history_step[0]);
     }
 
-    D->update_trial_variable(c_disp);
+    ode_system->set_trial_variable(c_disp);
 
     return 0;
 }

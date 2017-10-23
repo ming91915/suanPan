@@ -32,6 +32,7 @@ void new_concrete01(unique_ptr<Material>&, istringstream&);
 void new_gap01(unique_ptr<Material>&, istringstream&);
 void new_mpf(unique_ptr<Material>&, istringstream&);
 void new_rambergosgood(unique_ptr<Material>&, istringstream&);
+void new_maxwell(unique_ptr<Material>&, istringstream&);
 
 int test_material(const shared_ptr<DomainBase>&, istringstream&);
 

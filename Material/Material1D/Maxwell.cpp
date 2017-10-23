@@ -22,9 +22,12 @@
 #include <Toolbox/utility.h>
 
 Maxwell::Damper::Damper(const double K, const double C, const double A)
-    : elastic_modulus(K)
+    : ODE(0, 1)
+    , elastic_modulus(K)
     , damping(C)
     , alpha(A == 0. ? 1. : 1. / A) {}
+
+unique_ptr<ODE> Maxwell::Damper::get_copy() { return make_unique<Damper>(*this); }
 
 vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
     vec t_stress_rate(1);
@@ -34,7 +37,6 @@ vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
     const auto t_factor = t_stress(0) / damping;
 
     t_stress_rate += suanpan::sign(t_factor) * pow(fabs(t_factor), alpha);
-
     t_stress_rate *= elastic_modulus;
 
     return t_stress_rate;
@@ -46,11 +48,17 @@ void Maxwell::Damper::set_strain_acceleration(const vec& t_strain_accleration) {
 
 Maxwell::Maxwell(const unsigned T, const double E, const double C, const double A)
     : Material1D(T, MT_MAXWELL, 0.)
-    , viscous_damper(make_unique<DP45>(0, make_shared<Damper>(E, C, A))) {}
+    , viscosity(make_unique<Damper>(E, C, A))
+    , solver(make_unique<DP45>(0)) {
+    solver->set_ode(viscosity.get());
+}
 
 Maxwell::Maxwell(const Maxwell& old_obj)
     : incre_time(old_obj.incre_time)
-    , viscous_damper(old_obj.viscous_damper->get_copy()) {}
+    , viscosity(old_obj.viscosity->get_copy())
+    , solver(old_obj.solver->get_copy()) {
+    solver->set_ode(viscosity.get());
+}
 
 void Maxwell::initialize(const shared_ptr<DomainBase>& D) {
     auto& W = D->get_factory();
@@ -63,9 +71,14 @@ unique_ptr<Material> Maxwell::get_copy() { return make_unique<Maxwell>(*this); }
 int Maxwell::update_trial_status(const vec&, const vec& t_strain_rate) {
     trial_strain_rate = t_strain_rate;
 
-    auto& ode_system = viscous_damper->get_ode();
+    tmp_ptr->clear_status();
+    tmp_ptr->set_strain_rate(trial_strain_rate);
+    tmp_ptr->set_strain_acceleration((trial_strain_rate - current_strain_rate) / *incre_time);
+    tmp_ptr->set_incre_time(*incre_time);
 
-    ode_system->update_current_variable(current_stress);
+    if(solver->analyze() == 0 && tmp_ptr->is_converged()) return -1;
+
+    trial_stress = tmp_ptr->get_trial_variable();
 
     return 0;
 }

@@ -39,10 +39,13 @@
 class ODE;
 
 class ODE_Solver : public Tag {
-    shared_ptr<ODE> ode_system;
+protected:
+    ODE* ode_system = nullptr;
 
 public:
-    explicit ODE_Solver(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr);
+    explicit ODE_Solver(const unsigned = 0, const unsigned = CT_ODESOLVER);
+
+    virtual ~ODE_Solver();
 
     int initialize() const;
 
@@ -52,8 +55,8 @@ public:
 
     virtual int update_status() = 0;
 
-    void set_ode(const shared_ptr<ODE>&);
-    const shared_ptr<ODE>& get_ode() const;
+    void set_ode(ODE*);
+    ODE* get_ode() const;
 };
 
 #endif

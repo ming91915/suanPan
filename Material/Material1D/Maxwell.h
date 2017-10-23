@@ -18,7 +18,7 @@
  * @class Maxwell
  * @brief A 1-D Maxwell material class.
  * @author T
- * @date 27/07/2017
+ * @date 24/10/2017
  * @file Maxwell.h
  * @addtogroup Material-1D
  * @{
@@ -39,12 +39,16 @@ class Maxwell : public Material1D {
         const double elastic_modulus, damping, alpha;
         double strain_rate = 0., strain_acceleration = 0.;
         Damper(const double, const double, const double);
+        unique_ptr<ODE> get_copy() override;
         vec eval(const double, const vec&) override;
         void set_strain_rate(const vec&);
         void set_strain_acceleration(const vec&);
     };
 
-    unique_ptr<ODE_Solver> viscous_damper;
+    unique_ptr<ODE> viscosity;
+    unique_ptr<ODE_Solver> solver;
+
+    Damper* tmp_ptr = dynamic_cast<Damper*>(viscosity.get());
 
 public:
     explicit Maxwell(const unsigned, // tag

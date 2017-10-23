@@ -16,7 +16,7 @@
  ******************************************************************************/
 /**
  * @class ABM3
- * @brief A solver using Adams--Moulton four--step method.
+ * @brief A solver using Adams-Bashforth-Moulton three-step method.
  *
  * @author T
  * @date 22/10/2017
@@ -29,11 +29,11 @@
 #ifndef ABM3_H
 #define ABM3_H
 
-#include "ODE_Implicit.h"
+#include <Solver/ODE_Solver/ODE_Implicit.h>
 
 class ABM3 final : public ODE_Implicit {
 public:
-    explicit ABM3(const unsigned = 0, const shared_ptr<ODE>& = nullptr, const unsigned = 20, const bool = false);
+    explicit ABM3(const unsigned = 0, const unsigned = 20, const bool = false);
 
     unique_ptr<ODE_Solver> get_copy() override;
 

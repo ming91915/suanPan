@@ -540,6 +540,34 @@ void new_rambergosgood(unique_ptr<Material>& return_obj, istringstream& command)
     return_obj = make_unique<RambergOsgood>(tag, elastic_modulus, yield_stress, offset, n, density);
 }
 
+void new_maxwell(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_maxwell() requires a valid tag.\n");
+        return;
+    }
+
+    double elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_maxwell() requires a valid elastic modulus.\n");
+        return;
+    }
+
+    double damping;
+    if(!get_input(command, damping)) {
+        suanpan_error("new_maxwell() requires a valid damping coefficient.\n");
+        return;
+    }
+
+    double alpha;
+    if(!get_input(command, alpha)) {
+        suanpan_error("new_maxwell() requires a valid alpha.\n");
+        return;
+    }
+
+    return_obj = make_unique<Maxwell>(tag, elastic_modulus, damping, alpha);
+}
+
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
     unsigned material_tag;
     if(!get_input(command, material_tag)) {

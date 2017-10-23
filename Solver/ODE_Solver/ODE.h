@@ -75,8 +75,11 @@ public:
     const unsigned n_size; /**< the dimension of the problem */
 
     explicit ODE(const unsigned = 0, const unsigned = 1);
+    virtual ~ODE();
 
-    //! method to return LHS --- the derivatives
+    virtual unique_ptr<ODE> get_copy() = 0;
+
+    //! method to return the derivatives
     virtual vec eval(const double, const vec&) = 0;
 
     vec operator()(const double, const vec&);
@@ -97,13 +100,13 @@ public:
     const vec& get_incre_variable() const;
     const vec& get_current_variable() const;
 
-    void update_current_time(const double);
-    void update_incre_time(const double);
-    void update_trial_time(const double);
+    void set_current_time(const double);
+    void set_incre_time(const double);
+    void set_trial_time(const double);
 
-    void update_current_variable(const vec&);
-    void update_incre_variable(const vec&);
-    void update_trial_variable(const vec&);
+    void set_current_variable(const vec&);
+    void set_incre_variable(const vec&);
+    void set_trial_variable(const vec&);
 
     void commit_status();
     void clear_status();

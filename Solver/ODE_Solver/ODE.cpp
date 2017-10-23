@@ -22,7 +22,11 @@ ODE::ODE(const unsigned T, const unsigned D)
     , trial_variable(D, fill::zeros)
     , incre_variable(D, fill::zeros)
     , current_variable(D, fill::zeros)
-    , n_size(D) {}
+    , n_size(D) {
+    suanpan_debug("ODE $u ctor called.\n", T);
+}
+
+ODE::~ODE() { suanpan_debug("ODE $u dtor called.\n", get_tag()); }
 
 vec ODE::eval(const double, const vec&) { throw; }
 
@@ -50,34 +54,34 @@ const vec& ODE::get_incre_variable() const { return incre_variable; }
 
 const vec& ODE::get_current_variable() const { return current_variable; }
 
-void ODE::update_current_time(const double c_time) {
+void ODE::set_current_time(const double c_time) {
     current_time = c_time;
     trial_time = current_time;
     incre_time = 0.;
 }
 
-void ODE::update_current_variable(const vec& c_displacement) {
+void ODE::set_incre_time(const double i_time) {
+    incre_time = i_time;
+    trial_time = current_time + incre_time;
+}
+
+void ODE::set_trial_time(const double t_time) {
+    trial_time = t_time;
+    incre_time = trial_time - current_time;
+}
+
+void ODE::set_current_variable(const vec& c_displacement) {
     current_variable = c_displacement;
     trial_variable = current_variable;
     incre_variable.zeros();
 }
 
-void ODE::update_incre_time(const double i_time) {
-    incre_time = i_time;
-    trial_time = current_time + incre_time;
-}
-
-void ODE::update_trial_time(const double t_time) {
-    trial_time = t_time;
-    incre_time = trial_time - current_time;
-}
-
-void ODE::update_incre_variable(const vec& i_displacement) {
+void ODE::set_incre_variable(const vec& i_displacement) {
     incre_variable = i_displacement;
     trial_variable = current_variable + incre_variable;
 }
 
-void ODE::update_trial_variable(const vec& t_displacement) {
+void ODE::set_trial_variable(const vec& t_displacement) {
     trial_variable = t_displacement;
     incre_variable = trial_variable - current_variable;
 }

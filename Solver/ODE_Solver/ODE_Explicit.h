@@ -40,7 +40,7 @@ class ODE_Explicit : public ODE_Solver {
     double factor = .2;
 
 public:
-    explicit ODE_Explicit(const unsigned& = 0, const unsigned& = CT_ODESOLVER, const shared_ptr<ODE>& = nullptr);
+    explicit ODE_Explicit(const unsigned = 0, const unsigned = CT_ODESOLVER);
 
     virtual ~ODE_Explicit();
 

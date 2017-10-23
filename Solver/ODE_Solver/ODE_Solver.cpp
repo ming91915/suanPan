@@ -18,9 +18,12 @@
 #include "ODE_Solver.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ODE_Solver::ODE_Solver(const unsigned& T, const unsigned& CT, const shared_ptr<ODE>& O)
-    : Tag(T, CT)
-    , ode_system(O) {}
+ODE_Solver::ODE_Solver(const unsigned T, const unsigned CT)
+    : Tag(T, CT) {
+    suanpan_debug("ODE_Solver $u ctor called.\n", T);
+}
+
+ODE_Solver::~ODE_Solver() { suanpan_debug("ODE_Solver $u dtor called.\n", get_tag()); }
 
 int ODE_Solver::initialize() const {
     if(ode_system == nullptr) {
@@ -35,6 +38,6 @@ int ODE_Solver::update_status() { throw; }
 
 int ODE_Solver::analyze() { throw; }
 
-void ODE_Solver::set_ode(const shared_ptr<ODE>& E) { ode_system = E; }
+void ODE_Solver::set_ode(ODE* E) { ode_system = E; }
 
-const shared_ptr<ODE>& ODE_Solver::get_ode() const { return ode_system; }
+ODE* ODE_Solver::get_ode() const { return ode_system; }

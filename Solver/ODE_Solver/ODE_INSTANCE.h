@@ -25,6 +25,8 @@ public:
     ODE_INSTANCE()
         : ODE(0, 1) {}
 
+    unique_ptr<ODE> get_copy() override { return make_unique<ODE_INSTANCE>(*this); }
+
     //! Analytical solution:
     //! y=@(x)(-exp(-x*x/2)*x*x-2*exp(-x*x/2)+3)/(exp(-x*x/2));
     vec eval(const double T, const vec& Y) final { return T * Y + T * T * T; }
