@@ -75,8 +75,8 @@ int Concrete01::update_trial_status(const vec& t_strain) {
     }
 
     const auto strain_a = trial_strain(0) - trial_residual_strain;
-    const auto side = sign(strain_a);
-    const auto load_direction = sign(incre_strain(0));
+    const auto side = suanpan::sign(strain_a);
+    const auto load_direction = suanpan::sign(incre_strain(0));
 
     if(side == -1)
         // the trial position is in compression zone

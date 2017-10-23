@@ -58,9 +58,9 @@ int Bilinear1D::update_trial_status(const vec& t_strain) {
 
     if(yield_func > tolerance) {
         const auto incre_plastic_strain = yield_func / (elastic_modulus + plastic_modulus);
-        trial_stress -= sign(shifted_stress) * elastic_modulus * incre_plastic_strain;
+        trial_stress -= suanpan::sign(shifted_stress) * elastic_modulus * incre_plastic_strain;
         trial_stiffness *= hardening_ratio;
-        trial_back_stress += sign(shifted_stress) * beta * plastic_modulus * incre_plastic_strain;
+        trial_back_stress += suanpan::sign(shifted_stress) * beta * plastic_modulus * incre_plastic_strain;
         trial_plastic_strain += incre_plastic_strain;
     }
 

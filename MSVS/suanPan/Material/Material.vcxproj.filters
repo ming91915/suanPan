@@ -73,9 +73,6 @@
     <ClCompile Include="..\..\..\Material\Material1D\Tester1D.cpp">
       <Filter>Material1D</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Material\Material1D\Damper01.cpp">
-      <Filter>Material1D</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -136,9 +133,6 @@
       <Filter>Material2D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Material\Material1D\Tester1D.h">
-      <Filter>Material1D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Material\Material1D\Damper01.h">
       <Filter>Material1D</Filter>
     </ClInclude>
   </ItemGroup>

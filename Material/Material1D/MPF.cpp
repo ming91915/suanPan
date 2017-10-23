@@ -71,7 +71,7 @@ int MPF::update_trial_status(const vec& t_strain) {
         if(trial_max_strain > max_strain) max_strain = trial_max_strain;
     }
 
-    const auto trial_load_sign = sign(incre_strain(0));
+    const auto trial_load_sign = suanpan::sign(incre_strain(0));
 
     auto R = R0;
 

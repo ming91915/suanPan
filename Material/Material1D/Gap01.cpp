@@ -46,7 +46,7 @@ int Gap01::update_trial_status(const vec& t_strain) {
     auto& reverse_strain = trial_history(0);
     auto& load_flag = trial_history(1);
 
-    const auto trial_load_flag = sign(incre_strain(0));
+    const auto trial_load_flag = suanpan::sign(incre_strain(0));
 
     if(load_flag > 0. && trial_load_flag > 0. && current_stress(0) == 0.) {
         // load from silent

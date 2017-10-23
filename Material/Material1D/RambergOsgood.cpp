@@ -50,7 +50,7 @@ int RambergOsgood::update_trial_status(const vec& t_strain) {
     auto& reverse_stress = trial_history(1);
     auto& load_sign = trial_history(2);
 
-    const auto trial_load_sign = sign(incre_strain(0));
+    const auto trial_load_sign = suanpan::sign(incre_strain(0));
     if(trial_load_sign != 0. && trial_load_sign != load_sign) {
         if(load_sign != 0.) {
             reverse_strain = current_strain(0);

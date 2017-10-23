@@ -81,5 +81,8 @@
 #ifndef ET_MVLEM
 #define ET_MVLEM 2020
 #endif
+#ifndef ET_DAMPER01
+#define ET_DAMPER01 2021
+#endif
 
 #endif

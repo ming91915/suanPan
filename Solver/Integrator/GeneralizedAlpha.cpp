@@ -25,7 +25,11 @@ GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const do
     , alpha_m(AM)
     , gamma(.5 - alpha_m + alpha_f)
     , beta(.25 * (gamma + .5) * (gamma + .5)) {
-    if(alpha_m > alpha_f || alpha_f > .5) suanpan_error("GeneralizedAlpha() parameters are not acceptable.\n");
+    if(alpha_m > alpha_f || alpha_f > .5 || alpha_m < -1. || alpha_f < 0.) {
+        suanpan_error("GeneralizedAlpha() parameters are not acceptable now switch to Newmark scheme.\n");
+        access::rw(alpha_m) = 0.;
+        access::rw(alpha_f) = 0.;
+    }
 
     C9 = alpha_f;
     C8 = 1. - C9;
@@ -113,4 +117,4 @@ void GeneralizedAlpha::update_parameter() {
     }
 }
 
-void GeneralizedAlpha::print() { suanpan_info("A GeneralizedAlpha solver.\n"); }
+void GeneralizedAlpha::print() { suanpan_info("A time integrator using the Generalized-Alpha algorithm.\ndoi:10.1115/1.2900803\n"); }

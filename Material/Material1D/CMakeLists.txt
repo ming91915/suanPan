@@ -1,7 +1,6 @@
 set(M1D
     Material1D/Bilinear1D.cpp
     Material1D/Concrete01.cpp
-    Material1D/Damper01.cpp
     Material1D/Elastic1D.cpp
     Material1D/Gap01.cpp
     Material1D/Material1D.cpp

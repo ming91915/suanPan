@@ -36,7 +36,7 @@ Tag::~Tag() {}
  * \brief Method to set `unique_tag`.
  * \param T Unique Tag
  */
-void Tag::set_tag(const unsigned& T) const { modifier(unique_tag) = T; }
+void Tag::set_tag(const unsigned& T) const { suanpan::modifier(unique_tag) = T; }
 
 /**
  * \brief Method to return `unique_tag`.
@@ -48,7 +48,7 @@ const unsigned& Tag::get_tag() const { return unique_tag; }
  * \brief Method to set `class_tag`.
  * \param CT Class Tag
  */
-void Tag::set_class_tag(const unsigned& CT) const { modifier(class_tag) = CT; }
+void Tag::set_class_tag(const unsigned& CT) const { suanpan::modifier(class_tag) = CT; }
 
 /**
  * \brief Method to return `class_tag`.

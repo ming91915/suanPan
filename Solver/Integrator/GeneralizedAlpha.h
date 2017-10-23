@@ -18,7 +18,9 @@
  * @class GeneralizedAlpha
  * @brief A GeneralizedAlpha class defines a solver using GeneralizedAlpha algorithm.
  *
- * Unlike Newmark method, in which the equilibrium is satisfied at the end of current time step, i.e., \f$t=t_0+\Delta{}t\f$, the generalized-\f$\alpha\f$ approach applies it at somewhere in curretn step, i.e., \f$t=t_0+\Delta{}t-\alpha\f$. Similar to the Wilson-\f$\theta\f$ method, or the generalized midpoint concept.
+ * Unlike Newmark method, in which the equilibrium is satisfied at the end of current time step, i.e., \f$t=t_0+\Delta{}t\f$, the generalized-\f$\alpha\f$ approach applies it at somewhere inbetween current step, i.e., \f$t=t_0+\Delta{}t-\alpha\f$, similar to the generalized midpoint concept.
+ *
+ * doi:10.1115/1.2900803
  *
  * @author T
  * @date 21/10/2017

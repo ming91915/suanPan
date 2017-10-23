@@ -20,43 +20,39 @@
  * @author T
  * @date 19/10/2017
  * @file Damper01.h
- * @addtogroup Material-1D
+ * @addtogroup Special
+ * @ingroup Element
  * @{
  */
 
 #ifndef DAMPER01_H
 #define DAMPER01_H
 
-#include <Material/Material1D/Material1D.h>
-#include <Solver/ODE_Solver/ODE.h>
+#include <Element/Element.h>
 
-class Damper01 : public Material1D {
-    const double* current_time_anchor = nullptr;
-    const double* incre_time_anchor = nullptr;
-    const double* trial_time_anchor = nullptr;
+class Damper01 : public Element {
+    static unsigned d_node, d_dof;
 
-    struct Damper : ODE {
-        const double damping, alpha;
-        Damper(const double, const double);
-        vec eval(const double, const vec&) override;
-    };
+    const double damping, alpha;
 
-    Damper ode_system;
+    double length = 0., new_length = 0.;
+
+    vec direction_cosine;
 
 public:
-    explicit Damper01(const unsigned = 0, const double = 2E5, const double = 0.);
+    explicit Damper01(const unsigned, // tag
+        const uvec&,                  // node tags
+        const double,                 // damping
+        const double                  // alpha
+    );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
-    unique_ptr<Material> get_copy() override;
+    int update_status() override;
 
-    int update_trial_status(const vec&) override;
-
-    int clear_status() override;
     int commit_status() override;
+    int clear_status() override;
     int reset_status() override;
-
-    void print() override;
 };
 
 #endif

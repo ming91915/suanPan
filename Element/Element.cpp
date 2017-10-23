@@ -20,6 +20,16 @@
 #include <Domain/Node.h>
 #include <Section/Section.h>
 
+/**
+ * \brief the basic ctor of a typical element
+ * \param T element tag
+ * \param CT class tag
+ * \param NN  number of nodes
+ * \param ND  number of dofs
+ * \param NT node tags
+ * \param MT material tags
+ * \param F nlgeom switch
+ */
 Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, const unsigned& ND, const uvec& NT, const uvec& MT, const bool& F)
     : Tag(T, CT)
     , num_node(NN)
