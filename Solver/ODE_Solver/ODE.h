@@ -67,9 +67,9 @@ class ODE : public Tag {
     double incre_time = 0.;
     double current_time = 0.;
 
-    vec trial_displacement;
-    vec incre_displacement;
-    vec current_displacement;
+    vec trial_variable;
+    vec incre_variable;
+    vec current_variable;
 
 public:
     const unsigned n_size; /**< the dimension of the problem */
@@ -93,17 +93,17 @@ public:
     double get_incre_time() const;
     double get_current_time() const;
 
-    const vec& get_trial_displacement() const;
-    const vec& get_incre_displacement() const;
-    const vec& get_current_displacement() const;
+    const vec& get_trial_variable() const;
+    const vec& get_incre_variable() const;
+    const vec& get_current_variable() const;
 
     void update_current_time(const double);
     void update_incre_time(const double);
     void update_trial_time(const double);
 
-    void update_current_displacement(const vec&);
-    void update_incre_displacement(const vec&);
-    void update_trial_displacement(const vec&);
+    void update_current_variable(const vec&);
+    void update_incre_variable(const vec&);
+    void update_trial_variable(const vec&);
 
     void commit_status();
     void clear_status();

@@ -21,6 +21,8 @@
 ABM2::ABM2(const unsigned T, const shared_ptr<ODE>& D, const unsigned N, const bool C)
     : ODE_Implicit(T, CT_ABM2, D, N, C) {}
 
+unique_ptr<ODE_Solver> ABM2::get_copy() { return make_unique<ABM2>(*this); }
+
 int ABM2::update_status() {
     history_step.clear();
 
@@ -29,8 +31,7 @@ int ABM2::update_status() {
     const auto step_size = D->get_incre_time() / double(step_num);
 
     auto c_time = D->get_current_time();
-
-    auto& c_disp = access::rw(D->get_trial_displacement());
+    auto c_disp = D->get_current_variable();
 
     history_step.emplace_back(D->eval(c_time, c_disp));
 
@@ -38,16 +39,17 @@ int ABM2::update_status() {
 
     history_step.emplace_back(D->eval(c_time, c_disp += .5 * step_size * (history_step[0] + D->eval(c_time, c_disp + step_size * history_step[0]))));
 
-    c_disp += step_size * (1.5 * history_step[1] - .5 * history_step[0]);
+    vec i_disp = step_size * (1.5 * history_step[1] - .5 * history_step[0]);
 
     unsigned counter = 2;
 
-    while(counter++ < step_num) {
-        history_step.emplace_back(D->eval(c_time += step_size, c_disp));
+    while(counter++ <= step_num) {
+        history_step.emplace_back(D->eval(c_time += step_size, c_disp += use_corrector ? step_size / 2. * (D->eval(c_time + step_size, c_disp + i_disp) + history_step[1]) : i_disp));
         history_step.pop_front();
-        const vec i_disp = step_size * (1.5 * history_step[1] - .5 * history_step[0]);
-        c_disp += use_corrector ? step_size / 2. * (D->eval(c_time + step_size, c_disp + i_disp) + history_step[1]) : i_disp;
+        i_disp = step_size * (1.5 * history_step[1] - .5 * history_step[0]);
     }
+
+    D->update_trial_variable(c_disp);
 
     return 0;
 }

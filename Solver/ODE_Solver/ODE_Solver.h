@@ -46,6 +46,8 @@ public:
 
     int initialize() const;
 
+    virtual unique_ptr<ODE_Solver> get_copy() = 0;
+
     virtual int analyze() = 0;
 
     virtual int update_status() = 0;

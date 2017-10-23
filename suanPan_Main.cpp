@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    argument_parser(argc, argv);
+    // argument_parser(argc, argv);
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
 
@@ -34,8 +34,8 @@ int main(int argc, char** argv) {
 // auto C = material_tester(A, B, 0.0001);
 // C.save("K", raw_ascii);
 
-// ABM2 B(1, make_shared<ODE_INSTANCE>(), 20, true);
-// B.get_ode()->update_current_displacement(vec{ 1 });
+// ABM2 B(1, make_shared<ODE_INSTANCE>(), 20, false);
+// B.get_ode()->update_current_variable(vec{ 1 });
 // B.get_ode()->update_incre_time(1.);
 // B.analyze();
-// B.get_ode()->get_trial_displacement().print();
+// B.get_ode()->get_trial_variable().print();

@@ -24,6 +24,8 @@ const std::array<double, 28> RK45::F = { .25, .375, .09375, .28125, 12. / 13., 1
 RK45::RK45(const unsigned& T, const shared_ptr<ODE>& O)
     : ODE_Explicit(T, CT_RK45, O) {}
 
+unique_ptr<ODE_Solver> RK45::get_copy() { return make_unique<RK45>(*this); }
+
 int RK45::update_status() {
     auto& D = get_ode();
 
@@ -31,7 +33,7 @@ int RK45::update_status() {
     const auto t_time = D->get_trial_time();
     const auto i_time = D->get_incre_time();
 
-    auto& c_disp = D->get_current_displacement();
+    auto& c_disp = D->get_current_variable();
 
     S1 = D->eval(c_time, c_disp);
     S2 = D->eval(c_time + F[0] * i_time, c_disp + i_time * F[0] * S1);
@@ -40,7 +42,7 @@ int RK45::update_status() {
     S5 = D->eval(t_time, c_disp + i_time * (F[8] * S1 + F[9] * S2 + F[10] * S3 + F[11] * S4));
     S6 = D->eval(c_time + F[12] * i_time, c_disp + i_time * (F[13] * S1 + F[14] * S2 + F[15] * S3 + F[16] * S4 + F[17] * S5));
 
-    D->update_incre_displacement(i_time * (F[18] * S1 + F[19] * S3 + F[20] * S4 + F[21] * S5 + F[22] * S6));
+    D->update_incre_variable(i_time * (F[18] * S1 + F[19] * S3 + F[20] * S4 + F[21] * S5 + F[22] * S6));
 
     D->set_error(norm(i_time * (F[23] * S1 + F[24] * S3 + F[25] * S4 + F[26] * S5 + F[27] * S6)));
 

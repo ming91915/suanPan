@@ -146,6 +146,7 @@
     <ClCompile Include="..\..\..\Material\Material1D\Elastic1D.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Gap01.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Material1D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\Maxwell.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\MPF.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\RambergOsgood.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Tester1D.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="..\..\..\Material\Material1D\Elastic1D.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Gap01.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Material1D.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\Maxwell.h" />
     <ClInclude Include="..\..\..\Material\Material1D\MPF.h" />
     <ClInclude Include="..\..\..\Material\Material1D\RambergOsgood.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Tester1D.h" />

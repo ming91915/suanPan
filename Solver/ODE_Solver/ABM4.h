@@ -35,6 +35,8 @@ class ABM4 final : public ODE_Implicit {
 public:
     explicit ABM4(const unsigned = 0, const shared_ptr<ODE>& = nullptr, const unsigned = 20, const bool = false);
 
+    unique_ptr<ODE_Solver> get_copy() override;
+
     int update_status() override;
 
     void print() override;

@@ -19,9 +19,9 @@
 
 ODE::ODE(const unsigned T, const unsigned D)
     : Tag(T, CT_ODE)
-    , trial_displacement(D, fill::zeros)
-    , incre_displacement(D, fill::zeros)
-    , current_displacement(D, fill::zeros)
+    , trial_variable(D, fill::zeros)
+    , incre_variable(D, fill::zeros)
+    , current_variable(D, fill::zeros)
     , n_size(D) {}
 
 vec ODE::eval(const double, const vec&) { throw; }
@@ -44,11 +44,11 @@ double ODE::get_incre_time() const { return incre_time; }
 
 double ODE::get_current_time() const { return current_time; }
 
-const vec& ODE::get_trial_displacement() const { return trial_displacement; }
+const vec& ODE::get_trial_variable() const { return trial_variable; }
 
-const vec& ODE::get_incre_displacement() const { return incre_displacement; }
+const vec& ODE::get_incre_variable() const { return incre_variable; }
 
-const vec& ODE::get_current_displacement() const { return current_displacement; }
+const vec& ODE::get_current_variable() const { return current_variable; }
 
 void ODE::update_current_time(const double c_time) {
     current_time = c_time;
@@ -56,10 +56,10 @@ void ODE::update_current_time(const double c_time) {
     incre_time = 0.;
 }
 
-void ODE::update_current_displacement(const vec& c_displacement) {
-    current_displacement = c_displacement;
-    trial_displacement = current_displacement;
-    incre_displacement.zeros();
+void ODE::update_current_variable(const vec& c_displacement) {
+    current_variable = c_displacement;
+    trial_variable = current_variable;
+    incre_variable.zeros();
 }
 
 void ODE::update_incre_time(const double i_time) {
@@ -72,33 +72,33 @@ void ODE::update_trial_time(const double t_time) {
     incre_time = trial_time - current_time;
 }
 
-void ODE::update_incre_displacement(const vec& i_displacement) {
-    incre_displacement = i_displacement;
-    trial_displacement = current_displacement + incre_displacement;
+void ODE::update_incre_variable(const vec& i_displacement) {
+    incre_variable = i_displacement;
+    trial_variable = current_variable + incre_variable;
 }
 
-void ODE::update_trial_displacement(const vec& t_displacement) {
-    trial_displacement = t_displacement;
-    incre_displacement = trial_displacement - current_displacement;
+void ODE::update_trial_variable(const vec& t_displacement) {
+    trial_variable = t_displacement;
+    incre_variable = trial_variable - current_variable;
 }
 
 void ODE::commit_status() {
     current_time = trial_time;
     incre_time = 0.;
-    current_displacement = trial_displacement;
-    incre_displacement.zeros();
+    current_variable = trial_variable;
+    incre_variable.zeros();
 }
 
 void ODE::clear_status() {
     trial_time = incre_time = current_time = 0.;
-    trial_displacement.zeros();
-    incre_displacement.zeros();
-    current_displacement.zeros();
+    trial_variable.zeros();
+    incre_variable.zeros();
+    current_variable.zeros();
 }
 
 void ODE::reset_status() {
     trial_time = current_time;
     incre_time = 0.;
-    trial_displacement = current_displacement;
-    incre_displacement.zeros();
+    trial_variable = current_variable;
+    incre_variable.zeros();
 }

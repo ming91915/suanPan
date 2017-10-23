@@ -3,6 +3,7 @@
 #include "Elastic1D.h"
 #include "Gap01.h"
 #include "Material1D.h"
+#include "Maxwell.h"
 #include "MPF.h"
 #include "RambergOsgood.h"
 #include "Tester1D.h"

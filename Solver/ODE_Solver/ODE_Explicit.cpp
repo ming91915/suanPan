@@ -33,13 +33,12 @@ int ODE_Explicit::analyze() {
     auto counter = 0;
 
     while(true) {
-        if(update_status() != 0) return -1;
+        if(update_status() != 0 || ++counter > 20) return -1;
         if(D->is_converged()) {
             D->commit_status();
             time_left -= step;
         }
         if(time_left <= 0.) return 0;
-        if(++counter > 20) return -1;
         step *= .8 * pow(D->get_tolerance() / D->get_error(), factor);
         if(step > time_left) step = time_left;
         D->update_incre_time(step);

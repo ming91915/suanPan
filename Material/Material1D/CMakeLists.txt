@@ -4,6 +4,7 @@ set(M1D
     Material1D/Elastic1D.cpp
     Material1D/Gap01.cpp
     Material1D/Material1D.cpp
+    Material1D/Maxwell.cpp
     Material1D/MPF.cpp
     Material1D/RambergOsgood.cpp
     Material1D/Tester1D.cpp

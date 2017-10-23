@@ -60,5 +60,8 @@
 #ifndef MT_MATERIAL3D
 #define MT_MATERIAL3D 1013
 #endif
+#ifndef MT_MAXWELL
+#define MT_MAXWELL 1014
+#endif
 
 #endif

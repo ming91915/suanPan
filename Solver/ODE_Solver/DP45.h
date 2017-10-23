@@ -49,6 +49,8 @@ class DP45 final : public ODE_Explicit {
 public:
     explicit DP45(const unsigned& = 0, const shared_ptr<ODE>& = nullptr);
 
+    unique_ptr<ODE_Solver> get_copy() override;
+
     int update_status() override;
 
     void print() override;

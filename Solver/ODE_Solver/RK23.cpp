@@ -21,6 +21,8 @@
 RK23::RK23(const unsigned& T, const shared_ptr<ODE>& O)
     : ODE_Explicit(T, CT_RK23, O) {}
 
+unique_ptr<ODE_Solver> RK23::get_copy() { return make_unique<RK23>(*this); }
+
 int RK23::update_status() {
     auto& D = get_ode();
 
@@ -28,13 +30,13 @@ int RK23::update_status() {
     const auto t_time = D->get_trial_time();
     const auto i_time = D->get_incre_time();
 
-    auto& c_disp = D->get_current_displacement();
+    auto& c_disp = D->get_current_variable();
 
     S1 = D->eval(c_time, c_disp);
     S2 = D->eval(t_time, c_disp + i_time * S1);
     S3 = D->eval(c_time + .5 * i_time, c_disp + i_time * .25 * (S1 + S2));
 
-    D->update_incre_displacement(i_time * (S1 + S2 + 4. * S3) / 6.);
+    D->update_incre_variable(i_time * (S1 + S2 + 4. * S3) / 6.);
 
     D->set_error(norm(i_time * (S1 + S2 - 2. * S3) / 3.));
 
