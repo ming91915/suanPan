@@ -72,11 +72,12 @@ int Maxwell::update_trial_status(const vec&, const vec& t_strain_rate) {
     trial_strain_rate = t_strain_rate;
 
     tmp_ptr->clear_status();
-    tmp_ptr->set_strain_rate(trial_strain_rate);
+    tmp_ptr->set_strain_rate(current_strain_rate);
     tmp_ptr->set_strain_acceleration((trial_strain_rate - current_strain_rate) / *incre_time);
+    tmp_ptr->set_current_variable(current_stress);
     tmp_ptr->set_incre_time(*incre_time);
 
-    if(solver->analyze() == 0 && tmp_ptr->is_converged()) return -1;
+    if(solver->analyze() != 0 || !tmp_ptr->is_converged()) return -1;
 
     trial_stress = tmp_ptr->get_trial_variable();
 
