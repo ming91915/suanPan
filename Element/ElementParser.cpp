@@ -65,6 +65,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_proto01(new_element, command);
     else if(is_equal(element_id, "Mass"))
         new_mass(new_element, command);
+    else if(is_equal(element_id, "Damper01"))
+        new_damper01(new_element, command);
     else if(is_equal(element_id, "SingleSection"))
         new_singlesection(new_element, command);
     else {
@@ -691,6 +693,38 @@ void new_mass(unique_ptr<Element>& return_obj, istringstream& command) {
     while(get_input(command, dof)) dof_tag.push_back(dof);
 
     return_obj = make_unique<Mass>(tag, node, magnitude, uvec(dof_tag));
+}
+
+void new_damper01(unique_ptr<Element>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_debug("new_damper01() needs a valid tag.\n");
+        return;
+    }
+
+    unsigned node;
+    vector<uword> node_tag;
+    for(auto I = 0; I < 2; ++I) {
+        if(!get_input(command, node)) {
+            suanpan_debug("new_damper01() needs two valid nodes.\n");
+            return;
+        }
+        node_tag.push_back(node);
+    }
+
+    double damping;
+    if(!get_input(command, damping)) {
+        suanpan_debug("new_damper01() needs a valid damping coefficient.\n");
+        return;
+    }
+
+    double alpha;
+    if(!get_input(command, alpha)) {
+        suanpan_debug("new_damper01() needs a valid alpha.\n");
+        return;
+    }
+
+    return_obj = make_unique<Damper01>(tag, node_tag, damping, alpha);
 }
 
 void new_singlesection(unique_ptr<Element>& return_obj, istringstream& command) {
