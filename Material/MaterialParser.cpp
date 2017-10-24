@@ -553,19 +553,25 @@ void new_maxwell(unique_ptr<Material>& return_obj, istringstream& command) {
         return;
     }
 
-    double damping;
-    if(!get_input(command, damping)) {
-        suanpan_error("new_maxwell() requires a valid damping coefficient.\n");
-        return;
-    }
-
     double alpha;
     if(!get_input(command, alpha)) {
         suanpan_error("new_maxwell() requires a valid alpha.\n");
         return;
     }
 
-    return_obj = make_unique<Maxwell>(tag, elastic_modulus, damping, alpha);
+    double damping_postive;
+    if(!get_input(command, damping_postive)) {
+        suanpan_error("new_maxwell() requires a valid damping coefficient.\n");
+        return;
+    }
+
+    auto damping_negative = damping_postive;
+    if(!command.eof() && !get_input(command, damping_negative)) {
+        suanpan_error("new_maxwell() requires a valid damping coefficient.\n");
+        return;
+    }
+
+    return_obj = make_unique<Maxwell>(tag, elastic_modulus, alpha, damping_postive, damping_negative);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
