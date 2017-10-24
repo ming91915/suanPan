@@ -28,31 +28,15 @@ ODE::ODE(const unsigned T, const unsigned D)
 
 ODE::~ODE() { suanpan_debug("ODE $u dtor called.\n", get_tag()); }
 
-vec ODE::eval(const double, const vec&) { throw; }
+vec ODE::eval(const double, const vec&) { throw logic_error("hidden method ODE::eval() called.\n"); }
 
 vec ODE::operator()(const double t_time, const vec& t_displacement) { return eval(t_time, t_displacement); }
 
 bool ODE::is_converged() const { return error < tolerance; }
 
-double ODE::get_error() const { return error; }
-
-double ODE::get_tolerance() const { return tolerance; }
-
 void ODE::set_error(const double E) { error = E; }
 
 void ODE::set_tolerance(const double T) { tolerance = T; }
-
-double ODE::get_trial_time() const { return trial_time; }
-
-double ODE::get_incre_time() const { return incre_time; }
-
-double ODE::get_current_time() const { return current_time; }
-
-const vec& ODE::get_trial_variable() const { return trial_variable; }
-
-const vec& ODE::get_incre_variable() const { return incre_variable; }
-
-const vec& ODE::get_current_variable() const { return current_variable; }
 
 void ODE::set_current_time(const double c_time) {
     current_time = c_time;
@@ -85,6 +69,22 @@ void ODE::set_trial_variable(const vec& t_displacement) {
     trial_variable = t_displacement;
     incre_variable = trial_variable - current_variable;
 }
+
+double ODE::get_error() const { return error; }
+
+double ODE::get_tolerance() const { return tolerance; }
+
+double ODE::get_trial_time() const { return trial_time; }
+
+double ODE::get_incre_time() const { return incre_time; }
+
+double ODE::get_current_time() const { return current_time; }
+
+const vec& ODE::get_trial_variable() const { return trial_variable; }
+
+const vec& ODE::get_incre_variable() const { return incre_variable; }
+
+const vec& ODE::get_current_variable() const { return current_variable; }
 
 void ODE::commit_status() {
     current_time = trial_time;

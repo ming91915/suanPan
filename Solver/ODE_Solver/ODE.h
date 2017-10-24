@@ -60,6 +60,7 @@
 #include <Domain/Tag.h>
 
 class ODE : public Tag {
+protected:
     double error = 0.;
     double tolerance = 1E-10;
 
@@ -86,19 +87,10 @@ public:
 
     bool is_converged() const;
 
-    double get_error() const;
-    double get_tolerance() const;
+    /*************************SETTER*************************/
 
     void set_error(const double);
     void set_tolerance(const double);
-
-    double get_trial_time() const;
-    double get_incre_time() const;
-    double get_current_time() const;
-
-    const vec& get_trial_variable() const;
-    const vec& get_incre_variable() const;
-    const vec& get_current_variable() const;
 
     void set_current_time(const double);
     void set_incre_time(const double);
@@ -108,9 +100,24 @@ public:
     void set_incre_variable(const vec&);
     void set_trial_variable(const vec&);
 
-    void commit_status();
-    void clear_status();
-    void reset_status();
+    /*************************GETTER*************************/
+
+    double get_error() const;
+    double get_tolerance() const;
+
+    double get_trial_time() const;
+    double get_incre_time() const;
+    double get_current_time() const;
+
+    const vec& get_trial_variable() const;
+    const vec& get_incre_variable() const;
+    const vec& get_current_variable() const;
+
+    /*************************STATUS*************************/
+
+    virtual void commit_status();
+    virtual void clear_status();
+    virtual void reset_status();
 };
 
 #endif
