@@ -33,7 +33,7 @@
 #include "Integrator.h"
 
 class CentralDifference : public Integrator {
-    double max_dt = 0.;
+    double max_dt = 1.;
 
     double DT = 0.;
 

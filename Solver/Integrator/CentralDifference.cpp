@@ -81,16 +81,11 @@ void CentralDifference::commit_status() const {
     const auto& D = get_domain().lock();
     const auto& W = D->get_factory();
 
-    W->set_current_velocity(C1 * (W->get_trial_displacement() - W->get_pre_displacement()));
+    W->update_current_velocity(C1 * (W->get_trial_displacement() - W->get_pre_displacement()));
 
-    W->set_current_acceleration(C0 * (W->get_pre_displacement() - 2. * W->get_current_displacement() + W->get_trial_displacement()));
+    W->update_current_acceleration(C0 * (W->get_pre_displacement() - 2. * W->get_current_displacement() + W->get_trial_displacement()));
+
+    W->commit_pre_displacement();
 
     D->commit_status();
-
-    auto& tmp_velocity = W->get_current_velocity();
-    auto& tmp_acceleration = W->get_current_acceleration();
-    for(const auto& I : D->get_node_pool()) {
-        I->set_current_velocity(tmp_velocity(I->get_reordered_dof()));
-        I->set_current_acceleration(tmp_acceleration(I->get_reordered_dof()));
-    }
 }

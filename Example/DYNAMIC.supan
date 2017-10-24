@@ -3,7 +3,7 @@
 node	1	0	0
 node	2	0	1
 
-material Elastic1D 1 100 0
+material Elastic1D 1 100 .1
 
 element	ElasticB21	1	1	2	10	1	1	0
 
@@ -18,12 +18,13 @@ acceleration 2 1 .2 1 2
 recorder 1 Node U 2
 
 step dynamic 1 20
-set ini_step_size .01
+set ini_step_size .001
 set fixed_step_size true
 
-integrator GeneralizedAlpha 1 .2 -.5
+# integrator GeneralizedAlpha 1 .2 -.5
+integrator CentralDifference 1
 
-converger AbsIncreDisp 1 1E-4 4 0
+converger AbsIncreDisp 1 1E-4 4 1
 
 analyze
 

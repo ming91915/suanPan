@@ -91,7 +91,8 @@ MetaMat<T>::MetaMat(const unsigned& in_rows, const unsigned& in_cols, const unsi
 
 template <typename T>
 MetaMat<T>::MetaMat(const MetaMat& old_mat)
-    : n_rows(old_mat.n_rows)
+    : factored(old_mat.factored)
+    , n_rows(old_mat.n_rows)
     , n_cols(old_mat.n_cols)
     , n_elem(old_mat.n_elem) {
     init();
@@ -100,7 +101,8 @@ MetaMat<T>::MetaMat(const MetaMat& old_mat)
 
 template <typename T>
 MetaMat<T>::MetaMat(MetaMat&& old_mat) noexcept
-    : n_rows(old_mat.n_rows)
+    : factored(old_mat.factored)
+    , n_rows(old_mat.n_rows)
     , n_cols(old_mat.n_cols)
     , n_elem(old_mat.n_elem) {
     access::rw(memory) = old_mat.memory;
@@ -109,6 +111,7 @@ MetaMat<T>::MetaMat(MetaMat&& old_mat) noexcept
 
 template <typename T> MetaMat<T>& MetaMat<T>::operator=(const MetaMat& old_mat) {
     if(this != &old_mat) {
+        factored = old_mat.factored;
         access::rw(n_rows) = old_mat.n_rows;
         access::rw(n_cols) = old_mat.n_cols;
         access::rw(n_elem) = old_mat.n_elem;
@@ -120,6 +123,7 @@ template <typename T> MetaMat<T>& MetaMat<T>::operator=(const MetaMat& old_mat) 
 
 template <typename T> MetaMat<T>& MetaMat<T>::operator=(MetaMat&& old_mat) noexcept {
     if(this != &old_mat) {
+        factored = old_mat.factored;
         access::rw(n_rows) = old_mat.n_rows;
         access::rw(n_cols) = old_mat.n_cols;
         access::rw(n_elem) = old_mat.n_elem;
@@ -177,12 +181,18 @@ template <typename T> MetaMat<T> MetaMat<T>::operator-(const MetaMat& M) {
 }
 
 template <typename T> MetaMat<T>& MetaMat<T>::operator+=(const MetaMat& M) {
-    if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) arrayops::inplace_plus(memptr(), M.memptr(), n_elem);
+    if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) {
+        arrayops::inplace_plus(memptr(), M.memptr(), n_elem);
+        factored = false;
+    }
     return *this;
 }
 
 template <typename T> MetaMat<T>& MetaMat<T>::operator-=(const MetaMat& M) {
-    if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) arrayops::inplace_minus(memptr(), M.memptr(), n_elem);
+    if(n_rows == M.n_rows && n_cols == M.n_cols && n_elem == M.n_elem) {
+        arrayops::inplace_minus(memptr(), M.memptr(), n_elem);
+        factored = false;
+    }
     return *this;
 }
 

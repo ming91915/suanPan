@@ -11,6 +11,6 @@
     <LocalDebuggerCommandArguments>-f DYNAMIC.supan</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup>
-    <ShowAllFiles>true</ShowAllFiles>
+    <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>
 </Project>
