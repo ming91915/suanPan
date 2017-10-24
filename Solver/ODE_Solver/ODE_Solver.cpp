@@ -41,3 +41,5 @@ int ODE_Solver::analyze() { throw; }
 void ODE_Solver::set_ode(ODE* E) { ode_system = E; }
 
 ODE* ODE_Solver::get_ode() const { return ode_system; }
+
+unique_ptr<ODE_Solver> suanpan::make_copy(const unique_ptr<ODE_Solver>& old_obj) { return old_obj->get_copy(); }

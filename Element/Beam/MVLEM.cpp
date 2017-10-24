@@ -45,11 +45,11 @@ MVLEM::MVLEM(const unsigned T, const uvec& NT, const vec& B, const vec& H, const
 void MVLEM::initialize(const shared_ptr<DomainBase>& D) {
     const auto& total_fibre_num = axial_spring.size();
     for(auto I = 0; I < total_fibre_num; ++I) {
-        axial_spring[I].c_material = make_copy(D->get_material(unsigned(material_tag(I))));
-        axial_spring[I].s_material = make_copy(D->get_material(unsigned(material_tag(I + total_fibre_num))));
+        axial_spring[I].c_material = suanpan::make_copy(D->get_material(unsigned(material_tag(I))));
+        axial_spring[I].s_material = suanpan::make_copy(D->get_material(unsigned(material_tag(I + total_fibre_num))));
     }
 
-    shear_spring = make_copy(D->get_material(shear_spring_tag));
+    shear_spring = suanpan::make_copy(D->get_material(shear_spring_tag));
 }
 
 int MVLEM::update_status() { return 0; }

@@ -59,6 +59,10 @@ public:
     ODE* get_ode() const;
 };
 
+namespace suanpan {
+unique_ptr<ODE_Solver> make_copy(const unique_ptr<ODE_Solver>&);
+}
+
 #endif
 
 //! @}

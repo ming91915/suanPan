@@ -78,7 +78,10 @@ public:
     virtual int reset_status() = 0;
 };
 
+namespace suanpan {
 unique_ptr<Section> make_copy(const shared_ptr<Section>&);
+unique_ptr<Section> make_copy(const unique_ptr<Section>&);
+}
 
 #endif
 

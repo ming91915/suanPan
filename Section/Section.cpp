@@ -75,4 +75,6 @@ int Section::commit_status() { throw invalid_argument("hidden method called.\n")
 
 int Section::reset_status() { throw invalid_argument("hidden method called.\n"); }
 
-unique_ptr<Section> make_copy(const shared_ptr<Section>& S) { return S->get_copy(); }
+unique_ptr<Section> suanpan::make_copy(const shared_ptr<Section>& S) { return S->get_copy(); }
+
+unique_ptr<Section> suanpan::make_copy(const unique_ptr<Section>& S) { return S->get_copy(); }

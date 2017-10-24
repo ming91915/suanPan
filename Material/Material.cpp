@@ -140,4 +140,6 @@ int Material::reset_status() {
 
 vector<vec> Material::record(const OutputType&) { return {}; }
 
-unique_ptr<Material> make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }
+unique_ptr<Material> suanpan::make_copy(const shared_ptr<Material>& P) { return P->get_copy(); }
+
+unique_ptr<Material> suanpan::make_copy(const unique_ptr<Material>& P) { return P->get_copy(); }

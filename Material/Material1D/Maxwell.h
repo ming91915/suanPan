@@ -29,8 +29,7 @@
 
 #include <Material/Material1D/Material1D.h>
 #include <Solver/ODE_Solver/ODE.h>
-
-class ODE_Solver;
+#include <Solver/ODE_Solver/ODE_Solver.h>
 
 class Maxwell : public Material1D {
     const double* incre_time = nullptr;

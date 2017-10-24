@@ -32,7 +32,7 @@ void Spring01::initialize(const shared_ptr<DomainBase>& D) {
 
     length = norm(coord_j - coord_i);
 
-    s_material = make_copy(D->get_material(unsigned(material_tag(0))));
+    s_material = suanpan::make_copy(D->get_material(unsigned(material_tag(0))));
 }
 
 int Spring01::update_status() {
