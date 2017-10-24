@@ -74,6 +74,7 @@ void CentralDifference::assemble_matrix() {
     const auto& W = D->get_factory();
 
     get_stiffness(W) = C0 * get_mass(W) + C1 * get_damping(W);
+    get_sushi(W) += get_stiffness(W) * W->get_trial_displacement();
 }
 
 void CentralDifference::commit_status() const {
