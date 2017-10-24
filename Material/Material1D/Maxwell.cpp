@@ -21,9 +21,9 @@
 #include <Solver/ODE_Solver/DP45.h>
 #include <Toolbox/utility.h>
 
-Maxwell::Damper::Damper(const double K, const double A, const double C1, const double C2)
+Maxwell::Damper::Damper(const double E, const double A, const double C1, const double C2)
     : ODE(0, 1)
-    , elastic_modulus(K)
+    , elastic_modulus(E)
     , alpha(A == 0. ? 1. : 1. / A)
     , damping_positive(C1)
     , damping_negative(C2) {}
@@ -31,11 +31,9 @@ Maxwell::Damper::Damper(const double K, const double A, const double C1, const d
 unique_ptr<ODE> Maxwell::Damper::get_copy() { return make_unique<Damper>(*this); }
 
 vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
-    trial_strain_rate = current_strain_rate + strain_acceleration * (t_time - current_time);
+    const auto trial_strain_rate = current_strain_rate + t_time * current_strain_acceleration;
 
-    vec t_stress_rate(1);
-
-    t_stress_rate(0) = trial_strain_rate;
+    vec t_stress_rate{ trial_strain_rate };
 
     const auto t_factor = t_stress(0) / trial_strain_rate > 0. ? damping_positive : damping_negative;
 
@@ -45,24 +43,10 @@ vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
     return t_stress_rate;
 }
 
-void Maxwell::Damper::commit_status() {
-    current_strain_rate = trial_strain_rate;
-    return ODE::commit_status();
+void Maxwell::Damper::set_current_status(const vec& t_strain_rate, const vec& t_strain_accleration) {
+    current_strain_rate = t_strain_rate(0);
+    current_strain_acceleration = t_strain_accleration(0);
 }
-
-void Maxwell::Damper::clear_status() {
-    current_strain_rate = trial_strain_rate = 0.;
-    return ODE::clear_status();
-}
-
-void Maxwell::Damper::reset_status() {
-    trial_strain_rate = current_strain_rate;
-    return ODE::reset_status();
-}
-
-void Maxwell::Damper::set_current_strain_rate(const vec& t_strain_rate) { current_strain_rate = t_strain_rate(0); }
-
-void Maxwell::Damper::set_strain_acceleration(const vec& t_strain_accleration) { strain_acceleration = t_strain_accleration(0); }
 
 Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2)
     : Material1D(T, MT_MAXWELL, 0.)
@@ -78,48 +62,45 @@ Maxwell::Maxwell(const Maxwell& old_obj)
     solver->set_ode(viscosity.get());
 }
 
-void Maxwell::initialize(const shared_ptr<DomainBase>& D) {
-    auto& W = D->get_factory();
-
-    incre_time = &W->get_incre_time();
-
-    tmp_ptr->set_current_strain_rate(current_strain_rate);
-    tmp_ptr->set_current_variable(current_stress);
-}
+void Maxwell::initialize(const shared_ptr<DomainBase>& D) { incre_time = &D->get_factory()->get_incre_time(); }
 
 unique_ptr<Material> Maxwell::get_copy() { return make_unique<Maxwell>(*this); }
 
-int Maxwell::update_trial_status(const vec&, const vec& t_strain_rate) {
+int Maxwell::update_trial_status(const vec& t_strain, const vec& t_strain_rate) {
+    trial_strain = t_strain;
     trial_strain_rate = t_strain_rate;
 
-    tmp_ptr->set_strain_acceleration((trial_strain_rate - current_strain_rate) / *incre_time);
-    tmp_ptr->set_incre_time(*incre_time);
+    damper_ptr->clear_status();
+    damper_ptr->set_incre_time(*incre_time);
+    damper_ptr->set_current_status(current_strain_rate, (trial_strain_rate - current_strain_rate) / *incre_time);
+    damper_ptr->set_current_variable(current_stress);
 
-    if(solver->analyze() != 0 || !tmp_ptr->is_converged()) return -1;
+    if(solver->analyze() != 0 || !damper_ptr->is_converged()) return -1;
 
-    trial_stress = tmp_ptr->get_trial_variable();
+    trial_stress = damper_ptr->get_trial_variable();
 
     return 0;
 }
 
 int Maxwell::clear_status() {
-    viscosity->clear_status();
-    trial_strain_rate.zeros();
-    current_strain_rate.zeros();
+    trial_strain.zeros();
+    current_strain.zeros();
     trial_stress.zeros();
     current_stress.zeros();
+    trial_strain_rate.zeros();
+    current_strain_rate.zeros();
     return 0;
 }
 
 int Maxwell::commit_status() {
-    viscosity->commit_status();
+    current_strain = trial_strain;
     current_stress = trial_stress;
     current_strain_rate = trial_strain_rate;
     return 0;
 }
 
 int Maxwell::reset_status() {
-    viscosity->reset_status();
+    trial_strain = current_strain;
     trial_stress = current_stress;
     trial_strain_rate = current_strain_rate;
     return 0;

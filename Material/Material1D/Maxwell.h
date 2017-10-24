@@ -37,21 +37,17 @@ class Maxwell : public Material1D {
 
     struct Damper : ODE {
         const double elastic_modulus, alpha, damping_positive, damping_negative;
-        double current_strain_rate = 0., trial_strain_rate = 0., strain_acceleration = 0.;
+        double current_strain_rate = 0., current_strain_acceleration = 0.;
         Damper(const double, const double, const double, const double);
         unique_ptr<ODE> get_copy() override;
         vec eval(const double, const vec&) override;
-        void commit_status() override;
-        void clear_status() override;
-        void reset_status() override;
-        void set_current_strain_rate(const vec&);
-        void set_strain_acceleration(const vec&);
+        void set_current_status(const vec&, const vec&);
     };
 
     unique_ptr<ODE> viscosity;
     unique_ptr<ODE_Solver> solver;
 
-    Damper* tmp_ptr = dynamic_cast<Damper*>(viscosity.get());
+    Damper* damper_ptr = dynamic_cast<Damper*>(viscosity.get());
 
 public:
     explicit Maxwell(const unsigned, // tag
