@@ -34,8 +34,6 @@ int ArcLength::analyze() {
     auto& S = get_solver();
     auto& G = get_integrator();
 
-    // G->update_trial_status();
-
     unsigned num_iteration = 0;
 
     while(true) {
@@ -43,8 +41,9 @@ int ArcLength::analyze() {
             suanpan_warning("analyze() reaches maximum substep number %u.\n", get_max_substep());
             return -1;
         }
-        if(G->process_criterion() < 0) return 0;
-        const auto code = S->analyze();
+        auto code = G->process_criterion();
+        if(code != 0) return code;
+        code = S->analyze();
         if(code == 0) {
             G->commit_status();
             G->record();
