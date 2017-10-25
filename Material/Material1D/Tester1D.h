@@ -30,7 +30,7 @@
 
 #include <Material/Material.h>
 
-mat material_tester(const shared_ptr<Material>&, const std::vector<unsigned>&, const double);
+mat material_tester(const shared_ptr<Material>&, const vector<unsigned>&, const double);
 
 #endif
 

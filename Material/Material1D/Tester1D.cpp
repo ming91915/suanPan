@@ -17,15 +17,15 @@
 
 #include "Tester1D.h"
 
-mat material_tester(const shared_ptr<Material>& obj, const std::vector<unsigned>& idx, const double incre) {
+mat material_tester(const shared_ptr<Material>& obj, const vector<unsigned>& idx, const double incre) {
     if(!obj->initialized) {
         obj->Material::initialize(nullptr);
         obj->initialize(nullptr);
     }
 
-    std::vector<double> A{ 0 }, B{ 0 };
+    vector<double> A{ 0 }, B{ 0 };
 
-    vec E{ incre };
+    auto E = incre;
     for(const auto& I : idx) {
         for(unsigned J = 0; J < I; ++J) {
             obj->update_incre_status(E);
