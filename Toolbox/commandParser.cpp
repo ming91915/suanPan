@@ -330,6 +330,35 @@ int create_new_amplitude(const shared_ptr<DomainBase>& domain, istringstream& co
             return 0;
         }
         domain->insert(make_shared<Tabular>(tag, file_name.c_str(), step_tag));
+    } else if(is_equal(amplitude_type, "Decay")) {
+        double A;
+        if(!get_input(command, A)) {
+            suanpan_info("create_new_amplitude() needs a A.\n");
+            return 0;
+        }
+        double TD;
+        if(!get_input(command, TD)) {
+            suanpan_info("create_new_amplitude() needs a TD.\n");
+            return 0;
+        }
+        domain->insert(make_shared<Decay>(tag, A, TD, step_tag));
+    } else if(is_equal(amplitude_type, "Modulated")) {
+        double A;
+        if(!get_input(command, A)) {
+            suanpan_info("create_new_amplitude() needs a A.\n");
+            return 0;
+        }
+        double W1;
+        if(!get_input(command, W1)) {
+            suanpan_info("create_new_amplitude() needs a W1.\n");
+            return 0;
+        }
+        double W2;
+        if(!get_input(command, W2)) {
+            suanpan_info("create_new_amplitude() needs a W2.\n");
+            return 0;
+        }
+        domain->insert(make_shared<Modulated>(tag, A, W1, W2, step_tag));
     }
 
     return 0;

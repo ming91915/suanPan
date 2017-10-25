@@ -15,28 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Ramp
+ * @class Modulated
  * @brief An Amplitude class that can generate Amplitude pattern.
  *
- * Linear/Ramp
+ * Linear/Modulated
  * \f{gather}{a=A_0+A\left(t-t_0\right)/t_s\f}
  *
  * @author T
- * @date 03/07/2017
+ * @date 26/10/2017
  * @version 0.1.0
- * @file Ramp.h
+ * @file Modulated.h
  * @addtogroup Amplitude
  * @{
  */
 
-#ifndef RAMP_H
-#define RAMP_H
+#ifndef MODULATED_H
+#define MODULATED_H
 
 #include <Load/Amplitude/Amplitude.h>
 
-class Ramp : public Amplitude {
+class Modulated : public Amplitude {
+    const double A, W1, W2;
+
 public:
-    explicit Ramp(const unsigned = 0, const unsigned = 0);
+    explicit Modulated(const unsigned = 0, const double = 0., const double = 0., const double = 0., const unsigned = 0);
+
+    double get_amplitude(const double&) override;
 
     void print() override final;
 };

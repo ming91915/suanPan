@@ -198,5 +198,8 @@
 #ifndef CT_ABM2
 #define CT_ABM2 60
 #endif
+#ifndef CT_MODULATED
+#define CT_MODULATED 61
+#endif
 
 #endif

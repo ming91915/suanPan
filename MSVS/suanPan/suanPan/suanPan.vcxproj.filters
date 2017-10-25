@@ -152,6 +152,12 @@
     <ClCompile Include="..\..\..\Recorder\ElementRecorder.cpp">
       <Filter>Recorder</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Load\Amplitude\Modulated.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Load\Amplitude\Decay.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -288,6 +294,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Recorder\ElementRecorder.h">
       <Filter>Recorder</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Modulated.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Decay.h">
+      <Filter>Load</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

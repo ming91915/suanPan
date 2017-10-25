@@ -1,4 +1,6 @@
 #include "Amplitude.h"
 
+#include "Modulated.h"
 #include "Ramp.h"
 #include "Tabular.h"
+#include "Decay.h"

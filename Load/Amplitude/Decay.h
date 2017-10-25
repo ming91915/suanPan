@@ -15,28 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Ramp
+ * @class Decay
  * @brief An Amplitude class that can generate Amplitude pattern.
  *
- * Linear/Ramp
- * \f{gather}{a=A_0+A\left(t-t_0\right)/t_s\f}
- *
  * @author T
- * @date 03/07/2017
+ * @date 26/10/2017
  * @version 0.1.0
- * @file Ramp.h
+ * @file Decay.h
  * @addtogroup Amplitude
  * @{
  */
 
-#ifndef RAMP_H
-#define RAMP_H
+#ifndef DECAY_H
+#define DECAY_H
 
 #include <Load/Amplitude/Amplitude.h>
 
-class Ramp : public Amplitude {
+class Decay : public Amplitude {
+    const double A, TD;
+
 public:
-    explicit Ramp(const unsigned = 0, const unsigned = 0);
+    explicit Decay(const unsigned = 0, const double = 0., const double = 0., const unsigned = 0);
+
+    double get_amplitude(const double&) override;
 
     void print() override final;
 };

@@ -15,9 +15,19 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Ramp.h"
+#include "Decay.h"
 
-Ramp::Ramp(const unsigned T, const unsigned ST)
-    : Amplitude(T, CT_RAMP, ST) {}
+Decay::Decay(const unsigned T, const double AA, const double TTD, const unsigned ST)
+    : Amplitude(T, CT_MODULATED, ST)
+    , A(AA)
+    , TD(TTD) {}
 
-void Ramp::print() { suanpan_info("Linear/Ramp Amplitude.\n"); }
+double Decay::get_amplitude(const double& T) {
+    const auto step_time = T - start_time;
+
+    if(step_time <= 0.) return 0.;
+
+    return A * exp(-start_time / TD);
+}
+
+void Decay::print() { suanpan_info("Decay Amplitude.\n"); }

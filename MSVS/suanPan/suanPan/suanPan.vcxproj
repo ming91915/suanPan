@@ -173,6 +173,8 @@
     <ClCompile Include="..\..\..\Domain\Tag.cpp" />
     <ClCompile Include="..\..\..\Load\Acceleration.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Amplitude.cpp" />
+    <ClCompile Include="..\..\..\Load\Amplitude\Decay.cpp" />
+    <ClCompile Include="..\..\..\Load\Amplitude\Modulated.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Ramp.cpp" />
     <ClCompile Include="..\..\..\Load\Amplitude\Tabular.cpp" />
     <ClCompile Include="..\..\..\Load\CLoad.cpp" />
@@ -217,6 +219,8 @@
     <ClInclude Include="..\..\..\Domain\Tag.h" />
     <ClInclude Include="..\..\..\Load\Acceleration.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Amplitude.h" />
+    <ClInclude Include="..\..\..\Load\Amplitude\Decay.h" />
+    <ClInclude Include="..\..\..\Load\Amplitude\Modulated.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Ramp.h" />
     <ClInclude Include="..\..\..\Load\Amplitude\Tabular.h" />
     <ClInclude Include="..\..\..\Load\CLoad.h" />

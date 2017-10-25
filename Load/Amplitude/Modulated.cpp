@@ -15,9 +15,20 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Ramp.h"
+#include "Modulated.h"
 
-Ramp::Ramp(const unsigned T, const unsigned ST)
-    : Amplitude(T, CT_RAMP, ST) {}
+Modulated::Modulated(const unsigned T, const double AA, const double WW1, const double WW2, const unsigned ST)
+    : Amplitude(T, CT_MODULATED, ST)
+    , A(AA)
+    , W1(WW1)
+    , W2(WW2) {}
 
-void Ramp::print() { suanpan_info("Linear/Ramp Amplitude.\n"); }
+double Modulated::get_amplitude(const double& T) {
+    const auto step_time = T - start_time;
+
+    if(step_time <= 0.) return 0.;
+
+    return A * sin(W1 * step_time) * sin(W2 * step_time);
+}
+
+void Modulated::print() { suanpan_info("Modulated Amplitude.\n"); }
