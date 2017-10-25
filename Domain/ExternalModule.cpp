@@ -24,8 +24,10 @@
 #endif
 
 using element_creator = void (*)(unique_ptr<Element>&, istringstream&);
+using load_creator = void (*)(unique_ptr<Load>&, istringstream&);
 using material_creator = void (*)(unique_ptr<Material>&, istringstream&);
 using section_creator = void (*)(unique_ptr<Section>&, istringstream&);
+using solver_creator = void (*)(unique_ptr<Solver>&, istringstream&);
 
 ExternalModule::ExternalModule(const string& L)
     : library_name(L) {
@@ -90,6 +92,10 @@ bool ExternalModule::locate_module(string module_name) {
 
 void ExternalModule::new_object(unique_ptr<Element>& return_obj, istringstream& command) const { (element_creator(ext_creator))(return_obj, command); }
 
+void ExternalModule::new_object(unique_ptr<Load>& return_obj, istringstream& command) const { (load_creator(ext_creator))(return_obj, command); }
+
 void ExternalModule::new_object(unique_ptr<Material>& return_obj, istringstream& command) const { (material_creator(ext_creator))(return_obj, command); }
 
 void ExternalModule::new_object(unique_ptr<Section>& return_obj, istringstream& command) const { (section_creator(ext_creator))(return_obj, command); }
+
+void ExternalModule::new_object(unique_ptr<Solver>& return_obj, istringstream& command) const { (solver_creator(ext_creator))(return_obj, command); }

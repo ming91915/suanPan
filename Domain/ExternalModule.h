@@ -32,8 +32,10 @@
 #include <suanPan.h>
 
 class Element;
+class Load;
 class Material;
 class Section;
+class Solver;
 
 class ExternalModule {
     void* ext_library = nullptr;
@@ -52,8 +54,10 @@ public:
     bool locate_module(string);
 
     void new_object(unique_ptr<Element>&, istringstream&) const;
+    void new_object(unique_ptr<Load>&, istringstream&) const;
     void new_object(unique_ptr<Material>&, istringstream&) const;
     void new_object(unique_ptr<Section>&, istringstream&) const;
+    void new_object(unique_ptr<Solver>&, istringstream&) const;
 };
 
 #endif
