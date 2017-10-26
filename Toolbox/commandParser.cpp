@@ -342,10 +342,10 @@ int create_new_amplitude(const shared_ptr<DomainBase>& domain, istringstream& co
             return 0;
         }
         domain->insert(make_shared<Decay>(tag, A, TD, step_tag));
-    } else if(is_equal(amplitude_type, "Modulated")) {
+    } else if(is_equal(amplitude_type, "Modulated") || is_equal(amplitude_type, "Sine") || is_equal(amplitude_type, "Cosine")) {
         double A;
         if(!get_input(command, A)) {
-            suanpan_info("create_new_amplitude() needs a A.\n");
+            suanpan_info("create_new_amplitude() needs a magnitude.\n");
             return 0;
         }
 
@@ -353,7 +353,12 @@ int create_new_amplitude(const shared_ptr<DomainBase>& domain, istringstream& co
         vector<double> W;
         while(get_input(command, omega)) W.emplace_back(omega);
 
-        domain->insert(make_shared<Modulated>(tag, A, W, step_tag));
+        if(is_equal(amplitude_type, "Modulated"))
+            domain->insert(make_shared<Modulated>(tag, A, W, step_tag));
+        else if(is_equal(amplitude_type, "Sine"))
+            domain->insert(make_shared<Sine>(tag, A, W, step_tag));
+        else if(is_equal(amplitude_type, "Cosine"))
+            domain->insert(make_shared<Cosine>(tag, A, W, step_tag));
     }
 
     return 0;

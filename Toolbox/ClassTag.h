@@ -201,5 +201,14 @@
 #ifndef CT_MODULATED
 #define CT_MODULATED 61
 #endif
+#ifndef CT_DECAY
+#define CT_DECAY 62
+#endif
+#ifndef CT_SINE
+#define CT_SINE 63
+#endif
+#ifndef CT_COSINE
+#define CT_COSINE 64
+#endif
 
 #endif

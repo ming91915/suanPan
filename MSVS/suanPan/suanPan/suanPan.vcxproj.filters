@@ -158,6 +158,12 @@
     <ClCompile Include="..\..\..\Load\Amplitude\Decay.cpp">
       <Filter>Load</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Load\Amplitude\Sine.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Load\Amplitude\Cosine.cpp">
+      <Filter>Load</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Toolbox\tensorToolbox.h">
@@ -299,6 +305,12 @@
       <Filter>Load</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Load\Amplitude\Decay.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Cosine.h">
+      <Filter>Load</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Load\Amplitude\Sine.h">
       <Filter>Load</Filter>
     </ClInclude>
   </ItemGroup>

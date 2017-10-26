@@ -1,6 +1,8 @@
 #include "Amplitude.h"
 
+#include "Cosine.h"
+#include "Decay.h"
 #include "Modulated.h"
 #include "Ramp.h"
+#include "Sine.h"
 #include "Tabular.h"
-#include "Decay.h"

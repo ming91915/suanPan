@@ -15,19 +15,23 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Decay.h"
+#include "Cosine.h"
 
-Decay::Decay(const unsigned T, const double AA, const double TTD, const unsigned ST)
+Cosine::Cosine(const unsigned T, const double L, const vector<double>& AA, const unsigned ST)
     : Amplitude(T, CT_COSINE, ST)
-    , A(AA)
-    , TD(TTD) {}
+    , period(L / 2.)
+    , amp(AA) {}
 
-double Decay::get_amplitude(const double& T) {
+double Cosine::get_amplitude(const double& T) {
     const auto step_time = T - start_time;
 
     if(step_time <= 0.) return 0.;
 
-    return A * exp(-start_time / TD);
+    auto A = 0., N = 0.;
+
+    for(const auto& I : amp) A += I * cos(++N * datum::pi * step_time / period);
+
+    return A;
 }
 
-void Decay::print() { suanpan_info("Decay Amplitude.\n"); }
+void Cosine::print() { suanpan_info("Cosine Amplitude.\n"); }

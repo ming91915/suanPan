@@ -13,7 +13,8 @@ fix 1 P 1
 
 # amplitude Tabular 1 EZ.dat
 # amplitude Decay 1 10 20
-amplitude Modulated 1 10 3 1
+# amplitude Modulated 1 1 2 3 4 5
+amplitude Sine 1 10 2
 
 acceleration 2 1 .2 1 2
 
@@ -23,9 +24,9 @@ step dynamic 1 20
 set ini_step_size .01
 set fixed_step_size true
 
-# integrator GeneralizedAlpha 1 .2 -.5
+integrator GeneralizedAlpha 1 .2 -.5
 # integrator CentralDifference 1
-integrator Newmark 1
+# integrator Newmark 1
 
 converger AbsIncreDisp 1 1E-4 4 0
 
