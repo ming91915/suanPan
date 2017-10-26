@@ -31,8 +31,8 @@
 #define MATRIXMODIFIER_H
 
 #include <suanPan.h>
-
-class Element;
+#include <Element/Element.h>
+#include <Domain/Factory.hpp>
 
 namespace suanpan
 {
@@ -43,7 +43,8 @@ namespace suanpan
             static void apply(Mat<T>&);
         };
 
-        template <typename T> void lumped_simple::apply(Mat<T>&) {
+        template <typename T> void lumped_simple::apply(Mat<T>&mass) {
+            mass = diagmat(sum(mass));
         }
 
         struct lumped_scale {
@@ -51,17 +52,18 @@ namespace suanpan
             static void apply(Mat<T>&);
         };
 
-        template <typename T> void lumped_scale::apply(Mat<T>&) {
+        template <typename T> void lumped_scale::apply(Mat<T>&mass) {
         }
     }
     namespace damping
     {
         struct rayleigh {
             template<typename T>
-            static void apply(const shared_ptr<Element>&);
+            static void apply(const shared_ptr<Element>&,const double,const double);
         };
 
-        template <typename T> void rayleigh::apply(const shared_ptr<Element>&) {
+        template <typename T> void rayleigh::apply(const shared_ptr<Element>&element_obj,const double alpha, const double beta) {
+            access::rw(element_obj->get_damping()) = alpha*element_obj->get_stiffness() + beta*element_obj->get_mass();
         }
     }
 }
