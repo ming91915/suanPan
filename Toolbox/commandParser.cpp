@@ -94,8 +94,13 @@ int process_file(const shared_ptr<Bead>& model, const char* file_name) {
     ifstream input_file(file_name);
 
     if(!input_file.is_open()) {
-        suanpan_error("process_file() cannot open the input file.\n");
-        return 0;
+        string new_name = file_name;
+        new_name += ".supan";
+        input_file.open(new_name);
+        if(!input_file.is_open()) {
+            suanpan_error("process_file() cannot open the input file.\n");
+            return 0;
+        }
     }
 
     string command_line;
