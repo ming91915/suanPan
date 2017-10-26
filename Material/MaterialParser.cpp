@@ -335,6 +335,28 @@ void new_bilinear3d(unique_ptr<Material>& return_obj, istringstream& command) {
     return_obj = make_unique<Bilinear3D>(tag, elastic_modulus, poissons_ratio, yield_stress, hardening_ratio, beta, density);
 }
 
+void new_viscosity1d(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_viscosity1d() requires a valid tag.\n");
+        return;
+    }
+
+    double damping;
+    if(!get_input(command, damping)) {
+        suanpan_error("new_viscosity1d() requires a valid damping.\n");
+        return;
+    }
+
+    auto alpha = 1.;
+    if(!command.eof() && !get_input(command, alpha)) {
+        suanpan_error("new_viscosity1d() requires a valid alpha.\n");
+        return;
+    }
+
+    return_obj = make_unique<Viscosity1D>(tag, damping, alpha);
+}
+
 void new_concrete01(unique_ptr<Material>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {

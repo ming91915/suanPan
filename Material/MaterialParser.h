@@ -28,6 +28,7 @@ void new_elastic3d(unique_ptr<Material>&, istringstream&);
 void new_bilinear1d(unique_ptr<Material>&, istringstream&);
 void new_bilinear2d(unique_ptr<Material>&, istringstream&);
 void new_bilinear3d(unique_ptr<Material>&, istringstream&);
+void new_viscosity1d(unique_ptr<Material>&, istringstream&);
 void new_concrete01(unique_ptr<Material>&, istringstream&);
 void new_gap01(unique_ptr<Material>&, istringstream&);
 void new_mpf(unique_ptr<Material>&, istringstream&);

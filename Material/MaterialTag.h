@@ -63,5 +63,8 @@
 #ifndef MT_MAXWELL
 #define MT_MAXWELL 1014
 #endif
+#ifndef MT_VISCOSITY1D
+#define MT_VISCOSITY1D 1015
+#endif
 
 #endif
