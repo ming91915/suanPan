@@ -16,7 +16,7 @@
  ******************************************************************************/
 /**
  * @class CP6
- * @brief The CP6 class defines CPS3 CPE3 elements.
+ * @brief The CP6 class defines CPS6 CPE6 elements.
  * @author T
  * @date 26/10/2017
  * @version 0.1.1
