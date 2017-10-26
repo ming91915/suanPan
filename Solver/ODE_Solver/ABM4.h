@@ -33,7 +33,7 @@
 
 class ABM4 final : public ODE_Implicit {
 public:
-    explicit ABM4(const unsigned = 0, const unsigned = 20, const bool = false);
+    explicit ABM4(const unsigned = 0, const unsigned = 20, const bool = false, ODE* = nullptr);
 
     unique_ptr<ODE_Solver> get_copy() override;
 

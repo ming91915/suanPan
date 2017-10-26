@@ -18,8 +18,8 @@
 #include "ABM3.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ABM3::ABM3(const unsigned T, const unsigned N, const bool C)
-    : ODE_Implicit(T, CT_ABM3, N, C) {}
+ABM3::ABM3(const unsigned T, const unsigned N, const bool C, ODE* O)
+    : ODE_Implicit(T, CT_ABM3, N, C, O) {}
 
 unique_ptr<ODE_Solver> ABM3::get_copy() { return make_unique<ABM3>(*this); }
 

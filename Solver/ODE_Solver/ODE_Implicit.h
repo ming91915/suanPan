@@ -48,7 +48,7 @@ protected:
     deque<vec> history_step;
 
 public:
-    explicit ODE_Implicit(const unsigned = 0, const unsigned = CT_ODESOLVER, const unsigned = 20, const bool = false);
+    explicit ODE_Implicit(const unsigned = 0, const unsigned = CT_ODESOLVER, const unsigned = 20, const bool = false, ODE* = nullptr);
 
     virtual ~ODE_Implicit();
 

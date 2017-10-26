@@ -40,11 +40,10 @@ class ODE;
 
 class ODE_Solver : public Tag {
 protected:
-    ODE* ode_system = nullptr;
+    ODE* ode_system;
 
 public:
-    explicit ODE_Solver(const unsigned = 0, const unsigned = CT_ODESOLVER);
-
+    explicit ODE_Solver(const unsigned = 0, const unsigned = CT_ODESOLVER, ODE* = nullptr);
     virtual ~ODE_Solver();
 
     int initialize() const;

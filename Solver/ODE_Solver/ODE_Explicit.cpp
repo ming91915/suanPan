@@ -18,8 +18,8 @@
 #include "ODE_Explicit.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ODE_Explicit::ODE_Explicit(const unsigned T, const unsigned CT)
-    : ODE_Solver(T, CT) {
+ODE_Explicit::ODE_Explicit(const unsigned T, const unsigned CT, ODE* O)
+    : ODE_Solver(T, CT, O) {
     if(CT == CT_BS23 || CT == CT_RK23) factor = 1. / 3.;
 }
 

@@ -15,13 +15,4 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "ODE_Implicit.h"
-
-ODE_Implicit::ODE_Implicit(const unsigned T, const unsigned CT, const unsigned N, const bool C, ODE* O)
-    : ODE_Solver(T, CT, O)
-    , step_number(N)
-    , use_corrector(C) {}
-
-ODE_Implicit::~ODE_Implicit() {}
-
-int ODE_Implicit::analyze() { return update_status(); }
+#include "MatrixModifier.h"

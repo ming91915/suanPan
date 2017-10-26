@@ -13,6 +13,7 @@ include(Cube/CMakeLists.txt)
 include(Membrane/CMakeLists.txt)
 include(Special/CMakeLists.txt)
 include(Truss/CMakeLists.txt)
+include(Utility/CMakeLists.txt)
 
 add_library(${PROJECT_NAME} STATIC
     Element.cpp
@@ -23,4 +24,5 @@ add_library(${PROJECT_NAME} STATIC
     ${Membrane}
     ${Special}
     ${Truss}
+    ${Utility}
     )

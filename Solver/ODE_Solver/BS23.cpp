@@ -18,8 +18,8 @@
 #include "BS23.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-BS23::BS23(const unsigned T)
-    : ODE_Explicit(T, CT_BS23) {}
+BS23::BS23(const unsigned T, ODE* O)
+    : ODE_Explicit(T, CT_BS23, O) {}
 
 unique_ptr<ODE_Solver> BS23::get_copy() { return make_unique<BS23>(*this); }
 

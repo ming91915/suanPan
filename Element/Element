@@ -3,6 +3,7 @@
 #include "Membrane/Membrane"
 #include "Special/Special"
 #include "Truss/Truss"
+#include "Utility/Utility"
 
 #include "Element.h"
 #include "ElementParser.h"

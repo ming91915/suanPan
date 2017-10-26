@@ -18,8 +18,9 @@
 #include "ODE_Solver.h"
 #include <Solver/ODE_Solver/ODE.h>
 
-ODE_Solver::ODE_Solver(const unsigned T, const unsigned CT)
-    : Tag(T, CT) {
+ODE_Solver::ODE_Solver(const unsigned T, const unsigned CT, ODE* O)
+    : Tag(T, CT)
+    , ode_system(O) {
     suanpan_debug("ODE_Solver $u ctor called.\n", T);
 }
 

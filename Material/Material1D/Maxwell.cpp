@@ -51,9 +51,7 @@ void Maxwell::Damper::set_current_status(const vec& t_strain_rate, const vec& t_
 Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2)
     : Material1D(T, MT_MAXWELL, 0.)
     , viscosity(make_unique<Damper>(E, A, C1, C2))
-    , solver(make_unique<DP45>(0)) {
-    solver->set_ode(viscosity.get());
-}
+    , solver(make_unique<DP45>(0, viscosity.get())) {}
 
 Maxwell::Maxwell(const Maxwell& old_obj)
     : incre_time(old_obj.incre_time)

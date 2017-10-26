@@ -22,6 +22,9 @@
     <Filter Include="Special">
       <UniqueIdentifier>{b0cb6ad3-7064-4d04-bd0a-f7d4e9908ede}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{e3413b71-2678-415e-b511-b493172fa40b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Element\Membrane\CP6.cpp">
       <Filter>Membrane</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\Utility\MatrixModifier.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Membrane\CP6.h">
       <Filter>Membrane</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Utility\MatrixModifier.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
