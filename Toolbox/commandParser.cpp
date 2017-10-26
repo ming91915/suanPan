@@ -348,17 +348,12 @@ int create_new_amplitude(const shared_ptr<DomainBase>& domain, istringstream& co
             suanpan_info("create_new_amplitude() needs a A.\n");
             return 0;
         }
-        double W1;
-        if(!get_input(command, W1)) {
-            suanpan_info("create_new_amplitude() needs a W1.\n");
-            return 0;
-        }
-        double W2;
-        if(!get_input(command, W2)) {
-            suanpan_info("create_new_amplitude() needs a W2.\n");
-            return 0;
-        }
-        domain->insert(make_shared<Modulated>(tag, A, W1, W2, step_tag));
+
+        double omega;
+        vector<double> W;
+        while(get_input(command, omega)) W.emplace_back(omega);
+
+        domain->insert(make_shared<Modulated>(tag, A, W, step_tag));
     }
 
     return 0;

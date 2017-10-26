@@ -34,11 +34,17 @@
 
 #include <Load/Amplitude/Amplitude.h>
 
+using std::vector;
+
 class Modulated : public Amplitude {
-    const double A, W1, W2;
+    const double amp;
+    const vector<double> freq;
 
 public:
-    explicit Modulated(const unsigned = 0, const double = 0., const double = 0., const double = 0., const unsigned = 0);
+    explicit Modulated(const unsigned, // tag
+        const double,                  // amplitude
+        const vector<double>&,         // frequency
+        const unsigned = 0);
 
     double get_amplitude(const double&) override;
 

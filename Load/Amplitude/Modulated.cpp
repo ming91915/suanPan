@@ -17,18 +17,20 @@
 
 #include "Modulated.h"
 
-Modulated::Modulated(const unsigned T, const double AA, const double WW1, const double WW2, const unsigned ST)
+Modulated::Modulated(const unsigned T, const double AA, const vector<double>& WW, const unsigned ST)
     : Amplitude(T, CT_MODULATED, ST)
-    , A(AA)
-    , W1(WW1)
-    , W2(WW2) {}
+    , amp(AA)
+    , freq(WW) {}
 
 double Modulated::get_amplitude(const double& T) {
     const auto step_time = T - start_time;
 
     if(step_time <= 0.) return 0.;
 
-    return A * sin(W1 * step_time) * sin(W2 * step_time);
+    auto A = amp;
+    for(const auto& I : freq) A *= sin(I * step_time);
+
+    return A;
 }
 
 void Modulated::print() { suanpan_info("Modulated Amplitude.\n"); }
