@@ -1,6 +1,7 @@
 set(Membrane
     Membrane/CP3.cpp
     Membrane/CP4.cpp
+    Membrane/CP6.cpp
     Membrane/CP8.cpp
     Membrane/GQ12.cpp
     Membrane/Proto01.cpp

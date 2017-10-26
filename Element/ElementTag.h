@@ -84,5 +84,8 @@
 #ifndef ET_DAMPER01
 #define ET_DAMPER01 2021
 #endif
+#ifndef ET_CP6
+#define ET_CP6 2022
+#endif
 
 #endif

@@ -83,6 +83,41 @@ template <typename T> Col<T> beam(const T& INTPTS, const unsigned& ORDER, const 
     return N;
 }
 
+template <typename T> Mat<T> triangle(const Col<T>& INTPTS, const unsigned& ORDER) {
+    Mat<T> N;
+
+    if(ORDER != 0 && ORDER != 1) return N;
+
+    N.zeros(ORDER + 1, 6);
+
+    const auto& X = INTPTS(0);
+    const auto& Y = INTPTS(1);
+
+    if(ORDER == 0) {
+        N(0, 0) = 1.;
+        N(0, 1) = X;
+        N(0, 2) = Y;
+        N(0, 3) = X * Y;
+        N(0, 4) = X * X;
+        N(0, 5) = Y * Y;
+    } else if(ORDER == 1) {
+        N(0, 0) = 0.;
+        N(0, 1) = 1.;
+        N(0, 2) = 0;
+        N(0, 3) = Y;
+        N(0, 4) = 2. * X;
+        N(0, 5) = 0.;
+        N(1, 0) = 0.;
+        N(1, 1) = 0.;
+        N(1, 2) = 1.;
+        N(1, 3) = X;
+        N(1, 4) = 0.;
+        N(1, 5) = 2. * Y;
+    }
+
+    return N;
+}
+
 template <typename T> Mat<T> quad(const Col<T>& INTPTS, const unsigned& ORDER, const unsigned& NODENUM = 4) {
     Mat<T> N;
 

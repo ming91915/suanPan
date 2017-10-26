@@ -42,6 +42,8 @@
 #else
 #define suanpan_for_each std::for_each
 #endif
+#else
+#define suanpan_for_each std::for_each
 #endif
 
 Domain::Domain(const unsigned& T)

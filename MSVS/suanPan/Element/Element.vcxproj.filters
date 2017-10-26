@@ -99,6 +99,9 @@
     <ClCompile Include="..\..\..\Element\Special\Damper01.cpp">
       <Filter>Special</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\Membrane\CP6.cpp">
+      <Filter>Membrane</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Special\Damper01.h">
       <Filter>Special</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\Membrane\CP6.h">
+      <Filter>Membrane</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
