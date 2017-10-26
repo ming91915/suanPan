@@ -1,3 +1,5 @@
+***PLEASE NOTE THIS PROJECT IS UNDER DEVELOPMENT SO CURRENTLY YOU MAY NOT BE ABLE TO FIND SUFFICIENT INFORMATION***
+
 suanPan
 =======
 
@@ -25,6 +27,11 @@ The highlights of **suanPan** are
 -   **suanPan** is open source and easy to be expanded to incorporate with user defined elements, materials, etc.
 -   **suanPan** separates the FEM computation flow from linear algebra computation, which significantly reduce the complexity of development.
 -   **suanPan** utilizes the new language features shipped with the latest standards (*C++11* and *C++14*), such as new STL containers, smart pointers and many other features.
+
+License
+-------
+
+**suanPan** is under GPL v3, you can click the badge above to check out the detailed clauses.
 
 How to Compile
 --------------
