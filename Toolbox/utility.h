@@ -22,9 +22,9 @@
 #include <string>
 
 namespace suanpan {
-template <typename T> T& modifier(const T& I) { return const_cast<T&>(I); }
+template <typename T> T& hacker(const T& I) { return const_cast<T&>(I); }
 
-template <typename T> T*& modifier(const T* const& I) { return const_cast<T*&>(I); }
+template <typename T> T*& hacker(const T* const& I) { return const_cast<T*&>(I); }
 
 template <typename T> T sign(const T& I) { return (I > 0.) - (I < 0.); }
 }

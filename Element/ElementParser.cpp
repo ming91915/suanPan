@@ -98,7 +98,7 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
 
 void new_cp3(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
-    if((command >> tag).fail()) {
+    if(!get_input(command, tag)) {
         suanpan_debug("new_cp3() needs a tag.\n");
         return;
     }
@@ -106,7 +106,7 @@ void new_cp3(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned node;
     vector<uword> node_tag;
     for(auto I = 0; I < 3; ++I) {
-        if((command >> node).fail()) {
+        if(!get_input(command, node)) {
             suanpan_debug("new_cp3() needs three valid nodes.\n");
             return;
         }
@@ -114,16 +114,13 @@ void new_cp3(unique_ptr<Element>& return_obj, istringstream& command) {
     }
 
     unsigned material_tag;
-    if((command >> material_tag).fail()) {
+    if(!get_input(command, material_tag)) {
         suanpan_debug("new_cp3() needs a valid material tag.\n");
         return;
     }
 
     auto thickness = 1.;
-    if(!command.eof()) {
-        if((command >> thickness).fail()) suanpan_debug("new_cp3() needs a valid thickness.\n");
-    } else
-        suanpan_debug("new_cp3() assumes thickness to be unit.\n");
+    if(!get_optional_input(command, thickness)) suanpan_debug("new_cp3() assumes thickness to be unit.\n");
 
     return_obj = make_unique<CP3>(tag, uvec(node_tag), material_tag, thickness);
 }

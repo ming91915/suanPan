@@ -206,6 +206,10 @@ void new_bilinear1d(unique_ptr<Material>& return_obj, istringstream& command) {
         }
     } else
         suanpan_debug("new_bilinear1d() assumes isotropic hardening.\n");
+    if(beta > 1.)
+        beta = 1.;
+    else if(beta < 0.)
+        beta = 0.;
 
     auto density = 0.;
     if(!command.eof()) {
@@ -404,10 +408,16 @@ void new_concrete01(unique_ptr<Material>& return_obj, istringstream& command) {
         type = BackboneType::POPOVICS;
     else if(is_equal(backbone_type, "TSAI"))
         type = BackboneType::TSAI;
+    else if(is_equal(backbone_type, "KPS"))
+        type = BackboneType::KPSC;
     else if(is_equal(backbone_type, "KPSC"))
         type = BackboneType::KPSC;
     else if(is_equal(backbone_type, "KPSU"))
         type = BackboneType::KPSU;
+    else {
+        suanpan_error("new_concrete01() cannot identify backbone type.\n");
+        return;
+    }
 
     return_obj = make_unique<Concrete01>(tag, peak_c_strain, peak_c_stress, type, is_true(center_oriented), density);
 }

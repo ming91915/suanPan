@@ -79,7 +79,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::modifier(thickness) = 1.;
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::hacker(thickness) = 1.;
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 

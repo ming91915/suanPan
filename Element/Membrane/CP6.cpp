@@ -53,7 +53,7 @@ void CP6::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::modifier(thickness) = 1.;
+    if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::hacker(thickness) = 1.;
 
     int_pt.clear(), int_pt.reserve(3);
     for(auto I = 0; I < 3; ++I) {
