@@ -18,6 +18,7 @@
 #include "GeneralizedAlpha.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
+#include <future>
 
 GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const double& AM)
     : Integrator(T, CT_GENERALIZEDALPHA)
@@ -49,11 +50,14 @@ void GeneralizedAlpha::assemble_resistance() {
     D->assemble_mass();
     D->assemble_damping();
 
+    auto t_vector_a(std::async([&]() { return vec{ get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) }; }));
+    auto t_vector_b(std::async([&]() { return vec{ get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement()) }; }));
+
     auto& t_sushi = get_sushi(W);
 
     t_sushi *= C8;
 
-    t_sushi -= get_mass(W) * (C2 * W->get_current_velocity() + C3 * W->get_current_acceleration() - C0 * W->get_incre_displacement()) + get_damping(W) * (C4 * W->get_current_velocity() + C5 * W->get_current_acceleration() - C1 * W->get_incre_displacement()) - C9 * W->get_current_resistance();
+    t_sushi -= t_vector_a.get() + t_vector_b.get() - C9 * W->get_current_resistance();
 }
 
 void GeneralizedAlpha::assemble_matrix() {
