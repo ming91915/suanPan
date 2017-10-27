@@ -64,7 +64,7 @@ void CentralDifference::assemble_resistance() {
     D->assemble_mass();
     D->assemble_damping();
 
-    get_sushi(W) += get_mass(W) * (C0 * W->get_pre_displacement() - C2 * W->get_current_displacement()) - get_damping(W) * C1 * W->get_pre_displacement();
+    get_sushi(W) += get_mass(W) * (C0 * (W->get_trial_displacement() + W->get_pre_displacement()) - C2 * W->get_current_displacement()) + get_damping(W) * C1 * (W->get_trial_displacement() - W->get_pre_displacement());
 }
 
 void CentralDifference::assemble_matrix() {
@@ -74,7 +74,6 @@ void CentralDifference::assemble_matrix() {
     const auto& W = D->get_factory();
 
     get_stiffness(W) = C0 * get_mass(W) + C1 * get_damping(W);
-    get_sushi(W) += get_stiffness(W) * W->get_trial_displacement();
 }
 
 void CentralDifference::commit_status() const {
