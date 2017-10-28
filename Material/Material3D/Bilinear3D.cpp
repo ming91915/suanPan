@@ -48,8 +48,6 @@ void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
 
-    initial_stiffness.print();
-
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
