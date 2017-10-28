@@ -72,9 +72,9 @@ endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU") # GNU GCC COMPILER
 
-    link_libraries(arpack superlu spmm)
+    link_libraries(arpack superlu spmm pthread)
     if((USE_OPENBLAS) AND (NOT USE_NETLIB))
-        link_libraries(openblas pthread)
+        link_libraries(openblas)
     elseif((USE_NETLIB) AND (NOT USE_OPENBLAS))
         link_libraries(lapack)
     else()
