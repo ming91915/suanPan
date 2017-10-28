@@ -31,7 +31,7 @@
 #include <Domain/Tag.h>
 #include <Section/ParameterType.h>
 
-enum class MaterialType { D0, D1, D2, D3 };
+enum class MaterialType : unsigned { D0 = 0, D1 = 1, D2 = 2, D3 = 3 };
 enum class PlaneType { S, E, N };
 
 class DomainBase;
@@ -68,7 +68,7 @@ public:
 
     const MaterialType material_type;
 
-    explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D0, const double& = 0.);
+    explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D1, const double& = 0.);
 
     virtual ~Material();
 

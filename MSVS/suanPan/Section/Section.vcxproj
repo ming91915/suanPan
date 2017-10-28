@@ -152,17 +152,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Section\Circle.cpp" />
     <ClCompile Include="..\..\..\Section\ParameterType.cpp" />
-    <ClCompile Include="..\..\..\Section\Rectangle.cpp" />
     <ClCompile Include="..\..\..\Section\Section.cpp" />
+    <ClCompile Include="..\..\..\Section\Section1D\Section1D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section2D\Circle2D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section2D\HSection2D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section2D\ISection2D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section2D\Rectangle2D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section2D\Section2D.cpp" />
+    <ClCompile Include="..\..\..\Section\Section3D\Section3D.cpp" />
     <ClCompile Include="..\..\..\Section\SectionParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Section\Circle.h" />
     <ClInclude Include="..\..\..\Section\ParameterType.h" />
-    <ClInclude Include="..\..\..\Section\Rectangle.h" />
     <ClInclude Include="..\..\..\Section\Section.h" />
+    <ClInclude Include="..\..\..\Section\Section1D\Section1D.h" />
+    <ClInclude Include="..\..\..\Section\Section2D\Circle2D.h" />
+    <ClInclude Include="..\..\..\Section\Section2D\HSection2D.h" />
+    <ClInclude Include="..\..\..\Section\Section2D\ISection2D.h" />
+    <ClInclude Include="..\..\..\Section\Section2D\Rectangle2D.h" />
+    <ClInclude Include="..\..\..\Section\Section2D\Section2D.h" />
+    <ClInclude Include="..\..\..\Section\Section3D\Section3D.h" />
     <ClInclude Include="..\..\..\Section\SectionParser.h" />
     <ClInclude Include="..\..\..\Section\SectionTag.h" />
   </ItemGroup>

@@ -18,11 +18,41 @@
 #ifndef SECTIONTAG_H
 #define SECTIONTAG_H
 
-#ifndef ST_RECTANGLE
-#define ST_RECTANGLE 3001
+#ifndef ST_RECTANGLE1D
+#define ST_RECTANGLE1D 3001
 #endif
-#ifndef ST_CIRCLE
-#define ST_CIRCLE 3002
+#ifndef ST_CIRCLE1D
+#define ST_CIRCLE1D 3002
+#endif
+#ifndef ST_HSECTION1D
+#define ST_HSECTION1D 3003
+#endif
+#ifndef ST_ISECTION1D
+#define ST_ISECTION1D 3004
+#endif
+#ifndef ST_RECTANGLE2D
+#define ST_RECTANGLE2D 3005
+#endif
+#ifndef ST_CIRCLE2D
+#define ST_CIRCLE2D 3006
+#endif
+#ifndef ST_HSECTION2D
+#define ST_HSECTION2D 3007
+#endif
+#ifndef ST_ISECTION2D
+#define ST_ISECTION2D 3008
+#endif
+#ifndef ST_RECTANGLE3D
+#define ST_RECTANGLE3D 3009
+#endif
+#ifndef ST_CIRCLE3D
+#define ST_CIRCLE3D 3010
+#endif
+#ifndef ST_HSECTION3D
+#define ST_HSECTION3D 3011
+#endif
+#ifndef ST_ISECTION3D
+#define ST_ISECTION3D 3012
 #endif
 
 #endif

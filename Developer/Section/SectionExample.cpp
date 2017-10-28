@@ -45,7 +45,7 @@ SUANPAN_EXPORT void new_sectionexample(unique_ptr<Section>& return_obj, istrings
 #endif
 
 SectionExample::SectionExample(const unsigned& T, const double& S, const double& E)
-    : Section(T, ST_SECTIONEXAMPLE, 0)
+    : Section(T, ST_SECTIONEXAMPLE, SectionType::D2, 0)
     , edge_length(S)
     , area(S * S)
     , moment_inertia(S * S * S * S / 12.)

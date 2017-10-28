@@ -5,9 +5,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="SRC">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    <Filter Include="Section3D">
+      <UniqueIdentifier>{84abd309-44c0-4b0d-bc34-a878510570e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Section1D">
+      <UniqueIdentifier>{b51d40a7-5903-4e30-9039-b1cfdb483d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Section2D">
+      <UniqueIdentifier>{1460c889-b606-4f7b-906c-92cb9a40fbe8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -17,14 +22,29 @@
     <ClCompile Include="..\..\..\Section\SectionParser.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Section\Rectangle.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Section\Circle.cpp">
-      <Filter>SRC</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Section\ParameterType.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section1D\Section1D.cpp">
+      <Filter>Section1D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section2D\Section2D.cpp">
+      <Filter>Section2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section3D\Section3D.cpp">
+      <Filter>Section3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section2D\Circle2D.cpp">
+      <Filter>Section2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section2D\HSection2D.cpp">
+      <Filter>Section2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section2D\ISection2D.cpp">
+      <Filter>Section2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section2D\Rectangle2D.cpp">
+      <Filter>Section2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -37,14 +57,29 @@
     <ClInclude Include="..\..\..\Section\SectionTag.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Section\Rectangle.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Section\Circle.h">
-      <Filter>SRC</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Section\ParameterType.h">
       <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section1D\Section1D.h">
+      <Filter>Section1D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section2D\Section2D.h">
+      <Filter>Section2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section3D\Section3D.h">
+      <Filter>Section3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section2D\Circle2D.h">
+      <Filter>Section2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section2D\HSection2D.h">
+      <Filter>Section2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section2D\ISection2D.h">
+      <Filter>Section2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section2D\Rectangle2D.h">
+      <Filter>Section2D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

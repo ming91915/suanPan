@@ -22,6 +22,7 @@
  * @version 0.1.0
  * @file Material1D.h
  * @addtogroup Material-1D
+ * @ingroup Material
  * @{
  */
 

@@ -15,28 +15,27 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Rectangle.h"
+#include "Circle2D.h"
 #include <Domain/DomainBase.h>
 #include <Material/Material1D/Material1D.h>
 #include <Toolbox/IntegrationPlan.h>
 
-Rectangle::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
+Circle2D::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
     : coor(C)
     , weight(W)
     , s_material(move(M)) {}
 
-Rectangle::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
+Circle2D::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
     : coor(old_obj.coor)
     , weight(old_obj.weight)
     , s_material(old_obj.s_material->get_copy()) {}
 
-Rectangle::Rectangle(const unsigned& T, const double& B, const double& H, const unsigned& M, const unsigned& S)
-    : Section(T, ST_RECTANGLE, M)
-    , width(B)
-    , height(H)
+Circle2D::Circle2D(const unsigned& T, const double& R, const unsigned& M, const unsigned& S)
+    : Section2D(T, ST_CIRCLE2D, M)
+    , radius(R)
     , int_pt_num(S) {}
 
-void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
+void Circle2D::initialize(const shared_ptr<DomainBase>& D) {
     auto& material_proto = D->get_material(material_tag);
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
@@ -44,22 +43,22 @@ void Rectangle::initialize(const shared_ptr<DomainBase>& D) {
     int_pt.clear(), int_pt.reserve(int_pt_num);
     initial_stiffness.zeros(2, 2);
     for(unsigned I = 0; I < int_pt_num; ++I) {
-        int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
-        const auto tmp_a = int_pt[I].s_material->get_initial_stiffness().at(0) * int_pt[I].weight;
-        initial_stiffness(0, 0) += tmp_a;
-        initial_stiffness(1, 1) += tmp_a * int_pt[I].coor * int_pt[I].coor;
+        int_pt.emplace_back(radius * plan(I, 0), 2. * radius * radius * sqrt(1. - plan(I, 0) * plan(I, 0)) * plan(I, 1), material_proto->get_copy());
+        const auto t_factor = int_pt[I].s_material->get_stiffness().at(0) * int_pt[I].weight;
+        initial_stiffness(0, 0) += t_factor;
+        initial_stiffness(1, 1) += t_factor * int_pt[I].coor * int_pt[I].coor;
     }
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 }
 
-unique_ptr<Section> Rectangle::get_copy() { return make_unique<Rectangle>(*this); }
+unique_ptr<Section> Circle2D::get_copy() { return make_unique<Circle2D>(*this); }
 
-double Rectangle::get_parameter(const ParameterType& P) {
+double Circle2D::get_parameter(const ParameterType& P) {
     switch(P) {
     case ParameterType::AREA:
-        return width * height;
+        return radius * radius * datum::pi;
     case ParameterType::DENSITY:
         return int_pt.cbegin()->s_material->get_parameter(ParameterType::DENSITY);
     default:
@@ -67,7 +66,7 @@ double Rectangle::get_parameter(const ParameterType& P) {
     }
 }
 
-int Rectangle::update_trial_status(const vec& t_deformation) {
+int Circle2D::update_trial_status(const vec& t_deformation) {
     trial_deformation = t_deformation;
 
     trial_stiffness.zeros();
@@ -94,7 +93,7 @@ int Rectangle::update_trial_status(const vec& t_deformation) {
     return 0;
 }
 
-int Rectangle::clear_status() {
+int Circle2D::clear_status() {
     current_deformation.zeros();
     trial_deformation.zeros();
     current_resistance.zeros();
@@ -106,7 +105,7 @@ int Rectangle::clear_status() {
     return code;
 }
 
-int Rectangle::commit_status() {
+int Circle2D::commit_status() {
     current_deformation = trial_deformation;
     current_resistance = trial_resistance;
     current_stiffness = trial_stiffness;
@@ -115,7 +114,7 @@ int Rectangle::commit_status() {
     return code;
 }
 
-int Rectangle::reset_status() {
+int Circle2D::reset_status() {
     trial_deformation = current_deformation;
     trial_resistance = current_resistance;
     trial_stiffness = current_stiffness;
@@ -124,4 +123,4 @@ int Rectangle::reset_status() {
     return code;
 }
 
-void Rectangle::print() { suanpan_info("A Rectangle Section.\n"); }
+void Circle2D::print() { suanpan_info("A Circle2D Section.\n"); }

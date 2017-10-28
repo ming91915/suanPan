@@ -31,6 +31,8 @@
 #include <Domain/Tag.h>
 #include <Section/ParameterType.h>
 
+enum class SectionType : unsigned { D1 = 1, D2 = 2, D3 = 3 };
+
 class DomainBase;
 class Material;
 
@@ -53,7 +55,9 @@ protected:
     mat current_stiffness; /**< stiffness matrix */
     mat trial_stiffness;   /**< stiffness matrix */
 public:
-    explicit Section(const unsigned& T = 0, const unsigned& CT = CT_SECTION, const unsigned& MT = 0);
+    const SectionType section_type;
+
+    explicit Section(const unsigned T = 0, const unsigned CT = CT_SECTION, const SectionType& = SectionType::D1, const unsigned MT = 0);
 
     virtual ~Section();
 
@@ -73,6 +77,7 @@ public:
     virtual int update_incre_status(const vec&, const vec&);
     virtual int update_trial_status(const vec&);
     virtual int update_trial_status(const vec&, const vec&);
+
     virtual int clear_status() = 0;
     virtual int commit_status() = 0;
     virtual int reset_status() = 0;

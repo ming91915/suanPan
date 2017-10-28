@@ -15,23 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Rectangle
- * @brief A Rectangle class.
+ * @class HSection2D
+ * @brief A HSection2D class.
  * @author T
  * @date 13/10/2017
  * @version 0.1.0
- * @file Rectangle.h
- * @addtogroup Section
+ * @file HSection2D.h
+ * @addtogroup Section-2D
+ * @ingroup Section
  * @{
  */
 
-#ifndef RECTANGLE_H
-#define RECTANGLE_H
+#ifndef HSECTION2D_H
+#define HSECTION2D_H
 
-#include <Section/Section.h>
+#include <Section/Section2D/Section2D.h>
 
-class Rectangle : public Section {
-    const double width, height;
+class HSection2D : public Section2D {
+    const double top_flange_width, top_flange_thickness;
+    const double bottom_flange_width, bottom_flange_thickness;
+    const double web_height, web_thickness;
+
+    const double area = top_flange_width * top_flange_thickness + bottom_flange_width * bottom_flange_thickness + web_height * web_thickness;
+
     const unsigned int_pt_num;
 
     struct IntegrationPoint {
@@ -44,11 +50,15 @@ class Rectangle : public Section {
     vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Rectangle(const unsigned&, // tag
-        const double&,                  // width
-        const double&,                  // height
-        const unsigned&,                // material tag
-        const unsigned& = 6             // number of integration points
+    explicit HSection2D(const unsigned, // tag
+        const double,                   // width
+        const double,                   // height
+        const double,                   // width
+        const double,                   // height
+        const double,                   // width
+        const double,                   // height
+        const unsigned,                 // material tag
+        const unsigned = 6              // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

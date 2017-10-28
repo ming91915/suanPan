@@ -1,0 +1,6 @@
+#include "Section2D.h"
+
+#include "Circle2D.h"
+#include "HSection2D.h"
+#include "ISection2D.h"
+#include "Rectangle2D.h"

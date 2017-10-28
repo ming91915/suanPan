@@ -1,5 +1,6 @@
-#include "Rectangle.h"
-#include "Circle.h"
+#include "Section1D/Section1D"
+#include "Section2D/Section2D"
+#include "Section3D/Section3D"
 
 #include "Section.h"
 #include "SectionTag.h"

@@ -19,64 +19,61 @@
 #include <Section/Section>
 #include <Toolbox/utility.h>
 
-void new_rectangle(unique_ptr<Section>& return_obj, istringstream& command) {
+void new_rectangle2d(unique_ptr<Section>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
-        suanpan_error("new_rectangle() requires a valid tag.\n");
+        suanpan_error("new_rectangle2D() requires a valid tag.\n");
         return;
     }
 
     double width;
     if(!get_input(command, width)) {
-        suanpan_error("new_rectangle() requires a valid width.\n");
+        suanpan_error("new_rectangle2D() requires a valid width.\n");
         return;
     }
 
     double height;
     if(!get_input(command, height)) {
-        suanpan_error("new_rectangle() requires a valid height.\n");
+        suanpan_error("new_rectangle2D() requires a valid height.\n");
         return;
     }
 
     unsigned material_id;
     if(!get_input(command, material_id)) {
-        suanpan_error("new_rectangle() requires a material tag.\n");
+        suanpan_error("new_rectangle2D() requires a material tag.\n");
         return;
     }
 
     unsigned int_pt = 6;
-    if(!command.eof() && !get_input(command, int_pt)) {
-        suanpan_error("new_rectangle() requires a number of integration points.\n");
-        return;
-    }
+    if(!get_optional_input(command, int_pt)) suanpan_extra_debug("new_rectangle2D() uses six integration points.\n");
 
-    return_obj = make_unique<Rectangle>(tag, width, height, material_id, int_pt);
+    return_obj = make_unique<Rectangle2D>(tag, width, height, material_id, int_pt);
 }
 
-void new_circle(unique_ptr<Section>& return_obj, istringstream& command) {
+void new_circle2d(unique_ptr<Section>& return_obj, istringstream& command) {
     unsigned tag;
     if(!get_input(command, tag)) {
-        suanpan_error("new_circle() requires a valid tag.\n");
+        suanpan_error("new_circle2D() requires a valid tag.\n");
         return;
     }
 
     double radius;
     if(!get_input(command, radius)) {
-        suanpan_error("new_circle() requires a valid radius.\n");
+        suanpan_error("new_circle2D() requires a valid radius.\n");
         return;
     }
 
     unsigned material_id;
     if(!get_input(command, material_id)) {
-        suanpan_error("new_circle() requires a material tag.\n");
+        suanpan_error("new_circle2D() requires a material tag.\n");
         return;
     }
 
     unsigned int_pt = 6;
     if(!command.eof() && !get_input(command, int_pt)) {
-        suanpan_error("new_circle() requires a number of integration points.\n");
+        suanpan_error("new_circle2D() requires a number of integration points.\n");
         return;
     }
 
-    return_obj = make_unique<Circle>(tag, radius, material_id, int_pt);
+    return_obj = make_unique<Circle2D>(tag, radius, material_id, int_pt);
 }

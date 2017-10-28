@@ -18,9 +18,10 @@
 #include "Section.h"
 #include <Domain/DomainBase.h>
 
-Section::Section(const unsigned& T, const unsigned& CT, const unsigned& MT)
+Section::Section(const unsigned T, const unsigned CT, const SectionType& ST, const unsigned MT)
     : Tag(T, CT)
-    , material_tag(MT) {}
+    , material_tag(MT)
+    , section_type(ST) {}
 
 Section::~Section() {}
 
@@ -31,7 +32,7 @@ void Section::initialize(const shared_ptr<DomainBase>& D) {
         return;
     }
 
-    const auto size = 2;
+    const auto size = static_cast<unsigned>(section_type);
 
     current_deformation.zeros(size);
     trial_deformation.zeros(size);
@@ -42,9 +43,9 @@ void Section::initialize(const shared_ptr<DomainBase>& D) {
     current_resistance.zeros(size);
     trial_resistance.zeros(size);
 
-    // initial_stiffness.zeros(size, size);
-    // trial_stiffness.zeros(size, size);
-    // current_stiffness.zeros(size, size);
+    initial_stiffness.zeros(size, size);
+    trial_stiffness.zeros(size, size);
+    current_stiffness.zeros(size, size);
 }
 
 const vec& Section::get_deformation() const { return trial_deformation; }

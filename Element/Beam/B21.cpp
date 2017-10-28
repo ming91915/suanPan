@@ -50,6 +50,12 @@ void B21::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& section_proto = D->get_section(unsigned(material_tag(0)));
 
+    if(section_proto->section_type != SectionType::D2) {
+        suanpan_warning("initialize() needs a 2D section.\n");
+        D->disable_element(get_tag());
+        return;
+    }
+
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
 
     int_pt.clear(), int_pt.reserve(int_pt_num);

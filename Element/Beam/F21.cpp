@@ -59,6 +59,12 @@ void F21::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto& section_proto = D->get_section(unsigned(material_tag(0)));
 
+    if(section_proto->section_type != SectionType::D2) {
+        suanpan_warning("initialize() needs a 2D section.\n");
+        D->disable_element(get_tag());
+        return;
+    }
+
     // quick computation of flexibility
     const auto t_flexibility = quick_inverse(section_proto->get_initial_stiffness());
 

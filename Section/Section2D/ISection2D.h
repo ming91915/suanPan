@@ -15,23 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Circle
- * @brief A Circle class.
+ * @class ISection2D
+ * @brief A ISection2D class.
  * @author T
- * @date 15/09/2017
+ * @date 13/10/2017
  * @version 0.1.0
- * @file Circle.h
- * @addtogroup Section
+ * @file ISection2D.h
+ * @addtogroup Section-2D
+ * @ingroup Section
  * @{
  */
 
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef ISECTION2D_H
+#define ISECTION2D_H
 
-#include <Section/Section.h>
+#include <Section/Section2D/Section2D.h>
 
-class Circle : public Section {
-    const double radius;
+class ISection2D : public Section2D {
+    const double top_flange_width, top_flange_thickness;
+    const double bottom_flange_width, bottom_flange_thickness;
+    const double web_height, web_thickness;
+
+    const double area = top_flange_width * top_flange_thickness + bottom_flange_width * bottom_flange_thickness + web_height * web_thickness;
+
     const unsigned int_pt_num;
 
     struct IntegrationPoint {
@@ -44,10 +50,15 @@ class Circle : public Section {
     vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Circle(const unsigned&, // tag
-        const double&,               // radius
-        const unsigned&,             // material tag
-        const unsigned& = 6          // number of integration points
+    explicit ISection2D(const unsigned, // tag
+        const double,                   // width
+        const double,                   // height
+        const double,                   // width
+        const double,                   // height
+        const double,                   // width
+        const double,                   // height
+        const unsigned,                 // material tag
+        const unsigned = 6              // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

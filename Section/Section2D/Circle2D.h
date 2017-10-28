@@ -15,34 +15,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class SectionExample
- * @brief A SectionExample class.
+ * @class Circle2D
+ * @brief A Circle2D class.
  * @author T
  * @date 15/09/2017
  * @version 0.1.0
- * @file SectionExample.h
- * @addtogroup Section-2D
- * @ingroup Section
+ * @file Circle2D.h
+ * @addtogroup Section
  * @{
  */
 
-#ifndef SECTIONEXAMPLE_H
-#define SECTIONEXAMPLE_H
+#ifndef CIRCLE2D_H
+#define CIRCLE2D_H
 
-#include <Section/Section.h>
+#include <Section/Section2D/Section2D.h>
 
-class SectionExample : public Section {
-    const double edge_length, area, moment_inertia, elastic_modulus;
+class Circle2D : public Section2D {
+    const double radius;
+    const unsigned int_pt_num;
+
+    struct IntegrationPoint {
+        double coor, weight;
+        unique_ptr<Material> s_material;
+        IntegrationPoint(const double, const double, unique_ptr<Material>&&);
+        IntegrationPoint(const IntegrationPoint&);
+    };
+
+    vector<IntegrationPoint> int_pt;
 
 public:
-    explicit SectionExample(const unsigned&, // tag
-        const double&,                       // edge length
-        const double&                        // elastic modulus
+    explicit Circle2D(const unsigned&, // tag
+        const double&,                 // radius
+        const unsigned&,               // material tag
+        const unsigned& = 6            // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Section> get_copy() override;
+
+    double get_parameter(const ParameterType&) override;
 
     int update_trial_status(const vec&) override;
 

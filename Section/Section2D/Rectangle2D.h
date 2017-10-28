@@ -15,34 +15,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class SectionExample
- * @brief A SectionExample class.
+ * @class Rectangle2D
+ * @brief A Rectangle2D class.
  * @author T
- * @date 15/09/2017
+ * @date 13/10/2017
  * @version 0.1.0
- * @file SectionExample.h
+ * @file Rectangle2D.h
  * @addtogroup Section-2D
  * @ingroup Section
  * @{
  */
 
-#ifndef SECTIONEXAMPLE_H
-#define SECTIONEXAMPLE_H
+#ifndef RECTANGLE2D_H
+#define RECTANGLE2D_H
 
-#include <Section/Section.h>
+#include <Section/Section2d/Section2D.h>
 
-class SectionExample : public Section {
-    const double edge_length, area, moment_inertia, elastic_modulus;
+class Rectangle2D : public Section2D {
+    const double width, height;
+    const unsigned int_pt_num;
+
+    struct IntegrationPoint {
+        double coor, weight;
+        unique_ptr<Material> s_material;
+        IntegrationPoint(const double, const double, unique_ptr<Material>&&);
+        IntegrationPoint(const IntegrationPoint&);
+    };
+
+    vector<IntegrationPoint> int_pt;
 
 public:
-    explicit SectionExample(const unsigned&, // tag
-        const double&,                       // edge length
-        const double&                        // elastic modulus
+    explicit Rectangle2D(const unsigned, // tag
+        const double,                    // width
+        const double,                    // height
+        const unsigned,                  // material tag
+        const unsigned = 6               // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Section> get_copy() override;
+
+    double get_parameter(const ParameterType&) override;
 
     int update_trial_status(const vec&) override;
 

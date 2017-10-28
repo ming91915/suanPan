@@ -14,17 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+/**
+ * @class Section1D
+ * @brief A Section1D class.
+ * @author T
+ * @date 27/10/2017
+ * @version 0.1.0
+ * @file Section1D.h
+ * @addtogroup Section-1D
+ * @ingroup Section
+ * @{
+ */
 
-#ifndef SECTIONPARSER_H
-#define SECTIONPARSER_H
+#ifndef SECTION1D_H
+#define SECTION1D_H
 
-#include <suanPan.h>
+#include <Section/Section.h>
 
-using std::istringstream;
-
-class Section;
-
-void new_rectangle2d(unique_ptr<Section>&, istringstream&);
-void new_circle2d(unique_ptr<Section>&, istringstream&);
+class Section1D : public Section {
+public:
+    explicit Section1D(const unsigned T = 0, const unsigned CT = CT_SECTION, const unsigned MT = 0);
+};
 
 #endif
+
+//! @}
