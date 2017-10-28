@@ -64,10 +64,10 @@ void CentralDifference::assemble_resistance() {
     D->assemble_mass();
     D->assemble_damping();
 
-    auto t_vector_a(std::async([&]() { return vec{ C0 * (W->get_trial_displacement() + W->get_pre_displacement()) }; }));
-    auto t_vector_b(std::async([&]() { return vec{ C1 * (W->get_trial_displacement() - W->get_pre_displacement()) }; }));
+    auto t_vector_a(std::async([&]() { return vec{ get_mass(W) * (C0 * (W->get_trial_displacement() + W->get_pre_displacement()) - C2 * W->get_current_displacement()) }; }));
+    auto t_vector_b(std::async([&]() { return vec{ get_damping(W) * C1 * (W->get_trial_displacement() - W->get_pre_displacement()) }; }));
 
-    get_sushi(W) += get_mass(W) * (t_vector_a.get() - C2 * W->get_current_displacement()) + get_damping(W) * t_vector_b.get();
+    get_sushi(W) += t_vector_a.get() + t_vector_b.get();
 }
 
 void CentralDifference::assemble_matrix() {
