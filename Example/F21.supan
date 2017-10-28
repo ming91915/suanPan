@@ -6,7 +6,7 @@ node 2 1 0
 # material Elastic1D 1 10
 material Bilinear1D 1 10 .7 .02
 
-section Rectangle 1 12 1 1 12
+section Rectangle2D 1 12 1 1 12
 
 element F21 1 1 2 1 10
 # element F21H 1 1 2 1 .5

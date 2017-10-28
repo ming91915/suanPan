@@ -141,7 +141,10 @@ template <typename T> int BandMat<T>::solve(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dgbsv)(&N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    if(INFO != 0) suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
+    if(INFO != 0)
+        suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
+    else
+        factored = true;
 
     return INFO;
 }
@@ -172,10 +175,7 @@ template <typename T> int BandMat<T>::solve_trs(Mat<T>& X, const Mat<T>& B) {
         arma_fortran(arma_dgbtrs)(&TRAN, &N, &KL, &KU, &NRHS, (E*)this->memptr(), &LDAB, IPIV.memptr(), (E*)X.memptr(), &LDB, &INFO);
     }
 
-    if(INFO != 0)
-        suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
-    else
-        factored = true;
+    if(INFO != 0) suanpan_error("solve() receives error code %u from base driver, the matrix is probably singular.\n", INFO);
 
     return INFO;
 }

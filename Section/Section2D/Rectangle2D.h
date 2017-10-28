@@ -29,7 +29,7 @@
 #ifndef RECTANGLE2D_H
 #define RECTANGLE2D_H
 
-#include <Section/Section2d/Section2D.h>
+#include <Section/Section2D/Section2D.h>
 
 class Rectangle2D : public Section2D {
     const double width, height;
