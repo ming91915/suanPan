@@ -33,6 +33,9 @@ Bilinear2D::Bilinear2D(const unsigned& T, const double& E, const double& V, cons
 }
 
 void Bilinear2D::initialize(const shared_ptr<DomainBase>&) {
+    base.Material::initialize(nullptr);
+    base.initialize(nullptr);
+
     trial_full_strain.zeros(6);
 
     current_stiffness = initial_stiffness;

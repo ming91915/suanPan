@@ -31,7 +31,7 @@
 #include <Domain/Tag.h>
 #include <Section/ParameterType.h>
 
-enum class MaterialType : unsigned { D0 = 0, D1 = 1, D2 = 2, D3 = 3 };
+enum class MaterialType : unsigned { D0 = 0, D1 = 1, D2 = 3, D3 = 6 };
 enum class PlaneType { S, E, N };
 
 class DomainBase;
@@ -72,7 +72,7 @@ public:
 
     virtual ~Material();
 
-    virtual void initialize(const shared_ptr<DomainBase>&) = 0;
+    virtual void initialize(const shared_ptr<DomainBase>& = nullptr) = 0;
 
     virtual double get_parameter(const ParameterType& = ParameterType::DENSITY) const;
 

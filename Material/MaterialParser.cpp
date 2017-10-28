@@ -267,9 +267,11 @@ void new_bilinear2d(unique_ptr<Material>& return_obj, istringstream& command) {
         suanpan_debug("new_bilinear2d() assumes isotropic hardening.\n");
 
     unsigned material_type = 0;
-    if(!get_input(command, material_type)) {
-        suanpan_error("new_bilinear2d() requires a valid material type.\n");
-        return;
+    if(!command.eof()) {
+        if(!get_input(command, material_type)) {
+            suanpan_error("new_bilinear2d() requires a valid material type.\n");
+            return;
+        }
     }
 
     auto density = 0.;

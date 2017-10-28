@@ -18,11 +18,11 @@
 #include "Bilinear3D.h"
 #include <Toolbox/tensorToolbox.h>
 
-const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>({ 1, 1, 1, 2, 2, 2 }));
+const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>{ 1., 1., 1., 2., 2., 2. });
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);
 const mat Bilinear3D::unit_dev_tensor = tensor::unitDevTensor4();
 
-Bilinear3D::Bilinear3D(const unsigned& T, const double& E, const double& V, const double& Y, const double& H, const double& B, const double& R)
+Bilinear3D::Bilinear3D(const unsigned T, const double E, const double V, const double Y, const double H, const double B, const double R)
     : Material3D(T, MT_BILINEAR3D, R)
     , elastic_modulus(E)
     , poissons_ratio(V)
@@ -48,6 +48,8 @@ void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
 
+    initial_stiffness.print();
+
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
 
@@ -59,8 +61,6 @@ void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
 }
 
 unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
-
-int Bilinear3D::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
 
 int Bilinear3D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
@@ -81,16 +81,15 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
         const auto gamma = yield_func / tmp_a;
         const vec unit_norm = shifted_stress / norm_shifted_stress;
         const vec tmp_b = gamma * unit_norm;
-        const auto tmp_c = square_double_shear / tmp_a;
         const auto tmp_d = square_double_shear * gamma / norm_shifted_stress;
 
         trial_stress -= double_shear * tmp_b;
         trial_back_stress += factor * beta * tmp_b;
         trial_plastic_strain += root_two_third * gamma;
 
-        trial_stiffness -= (tmp_c - tmp_d) * unit_norm * unit_norm.t();
-        trial_stiffness -= tmp_d * unit_dev_tensor;
+        trial_stiffness += (tmp_d - square_double_shear / tmp_a) * unit_norm * unit_norm.t() - tmp_d * unit_dev_tensor;
     }
+
     return 0;
 }
 

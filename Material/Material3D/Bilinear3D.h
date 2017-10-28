@@ -59,19 +59,18 @@ class Bilinear3D : public Material3D {
     vec trial_back_stress;
 
 public:
-    explicit Bilinear3D(const unsigned& = 0, /**< tag */
-        const double& = 2E5,                 /**< elastic modulus */
-        const double& = .25,                 /**< poisson's ratio */
-        const double& = 400.,                /**< initial yield stress */
-        const double& = 0.,                  /**< hardening ratio */
-        const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const double& = 0.);                 /**< density */
+    explicit Bilinear3D(const unsigned = 0, /**< tag */
+        const double = 2E5,                 /**< elastic modulus */
+        const double = .25,                 /**< poisson's ratio */
+        const double = 400.,                /**< initial yield stress */
+        const double = 0.,                  /**< hardening ratio */
+        const double = 0.,                  /**< isotropic/kinematic hardening factor */
+        const double = 0.);                 /**< density */
 
-    void initialize(const shared_ptr<DomainBase>&) override;
+    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     unique_ptr<Material> get_copy() override;
 
-    int update_incre_status(const vec&) override;
     int update_trial_status(const vec&) override;
 
     int clear_status() override;

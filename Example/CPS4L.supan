@@ -84,7 +84,8 @@ node 83 4 .5
 node 84 4 .75
 node 85 4 1
 
-material Elastic2D 1 1000 .2
+material Bilinear2D 1 1000 .2 30 .05 0 1
+# material Elastic2D 1 1000 .2
 
 element CP4 1 1 6 7 2 1 1
 element CP4 2 2 7 8 3 1 1
@@ -153,14 +154,17 @@ element CP4 64 79 84 85 80 1 1
 
 fix 1 P 1 2 3 4 5
 
-cload 1 0 .25 2 84 83 82
-cload 2 0 .125 2 85 81
+cload 1 0 2 2 84 83 82
+cload 2 0 1 2 85 81
 
 step static 1
-set ini_step_size .1
+set ini_step_size .01
+
+converger AbsIncreDisp 1 1E-4 5 1
 
 analyze
 
 peek node 83
+peek element 1
 
 exit
