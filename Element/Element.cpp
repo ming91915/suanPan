@@ -126,12 +126,12 @@ const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
 const mat& Element::get_geometry() const { return geometry; }
 
-int Element::update_status() { throw; }
+int Element::update_status() { throw invalid_argument("hidden method called.\n"); }
 
-int Element::commit_status() { throw; }
+int Element::commit_status() { throw invalid_argument("hidden method called.\n"); }
 
-int Element::clear_status() { throw; }
+int Element::clear_status() { throw invalid_argument("hidden method called.\n"); }
 
-int Element::reset_status() { throw; }
+int Element::reset_status() { throw invalid_argument("hidden method called.\n"); }
 
 vector<vec> Element::record(const OutputType&) { return {}; }
