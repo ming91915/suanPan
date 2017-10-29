@@ -30,7 +30,9 @@ mat tensor::unitDevTensor4() {
 
 double tensor::tr(const vec& S) {
     auto T = 0.;
-    for(auto I = 0; I < 3; ++I) T += S(I);
+
+    for(auto I = 0; I < (S.n_elem == 6 ? 3 : 2); ++I) T += S(I);
+
     return T;
 }
 
@@ -38,8 +40,17 @@ double tensor::mean(const vec& S) { return tr(S) / 3.; }
 
 vec tensor::dev(const vec& S) {
     auto D = S;
-    const auto M = mean(S);
-    for(auto I = 0; I < 3; ++I) D(I) -= M;
+
+    if(S.n_elem == 6) {
+        const auto M = mean(S);
+        for(auto I = 0; I < 3; ++I) D(I) -= M;
+    } else if(S.n_elem == 3) {
+        const auto S11 = D(0);
+        const auto S22 = D(1);
+        D(0) = (2. * S11 - S22) / 3.;
+        D(1) = (2. * S22 - S11) / 3.;
+    }
+
     return D;
 }
 
