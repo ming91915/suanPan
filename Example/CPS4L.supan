@@ -84,7 +84,7 @@ node 83 4 .5
 node 84 4 .75
 node 85 4 1
 
-material Bilinear2D 1 1000 .2 30 .05 0 1
+material Bilinear2D 1 5000 .2 80 .05
 # material Elastic2D 1 1000 .2
 
 element CP4 1 1 6 7 2 1 1
@@ -157,14 +157,18 @@ fix 1 P 1 2 3 4 5
 cload 1 0 2 2 84 83 82
 cload 2 0 1 2 85 81
 
+recorder 1 Node U 83
+
 step static 1
 set ini_step_size .01
+set fixed_step_size true
 
-converger AbsIncreDisp 1 1E-4 5 1
+converger AbsIncreDisp 1 1E-4 5 0
 
 analyze
 
 peek node 83
-peek element 1
+
+save recorder 1
 
 exit

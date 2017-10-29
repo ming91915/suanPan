@@ -36,6 +36,8 @@ Circle2D::Circle2D(const unsigned& T, const double& R, const unsigned& M, const 
     , int_pt_num(S) {}
 
 void Circle2D::initialize(const shared_ptr<DomainBase>& D) {
+    area = radius * radius * datum::pi;
+
     auto& material_proto = D->get_material(material_tag);
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
@@ -46,7 +48,7 @@ void Circle2D::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(radius * plan(I, 0), 2. * radius * radius * sqrt(1. - plan(I, 0) * plan(I, 0)) * plan(I, 1), material_proto->get_copy());
         const auto t_factor = int_pt[I].s_material->get_stiffness().at(0) * int_pt[I].weight;
         initial_stiffness(0, 0) += t_factor;
-        initial_stiffness(1, 1) += t_factor * int_pt[I].coor * int_pt[I].coor;
+        initial_stiffness(1, 1) += t_factor * (int_pt[I].coor - eccentricity) * (int_pt[I].coor - eccentricity);
     }
 
     current_stiffness = initial_stiffness;
@@ -58,7 +60,7 @@ unique_ptr<Section> Circle2D::get_copy() { return make_unique<Circle2D>(*this); 
 double Circle2D::get_parameter(const ParameterType& P) {
     switch(P) {
     case ParameterType::AREA:
-        return radius * radius * datum::pi;
+        return area;
     case ParameterType::DENSITY:
         return int_pt.cbegin()->s_material->get_parameter(ParameterType::DENSITY);
     default:
@@ -82,12 +84,13 @@ int Circle2D::update_trial_status(const vec& t_deformation) {
     if(code != 0) return code;
 
     for(const auto& I : int_pt) {
+        const auto arm = I.coor - eccentricity;
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
         trial_stiffness(0, 0) += tmp_a;
-        trial_stiffness(1, 1) += tmp_a * I.coor * I.coor;
+        trial_stiffness(1, 1) += tmp_a * arm * arm;
         const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
         trial_resistance(0) += tmp_b;
-        trial_resistance(1) -= tmp_b * I.coor;
+        trial_resistance(1) -= tmp_b * arm;
     }
 
     return 0;

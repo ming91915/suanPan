@@ -46,6 +46,9 @@
     <ClCompile Include="..\..\..\Section\Section2D\Rectangle2D.cpp">
       <Filter>Section2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Section\Section1D\Rectangle1D.cpp">
+      <Filter>Section1D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Section\Section.h">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Section\Section2D\Rectangle2D.h">
       <Filter>Section2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Section\Section1D\Rectangle1D.h">
+      <Filter>Section1D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

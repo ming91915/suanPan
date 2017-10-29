@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Section\ParameterType.cpp" />
     <ClCompile Include="..\..\..\Section\Section.cpp" />
+    <ClCompile Include="..\..\..\Section\Section1D\Rectangle1D.cpp" />
     <ClCompile Include="..\..\..\Section\Section1D\Section1D.cpp" />
     <ClCompile Include="..\..\..\Section\Section2D\Circle2D.cpp" />
     <ClCompile Include="..\..\..\Section\Section2D\HSection2D.cpp" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Section\ParameterType.h" />
     <ClInclude Include="..\..\..\Section\Section.h" />
+    <ClInclude Include="..\..\..\Section\Section1D\Rectangle1D.h" />
     <ClInclude Include="..\..\..\Section\Section1D\Section1D.h" />
     <ClInclude Include="..\..\..\Section\Section2D\Circle2D.h" />
     <ClInclude Include="..\..\..\Section\Section2D\HSection2D.h" />

@@ -1,1 +1,2 @@
 #include "Section1D.h"
+#include "Rectangle1D.h"

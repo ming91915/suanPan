@@ -37,6 +37,8 @@ Rectangle2D::Rectangle2D(const unsigned T, const double B, const double H, const
     , int_pt_num(S) {}
 
 void Rectangle2D::initialize(const shared_ptr<DomainBase>& D) {
+    area = width * height;
+
     auto& material_proto = D->get_material(material_tag);
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
@@ -47,7 +49,7 @@ void Rectangle2D::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
         const auto tmp_a = int_pt[I].s_material->get_initial_stiffness().at(0) * int_pt[I].weight;
         initial_stiffness(0, 0) += tmp_a;
-        initial_stiffness(1, 1) += tmp_a * int_pt[I].coor * int_pt[I].coor;
+        initial_stiffness(1, 1) += tmp_a * (int_pt[I].coor - eccentricity) * (int_pt[I].coor - eccentricity);
     }
 
     current_stiffness = initial_stiffness;
@@ -59,7 +61,7 @@ unique_ptr<Section> Rectangle2D::get_copy() { return make_unique<Rectangle2D>(*t
 double Rectangle2D::get_parameter(const ParameterType& P) {
     switch(P) {
     case ParameterType::AREA:
-        return width * height;
+        return area;
     case ParameterType::DENSITY:
         return int_pt.cbegin()->s_material->get_parameter(ParameterType::DENSITY);
     default:
@@ -83,12 +85,13 @@ int Rectangle2D::update_trial_status(const vec& t_deformation) {
     if(code != 0) return code;
 
     for(const auto& I : int_pt) {
+        const auto arm = I.coor - eccentricity;
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
         trial_stiffness(0, 0) += tmp_a;
-        trial_stiffness(1, 1) += tmp_a * I.coor * I.coor;
+        trial_stiffness(1, 1) += tmp_a * arm * arm;
         const auto tmp_b = I.s_material->get_stress().at(0) * I.weight;
         trial_resistance(0) += tmp_b;
-        trial_resistance(1) -= tmp_b * I.coor;
+        trial_resistance(1) -= tmp_b * arm;
     }
 
     return 0;

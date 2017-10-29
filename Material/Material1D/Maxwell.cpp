@@ -54,7 +54,8 @@ Maxwell::Maxwell(const unsigned T, const double E, const double A, const double 
     , solver(make_unique<DP45>(0, viscosity.get())) {}
 
 Maxwell::Maxwell(const Maxwell& old_obj)
-    : incre_time(old_obj.incre_time)
+    : Material1D(old_obj.get_tag(), MT_MAXWELL, 0.)
+    , incre_time(old_obj.incre_time)
     , viscosity(old_obj.viscosity->get_copy())
     , solver(old_obj.solver->get_copy()) {
     solver->set_ode(viscosity.get());

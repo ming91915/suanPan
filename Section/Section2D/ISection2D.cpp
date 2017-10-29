@@ -42,7 +42,11 @@ void ISection2D::initialize(const shared_ptr<DomainBase>&) {}
 
 unique_ptr<Section> ISection2D::get_copy() { return make_unique<ISection2D>(*this); }
 
-double ISection2D::get_parameter(const ParameterType&) { return 0.; }
+double ISection2D::get_parameter(const ParameterType& P) {
+    if(P == ParameterType::AREA) return area;
+
+    return 0.;
+}
 
 int ISection2D::update_trial_status(const vec&) { return 0; }
 

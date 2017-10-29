@@ -42,6 +42,8 @@ class Section : public Tag {
 protected:
     const unsigned material_tag; /**< material tags */
 
+    double area = 0., eccentricity = 0.;
+
     vec trial_deformation;   /**< trial deformation */
     vec current_deformation; /**< current deformation */
 

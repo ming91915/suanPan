@@ -56,11 +56,19 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
     base.update_trial_status(trial_full_strain);
 
     // PLANE STRESS
-    if(plane_type == PlaneType::S)
-        while(fabs(base.get_stress().at(2)) > 1E-10) {
-            trial_full_strain(2) -= base.get_stress().at(2) / base.get_stiffness().at(2, 2);
+    if(plane_type == PlaneType::S) {
+        auto& stess_anchor = base.get_stress().at(2);
+        auto counter = 0;
+        while(true) {
+            if(fabs(stess_anchor) > 1E-12) break;
+            if(++counter > 10) {
+                suanpan_warning("cannot converge in ten iterations.\n");
+                break;
+            }
+            trial_full_strain(2) -= stess_anchor / base.get_stiffness().at(2, 2);
             base.update_trial_status(trial_full_strain);
         }
+    }
 
     auto& tmp_strain = base.get_strain();
     trial_strain(0) = tmp_strain.at(0);
