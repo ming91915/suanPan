@@ -18,7 +18,7 @@
  * @class ISection2D
  * @brief A ISection2D class.
  * @author T
- * @date 13/10/2017
+ * @date 30/10/2017
  * @version 0.1.0
  * @file ISection2D.h
  * @addtogroup Section-2D
@@ -36,7 +36,7 @@ class ISection2D : public Section2D {
     const double bottom_flange_width, bottom_flange_thickness;
     const double web_height, web_thickness;
 
-    const double area = top_flange_width * top_flange_thickness + bottom_flange_width * bottom_flange_thickness + web_height * web_thickness;
+    const double height;
 
     const unsigned int_pt_num;
 

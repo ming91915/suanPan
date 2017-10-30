@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "ISection2D.h"
+#include "Toolbox/IntegrationPlan.h"
 #include <Material/Material1D/Material1D.h>
 
 ISection2D::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_ptr<Material>&& M)
@@ -36,9 +37,14 @@ ISection2D::ISection2D(const unsigned T, const double TFW, const double TFT, con
     , bottom_flange_thickness(BFT)
     , web_height(WH)
     , web_thickness(WT)
+    , height(top_flange_thickness + bottom_flange_thickness + web_height)
     , int_pt_num(IP) {}
 
-void ISection2D::initialize(const shared_ptr<DomainBase>&) {}
+void ISection2D::initialize(const shared_ptr<DomainBase>& D) {
+    area = top_flange_width * top_flange_thickness + bottom_flange_width * bottom_flange_thickness + web_height * web_thickness;
+    const IntegrationPlan plan_flange(1, 2, IntegrationType::RADAU);
+    const IntegrationPlan plan_web(1, 6, IntegrationType::GAUSS);
+}
 
 unique_ptr<Section> ISection2D::get_copy() { return make_unique<ISection2D>(*this); }
 

@@ -44,10 +44,10 @@ class Circle2D : public Section2D {
     vector<IntegrationPoint> int_pt;
 
 public:
-    explicit Circle2D(const unsigned&, // tag
-        const double&,                 // radius
-        const unsigned&,               // material tag
-        const unsigned& = 6            // number of integration points
+    explicit Circle2D(const unsigned, // tag
+        const double,                 // radius
+        const unsigned,               // material tag
+        const unsigned = 6            // number of integration points
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

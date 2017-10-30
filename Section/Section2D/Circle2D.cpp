@@ -30,7 +30,7 @@ Circle2D::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
     , weight(old_obj.weight)
     , s_material(old_obj.s_material->get_copy()) {}
 
-Circle2D::Circle2D(const unsigned& T, const double& R, const unsigned& M, const unsigned& S)
+Circle2D::Circle2D(const unsigned T, const double R, const unsigned M, const unsigned S)
     : Section2D(T, ST_CIRCLE2D, M)
     , radius(R)
     , int_pt_num(S) {}
@@ -71,15 +71,15 @@ double Circle2D::get_parameter(const ParameterType& P) {
 int Circle2D::update_trial_status(const vec& t_deformation) {
     trial_deformation = t_deformation;
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
-
     auto code = 0;
 
     for(const auto& I : int_pt) {
         const vec fibre_strain{ trial_deformation(0) - trial_deformation(1) * I.coor };
         code += I.s_material->update_trial_status(fibre_strain);
     }
+
+    trial_stiffness.zeros();
+    trial_resistance.zeros();
 
     if(code != 0) return code;
 

@@ -32,11 +32,9 @@
 #include <Section/Section2D/Section2D.h>
 
 class HSection2D : public Section2D {
-    const double top_flange_width, top_flange_thickness;
-    const double bottom_flange_width, bottom_flange_thickness;
-    const double web_height, web_thickness;
-
-    const double area = top_flange_width * top_flange_thickness + bottom_flange_width * bottom_flange_thickness + web_height * web_thickness;
+    const double left_flange_height, left_flange_thickness;
+    const double right_flange_height, right_flange_thickness;
+    const double web_width, web_thickness;
 
     const unsigned int_pt_num;
 

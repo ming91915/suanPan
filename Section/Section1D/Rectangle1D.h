@@ -18,10 +18,10 @@
  * @class Rectangle1D
  * @brief A Rectangle1D class.
  * @author T
- * @date 13/10/2017
+ * @date 30/10/2017
  * @version 0.1.0
  * @file Rectangle1D.h
- * @addtogroup Section-2D
+ * @addtogroup Section-1D
  * @ingroup Section
  * @{
  */

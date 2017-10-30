@@ -30,15 +30,15 @@ HSection2D::IntegrationPoint::IntegrationPoint(const IntegrationPoint& old_obj)
 
 HSection2D::HSection2D(const unsigned T, const double TFW, const double TFT, const double BFW, const double BFT, const double WH, const double WT, const unsigned MT, const unsigned IP)
     : Section2D(T, ST_HSECTION2D, MT)
-    , top_flange_width(TFW)
-    , top_flange_thickness(TFT)
-    , bottom_flange_width(BFW)
-    , bottom_flange_thickness(BFT)
-    , web_height(WH)
+    , left_flange_height(TFW)
+    , left_flange_thickness(TFT)
+    , right_flange_height(BFW)
+    , right_flange_thickness(BFT)
+    , web_width(WH)
     , web_thickness(WT)
     , int_pt_num(IP) {}
 
-void HSection2D::initialize(const shared_ptr<DomainBase>&) {}
+void HSection2D::initialize(const shared_ptr<DomainBase>&) { area = left_flange_height * left_flange_thickness + right_flange_height * right_flange_thickness + web_width * web_thickness; }
 
 unique_ptr<Section> HSection2D::get_copy() { return make_unique<HSection2D>(*this); }
 
