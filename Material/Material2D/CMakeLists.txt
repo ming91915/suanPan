@@ -4,4 +4,6 @@ set(M2D
     Material2D/Elastic2D.cpp
     Material2D/Material2D.cpp
     Material2D/RebarLayer.cpp
+    Material2D/DSFM.cpp
+    Material2D/CSMM.cpp
     )

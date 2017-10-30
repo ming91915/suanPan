@@ -153,6 +153,8 @@
     <ClCompile Include="..\..\..\Material\Material1D\Viscosity1D.cpp" />
     <ClCompile Include="..\..\..\Material\Material2D\Bilinear2D.cpp" />
     <ClCompile Include="..\..\..\Material\Material2D\Concrete2D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\CSMM.cpp" />
+    <ClCompile Include="..\..\..\Material\Material2D\DSFM.cpp" />
     <ClCompile Include="..\..\..\Material\Material2D\Elastic2D.cpp" />
     <ClCompile Include="..\..\..\Material\Material2D\Material2D.cpp" />
     <ClCompile Include="..\..\..\Material\Material2D\RebarLayer.cpp" />
@@ -176,6 +178,8 @@
     <ClInclude Include="..\..\..\Material\Material1D\Viscosity1D.h" />
     <ClInclude Include="..\..\..\Material\Material2D\Bilinear2D.h" />
     <ClInclude Include="..\..\..\Material\Material2D\Concrete2D.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\CSMM.h" />
+    <ClInclude Include="..\..\..\Material\Material2D\DSFM.h" />
     <ClInclude Include="..\..\..\Material\Material2D\Elastic2D.h" />
     <ClInclude Include="..\..\..\Material\Material2D\Material2D.h" />
     <ClInclude Include="..\..\..\Material\Material2D\RebarLayer.h" />

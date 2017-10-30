@@ -3,3 +3,5 @@
 #include "Elastic2D.h"
 #include "Material2D.h"
 #include "RebarLayer.h"
+#include "DSFM.h"
+#include "CSMM.h"
