@@ -24,7 +24,7 @@ const unsigned T2D2::t_node = 2;
 const unsigned T2D2::t_dof = 2;
 
 T2D2::T2D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
-    : Element(T, ET_T2D2, t_node, t_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_T2D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , update_area(UA)
     , log_strain(LS) {}

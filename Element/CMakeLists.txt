@@ -19,6 +19,8 @@ add_library(${PROJECT_NAME} STATIC
     Element.cpp
     ElementParser.cpp
     ElementTemplate.cpp
+    MaterialElement.cpp
+    SectionElement.cpp
     ${Beam}
     ${Cube}
     ${Membrane}

@@ -33,7 +33,7 @@ C3D8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const dou
     , pn_pxy(PNPXY) {}
 
 C3D8::C3D8(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, const bool& F)
-    : Element(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
     , reduced_scheme(R) {}
 
 void C3D8::initialize(const shared_ptr<DomainBase>& D) {

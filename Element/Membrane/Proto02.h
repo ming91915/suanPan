@@ -30,9 +30,9 @@
 #ifndef PROTO02_H
 #define PROTO02_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class Proto02 : public Element {
+class Proto02 : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

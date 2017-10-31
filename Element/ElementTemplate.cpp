@@ -41,12 +41,13 @@ const unsigned ElementTemplate::m_dof = 2;
  * - Number of DoFS (ND)
  * - Node Tags (NT)
  * - Material Tags (MT)
+ * - Section Tags (ST)
  * - Nonlinear Switch (F)
  *
  * In our example, CT and F will be constants, NN is 3 and ND is 2. So we have three parameters plus thickness for our derived element. Except for initializing private member variables, we do not have to do anything. All other initializations will be handled by the Element and Domain class. As simple as this.
  */
 ElementTemplate::ElementTemplate(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
-    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, false)
+    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, {}, false)
     , thickness(TH) {}
 
 /**

@@ -29,9 +29,9 @@
 #ifndef CP4_H
 #define CP4_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class CP4 final : public Element {
+class CP4 final : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

@@ -62,7 +62,7 @@ const unsigned ElementExample::m_dof = 2;
 #endif
 
 ElementExample::ElementExample(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
-    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, false)
+    : Element(T, ET_ELEMENTTEMPLATE, m_node, m_dof, NT, uvec{ MT }, {}, false)
     , thickness(TH) {}
 
 void ElementExample::initialize(const shared_ptr<DomainBase>& D) {

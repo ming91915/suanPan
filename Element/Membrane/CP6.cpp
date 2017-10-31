@@ -32,7 +32,7 @@ CP6::IntegrationPoint::IntegrationPoint(const vec& C, const double W, unique_ptr
     , pn_pxy(PNPXY) {}
 
 CP6::CP6(const unsigned T, const uvec& NT, const unsigned MT, const double TH)
-    : Element(T, ET_CP6, m_node, m_dof, NT, uvec{ MT }, false)
+    : MaterialElement(T, ET_CP6, m_node, m_dof, NT, uvec{ MT }, false)
     , thickness(TH) {}
 
 void CP6::initialize(const shared_ptr<DomainBase>& D) {

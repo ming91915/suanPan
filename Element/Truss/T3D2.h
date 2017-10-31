@@ -32,9 +32,9 @@
 #ifndef T3D2_H
 #define T3D2_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class T3D2 final : public Element {
+class T3D2 final : public MaterialElement {
     static const unsigned t_node;
     static const unsigned t_dof;
 

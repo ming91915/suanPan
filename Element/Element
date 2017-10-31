@@ -9,6 +9,8 @@
 #include "ElementParser.h"
 #include "ElementTag.h"
 #include "ElementTemplate.h"
+#include "MaterialElement.h"
+#include "SectionElement.h"
 
 #include <Section/Section.h>
 #include <Material/Material.h>

@@ -33,7 +33,7 @@ C3D20::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const do
     , strain_mat(6, c_node * c_dof, fill::zeros) {}
 
 C3D20::C3D20(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, const bool& F)
-    : Element(T, ET_C3D20, c_node, c_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_C3D20, c_node, c_dof, N, uvec{ M }, F)
     , reduced_scheme(R) {}
 
 void C3D20::initialize(const shared_ptr<DomainBase>& D) {

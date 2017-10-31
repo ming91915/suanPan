@@ -18,7 +18,7 @@
 #include "Mass.h"
 
 Mass::Mass(const unsigned& T, const unsigned& NT, const double& MA, const uvec& DT)
-    : Element(T, ET_MASS, 1, unsigned(DT.max()), uvec{ NT }, {}, false)
+    : Element(T, ET_MASS, 1, unsigned(DT.max()), uvec{ NT })
     , magnitude(MA)
     , dof_label(DT) {}
 

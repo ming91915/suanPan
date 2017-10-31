@@ -30,9 +30,9 @@
 #ifndef SINGLESECTION_H
 #define SINGLESECTION_H
 
-#include <Element/Element.h>
+#include <Element/SectionElement.h>
 
-class SingleSection : public Element {
+class SingleSection : public SectionElement {
     static const unsigned s_node, s_dof;
 
     unique_ptr<Section> s_section;

@@ -151,6 +151,7 @@
     <ClCompile Include="..\..\..\Element\Element.cpp" />
     <ClCompile Include="..\..\..\Element\ElementParser.cpp" />
     <ClCompile Include="..\..\..\Element\ElementTemplate.cpp" />
+    <ClCompile Include="..\..\..\Element\MaterialElement.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP3.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP4.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\CP6.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="..\..\..\Element\Membrane\Proto02.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\PS.cpp" />
     <ClCompile Include="..\..\..\Element\Membrane\QE2.cpp" />
+    <ClCompile Include="..\..\..\Element\SectionElement.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Damper01.cpp" />
     <ClCompile Include="..\..\..\Element\Special\Mass.cpp" />
     <ClCompile Include="..\..\..\Element\Special\SingleSection.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="..\..\..\Element\ElementParser.h" />
     <ClInclude Include="..\..\..\Element\ElementTag.h" />
     <ClInclude Include="..\..\..\Element\ElementTemplate.h" />
+    <ClInclude Include="..\..\..\Element\MaterialElement.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP3.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP4.h" />
     <ClInclude Include="..\..\..\Element\Membrane\CP6.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="..\..\..\Element\Membrane\Proto02.h" />
     <ClInclude Include="..\..\..\Element\Membrane\PS.h" />
     <ClInclude Include="..\..\..\Element\Membrane\QE2.h" />
+    <ClInclude Include="..\..\..\Element\SectionElement.h" />
     <ClInclude Include="..\..\..\Element\Special\Damper01.h" />
     <ClInclude Include="..\..\..\Element\Special\Mass.h" />
     <ClInclude Include="..\..\..\Element\Special\SingleSection.h" />

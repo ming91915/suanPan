@@ -34,7 +34,7 @@ CP4::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doub
     , pn_pxy(PNPXY) {}
 
 CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
-    : Element(T, ET_CP4, m_node, m_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_CP4, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
     , reduced_scheme(R) {}
 

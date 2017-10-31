@@ -18,6 +18,7 @@
 #include "Element.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
+#include <Material/Material.h>
 #include <Section/Section.h>
 
 /**
@@ -28,14 +29,16 @@
  * \param ND  number of dofs
  * \param NT node tags
  * \param MT material tags
+ * \param ST section tags
  * \param F nlgeom switch
  */
-Element::Element(const unsigned& T, const unsigned& CT, const unsigned& NN, const unsigned& ND, const uvec& NT, const uvec& MT, const bool& F)
+Element::Element(const unsigned T, const unsigned CT, const unsigned NN, const unsigned ND, const uvec& NT, const uvec& MT, const uvec& ST, const bool F)
     : Tag(T, CT)
     , num_node(NN)
     , num_dof(ND)
     , node_encoding(NT)
     , material_tag(MT)
+    , section_tag(ST)
     , nlgeom(F) {
     suanpan_debug("Element %u ctor() called.\n", T);
 }
@@ -74,22 +77,32 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
     // check if nodes are still valid
     node_ptr.clear();
     node_ptr.reserve(num_node);
-    for(const auto& tmp_tag : node_encoding) {
-        auto& tmp_node = D->get_node(unsigned(tmp_tag));
-        if(tmp_node == nullptr || !tmp_node->is_active()) {
-            suanpan_debug("Element %u finds an invalid node %u, now disable it.\n", get_tag(), tmp_tag);
+    for(const auto& t_tag : node_encoding) {
+        auto& t_node = D->get_node(unsigned(t_tag));
+        if(t_node == nullptr || !t_node->is_active()) {
+            suanpan_debug("Element %u finds an invalid node %u, now disable it.\n", get_tag(), t_tag);
             D->disable_element(get_tag());
             return;
         }
-        if(tmp_node->get_dof_number() < num_dof) tmp_node->set_dof_number(num_dof);
-        node_ptr.emplace_back(tmp_node);
+        if(t_node->get_dof_number() < num_dof) t_node->set_dof_number(num_dof);
+        node_ptr.emplace_back(t_node);
     }
 
     // check if material models are valid
-    for(const auto& tmp_materail : material_tag) {
-        const auto t_tag = unsigned(tmp_materail);
-        if(!D->find_material(t_tag) && (!D->find_section(t_tag) || !D->get_section(t_tag)->is_active())) {
-            suanpan_debug("Element %u cannot find valid material/section %u, now disable it.\n", get_tag(), t_tag);
+    for(const auto& t_materail : material_tag) {
+        const auto t_tag = unsigned(t_materail);
+        if(!D->find_material(t_tag) || !D->get_material(t_tag)->is_active()) {
+            suanpan_debug("Element %u cannot find valid material %u, now disable it.\n", get_tag(), t_tag);
+            D->disable_element(get_tag());
+            return;
+        }
+    }
+
+    // check if section models are valid
+    for(const auto& t_section : section_tag) {
+        const auto t_tag = unsigned(t_section);
+        if(!D->find_section(t_tag) || !D->get_section(t_tag)->is_active()) {
+            suanpan_debug("Element %u cannot find valid section %u, now disable it.\n", get_tag(), t_tag);
             D->disable_element(get_tag());
             return;
         }

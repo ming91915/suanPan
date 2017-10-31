@@ -102,7 +102,7 @@ int Step::initialize() {
     return 0;
 }
 
-int Step::analyze() { return -1; }
+int Step::analyze() { throw; }
 
 void Step::set_domain(const weak_ptr<DomainBase>& D) {
     if(database.lock() != D.lock()) {

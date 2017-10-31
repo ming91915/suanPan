@@ -25,7 +25,7 @@ const unsigned ElasticB21::b_node = 2;
 const unsigned ElasticB21::b_dof = 3;
 
 ElasticB21::ElasticB21(const unsigned& T, const uvec& N, const double& A, const double& I, const unsigned& M, const bool& F)
-    : Element(T, ET_ELASTICB21, b_node, b_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_ELASTICB21, b_node, b_dof, N, uvec{ M }, F)
     , area(A)
     , moment_inertia(I) {}
 

@@ -24,7 +24,7 @@ const unsigned Spring01::s_node = 2;
 const unsigned Spring01::s_dof = 2;
 
 Spring01::Spring01(const unsigned T, const uvec& NT, const unsigned MT)
-    : Element(T, ET_SPRING01, s_node, s_dof, NT, uvec{ MT }, false) {}
+    : Element(T, ET_SPRING01, s_node, s_dof, NT, uvec{ MT }) {}
 
 void Spring01::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();

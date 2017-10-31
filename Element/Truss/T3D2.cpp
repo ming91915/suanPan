@@ -24,7 +24,7 @@ const unsigned T3D2::t_node = 2;
 const unsigned T3D2::t_dof = 3;
 
 T3D2::T3D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
-    : Element(T, ET_T3D2, t_node, t_dof, N, uvec{ M }, F)
+    : MaterialElement(T, ET_T3D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , direction_cosine(2)
     , update_area(UA)

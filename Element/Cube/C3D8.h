@@ -29,9 +29,9 @@
 #ifndef C3D8_H
 #define C3D8_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class C3D8 final : public Element {
+class C3D8 final : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

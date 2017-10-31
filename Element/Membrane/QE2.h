@@ -32,9 +32,9 @@
 #ifndef QE2_H
 #define QE2_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class QE2 : public Element {
+class QE2 : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>../../../Libs/msvc/;../../$(Configuration)/Libs/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Solver.lib;Section.lib;Element.lib;Converger.lib;Material.lib;superlu.lib;arpack.lib;spmm.lib;libopenblas.lib;libhdf5.lib;libhdf5_hl.lib;libszip.lib;libzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Solver.lib;Section.lib;Element.lib;Converger.lib;Material.lib;superlu.lib;lapack.lib;libhdf5.lib;libhdf5_hl.lib;libszip.lib;libzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

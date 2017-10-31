@@ -29,9 +29,9 @@
 #ifndef ELASTICB21_H
 #define ELASTICB21_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class ElasticB21 final : public Element {
+class ElasticB21 final : public MaterialElement {
     static const unsigned b_node, b_dof;
 
     const double area, moment_inertia;

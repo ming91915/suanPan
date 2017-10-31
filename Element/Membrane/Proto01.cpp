@@ -39,7 +39,7 @@ Proto01::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const 
     , BI(3, 2, fill::zeros) {}
 
 Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
+    : MaterialElement(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
 void Proto01::initialize(const shared_ptr<DomainBase>& D) {

@@ -29,9 +29,9 @@
 #ifndef PS_H
 #define PS_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class PS final : public Element {
+class PS final : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

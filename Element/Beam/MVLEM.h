@@ -29,9 +29,9 @@
 #ifndef MVLEM_H
 #define MVLEM_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class MVLEM final : public Element {
+class MVLEM final : public MaterialElement {
     static const unsigned b_node, b_dof;
 
     struct Fibre {

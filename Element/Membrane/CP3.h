@@ -29,9 +29,9 @@
 #ifndef CP3_H
 #define CP3_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class CP3 final : public Element {
+class CP3 final : public MaterialElement {
     static const unsigned m_node, m_dof;
 
     const double thickness; /**< thickness */

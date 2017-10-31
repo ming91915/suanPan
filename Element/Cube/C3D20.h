@@ -29,9 +29,9 @@
 #ifndef C3D20_H
 #define C3D20_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class C3D20 final : public Element {
+class C3D20 final : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

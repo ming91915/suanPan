@@ -44,6 +44,7 @@ class Element : public Tag {
 protected:
     const uvec node_encoding; /**< node encoding */
     const uvec material_tag;  /**< material tags */
+    const uvec section_tag;   /**< sectiopn tags */
 
     const bool nlgeom = false; /**< nonlinear geometry switch */
 
@@ -61,13 +62,14 @@ protected:
 public:
     const bool initialized = false;
 
-    explicit Element(const unsigned& = 0, // tag
-        const unsigned& = CT_ELEMENT,     // class tag
-        const unsigned& = 0,              // number of nodes
-        const unsigned& = 0,              // number of dofs
-        const uvec& = {},                 // node encoding
-        const uvec& = {},                 // material tags
-        const bool& = false               // nonlinear geometry switch
+    explicit Element(const unsigned = 0, // tag
+        const unsigned = CT_ELEMENT,     // class tag
+        const unsigned = 0,              // number of nodes
+        const unsigned = 0,              // number of dofs
+        const uvec& = {},                // node encoding
+        const uvec& = {},                // material tags
+        const uvec& = {},                // section tags
+        const bool = false               // nonlinear geometry switch
     );
     Element(const Element&) = delete;            // copy forbidden
     Element(Element&&) = delete;                 // move forbidden

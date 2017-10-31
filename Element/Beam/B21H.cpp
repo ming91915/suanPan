@@ -34,7 +34,7 @@ B21H::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_
     , strain_mat(2, 3, fill::zeros) {}
 
 B21H::B21H(const unsigned T, const uvec& N, const unsigned S, const double L, const bool F)
-    : Element(T, ET_B21H, b_node, b_dof, N, uvec{ S }, F)
+    : SectionElement(T, ET_B21H, b_node, b_dof, N, uvec{ S }, F)
     , hinge_length(L > .5 ? .5 : L) {}
 
 void B21H::initialize(const shared_ptr<DomainBase>& D) {
@@ -48,7 +48,7 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
     trans_mat = transform::beam::global_to_local(direction_cosine, length);
     inclination = transform::atan2(direction_cosine);
 
-    auto& section_proto = D->get_section(unsigned(material_tag(0)));
+    auto& section_proto = D->get_section(unsigned(section_tag(0)));
 
     if(section_proto->section_type != SectionType::D2) {
         suanpan_warning("initialize() needs a 2D section.\n");

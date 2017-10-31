@@ -34,9 +34,9 @@
 #ifndef GQ12_H
 #define GQ12_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class GQ12 : public Element {
+class GQ12 : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

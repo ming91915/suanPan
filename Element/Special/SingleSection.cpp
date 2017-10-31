@@ -24,9 +24,9 @@ const unsigned SingleSection::s_node = 1;
 const unsigned SingleSection::s_dof = 2;
 
 SingleSection::SingleSection(const unsigned T, const unsigned NT, const unsigned ST)
-    : Element(T, ET_SINGLESECTION, s_node, s_dof, uvec{ NT }, uvec{ ST }, false) {}
+    : SectionElement(T, ET_SINGLESECTION, s_node, s_dof, uvec{ NT }, uvec{ ST }, false) {}
 
-void SingleSection::initialize(const shared_ptr<DomainBase>& D) { s_section = suanpan::make_copy(D->get_section(unsigned(material_tag(0)))); }
+void SingleSection::initialize(const shared_ptr<DomainBase>& D) { s_section = suanpan::make_copy(D->get_section(unsigned(section_tag(0)))); }
 
 int SingleSection::update_status() {
     const auto& s_node = node_ptr[0].lock();

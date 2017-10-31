@@ -35,7 +35,7 @@ PS::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doubl
     , n_stress(3, 5, fill::zeros) {}
 
 PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_PS, m_node, m_dof, N, uvec{ M }, false)
+    : MaterialElement(T, ET_PS, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH)
     , tmp_a(5, 5)
     , tmp_c(5, 8) {}

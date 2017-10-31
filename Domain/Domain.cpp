@@ -493,6 +493,7 @@ int Domain::initialize() {
     // ASSIGN DOF LABEL FOR ACTIVE DOF
     unsigned dof_counter = 0;
     for(const auto& t_node : node_pond) t_node.second->set_original_dof(dof_counter);
+    if(dof_counter == 0) return -1;
 
     suanpan_for_each(load_pond.cbegin(), load_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Load>>& t_load) { t_load.second->initialize(shared_from_this()); });
 

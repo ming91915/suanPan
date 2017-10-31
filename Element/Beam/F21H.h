@@ -29,9 +29,9 @@
 #ifndef F21H_H
 #define F21H_H
 
-#include <Element/Element.h>
+#include <Element/SectionElement.h>
 
-class F21H final : public Element {
+class F21H final : public SectionElement {
     static const unsigned b_node, b_dof;
 
     const double hinge_length;

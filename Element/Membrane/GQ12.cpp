@@ -34,7 +34,7 @@ GQ12::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const dou
     , strain_mat(3, m_node * m_dof, fill::zeros) {}
 
 GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_GQ12, m_node, m_dof, N, uvec{ M }, false)
+    : MaterialElement(T, ET_GQ12, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH) {}
 
 void GQ12::initialize(const shared_ptr<DomainBase>& D) {

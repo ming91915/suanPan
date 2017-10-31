@@ -43,7 +43,7 @@ mat F21::quick_inverse(const mat& stiffness) {
 }
 
 F21::F21(const unsigned& T, const uvec& N, const unsigned& S, const unsigned& P, const bool& F)
-    : Element(T, ET_F21, b_node, b_dof, N, uvec{ S }, F)
+    : SectionElement(T, ET_F21, b_node, b_dof, N, uvec{ S }, F)
     , int_pt_num(P) {}
 
 void F21::initialize(const shared_ptr<DomainBase>& D) {
@@ -57,7 +57,7 @@ void F21::initialize(const shared_ptr<DomainBase>& D) {
     trans_mat = transform::beam::global_to_local(direction_cosine, length);
     inclination = transform::atan2(direction_cosine);
 
-    const auto& section_proto = D->get_section(unsigned(material_tag(0)));
+    const auto& section_proto = D->get_section(unsigned(section_tag(0)));
 
     if(section_proto->section_type != SectionType::D2) {
         suanpan_warning("initialize() needs a 2D section.\n");

@@ -108,6 +108,12 @@
     <ClCompile Include="..\..\..\Element\Utility\MatrixModifier.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Element\SectionElement.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Element\MaterialElement.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Element\Cube\C3D8.h">
@@ -193,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Element\Utility\MatrixModifier.h">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\SectionElement.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Element\MaterialElement.h">
+      <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

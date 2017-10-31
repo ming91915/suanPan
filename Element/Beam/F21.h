@@ -29,9 +29,9 @@
 #ifndef F21_H
 #define F21_H
 
-#include <Element/Element.h>
+#include <Element/SectionElement.h>
 
-class F21 final : public Element {
+class F21 final : public SectionElement {
     static const unsigned b_node, b_dof;
 
     const unsigned int_pt_num;

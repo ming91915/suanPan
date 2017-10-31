@@ -32,9 +32,9 @@
 #ifndef T2D2_H
 #define T2D2_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class T2D2 final : public Element {
+class T2D2 final : public MaterialElement {
     static const unsigned t_node, t_dof;
 
     double length = 0.;   /**< length of the element */

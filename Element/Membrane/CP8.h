@@ -29,9 +29,9 @@
 #ifndef CP8_H
 #define CP8_H
 
-#include <Element/Element.h>
+#include <Element/MaterialElement.h>
 
-class CP8 final : public Element {
+class CP8 final : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
         double weight, jacob_det;

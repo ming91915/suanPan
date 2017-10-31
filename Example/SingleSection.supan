@@ -4,7 +4,7 @@ node 1 0 0
 
 material Bilinear1D 1 10 .8 .02
 
-section Rectangle 1 12 1 1
+section Rectangle2D 1 12 1 1
 
 element SingleSection 1 1 1
 

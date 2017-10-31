@@ -29,7 +29,7 @@ const unsigned Proto02::m_dof = 3;
 mat Proto02::mapping;
 
 Proto02::Proto02(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_PROTO02, m_node, m_dof, N, uvec{ M })
+    : MaterialElement(T, ET_PROTO02, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
 void Proto02::initialize(const shared_ptr<DomainBase>& D) {

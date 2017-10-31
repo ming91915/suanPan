@@ -29,7 +29,7 @@ MVLEM::Fibre::Fibre(const double B, const double H, const double R)
     , s_area(B * H * R) {}
 
 MVLEM::MVLEM(const unsigned T, const uvec& NT, const vec& B, const vec& H, const vec& R, const uvec& CRT, const uvec& STT, const unsigned SST)
-    : Element(T, ET_MVLEM, b_node, b_dof, NT, join_cols(CRT, STT), false)
+    : MaterialElement(T, ET_MVLEM, b_node, b_dof, NT, join_cols(CRT, STT))
     , shear_spring_tag(SST) {
     axial_spring.clear(), axial_spring.reserve(B.n_elem);
     auto total_width = 0.;

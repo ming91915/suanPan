@@ -38,7 +38,7 @@ QE2::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doub
     , BI(3, 2, fill::zeros) {}
 
 QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
-    : Element(T, ET_QE2, m_node, m_dof, N, uvec{ M })
+    : MaterialElement(T, ET_QE2, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
 void QE2::initialize(const shared_ptr<DomainBase>& D) {
