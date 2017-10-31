@@ -16,12 +16,28 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CSMM.h"
+#include <suanPan>
 
-CSMM::CSMM(const unsigned) {}
+const double CSMM::crack_strain = 8E-5;
+
+CSMM::CSMM(const unsigned T, const double PE, const double PS)
+    : Material2D(T, MT_CSMM, PlaneType::S, 0.)
+    , peak_strain(PE > 0. ? -PE : PE)
+    , peak_stress(PS > 0. ? -PS : PS)
+    , crack_stress(.31 * sqrt(-peak_stress))
+    , initial_modulus(3875. * sqrt(-peak_stress)) {}
 
 void CSMM::initialize(const shared_ptr<DomainBase>&) {}
 
 unique_ptr<Material> CSMM::get_copy() { throw; }
+
+int CSMM::update_trial_status(const vec& t_strain) {
+    trial_strain = t_strain;
+
+    const auto principal_strain = transform::nominal_to_principal_strain(trial_strain);
+
+    return 0;
+}
 
 int CSMM::clear_status() { throw; }
 

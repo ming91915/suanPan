@@ -18,8 +18,8 @@
  * @class CSMM
  * @brief A CSMM material class.
  * @author T
- * @date 03/10/2017
- * @version 0.1.1
+ * @date 31/10/2017
+ * @version 0.1.0
  * @file CSMM.h
  * @addtogroup Material-2D
  * @{
@@ -31,12 +31,26 @@
 #include <Material/Material2D/Material2D.h>
 
 class CSMM : public Material2D {
+    static const double crack_strain;
+
+    const double peak_strain;
+    const double peak_stress;
+
+    const double crack_stress;
+
+    const double initial_modulus;
+
 public:
-    explicit CSMM(const unsigned // tag
-    );
+    explicit CSMM(const unsigned, // tag
+        const double,
+        const double);
 
     void initialize(const shared_ptr<DomainBase>&) override;
+
     unique_ptr<Material> get_copy() override;
+
+    int update_trial_status(const vec&) override;
+
     int clear_status() override;
     int commit_status() override;
     int reset_status() override;

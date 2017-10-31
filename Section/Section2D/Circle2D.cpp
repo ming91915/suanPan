@@ -46,9 +46,10 @@ void Circle2D::initialize(const shared_ptr<DomainBase>& D) {
     initial_stiffness.zeros(2, 2);
     for(unsigned I = 0; I < int_pt_num; ++I) {
         int_pt.emplace_back(radius * plan(I, 0), 2. * radius * radius * sqrt(1. - plan(I, 0) * plan(I, 0)) * plan(I, 1), material_proto->get_copy());
-        const auto t_factor = int_pt[I].s_material->get_stiffness().at(0) * int_pt[I].weight;
-        initial_stiffness(0, 0) += t_factor;
-        initial_stiffness(1, 1) += t_factor * (int_pt[I].coor - eccentricity) * (int_pt[I].coor - eccentricity);
+        const auto tmp_a = int_pt[I].s_material->get_stiffness().at(0) * int_pt[I].weight;
+        const auto tmp_b = int_pt[I].coor - eccentricity(0);
+        initial_stiffness(0, 0) += tmp_a;
+        initial_stiffness(1, 1) += tmp_a * tmp_b * tmp_b;
     }
 
     current_stiffness = initial_stiffness;
@@ -84,7 +85,7 @@ int Circle2D::update_trial_status(const vec& t_deformation) {
     if(code != 0) return code;
 
     for(const auto& I : int_pt) {
-        const auto arm = I.coor - eccentricity;
+        const auto arm = I.coor - eccentricity(0);
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
         trial_stiffness(0, 0) += tmp_a;
         trial_stiffness(1, 1) += tmp_a * arm * arm;

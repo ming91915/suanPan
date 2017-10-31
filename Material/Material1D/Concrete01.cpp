@@ -20,8 +20,8 @@
 
 Concrete01::Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO, const double& R)
     : Material1D(T, MT_CONCRETE01, R)
-    , peak_strain(EP)
-    , peak_stress(SP)
+    , peak_strain(EP > 0. ? -EP : EP)
+    , peak_stress(SP > 0. ? -SP : SP)
     , backbone_type(TP)
     , center_oriented(CO) {}
 

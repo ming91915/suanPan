@@ -42,7 +42,9 @@ class Section : public Tag {
 protected:
     const unsigned material_tag; /**< material tags */
 
-    double area = 0., eccentricity = 0.;
+    double area = 0.;
+
+    vec eccentricity;
 
     vec trial_deformation;   /**< trial deformation */
     vec current_deformation; /**< current deformation */

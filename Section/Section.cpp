@@ -34,6 +34,8 @@ void Section::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto size = static_cast<unsigned>(section_type);
 
+    eccentricity.zeros(size - 1);
+
     current_deformation.zeros(size);
     trial_deformation.zeros(size);
 

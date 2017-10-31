@@ -48,8 +48,9 @@ void Rectangle2D::initialize(const shared_ptr<DomainBase>& D) {
     for(unsigned I = 0; I < int_pt_num; ++I) {
         int_pt.emplace_back(.5 * height * plan(I, 0), .5 * width * height * plan(I, 1), material_proto->get_copy());
         const auto tmp_a = int_pt[I].s_material->get_initial_stiffness().at(0) * int_pt[I].weight;
+        const auto tmp_b = int_pt[I].coor - eccentricity(0);
         initial_stiffness(0, 0) += tmp_a;
-        initial_stiffness(1, 1) += tmp_a * (int_pt[I].coor - eccentricity) * (int_pt[I].coor - eccentricity);
+        initial_stiffness(1, 1) += tmp_a * tmp_b * tmp_b;
     }
 
     current_stiffness = initial_stiffness;
@@ -85,7 +86,7 @@ int Rectangle2D::update_trial_status(const vec& t_deformation) {
     if(code != 0) return code;
 
     for(const auto& I : int_pt) {
-        const auto arm = I.coor - eccentricity;
+        const auto arm = I.coor - eccentricity(0);
         const auto tmp_a = I.s_material->get_stiffness().at(0) * I.weight;
         trial_stiffness(0, 0) += tmp_a;
         trial_stiffness(1, 1) += tmp_a * arm * arm;
