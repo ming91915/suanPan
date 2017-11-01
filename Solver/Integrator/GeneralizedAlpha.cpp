@@ -22,15 +22,11 @@
 
 GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const double& AM)
     : Integrator(T, CT_GENERALIZEDALPHA)
-    , alpha_f(AF)
-    , alpha_m(AM)
+    , alpha_f(AF > .5 ? .5 : AF < 0. ? 0. : AF)
+    , alpha_m(AM > alpha_f ? alpha_f : AM < -1. ? -1. : AM)
     , gamma(.5 - alpha_m + alpha_f)
     , beta(.25 * (gamma + .5) * (gamma + .5)) {
-    if(alpha_m > alpha_f || alpha_f > .5 || alpha_m < -1. || alpha_f < 0.) {
-        suanpan_error("GeneralizedAlpha() parameters are not acceptable now switch to Newmark scheme.\n");
-        access::rw(alpha_m) = 0.;
-        access::rw(alpha_f) = 0.;
-    }
+    if(alpha_m != AM || alpha_f != AF) suanpan_error("GeneralizedAlpha() parameters are not acceptable hence automatically adjusted.\n");
 
     C9 = alpha_f;
     C8 = 1. - C9;
