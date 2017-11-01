@@ -85,6 +85,9 @@
     <ClCompile Include="..\..\..\Material\Material2D\CSMM.cpp">
       <Filter>Material2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\PlaneStressBilinear.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -157,6 +160,9 @@
       <Filter>Material2D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Material\Material2D\CSMM.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\PlaneStressBilinear.h">
       <Filter>Material2D</Filter>
     </ClInclude>
   </ItemGroup>

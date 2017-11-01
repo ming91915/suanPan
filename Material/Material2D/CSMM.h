@@ -40,6 +40,13 @@ class CSMM : public Material2D {
 
     const double initial_modulus;
 
+    double concrete_angle = datum::pi / 4.;
+
+    const double steel_modulus;
+    const double yield_stress;
+
+    const double yield_strain = yield_stress / steel_modulus;
+
 public:
     explicit CSMM(const unsigned, // tag
         const double,

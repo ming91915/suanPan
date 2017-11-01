@@ -72,5 +72,8 @@
 #ifndef MT_CSMM
 #define MT_CSMM 1017
 #endif
+#ifndef MT_PLANESTRESSBILINEAR
+#define MT_PLANESTRESSBILINEAR 1018
+#endif
 
 #endif

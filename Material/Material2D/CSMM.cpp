@@ -25,7 +25,9 @@ CSMM::CSMM(const unsigned T, const double PE, const double PS)
     , peak_strain(PE > 0. ? -PE : PE)
     , peak_stress(PS > 0. ? -PS : PS)
     , crack_stress(.31 * sqrt(-peak_stress))
-    , initial_modulus(3875. * sqrt(-peak_stress)) {}
+    , initial_modulus(3875. * sqrt(-peak_stress))
+    , steel_modulus(0)
+    , yield_stress(0) {}
 
 void CSMM::initialize(const shared_ptr<DomainBase>&) {}
 
@@ -34,7 +36,9 @@ unique_ptr<Material> CSMM::get_copy() { throw; }
 int CSMM::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    const auto principal_strain = transform::nominal_to_principal_strain(trial_strain);
+    const auto trans_mat = transform::form_trans(concrete_angle);
+
+    const auto principal_strain = trans_mat * trial_strain;
 
     return 0;
 }
