@@ -20,7 +20,7 @@
 #include <cstdio>
 
 IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned intOrder, const IntegrationType& intType)
-    : n_rows(unsigned(pow(intOrder, intDimension) + .5))
+    : n_rows(unsigned(round(pow(intOrder, intDimension))))
     , n_cols(intDimension + 1)
     , n_elem(n_rows * n_cols) {
     const auto PTL = new double[intOrder];
