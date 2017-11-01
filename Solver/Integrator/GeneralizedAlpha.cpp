@@ -20,7 +20,7 @@
 #include <Domain/Factory.hpp>
 #include <future>
 
-GeneralizedAlpha::GeneralizedAlpha(const unsigned& T, const double& AF, const double& AM)
+GeneralizedAlpha::GeneralizedAlpha(const unsigned T, const double AF, const double AM)
     : Integrator(T, CT_GENERALIZEDALPHA)
     , alpha_f(AF > .5 ? .5 : AF < 0. ? 0. : AF)
     , alpha_m(AM > alpha_f ? alpha_f : AM < -1. ? -1. : AM)
