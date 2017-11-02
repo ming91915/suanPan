@@ -18,6 +18,8 @@
 #include "Concrete01.h"
 #include <Toolbox/utility.h>
 
+const double Concrete01::crack_strain = 8E-5;
+
 Concrete01::Concrete01(const unsigned& T, const double& EP, const double& SP, const BackboneType& TP, const bool& CO, const double& R)
     : Material1D(T, MT_CONCRETE01, R)
     , peak_strain(EP > 0. ? -EP : EP)
@@ -46,12 +48,16 @@ void Concrete01::initialize(const shared_ptr<DomainBase>&) {
         break;
     }
 
-    current_history.zeros(4);
-    trial_history.zeros(4);
+    current_history.zeros(6);
+    trial_history.zeros(6);
 
-    compute_backbone();
+    compute_compression_backbone();
+
     initial_stiffness = trial_stiffness;
     current_stiffness = initial_stiffness;
+
+    crack_stress = initial_stiffness(0) * crack_strain;
+    d_factor = crack_stress * pow(crack_strain, .4);
 }
 
 unique_ptr<Material> Concrete01::get_copy() { return make_unique<Concrete01>(*this); }
@@ -64,49 +70,71 @@ int Concrete01::update_trial_status(const vec& t_strain) {
 
     trial_history = current_history;
 
-    auto& trial_max_strain = trial_history(0);      // maximum compression strain logged
-    auto& trial_residual_strain = trial_history(1); // residual strain in unloading path
-    auto& trial_reverse_strain = trial_history(2);  // unloading point strain
-    auto& trial_reverse_stress = trial_history(3);  // unloading point stress
+    auto& max_strain = trial_history(0);      // maximum compression strain logged
+    auto& residual_strain = trial_history(1); // residual strain in unloading path
+    auto& trial_cr_strain = trial_history(2); // unloading point strain compression side
+    auto& trial_cr_stress = trial_history(3); // unloading point stress compression side
+    auto& trial_tr_strain = trial_history(4); // unloading point strain tension side
+    auto& trial_tr_stress = trial_history(5); // unloading point stress tension side
 
-    if(trial_strain(0) < trial_max_strain) {
-        trial_max_strain = trial_strain(0);
-        if(!center_oriented) trial_residual_strain = .145 * trial_max_strain * trial_max_strain / peak_strain + .13 * trial_max_strain;
+    if(trial_strain(0) < max_strain) {
+        max_strain = trial_strain(0);
+        if(!center_oriented) residual_strain = .145 * max_strain * max_strain / peak_strain + .13 * max_strain;
     }
 
-    const auto strain_a = trial_strain(0) - trial_residual_strain;
+    const auto strain_a = trial_strain(0) - residual_strain;
     const auto side = suanpan::sign(strain_a);
     const auto load_direction = suanpan::sign(incre_strain(0));
 
     if(side == -1)
         // the trial position is in compression zone
         // if current position is on backbone
-        if(on_backbone) {
+        if(on_compression_backbone) {
             // yes on backbone
             if(load_direction == -1.)
                 // loading
-                compute_backbone();
+                compute_compression_backbone();
             else if(load_direction == 1.) {
                 // unloading
-                on_backbone = false;
-                trial_reverse_strain = current_strain(0);
-                trial_reverse_stress = current_stress(0);
-                trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+                on_compression_backbone = false;
+                trial_cr_strain = current_strain(0);
+                trial_cr_stress = current_stress(0);
+                trial_stiffness = trial_cr_stress / (trial_cr_strain - residual_strain);
                 trial_stress = trial_stiffness * strain_a;
             }
-        } else if(trial_strain(0) >= trial_reverse_strain) {
+        } else if(trial_strain(0) >= trial_cr_strain) {
             // still inside backbone
-            if(trial_stiffness(0) == 0.) trial_stiffness = trial_reverse_stress / (trial_reverse_strain - trial_residual_strain);
+            trial_stiffness = trial_cr_stress / (trial_cr_strain - residual_strain);
             trial_stress = trial_stiffness * strain_a;
         } else {
             // reload to backbone
-            on_backbone = true;
-            compute_backbone();
+            on_compression_backbone = true;
+            compute_compression_backbone();
         }
     else {
         // the trial position is in tension zone
-        trial_stress = 0.;
-        trial_stiffness = 0.;
+        if(on_tension_backbone) {
+            // yes on backbone
+            if(load_direction == 1.) {
+                // loading for first time
+                compute_tension_backbone();
+            } else if(load_direction == -1.) {
+                // unloading
+                on_tension_backbone = false;
+                trial_tr_strain = current_strain(0);
+                trial_tr_stress = current_stress(0);
+                trial_stiffness = trial_tr_stress / (trial_tr_strain - residual_strain);
+                trial_stress = trial_stiffness * strain_a;
+            }
+        } else if(trial_strain(0) <= trial_tr_strain) {
+            // no not on backbone but still inside of backbone
+            trial_stiffness = trial_tr_stress / (trial_tr_strain - residual_strain);
+            trial_stress = trial_stiffness * strain_a;
+        } else {
+            // reloading from unloading path
+            on_tension_backbone = true;
+            compute_tension_backbone();
+        }
     }
 
     return 0;
@@ -136,7 +164,7 @@ int Concrete01::reset_status() {
     return 0;
 }
 
-void Concrete01::compute_backbone() {
+void Concrete01::compute_compression_backbone() {
     const auto normal_strain = trial_strain(0) / peak_strain;
     switch(backbone_type) {
     case BackboneType::POPOVICS: {
@@ -176,5 +204,18 @@ void Concrete01::compute_backbone() {
         }
         break;
     }
+    }
+}
+
+void Concrete01::compute_tension_backbone() {
+    const auto offset = trial_strain(0) - trial_history(1);
+    if(offset > crack_strain) {
+        // cracking
+        trial_stress = d_factor / pow(offset, .4);
+        trial_stiffness = -.4 * d_factor / pow(offset, 1.4);
+    } else {
+        // elastic
+        trial_stiffness = initial_stiffness;
+        trial_stress = trial_stiffness * offset;
     }
 }

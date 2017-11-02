@@ -19,23 +19,25 @@
 #include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
-RebarLayer::RebarLayer(const unsigned& T, const unsigned& XT, const unsigned& YT, const double& RX, const double& RY, const double& A, const double& D)
+RebarLayer::RebarLayer(const unsigned T, const unsigned XT, const unsigned YT, const double RX, const double RY, const double A, const double D)
     : Material2D(T, MT_CONCRETE2D, PlaneType::S, D)
     , tag_major(XT)
     , tag_minor(YT)
-    , rebar_ratio_major(RX)
-    , rebar_ratio_minor(RY)
+    , ratio_major(RX)
+    , ratio_minor(RY)
     , inclination(A)
-    , trans(transform::form_trans(inclination)) {}
+    , trans_strain(transform::form_strain_trans(inclination))
+    , trans_stress(transform::form_stress_trans(-inclination)) {}
 
 RebarLayer::RebarLayer(const RebarLayer& P)
     : Material2D(P.get_tag(), MT_CONCRETE2D, PlaneType::S, P.density)
     , tag_major(P.tag_major)
     , tag_minor(P.tag_minor)
-    , rebar_ratio_major(P.rebar_ratio_major)
-    , rebar_ratio_minor(P.rebar_ratio_minor)
+    , ratio_major(P.ratio_major)
+    , ratio_minor(P.ratio_minor)
     , inclination(P.inclination)
-    , trans(P.trans) {
+    , trans_strain(P.trans_strain)
+    , trans_stress(P.trans_stress) {
     if(P.rebar_major != nullptr) rebar_major = P.rebar_major->get_copy();
     if(P.rebar_minor != nullptr) rebar_minor = P.rebar_minor->get_copy();
 }
@@ -64,10 +66,10 @@ void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
 
     initial_stiffness.zeros(3, 3);
 
-    initial_stiffness(0, 0) = rebar_ratio_major * rebar_major->get_initial_stiffness().at(0);
-    initial_stiffness(1, 1) = rebar_ratio_minor * rebar_minor->get_initial_stiffness().at(0);
+    initial_stiffness(0, 0) = ratio_major * rebar_major->get_initial_stiffness().at(0);
+    initial_stiffness(1, 1) = ratio_minor * rebar_minor->get_initial_stiffness().at(0);
 
-    initial_stiffness = solve(trans, initial_stiffness * trans);
+    initial_stiffness = trans_stress * initial_stiffness * trans_strain;
 
     trial_stiffness = initial_stiffness;
     current_stiffness = initial_stiffness;
@@ -75,33 +77,32 @@ void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Material> RebarLayer::get_copy() { return make_unique<RebarLayer>(*this); }
 
-int RebarLayer::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
-
 int RebarLayer::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    auto p_strain = transform::rotate_strain(trial_strain, trans);
+    const vec main_strain = trans_strain * trial_strain;
 
     // update status
-    rebar_major->update_trial_status(vec{ p_strain(0) });
-    rebar_minor->update_trial_status(vec{ p_strain(1) });
+    rebar_major->update_trial_status(main_strain(0));
+    rebar_minor->update_trial_status(main_strain(1));
 
-    vec p_stress(3, fill::zeros);
+    vec main_stress(3);
 
-    // collect principal stress components
-    p_stress(0) = rebar_ratio_major * rebar_major->get_stress().at(0);
-    p_stress(1) = rebar_ratio_minor * rebar_minor->get_stress().at(0);
+    // collect main stress components
+    main_stress(0) = ratio_major * rebar_major->get_stress().at(0);
+    main_stress(1) = ratio_minor * rebar_minor->get_stress().at(0);
+    main_stress(2) = 0.;
 
     // transform back to nominal direction
-    solve(trial_stress, trans, p_stress);
+    trial_stress = trans_stress * main_stress;
 
     // collect principal stiffness components
     trial_stiffness.zeros(3, 3);
-    trial_stiffness(0, 0) = rebar_ratio_major * rebar_major->get_stiffness().at(0);
-    trial_stiffness(1, 1) = rebar_ratio_minor * rebar_minor->get_stiffness().at(0);
+    trial_stiffness(0, 0) = ratio_major * rebar_major->get_stiffness().at(0);
+    trial_stiffness(1, 1) = ratio_minor * rebar_minor->get_stiffness().at(0);
 
     // transform back to nominal direction
-    solve(trial_stiffness, trans, trial_stiffness * trans);
+    trial_stiffness = trans_stress * trial_stiffness * trans_strain;
 
     return 0;
 }

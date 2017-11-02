@@ -16,10 +16,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Concrete2D.h"
+#include "Toolbox/utility.h"
 #include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
-Concrete2D::Concrete2D(const unsigned& T, const unsigned& M, const double& P, const PlaneType& PT, const double& R)
+Concrete2D::Concrete2D(const unsigned T, const unsigned M, const double P, const PlaneType PT, const double R)
     : Material2D(T, MT_CONCRETE2D, PT, R)
     , concrete_tag(M)
     , poissons_ratio(P) {}
@@ -48,13 +49,11 @@ void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
     const auto& E11 = concrete_major->get_initial_stiffness().at(0);
     const auto VV = plane_type == PlaneType::S ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
+    const auto t_factor = (plane_type == PlaneType::S ? E11 : E11 / (1. - poissons_ratio * poissons_ratio)) / (1. - VV * VV);
+
     initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1.;
-    initial_stiffness(1, 1) = 1.;
-    initial_stiffness(2, 2) = (1. - VV) / 2.;
-    initial_stiffness(0, 1) = VV;
-    initial_stiffness(1, 0) = VV;
-    initial_stiffness *= (plane_type == PlaneType::S ? E11 : E11 / (1. - poissons_ratio * poissons_ratio)) / (1. - VV * VV);
+    initial_stiffness(0, 1) = initial_stiffness(1, 0) = VV * (initial_stiffness(0, 0) = initial_stiffness(1, 1) = t_factor);
+    initial_stiffness(2, 2) = .5 * t_factor * (1. - VV);
 
     trial_stiffness = initial_stiffness;
     current_stiffness = initial_stiffness;
@@ -62,40 +61,46 @@ void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
 
 unique_ptr<Material> Concrete2D::get_copy() { return make_unique<Concrete2D>(*this); }
 
-int Concrete2D::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
-
 int Concrete2D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    auto p_strain = trial_strain;
+    principal_direction = transform::strain_angle(trial_strain);
 
-    // transform to principal direction
-    const auto trans = transform::nominal_to_principal_strain(p_strain, principal_direction);
+    const auto trans_strain = transform::form_strain_trans(principal_direction);
+    const auto trans_stress = transform::form_stress_trans(-principal_direction);
+
+    const auto principal_strain = transform::nominal_to_principal_strain(trial_strain);
 
     // update status
-    concrete_major->update_trial_status(vec{ p_strain(0) });
-    concrete_minor->update_trial_status(vec{ p_strain(1) });
+    concrete_major->update_trial_status(principal_strain(0));
+    concrete_minor->update_trial_status(principal_strain(1));
 
-    vec p_stress(3, fill::zeros);
+    vec principal_stress(3);
 
     // collect principal stress components
-    p_stress(0) = concrete_major->get_stress().at(0);
-    p_stress(1) = concrete_minor->get_stress().at(0);
-
-    // transform back to nominal direction
-    solve(trial_stress, trans, p_stress);
-
-    const auto& E11 = concrete_major->get_stiffness().at(0);
-    const auto& E22 = concrete_minor->get_stiffness().at(0);
+    principal_stress(0) = concrete_major->get_stress().at(0);
+    principal_stress(1) = concrete_minor->get_stress().at(0);
+    principal_stress(2) = 0.;
 
     // collect principal stiffness components
     trial_stiffness.zeros(3, 3);
-    trial_stiffness(0, 0) = E11;
-    trial_stiffness(1, 1) = E22;
-    trial_stiffness(2, 2) = E11 * E22 / (E11 + E22);
+    trial_stiffness(0, 0) = concrete_major->get_stiffness().at(0);
+    trial_stiffness(1, 1) = concrete_minor->get_stiffness().at(0);
+
+    // tension combined with compression consider coupled effect
+    if(suanpan::sign(principal_strain(0)) > 0. && suanpan::sign(principal_strain(1)) < 0.) {
+        const auto coupled = sqrt(1. + 400 * principal_strain(0));
+        principal_stress(1) /= coupled;
+        trial_stiffness(1, 1) /= coupled;
+    }
+
+    trial_stiffness(2, 2) = trial_stiffness(0, 0) * trial_stiffness(1, 1) / (trial_stiffness(0, 0) + trial_stiffness(1, 1));
 
     // transform back to nominal direction
-    trial_stiffness = solve(trans, trial_stiffness * trans);
+    trial_stress = trans_stress * principal_stress;
+
+    // transform back to nominal direction
+    trial_stiffness = trans_stress * trial_stiffness * trans_strain;
 
     return 0;
 }

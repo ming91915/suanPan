@@ -21,7 +21,9 @@
 #include <suanPan.h>
 
 namespace tensor {
+vec unitTensor2();
 mat unitDevTensor4();
+mat unitSymTensor4();
 
 double tr(const vec&);
 double mean(const vec&);
@@ -30,13 +32,14 @@ vec dev(const vec&);
 
 namespace transform {
 double atan2(const vec&);
-mat form_trans(const double);
+double stress_angle(const vec&);
+double strain_angle(const vec&);
+mat form_stress_trans(const double);
+mat form_strain_trans(const double);
 vec nominal_to_principal_strain(const vec&);
 vec nominal_to_principal_stress(const vec&);
 mat nominal_to_principal_strain(vec&, double&);
 mat nominal_to_principal_stress(vec&, double&);
-vec rotate_strain(const vec&, const mat&);
-vec rotate_stress(const vec&, const mat&);
 vec rotate_strain(const vec&, const double);
 vec rotate_stress(const vec&, const double);
 namespace beam {

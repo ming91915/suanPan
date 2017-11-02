@@ -17,8 +17,11 @@
 /**
  * @class Concrete2D
  * @brief A Concrete2D material class.
+ *
+ * For plain concrete.
+ *
  * @author T
- * @date 03/10/2017
+ * @date 02/11/2017
  * @version 0.1.1
  * @file Concrete2D.h
  * @addtogroup Material-2D
@@ -40,11 +43,11 @@ class Concrete2D : public Material2D {
     double principal_direction = 0.;
 
 public:
-    Concrete2D(const unsigned&, // tag
-        const unsigned&,        // material tag
-        const double& = .2,     // poissons_ratio
-        const PlaneType& = PlaneType::S,
-        const double& = 0. // density
+    Concrete2D(const unsigned, // tag
+        const unsigned,        // material tag
+        const double = .2,     // poissons_ratio
+        const PlaneType = PlaneType::S,
+        const double = 0. // density
     );
     Concrete2D(const Concrete2D&);
 
@@ -52,7 +55,6 @@ public:
 
     unique_ptr<Material> get_copy() override;
 
-    int update_incre_status(const vec&) override;
     int update_trial_status(const vec&) override;
 
     int clear_status() override;

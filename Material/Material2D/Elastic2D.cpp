@@ -27,13 +27,11 @@ void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
     const auto EE = plane_type == PlaneType::S ? elastic_modulus : elastic_modulus / (1. - poissons_ratio * poissons_ratio);
     const auto VV = plane_type == PlaneType::S ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
 
+    const auto t_factor = EE / (1. - VV * VV);
+
     initial_stiffness.zeros(3, 3);
-    initial_stiffness(0, 0) = 1.;
-    initial_stiffness(1, 1) = 1.;
-    initial_stiffness(2, 2) = (1. - VV) / 2.;
-    initial_stiffness(0, 1) = VV;
-    initial_stiffness(1, 0) = VV;
-    initial_stiffness *= EE / (1. - VV * VV);
+    initial_stiffness(0, 1) = initial_stiffness(1, 0) = VV * (initial_stiffness(0, 0) = initial_stiffness(1, 1) = t_factor);
+    initial_stiffness(2, 2) = .5 * t_factor * (1. - VV);
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
@@ -41,13 +39,9 @@ void Elastic2D::initialize(const shared_ptr<DomainBase>&) {
 
 unique_ptr<Material> Elastic2D::get_copy() { return make_unique<Elastic2D>(*this); }
 
-int Elastic2D::update_incre_status(const vec& i_strain) { return update_trial_status(current_strain + i_strain); }
-
 int Elastic2D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     trial_stress = trial_stiffness * trial_strain;
-    // incre_strain = trial_strain - current_strain;
-    // incre_stress = trial_stress - current_stress;
     return 0;
 }
 

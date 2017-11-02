@@ -33,7 +33,11 @@
 enum class BackboneType { THORENFELDT, POPOVICS, TSAI, KPSC, KPSU };
 
 class Concrete01 : public Material1D {
+    static const double crack_strain;
+
     const double peak_strain, peak_stress;
+
+    double crack_stress = 0., d_factor = 0.;
 
     const BackboneType backbone_type;
 
@@ -41,9 +45,11 @@ class Concrete01 : public Material1D {
 
     double M = 0., N = 0.;
 
-    bool on_backbone = true;
+    bool on_compression_backbone = true;
+    bool on_tension_backbone = true;
 
-    virtual void compute_backbone();
+    void compute_compression_backbone();
+    void compute_tension_backbone();
 
 public:
     Concrete01(const unsigned&, // tag

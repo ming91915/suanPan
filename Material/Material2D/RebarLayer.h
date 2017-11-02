@@ -33,30 +33,28 @@
 class RebarLayer : public Material2D {
     const unsigned tag_major, tag_minor;
 
-    const double rebar_ratio_major, rebar_ratio_minor;
+    const double ratio_major, ratio_minor;
 
     unique_ptr<Material> rebar_major, rebar_minor;
 
     const double inclination;
 
-    const mat trans;
+    const mat trans_strain, trans_stress;
 
 public:
-    RebarLayer(const unsigned&, // tag
-        const unsigned&,        // material tag along major axis
-        const unsigned&,        // material tag along minor axis
-        const double&,          // reinforcement ratio along major axis
-        const double&,          // reinforcement ratio along minor axis
-        const double& = 0.,     // inclination
-        const double& = 0.      // density
+    RebarLayer(const unsigned, // tag
+        const unsigned,        // material tag along major axis
+        const unsigned,        // material tag along minor axis
+        const double,          // reinforcement ratio along major axis
+        const double,          // reinforcement ratio along minor axis
+        const double = 0.,     // inclination
+        const double = 0.      // density
     );
     RebarLayer(const RebarLayer&);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 
     unique_ptr<Material> get_copy() override;
-
-    int update_incre_status(const vec&) override;
     int update_trial_status(const vec&) override;
 
     int clear_status() override;

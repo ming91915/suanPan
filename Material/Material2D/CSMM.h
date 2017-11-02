@@ -33,22 +33,28 @@
 class CSMM : public Material2D {
     static const double crack_strain;
 
-    const double peak_strain;
-    const double peak_stress;
-
+    const double peak_stress, peak_strain;
+    const double initial_modulus, initial_zeta;
     const double crack_stress;
 
-    const double initial_modulus;
+    const double steel_modulus_l, steel_modulus_t;
+    const double rebar_ratio_l, rebar_ratio_t, b_l, b_t;
+    const double yield_stress_l, yield_stress_t;
+    const double yield_strain_l, yield_strain_t;
 
-    double concrete_angle = datum::pi / 4.;
+    double principal_angle = 0., inclination = 0.;
 
-    const double steel_modulus;
-    const double yield_stress;
-
-    const double yield_strain = yield_stress / steel_modulus;
+    bool cracked = false;
 
 public:
     explicit CSMM(const unsigned, // tag
+        const double,
+        const double,
+        const double,
+        const double,
+        const double,
+        const double,
+        const double,
         const double,
         const double);
 
