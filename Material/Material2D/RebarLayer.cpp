@@ -104,8 +104,6 @@ int RebarLayer::update_trial_status(const vec& t_strain) {
     // transform back to nominal direction
     trial_stiffness = trans_stress * trial_stiffness * trans_strain;
 
-    trial_stiffness.print("\n");
-
     return 0;
 }
 
