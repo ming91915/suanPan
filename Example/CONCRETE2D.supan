@@ -1,0 +1,32 @@
+material RC01 1 3 2
+material Concrete2D 2 4
+material Concrete01 4 -.002 -30 TSAI
+material RebarLayer 3 5 5 .02 .02
+material MPF 5 2E5 400 .05
+
+node 1 0 0
+node 2 1 0
+node 3 1 1
+node 4 0 1
+
+element CP4 1 1 2 3 4 1 1
+
+fix 1 P 1 4
+
+cload 1 0 -20 2 2 3
+
+recorder 1 Node U 2
+
+step static 1
+set ini_step_size .01
+set fixed_step_size true
+
+converger AbsIncreDisp 1 1E-4 5 1
+
+analyze
+
+peek node 2
+
+save recorder 1
+
+exit

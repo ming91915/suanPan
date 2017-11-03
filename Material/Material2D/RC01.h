@@ -15,28 +15,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class DSFM
- * @brief A DSFM material class.
+ * @class RC01
+ * @brief A RC01 material class.
  * @author T
  * @date 03/10/2017
  * @version 0.1.1
- * @file DSFM.h
+ * @file RC01.h
  * @addtogroup Material-2D
  * @{
  */
 
-#ifndef DSFM_H
-#define DSFM_H
+#ifndef RC01_H
+#define RC01_H
 
 #include <Material/Material2D/Material2D.h>
 
-class DSFM : public Material2D {
+class RC01 : public Material2D {
+    const unsigned rebar_tag, concrete_tag;
+
+    unique_ptr<Material> rebar;
+    unique_ptr<Material> concrete;
+
 public:
-    explicit DSFM(const unsigned // tag
+    explicit RC01(const unsigned, // tag
+        const unsigned,           // concrete tag
+        const unsigned            // rebar layer tag
     );
+    RC01(const RC01&);
 
     void initialize(const shared_ptr<DomainBase>&) override;
+
     unique_ptr<Material> get_copy() override;
+
+    int update_trial_status(const vec&) override;
+
     int clear_status() override;
     int commit_status() override;
     int reset_status() override;

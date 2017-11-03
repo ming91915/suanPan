@@ -18,8 +18,8 @@
  * @class Concrete01
  * @brief A Concrete01 material class.
  * @author T
- * @date 01/10/2017
- * @version 0.1.1
+ * @date 02/11/2017
+ * @version 0.2.1
  * @file Concrete01.h
  * @addtogroup Material-1D
  * @{

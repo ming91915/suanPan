@@ -46,9 +46,7 @@ public:
     Concrete2D(const unsigned, // tag
         const unsigned,        // material tag
         const double = .2,     // poissons_ratio
-        const PlaneType = PlaneType::S,
-        const double = 0. // density
-    );
+        const PlaneType = PlaneType::S);
     Concrete2D(const Concrete2D&);
 
     void initialize(const shared_ptr<DomainBase>&) override;

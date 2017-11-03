@@ -19,8 +19,8 @@
 #include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
-RebarLayer::RebarLayer(const unsigned T, const unsigned XT, const unsigned YT, const double RX, const double RY, const double A, const double D)
-    : Material2D(T, MT_CONCRETE2D, PlaneType::S, D)
+RebarLayer::RebarLayer(const unsigned T, const unsigned XT, const unsigned YT, const double RX, const double RY, const double A)
+    : Material2D(T, MT_CONCRETE2D, PlaneType::S, 0.)
     , tag_major(XT)
     , tag_minor(YT)
     , ratio_major(RX)
@@ -44,25 +44,31 @@ RebarLayer::RebarLayer(const RebarLayer& P)
 
 void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
     if(D->find_material(tag_major)) {
-        rebar_major = D->get_material(tag_major)->get_copy();
-        if(!rebar_major->initialized) {
-            rebar_major->Material::initialize(D);
-            rebar_major->initialize(D);
+        auto& rebar_major_proto = D->get_material(tag_major);
+        if(!rebar_major_proto->initialized) {
+            rebar_major_proto->Material::initialize(D);
+            rebar_major_proto->initialize(D);
+            access::rw(rebar_major_proto->initialized) = true;
         }
+        rebar_major = rebar_major_proto->get_copy();
     } else {
         suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_major);
         return;
     }
     if(D->find_material(tag_minor)) {
-        rebar_minor = D->get_material(tag_minor)->get_copy();
-        if(!rebar_minor->initialized) {
-            rebar_minor->Material::initialize(D);
-            rebar_minor->initialize(D);
+        auto& rebar_minor_proto = D->get_material(tag_minor);
+        if(!rebar_minor_proto->initialized) {
+            rebar_minor_proto->Material::initialize(D);
+            rebar_minor_proto->initialize(D);
+            access::rw(rebar_minor_proto->initialized) = true;
         }
+        rebar_minor = rebar_minor_proto->get_copy();
     } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_minor);
+        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_major);
         return;
     }
+
+    density = ratio_major * rebar_major->get_parameter() + ratio_minor * rebar_minor->get_parameter();
 
     initial_stiffness.zeros(3, 3);
 

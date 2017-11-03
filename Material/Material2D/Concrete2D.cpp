@@ -20,8 +20,8 @@
 #include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
 
-Concrete2D::Concrete2D(const unsigned T, const unsigned M, const double P, const PlaneType PT, const double R)
-    : Material2D(T, MT_CONCRETE2D, PT, R)
+Concrete2D::Concrete2D(const unsigned T, const unsigned M, const double P, const PlaneType PT)
+    : Material2D(T, MT_CONCRETE2D, PT, 0.)
     , concrete_tag(M)
     , poissons_ratio(P) {}
 
@@ -35,16 +35,20 @@ Concrete2D::Concrete2D(const Concrete2D& P)
 
 void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
     if(D->find_material(concrete_tag)) {
-        concrete_major = D->get_material(concrete_tag)->get_copy();
-        if(!concrete_major->initialized) {
-            concrete_major->Material::initialize(D);
-            concrete_major->initialize(D);
+        auto& concrete_proto = D->get_material(concrete_tag);
+        if(!concrete_proto->initialized) {
+            concrete_proto->Material::initialize(D);
+            concrete_proto->initialize(D);
+            access::rw(concrete_proto->initialized) = true;
         }
-        concrete_minor = concrete_major->get_copy();
+        concrete_major = concrete_proto->get_copy();
+        concrete_minor = concrete_proto->get_copy();
     } else {
         suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", concrete_tag);
         return;
     }
+
+    density = concrete_major->get_parameter();
 
     const auto& E11 = concrete_major->get_initial_stiffness().at(0);
     const auto VV = plane_type == PlaneType::S ? poissons_ratio : poissons_ratio / (1. - poissons_ratio);
@@ -101,6 +105,8 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
 
     // transform back to nominal direction
     trial_stiffness = trans_stress * trial_stiffness * trans_strain;
+
+    trial_stiffness.print("\n");
 
     return 0;
 }
