@@ -66,8 +66,8 @@
 #ifndef MT_VISCOSITY1D
 #define MT_VISCOSITY1D 1015
 #endif
-#ifndef MT_DSFM
-#define MT_DSFM 1016
+#ifndef MT_RC01
+#define MT_RC01 1016
 #endif
 #ifndef MT_CSMM
 #define MT_CSMM 1017

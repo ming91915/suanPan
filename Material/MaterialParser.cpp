@@ -49,6 +49,12 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_gap01(new_material, command);
     else if(is_equal(material_id, "Concrete01"))
         new_concrete01(new_material, command);
+    else if(is_equal(material_id, "Concrete2D"))
+        new_concrete2d(new_material, command);
+    else if(is_equal(material_id, "RebarLayer"))
+        new_rebarlayer(new_material, command);
+    else if(is_equal(material_id, "RC01"))
+        new_rc01(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -606,6 +612,72 @@ void new_maxwell(unique_ptr<Material>& return_obj, istringstream& command) {
     }
 
     return_obj = make_unique<Maxwell>(tag, elastic_modulus, alpha, damping_postive, damping_negative);
+}
+
+void new_concrete2d(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_concrete2d() requires a valid tag.\n");
+        return;
+    }
+
+    unsigned uniaxial_tag;
+    if(!get_input(command, uniaxial_tag)) {
+        suanpan_error("new_concrete2d() requires a valid material tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<Concrete2D>(tag, uniaxial_tag);
+}
+
+void new_rebarlayer(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_rebarlayer() requires a valid tag.\n");
+        return;
+    }
+
+    unsigned major_tag, minor_tag;
+    if(!get_input(command, major_tag)) {
+        suanpan_error("new_rebarlayer() requires a valid material tag.\n");
+        return;
+    }
+    if(!get_input(command, minor_tag)) {
+        suanpan_error("new_rebarlayer() requires a valid material tag.\n");
+        return;
+    }
+
+    double major_ratio, minor_ratio;
+    if(!get_input(command, major_ratio)) {
+        suanpan_error("new_rebarlayer() requires a valid reinforcement ratio.\n");
+        return;
+    }
+    if(!get_input(command, minor_ratio)) {
+        suanpan_error("new_rebarlayer() requires a valid reinforcement ratio.\n");
+        return;
+    }
+
+    return_obj = make_unique<RebarLayer>(tag, major_tag, minor_tag, major_ratio, minor_ratio);
+}
+
+void new_rc01(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_rc01() requires a valid tag.\n");
+        return;
+    }
+
+    unsigned concrete_tag, rebar_tag;
+    if(!get_input(command, concrete_tag)) {
+        suanpan_error("new_rc01() requires a valid concrete tag.\n");
+        return;
+    }
+    if(!get_input(command, rebar_tag)) {
+        suanpan_error("new_rc01() requires a valid rebar tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<RC01>(tag, concrete_tag, rebar_tag);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
