@@ -39,7 +39,7 @@ class RebarLayer : public Material2D {
 
     const mat trans_strain, trans_stress;
 
-    unique_ptr<Material> rebar_major = nullptr, rebar_minor = nullptr;
+    unique_ptr<Material> rebar_major, rebar_minor;
 
 public:
     RebarLayer(const unsigned, // tag
@@ -51,7 +51,7 @@ public:
     );
     RebarLayer(const RebarLayer&);
 
-    void initialize(const shared_ptr<DomainBase>&) override;
+    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     unique_ptr<Material> get_copy() override;
     int update_trial_status(const vec&) override;

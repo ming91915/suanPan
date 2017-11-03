@@ -212,7 +212,7 @@ void Concrete01::compute_tension_backbone() {
     if(offset > crack_strain) {
         // cracking
         trial_stress = d_factor / pow(offset, .4);
-        trial_stiffness = -.4 * d_factor / pow(offset, 1.4);
+        trial_stiffness = -.4 * trial_stress / offset;
     } else {
         // elastic
         trial_stiffness = initial_stiffness;

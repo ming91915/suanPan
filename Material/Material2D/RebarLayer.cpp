@@ -40,32 +40,26 @@ RebarLayer::RebarLayer(const RebarLayer& P)
     , trans_stress(P.trans_stress) {
     if(P.rebar_major != nullptr) rebar_major = P.rebar_major->get_copy();
     if(P.rebar_minor != nullptr) rebar_minor = P.rebar_minor->get_copy();
+    Material::initialize();
+    RebarLayer::initialize();
 }
 
 void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
-    if(D->find_material(tag_major)) {
+    if(D != nullptr) {
+        if(!D->find_material(tag_major) || !D->find_material(tag_minor)) {
+            D->disable_material(get_tag());
+            return;
+        }
+
         auto& rebar_major_proto = D->get_material(tag_major);
-        if(!rebar_major_proto->initialized) {
-            rebar_major_proto->Material::initialize(D);
-            rebar_major_proto->initialize(D);
-            access::rw(rebar_major_proto->initialized) = true;
-        }
+        rebar_major_proto->Material::initialize(D);
+        rebar_major_proto->initialize(D);
         rebar_major = rebar_major_proto->get_copy();
-    } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_major);
-        return;
-    }
-    if(D->find_material(tag_minor)) {
+
         auto& rebar_minor_proto = D->get_material(tag_minor);
-        if(!rebar_minor_proto->initialized) {
-            rebar_minor_proto->Material::initialize(D);
-            rebar_minor_proto->initialize(D);
-            access::rw(rebar_minor_proto->initialized) = true;
-        }
+        rebar_minor_proto->Material::initialize(D);
+        rebar_minor_proto->initialize(D);
         rebar_minor = rebar_minor_proto->get_copy();
-    } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", tag_major);
-        return;
     }
 
     density = ratio_major * rebar_major->get_parameter() + ratio_minor * rebar_minor->get_parameter();
@@ -110,23 +104,37 @@ int RebarLayer::update_trial_status(const vec& t_strain) {
     // transform back to nominal direction
     trial_stiffness = trans_stress * trial_stiffness * trans_strain;
 
+    trial_stiffness.print("\n");
+
     return 0;
 }
 
 int RebarLayer::clear_status() {
-    rebar_major->clear_status();
-    rebar_minor->clear_status();
-    return 0;
+    current_strain.zeros();
+    trial_strain.zeros();
+    current_stress.zeros();
+    trial_stress.zeros();
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
+    auto code = rebar_major->clear_status();
+    code += rebar_minor->clear_status();
+    return code;
 }
 
 int RebarLayer::commit_status() {
-    rebar_major->commit_status();
-    rebar_minor->commit_status();
-    return 0;
+    current_strain = trial_strain;
+    current_stress = trial_stress;
+    current_stiffness = trial_stiffness;
+    auto code = rebar_major->commit_status();
+    code += rebar_minor->commit_status();
+    return code;
 }
 
 int RebarLayer::reset_status() {
-    rebar_major->reset_status();
-    rebar_minor->reset_status();
-    return 0;
+    trial_strain = current_strain;
+    trial_stress = current_stress;
+    trial_stiffness = current_stiffness;
+    auto code = rebar_major->reset_status();
+    code += rebar_minor->reset_status();
+    return code;
 }

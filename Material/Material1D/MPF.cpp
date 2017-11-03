@@ -18,7 +18,7 @@
 #include "MPF.h"
 #include <Toolbox/utility.h>
 
-MPF::MPF(const unsigned& T, const double& E, const double& Y, const double& H, const double& R, const double& B1, const double& B2, const double& B3, const double& B4, const bool& ISO, const bool& CON, const double& D)
+MPF::MPF(const unsigned T, const double E, const double Y, const double H, const double R, const double B1, const double B2, const double B3, const double B4, const bool ISO, const bool CON, const double D)
     : Material1D(T, MT_MPF, D)
     , elastic_modulus(E)
     , yield_stress(Y)

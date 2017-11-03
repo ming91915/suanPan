@@ -26,29 +26,41 @@ RC01::RC01(const unsigned T, const unsigned ST, const unsigned CT)
 RC01::RC01(const RC01& P)
     : Material2D(P.get_tag(), MT_RC01, PlaneType::S, P.density)
     , rebar_tag(P.rebar_tag)
-    , concrete_tag(P.concrete_tag)
-    , rebar(P.rebar->get_copy())
-    , concrete(P.concrete->get_copy()) {}
+    , concrete_tag(P.concrete_tag) {
+    if(P.rebar != nullptr) {
+        rebar = P.rebar->get_copy();
+        rebar->Material::initialize();
+        rebar->initialize();
+    }
+    if(P.concrete != nullptr) {
+        concrete = P.concrete->get_copy();
+        concrete->Material::initialize();
+        concrete->initialize();
+    }
+    Material::initialize();
+    RC01::initialize();
+}
 
 void RC01::initialize(const shared_ptr<DomainBase>& D) {
-    if(D->find_material(rebar_tag)) {
-        auto& rebar_proto = D->get_material(rebar_tag);
-        if(!rebar_proto->initialized) {
-            rebar_proto->Material::initialize(D);
-            rebar_proto->initialize(D);
-            access::rw(rebar_proto->initialized) = true;
+    if(D != nullptr) {
+        if(!D->find_material(rebar_tag) || !D->find_material(concrete_tag)) {
+            D->disable_material(get_tag());
+            return;
         }
-        rebar = rebar_proto->get_copy();
-    }
 
-    if(D->find_material(concrete_tag)) {
+        auto& rebar_proto = D->get_material(rebar_tag);
+        rebar_proto->Material::initialize(D);
+        rebar_proto->initialize(D);
+        rebar = rebar_proto->get_copy();
+        rebar->Material::initialize(D);
+        rebar->initialize(D);
+
         auto& concrete_proto = D->get_material(concrete_tag);
-        if(!concrete_proto->initialized) {
-            concrete_proto->Material::initialize(D);
-            concrete_proto->initialize(D);
-            access::rw(concrete_proto->initialized) = true;
-        }
+        concrete_proto->Material::initialize(D);
+        concrete_proto->initialize(D);
         concrete = concrete_proto->get_copy();
+        concrete->Material::initialize(D);
+        concrete->initialize(D);
     }
 
     density = concrete->get_parameter(ParameterType::DENSITY) + rebar->get_parameter(ParameterType::DENSITY);
@@ -81,8 +93,7 @@ int RC01::clear_status() {
     trial_stress.zeros();
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
-    auto code = 0;
-    code += rebar->clear_status();
+    auto code = rebar->clear_status();
     code += concrete->clear_status();
     return code;
 }
@@ -91,8 +102,7 @@ int RC01::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
-    auto code = 0;
-    code += rebar->commit_status();
+    auto code = rebar->commit_status();
     code += concrete->commit_status();
     return code;
 }
@@ -101,8 +111,7 @@ int RC01::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;
-    auto code = 0;
-    code += rebar->reset_status();
+    auto code = rebar->reset_status();
     code += concrete->reset_status();
     return code;
 }

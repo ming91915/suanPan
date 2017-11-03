@@ -53,12 +53,14 @@ Maxwell::Maxwell(const unsigned T, const double E, const double A, const double 
     , viscosity(make_unique<Damper>(E, A, C1, C2))
     , solver(make_unique<DP45>(0, viscosity.get())) {}
 
-Maxwell::Maxwell(const Maxwell& old_obj)
-    : Material1D(old_obj.get_tag(), MT_MAXWELL, 0.)
-    , incre_time(old_obj.incre_time)
-    , viscosity(old_obj.viscosity->get_copy())
-    , solver(old_obj.solver->get_copy()) {
+Maxwell::Maxwell(const Maxwell& P)
+    : Material1D(P.get_tag(), MT_MAXWELL, 0.)
+    , incre_time(P.incre_time)
+    , viscosity(P.viscosity->get_copy())
+    , solver(P.solver->get_copy()) {
     solver->set_ode(viscosity.get());
+    Material::initialize();
+    Maxwell::initialize();
 }
 
 void Maxwell::initialize(const shared_ptr<DomainBase>& D) { incre_time = &D->get_factory()->get_incre_time(); }

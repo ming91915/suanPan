@@ -73,7 +73,27 @@ int Static::analyze() {
             step /= 2.;
             set_max_substep(num_increment + unsigned(time_left / step) + 1);
             if(num_converged_step != 0) num_converged_step = 0;
-        } else // positive codes are from lapack subroutines
+        } else
             return -1;
+        /*
+        { // positive codes are from lapack subroutines
+            // reset to the start of current substep
+            G->reset_status();
+            // check if minimum step size is hit
+            if(step <= get_min_step_size()) {
+                suanpan_error("analyze() reaches minimum step size %.3E.\n", get_min_step_size());
+                return -1;
+            }
+            // check if fixed step size
+            if(is_fixed_step_size()) {
+                suanpan_error("analyze() does not converge for given fixed step size %.3E.\n", step);
+                return -1;
+            }
+            // step size is allowed to decrease
+            step /= 2.;
+            set_max_substep(num_increment + unsigned(time_left / step) + 1);
+            if(num_converged_step != 0) num_converged_step = 0;
+        }
+        */
     }
 }

@@ -667,17 +667,17 @@ void new_rc01(unique_ptr<Material>& return_obj, istringstream& command) {
         return;
     }
 
-    unsigned concrete_tag, rebar_tag;
-    if(!get_input(command, concrete_tag)) {
-        suanpan_error("new_rc01() requires a valid concrete tag.\n");
-        return;
-    }
+    unsigned rebar_tag, concrete_tag;
     if(!get_input(command, rebar_tag)) {
         suanpan_error("new_rc01() requires a valid rebar tag.\n");
         return;
     }
+    if(!get_input(command, concrete_tag)) {
+        suanpan_error("new_rc01() requires a valid concrete tag.\n");
+        return;
+    }
 
-    return_obj = make_unique<RC01>(tag, concrete_tag, rebar_tag);
+    return_obj = make_unique<RC01>(tag, rebar_tag, concrete_tag);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {

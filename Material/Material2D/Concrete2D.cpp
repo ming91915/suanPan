@@ -31,21 +31,23 @@ Concrete2D::Concrete2D(const Concrete2D& P)
     , poissons_ratio(P.poissons_ratio) {
     if(P.concrete_major != nullptr) concrete_major = P.concrete_major->get_copy();
     if(P.concrete_minor != nullptr) concrete_minor = P.concrete_minor->get_copy();
+    Material::initialize();
+    Concrete2D::initialize();
 }
 
 void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
-    if(D->find_material(concrete_tag)) {
-        auto& concrete_proto = D->get_material(concrete_tag);
-        if(!concrete_proto->initialized) {
-            concrete_proto->Material::initialize(D);
-            concrete_proto->initialize(D);
-            access::rw(concrete_proto->initialized) = true;
+    if(D != nullptr) {
+        if(!D->find_material(concrete_tag)) {
+            D->disable_material(get_tag());
+            return;
         }
+
+        auto& concrete_proto = D->get_material(concrete_tag);
+        concrete_proto->Material::initialize(D);
+        concrete_proto->initialize(D);
+
         concrete_major = concrete_proto->get_copy();
         concrete_minor = concrete_proto->get_copy();
-    } else {
-        suanpan_error("initialize() cannot find a proper defined material with tag %u.\n", concrete_tag);
-        return;
     }
 
     density = concrete_major->get_parameter();
@@ -112,19 +114,31 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
 }
 
 int Concrete2D::clear_status() {
-    concrete_major->clear_status();
-    concrete_minor->clear_status();
-    return 0;
+    current_strain.zeros();
+    trial_strain.zeros();
+    current_stress.zeros();
+    trial_stress.zeros();
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
+    auto code = concrete_major->clear_status();
+    code += concrete_minor->clear_status();
+    return code;
 }
 
 int Concrete2D::commit_status() {
-    concrete_major->commit_status();
-    concrete_minor->commit_status();
-    return 0;
+    current_strain = trial_strain;
+    current_stress = trial_stress;
+    current_stiffness = trial_stiffness;
+    auto code = concrete_major->commit_status();
+    code += concrete_minor->commit_status();
+    return code;
 }
 
 int Concrete2D::reset_status() {
-    concrete_major->reset_status();
-    concrete_minor->reset_status();
-    return 0;
+    trial_strain = current_strain;
+    trial_stress = current_stress;
+    trial_stiffness = current_stiffness;
+    auto code = concrete_major->reset_status();
+    code += concrete_minor->reset_status();
+    return code;
 }

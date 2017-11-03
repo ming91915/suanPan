@@ -42,18 +42,18 @@ class MPF final : public Material1D {
     const double yield_strain; // yield strain
 
 public:
-    explicit MPF(const unsigned& = 0, // tag
-        const double& = 2E5,          // elastic modulus
-        const double& = 400.,         // yield stress
-        const double& = .05,          // hardening ratio
-        const double& = 20.,          // R0
-        const double& = 18.5,         // A1
-        const double& = .15,          // A2
-        const double& = .01,          // A3
-        const double& = 7.,           // A4
-        const bool& = false,          // isotropic hardening switch
-        const bool& = false,          // constant radius switch
-        const double& = 0.            // density
+    explicit MPF(const unsigned = 0, // tag
+        const double = 2E5,          // elastic modulus
+        const double = 400.,         // yield stress
+        const double = .05,          // hardening ratio
+        const double = 20.,          // R0
+        const double = 18.5,         // A1
+        const double = .15,          // A2
+        const double = .01,          // A3
+        const double = 7.,           // A4
+        const bool = false,          // isotropic hardening switch
+        const bool = false,          // constant radius switch
+        const double = 0.            // density
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

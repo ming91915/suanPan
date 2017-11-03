@@ -4,6 +4,12 @@ material Concrete01 4 -.002 -30 TSAI
 material RebarLayer 3 5 5 .02 .02
 material MPF 5 2E5 400 .05
 
+# material Concrete2D 1 2
+# material Concrete01 2 -.002 -30 TSAI
+
+# material RebarLayer 1 2 2 .08 .00002
+# material MPF 2 2E5 400 .01
+
 node 1 0 0
 node 2 1 0
 node 3 1 1
@@ -13,13 +19,14 @@ element CP4 1 1 2 3 4 1 1
 
 fix 1 P 1 4
 
-cload 1 0 -20 2 2 3
+cload 1 0 -300 1 2 3
 
 recorder 1 Node U 2
 
 step static 1
 set ini_step_size .01
-set fixed_step_size true
+# set fixed_step_size true
+# set symm_mat false
 
 converger AbsIncreDisp 1 1E-4 5 1
 

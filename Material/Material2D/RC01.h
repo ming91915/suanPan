@@ -43,7 +43,7 @@ public:
     );
     RC01(const RC01&);
 
-    void initialize(const shared_ptr<DomainBase>&) override;
+    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     unique_ptr<Material> get_copy() override;
 

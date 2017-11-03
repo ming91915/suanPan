@@ -49,7 +49,7 @@ public:
         const PlaneType = PlaneType::S);
     Concrete2D(const Concrete2D&);
 
-    void initialize(const shared_ptr<DomainBase>&) override;
+    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     unique_ptr<Material> get_copy() override;
 
