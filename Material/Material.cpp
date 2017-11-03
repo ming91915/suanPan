@@ -30,10 +30,14 @@ void Material::initialize(const shared_ptr<DomainBase>&) {
     const auto size = static_cast<unsigned>(material_type);
 
     current_strain.zeros(size);
-    current_stress.zeros(size);
-
     trial_strain.zeros(size);
+
+    current_stress.zeros(size);
     trial_stress.zeros(size);
+
+    initial_stiffness.zeros(size, size);
+    current_stiffness.zeros(size, size);
+    trial_stiffness.zeros(size, size);
 }
 
 double Material::get_parameter(const ParameterType& T) const {
@@ -52,7 +56,7 @@ const mat& Material::get_stiffness() const { return trial_stiffness; }
 
 const mat& Material::get_initial_stiffness() const { return initial_stiffness; }
 
-unique_ptr<Material> Material::get_copy() { throw invalid_argument("hidden method called.\n"); }
+unique_ptr<Material> Material::get_copy() { throw invalid_argument("hidden method get_copy() called.\n"); }
 
 int Material::update_incre_status(const double i_strain) {
     const vec i_vec_strain{ i_strain };
@@ -80,7 +84,7 @@ int Material::update_incre_status(const vec& i_strain) { return update_trial_sta
 
 int Material::update_incre_status(const vec& i_strain, const vec& i_strain_rate) { return update_trial_status(current_strain + i_strain, current_strain_rate + i_strain_rate); }
 
-int Material::update_trial_status(const vec&) { throw invalid_argument("hidden method called.\n"); }
+int Material::update_trial_status(const vec&) { throw invalid_argument("hidden method update_trial_status() called.\n"); }
 
 int Material::update_trial_status(const vec& t_strain, const vec&) { return update_trial_status(t_strain); }
 
