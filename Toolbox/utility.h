@@ -18,6 +18,7 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <memory>
 #include <sstream>
 #include <string>
 
@@ -50,5 +51,17 @@ bool is_true(const char*);
 bool is_false(const char*);
 bool is_true(const string&);
 bool is_false(const string&);
+
+template <typename T> struct deep_ptr : std::unique_ptr<T> {
+    using std::unique_ptr<T>::unique_ptr;
+    deep_ptr() {}
+    deep_ptr(const deep_ptr<T>& old) { this->reset(new T(*old.get())); }
+    deep_ptr<T>& operator=(const deep_ptr<T>& old) {
+        this->reset(new T(*old.get()));
+        return *this;
+    }
+};
+
+template <class T, class... T2, class = std::enable_if_t<!std::is_array<T>::value>> deep_ptr<T> make_deep(T2&&... A) { return deep_ptr<T>(new T(std::forward<T2>(A)...)); }
 
 #endif

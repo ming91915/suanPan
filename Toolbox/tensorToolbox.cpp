@@ -71,9 +71,9 @@ vec tensor::dev(const vec& S) {
 
 double transform::atan2(const vec& direction_cosine) { return std::atan2(direction_cosine(1), direction_cosine(0)); }
 
-double transform::stress_angle(const vec& stress) { return atan(2. * stress(2) / (stress(0) - stress(1))) / 2.; }
+double transform::stress_angle(const vec& stress) { return std::atan2(2. * stress(2), stress(0) - stress(1)) / 2.; }
 
-double transform::strain_angle(const vec& strain) { return atan(strain(2) / (strain(0) - strain(1))) / 2.; }
+double transform::strain_angle(const vec& strain) { return std::atan2(strain(2), strain(0) - strain(1)) / 2.; }
 
 mat transform::form_stress_trans(const double angle) {
     const auto sin_angle = sin(angle);
