@@ -79,13 +79,13 @@
     <ClCompile Include="..\..\..\Material\Material1D\Viscosity1D.cpp">
       <Filter>Material1D</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Material\Material2D\DSFM.cpp">
-      <Filter>Material2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Material\Material2D\CSMM.cpp">
       <Filter>Material2D</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Material\Material2D\PlaneStressBilinear.cpp">
+      <Filter>Material2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material2D\RC01.cpp">
       <Filter>Material2D</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,13 +156,13 @@
     <ClInclude Include="..\..\..\Material\Material1D\Viscosity1D.h">
       <Filter>Material1D</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Material\Material2D\DSFM.h">
-      <Filter>Material2D</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Material\Material2D\CSMM.h">
       <Filter>Material2D</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Material\Material2D\PlaneStressBilinear.h">
+      <Filter>Material2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material2D\RC01.h">
       <Filter>Material2D</Filter>
     </ClInclude>
   </ItemGroup>
