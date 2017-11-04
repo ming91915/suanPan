@@ -46,6 +46,8 @@ void PlaneStressBilinear::initialize(const shared_ptr<DomainBase>&) {
 
     current_stiffness = initial_stiffness;
     trial_stiffness = initial_stiffness;
+
+    inv_stiffness = inv(initial_stiffness);
 }
 
 double PlaneStressBilinear::get_parameter(const ParameterType& T) const { return 0.; }
@@ -64,7 +66,7 @@ int PlaneStressBilinear::update_trial_status(const vec& t_strain) {
 
     const vec shifted_stress = trial_stress - current_back_stress;
 
-    const auto yield_func = sqrt(as_scalar(shifted_stress.t() * P * shifted_stress)) - root_two_third * (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
+    const auto yield_func = sqrt(dot(shifted_stress, P * shifted_stress)) - root_two_third * (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
 
     if(yield_func > tolerance) {
         const auto tmp_a = sqrt(as_scalar(shifted_stress.t() * PCP * shifted_stress));
