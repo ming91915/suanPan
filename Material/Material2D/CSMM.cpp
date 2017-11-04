@@ -16,7 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "CSMM.h"
-#include <suanPan>
+#include <Toolbox/tensorToolbox.h>
 
 const double CSMM::crack_strain = 8E-5;
 
