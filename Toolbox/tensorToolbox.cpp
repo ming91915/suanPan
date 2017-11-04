@@ -83,14 +83,10 @@ mat transform::form_stress_trans(const double angle) {
     const auto sin_cos = sin_angle * cos_angle;
 
     mat trans(3, 3);
-    trans(0, 0) = cos_cos;
-    trans(0, 1) = sin_sin;
-    trans(0, 2) = 2. * sin_cos;
-    trans(1, 0) = sin_sin;
-    trans(1, 1) = cos_cos;
-    trans(1, 2) = -2. * sin_cos;
-    trans(2, 0) = -sin_cos;
-    trans(2, 1) = sin_cos;
+    trans(0, 0) = trans(1, 1) = cos_cos;
+    trans(0, 1) = trans(1, 0) = sin_sin;
+    trans(1, 2) = -(trans(0, 2) = 2. * sin_cos);
+    trans(2, 0) = -(trans(2, 1) = sin_cos);
     trans(2, 2) = cos_cos - sin_sin;
 
     return trans;
@@ -104,14 +100,10 @@ mat transform::form_strain_trans(const double angle) {
     const auto sin_cos = sin_angle * cos_angle;
 
     mat trans(3, 3);
-    trans(0, 0) = cos_cos;
-    trans(0, 1) = sin_sin;
-    trans(0, 2) = sin_cos;
-    trans(1, 0) = sin_sin;
-    trans(1, 1) = cos_cos;
-    trans(1, 2) = -sin_cos;
-    trans(2, 0) = -2. * sin_cos;
-    trans(2, 1) = 2. * sin_cos;
+    trans(0, 0) = trans(1, 1) = cos_cos;
+    trans(0, 1) = trans(1, 0) = sin_sin;
+    trans(1, 2) = -(trans(0, 2) = sin_cos);
+    trans(2, 0) = -(trans(2, 1) = 2. * sin_cos);
     trans(2, 2) = cos_cos - sin_sin;
 
     return trans;
