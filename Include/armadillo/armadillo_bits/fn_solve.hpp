@@ -53,7 +53,7 @@ arma_deprecated inline typename enable_if2<is_supported_blas_type<typename T1::e
     return Glue<T1, T2, glue_solve_gen>(A.get_ref(), B.get_ref(), solve_opts::flag_none);
 }
 
-template <typename T1, typename T2> inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result solve(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const solve_opts::opts& opts = solve_opts::none) {
+template <typename T1, typename T2> inline typename enable_if2<is_supported_blas_type<typename T1::elem_type>::value, bool>::result solve(Mat<typename T1::elem_type>& out, const Base<typename T1::elem_type, T1>& A, const Base<typename T1::elem_type, T2>& B, const solve_opts::opts& opts = solve_opts::fast) {
     arma_extra_debug_sigprint();
 
     return glue_solve_gen::apply(out, A.get_ref(), B.get_ref(), opts.flags);
