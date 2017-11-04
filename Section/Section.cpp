@@ -36,18 +36,18 @@ void Section::initialize(const shared_ptr<DomainBase>& D) {
 
     eccentricity.zeros(size - 1);
 
-    current_deformation.zeros(size);
-    trial_deformation.zeros(size);
+    if(current_deformation.is_empty()) current_deformation.zeros(size);
+    if(trial_deformation.is_empty()) trial_deformation.zeros(size);
 
     // current_deformation_rate.zeros(size);
     // trial_deformation_rate.zeros(size);
 
-    current_resistance.zeros(size);
-    trial_resistance.zeros(size);
+    if(current_resistance.is_empty()) current_resistance.zeros(size);
+    if(trial_resistance.is_empty()) trial_resistance.zeros(size);
 
-    initial_stiffness.zeros(size, size);
-    trial_stiffness.zeros(size, size);
-    current_stiffness.zeros(size, size);
+    if(initial_stiffness.is_empty()) initial_stiffness.zeros(size, size);
+    if(trial_stiffness.is_empty()) trial_stiffness.zeros(size, size);
+    if(current_stiffness.is_empty()) current_stiffness.zeros(size, size);
 }
 
 const vec& Section::get_deformation() const { return trial_deformation; }

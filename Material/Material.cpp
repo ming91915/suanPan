@@ -29,15 +29,15 @@ Material::~Material() { suanpan_debug("Material %u dtor() called.\n", get_tag())
 void Material::initialize(const shared_ptr<DomainBase>&) {
     const auto size = static_cast<unsigned>(material_type);
 
-    current_strain.zeros(size);
-    trial_strain.zeros(size);
+    if(current_strain.is_empty()) current_strain.zeros(size);
+    if(trial_strain.is_empty()) trial_strain.zeros(size);
 
-    current_stress.zeros(size);
-    trial_stress.zeros(size);
+    if(current_stress.is_empty()) current_stress.zeros(size);
+    if(trial_stress.is_empty()) trial_stress.zeros(size);
 
-    initial_stiffness.zeros(size, size);
-    current_stiffness.zeros(size, size);
-    trial_stiffness.zeros(size, size);
+    if(initial_stiffness.is_empty()) initial_stiffness.zeros(size, size);
+    if(current_stiffness.is_empty()) current_stiffness.zeros(size, size);
+    if(trial_stiffness.is_empty()) trial_stiffness.zeros(size, size);
 }
 
 double Material::get_parameter(const ParameterType& T) const {
