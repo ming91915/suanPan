@@ -20,6 +20,7 @@ element CP4 1 1 2 3 4 1 1
 fix 1 P 1 4
 
 cload 1 0 -300 1 2 3
+cload 2 0 100 2 2 3
 
 recorder 1 Node U 2
 

@@ -6,5 +6,6 @@ set(M2D
     Material2D/RebarLayer.cpp
     Material2D/RC01.cpp
     Material2D/CSMM.cpp
+    Material2D/DSFM.cpp
     Material2D/PlaneStressBilinear.cpp
     )

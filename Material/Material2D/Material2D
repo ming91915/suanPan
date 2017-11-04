@@ -5,4 +5,5 @@
 #include "RebarLayer.h"
 #include "RC01.h"
 #include "CSMM.h"
+#include "DSFM.h"
 #include "PlaneStressBilinear.h"
