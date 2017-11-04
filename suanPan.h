@@ -133,7 +133,7 @@
 #endif
 
 #ifndef SUANPAN_MT
-// #define SUANPAN_MT
+#define SUANPAN_MT
 #endif
 
 #ifdef _OPENMP
