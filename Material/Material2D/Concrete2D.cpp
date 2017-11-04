@@ -72,8 +72,7 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
 
     principal_direction = transform::strain_angle(trial_strain);
 
-    const auto trans_strain = transform::form_strain_trans(principal_direction);
-    const auto trans_stress = transform::form_stress_trans(-principal_direction);
+    const auto trans_mat = transform::form_strain_trans(principal_direction);
 
     const auto principal_strain = transform::nominal_to_principal_strain(trial_strain);
 
@@ -103,10 +102,10 @@ int Concrete2D::update_trial_status(const vec& t_strain) {
     trial_stiffness(2, 2) = trial_stiffness(0, 0) * trial_stiffness(1, 1) / (trial_stiffness(0, 0) + trial_stiffness(1, 1));
 
     // transform back to nominal direction
-    trial_stress = trans_stress * principal_stress;
+    trial_stress = trans_mat.t() * principal_stress;
 
     // transform back to nominal direction
-    trial_stiffness = trans_stress * trial_stiffness * trans_strain;
+    trial_stiffness = trans_mat.t() * trial_stiffness * trans_mat;
 
     return 0;
 }
