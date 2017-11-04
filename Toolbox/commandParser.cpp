@@ -271,12 +271,8 @@ int save_object(const shared_ptr<Bead>& model, istringstream& command) {
     }
 
     unsigned tag;
-    if(!get_input(command, tag)) {
-        suanpan_info("save_object() needs a valid tag.\n");
-        return 0;
-    }
-
-    if(is_equal(object_id, "Recorder") && domain->find_recorder(tag)) domain->get_recorder(tag)->save();
+    while(get_input(command, tag))
+        if(is_equal(object_id, "Recorder") && domain->find_recorder(tag)) domain->get_recorder(tag)->save();
 
     return 0;
 }
