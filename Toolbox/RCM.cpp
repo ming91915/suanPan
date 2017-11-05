@@ -31,7 +31,7 @@ uvec RCM(const vector<uvec>& A, const uvec& E) {
 
     uword IDXA = 0, IDXB = S - 1, IDXC = S - 1;
 
-    while(IDXA < S) {
+    while(true) {
         if(IDXB == IDXC) {
             while(IDXA < S && M(G(IDXA)) == 1) ++IDXA;
             if(IDXA == S) break;

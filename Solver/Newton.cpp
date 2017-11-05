@@ -29,7 +29,7 @@ int Newton::analyze() {
     auto& G = get_integrator();
     const auto& W = G->get_domain().lock()->get_factory();
 
-    suanpan_extra_debug("current analysis time: %.5f.\n", W->get_trial_time());
+    suanpan_info("current analysis time: %.5f.\n", W->get_trial_time());
 
     auto& max_iteration = C->get_max_iteration();
 

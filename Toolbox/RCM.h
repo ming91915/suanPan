@@ -44,6 +44,11 @@
 
 using std::vector;
 
+struct Graph {
+    unsigned degree;
+    uvec adjacency;
+};
+
 uvec RCM(const vector<uvec>&, const uvec&);
 
 template <typename eT> uvec RCM(const SpMat<eT>&);
