@@ -521,14 +521,6 @@ int Domain::initialize() {
             for(const auto& j : t_encoding) adjacency[i].insert(j);
     }
 
-    // Graph model(dof_counter);
-    // for(auto i = 0; i < model.size(); ++i) {
-    //    model[i].tag = i;
-    //    model[i].degree = unsigned(adjacency[i].size());
-    //    model[i].adjacency.assign(adjacency[i].begin(), adjacency[i].end());
-    // }
-    // auto R2 = RCM(model);
-
     // COUNT NUMBER OF DEGREE
     uvec num_degree(dof_counter);
     for(unsigned i = 0; i < dof_counter; ++i) num_degree(i) = adjacency[i].size();
