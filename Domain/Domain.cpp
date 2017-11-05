@@ -526,7 +526,7 @@ int Domain::initialize() {
     //    model[i].tag = i;
     //    model[i].degree = unsigned(adjacency[i].size());
     //    model[i].adjacency.assign(adjacency[i].begin(), adjacency[i].end());
-    //}
+    // }
     // auto R2 = RCM(model);
 
     // COUNT NUMBER OF DEGREE
