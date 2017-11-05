@@ -65,8 +65,8 @@ node 64 15 25 5
 node 65 20 25 5
 node 66 25 25 5
 
-# material Elastic3D 1 1000 .2
-material Bilinear3D 1 3000 .25 2 .6
+material Elastic3D 1 1000 .2
+# material Bilinear3D 1 3000 .25 2 .6
 
 element C3D8 1 28 30 54 51 1 2 15 20 1
 element C3D8 2 51 54 55 52 20 15 16 19 1

@@ -44,10 +44,14 @@
 
 using std::vector;
 
-struct Graph {
-    unsigned degree;
-    uvec adjacency;
+struct Vertex {
+    unsigned tag, degree;
+    vector<unsigned> adjacency;
 };
+
+using Graph = vector<Vertex>;
+
+vector<unsigned> RCM(Graph&);
 
 uvec RCM(const vector<uvec>&, const uvec&);
 

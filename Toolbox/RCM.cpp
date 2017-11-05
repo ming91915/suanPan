@@ -17,6 +17,62 @@
 
 #include "RCM.h"
 
+vector<unsigned> RCM(Graph& E) {
+    auto ZERO_BASE = true;
+
+    // ensure a zero bases index
+    if(E.cbegin()->tag != 0) {
+        ZERO_BASE = false;
+        for(auto& I : E) {
+            I.tag--;
+            for(auto& J : I.adjacency) J--;
+        }
+    }
+
+    const auto S = E.size();
+
+    // flag array to avoid duplicates
+    vector<bool> M(S, false);
+
+    // reordered array
+    vector<unsigned> R(S), G(S), K(S);
+
+    auto sorter = [&](const unsigned A, const unsigned B) { return E[A].degree < E[B].degree; };
+
+    // sort adjacency degree
+    for(auto& I : E) std::sort(I.adjacency.begin(), I.adjacency.end(), sorter);
+
+    for(auto I = 0; I < S; ++I) K[I] = E[I].tag;
+
+    std::sort(K.begin(), K.end(), sorter);
+
+    for(auto I = 0; I < S; ++I) G[K[I]] = I;
+
+    auto IDXA = G.begin();
+    auto IDXB = R.rbegin(), IDXC = R.rbegin();
+
+    while(true) {
+        if(IDXB == IDXC) {
+            while(IDXA != G.end() && M[*IDXA]) ++IDXA;
+            if(IDXA == G.end()) break;
+            M[* IDXC++ = *IDXA++] = true;
+        }
+        for(const auto& IDX : E[*IDXB++].adjacency)
+            if(!M[IDX]) M[* IDXC++ = IDX] = true;
+    }
+
+    // if one based recover
+    if(!ZERO_BASE) {
+        for(auto& I : E) {
+            I.tag++;
+            for(auto& J : I.adjacency) J++;
+        }
+        for(auto& I : R) I++;
+    }
+
+    return R;
+}
+
 uvec RCM(const vector<uvec>& A, const uvec& E) {
 #ifdef SUANPAN_DEBUG
     wall_clock TM;
@@ -26,23 +82,19 @@ uvec RCM(const vector<uvec>& A, const uvec& E) {
     const auto S = E.n_elem;
 
     uvec G = sort_index(E);
-    uvec M(S, fill::zeros);
     uvec R(S, fill::zeros);
+    vector<bool> M(S, false);
 
     uword IDXA = 0, IDXB = S - 1, IDXC = S - 1;
 
     while(true) {
         if(IDXB == IDXC) {
-            while(IDXA < S && M(G(IDXA)) == 1) ++IDXA;
+            while(IDXA < S && M[G(IDXA)]) ++IDXA;
             if(IDXA == S) break;
-            R(IDXC--) = G(IDXA);
-            M(G(IDXA++)) = 1;
+            M[R(IDXC--) = G(IDXA++)] = true;
         }
         for(const auto& IDX : A[R(IDXB--)])
-            if(M(IDX) != 1) {
-                R(IDXC--) = IDX;
-                M(IDX) = 1;
-            }
+            if(!M[IDX]) M[R(IDXC--) = IDX] = true;
     }
 
 #ifdef SUANPAN_DEBUG
