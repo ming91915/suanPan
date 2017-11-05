@@ -34,7 +34,8 @@ Bilinear3D::Bilinear3D(const unsigned T, const double E, const double V, const d
     , double_shear(2. * shear_modulus)
     , square_double_shear(double_shear * double_shear)
     , plastic_modulus(elastic_modulus * hardening_ratio / (1. - hardening_ratio))
-    , factor(2. / 3. * plastic_modulus) {}
+    , factor_a(2. / 3. * plastic_modulus)
+    , factor_b((1. - beta) * plastic_modulus) {}
 
 void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
@@ -61,28 +62,29 @@ void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
 unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
 
 int Bilinear3D::update_trial_status(const vec& t_strain) {
-    trial_strain = t_strain;
-    incre_strain = trial_strain - current_strain;
-    trial_stress = current_stress + initial_stiffness * incre_strain;
-    trial_back_stress = current_back_stress;
     trial_plastic_strain = current_plastic_strain;
+    trial_back_stress = current_back_stress;
     trial_stiffness = initial_stiffness;
 
-    const vec shifted_stress = tensor::dev(trial_stress) - current_back_stress;
+    trial_strain = t_strain;
+    incre_strain = trial_strain - current_strain;
+    trial_stress = current_stress + trial_stiffness * incre_strain;
+
+    const vec shifted_stress = tensor::dev(trial_stress) - trial_back_stress;
 
     const auto norm_shifted_stress = sqrt(dot(norm_weight, square(shifted_stress)));
 
-    const auto yield_func = norm_shifted_stress - root_two_third * (yield_stress + (1. - beta) * plastic_modulus * current_plastic_strain);
+    const auto yield_func = norm_shifted_stress - root_two_third * (yield_stress + factor_b * trial_plastic_strain);
 
     if(yield_func > tolerance) {
-        const auto tmp_a = double_shear + factor;
+        const auto tmp_a = double_shear + factor_a;
         const auto gamma = yield_func / tmp_a;
         const vec unit_norm = shifted_stress / norm_shifted_stress;
         const vec tmp_b = gamma * unit_norm;
         const auto tmp_d = square_double_shear * gamma / norm_shifted_stress;
 
         trial_stress -= double_shear * tmp_b;
-        trial_back_stress += factor * beta * tmp_b;
+        trial_back_stress += factor_a * beta * tmp_b;
         trial_plastic_strain += root_two_third * gamma;
 
         trial_stiffness += (tmp_d - square_double_shear / tmp_a) * unit_norm * unit_norm.t() - tmp_d * unit_dev_tensor;

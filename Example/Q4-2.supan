@@ -4,7 +4,7 @@
 # material RebarLayer 3 5 5 .02 .02
 # material MPF 5 2E4 400 .05
 
-material Bilinear2D 1 2E4 .499 60 .02 0 1
+material Bilinear2D 1 2E4 .2 60 .02 0 1
 
 node	1	0	0
 node	2	375	0

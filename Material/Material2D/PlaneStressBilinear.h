@@ -31,6 +31,7 @@
 #include <Material/Material2D/Material2D.h>
 
 class PlaneStressBilinear : public Material2D {
+    static const double two_third;
     static const double root_two_third;
 
     const double elastic_modulus; /**< elastic modulus */
@@ -45,10 +46,15 @@ class PlaneStressBilinear : public Material2D {
     double current_plastic_strain = 0.;
     double trial_plastic_strain = 0.;
 
+    vec current_equivalent_strain;
+    vec trial_equivalent_strain;
+
     vec current_back_stress;
     vec trial_back_stress;
 
-    static mat P, CP, PCP;
+    static mat P;
+
+    const double factor_a, factor_b, factor_c, factor_d;
 
     mat inv_stiffness;
 

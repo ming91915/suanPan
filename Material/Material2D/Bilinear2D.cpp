@@ -58,8 +58,8 @@ int Bilinear2D::update_trial_status(const vec& t_strain) {
         auto& stess_anchor = base.get_stress().at(2);
         auto counter = 0;
         while(true) {
-            if(fabs(stess_anchor) > 1E-12) break;
-            if(++counter > 10) {
+            if(fabs(stess_anchor) > 1E-10) break;
+            if(++counter > 20) {
                 suanpan_warning("cannot converge in ten iterations.\n");
                 break;
             }

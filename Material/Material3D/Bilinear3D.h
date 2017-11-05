@@ -50,7 +50,7 @@ class Bilinear3D : public Material3D {
     const double square_double_shear; /**< double shear modulus */
     const double plastic_modulus;     /**< plastic modulus */
 
-    const double factor;
+    const double factor_a, factor_b;
 
     double current_plastic_strain = 0.;
     double trial_plastic_strain = 0.;
