@@ -1,7 +1,8 @@
-material DSFM 1 3 2
+material RC01 1 3 2
 material RebarLayer 3 5 5 .02 .02
 material MPF 5 2E5 500 .05
-material Concrete01 2 -.002 -50 TSAI
+material Concrete2D 2 4
+material Concrete01 4 -.002 -50 TSAI
 
 # material Bilinear2D 1 2E4 .499 60 .02 0 1
 
@@ -241,7 +242,7 @@ step static 1
 set ini_step_size .01
 set fixed_step_size true
 
-converger AbsIncreDisp 1 1E-4 5 0
+converger AbsIncreDisp 1 1E-4 5 1
 
 analyze
 

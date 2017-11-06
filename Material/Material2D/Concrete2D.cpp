@@ -16,9 +16,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Concrete2D.h"
-#include "Toolbox/utility.h"
 #include <Domain/DomainBase.h>
 #include <Toolbox/tensorToolbox.h>
+#include <Toolbox/utility.h>
 
 Concrete2D::Concrete2D(const unsigned T, const unsigned M, const double P, const PlaneType PT)
     : Material2D(T, MT_CONCRETE2D, PT, 0.)

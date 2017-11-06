@@ -38,8 +38,8 @@ class RC01 : public Material2D {
 
 public:
     explicit RC01(const unsigned, // tag
-        const unsigned,           // concrete tag
-        const unsigned            // rebar layer tag
+        const unsigned,           // rebar layer tag
+        const unsigned            // concrete tag
     );
     RC01(const RC01&);
 
