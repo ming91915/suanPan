@@ -15,46 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class DSFM
- * @brief A DSFM material class.
+ * @class SectionOrientation
+ * @brief A SectionOrientation class.
  * @author T
- * @date 31/10/2017
+ * @date 27/10/2017
  * @version 0.1.0
- * @file DSFM.h
- * @addtogroup Material-2D
+ * @file SectionOrientation.h
+ * @addtogroup Section-3D
+ * @ingroup Section
  * @{
  */
 
-#ifndef DSFM_H
-#define DSFM_H
+#ifndef SECTIONORIENTATION_H
+#define SECTIONORIENTATION_H
 
-#include <Material/Material2D/Material2D.h>
+#include <Section/Section.h>
 
-class DSFM : public Material2D {
-    const unsigned rebar_tag, concrete_tag;
-
-    unique_ptr<Material> rebar;
-    unique_ptr<Material> concrete_major;
-    unique_ptr<Material> concrete_minor;
-
-    double principal_angle = 0.;
-
+class SectionOrientation : public Tag {
 public:
-    explicit DSFM(const unsigned, // tag
-        const unsigned,           // rebar layer tag
-        const unsigned            // concrete tag
-    );
-    DSFM(const DSFM&);
-
-    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
-
-    unique_ptr<Material> get_copy() override;
-
-    int update_trial_status(const vec&) override;
-
-    int clear_status() override;
-    int commit_status() override;
-    int reset_status() override;
+    explicit SectionOrientation(const unsigned T = 0, const double X = 0., const double Y = 0., const double Z = 0.);
 };
 
 #endif

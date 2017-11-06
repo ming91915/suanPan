@@ -76,8 +76,8 @@ int RC01::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
     auto code = 0;
-    code += rebar->update_trial_status(t_strain);
-    code += concrete->update_trial_status(t_strain);
+    code += rebar->update_trial_status(trial_strain);
+    code += concrete->update_trial_status(trial_strain);
     if(code != 0) return code;
 
     trial_stress = rebar->get_stress() + concrete->get_stress();

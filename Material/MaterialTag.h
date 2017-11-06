@@ -75,5 +75,8 @@
 #ifndef MT_PLANESTRESSBILINEAR
 #define MT_PLANESTRESSBILINEAR 1018
 #endif
+#ifndef MT_DSFM
+#define MT_DSFM 1019
+#endif
 
 #endif

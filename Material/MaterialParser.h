@@ -37,6 +37,7 @@ void new_maxwell(unique_ptr<Material>&, istringstream&);
 void new_concrete2d(unique_ptr<Material>&, istringstream&);
 void new_rebarlayer(unique_ptr<Material>&, istringstream&);
 void new_rc01(unique_ptr<Material>&, istringstream&);
+void new_dsfm(unique_ptr<Material>&, istringstream&);
 
 int test_material(const shared_ptr<DomainBase>&, istringstream&);
 
