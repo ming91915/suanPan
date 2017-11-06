@@ -45,7 +45,7 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    const IntegrationPlan plan(3, reduced_scheme ? 2 : 3, IntegrationType::GAUSS);
+    const IntegrationPlan plan(3, reduced_scheme ? 2 : 3, IntegrationType::IRONS);
 
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {

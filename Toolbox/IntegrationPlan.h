@@ -60,7 +60,7 @@
 #ifndef INTEGRATIONPLAN_H
 #define INTEGRATIONPLAN_H
 
-enum class IntegrationType { GAUSS, LOBATTO, RADAU };
+enum class IntegrationType { GAUSS, LOBATTO, RADAU, IRONS };
 
 class IntegrationPlan final {
     double** int_pts;
