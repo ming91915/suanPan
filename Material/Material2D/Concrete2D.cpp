@@ -43,8 +43,10 @@ void Concrete2D::initialize(const shared_ptr<DomainBase>& D) {
         }
 
         auto& concrete_proto = D->get_material(concrete_tag);
-        concrete_proto->Material::initialize(D);
-        concrete_proto->initialize(D);
+        if(!concrete_proto->initialized) {
+            concrete_proto->Material::initialize(D);
+            concrete_proto->initialize(D);
+        }
 
         concrete_major = concrete_proto->get_copy();
         concrete_minor = concrete_proto->get_copy();

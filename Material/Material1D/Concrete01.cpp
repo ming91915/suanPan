@@ -112,6 +112,11 @@ int Concrete01::update_trial_status(const vec& t_strain) {
             compute_compression_backbone();
         }
     else {
+        // enter tension for the fist time
+        if(current_stress(0) <= 0. && !first_tension) {
+            first_tension = true;
+            tension_origin = current_strain(0) - current_stress(0) / current_stiffness(0);
+        }
         // the trial position is in tension zone
         if(on_tension_backbone) {
             // yes on backbone
@@ -208,7 +213,7 @@ void Concrete01::compute_compression_backbone() {
 }
 
 void Concrete01::compute_tension_backbone() {
-    const auto offset = trial_strain(0) - trial_history(1);
+    const auto offset = trial_strain(0) - tension_origin;
     if(offset > crack_strain) {
         // cracking
         trial_stress = d_factor / pow(offset, .4);

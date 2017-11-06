@@ -472,9 +472,10 @@ int Domain::initialize() {
     if(updated) return 0;
 
     suanpan_for_each(material_pond.cbegin(), material_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Material>>& t_material) {
-        t_material.second->Material::initialize(shared_from_this());
-        t_material.second->initialize(shared_from_this());
-        access::rw(t_material.second->initialized) = true;
+        if(!t_material.second->initialized) {
+            t_material.second->Material::initialize(shared_from_this());
+            t_material.second->initialize(shared_from_this());
+        }
     });
 
     suanpan_for_each(section_pond.cbegin(), section_pond.cend(), [&](const std::pair<unsigned, shared_ptr<Section>>& t_section) {

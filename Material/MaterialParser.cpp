@@ -694,8 +694,8 @@ int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) 
     }
 
     vector<unsigned> load_step;
-    unsigned step;
-    while(get_input(command, step)) load_step.push_back(step);
+    int step;
+    while(get_input(command, step)) load_step.push_back(step < 0 ? -step : step);
 
     auto& material_proto = domain->get_material(material_tag);
 

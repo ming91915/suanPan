@@ -234,6 +234,7 @@ set ini_step_size .01
 
 analyze
 
+# -3.7873 5.3824 -0.0409
 peek node 12
 
 peek element 1

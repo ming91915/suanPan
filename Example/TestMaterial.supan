@@ -3,6 +3,6 @@
 # material RambergOsgood 3 2E3 100
 material Concrete01 4 -.002 -30 TSAI
 
-materialtest 4 -.00001 220 190 300 220 260 280
+materialtest 4 -1E-5 250 280 550 800
 
 exit

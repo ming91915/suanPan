@@ -27,6 +27,8 @@ Material::Material(const unsigned& T, const unsigned& CT, const MaterialType& MT
 Material::~Material() { suanpan_debug("Material %u dtor() called.\n", get_tag()); }
 
 void Material::initialize(const shared_ptr<DomainBase>&) {
+    if(initialized) return;
+
     const auto size = static_cast<unsigned>(material_type);
 
     if(current_strain.is_empty()) current_strain.zeros(size);
@@ -38,6 +40,8 @@ void Material::initialize(const shared_ptr<DomainBase>&) {
     if(initial_stiffness.is_empty()) initial_stiffness.zeros(size, size);
     if(current_stiffness.is_empty()) current_stiffness.zeros(size, size);
     if(trial_stiffness.is_empty()) trial_stiffness.zeros(size, size);
+
+    access::rw(initialized) = true;
 }
 
 double Material::get_parameter(const ParameterType& T) const {

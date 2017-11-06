@@ -45,8 +45,11 @@ class Concrete01 : public Material1D {
 
     double M = 0., N = 0.;
 
+    double tension_origin = 0.;
+
     bool on_compression_backbone = true;
     bool on_tension_backbone = true;
+    bool first_tension = false;
 
     void compute_compression_backbone();
     void compute_tension_backbone();

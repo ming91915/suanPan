@@ -52,13 +52,17 @@ void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
         }
 
         auto& rebar_major_proto = D->get_material(tag_major);
-        rebar_major_proto->Material::initialize(D);
-        rebar_major_proto->initialize(D);
+        if(!rebar_major_proto->initialized) {
+            rebar_major_proto->Material::initialize(D);
+            rebar_major_proto->initialize(D);
+        }
         rebar_major = rebar_major_proto->get_copy();
 
         auto& rebar_minor_proto = D->get_material(tag_minor);
-        rebar_minor_proto->Material::initialize(D);
-        rebar_minor_proto->initialize(D);
+        if(!rebar_minor_proto->initialized) {
+            rebar_minor_proto->Material::initialize(D);
+            rebar_minor_proto->initialize(D);
+        }
         rebar_minor = rebar_minor_proto->get_copy();
     }
 

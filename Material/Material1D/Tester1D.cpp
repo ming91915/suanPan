@@ -19,8 +19,8 @@
 
 mat material_tester(const shared_ptr<Material>& obj, const vector<unsigned>& idx, const double incre) {
     if(!obj->initialized) {
-        obj->Material::initialize(nullptr);
-        obj->initialize(nullptr);
+        obj->Material::initialize();
+        obj->initialize();
     }
 
     vector<double> A{ 0 }, B{ 0 };
