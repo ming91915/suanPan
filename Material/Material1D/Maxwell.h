@@ -35,12 +35,13 @@ class Maxwell : public Material1D {
     const double* incre_time = nullptr;
 
     struct Damper : ODE {
-        const double elastic_modulus, alpha, damping_positive, damping_negative;
+        const double elastic_modulus, alpha, damping_positive, damping_negative, factor;
         double current_strain_rate = 0., current_strain_acceleration = 0.;
-        Damper(const double, const double, const double, const double);
+        Damper(const double, const double, const double, const double, const double = 1.);
         unique_ptr<ODE> get_copy() override;
         vec eval(const double, const vec&) override;
         void set_current_status(const vec&, const vec&);
+        double compute_damping_coefficient(const double) const;
     };
 
     unique_ptr<ODE> viscosity;
@@ -53,7 +54,8 @@ public:
         const double,                // elastic modulus
         const double,                // alpha
         const double,                // damping positive
-        const double                 // damping negative
+        const double,                // damping negative
+        const double = 1.            // sigmoid factor
     );
     Maxwell(const Maxwell&);
 

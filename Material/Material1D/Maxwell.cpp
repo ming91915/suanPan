@@ -21,12 +21,13 @@
 #include <Solver/ODE_Solver/DP45.h>
 #include <Toolbox/utility.h>
 
-Maxwell::Damper::Damper(const double E, const double A, const double C1, const double C2)
+Maxwell::Damper::Damper(const double E, const double A, const double C1, const double C2, const double F)
     : ODE(0, 1)
     , elastic_modulus(E)
     , alpha(A == 0. ? 1. : 1. / A)
     , damping_positive(C1)
-    , damping_negative(C2) {}
+    , damping_negative(C2)
+    , factor(F) {}
 
 unique_ptr<ODE> Maxwell::Damper::get_copy() { return make_unique<Damper>(*this); }
 
@@ -48,9 +49,11 @@ void Maxwell::Damper::set_current_status(const vec& t_strain_rate, const vec& t_
     current_strain_acceleration = t_strain_accleration(0);
 }
 
-Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2)
+double Maxwell::Damper::compute_damping_coefficient(const double t_rate) const { return damping_positive == damping_negative ? damping_positive : damping_negative + (damping_positive - damping_negative) / (1. + exp(factor * t_rate)); }
+
+Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2, const double F)
     : Material1D(T, MT_MAXWELL, 0.)
-    , viscosity(make_unique<Damper>(E, A, C1, C2))
+    , viscosity(make_unique<Damper>(E, A, C1, C2, F))
     , solver(make_unique<DP45>(0, viscosity.get())) {}
 
 Maxwell::Maxwell(const Maxwell& P)
