@@ -84,6 +84,9 @@ node 83 4 .5
 node 84 4 .75
 node 85 4 1
 
+# material Bilinear3D 2 5000 .2 80 .05
+# material PlaneStress 1 2
+
 material Bilinear2D 1 5000 .2 80 .05
 # material Elastic2D 1 1000 .2
 

@@ -57,6 +57,10 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_rc01(new_material, command);
     else if(is_equal(material_id, "DSFM"))
         new_dsfm(new_material, command);
+    else if(is_equal(material_id, "PlaneStrain"))
+        new_planestrain(new_material, command);
+    else if(is_equal(material_id, "PlaneStress"))
+        new_planestress(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -700,6 +704,38 @@ void new_dsfm(unique_ptr<Material>& return_obj, istringstream& command) {
     }
 
     return_obj = make_unique<DSFM>(tag, rebar_tag, concrete_tag);
+}
+
+void new_planestrain(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_planestrain() requires a valid tag.\n");
+        return;
+    }
+
+    unsigned full_tag;
+    if(!get_input(command, full_tag)) {
+        suanpan_error("new_planestrain() requires a valid reference material tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<PlaneStrain>(tag, full_tag);
+}
+
+void new_planestress(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_planestress() requires a valid tag.\n");
+        return;
+    }
+
+    unsigned full_tag;
+    if(!get_input(command, full_tag)) {
+        suanpan_error("new_planestress() requires a valid reference material tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<PlaneStress>(tag, full_tag);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
