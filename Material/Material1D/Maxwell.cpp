@@ -49,7 +49,7 @@ void Maxwell::Damper::set_current_status(const vec& t_strain_rate, const vec& t_
     current_strain_acceleration = t_strain_accleration(0);
 }
 
-double Maxwell::Damper::compute_damping_coefficient(const double t_rate) const { return damping_positive == damping_negative ? damping_positive : damping_negative + (damping_positive - damping_negative) / (1. + exp(factor * t_rate)); }
+double Maxwell::Damper::compute_damping_coefficient(const double t_rate) const { return damping_positive == damping_negative ? damping_positive : damping_negative + (damping_positive - damping_negative) / (1. + exp(-factor * t_rate)); }
 
 Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2, const double F)
     : Material1D(T, MT_MAXWELL, 0.)
