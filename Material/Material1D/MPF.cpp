@@ -33,9 +33,7 @@ MPF::MPF(const unsigned T, const double E, const double Y, const double H, const
     , yield_strain(Y / E) {}
 
 void MPF::initialize(const shared_ptr<DomainBase>&) {
-    initial_stiffness = elastic_modulus;
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    trial_stiffness = current_stiffness = initial_stiffness = elastic_modulus;
 
     current_history.zeros(7);
     trial_history.zeros(7);
