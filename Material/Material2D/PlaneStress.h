@@ -15,43 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class Bilinear2D
- * @brief A Bilinear2D class.
+ * @class PlaneStress
+ * @brief A PlaneStress class.
  * @author T
  * @date 04/10/2017
  * @version 0.1.0
- * @file Bilinear2D.h
+ * @file PlaneStress.h
  * @addtogroup Material-2D
  * @{
  */
 
-#ifndef BILINEAR2D_H
-#define BILINEAR2D_H
+#ifndef PLANESTRESS_H
+#define PLANESTRESS_H
 
 #include <Material/Material2D/Material2D.h>
-#include <Material/Material3D/Bilinear3D.h>
 
 using std::array;
 
-class Bilinear2D : public Material2D {
+class PlaneStress : public Material2D {
     static const array<unsigned, 3> F;
 
+    const unsigned base_tag;
+
+    unique_ptr<Material> base;
+
+    vec current_full_strain;
     vec trial_full_strain;
 
-    Bilinear3D base;
+    static mat form_stiffness(const mat&);
 
 public:
-    explicit Bilinear2D(const unsigned& = 0, /**< tag */
-        const double& = 2E5,                 /**< elastic modulus */
-        const double& = .25,                 /**< poisson's ratio */
-        const double& = 400.,                /**< initial yield stress */
-        const double& = .05,                 /**< hardening ratio */
-        const double& = 0.,                  /**< isotropic/kinematic hardening factor */
-        const PlaneType& = PlaneType::S,     /**< plane stress or plane strain */
-        const double& = 0.                   /**< density */
+    explicit PlaneStress(const unsigned, /**< tag */
+        const unsigned                   /**< 3D material tag */
     );
+    PlaneStress(const PlaneStress&);
 
-    void initialize(const shared_ptr<DomainBase>&) override;
+    void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     double get_parameter(const ParameterType& = ParameterType::DENSITY) const override;
 

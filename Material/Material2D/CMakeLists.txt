@@ -1,11 +1,12 @@
 set(M2D
     Material2D/Bilinear2D.cpp
     Material2D/Concrete2D.cpp
-    Material2D/Elastic2D.cpp
-    Material2D/Material2D.cpp
-    Material2D/RebarLayer.cpp
-    Material2D/RC01.cpp
     Material2D/CSMM.cpp
     Material2D/DSFM.cpp
-    Material2D/PlaneStressBilinear.cpp
+    Material2D/Elastic2D.cpp
+    Material2D/Material2D.cpp
+    Material2D/PlaneStrain.cpp
+    Material2D/PlaneStress.cpp
+    Material2D/RC01.cpp
+    Material2D/RebarLayer.cpp
     )
