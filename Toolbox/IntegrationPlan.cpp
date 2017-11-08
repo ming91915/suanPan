@@ -25,36 +25,62 @@ IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned int
     , n_cols(intDimension + 1)
     , n_elem(n_rows * n_cols) {
     if(intType == IntegrationType::IRONS) {
-        suanpan::hacker(n_cols) = 4;
-        if(intOrder == 2)
-            suanpan::hacker(n_rows) = 6;
-        else if(intOrder == 3)
-            suanpan::hacker(n_rows) = 14;
-        suanpan::hacker(n_elem) = n_rows * n_cols;
+        if(intDimension == 3) {
+            suanpan::hacker(n_cols) = 4;
+            if(intOrder == 2)
+                suanpan::hacker(n_rows) = 6;
+            else if(intOrder == 3)
+                suanpan::hacker(n_rows) = 14;
+            suanpan::hacker(n_elem) = n_rows * n_cols;
 
-        int_pts = new double*[n_rows];
-        for(unsigned i = 0; i < n_rows; ++i) int_pts[i] = new double[n_cols];
+            int_pts = new double*[n_rows];
+            for(unsigned i = 0; i < n_rows; ++i) int_pts[i] = new double[n_cols];
 
-        if(intOrder == 2) {
-            const auto WB = 4. / 3.;
-            for(auto I = 0; I < 6; ++I) int_pts[I][3] = WB;
-            int_pts[0][0] = int_pts[2][1] = int_pts[4][2] = -(int_pts[1][0] = int_pts[3][1] = int_pts[5][2] = 1.);
+            if(intOrder == 2) {
+                const auto WB = 4. / 3.;
+                for(auto I = 0; I < 6; ++I) int_pts[I][3] = WB;
+                int_pts[0][0] = int_pts[2][1] = int_pts[4][2] = -(int_pts[1][0] = int_pts[3][1] = int_pts[5][2] = 1.);
 
-            int_pts[0][1] = int_pts[0][2] = int_pts[1][1] = int_pts[1][2] = int_pts[2][0] = int_pts[2][2] = int_pts[3][0] = int_pts[3][2] = int_pts[4][0] = int_pts[4][1] = int_pts[5][0] = int_pts[5][1] = 0.;
-        } else if(intOrder == 3) {
-            const auto WB = .886426593;
-            const auto WC = .335180055;
-            const auto LB = .795822426;
-            const auto LC = .758786911;
-            for(auto I = 0; I < 6; ++I) int_pts[I][3] = WB;
-            for(auto I = 6; I < 14; ++I) int_pts[I][3] = WC;
-            int_pts[0][0] = int_pts[2][1] = int_pts[4][2] = -(int_pts[1][0] = int_pts[3][1] = int_pts[5][2] = LB);
-            int_pts[0][1] = int_pts[0][2] = int_pts[1][1] = int_pts[1][2] = int_pts[2][0] = int_pts[2][2] = int_pts[3][0] = int_pts[3][2] = int_pts[4][0] = int_pts[4][1] = int_pts[5][0] = int_pts[5][1] = 0.;
-            int_pts[6][0] = int_pts[6][1] = int_pts[6][2] = int_pts[7][1] = int_pts[7][2] = int_pts[8][2] = int_pts[9][0] = int_pts[9][2] = int_pts[10][0] = int_pts[10][1] = int_pts[11][1] = int_pts[13][0] = -LC;
-            int_pts[7][0] = int_pts[8][0] = int_pts[8][1] = int_pts[9][1] = int_pts[10][2] = int_pts[11][0] = int_pts[11][2] = int_pts[12][0] = int_pts[12][1] = int_pts[12][2] = int_pts[13][1] = int_pts[13][2] = LC;
+                int_pts[0][1] = int_pts[0][2] = int_pts[1][1] = int_pts[1][2] = int_pts[2][0] = int_pts[2][2] = int_pts[3][0] = int_pts[3][2] = int_pts[4][0] = int_pts[4][1] = int_pts[5][0] = int_pts[5][1] = 0.;
+            } else if(intOrder == 3) {
+                const auto WB = .886426593;
+                const auto WC = .335180055;
+                const auto LB = .795822426;
+                const auto LC = .758786911;
+                for(auto I = 0; I < 6; ++I) int_pts[I][3] = WB;
+                for(auto I = 6; I < 14; ++I) int_pts[I][3] = WC;
+                int_pts[0][0] = int_pts[2][1] = int_pts[4][2] = -(int_pts[1][0] = int_pts[3][1] = int_pts[5][2] = LB);
+                int_pts[0][1] = int_pts[0][2] = int_pts[1][1] = int_pts[1][2] = int_pts[2][0] = int_pts[2][2] = int_pts[3][0] = int_pts[3][2] = int_pts[4][0] = int_pts[4][1] = int_pts[5][0] = int_pts[5][1] = 0.;
+                int_pts[6][0] = int_pts[6][1] = int_pts[6][2] = int_pts[7][1] = int_pts[7][2] = int_pts[8][2] = int_pts[9][0] = int_pts[9][2] = int_pts[10][0] = int_pts[10][1] = int_pts[11][1] = int_pts[13][0] = -LC;
+                int_pts[7][0] = int_pts[8][0] = int_pts[8][1] = int_pts[9][1] = int_pts[10][2] = int_pts[11][0] = int_pts[11][2] = int_pts[12][0] = int_pts[12][1] = int_pts[12][2] = int_pts[13][1] = int_pts[13][2] = LC;
+            }
+
+            return;
         }
 
-        return;
+        if(intDimension == 2) {
+            suanpan::hacker(n_cols) = 3;
+            suanpan::hacker(n_rows) = 5;
+            suanpan::hacker(n_elem) = n_rows * n_cols;
+
+            int_pts = new double*[n_rows];
+            for(unsigned i = 0; i < n_rows; ++i) int_pts[i] = new double[n_cols];
+
+            if(intOrder == 2) {
+                const auto WB = 2. / 3.;
+                for(auto I = 0; I < 5; ++I) {
+                    for(auto J = 0; J < 2; ++J) int_pts[I][J] = 0.;
+                    int_pts[I][2] = WB;
+                }
+                int_pts[0][2] *= 2.;
+                int_pts[1][0] = -1.;
+                int_pts[2][0] = 1.;
+                int_pts[3][1] = -1.;
+                int_pts[4][1] = 1.;
+            }
+
+            return;
+        }
     }
 
     const auto PTL = new double[intOrder];

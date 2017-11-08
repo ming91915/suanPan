@@ -83,7 +83,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    const IntegrationPlan plan(2, 3, IntegrationType::GAUSS);
+    const IntegrationPlan plan(2, 2, IntegrationType::IRONS);
 
     mat pnt(2, 8);
 
