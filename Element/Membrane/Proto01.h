@@ -65,7 +65,7 @@ class Proto01 : public MaterialElement {
     mat trial_qtifi, current_qtifi; // eq. 65
 
 public:
-    Proto01(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
+    Proto01(const unsigned, const uvec&, const unsigned, const double = 1.);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

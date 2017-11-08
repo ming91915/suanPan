@@ -38,7 +38,7 @@ Proto01::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const 
     , B(3, m_node * m_dof, fill::zeros)
     , BI(3, 2, fill::zeros) {}
 
-Proto01::Proto01(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
+Proto01::Proto01(const unsigned T, const uvec& N, const unsigned M, const double TH)
     : MaterialElement(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
     , thickness(TH) {}
 
