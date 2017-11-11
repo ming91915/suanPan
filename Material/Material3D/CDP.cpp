@@ -15,15 +15,15 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "Bilinear3D.h"
+#include "CDP.h"
 #include <Toolbox/tensorToolbox.h>
 
-const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>{ 1., 1., 1., 2., 2., 2. });
-const double Bilinear3D::root_two_third = sqrt(2. / 3.);
-const mat Bilinear3D::unit_dev_tensor = tensor::unitDevTensor4();
+const vec CDP::norm_weight = vec(std::initializer_list<double>{ 1., 1., 1., 2., 2., 2. });
+const double CDP::root_two_third = sqrt(2. / 3.);
+const mat CDP::unit_dev_tensor = tensor::unitDevTensor4();
 
-Bilinear3D::Bilinear3D(const unsigned T, const double E, const double V, const double Y, const double H, const double B, const double R)
-    : Material3D(T, MT_BILINEAR3D, R)
+CDP::CDP(const unsigned T, const double E, const double V, const double Y, const double H, const double B, const double R)
+    : Material3D(T, MT_CDP, R)
     , elastic_modulus(E)
     , poissons_ratio(V)
     , yield_stress(Y)
@@ -37,7 +37,7 @@ Bilinear3D::Bilinear3D(const unsigned T, const double E, const double V, const d
     , factor_a(2. / 3. * plastic_modulus)
     , factor_b((1. - beta) * plastic_modulus) {}
 
-void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
+void CDP::initialize(const shared_ptr<DomainBase>&) {
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
@@ -49,17 +49,19 @@ void Bilinear3D::initialize(const shared_ptr<DomainBase>&) {
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
 
-    current_stiffness = trial_stiffness = initial_stiffness;
+    current_stiffness = initial_stiffness;
+    trial_stiffness = initial_stiffness;
 
     current_back_stress.zeros(6);
     trial_back_stress.zeros(6);
 
-    current_plastic_strain = trial_plastic_strain = 0.;
+    current_plastic_strain = 0.;
+    trial_plastic_strain = 0.;
 }
 
-unique_ptr<Material> Bilinear3D::get_copy() { return make_unique<Bilinear3D>(*this); }
+unique_ptr<Material> CDP::get_copy() { return make_unique<CDP>(*this); }
 
-int Bilinear3D::update_trial_status(const vec& t_strain) {
+int CDP::update_trial_status(const vec& t_strain) {
     trial_plastic_strain = current_plastic_strain;
     trial_back_stress = current_back_stress;
     trial_stiffness = initial_stiffness;
@@ -67,6 +69,18 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
     incre_strain = trial_strain - current_strain;
     trial_stress = current_stress + trial_stiffness * incre_strain;
+
+    mat trial_stress_tensor(3, 3);
+    trial_stress_tensor(0, 0) = trial_stress(0);
+    trial_stress_tensor(1, 1) = trial_stress(1);
+    trial_stress_tensor(2, 2) = trial_stress(2);
+    trial_stress_tensor(0, 1) = trial_stress_tensor(1, 0) = trial_stress(3);
+    trial_stress_tensor(1, 2) = trial_stress_tensor(2, 1) = trial_stress(4);
+    trial_stress_tensor(0, 2) = trial_stress_tensor(2, 0) = trial_stress(5);
+
+    mat eigen_vector;
+    vec eigen_value;
+    eig_sym(eigen_value, eigen_vector, trial_stress_tensor);
 
     const vec shifted_stress = tensor::dev(trial_stress) - trial_back_stress;
 
@@ -79,19 +93,19 @@ int Bilinear3D::update_trial_status(const vec& t_strain) {
         const auto gamma = yield_func / tmp_a;
         const vec unit_norm = shifted_stress / norm_shifted_stress;
         const vec tmp_b = gamma * unit_norm;
-        const auto tmp_c = square_double_shear * gamma / norm_shifted_stress;
+        const auto tmp_d = square_double_shear * gamma / norm_shifted_stress;
 
         trial_stress -= double_shear * tmp_b;
         trial_back_stress += factor_a * beta * tmp_b;
         trial_plastic_strain += root_two_third * gamma;
 
-        trial_stiffness += (tmp_c - square_double_shear / tmp_a) * unit_norm * unit_norm.t() - tmp_c * unit_dev_tensor;
+        trial_stiffness += (tmp_d - square_double_shear / tmp_a) * unit_norm * unit_norm.t() - tmp_d * unit_dev_tensor;
     }
 
     return 0;
 }
 
-int Bilinear3D::clear_status() {
+int CDP::clear_status() {
     current_strain.zeros();
     current_stress.zeros();
     current_stiffness = initial_stiffness;
@@ -100,7 +114,7 @@ int Bilinear3D::clear_status() {
     return reset_status();
 }
 
-int Bilinear3D::commit_status() {
+int CDP::commit_status() {
     current_strain = trial_strain;
     current_stress = trial_stress;
     current_stiffness = trial_stiffness;
@@ -109,7 +123,7 @@ int Bilinear3D::commit_status() {
     return 0;
 }
 
-int Bilinear3D::reset_status() {
+int CDP::reset_status() {
     trial_strain = current_strain;
     trial_stress = current_stress;
     trial_stiffness = current_stiffness;

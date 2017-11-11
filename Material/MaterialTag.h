@@ -81,5 +81,8 @@
 #ifndef MT_DSFM
 #define MT_DSFM 1020
 #endif
+#ifndef MT_CDP
+#define MT_CDP 1021
+#endif
 
 #endif
