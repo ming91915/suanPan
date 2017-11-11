@@ -15,26 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class DisplacementControl
+ * @class MPDC
  * @brief A DisplacementControl class defines a solver using Newton--Raphson iteration.
  * @author T
  * @date 15/10/2017
  * @version 0.1.2
- * @file DisplacementControl.h
+ * @file MPDC.h
  * @addtogroup Solver
  * @{
  */
 
-#ifndef DISPLACEMENTCONTROL_H
-#define DISPLACEMENTCONTROL_H
+#ifndef MPDC_H
+#define MPDC_H
 
 #include <Solver/Solver.h>
 
-class DisplacementControl : public Solver {
+class MPDC : public Solver {
 public:
-    DisplacementControl();
+    MPDC(const unsigned);
 
     int analyze() override;
 };
 
-#endif // DISPLACEMENTCONTROL_H
+#endif // MPDC_H

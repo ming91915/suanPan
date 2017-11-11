@@ -70,7 +70,7 @@ int Ramm::analyze() {
             const auto& t_pivot = t_stiff.IPIV;
             auto det_sign = 1;
             for(auto I = 0; I < t_pivot.n_elem; ++I)
-                if(t_stiff(I, I) < 0 ^ I + 1 != t_pivot(I)) det_sign = -det_sign;
+                if((t_stiff(I, I) < 0) ^ (I + 1 != t_pivot(I))) det_sign = -det_sign;
             if(det_sign < 0) t_lambda = -t_lambda;
         } else
             t_lambda = -dot(disp_ref, t_ninja) / dot(disp_ref, disp_a);

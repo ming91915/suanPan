@@ -210,5 +210,8 @@
 #ifndef CT_COSINE
 #define CT_COSINE 64
 #endif
+#ifndef CT_MPDC
+#define CT_MPDC 65
+#endif
 
 #endif

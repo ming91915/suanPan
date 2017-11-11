@@ -52,7 +52,7 @@ class BFGS : public Solver {
     const unsigned max_hist = 100;
 
 public:
-    explicit BFGS(const unsigned& = 0);
+    explicit BFGS(const unsigned = 0);
 
     int analyze() override;
 

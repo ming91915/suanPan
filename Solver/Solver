@@ -3,7 +3,7 @@
 
 #include "Arnoldi.h"
 #include "BFGS.h"
-#include "DisplacementControl.h"
+#include "MPDC.h"
 #include "Newton.h"
 #include "Ramm.h"
 #include "Solver.h"

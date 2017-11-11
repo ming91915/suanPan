@@ -14,7 +14,7 @@ include(Integrator/CMakeLists.txt)
 add_library(${PROJECT_NAME} STATIC
     Arnoldi.cpp
     BFGS.cpp
-    DisplacementControl.cpp
+    MPDC.cpp
     Newton.cpp
     Ramm.cpp
     Solver.cpp

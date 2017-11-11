@@ -21,7 +21,7 @@
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
-BFGS::BFGS(const unsigned& T)
+BFGS::BFGS(const unsigned T)
     : Solver(T, CT_BFGS) {}
 
 int BFGS::analyze() {

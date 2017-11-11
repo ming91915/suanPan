@@ -1,12 +1,13 @@
-#include "DisplacementControl.h"
+#include "MPDC.h"
 #include <Converger/Converger.h>
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
 #include <Solver/Integrator/Integrator.h>
 
-DisplacementControl::DisplacementControl() {}
+MPDC::MPDC(const unsigned T)
+    : Solver(T, CT_MPDC) {}
 
-int DisplacementControl::analyze() {
+int MPDC::analyze() {
     auto& C = get_converger();
     auto& G = get_integrator();
     auto& W = G->get_domain().lock()->get_factory();

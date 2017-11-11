@@ -158,7 +158,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Solver\Arnoldi.cpp" />
     <ClCompile Include="..\..\..\Solver\BFGS.cpp" />
-    <ClCompile Include="..\..\..\Solver\DisplacementControl.cpp" />
+    <ClCompile Include="..\..\..\Solver\MPDC.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\CentralDifference.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\GeneralizedAlpha.cpp" />
     <ClCompile Include="..\..\..\Solver\Integrator\Integrator.cpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="..\..\..\Domain\Factory.hpp" />
     <ClInclude Include="..\..\..\Solver\Arnoldi.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
-    <ClInclude Include="..\..\..\Solver\DisplacementControl.h" />
+    <ClInclude Include="..\..\..\Solver\MPDC.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\CentralDifference.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\GeneralizedAlpha.h" />
     <ClInclude Include="..\..\..\Solver\Integrator\Integrator.h" />
