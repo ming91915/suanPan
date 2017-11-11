@@ -25,7 +25,7 @@
 using std::ofstream;
 using std::string;
 
-void argument_parser(int argc, char** argv) {
+void argument_parser(const int argc, char** argv) {
     string input_file_name = "";
     string output_file_name = "";
     ofstream output_file;

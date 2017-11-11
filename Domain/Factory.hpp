@@ -22,11 +22,11 @@ enum class AnalysisType { NONE, DISP, EIGEN, STATICS, DYNAMICS };
 enum class StorageScheme { FULL, BAND, BANDSYMM, SYMMPACK };
 
 template <typename T> class Factory final {
-    unsigned n_size = 0; /**< number of DoFs */
-    unsigned n_lobw = 0; /**< low bandwidth */
-    unsigned n_upbw = 0; /**< up bandwidth */
-    unsigned n_sfbw = n_lobw + n_upbw;
-    unsigned n_rfld = 0;
+    unsigned n_size = 0;               /**< number of degrees of freedom */
+    unsigned n_lobw = 0;               /**< low bandwidth */
+    unsigned n_upbw = 0;               /**< up bandwidth */
+    unsigned n_sfbw = n_lobw + n_upbw; /**< matrix storage offset */
+    unsigned n_rfld = 0;               /**< reference load size */
 
     AnalysisType analysis_type = AnalysisType::NONE;  /**< type of analysis */
     StorageScheme storage_type = StorageScheme::FULL; /**< type of analysis */
@@ -45,6 +45,7 @@ template <typename T> class Factory final {
 
     Col<T> trial_load_factor;  /**< global trial load factor */
     Col<T> trial_load;         /**< global trial load vector */
+    Col<T> trial_settlement;   /**< global trial displacement load vector */
     Col<T> trial_resistance;   /**< global trial resistance vector */
     Col<T> trial_displacement; /**< global trial displacement vector */
     Col<T> trial_velocity;     /**< global trial velocity vector */
@@ -53,6 +54,7 @@ template <typename T> class Factory final {
 
     Col<T> incre_load_factor;  /**< global incremental load vector */
     Col<T> incre_load;         /**< global incremental load vector */
+    Col<T> incre_settlement;   /**< global incremental displacement load vector */
     Col<T> incre_resistance;   /**< global incremental resistance vector */
     Col<T> incre_displacement; /**< global incremental displacement vector */
     Col<T> incre_velocity;     /**< global incremental velocity vector */
@@ -61,6 +63,7 @@ template <typename T> class Factory final {
 
     Col<T> current_load_factor;  /**< global current load vector */
     Col<T> current_load;         /**< global current load vector */
+    Col<T> current_settlement;   /**< global current displacement load vector */
     Col<T> current_resistance;   /**< global current resistance vector */
     Col<T> current_displacement; /**< global current displacement vector */
     Col<T> current_velocity;     /**< global current velocity vector */
@@ -69,6 +72,7 @@ template <typename T> class Factory final {
 
     Col<T> pre_load_factor;  /**< global previous load vector */
     Col<T> pre_load;         /**< global previous load vector */
+    Col<T> pre_settlement;   /**< global previous displacement load vector */
     Col<T> pre_resistance;   /**< global previous resistance vector */
     Col<T> pre_displacement; /**< global previous displacement vector */
     Col<T> pre_velocity;     /**< global previous velocity vector */
@@ -111,6 +115,7 @@ public:
 
     void initialize_load_factor();
     void initialize_load();
+    void initialize_settlement();
     void initialize_resistance();
     void initialize_displacement();
     void initialize_velocity();
@@ -132,6 +137,7 @@ public:
     void set_trial_time(const T&);
     void set_trial_load_factor(const Col<T>&);
     void set_trial_load(const Col<T>&);
+    void set_trial_settlement(const Col<T>&);
     void set_trial_resistance(const Col<T>&);
     void set_trial_displacement(const Col<T>&);
     void set_trial_velocity(const Col<T>&);
@@ -141,6 +147,7 @@ public:
     void set_incre_time(const T&);
     void set_incre_load_factor(const Col<T>&);
     void set_incre_load(const Col<T>&);
+    void set_incre_settlement(const Col<T>&);
     void set_incre_resistance(const Col<T>&);
     void set_incre_displacement(const Col<T>&);
     void set_incre_velocity(const Col<T>&);
@@ -150,6 +157,7 @@ public:
     void set_current_time(const T&);
     void set_current_load_factor(const Col<T>&);
     void set_current_load(const Col<T>&);
+    void set_current_settlement(const Col<T>&);
     void set_current_resistance(const Col<T>&);
     void set_current_displacement(const Col<T>&);
     void set_current_velocity(const Col<T>&);
@@ -159,6 +167,7 @@ public:
     void set_pre_time(const T&);
     void set_pre_load_factor(const Col<T>&);
     void set_pre_load(const Col<T>&);
+    void set_pre_settlement(const Col<T>&);
     void set_pre_resistance(const Col<T>&);
     void set_pre_displacement(const Col<T>&);
     void set_pre_velocity(const Col<T>&);
@@ -182,6 +191,7 @@ public:
     const T& get_trial_time() const;
     const Col<T>& get_trial_load_factor() const;
     const Col<T>& get_trial_load() const;
+    const Col<T>& get_trial_settlement() const;
     const Col<T>& get_trial_resistance() const;
     const Col<T>& get_trial_displacement() const;
     const Col<T>& get_trial_velocity() const;
@@ -191,6 +201,7 @@ public:
     const T& get_incre_time() const;
     const Col<T>& get_incre_load_factor() const;
     const Col<T>& get_incre_load() const;
+    const Col<T>& get_incre_settlement() const;
     const Col<T>& get_incre_resistance() const;
     const Col<T>& get_incre_displacement() const;
     const Col<T>& get_incre_velocity() const;
@@ -200,6 +211,7 @@ public:
     const T& get_current_time() const;
     const Col<T>& get_current_load_factor() const;
     const Col<T>& get_current_load() const;
+    const Col<T>& get_current_settlement() const;
     const Col<T>& get_current_resistance() const;
     const Col<T>& get_current_displacement() const;
     const Col<T>& get_current_velocity() const;
@@ -209,6 +221,7 @@ public:
     const T& get_pre_time() const;
     const Col<T>& get_pre_load_factor() const;
     const Col<T>& get_pre_load() const;
+    const Col<T>& get_pre_settlement() const;
     const Col<T>& get_pre_resistance() const;
     const Col<T>& get_pre_displacement() const;
     const Col<T>& get_pre_velocity() const;
@@ -227,6 +240,7 @@ public:
     void update_trial_time(const T&);
     void update_trial_load_factor(const Col<T>&);
     void update_trial_load(const Col<T>&);
+    void update_trial_settlement(const Col<T>&);
     void update_trial_resistance(const Col<T>&);
     void update_trial_displacement(const Col<T>&);
     void update_trial_velocity(const Col<T>&);
@@ -236,6 +250,7 @@ public:
     void update_incre_time(const T&);
     void update_incre_load_factor(const Col<T>&);
     void update_incre_load(const Col<T>&);
+    void update_incre_settlement(const Col<T>&);
     void update_incre_resistance(const Col<T>&);
     void update_incre_displacement(const Col<T>&);
     void update_incre_velocity(const Col<T>&);
@@ -245,6 +260,7 @@ public:
     void update_current_time(const T&);
     void update_current_load_factor(const Col<T>&);
     void update_current_load(const Col<T>&);
+    void update_current_settlement(const Col<T>&);
     void update_current_resistance(const Col<T>&);
     void update_current_displacement(const Col<T>&);
     void update_current_velocity(const Col<T>&);
@@ -261,6 +277,7 @@ public:
     template <typename T1> friend T& get_trial_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_load_factor(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_load(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_trial_settlement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_resistance(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_displacement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_trial_velocity(const shared_ptr<Factory<T1>>&);
@@ -270,6 +287,7 @@ public:
     template <typename T1> friend T& get_incre_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_incre_load_factor(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_incre_load(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_incre_settlement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_incre_resistance(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_incre_displacement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_incre_velocity(const shared_ptr<Factory<T1>>&);
@@ -279,6 +297,7 @@ public:
     template <typename T1> friend T& get_current_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_current_load_factor(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_current_load(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_current_settlement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_current_resistance(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_current_displacement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_current_velocity(const shared_ptr<Factory<T1>>&);
@@ -288,6 +307,7 @@ public:
     template <typename T1> friend T& get_pre_time(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_pre_load_factor(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_pre_load(const shared_ptr<Factory<T1>>&);
+    template <typename T1> friend Col<T1>& get_pre_settlement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_pre_resistance(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_pre_displacement(const shared_ptr<Factory<T1>>&);
     template <typename T1> friend Col<T1>& get_pre_velocity(const shared_ptr<Factory<T1>>&);
@@ -307,6 +327,7 @@ public:
     void commit_time();
     void commit_load_factor();
     void commit_load();
+    void commit_settlement();
     void commit_resistance();
     void commit_displacement();
     void commit_velocity();
@@ -317,6 +338,7 @@ public:
     void commit_pre_time();
     void commit_pre_load_factor();
     void commit_pre_load();
+    void commit_pre_settlement();
     void commit_pre_resistance();
     void commit_pre_displacement();
     void commit_pre_velocity();
@@ -327,6 +349,7 @@ public:
     void clear_time();
     void clear_load_factor();
     void clear_load();
+    void clear_settlement();
     void clear_resistance();
     void clear_displacement();
     void clear_velocity();
@@ -337,6 +360,7 @@ public:
     void reset_time();
     void reset_load_factor();
     void reset_load();
+    void reset_settlement();
     void reset_resistance();
     void reset_displacement();
     void reset_velocity();
@@ -359,6 +383,11 @@ public:
 
     void print() const;
 };
+
+template <typename T> void Factory<T>::update_incre_settlement(const Col<T>& S) {
+    incre_settlement = S;
+    trial_settlement = current_settlement + incre_settlement;
+}
 
 template <typename T>
 Factory<T>::Factory(const unsigned& D, const AnalysisType& AT, const StorageScheme& SS)
@@ -476,6 +505,12 @@ template <typename T> void Factory<T>::initialize_load() {
     current_load.zeros(n_size);
 }
 
+template <typename T> void Factory<T>::initialize_settlement() {
+    trial_settlement.zeros(n_size);
+    incre_settlement.zeros(n_size);
+    current_settlement.zeros(n_size);
+}
+
 template <typename T> void Factory<T>::initialize_resistance() {
     trial_resistance.zeros(n_size);
     incre_resistance.zeros(n_size);
@@ -574,6 +609,8 @@ template <typename T> void Factory<T>::set_trial_load_factor(const Col<T>& L) { 
 
 template <typename T> void Factory<T>::set_trial_load(const Col<T>& L) { trial_load = L; }
 
+template <typename T> void Factory<T>::set_trial_settlement(const Col<T>& S) { trial_settlement = S; }
+
 template <typename T> void Factory<T>::set_trial_resistance(const Col<T>& R) { trial_resistance = R; }
 
 template <typename T> void Factory<T>::set_trial_displacement(const Col<T>& D) { trial_displacement = D; }
@@ -589,6 +626,8 @@ template <typename T> void Factory<T>::set_incre_time(const T& M) { incre_time =
 template <typename T> void Factory<T>::set_incre_load_factor(const Col<T>& L) { incre_load_factor = L; }
 
 template <typename T> void Factory<T>::set_incre_load(const Col<T>& L) { incre_load = L; }
+
+template <typename T> void Factory<T>::set_incre_settlement(const Col<T>& S) { incre_settlement = S; }
 
 template <typename T> void Factory<T>::set_incre_resistance(const Col<T>& R) { incre_resistance = R; }
 
@@ -606,6 +645,8 @@ template <typename T> void Factory<T>::set_current_load_factor(const Col<T>& L) 
 
 template <typename T> void Factory<T>::set_current_load(const Col<T>& L) { current_load = L; }
 
+template <typename T> void Factory<T>::set_current_settlement(const Col<T>& S) { current_settlement = S; }
+
 template <typename T> void Factory<T>::set_current_resistance(const Col<T>& R) { current_resistance = R; }
 
 template <typename T> void Factory<T>::set_current_displacement(const Col<T>& D) { current_displacement = D; }
@@ -621,6 +662,8 @@ template <typename T> void Factory<T>::set_pre_time(const T& M) { pre_time = M; 
 template <typename T> void Factory<T>::set_pre_load_factor(const Col<T>& L) { pre_load_factor = L; }
 
 template <typename T> void Factory<T>::set_pre_load(const Col<T>& L) { pre_load = L; }
+
+template <typename T> void Factory<T>::set_pre_settlement(const Col<T>& S) { pre_settlement = S; }
 
 template <typename T> void Factory<T>::set_pre_resistance(const Col<T>& R) { pre_resistance = R; }
 
@@ -654,6 +697,8 @@ template <typename T> const Col<T>& Factory<T>::get_trial_load_factor() const { 
 
 template <typename T> const Col<T>& Factory<T>::get_trial_load() const { return trial_load; }
 
+template <typename T> const Col<T>& Factory<T>::get_trial_settlement() const { return trial_settlement; }
+
 template <typename T> const Col<T>& Factory<T>::get_trial_resistance() const { return trial_resistance; }
 
 template <typename T> const Col<T>& Factory<T>::get_trial_displacement() const { return trial_displacement; }
@@ -669,6 +714,8 @@ template <typename T> const T& Factory<T>::get_incre_time() const { return incre
 template <typename T> const Col<T>& Factory<T>::get_incre_load_factor() const { return incre_load_factor; }
 
 template <typename T> const Col<T>& Factory<T>::get_incre_load() const { return incre_load; }
+
+template <typename T> const Col<T>& Factory<T>::get_incre_settlement() const { return incre_settlement; }
 
 template <typename T> const Col<T>& Factory<T>::get_incre_resistance() const { return incre_resistance; }
 
@@ -686,6 +733,8 @@ template <typename T> const Col<T>& Factory<T>::get_current_load_factor() const 
 
 template <typename T> const Col<T>& Factory<T>::get_current_load() const { return current_load; }
 
+template <typename T> const Col<T>& Factory<T>::get_current_settlement() const { return current_settlement; }
+
 template <typename T> const Col<T>& Factory<T>::get_current_resistance() const { return current_resistance; }
 
 template <typename T> const Col<T>& Factory<T>::get_current_displacement() const { return current_displacement; }
@@ -701,6 +750,8 @@ template <typename T> const T& Factory<T>::get_pre_time() const { return pre_tim
 template <typename T> const Col<T>& Factory<T>::get_pre_load_factor() const { return pre_load_factor; }
 
 template <typename T> const Col<T>& Factory<T>::get_pre_load() const { return pre_load; }
+
+template <typename T> const Col<T>& Factory<T>::get_pre_settlement() const { return pre_settlement; }
 
 template <typename T> const Col<T>& Factory<T>::get_pre_resistance() const { return pre_resistance; }
 
@@ -735,6 +786,11 @@ template <typename T> void Factory<T>::update_trial_load_factor(const Col<T>& L)
 template <typename T> void Factory<T>::update_trial_load(const Col<T>& L) {
     trial_load = L;
     incre_load = trial_load - current_load;
+}
+
+template <typename T> void Factory<T>::update_trial_settlement(const Col<T>& S) {
+    trial_settlement = S;
+    incre_settlement = trial_settlement - current_settlement;
 }
 
 template <typename T> void Factory<T>::update_trial_resistance(const Col<T>& R) {
@@ -803,80 +859,60 @@ template <typename T> void Factory<T>::update_incre_temperature(const Col<T>& M)
 }
 
 template <typename T> void Factory<T>::update_current_time(const T& M) {
-    current_time = M;
-    trial_time = current_time;
+    trial_time = current_time = M;
     incre_time = 0.;
 }
 
 template <typename T> void Factory<T>::update_current_load_factor(const Col<T>& L) {
-    current_load_factor = L;
-    trial_load_factor = L;
+    trial_load_factor = current_load_factor = L;
     incre_load_factor.zeros();
 }
 
 template <typename T> void Factory<T>::update_current_load(const Col<T>& L) {
-    current_load = L;
-    trial_load = L;
+    trial_load = current_load = L;
     incre_load.zeros();
 }
 
+template <typename T> void Factory<T>::update_current_settlement(const Col<T>& S) {
+    trial_settlement = current_settlement = S;
+    incre_settlement.zeros();
+}
+
 template <typename T> void Factory<T>::update_current_resistance(const Col<T>& R) {
-    current_resistance = R;
-    trial_resistance = current_resistance;
+    trial_resistance = current_resistance = R;
     incre_resistance.zeros();
 }
 
 template <typename T> void Factory<T>::update_current_displacement(const Col<T>& D) {
-    current_displacement = D;
-    trial_displacement = D;
+    trial_displacement = current_displacement = D;
     incre_displacement.zeros();
 }
 
 template <typename T> void Factory<T>::update_current_velocity(const Col<T>& V) {
-    current_velocity = V;
-    trial_velocity = current_velocity;
+    trial_velocity = current_velocity = V;
     incre_velocity.zeros();
 }
 
 template <typename T> void Factory<T>::update_current_acceleration(const Col<T>& A) {
-    current_acceleration = A;
-    trial_acceleration = current_acceleration;
+    trial_acceleration = current_acceleration = A;
     incre_acceleration.zeros();
 }
 
 template <typename T> void Factory<T>::update_current_temperature(const Col<T>& M) {
-    current_temperature = M;
-    trial_temperature = current_temperature;
+    trial_temperature = current_temperature = M;
     incre_temperature.zeros();
 }
 
 template <typename T> void Factory<T>::commit_status() {
     commit_time();
-
-    if(n_rfld != 0) commit_load_factor();
-
-    switch(analysis_type) {
-    case AnalysisType::DISP:
-        commit_displacement();
-        break;
-    case AnalysisType::EIGEN:
-        break;
-    case AnalysisType::STATICS:
-        commit_load();
-        commit_resistance();
-        commit_displacement();
-        break;
-    case AnalysisType::DYNAMICS:
-        commit_load();
-        commit_resistance();
-        commit_displacement();
-        commit_velocity();
-        commit_acceleration();
-        break;
-    case AnalysisType::NONE:
-        break;
-    }
-    // commit_temperature();
+    commit_load_factor();
+    commit_load();
+    commit_settlement();
+    commit_resistance();
+    commit_displacement();
+    commit_velocity();
+    commit_acceleration();
+    commit_temperature();
 }
 
 template <typename T> void Factory<T>::commit_time() {
@@ -885,82 +921,106 @@ template <typename T> void Factory<T>::commit_time() {
 }
 
 template <typename T> void Factory<T>::commit_load_factor() {
-    current_load_factor = trial_load_factor;
-    incre_load_factor.zeros();
+    if(!trial_load_factor.is_empty()) {
+        current_load_factor = trial_load_factor;
+        incre_load_factor.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_load() {
-    current_load = trial_load;
-    incre_load.zeros();
+    if(!trial_load.is_empty()) {
+        current_load = trial_load;
+        incre_load.zeros();
+    }
+}
+
+template <typename T> void Factory<T>::commit_settlement() {
+    if(!trial_settlement.is_empty()) {
+        current_settlement = trial_settlement;
+        incre_settlement.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_resistance() {
-    current_resistance = trial_resistance;
-    incre_resistance.zeros();
+    if(!trial_resistance.is_empty()) {
+        current_resistance = trial_resistance;
+        incre_resistance.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_displacement() {
-    current_displacement = trial_displacement;
-    incre_displacement.zeros();
+    if(!trial_displacement.is_empty()) {
+        current_displacement = trial_displacement;
+        incre_displacement.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_velocity() {
-    current_velocity = trial_velocity;
-    incre_velocity.zeros();
+    if(!trial_velocity.is_empty()) {
+        current_velocity = trial_velocity;
+        incre_velocity.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_acceleration() {
-    current_acceleration = trial_acceleration;
-    incre_acceleration.zeros();
+    if(!trial_acceleration.is_empty()) {
+        current_acceleration = trial_acceleration;
+        incre_acceleration.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_temperature() {
-    current_temperature = trial_temperature;
-    incre_temperature.zeros();
+    if(!trial_temperature.is_empty()) {
+        current_temperature = trial_temperature;
+        incre_temperature.zeros();
+    }
 }
 
 template <typename T> void Factory<T>::commit_pre_status() {
     commit_pre_time();
-
-    if(n_rfld != 0) commit_pre_load_factor();
-
-    switch(analysis_type) {
-    case AnalysisType::DISP:
-        commit_pre_displacement();
-        break;
-    case AnalysisType::EIGEN:
-        break;
-    case AnalysisType::STATICS:
-        commit_pre_load();
-        commit_pre_displacement();
-        break;
-    case AnalysisType::DYNAMICS:
-        commit_pre_load();
-        commit_pre_displacement();
-        commit_pre_velocity();
-        commit_pre_acceleration();
-        break;
-    case AnalysisType::NONE:
-        break;
-    }
-    // commit_pre_temperature();
+    commit_pre_load_factor();
+    commit_pre_load();
+    commit_pre_settlement();
+    commit_pre_resistance();
+    commit_pre_displacement();
+    commit_pre_velocity();
+    commit_pre_acceleration();
+    commit_pre_temperature();
 }
 
 template <typename T> void Factory<T>::commit_pre_time() { pre_time = current_time; }
 
-template <typename T> void Factory<T>::commit_pre_load_factor() { pre_load_factor = current_load_factor; }
+template <typename T> void Factory<T>::commit_pre_load_factor() {
+    if(!current_load_factor.is_empty()) pre_load_factor = current_load_factor;
+}
 
-template <typename T> void Factory<T>::commit_pre_load() { pre_load = current_load; }
+template <typename T> void Factory<T>::commit_pre_load() {
+    if(!current_load.is_empty()) pre_load = current_load;
+}
 
-template <typename T> void Factory<T>::commit_pre_resistance() { pre_resistance = current_resistance; }
+template <typename T> void Factory<T>::commit_pre_settlement() {
+    if(!current_settlement.is_empty()) pre_settlement = current_settlement;
+}
 
-template <typename T> void Factory<T>::commit_pre_displacement() { pre_displacement = current_displacement; }
+template <typename T> void Factory<T>::commit_pre_resistance() {
+    if(!current_resistance.is_empty()) pre_resistance = current_resistance;
+}
 
-template <typename T> void Factory<T>::commit_pre_velocity() { pre_velocity = current_velocity; }
+template <typename T> void Factory<T>::commit_pre_displacement() {
+    if(!current_displacement.is_empty()) pre_displacement = current_displacement;
+}
 
-template <typename T> void Factory<T>::commit_pre_acceleration() { pre_acceleration = current_acceleration; }
+template <typename T> void Factory<T>::commit_pre_velocity() {
+    if(!current_velocity.is_empty()) pre_velocity = current_velocity;
+}
 
-template <typename T> void Factory<T>::commit_pre_temperature() { pre_temperature = current_temperature; }
+template <typename T> void Factory<T>::commit_pre_acceleration() {
+    if(!current_acceleration.is_empty()) pre_acceleration = current_acceleration;
+}
+
+template <typename T> void Factory<T>::commit_pre_temperature() {
+    if(!current_temperature.is_empty()) pre_temperature = current_temperature;
+}
 
 template <typename T> void Factory<T>::clear_status() {
     ninja.zeros();
@@ -968,6 +1028,7 @@ template <typename T> void Factory<T>::clear_status() {
     clear_time();
     clear_load_factor();
     clear_load();
+    clear_settlement();
     clear_resistance();
     clear_displacement();
     clear_velocity();
@@ -993,6 +1054,13 @@ template <typename T> void Factory<T>::clear_load() {
     if(!trial_load.is_empty()) trial_load.zeros();
     if(!incre_load.is_empty()) incre_load.zeros();
     if(!current_load.is_empty()) current_load.zeros();
+}
+
+template <typename T> void Factory<T>::clear_settlement() {
+    if(!pre_settlement.is_empty()) pre_settlement.zeros();
+    if(!trial_settlement.is_empty()) trial_settlement.zeros();
+    if(!incre_settlement.is_empty()) incre_settlement.zeros();
+    if(!current_settlement.is_empty()) current_settlement.zeros();
 }
 
 template <typename T> void Factory<T>::clear_resistance() {
@@ -1036,6 +1104,7 @@ template <typename T> void Factory<T>::reset_status() {
     reset_time();
     reset_load_factor();
     reset_load();
+    reset_settlement();
     reset_resistance();
     reset_displacement();
     reset_velocity();
@@ -1059,6 +1128,13 @@ template <typename T> void Factory<T>::reset_load() {
     if(!trial_load.is_empty()) {
         trial_load = current_load;
         incre_load.zeros();
+    }
+}
+
+template <typename T> void Factory<T>::reset_settlement() {
+    if(!trial_settlement.is_empty()) {
+        trial_settlement = current_settlement;
+        incre_settlement.zeros();
     }
 }
 
@@ -1147,6 +1223,8 @@ template <typename T1> Col<T1>& get_trial_load_factor(const shared_ptr<Factory<T
 
 template <typename T> Col<T>& get_trial_load(const shared_ptr<Factory<T>>& W) { return W->trial_load; }
 
+template <typename T> Col<T>& get_trial_settlement(const shared_ptr<Factory<T>>& W) { return W->trial_settlement; }
+
 template <typename T> Col<T>& get_trial_resistance(const shared_ptr<Factory<T>>& W) { return W->trial_resistance; }
 
 template <typename T> Col<T>& get_trial_displacement(const shared_ptr<Factory<T>>& W) { return W->trial_displacement; }
@@ -1162,6 +1240,8 @@ template <typename T> T& get_incre_time(const shared_ptr<Factory<T>>& W) { retur
 template <typename T1> Col<T1>& get_incre_load_factor(const shared_ptr<Factory<T1>>& W) { return W->incre_load_factor; }
 
 template <typename T> Col<T>& get_incre_load(const shared_ptr<Factory<T>>& W) { return W->incre_load; }
+
+template <typename T> Col<T>& get_incre_settlement(const shared_ptr<Factory<T>>& W) { return W->incre_settlement; }
 
 template <typename T> Col<T>& get_incre_resistance(const shared_ptr<Factory<T>>& W) { return W->incre_resistance; }
 
@@ -1179,6 +1259,8 @@ template <typename T1> Col<T1>& get_current_load_factor(const shared_ptr<Factory
 
 template <typename T> Col<T>& get_current_load(const shared_ptr<Factory<T>>& W) { return W->current_load; }
 
+template <typename T> Col<T>& get_current_settlement(const shared_ptr<Factory<T>>& W) { return W->current_settlement; }
+
 template <typename T> Col<T>& get_current_resistance(const shared_ptr<Factory<T>>& W) { return W->current_resistance; }
 
 template <typename T> Col<T>& get_current_displacement(const shared_ptr<Factory<T>>& W) { return W->current_displacement; }
@@ -1194,6 +1276,8 @@ template <typename T> T& get_pre_time(const shared_ptr<Factory<T>>& W) { return 
 template <typename T1> Col<T1>& get_pre_load_factor(const shared_ptr<Factory<T1>>& W) { return W->pre_load_factor; }
 
 template <typename T> Col<T>& get_pre_load(const shared_ptr<Factory<T>>& W) { return W->pre_load; }
+
+template <typename T> Col<T>& get_pre_settlement(const shared_ptr<Factory<T>>& W) { return W->pre_settlement; }
 
 template <typename T> Col<T>& get_pre_resistance(const shared_ptr<Factory<T>>& W) { return W->pre_resistance; }
 

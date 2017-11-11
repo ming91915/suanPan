@@ -146,5 +146,8 @@
     <ClInclude Include="..\..\..\Solver\ODE_Solver\ABM3.h">
       <Filter>ODE Solver</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Domain\Factory.hpp">
+      <Filter>Solver</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

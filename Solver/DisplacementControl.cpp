@@ -11,12 +11,17 @@ int DisplacementControl::analyze() {
     auto& G = get_integrator();
     auto& W = G->get_domain().lock()->get_factory();
 
+    if(W->get_storage_scheme() != StorageScheme::BAND) suanpan_warning("band matrix is sugguested for displacement controlled algorithm.\n");
+
     auto& max_iteration = C->get_max_iteration();
 
     // ninja anchor
     auto& t_ninja = get_ninja(W);
 
     auto& load_ref = W->get_reference_load();
+
+    uvec load_ref_idx = find(load_ref);
+    for(auto I = 0; I < load_ref_idx.n_elem; ++I) load_ref_idx(I) -= I * load_ref.n_rows;
 
     mat disp_a;
 
@@ -42,7 +47,9 @@ int DisplacementControl::analyze() {
         // make sure lapack solver succeeds
         if(flag != 0) return flag;
 
-        const vec incre_lambda = -solve(disp_a, t_ninja);
+        vec incre_lambda = -solve(mat(disp_a.rows(load_ref_idx)), t_ninja);
+
+        if(counter == 0) incre_lambda += solve(mat(disp_a.rows(load_ref_idx)), W->get_incre_settlement().rows(load_ref_idx));
 
         t_ninja += disp_a * incre_lambda;
 

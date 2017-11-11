@@ -28,7 +28,7 @@
 
 #include <Step/Bead.h>
 
-void argument_parser(int, char**);
+void argument_parser(const int, char**);
 
 void print_header();
 void print_version();

@@ -179,6 +179,7 @@
     <ClCompile Include="..\..\..\Solver\Solver.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Domain\Factory.hpp" />
     <ClInclude Include="..\..\..\Solver\Arnoldi.h" />
     <ClInclude Include="..\..\..\Solver\BFGS.h" />
     <ClInclude Include="..\..\..\Solver\DisplacementControl.h" />
