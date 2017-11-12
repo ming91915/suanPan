@@ -64,9 +64,44 @@ vec tensor::dev(const vec& S) {
         const auto S22 = D(1);
         D(0) = (2. * S11 - S22) / 3.;
         D(1) = (2. * S22 - S11) / 3.;
-    }
+    } else
+        throw invalid_argument("tensor::dev() needs a proper tensor of size 3 or 6.\n");
 
     return D;
+}
+
+double tensor::I1(const vec& in_tensor) { return accu(in_tensor); }
+
+double tensor::I2(const vec& in_tensor) { return in_tensor(0) * in_tensor(1) + in_tensor(1) * in_tensor(2) + in_tensor(2) * in_tensor(0); }
+
+double tensor::I3(const vec& in_tensor) { return prod(in_tensor); }
+
+double tensor::J1(const vec&) { return 0.; }
+
+double tensor::J2(const vec& in_tensor) { return pow(I1(in_tensor), 2.) / 3. - I2(in_tensor); }
+
+double tensor::J3(const vec& in_tensor) {
+    const auto T = I1(in_tensor);
+    return pow(T, 3.) * 2. / 27. - T * I2(in_tensor) / 3. + I3(in_tensor);
+}
+
+vec tensor::nominal_to_principal(const vec& in_tensor) { return nominal_to_principal(vector_to_matrix(in_tensor)); }
+
+vec tensor::nominal_to_principal(const mat& in_tensor) { return eig_sym(in_tensor); }
+
+mat tensor::vector_to_matrix(const vec& in_tensor) {
+    if(in_tensor.n_elem != 6) throw invalid_argument("tensor::vector_to_matrix() needs a proper tensor of size 3 or 6.\n");
+
+    mat out_tensor(3, 3);
+
+    out_tensor(0, 0) = in_tensor(0);
+    out_tensor(1, 1) = in_tensor(1);
+    out_tensor(2, 2) = in_tensor(2);
+    out_tensor(0, 1) = out_tensor(1, 0) = in_tensor(3);
+    out_tensor(1, 2) = out_tensor(2, 1) = in_tensor(4);
+    out_tensor(0, 2) = out_tensor(2, 0) = in_tensor(5);
+
+    return out_tensor;
 }
 
 double transform::atan2(const vec& direction_cosine) { return std::atan2(direction_cosine(1), direction_cosine(0)); }

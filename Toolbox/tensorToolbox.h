@@ -28,6 +28,53 @@ mat unitSymTensor4();
 double tr(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
+
+/**
+ * \brief takes principal tensor in column vector form (6) only
+ * \return I1 invariant
+ */
+double I1(const vec&);
+/**
+ * \brief takes principal tensor in column vector form (6) only
+ * \return I2 invariant
+ */
+double I2(const vec&);
+/**
+ * \brief takes principal tensore in column vector form (6) only
+ * \return I3 invariant
+ */
+double I3(const vec&);
+/**
+ * \brief takes principal tensor in column vector form (6) only
+ * \return J1 invariant
+ */
+double J1(const vec&);
+/**
+ * \brief takes principal tensor in column vector form (6) only
+ * \return J2 invariant
+ */
+double J2(const vec&);
+/**
+ * \brief takes principal tensor in column vector form (6) only
+ * \return J3 invariant
+ */
+double J3(const vec&);
+
+/**
+ * \brief convert nominal tensor in column vector form to principal tensor
+ * \return
+ */
+vec nominal_to_principal(const vec&);
+/**
+ * \brief convert nominal tensor in matrix form to principal tensor
+ * \return
+ */
+vec nominal_to_principal(const mat&);
+/**
+ * \brief convert Voigt notation to matrix notation
+ * \return
+ */
+mat vector_to_matrix(const vec&);
 }
 
 namespace transform {
