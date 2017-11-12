@@ -49,7 +49,7 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
 
     if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::hacker(thickness) = 1.;
 
-    const IntegrationPlan plan(2, reduced_scheme ? 2 : 3, IntegrationType::GAUSS);
+    const IntegrationPlan plan(2, 2, reduced_scheme ? IntegrationType::GAUSS : IntegrationType::IRONS);
 
     int_pt.clear();
     int_pt.reserve(plan.n_rows);

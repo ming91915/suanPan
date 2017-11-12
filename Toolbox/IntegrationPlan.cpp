@@ -34,7 +34,7 @@ IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned int
             suanpan::hacker(n_elem) = n_rows * n_cols;
 
             int_pts = new double*[n_rows];
-            for(unsigned i = 0; i < n_rows; ++i) int_pts[i] = new double[n_cols];
+            for(unsigned I = 0; I < n_rows; ++I) int_pts[I] = new double[n_cols];
 
             if(intOrder == 2) {
                 const auto WB = 4. / 3.;
@@ -64,7 +64,7 @@ IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned int
             suanpan::hacker(n_elem) = n_rows * n_cols;
 
             int_pts = new double*[n_rows];
-            for(unsigned i = 0; i < n_rows; ++i) int_pts[i] = new double[n_cols];
+            for(unsigned I = 0; I < n_rows; ++I) int_pts[I] = new double[n_cols];
 
             if(intOrder == 2) {
                 const auto WB = 2. / 3.;
