@@ -35,7 +35,7 @@
 class Proto01 : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
-        double weight, jacob_det;
+        double weight, jacob_det, factor = 0.;
         unique_ptr<Material> m_material;
         mat P, A, B, BI;
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
@@ -49,11 +49,9 @@ class Proto01 : public MaterialElement {
 
     vector<IntegrationPoint> int_pt;
 
-    mat t_factor; // temporaty factor matrix used to recover stress and strain
+    mat trans_mat; // temporaty factor matrix used to recover stress and strain
 
     mat HI, HIL, HILI; // constant matrices
-
-    mat trial_ht, current_ht;
 
     vec trial_disp, current_disp;     // displacement
     vec trial_lambda, current_lambda; // enhanced strain
