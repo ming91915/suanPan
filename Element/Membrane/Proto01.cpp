@@ -211,7 +211,6 @@ int Proto01::update_status() {
     trial_alpha += incre_alpha;   // eq. 46
 
     auto code = 0;
-
     mat trial_ht(11, 11, fill::zeros);
     for(const auto& t_pt : int_pt) {
         code += t_pt.m_material->update_trial_status(t_pt.A * trial_alpha);
