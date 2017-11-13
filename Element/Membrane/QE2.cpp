@@ -42,14 +42,12 @@ QE2::QE2(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     , thickness(TH) {}
 
 void QE2::initialize(const shared_ptr<DomainBase>& D) {
-    // ISOPARAMETRIC MAPPING
     if(mapping.is_empty()) {
         mapping.zeros(4, 4);
         mapping.fill(.25);
         mapping(1, 0) = mapping(1, 3) = mapping(2, 0) = mapping(2, 1) = mapping(3, 1) = mapping(3, 3) = -.25;
     }
 
-    // ELEMENT COORDINATES
     mat ele_coor(m_node, 2);
     for(auto I = 0; I < m_node; ++I) {
         auto& tmp_coor = node_ptr[I].lock()->get_coordinate();
@@ -58,15 +56,12 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
 
     t_factor = trans(mapping * ele_coor);
 
-    // MATERIAL MODEL PROTOTYPE
     auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
     if(material_proto->material_type == MaterialType::D2 && std::dynamic_pointer_cast<Material2D>(material_proto)->plane_type == PlaneType::E) suanpan::hacker(thickness) = 1.;
 
-    // INITIAL FLEXIBILITY
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    // INTEGRATION POINTS INITIALIZATION
     const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
 
     vec disp_mode(4, fill::zeros);
@@ -217,11 +212,9 @@ int QE2::clear_status() {
     current_qtifi.zeros();
     trial_qtifi.zeros();
 
-    current_qtitt = initial_qtitt;
-    trial_qtitt = initial_qtitt;
+    trial_qtitt = current_qtitt = initial_qtitt;
 
-    current_ht = inv(HI);
-    trial_ht = current_ht;
+    trial_ht = current_ht = inv(HI);
 
     current_disp.zeros();
 
