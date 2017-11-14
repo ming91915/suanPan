@@ -74,8 +74,8 @@ IntegrationPlan::IntegrationPlan(const unsigned intDimension, const unsigned int
                 }
                 int_pts[0][2] *= 2.;
                 int_pts[1][0] = -1.;
-                int_pts[2][0] = 1.;
-                int_pts[3][1] = -1.;
+                int_pts[2][1] = -1.;
+                int_pts[3][0] = 1.;
                 int_pts[4][1] = 1.;
             }
 
