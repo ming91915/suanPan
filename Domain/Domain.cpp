@@ -674,14 +674,21 @@ int Domain::update_trial_status() const {
     auto& trial_dsp = factory->get_trial_displacement();
     auto& trial_vel = factory->get_trial_velocity();
     auto& trial_acc = factory->get_trial_acceleration();
+    auto& trial_res = factory->get_trial_resistance();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
     if(analysis_type == AnalysisType::STATICS)
-        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) {
+            t_node->update_trial_status(trial_dsp);
+            t_node->update_trial_resistance(trial_res);
+        });
     else if(analysis_type == AnalysisType::DYNAMICS)
-        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_trial_status(trial_dsp, trial_vel, trial_acc); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) {
+            t_node->update_trial_status(trial_dsp, trial_vel, trial_acc);
+            t_node->update_trial_resistance(trial_res);
+        });
 
     auto code = 0;
 
@@ -696,14 +703,21 @@ int Domain::update_incre_status() const {
     auto& incre_dsp = factory->get_incre_displacement();
     auto& incre_vel = factory->get_incre_velocity();
     auto& incre_acc = factory->get_incre_acceleration();
+    auto& incre_res = factory->get_incre_resistance();
 
     auto& t_node_pool = node_pond.get();
     auto& t_element_pool = element_pond.get();
 
     if(analysis_type == AnalysisType::STATICS)
-        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_incre_status(incre_dsp); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) {
+            t_node->update_incre_status(incre_dsp);
+            t_node->update_incre_resistance(incre_res);
+        });
     else if(analysis_type == AnalysisType::DYNAMICS)
-        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) { t_node->update_incre_status(incre_dsp, incre_vel, incre_acc); });
+        suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [&](const shared_ptr<Node>& t_node) {
+            t_node->update_incre_status(incre_dsp, incre_vel, incre_acc);
+            t_node->update_incre_resistance(incre_res);
+        });
 
     auto code = 0;
 

@@ -82,14 +82,17 @@ void Node::initialize(const shared_ptr<DomainBase>& D) {
 
         reordered_dof.reset();
 
+        current_resistance.resize(num_dof);
         current_displacement.resize(num_dof);
         current_velocity.resize(num_dof);
         current_acceleration.resize(num_dof);
 
+        incre_resistance.resize(num_dof);
         incre_displacement.resize(num_dof);
         incre_velocity.resize(num_dof);
         incre_acceleration.resize(num_dof);
 
+        trial_resistance.resize(num_dof);
         trial_displacement.resize(num_dof);
         trial_velocity.resize(num_dof);
         trial_acceleration.resize(num_dof);
@@ -108,10 +111,10 @@ void Node::initialize(const shared_ptr<DomainBase>& D) {
  * \param D `num_dof`
  */
 void Node::set_dof_number(const unsigned& D) {
-    if(num_dof != D) {
-        num_dof = D;
-        initialized = false;
-    }
+    if(num_dof == D) return;
+
+    num_dof = D;
+    initialized = false;
 }
 
 /**
@@ -127,13 +130,11 @@ const unsigned& Node::get_dof_number() const { return num_dof; }
 void Node::set_original_dof(unsigned& F) {
     if(!is_active()) return;
 
-    for(unsigned I = 0; I < num_dof; ++I) {
+    for(unsigned I = 0; I < num_dof; ++I, ++F)
         if(original_dof(I) != F) {
             original_dof(I) = F;
             initialized = false;
         }
-        ++F;
-    }
 }
 
 /**
@@ -191,6 +192,8 @@ void Node::set_coordinate(const vec& C) { coordinate = C; }
  */
 const vec& Node::get_coordinate() const { return coordinate; }
 
+void Node::set_current_resistance(const vec& R) { current_resistance = R; }
+
 /**
  * \brief Method to set variable independently.
  * \param D `current_displacement`
@@ -208,6 +211,8 @@ void Node::set_current_velocity(const vec& V) { current_velocity = V; }
  * \param A `current_acceleration`
  */
 void Node::set_current_acceleration(const vec& A) { current_acceleration = A; }
+
+void Node::set_incre_resistance(const vec& R) { incre_resistance = R; }
 
 /**
  * \brief Method to set variable independently.
@@ -227,6 +232,8 @@ void Node::set_incre_velocity(const vec& V) { incre_velocity = V; }
  */
 void Node::set_incre_acceleration(const vec& A) { incre_acceleration = A; }
 
+void Node::set_trial_resistance(const vec& R) { trial_resistance = R; }
+
 /**
  * \brief Method to set variable independently.
  * \param D `trial_displacement`
@@ -244,6 +251,8 @@ void Node::set_trial_velocity(const vec& V) { trial_velocity = V; }
  * \param A `trial_acceleration`
  */
 void Node::set_trial_acceleration(const vec& A) { trial_acceleration = A; }
+
+const vec& Node::get_current_resistance() const { return current_resistance; }
 
 /**
  * \brief Method to return `current_displacement`.
@@ -263,6 +272,8 @@ const vec& Node::get_current_velocity() const { return current_velocity; }
  */
 const vec& Node::get_current_acceleration() const { return current_acceleration; }
 
+const vec& Node::get_incre_resistance() const { return incre_resistance; }
+
 /**
  * \brief Method to return `incre_displacement`.
  * \return `incre_displacement`
@@ -281,6 +292,8 @@ const vec& Node::get_incre_velocity() const { return incre_velocity; }
  */
 const vec& Node::get_incre_acceleration() const { return incre_acceleration; }
 
+const vec& Node::get_trial_resistance() const { return trial_resistance; }
+
 /**
  * \brief Method to return `trial_displacement`.
  * \return `trial_displacement`
@@ -298,6 +311,21 @@ const vec& Node::get_trial_velocity() const { return trial_velocity; }
  * \return `trial_acceleration`
  */
 const vec& Node::get_trial_acceleration() const { return trial_acceleration; }
+
+void Node::update_current_resistance(const vec& R) {
+    trial_resistance = current_resistance = R;
+    incre_resistance.zeros();
+}
+
+void Node::update_incre_resistance(const vec& R) {
+    incre_resistance = R;
+    trial_resistance = current_resistance + incre_resistance;
+}
+
+void Node::update_trial_resistance(const vec& R) {
+    trial_resistance = R;
+    incre_resistance = trial_resistance - current_resistance;
+}
 
 void Node::update_current_status(const vec& D) {
     for(unsigned I = 0; I < num_dof; ++I) current_displacement(I) = D(reordered_dof(I));
@@ -393,6 +421,10 @@ void Node::update_trial_status(const vec& D, const vec& V, const vec& A) {
  * \brief Method to commit the status variables.
  */
 void Node::commit_status() {
+    if(!trial_resistance.is_empty()) {
+        current_resistance = trial_resistance;
+        incre_resistance.zeros();
+    }
     if(!trial_displacement.is_empty()) {
         current_displacement = trial_displacement;
         incre_displacement.zeros();
@@ -411,6 +443,10 @@ void Node::commit_status() {
  * \brief Method to reset the status, there is no need to call this method as those variables can be directly overwritten.
  */
 void Node::reset_status() {
+    if(!current_resistance.is_empty()) {
+        trial_resistance = current_resistance;
+        incre_resistance.zeros();
+    }
     if(!current_displacement.is_empty()) {
         trial_displacement = current_displacement;
         incre_displacement.zeros();
@@ -429,6 +465,11 @@ void Node::reset_status() {
  * \brief The method tests each status variable before filling it by zeros. For any of them, empty means it is not used in analysis, then just keeps it unchanged.
  */
 void Node::clear_status() {
+    if(!current_resistance.is_empty()) {
+        current_resistance.zeros();
+        incre_resistance.zeros();
+        trial_resistance.zeros();
+    }
     if(!current_displacement.is_empty()) {
         current_displacement.zeros();
         incre_displacement.zeros();
@@ -450,6 +491,9 @@ vector<vec> Node::record(const OutputType& L) const {
     vector<vec> data;
 
     switch(L) {
+    case OutputType::RF:
+        data.push_back(current_resistance);
+        break;
     case OutputType::U:
         data.push_back(current_displacement);
         break;

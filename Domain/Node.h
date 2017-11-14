@@ -48,14 +48,17 @@ class Node final : public Tag {
     uvec original_dof;  /**< original indices */
     uvec reordered_dof; /**< renumbered indices */
 
+    vec current_resistance;
     vec current_displacement; /**< current displacement */
     vec current_velocity;     /**< current velocity */
     vec current_acceleration; /**< current acceleration */
 
+    vec incre_resistance;
     vec incre_displacement; /**< incremental displacement */
     vec incre_velocity;     /**< incremental velocity */
     vec incre_acceleration; /**< incremental acceleration */
 
+    vec trial_resistance;
     vec trial_displacement; /**< trial displacement */
     vec trial_velocity;     /**< trial velocity */
     vec trial_acceleration; /**< trial acceleration */
@@ -86,29 +89,39 @@ public:
     void set_coordinate(const vec&);
     const vec& get_coordinate() const;
 
+    void set_current_resistance(const vec&);
     void set_current_displacement(const vec&);
     void set_current_velocity(const vec&);
     void set_current_acceleration(const vec&);
 
+    void set_incre_resistance(const vec&);
     void set_incre_displacement(const vec&);
     void set_incre_velocity(const vec&);
     void set_incre_acceleration(const vec&);
 
+    void set_trial_resistance(const vec&);
     void set_trial_displacement(const vec&);
     void set_trial_velocity(const vec&);
     void set_trial_acceleration(const vec&);
 
+    const vec& get_current_resistance() const;
     const vec& get_current_displacement() const;
     const vec& get_current_velocity() const;
     const vec& get_current_acceleration() const;
 
+    const vec& get_incre_resistance() const;
     const vec& get_incre_displacement() const;
     const vec& get_incre_velocity() const;
     const vec& get_incre_acceleration() const;
 
+    const vec& get_trial_resistance() const;
     const vec& get_trial_displacement() const;
     const vec& get_trial_velocity() const;
     const vec& get_trial_acceleration() const;
+
+    void update_current_resistance(const vec&);
+    void update_incre_resistance(const vec&);
+    void update_trial_resistance(const vec&);
 
     void update_current_status(const vec&);
     void update_current_status(const vec&, const vec&);
