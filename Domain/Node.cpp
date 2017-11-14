@@ -313,36 +313,33 @@ const vec& Node::get_trial_velocity() const { return trial_velocity; }
 const vec& Node::get_trial_acceleration() const { return trial_acceleration; }
 
 void Node::update_current_resistance(const vec& R) {
-    trial_resistance = current_resistance = R;
+    trial_resistance = current_resistance = R(reordered_dof);
     incre_resistance.zeros();
 }
 
 void Node::update_incre_resistance(const vec& R) {
-    incre_resistance = R;
+    incre_resistance = R(reordered_dof);
     trial_resistance = current_resistance + incre_resistance;
 }
 
 void Node::update_trial_resistance(const vec& R) {
-    trial_resistance = R;
+    trial_resistance = R(reordered_dof);
     incre_resistance = trial_resistance - current_resistance;
 }
 
 void Node::update_current_status(const vec& D) {
-    for(unsigned I = 0; I < num_dof; ++I) current_displacement(I) = D(reordered_dof(I));
-    trial_displacement = current_displacement;
+    trial_displacement = current_displacement = D(reordered_dof);
     incre_displacement.zeros();
 }
 
 void Node::update_current_status(const vec& D, const vec& V) {
-    for(unsigned I = 0; I < num_dof; ++I) current_velocity(I) = V(reordered_dof(I));
-    trial_velocity = current_velocity;
+    trial_velocity = current_velocity = V(reordered_dof);
     incre_velocity.zeros();
     update_current_status(D);
 }
 
 void Node::update_current_status(const vec& D, const vec& V, const vec& A) {
-    for(unsigned I = 0; I < num_dof; ++I) current_acceleration(I) = A(reordered_dof(I));
-    trial_acceleration = current_acceleration;
+    trial_acceleration = current_acceleration = A(reordered_dof);
     incre_acceleration.zeros();
     update_current_status(D, V);
 }
@@ -352,8 +349,7 @@ void Node::update_current_status(const vec& D, const vec& V, const vec& A) {
  * \param D `incre_displacement`
  */
 void Node::update_incre_status(const vec& D) {
-    for(unsigned I = 0; I < num_dof; ++I) incre_displacement(I) = D(reordered_dof(I));
-    // incre_displacement = D;
+    incre_displacement = D(reordered_dof);
     trial_displacement = current_displacement + incre_displacement;
 }
 
@@ -363,8 +359,7 @@ void Node::update_incre_status(const vec& D) {
  * \param V `incre_velocity`
  */
 void Node::update_incre_status(const vec& D, const vec& V) {
-    for(unsigned I = 0; I < num_dof; ++I) incre_velocity(I) = V(reordered_dof(I));
-    // incre_velocity = V;
+    incre_velocity = V(reordered_dof);
     trial_velocity = current_velocity + incre_velocity;
     update_incre_status(D);
 }
@@ -376,8 +371,7 @@ void Node::update_incre_status(const vec& D, const vec& V) {
  * \param A `incre_acceleration`
  */
 void Node::update_incre_status(const vec& D, const vec& V, const vec& A) {
-    for(unsigned I = 0; I < num_dof; ++I) incre_acceleration(I) = A(reordered_dof(I));
-    // incre_acceleration = A;
+    incre_acceleration = A(reordered_dof);
     trial_acceleration = current_acceleration + incre_acceleration;
     update_incre_status(D, V);
 }
@@ -387,8 +381,7 @@ void Node::update_incre_status(const vec& D, const vec& V, const vec& A) {
  * \param D `trial_displacement`
  */
 void Node::update_trial_status(const vec& D) {
-    for(unsigned I = 0; I < num_dof; ++I) trial_displacement(I) = D(reordered_dof(I));
-    // trial_displacement = D;
+    trial_displacement = D(reordered_dof);
     incre_displacement = trial_displacement - current_displacement;
 }
 
@@ -398,8 +391,7 @@ void Node::update_trial_status(const vec& D) {
  * \param V `trial_velocity`
  */
 void Node::update_trial_status(const vec& D, const vec& V) {
-    for(unsigned I = 0; I < num_dof; ++I) trial_velocity(I) = V(reordered_dof(I));
-    // trial_velocity = V;
+    trial_velocity = V(reordered_dof);
     incre_velocity = trial_velocity - current_velocity;
     update_trial_status(D);
 }
@@ -411,8 +403,7 @@ void Node::update_trial_status(const vec& D, const vec& V) {
  * \param A `trial_acceleration`
  */
 void Node::update_trial_status(const vec& D, const vec& V, const vec& A) {
-    for(unsigned I = 0; I < num_dof; ++I) trial_acceleration(I) = A(reordered_dof(I));
-    // trial_acceleration = A;
+    trial_acceleration = A(reordered_dof);
     incre_acceleration = trial_acceleration - current_acceleration;
     update_trial_status(D, V);
 }
