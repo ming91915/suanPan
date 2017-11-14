@@ -119,9 +119,8 @@ void QE2::initialize(const shared_ptr<DomainBase>& D) {
     solve(HIL, H, L);
     solve(HILI, H, LI);
 
-    const mat tmp_mat = HILI.t() * H;
-    const mat QT = tmp_mat * HILI;
-    const mat TT = tmp_mat * HIL;
+    const mat QT = LI.t() * HILI;
+    const mat TT = LI.t() * HIL;
 
     trial_qtitt = current_qtitt = initial_qtitt = solve(QT, TT);
 
@@ -156,13 +155,13 @@ int QE2::update_status() {
     trial_alpha += incre_alpha;   // eq. 46
 
     auto code = 0;
-    mat trial_ht(7, 7, fill::zeros);
+    mat HT(7, 7, fill::zeros);
     for(const auto& t_pt : int_pt) {
         code += t_pt.m_material->update_trial_status(t_pt.A * trial_alpha);
-        trial_ht += t_pt.A.t() * t_pt.m_material->get_stiffness() * t_pt.A * t_pt.factor; // eq. 56
+        HT += t_pt.A.t() * t_pt.m_material->get_stiffness() * t_pt.A * t_pt.factor; // eq. 56
     }
 
-    trial_beta += HI * trial_ht * incre_alpha; // eq. 46
+    trial_beta += HI * HT * incre_alpha; // eq. 46
 
     resistance.zeros();
     vec FI(2, fill::zeros);
@@ -172,13 +171,13 @@ int QE2::update_status() {
         FI += t_pt.BI.t() * t_vector;        // eq. 54
     }
 
-    const mat tmp_mat = HILI.t() * trial_ht;
-    const mat QT = tmp_mat * HILI;                               // eq. 60
-    const mat TT = tmp_mat * HIL;                                // eq. 60
-    solve(trial_qtitt, QT, TT);                                  // eq. 65
-    solve(trial_qtifi, QT, FI);                                  // eq. 65
-    resistance -= TT.t() * trial_qtifi;                          // eq. 64
-    stiffness = HIL.t() * trial_ht * HIL - TT.t() * trial_qtitt; // eq. 61
+    const mat tmp_mat = HILI.t() * HT;
+    const mat QT = tmp_mat * HILI;                         // eq. 60
+    const mat TT = tmp_mat * HIL;                          // eq. 60
+    solve(trial_qtitt, QT, TT);                            // eq. 65
+    solve(trial_qtifi, QT, FI);                            // eq. 65
+    resistance -= TT.t() * trial_qtifi;                    // eq. 64
+    stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
 
     current_disp = trial_disp;
 
