@@ -113,7 +113,6 @@ int CP4::update_status() {
         auto& t_disp = node_ptr[I].lock()->get_trial_displacement();
         for(auto J = 0; J < m_dof; ++J) ele_disp(I, J) = t_disp(J);
     }
-    mat sigma(4, 4, fill::zeros);
 
     if(nlgeom) geometry.zeros();
 
@@ -156,6 +155,7 @@ int CP4::update_status() {
         auto& t_stress = I.m_material->get_stress();
 
         if(nlgeom) {
+            mat sigma(4, 4, fill::zeros);
             sigma(0, 0) = sigma(2, 2) = t_stress(0);
             sigma(1, 1) = sigma(3, 3) = t_stress(1);
             sigma(0, 1) = sigma(1, 0) = sigma(2, 3) = sigma(3, 2) = t_stress(2);
