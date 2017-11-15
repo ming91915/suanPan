@@ -166,7 +166,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
             mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) { mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J); }
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
         }
     }
 
