@@ -72,11 +72,11 @@ unique_ptr<Material> Concrete2D::get_copy() { return make_unique<Concrete2D>(*th
 int Concrete2D::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    principal_direction = transform::strain_angle(trial_strain);
+    principal_direction = transform::strain::angle(trial_strain);
 
-    const auto trans_mat = transform::form_strain_trans(principal_direction);
+    const auto trans_mat = transform::strain::trans(principal_direction);
 
-    const auto principal_strain = transform::nominal_to_principal_strain(trial_strain);
+    const auto principal_strain = transform::strain::principal(trial_strain);
 
     // update status
     concrete_major->update_trial_status(principal_strain(0));

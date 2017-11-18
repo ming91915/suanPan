@@ -85,49 +85,11 @@ double tensor::J3(const vec& in_tensor) {
     return pow(T, 3.) * 2. / 27. - T * I2(in_tensor) / 3. + I3(in_tensor);
 }
 
-vec tensor::nominal_to_principal(const vec& in_tensor) { return nominal_to_principal(vector_to_matrix(in_tensor)); }
-
-vec tensor::nominal_to_principal(const mat& in_tensor) { return eig_sym(in_tensor); }
-
-mat tensor::vector_to_matrix(const vec& in_tensor) {
-    if(in_tensor.n_elem != 6) throw invalid_argument("tensor::vector_to_matrix() needs a proper tensor of size 3 or 6.\n");
-
-    mat out_tensor(3, 3);
-
-    out_tensor(0, 0) = in_tensor(0);
-    out_tensor(1, 1) = in_tensor(1);
-    out_tensor(2, 2) = in_tensor(2);
-    out_tensor(0, 1) = out_tensor(1, 0) = in_tensor(3);
-    out_tensor(1, 2) = out_tensor(2, 1) = in_tensor(4);
-    out_tensor(0, 2) = out_tensor(2, 0) = in_tensor(5);
-
-    return out_tensor;
-}
-
 double transform::atan2(const vec& direction_cosine) { return std::atan2(direction_cosine(1), direction_cosine(0)); }
 
-double transform::stress_angle(const vec& stress) { return std::atan2(2. * stress(2), stress(0) - stress(1)) / 2.; }
+double transform::strain::angle(const vec& strain) { return .5 * std::atan2(strain(2), strain(0) - strain(1)); }
 
-double transform::strain_angle(const vec& strain) { return std::atan2(strain(2), strain(0) - strain(1)) / 2.; }
-
-mat transform::form_stress_trans(const double angle) {
-    const auto sin_angle = sin(angle);
-    const auto cos_angle = cos(angle);
-    const auto sin_sin = sin_angle * sin_angle;
-    const auto cos_cos = cos_angle * cos_angle;
-    const auto sin_cos = sin_angle * cos_angle;
-
-    mat trans(3, 3);
-    trans(0, 0) = trans(1, 1) = cos_cos;
-    trans(0, 1) = trans(1, 0) = sin_sin;
-    trans(1, 2) = -(trans(0, 2) = 2. * sin_cos);
-    trans(2, 0) = -(trans(2, 1) = sin_cos);
-    trans(2, 2) = cos_cos - sin_sin;
-
-    return trans;
-}
-
-mat transform::form_strain_trans(const double angle) {
+mat transform::strain::trans(const double angle) {
     const auto sin_angle = sin(angle);
     const auto cos_angle = cos(angle);
     const auto sin_sin = sin_angle * sin_angle;
@@ -144,9 +106,9 @@ mat transform::form_strain_trans(const double angle) {
     return trans;
 }
 
-vec transform::nominal_to_principal_strain(const vec& strain) {
-    const auto tmp_a = (strain(0) + strain(1)) / 2.;
-    const auto tmp_b = sqrt(pow(strain(0) - strain(1), 2.) + pow(strain(2), 2.)) / 2.;
+vec transform::strain::principal(const vec& strain) {
+    const auto tmp_a = .5 * (strain(0) + strain(1));
+    const auto tmp_b = .5 * sqrt(pow(strain(0) - strain(1), 2.) + pow(strain(2), 2.));
 
     vec p_strain(3);
     p_strain(0) = tmp_a + tmp_b;
@@ -156,9 +118,56 @@ vec transform::nominal_to_principal_strain(const vec& strain) {
     return p_strain;
 }
 
-vec transform::nominal_to_principal_stress(const vec& stress) {
-    const auto tmp_a = (stress(0) + stress(1)) / 2.;
-    const auto tmp_b = sqrt(pow(stress(0) - stress(1), 2.) + pow(2. * stress(2), 2.)) / 2.;
+vec transform::strain::rotate(const vec& strain, const double theta) { return trans(theta) * strain; }
+
+mat transform::strain::tensor(const vec& in_strain) {
+    mat out_strain(3, 3);
+
+    out_strain(0, 0) = in_strain(0);
+    out_strain(1, 1) = in_strain(1);
+    out_strain(2, 2) = in_strain(2);
+    out_strain(0, 1) = out_strain(1, 0) = .5 * in_strain(3);
+    out_strain(1, 2) = out_strain(2, 1) = .5 * in_strain(4);
+    out_strain(2, 0) = out_strain(0, 2) = .5 * in_strain(5);
+
+    return out_strain;
+}
+
+vec transform::strain::voigt(const mat& in_strain) {
+    vec out_strain(6);
+
+    out_strain(0) = in_strain(0, 0);
+    out_strain(1) = in_strain(1, 1);
+    out_strain(2) = in_strain(2, 2);
+    out_strain(3) = 2. * in_strain(0, 1);
+    out_strain(4) = 2. * in_strain(1, 2);
+    out_strain(5) = 2. * in_strain(2, 0);
+
+    return out_strain;
+}
+
+double transform::stress::angle(const vec& stress) { return .5 * std::atan2(2. * stress(2), stress(0) - stress(1)); }
+
+mat transform::stress::trans(const double angle) {
+    const auto sin_angle = sin(angle);
+    const auto cos_angle = cos(angle);
+    const auto sin_sin = sin_angle * sin_angle;
+    const auto cos_cos = cos_angle * cos_angle;
+    const auto sin_cos = sin_angle * cos_angle;
+
+    mat trans(3, 3);
+    trans(0, 0) = trans(1, 1) = cos_cos;
+    trans(0, 1) = trans(1, 0) = sin_sin;
+    trans(1, 2) = -(trans(0, 2) = 2. * sin_cos);
+    trans(2, 0) = -(trans(2, 1) = sin_cos);
+    trans(2, 2) = cos_cos - sin_sin;
+
+    return trans;
+}
+
+vec transform::stress::principal(const vec& stress) {
+    const auto tmp_a = .5 * (stress(0) + stress(1));
+    const auto tmp_b = .5 * sqrt(pow(stress(0) - stress(1), 2.) + pow(2. * stress(2), 2.));
 
     vec p_stress(3);
     p_stress(0) = tmp_a + tmp_b;
@@ -168,37 +177,33 @@ vec transform::nominal_to_principal_stress(const vec& stress) {
     return p_stress;
 }
 
-mat transform::nominal_to_principal_strain(vec& strain, double& theta) {
-    theta = strain_angle(strain);
+vec transform::stress::rotate(const vec& stress, const double theta) { return trans(theta) * stress; }
 
-    strain = nominal_to_principal_strain(strain);
+mat transform::stress::tensor(const vec& in_stress) {
+    mat out_stress(3, 3);
 
-    return form_strain_trans(theta);
+    out_stress(0, 0) = in_stress(0);
+    out_stress(1, 1) = in_stress(1);
+    out_stress(2, 2) = in_stress(2);
+    out_stress(0, 1) = out_stress(1, 0) = in_stress(3);
+    out_stress(1, 2) = out_stress(2, 1) = in_stress(4);
+    out_stress(2, 0) = out_stress(0, 2) = in_stress(5);
+
+    return out_stress;
 }
 
-mat transform::nominal_to_principal_stress(vec& stress, double& theta) {
-    theta = stress_angle(stress);
+vec transform::stress::voigt(const mat& in_stress) {
+    vec out_stress(6);
 
-    stress = nominal_to_principal_stress(stress);
+    out_stress(0) = in_stress(0, 0);
+    out_stress(1) = in_stress(1, 1);
+    out_stress(2) = in_stress(2, 2);
+    out_stress(3) = in_stress(0, 1);
+    out_stress(4) = in_stress(1, 2);
+    out_stress(5) = in_stress(2, 0);
 
-    return form_stress_trans(theta);
+    return out_stress;
 }
-
-/**
- * \brief
- * \param strain strain in Voigt form (3)
- * \param theta rotated auto-clock angle in radians
- * \return new rotated strain
- */
-vec transform::rotate_strain(const vec& strain, const double theta) { return form_strain_trans(theta) * strain; }
-
-/**
- * \brief
- * \param stress stress in Voigt form (3)
- * \param theta rotated auto-clock angle in radians
- * \return new rotated stress
- */
-vec transform::rotate_stress(const vec& stress, const double theta) { return form_stress_trans(theta) * stress; }
 
 mat transform::beam::global_to_local(const double, const double, const double, const double) {
     mat trans_mat(5, 12, fill::zeros);

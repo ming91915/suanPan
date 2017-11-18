@@ -26,8 +26,7 @@ RebarLayer::RebarLayer(const unsigned T, const unsigned XT, const unsigned YT, c
     , ratio_major(RX)
     , ratio_minor(RY)
     , inclination(A)
-    , trans_strain(transform::form_strain_trans(inclination))
-    , trans_stress(transform::form_stress_trans(-inclination)) {}
+    , trans_mat(transform::strain::trans(inclination)) {}
 
 RebarLayer::RebarLayer(const RebarLayer& P)
     : Material2D(P.get_tag(), MT_CONCRETE2D, PlaneType::S, P.density)
@@ -36,8 +35,7 @@ RebarLayer::RebarLayer(const RebarLayer& P)
     , ratio_major(P.ratio_major)
     , ratio_minor(P.ratio_minor)
     , inclination(P.inclination)
-    , trans_strain(P.trans_strain)
-    , trans_stress(P.trans_stress) {
+    , trans_mat(P.trans_mat) {
     if(P.rebar_major != nullptr) rebar_major = P.rebar_major->get_copy();
     if(P.rebar_minor != nullptr) rebar_minor = P.rebar_minor->get_copy();
     Material::initialize();
@@ -73,7 +71,7 @@ void RebarLayer::initialize(const shared_ptr<DomainBase>& D) {
     initial_stiffness(0, 0) = ratio_major * rebar_major->get_initial_stiffness().at(0);
     initial_stiffness(1, 1) = ratio_minor * rebar_minor->get_initial_stiffness().at(0);
 
-    initial_stiffness = trans_stress * initial_stiffness * trans_strain;
+    initial_stiffness = trans_mat.t() * initial_stiffness * trans_mat;
 
     trial_stiffness = initial_stiffness;
     current_stiffness = initial_stiffness;
@@ -84,7 +82,7 @@ unique_ptr<Material> RebarLayer::get_copy() { return make_unique<RebarLayer>(*th
 int RebarLayer::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
 
-    const vec main_strain = trans_strain * trial_strain;
+    const vec main_strain = trans_mat * trial_strain;
 
     // update status
     rebar_major->update_trial_status(main_strain(0));
@@ -98,7 +96,7 @@ int RebarLayer::update_trial_status(const vec& t_strain) {
     main_stress(2) = 0.;
 
     // transform back to nominal direction
-    trial_stress = trans_stress * main_stress;
+    trial_stress = trans_mat.t() * main_stress;
 
     // collect principal stiffness components
     trial_stiffness.zeros(3, 3);
@@ -106,7 +104,7 @@ int RebarLayer::update_trial_status(const vec& t_strain) {
     trial_stiffness(1, 1) = ratio_minor * rebar_minor->get_stiffness().at(0);
 
     // transform back to nominal direction
-    trial_stiffness = trans_stress * trial_stiffness * trans_strain;
+    trial_stiffness = trans_mat.t() * trial_stiffness * trans_mat;
 
     return 0;
 }

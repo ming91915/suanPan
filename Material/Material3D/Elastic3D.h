@@ -38,7 +38,7 @@ class Elastic3D : public Material3D {
     double poissons_ratio;  /**< poissons ratio */
 
 public:
-    explicit Elastic3D(const unsigned& = 0, const double& = 2E5, const double& = .2, const double& = 0);
+    explicit Elastic3D(const unsigned = 0, const double = 2E5, const double = .2, const double = 0);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

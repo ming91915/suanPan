@@ -37,7 +37,7 @@ class RebarLayer : public Material2D {
 
     const double inclination;
 
-    const mat trans_strain, trans_stress;
+    const mat trans_mat;
 
     unique_ptr<Material> rebar_major, rebar_minor;
 

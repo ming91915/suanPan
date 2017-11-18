@@ -66,7 +66,7 @@ int CSMM::update_trial_status(const vec& t_strain) {
         if(++counter > 50) break;
 
         // transform trial strain to principal direction
-        const auto principal_strain = principal_angle == 0. ? trial_strain : transform::rotate_strain(trial_strain, principal_angle);
+        const auto principal_strain = principal_angle == 0. ? trial_strain : transform::strain::rotate(trial_strain, principal_angle);
 
         // find two ratios
         double gamma_12;
@@ -113,7 +113,7 @@ int CSMM::update_trial_status(const vec& t_strain) {
         concrete_stress(2) = .5 * (concrete_stress(0) - concrete_stress(1)) / (principal_strain(0) - principal_strain(1)) * principal_strain(2);
 
         // transform unixial strain to steel orientation
-        const auto steel_strain = transform::rotate_strain(concrete_strain, inclination - principal_angle);
+        const auto steel_strain = transform::strain::rotate(concrete_strain, inclination - principal_angle);
         // part two to get steel response
         steel_stress(0) = steel_modulus_l * steel_strain(0);
         steel_stress(1) = steel_modulus_t * steel_strain(1);
@@ -129,11 +129,11 @@ int CSMM::update_trial_status(const vec& t_strain) {
         steel_stress(1) *= rebar_ratio_t;
 
         // part three rotate back to nominal direction
-        trial_stress = principal_angle == 0. ? concrete_stress : transform::rotate_stress(concrete_stress, -principal_angle);
-        trial_stress += inclination == 0. ? steel_stress : transform::rotate_stress(steel_stress, -inclination);
+        trial_stress = principal_angle == 0. ? concrete_stress : transform::stress::rotate(concrete_stress, -principal_angle);
+        trial_stress += inclination == 0. ? steel_stress : transform::stress::rotate(steel_stress, -inclination);
 
         // get trial principal angle
-        const auto trial_principal_angle = transform::stress_angle(trial_stress);
+        const auto trial_principal_angle = transform::stress::angle(trial_stress);
 
         if(fabs(trial_principal_angle - principal_angle) < 1E-4) {
             flag = true;

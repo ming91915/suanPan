@@ -95,7 +95,7 @@ int DSFM::update_trial_status(const vec& t_strain) {
     auto counter = 0;
     auto flag = false;
     while(true) {
-        trans_mat = transform::form_strain_trans(principal_angle);
+        trans_mat = transform::strain::trans(principal_angle);
 
         const vec principal_strain = trans_mat * trial_strain;
 
@@ -109,7 +109,7 @@ int DSFM::update_trial_status(const vec& t_strain) {
 
         trial_stress = rebar->get_stress() + trans_mat.t() * concrete_stress;
 
-        const auto trial_principal_angle = transform::stress_angle(trial_stress);
+        const auto trial_principal_angle = transform::stress::angle(trial_stress);
 
         if(fabs(trial_principal_angle - principal_angle) < 1E-8) {
             flag = true;

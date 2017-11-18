@@ -17,7 +17,7 @@
 
 #include "Elastic3D.h"
 
-Elastic3D::Elastic3D(const unsigned& T, const double& E, const double& P, const double& R)
+Elastic3D::Elastic3D(const unsigned T, const double E, const double P, const double R)
     : Material3D(T, MT_ELASTIC3D, R)
     , elastic_modulus(E)
     , poissons_ratio(P) {}

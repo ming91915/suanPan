@@ -59,36 +59,26 @@ double J2(const vec&);
  * \return J3 invariant
  */
 double J3(const vec&);
-
-/**
- * \brief convert nominal tensor in column vector form to principal tensor
- * \return
- */
-vec nominal_to_principal(const vec&);
-/**
- * \brief convert nominal tensor in matrix form to principal tensor
- * \return
- */
-vec nominal_to_principal(const mat&);
-/**
- * \brief convert Voigt notation to matrix notation
- * \return
- */
-mat vector_to_matrix(const vec&);
 }
 
 namespace transform {
 double atan2(const vec&);
-double stress_angle(const vec&);
-double strain_angle(const vec&);
-mat form_stress_trans(const double);
-mat form_strain_trans(const double);
-vec nominal_to_principal_strain(const vec&);
-vec nominal_to_principal_stress(const vec&);
-mat nominal_to_principal_strain(vec&, double&);
-mat nominal_to_principal_stress(vec&, double&);
-vec rotate_strain(const vec&, const double);
-vec rotate_stress(const vec&, const double);
+namespace strain {
+    double angle(const vec&);
+    mat trans(const double);
+    vec principal(const vec&);
+    vec rotate(const vec&, const double);
+    mat tensor(const vec&);
+    vec voigt(const mat&);
+}
+namespace stress {
+    double angle(const vec&);
+    mat trans(const double);
+    vec principal(const vec&);
+    vec rotate(const vec&, const double);
+    mat tensor(const vec&);
+    vec voigt(const mat&);
+}
 namespace beam {
     mat global_to_local(const double, const double, const double, const double);
     mat global_to_local(const double, const double, const double);
