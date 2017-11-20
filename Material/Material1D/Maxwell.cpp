@@ -36,7 +36,7 @@ vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
 
     vec t_stress_rate{ trial_strain_rate };
 
-    const auto t_factor = t_stress(0) / trial_strain_rate > 0. ? damping_positive : damping_negative;
+    const auto t_factor = t_stress(0) / compute_damping_coefficient(trial_strain_rate);
 
     t_stress_rate += suanpan::sign(t_factor) * pow(fabs(t_factor), alpha);
     t_stress_rate *= elastic_modulus;
