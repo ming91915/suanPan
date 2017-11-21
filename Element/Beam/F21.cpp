@@ -34,10 +34,10 @@ F21::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_p
     , B(2, 3, fill::zeros) {}
 
 mat F21::quick_inverse(const mat& stiffness) {
-    mat flexibility(2, 2, fill::zeros);
+    mat flexibility(stiffness.n_rows, stiffness.n_cols, fill::zeros);
 
-    if(stiffness(0, 0) != 0.) flexibility(0, 0) = 1. / stiffness(0, 0);
-    if(stiffness(1, 1) != 0.) flexibility(1, 1) = 1. / stiffness(1, 1);
+    for(auto I = 0; I < flexibility.n_rows; ++I)
+        if(stiffness(I, I) != 0.) flexibility(I, I) = 1. / stiffness(I, I);
 
     return flexibility;
 }
