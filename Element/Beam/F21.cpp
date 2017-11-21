@@ -36,8 +36,8 @@ F21::IntegrationPoint::IntegrationPoint(const double C, const double W, unique_p
 mat F21::quick_inverse(const mat& stiffness) {
     mat flexibility(2, 2, fill::zeros);
 
-    flexibility(0, 0) = 1. / stiffness(0, 0);
-    flexibility(1, 1) = 1. / stiffness(1, 1);
+    if(stiffness(0, 0) != 0.) flexibility(0, 0) = 1. / stiffness(0, 0);
+    if(stiffness(1, 1) != 0.) flexibility(1, 1) = 1. / stiffness(1, 1);
 
     return flexibility;
 }
