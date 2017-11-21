@@ -114,7 +114,7 @@ int F21::update_status() {
         for(const auto& I : int_pt) {
             const vec target_section_resistance = I.B * trial_local_resistance;
             // compute unbalanced deformation
-            const vec incre_deformation = (target_section_resistance - I.b_section->get_resistance()) / I.b_section->get_stiffness().diag();
+            const vec incre_deformation = quick_inverse(I.b_section->get_stiffness()) * (target_section_resistance - I.b_section->get_resistance());
             // update status
             I.b_section->update_trial_status(I.b_section->get_deformation() + incre_deformation);
             // collect new flexibility and deformation
