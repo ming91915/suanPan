@@ -131,7 +131,7 @@ int F21::update_status() {
         }
     }
 
-    stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
+    stiffness = trans_mat.t() * pinv(trial_local_flexibility) * trans_mat;
     resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;
