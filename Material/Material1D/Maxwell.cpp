@@ -18,7 +18,7 @@
 #include "Maxwell.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Factory.hpp>
-#include <Solver/ODE_Solver/DP45.h>
+#include <Solver/ODE_Solver/ABM4.h>
 #include <Toolbox/utility.h>
 
 Maxwell::Damper::Damper(const double E, const double A, const double C1, const double C2, const double F)
@@ -33,10 +33,11 @@ unique_ptr<ODE> Maxwell::Damper::get_copy() { return make_unique<Damper>(*this);
 
 vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
     const auto trial_strain_rate = current_strain_rate + t_time * current_strain_acceleration;
+    const auto trial_strain = current_strain + .5 * t_time * (current_strain_rate + trial_strain_rate);
 
     vec t_stress_rate{ trial_strain_rate };
 
-    const auto t_factor = t_stress(0) / compute_damping_coefficient(trial_strain_rate);
+    const auto t_factor = t_stress(0) / compute_damping_coefficient(trial_strain * trial_strain_rate);
 
     t_stress_rate -= suanpan::sign(t_factor) * pow(fabs(t_factor), alpha);
     t_stress_rate *= elastic_modulus;
@@ -44,7 +45,8 @@ vec Maxwell::Damper::eval(const double t_time, const vec& t_stress) {
     return t_stress_rate;
 }
 
-void Maxwell::Damper::set_current_status(const vec& t_strain_rate, const vec& t_strain_accleration) {
+void Maxwell::Damper::set_current_status(const vec& t_strain, const vec& t_strain_rate, const vec& t_strain_accleration) {
+    current_strain = t_strain(0);
     current_strain_rate = t_strain_rate(0);
     current_strain_acceleration = t_strain_accleration(0);
 }
@@ -54,7 +56,7 @@ double Maxwell::Damper::compute_damping_coefficient(const double t_rate) const {
 Maxwell::Maxwell(const unsigned T, const double E, const double A, const double C1, const double C2, const double F)
     : Material1D(T, MT_MAXWELL, 0.)
     , viscosity(make_unique<Damper>(E, A, C1, C2, F))
-    , solver(make_unique<DP45>(0, viscosity.get())) {}
+    , solver(make_unique<ABM4>(0, 20, true, viscosity.get())) {}
 
 Maxwell::Maxwell(const Maxwell& P)
     : Material1D(P.get_tag(), MT_MAXWELL, 0.)
@@ -76,7 +78,7 @@ int Maxwell::update_trial_status(const vec& t_strain, const vec& t_strain_rate) 
 
     damper_ptr->clear_status();
     damper_ptr->set_incre_time(*incre_time);
-    damper_ptr->set_current_status(current_strain_rate, (trial_strain_rate - current_strain_rate) / *incre_time);
+    damper_ptr->set_current_status(current_strain, current_strain_rate, (trial_strain_rate - current_strain_rate) / *incre_time);
     damper_ptr->set_current_variable(current_stress);
 
     if(solver->analyze() != 0 || !damper_ptr->is_converged()) return -1;
