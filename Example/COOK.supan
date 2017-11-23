@@ -8,7 +8,7 @@ node 7 0 44
 node 8 24 52
 node 9 48 60
 
-material Elastic2D 1 1 .4999
+material Elastic2D 1 1 .33333333
 
 element Proto01 1 1 2 5 4 1 1
 element Proto01 2 2 3 6 5 1 1

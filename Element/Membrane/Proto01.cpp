@@ -36,7 +36,7 @@ Proto01::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const 
     , jacob_det(J)
     , m_material(move(M))
     , B(3, m_node * m_dof, fill::zeros)
-    , BI(3, 2, fill::zeros) {}
+    , BI(3, 3, fill::zeros) {}
 
 Proto01::Proto01(const unsigned T, const uvec& N, const unsigned M, const double TH)
     : MaterialElement(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
@@ -81,13 +81,13 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    const IntegrationPlan plan(2, 2, IntegrationType::IRONS);
+    const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
 
-    mat pnt(2, 8);
+    mat pnt(2, 8), t_container(2, 2, fill::zeros);
 
     vec disp_mode(4, fill::zeros);
 
-    mat H(11, 11, fill::zeros), L(11, 12, fill::zeros), LI(11, 2, fill::zeros);
+    mat H(11, 11, fill::zeros), L(11, 12, fill::zeros), LI(11, 3, fill::zeros);
 
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
@@ -143,11 +143,16 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
             int_pt[I].B(2, m_dof * J + 2) = pnt_pxy(0, J + 4) + pnt_pxy(1, J);
         }
 
-        t_vec(0) = 3. * X * X - 1.;
-        t_vec(1) = 3. * Y * Y - 1.;
-        t_vec = solve(jacob, t_vec);
-        int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = t_vec(0);
-        int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_vec(1);
+        t_container(0, 0) = 3. * X * X - 1.;
+        t_container(1, 0) = 3. * Y * Y - 1.;
+        t_container(0, 1) = X;
+        t_container(1, 1) = Y;
+        t_container = solve(jacob, t_container);
+        int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = t_container(0, 0);
+        int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_container(1, 0);
+        int_pt[I].BI(0, 2) = t_container(0, 1);
+        int_pt[I].BI(1, 2) = t_container(1, 1);
+        int_pt[I].BI(2, 2) = t_container(0, 1) + t_container(1, 1);
 
         const mat t_mat = int_pt[I].P.t() * int_pt[I].factor;
         H += t_mat * int_pt[I].A;
@@ -181,16 +186,16 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     initial_stiffness = HIL.t() * H * HIL - TT.t() * initial_qtitt;
 
-    current_qtifi.zeros(2);
-    trial_qtifi.zeros(2);
+    current_qtifi.zeros(3);
+    trial_qtifi.zeros(3);
 
     current_disp.zeros(12);
-    current_lambda.zeros(2);
+    current_lambda.zeros(3);
     current_alpha.zeros(11);
     current_beta.zeros(11);
 
     trial_disp.zeros(12);
-    trial_lambda.zeros(2);
+    trial_lambda.zeros(3);
     trial_alpha.zeros(11);
     trial_beta.zeros(11);
 }
@@ -219,7 +224,7 @@ int Proto01::update_status() {
     trial_beta += HI * HT * incre_alpha; // eq. 46
 
     resistance.zeros();
-    vec FI(2, fill::zeros);
+    vec FI(3, fill::zeros);
     for(const auto& t_pt : int_pt) {
         const vec t_vector = t_pt.P * trial_beta * t_pt.factor;
         resistance += t_pt.B.t() * t_vector; // eq. 54
