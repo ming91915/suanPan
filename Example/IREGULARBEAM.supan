@@ -1,14 +1,14 @@
-# node 1 0 0
-# node 2 12 0
-# node 3 24 0
-# node 4 36 0
-# node 5 48 0
-
 node 1 0 0
-node 2 16 0
-node 3 20 0
-node 4 28 0
+node 2 12 0
+node 3 24 0
+node 4 36 0
 node 5 48 0
+
+#node 1 0 0
+#node 2 16 0
+#node 3 20 0
+#node 4 28 0
+#node 5 48 0
 
 node 6 48 12
 node 7 36 12
