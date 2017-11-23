@@ -47,6 +47,8 @@ class Proto01 : public MaterialElement {
 
     const double thickness;
 
+    const bool reduced_scheme;
+
     vector<IntegrationPoint> int_pt;
 
     mat trans_mat; // temporaty factor matrix used to recover stress and strain
@@ -63,7 +65,7 @@ class Proto01 : public MaterialElement {
     mat trial_qtifi, current_qtifi; // eq. 65
 
 public:
-    Proto01(const unsigned, const uvec&, const unsigned, const double = 1.);
+    Proto01(const unsigned, const uvec&, const unsigned, const double = 1., const bool = true);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

@@ -809,5 +809,8 @@ void new_proto01(unique_ptr<Element>& return_obj, istringstream& command) {
     } else
         suanpan_debug("new_proto01() assumes thickness to be unit.\n");
 
-    return_obj = make_unique<Proto01>(tag, uvec(node_tag), material_tag, thickness);
+    auto reduced = true;
+    if(!command.eof() && (command >> reduced).fail()) suanpan_debug("new_proto01() needs a valid reduced scheme switch.\n");
+
+    return_obj = make_unique<Proto01>(tag, uvec(node_tag), material_tag, thickness, reduced);
 }

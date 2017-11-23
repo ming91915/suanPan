@@ -38,9 +38,10 @@ Proto01::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const 
     , B(3, m_node * m_dof, fill::zeros)
     , BI(3, 3, fill::zeros) {}
 
-Proto01::Proto01(const unsigned T, const uvec& N, const unsigned M, const double TH)
+Proto01::Proto01(const unsigned T, const uvec& N, const unsigned M, const double TH, const bool RS)
     : MaterialElement(T, ET_PROTO01, m_node, m_dof, N, uvec{ M })
-    , thickness(TH) {}
+    , thickness(TH)
+    , reduced_scheme(RS) {}
 
 void Proto01::initialize(const shared_ptr<DomainBase>& D) {
     if(mapping.is_empty()) {
@@ -81,7 +82,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     auto& ini_stiffness = material_proto->get_initial_stiffness();
 
-    const IntegrationPlan plan(2, 2, IntegrationType::IRONS);
+    const IntegrationPlan plan(2, reduced_scheme ? 2 : 3, reduced_scheme ? IntegrationType::IRONS : IntegrationType::GAUSS);
 
     mat pnt(2, 8), t_container(2, 2, fill::zeros);
 
