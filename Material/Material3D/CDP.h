@@ -31,6 +31,7 @@
 #include <Material/Material3D/Material3D.h>
 
 class CDP : public Material3D {
+    const double elastic_modulus, poissons_ratio, shear_modulus, bulk_modulus;
     const double alpha_p; /**< dilatancy */
 public:
     explicit CDP(const unsigned = 0, /**< tag */

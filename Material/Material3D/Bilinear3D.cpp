@@ -20,7 +20,7 @@
 
 const vec Bilinear3D::norm_weight = vec(std::initializer_list<double>{ 1., 1., 1., 2., 2., 2. });
 const double Bilinear3D::root_two_third = sqrt(2. / 3.);
-const mat Bilinear3D::unit_dev_tensor = tensor::unitDevTensor4();
+const mat Bilinear3D::unit_dev_tensor = tensor::unit_deviatoric_tensor4();
 
 Bilinear3D::Bilinear3D(const unsigned T, const double E, const double V, const double Y, const double H, const double B, const double R)
     : Material3D(T, MT_BILINEAR3D, R)

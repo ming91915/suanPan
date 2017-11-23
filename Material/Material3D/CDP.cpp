@@ -17,16 +17,44 @@
 
 #include "CDP.h"
 #include <Toolbox/tensorToolbox.h>
+#include <suanPan>
 
-CDP::CDP(const unsigned T, const double E, const double AP, const double Y, const double H, const double B, const double R)
+CDP::CDP(const unsigned T, const double E, const double V, const double AP, const double H, const double B, const double R)
     : Material3D(T, MT_CDP, R)
+    , elastic_modulus(E)
+    , poissons_ratio(V)
+    , shear_modulus(.5 * elastic_modulus / (1. + poissons_ratio))
+    , bulk_modulus(elastic_modulus / (3. - 6. * poissons_ratio))
     , alpha_p(AP) {}
 
 void CDP::initialize(const shared_ptr<DomainBase>&) {}
 
 unique_ptr<Material> CDP::get_copy() { return make_unique<CDP>(*this); }
 
-int CDP::update_trial_status(const vec& t_strain) { return 0; }
+int CDP::update_trial_status(const vec& t_strain) {
+    // convert voigt form to tensor form 3-by-3 matrix
+    const auto stress_tensor = tensor::stress::to_tensor(trial_stress);
+    // get deviatoric stress
+    const auto dev_stress_tensor = tensor::dev(stress_tensor);
+
+    // solve for principal stress tensor
+    vec principal_stress;
+    mat trans_mat;
+    eig_sym(principal_stress, trans_mat, stress_tensor);
+
+    // get deviatoric principal stress
+    const vec dev_principal_stress = principal_stress - mean(principal_stress);
+
+    // set anchors pay attention to the order
+    const auto& p_stress_1 = dev_principal_stress(2);
+    const auto& p_stress_2 = dev_principal_stress(1);
+    const auto& p_stress_3 = dev_principal_stress(0);
+
+    const auto I1 = tensor::invariant1(principal_stress);
+    const auto J2 = tensor::invariant2(dev_principal_stress);
+
+    return 0;
+}
 
 int CDP::clear_status() {
     current_strain.zeros();

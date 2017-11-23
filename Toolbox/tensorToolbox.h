@@ -21,44 +21,34 @@
 #include <suanPan.h>
 
 namespace tensor {
-vec unitTensor2();
-mat unitDevTensor4();
-mat unitSymTensor4();
+vec unit_tensor2();
+mat unit_deviatoric_tensor4();
+mat unit_symmetric_tensor4();
 
-double tr(const vec&);
+double invariant1(const vec&);
+double invariant2(const vec&);
+double invariant3(const vec&);
+
+double invariant1(const mat&);
+double invariant2(const mat&);
+double invariant3(const mat&);
+
+double trace(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
 
-/**
- * \brief takes principal tensor in column vector form (6) only
- * \return I1 invariant
- */
-double I1(const vec&);
-/**
- * \brief takes principal tensor in column vector form (6) only
- * \return I2 invariant
- */
-double I2(const vec&);
-/**
- * \brief takes principal tensore in column vector form (6) only
- * \return I3 invariant
- */
-double I3(const vec&);
-/**
- * \brief takes principal tensor in column vector form (6) only
- * \return J1 invariant
- */
-double J1(const vec&);
-/**
- * \brief takes principal tensor in column vector form (6) only
- * \return J2 invariant
- */
-double J2(const vec&);
-/**
- * \brief takes principal tensor in column vector form (6) only
- * \return J3 invariant
- */
-double J3(const vec&);
+double trace(const mat&);
+double mean(const mat&);
+mat dev(const mat&);
+
+namespace strain {
+    mat to_tensor(const vec&);
+    vec to_voigt(const mat&);
+}
+namespace stress {
+    mat to_tensor(const vec&);
+    vec to_voigt(const mat&);
+}
 }
 
 namespace transform {
@@ -68,21 +58,17 @@ namespace strain {
     mat trans(const double);
     vec principal(const vec&);
     vec rotate(const vec&, const double);
-    mat tensor(const vec&);
-    vec voigt(const mat&);
 }
 namespace stress {
     double angle(const vec&);
     mat trans(const double);
     vec principal(const vec&);
     vec rotate(const vec&, const double);
-    mat tensor(const vec&);
-    vec voigt(const mat&);
 }
 namespace beam {
     mat global_to_local(const double, const double, const double, const double);
     mat global_to_local(const double, const double, const double);
-    mat global_to_local(const vec& direction_cosine, const double length);
+    mat global_to_local(const vec&, const double);
 }
 }
 

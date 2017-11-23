@@ -17,13 +17,13 @@
 
 #include "tensorToolbox.h"
 
-vec tensor::unitTensor2() {
+vec tensor::unit_tensor2() {
     vec T(6, fill::zeros);
     T(0) = T(1) = T(2) = 1.;
     return T;
 }
 
-mat tensor::unitDevTensor4() {
+mat tensor::unit_deviatoric_tensor4() {
     mat T = zeros(6, 6);
 
     for(auto I = 3; I < 6; ++I) T(I, I) = .5;
@@ -34,7 +34,7 @@ mat tensor::unitDevTensor4() {
     return T;
 }
 
-mat tensor::unitSymTensor4() {
+mat tensor::unit_symmetric_tensor4() {
     mat T = zeros(6, 6);
 
     for(auto I = 0; I < 3; ++I) T(I, I) = 1.;
@@ -43,15 +43,29 @@ mat tensor::unitSymTensor4() {
     return T;
 }
 
-double tensor::tr(const vec& S) {
+double tensor::invariant1(const vec& S) { return accu(S); }
+
+double tensor::invariant2(const vec& S) { return S(0) * S(1) + S(1) * S(2) + S(2) * S(0); }
+
+double tensor::invariant3(const vec& S) { return prod(S); }
+
+double tensor::invariant1(const mat& S) { return accu(S.diag()); }
+
+double tensor::invariant2(const mat& S) { return .5 * (pow(arma::trace(S), 2.) - arma::trace(S * S)); }
+
+double tensor::invariant3(const mat& S) { return det(S); }
+
+double tensor::trace(const vec& S) {
+    if(S.n_elem != 6) throw;
+
     auto T = 0.;
 
-    for(auto I = 0; I < (S.n_elem == 6 ? 3 : 2); ++I) T += S(I);
+    for(auto I = 0; I < 3; ++I) T += S(I);
 
     return T;
 }
 
-double tensor::mean(const vec& S) { return tr(S) / 3.; }
+double tensor::mean(const vec& S) { return trace(S) / 3.; }
 
 vec tensor::dev(const vec& S) {
     auto D = S;
@@ -70,19 +84,62 @@ vec tensor::dev(const vec& S) {
     return D;
 }
 
-double tensor::I1(const vec& in_tensor) { return accu(in_tensor); }
+double tensor::trace(const mat& S) { return accu(S.diag()); }
 
-double tensor::I2(const vec& in_tensor) { return in_tensor(0) * in_tensor(1) + in_tensor(1) * in_tensor(2) + in_tensor(2) * in_tensor(0); }
+double tensor::mean(const mat& S) { return trace(S) / 3.; }
 
-double tensor::I3(const vec& in_tensor) { return prod(in_tensor); }
+mat tensor::dev(const mat& S) { return S - mean(S) * eye(3, 3); }
 
-double tensor::J1(const vec&) { return 0.; }
+mat tensor::strain::to_tensor(const vec& in_strain) {
+    mat out_strain(3, 3);
 
-double tensor::J2(const vec& in_tensor) { return pow(I1(in_tensor), 2.) / 3. - I2(in_tensor); }
+    out_strain(0, 0) = in_strain(0);
+    out_strain(1, 1) = in_strain(1);
+    out_strain(2, 2) = in_strain(2);
+    out_strain(0, 1) = out_strain(1, 0) = .5 * in_strain(3);
+    out_strain(1, 2) = out_strain(2, 1) = .5 * in_strain(4);
+    out_strain(2, 0) = out_strain(0, 2) = .5 * in_strain(5);
 
-double tensor::J3(const vec& in_tensor) {
-    const auto T = I1(in_tensor);
-    return pow(T, 3.) * 2. / 27. - T * I2(in_tensor) / 3. + I3(in_tensor);
+    return out_strain;
+}
+
+vec tensor::strain::to_voigt(const mat& in_strain) {
+    vec out_strain(6);
+
+    out_strain(0) = in_strain(0, 0);
+    out_strain(1) = in_strain(1, 1);
+    out_strain(2) = in_strain(2, 2);
+    out_strain(3) = 2. * in_strain(0, 1);
+    out_strain(4) = 2. * in_strain(1, 2);
+    out_strain(5) = 2. * in_strain(2, 0);
+
+    return out_strain;
+}
+
+mat tensor::stress::to_tensor(const vec& in_stress) {
+    mat out_stress(3, 3);
+
+    out_stress(0, 0) = in_stress(0);
+    out_stress(1, 1) = in_stress(1);
+    out_stress(2, 2) = in_stress(2);
+    out_stress(0, 1) = out_stress(1, 0) = in_stress(3);
+    out_stress(1, 2) = out_stress(2, 1) = in_stress(4);
+    out_stress(2, 0) = out_stress(0, 2) = in_stress(5);
+
+    return out_stress;
+}
+
+vec tensor::stress::to_voigt(const mat& in_stress) {
+    vec out_stress(6);
+
+    out_stress(0) = in_stress(0, 0);
+    out_stress(1) = in_stress(1, 1);
+    out_stress(2) = in_stress(2, 2);
+    out_stress(3) = in_stress(0, 1);
+    out_stress(4) = in_stress(1, 2);
+    out_stress(5) = in_stress(2, 0);
+
+    return out_stress;
 }
 
 double transform::atan2(const vec& direction_cosine) { return std::atan2(direction_cosine(1), direction_cosine(0)); }
@@ -120,32 +177,6 @@ vec transform::strain::principal(const vec& strain) {
 
 vec transform::strain::rotate(const vec& strain, const double theta) { return trans(theta) * strain; }
 
-mat transform::strain::tensor(const vec& in_strain) {
-    mat out_strain(3, 3);
-
-    out_strain(0, 0) = in_strain(0);
-    out_strain(1, 1) = in_strain(1);
-    out_strain(2, 2) = in_strain(2);
-    out_strain(0, 1) = out_strain(1, 0) = .5 * in_strain(3);
-    out_strain(1, 2) = out_strain(2, 1) = .5 * in_strain(4);
-    out_strain(2, 0) = out_strain(0, 2) = .5 * in_strain(5);
-
-    return out_strain;
-}
-
-vec transform::strain::voigt(const mat& in_strain) {
-    vec out_strain(6);
-
-    out_strain(0) = in_strain(0, 0);
-    out_strain(1) = in_strain(1, 1);
-    out_strain(2) = in_strain(2, 2);
-    out_strain(3) = 2. * in_strain(0, 1);
-    out_strain(4) = 2. * in_strain(1, 2);
-    out_strain(5) = 2. * in_strain(2, 0);
-
-    return out_strain;
-}
-
 double transform::stress::angle(const vec& stress) { return .5 * std::atan2(2. * stress(2), stress(0) - stress(1)); }
 
 mat transform::stress::trans(const double angle) {
@@ -178,32 +209,6 @@ vec transform::stress::principal(const vec& stress) {
 }
 
 vec transform::stress::rotate(const vec& stress, const double theta) { return trans(theta) * stress; }
-
-mat transform::stress::tensor(const vec& in_stress) {
-    mat out_stress(3, 3);
-
-    out_stress(0, 0) = in_stress(0);
-    out_stress(1, 1) = in_stress(1);
-    out_stress(2, 2) = in_stress(2);
-    out_stress(0, 1) = out_stress(1, 0) = in_stress(3);
-    out_stress(1, 2) = out_stress(2, 1) = in_stress(4);
-    out_stress(2, 0) = out_stress(0, 2) = in_stress(5);
-
-    return out_stress;
-}
-
-vec transform::stress::voigt(const mat& in_stress) {
-    vec out_stress(6);
-
-    out_stress(0) = in_stress(0, 0);
-    out_stress(1) = in_stress(1, 1);
-    out_stress(2) = in_stress(2, 2);
-    out_stress(3) = in_stress(0, 1);
-    out_stress(4) = in_stress(1, 2);
-    out_stress(5) = in_stress(2, 0);
-
-    return out_stress;
-}
 
 mat transform::beam::global_to_local(const double, const double, const double, const double) {
     mat trans_mat(5, 12, fill::zeros);
