@@ -32,7 +32,23 @@
 
 class CDP : public Material3D {
     const double elastic_modulus, poissons_ratio, shear_modulus, bulk_modulus;
-    const double alpha_p; /**< dilatancy */
+    const double fbfc, alpha, alpha_p, factor_a, factor_b; /**< dilatancy */
+
+    const double peak_stress, peak_strain;
+    const double crack_stress, crack_strain;
+
+    const double bar_d_t, a_t, cb_t, bar_d_c, a_c, cb_c;
+
+    const double g_t, g_c;
+
+    double compute_tension_backbone(const double) const;
+    double compute_compression_backbone(const double) const;
+    double compute_effective_tension_backbone(const double) const;
+    double compute_effective_compression_backbone(const double) const;
+    double compute_beta(const double, const double) const;
+    double compute_ramp_weight(const vec&) const;
+    vec compute_ramp_weight_prime(const vec&) const;
+
 public:
     explicit CDP(const unsigned = 0, /**< tag */
         const double = 2E5,          /**< elastic modulus */

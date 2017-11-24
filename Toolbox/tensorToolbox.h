@@ -72,4 +72,8 @@ namespace beam {
 }
 }
 
+namespace suanpan {
+template <typename T> T ramp(const T in) { return in > T(0) ? in : T(0); }
+}
+
 #endif
