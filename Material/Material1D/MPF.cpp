@@ -51,8 +51,6 @@ int MPF::update_trial_status(const vec& t_strain) {
     // quick return is important not only for performance but also for forbidding updating the history data
     if(incre_strain(0) == 0.) return 0;
 
-    trial_history = current_history;
-
     auto& reverse_stress = trial_history(0);
     auto& reverse_strain = trial_history(1);
     auto& inter_stress = trial_history(2);

@@ -44,7 +44,6 @@ int Bilinear1D::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
-    trial_history = current_history;
     auto& trial_back_stress = trial_history(0);
     auto& trial_plastic_strain = trial_history(1);
 

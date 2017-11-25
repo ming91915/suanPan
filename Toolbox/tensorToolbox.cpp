@@ -58,37 +58,29 @@ double tensor::invariant3(const mat& S) { return det(S); }
 double tensor::trace(const vec& S) {
     if(S.n_elem != 6) throw;
 
-    auto T = 0.;
-
-    for(auto I = 0; I < 3; ++I) T += S(I);
-
-    return T;
+    return S(0) + S(1) + S(2);
 }
 
-double tensor::mean(const vec& S) { return trace(S) / 3.; }
+double tensor::mean(const vec& S) {
+    if(S.n_elem != 6) throw;
+    return trace(S) / 3.;
+}
 
 vec tensor::dev(const vec& S) {
-    auto D = S;
+    if(S.n_elem != 6) throw;
 
-    if(S.n_elem == 6) {
-        const auto M = mean(S);
-        for(auto I = 0; I < 3; ++I) D(I) -= M;
-    } else if(S.n_elem == 3) {
-        const auto S11 = D(0);
-        const auto S22 = D(1);
-        D(0) = (2. * S11 - S22) / 3.;
-        D(1) = (2. * S22 - S11) / 3.;
-    } else
-        throw invalid_argument("tensor::dev() needs a proper tensor of size 3 or 6.\n");
+    auto D = S;
+    const auto M = mean(D);
+    for(auto I = 0; I < 3; ++I) D(I) -= M;
 
     return D;
 }
 
-double tensor::trace(const mat& S) { return accu(S.diag()); }
-
-double tensor::mean(const mat& S) { return trace(S) / 3.; }
-
-mat tensor::dev(const mat& S) { return S - mean(S) * eye(3, 3); }
+mat tensor::dev(const mat& in) {
+    auto out = in;
+    out.diag() -= mean(out.diag());
+    return out;
+}
 
 mat tensor::strain::to_tensor(const vec& in_strain) {
     mat out_strain(3, 3);

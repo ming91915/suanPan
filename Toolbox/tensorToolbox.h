@@ -37,8 +37,6 @@ double trace(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
 
-double trace(const mat&);
-double mean(const mat&);
 mat dev(const mat&);
 
 namespace strain {

@@ -31,32 +31,42 @@
 #include <Material/Material3D/Material3D.h>
 
 class CDP : public Material3D {
-    const double elastic_modulus, poissons_ratio, shear_modulus, bulk_modulus;
+    const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
     const double fbfc, alpha, alpha_p, factor_a, factor_b; /**< dilatancy */
 
-    const double peak_stress, peak_strain;
-    const double crack_stress, crack_strain;
+    const double peak_stress, crack_stress;
 
     const double bar_d_t, a_t, cb_t, bar_d_c, a_c, cb_c;
 
     const double g_t, g_c;
 
-    double compute_tension_backbone(const double) const;
-    double compute_compression_backbone(const double) const;
-    double compute_effective_tension_backbone(const double) const;
-    double compute_effective_compression_backbone(const double) const;
+    const double tolerance;
+
+    vec current_plastic_strain, trial_plastic_strain;
+
+    double compute_d_t(const double) const;       // d_t
+    double compute_f_t(const double) const;       // f_t
+    double compute_d_f_t(const double) const;     // \md{f_t}
+    double compute_d_c(const double) const;       // d_c
+    double compute_f_c(const double) const;       // f_c
+    double compute_d_f_c(const double) const;     // \md{f_c}
+    double compute_bar_f_t(const double) const;   // \bar{f}_t
+    double compute_d_bar_f_t(const double) const; // \md{\bar{f}_t}
+    double compute_bar_f_c(const double) const;   // \bar{f}_c
+    double compute_d_bar_f_c(const double) const; // \md{\bar{f}_c}
     double compute_beta(const double, const double) const;
-    double compute_ramp_weight(const vec&) const;
-    vec compute_ramp_weight_prime(const vec&) const;
+    double compute_r(const vec&) const;
+    vec compute_d_r(const vec&) const;
 
 public:
-    explicit CDP(const unsigned = 0, /**< tag */
-        const double = 2E5,          /**< elastic modulus */
-        const double = .25,          /**< poisson's ratio */
-        const double = 400.,         /**< initial yield stress */
-        const double = 0.,           /**< hardening ratio */
-        const double = 0.,           /**< isotropic/kinematic hardening factor */
-        const double = 0.);          /**< density */
+    explicit CDP(const unsigned = 0, 
+        const double = 2E5,          
+        const double = .25,          
+        const double = 400.,         
+        const double = 0.,           
+        const double = 0.,           
+        const double = 0.,
+        const double = 0.);
 
     void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
