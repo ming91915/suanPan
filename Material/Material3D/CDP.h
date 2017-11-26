@@ -58,7 +58,7 @@ class CDP : public Material3D {
     double compute_beta(const double, const double) const;
 
 public:
-    explicit CDP(const unsigned = 0, const double = 2E5, const double = .25, const double = 400., const double = 0., const double = 0., const double = 0., const double = 0.);
+    explicit CDP(const unsigned = 0, const double = 2E5, const double = 2E5, const double = 2E5, const double = .25, const double = 400., const double = 0., const double = 0., const double = 0., const double = 0.);
 
     void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 

@@ -61,7 +61,7 @@ vec CDP::compute_d_r(const vec& in) const {
 
 double CDP::compute_beta(const double kappa_t, const double kappa_c) const { return compute_bar_f(peak_stress, a_c, cb_c, kappa_c) / compute_bar_f(crack_stress, a_t, cb_t, kappa_t) * (alpha - 1.) - alpha - 1.; }
 
-CDP::CDP(const unsigned T, const double E, const double V, const double AP, const double FBFC, const double GT, const double GC, const double R)
+CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double AP, const double FBFC, const double GT, const double GC, const double R)
     : Material3D(T, MT_CDP, R)
     , elastic_modulus(E)
     , poissons_ratio(V)
@@ -73,8 +73,8 @@ CDP::CDP(const unsigned T, const double E, const double V, const double AP, cons
     , alpha_p(AP)
     , factor_a(9. * bulk_modulus * alpha * alpha_p + sqrt(6.) * shear_modulus)
     , factor_b(3. * bulk_modulus * alpha_p)
-    , peak_stress(0)
-    , crack_stress(0)
+    , peak_stress(SC < 0. ? SC : -SC)
+    , crack_stress(ST > 0. ? ST : -ST)
     , bar_d_t(0)
     , a_t(2.)
     , cb_t(log(1. - bar_d_t) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
@@ -173,7 +173,7 @@ int CDP::update_trial_status(const vec& t_strain) {
             // damage evolution H
             vec h(2, fill::zeros);
             if(r_weight != 0.) h(0) = r_weight * tmp_a * f_t;
-            if(r_weight != 1.) h(1) = (r_weight - 1.) * tmp_b * f_c;
+            if(r_weight != 1.) h(1) = (1. - r_weight) * tmp_b * f_c;
 
             // \pfrac{H}{\kappa}
             mat p_h_p_kappa(2, 2, fill::zeros);
@@ -183,7 +183,7 @@ int CDP::update_trial_status(const vec& t_strain) {
             // \pfrac{H}{\hat{\bar{\sigma}}_{n+1}}
             vec p_h_p_r(2);
             p_h_p_r(0) = tmp_a * f_t;
-            p_h_p_r(1) = tmp_b * f_c;
+            p_h_p_r(1) = -tmp_b * f_c;
             const mat p_h_p_sigma = p_h_p_r * compute_d_r(prin_eff_stress).t();
 
             // \pfrac{F}{\kappa}
