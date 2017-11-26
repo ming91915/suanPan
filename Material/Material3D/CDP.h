@@ -44,29 +44,21 @@ class CDP : public Material3D {
 
     vec current_plastic_strain, trial_plastic_strain;
 
-    double compute_d_t(const double) const;       // d_t
-    double compute_f_t(const double) const;       // f_t
-    double compute_d_f_t(const double) const;     // \md{f_t}
-    double compute_d_c(const double) const;       // d_c
-    double compute_f_c(const double) const;       // f_c
-    double compute_d_f_c(const double) const;     // \md{f_c}
-    double compute_bar_f_t(const double) const;   // \bar{f}_t
-    double compute_d_bar_f_t(const double) const; // \md{\bar{f}_t}
-    double compute_bar_f_c(const double) const;   // \bar{f}_c
-    double compute_d_bar_f_c(const double) const; // \md{\bar{f}_c}
-    double compute_beta(const double, const double) const;
+    double compute_sqrt_phi(const double, const double) const;
+    double compute_big_phi(const double, const double) const;
+    double compute_f(const double, const double, const double) const;
+    double compute_bar_f(const double, const double, const double, const double) const;
+    double compute_d_d(const double, const double, const double) const;
+    double compute_d_f(const double, const double, const double) const;
+    double compute_d_bar_f(const double, const double, const double, const double) const;
+
     double compute_r(const vec&) const;
     vec compute_d_r(const vec&) const;
 
+    double compute_beta(const double, const double) const;
+
 public:
-    explicit CDP(const unsigned = 0, 
-        const double = 2E5,          
-        const double = .25,          
-        const double = 400.,         
-        const double = 0.,           
-        const double = 0.,           
-        const double = 0.,
-        const double = 0.);
+    explicit CDP(const unsigned = 0, const double = 2E5, const double = .25, const double = 400., const double = 0., const double = 0., const double = 0., const double = 0.);
 
     void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 

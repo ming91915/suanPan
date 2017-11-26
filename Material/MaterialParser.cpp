@@ -61,6 +61,8 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_planestrain(new_material, command);
     else if(is_equal(material_id, "PlaneStress"))
         new_planestress(new_material, command);
+    else if(is_equal(material_id, "CDP"))
+        new_cdp(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -736,6 +738,16 @@ void new_planestress(unique_ptr<Material>& return_obj, istringstream& command) {
     }
 
     return_obj = make_unique<PlaneStress>(tag, full_tag);
+}
+
+void new_cdp(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_cdp() requires a valid tag.\n");
+        return;
+    }
+
+    return_obj = make_unique<CDP>(tag);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
