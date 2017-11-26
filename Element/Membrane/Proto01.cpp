@@ -146,8 +146,8 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
         t_container(0, 0) = 3. * X * X - 1.;
         t_container(1, 0) = 3. * Y * Y - 1.;
-        t_container(0, 1) = 6. * X * Y - 3. * Y * Y + 1.;
-        t_container(1, 1) = 6. * X * Y - 3. * X * X + 1.;
+        t_container(0, 1) = 6. * X * Y + 3. * Y * Y - 1. + X;
+        t_container(1, 1) = 6. * X * Y + 3. * X * X - 1. + Y;
         t_container = solve(jacob, t_container);
         int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = t_container(0, 0);
         int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_container(1, 0);

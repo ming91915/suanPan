@@ -4,11 +4,11 @@ node 3 24 0
 node 4 36 0
 node 5 48 0
 
-#node 1 0 0
-#node 2 16 0
-#node 3 20 0
-#node 4 28 0
-#node 5 48 0
+# node 1 0 0
+# node 2 16 0
+# node 3 20 0
+# node 4 28 0
+# node 5 48 0
 
 node 6 48 12
 node 7 36 12
@@ -18,10 +18,10 @@ node 10 0 12
 
 material Elastic2D 1 3E4 .25
 
-element Proto01 1 1 2 9 10 1 1
-element Proto01 2 2 3 8 9 1 1
-element Proto01 3 3 4 7 8 1 1
-element Proto01 4 4 5 6 7 1 1
+element Proto01 1 1 2 9 10 1 1 1
+element Proto01 2 2 3 8 9 1 1 1
+element Proto01 3 3 4 7 8 1 1 1
+element Proto01 4 4 5 6 7 1 1 1
 
 fix 1 P 1 10
 
@@ -32,5 +32,6 @@ step static 1
 analyze
 
 peek node 5 6
+peek element 1
 
 exit
