@@ -43,22 +43,22 @@ material Elastic2D 1 1 .333333333333
 # element PS 15 18 19 24 23 1 1
 # element PS 16 19 20 25 24 1 1
 
-element Proto01 1 1 2 7 6 1 1 0
-element Proto01 2 2 3 8 7 1 1 0
-element Proto01 3 3 4 9 8 1 1 0
-element Proto01 4 4 5 10 9 1 1 0
-element Proto01 5 6 7 12 11 1 1 0
-element Proto01 6 7 8 13 12 1 1 0
-element Proto01 7 8 9 14 13 1 1 0
-element Proto01 8 9 10 15 14 1 1 0
-element Proto01 9 11 12 17 16 1 1 0
-element Proto01 10 12 13 18 17 1 1 0
-element Proto01 11 13 14 19 18 1 1 0
-element Proto01 12 14 15 20 19 1 1 0
-element Proto01 13 16 17 22 21 1 1 0
-element Proto01 14 17 18 23 22 1 1 0
-element Proto01 15 18 19 24 23 1 1 0
-element Proto01 16 19 20 25 24 1 1 0
+element Proto01 1 1 2 7 6 1 1 1
+element Proto01 2 2 3 8 7 1 1 1
+element Proto01 3 3 4 9 8 1 1 1
+element Proto01 4 4 5 10 9 1 1 1
+element Proto01 5 6 7 12 11 1 1 1
+element Proto01 6 7 8 13 12 1 1 1
+element Proto01 7 8 9 14 13 1 1 1
+element Proto01 8 9 10 15 14 1 1 1
+element Proto01 9 11 12 17 16 1 1 1
+element Proto01 10 12 13 18 17 1 1 1
+element Proto01 11 13 14 19 18 1 1 1
+element Proto01 12 14 15 20 19 1 1 1
+element Proto01 13 16 17 22 21 1 1 1
+element Proto01 14 17 18 23 22 1 1 1
+element Proto01 15 18 19 24 23 1 1 1
+element Proto01 16 19 20 25 24 1 1 1
 
 fix 1 P 1 6 11 16 21
 
