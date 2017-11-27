@@ -41,6 +41,9 @@ class CP3 final : public MaterialElement {
     mat pn_pxy;
 
     unique_ptr<Material> m_material; /**< store material model */
+
+    mat assemble_stiffness(const mat&);
+
 public:
     CP3(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
 
