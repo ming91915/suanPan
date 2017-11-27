@@ -41,6 +41,7 @@ int Gap01::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
+    trial_history = current_history;
     auto& reverse_strain = trial_history(0);
     auto& load_flag = trial_history(1);
 

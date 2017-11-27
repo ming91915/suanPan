@@ -68,6 +68,7 @@ int Concrete01::update_trial_status(const vec& t_strain) {
 
     if(incre_strain(0) == 0.) return 0;
 
+    trial_history = current_history;
     auto& max_strain = trial_history(0);      // maximum compression strain logged
     auto& residual_strain = trial_history(1); // residual strain in unloading path
     auto& trial_cr_strain = trial_history(2); // unloading point strain compression side

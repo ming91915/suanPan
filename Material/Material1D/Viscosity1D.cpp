@@ -30,7 +30,7 @@ unique_ptr<Material> Viscosity1D::get_copy() { return make_unique<Viscosity1D>(*
 int Viscosity1D::update_trial_status(const vec&, const vec& t_strain_rate) {
     trial_strain_rate = t_strain_rate;
 
-    trial_stress = -suanpan::sign(trial_strain_rate(0)) * damping * pow(fabs(trial_strain_rate(0)), alpha);
+    trial_stress = suanpan::sign(trial_strain_rate(0)) * damping * pow(fabs(trial_strain_rate(0)), alpha);
 
     return 0;
 }
