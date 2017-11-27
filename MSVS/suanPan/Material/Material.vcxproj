@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Material\Material.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Bilinear1D.cpp" />
+    <ClCompile Include="..\..\..\Material\Material1D\BilinearElastic1D.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Concrete01.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Elastic1D.cpp" />
     <ClCompile Include="..\..\..\Material\Material1D\Gap01.cpp" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\Material.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Bilinear1D.h" />
+    <ClInclude Include="..\..\..\Material\Material1D\BilinearElastic1D.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Concrete01.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Elastic1D.h" />
     <ClInclude Include="..\..\..\Material\Material1D\Gap01.h" />

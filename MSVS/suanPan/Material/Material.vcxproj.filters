@@ -97,6 +97,9 @@
     <ClCompile Include="..\..\..\Material\Material3D\CDP.cpp">
       <Filter>Material3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Material\Material1D\BilinearElastic1D.cpp">
+      <Filter>Material1D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Material\MaterialTemplate.h">
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Material\Material3D\CDP.h">
       <Filter>Material3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Material\Material1D\BilinearElastic1D.h">
+      <Filter>Material1D</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

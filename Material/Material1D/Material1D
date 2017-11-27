@@ -8,3 +8,4 @@
 #include "RambergOsgood.h"
 #include "Tester1D.h"
 #include "Viscosity1D.h"
+#include "BilinearElastic1D.h"

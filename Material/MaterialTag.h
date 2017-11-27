@@ -84,5 +84,8 @@
 #ifndef MT_CDP
 #define MT_CDP 1021
 #endif
+#ifndef MT_BILINEARELASTIC1D
+#define MT_BILINEARELASTIC1D 1022
+#endif
 
 #endif

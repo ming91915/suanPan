@@ -63,6 +63,8 @@ int create_new_material(const shared_ptr<DomainBase>& domain, istringstream& com
         new_planestress(new_material, command);
     else if(is_equal(material_id, "CDP"))
         new_cdp(new_material, command);
+    else if(is_equal(material_id, "BilinearElastic1D"))
+        new_bilinearelastic1d(new_material, command);
     else {
         // check if the library is already loaded
         auto code = 0;
@@ -748,6 +750,46 @@ void new_cdp(unique_ptr<Material>& return_obj, istringstream& command) {
     }
 
     return_obj = make_unique<CDP>(tag);
+}
+
+void new_bilinearelastic1d(unique_ptr<Material>& return_obj, istringstream& command) {
+    unsigned tag;
+    if(!get_input(command, tag)) {
+        suanpan_error("new_bilinearelastic1d() requires a valid tag.\n");
+        return;
+    }
+
+    double elastic_modulus;
+    if(!get_input(command, elastic_modulus)) {
+        suanpan_error("new_bilinearelastic1d() requires a valid elastic modulus.\n");
+        return;
+    }
+
+    double yield_stress;
+    if(!get_input(command, yield_stress)) {
+        suanpan_error("new_bilinearelastic1d() requires a valid yield stress.\n");
+        return;
+    }
+
+    auto hardening_ratio = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, hardening_ratio)) {
+            suanpan_error("new_bilinearelastic1d() requires a valid hardening ratio.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_bilinearelastic1d() assumes zero hardening ratio.\n");
+
+    auto density = 0.;
+    if(!command.eof()) {
+        if(!get_input(command, density)) {
+            suanpan_error("new_bilinearelastic1d() requires a valid density.\n");
+            return;
+        }
+    } else
+        suanpan_debug("new_bilinear1d() assumes zero density.\n");
+
+    return_obj = make_unique<BilinearElastic1D>(tag, elastic_modulus, yield_stress, hardening_ratio, density);
 }
 
 int test_material(const shared_ptr<DomainBase>& domain, istringstream& command) {
