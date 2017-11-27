@@ -112,8 +112,9 @@ void F21H::initialize(const shared_ptr<DomainBase>& D) {
         initial_local_flexibility += I.B.t() * elastic_section_flexibility * I.B * I.weight * length;
     }
 
-    current_local_flexibility = initial_local_flexibility;
-    trial_local_flexibility = initial_local_flexibility;
+    initial_stiffness = trans_mat.t() * solve(initial_local_flexibility, trans_mat);
+
+    trial_local_flexibility = current_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros(3);
     trial_local_deformation.zeros(3);
     current_local_resistance.zeros(3);
@@ -170,13 +171,16 @@ int F21H::update_status() {
         }
     }
 
-    stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
-    resistance = trans_mat.t() * trial_local_resistance;
+    trial_stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
+    trial_resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;
 }
 
 int F21H::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     current_local_flexibility = initial_local_flexibility;
     trial_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros();
@@ -189,6 +193,8 @@ int F21H::clear_status() {
 }
 
 int F21H::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     current_local_flexibility = trial_local_flexibility;
     current_local_deformation = trial_local_deformation;
     current_local_resistance = trial_local_resistance;
@@ -198,6 +204,8 @@ int F21H::commit_status() {
 }
 
 int F21H::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     trial_local_flexibility = current_local_flexibility;
     trial_local_deformation = current_local_deformation;
     trial_local_resistance = current_local_resistance;

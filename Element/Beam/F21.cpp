@@ -81,8 +81,9 @@ void F21::initialize(const shared_ptr<DomainBase>& D) {
         initial_local_flexibility += int_pt[I].B.t() * t_flexibility * int_pt[I].B * int_pt[I].weight * length;
     }
 
-    current_local_flexibility = initial_local_flexibility;
-    trial_local_flexibility = initial_local_flexibility;
+    initial_stiffness = trans_mat.t() * solve(initial_local_flexibility, trans_mat);
+
+    trial_local_flexibility = current_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros(3);
     trial_local_deformation.zeros(3);
     current_local_resistance.zeros(3);
@@ -131,15 +132,17 @@ int F21::update_status() {
         }
     }
 
-    stiffness = trans_mat.t() * pinv(trial_local_flexibility) * trans_mat;
-    resistance = trans_mat.t() * trial_local_resistance;
+    trial_stiffness = trans_mat.t() * solve(trial_local_flexibility, trans_mat);
+    trial_resistance = trans_mat.t() * trial_local_resistance;
 
     return 0;
 }
 
 int F21::clear_status() {
-    current_local_flexibility = initial_local_flexibility;
-    trial_local_flexibility = initial_local_flexibility;
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
+    trial_local_flexibility = current_local_flexibility = initial_local_flexibility;
     current_local_deformation.zeros();
     trial_local_deformation.zeros();
     current_local_resistance.zeros();
@@ -150,6 +153,8 @@ int F21::clear_status() {
 }
 
 int F21::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     current_local_flexibility = trial_local_flexibility;
     current_local_deformation = trial_local_deformation;
     current_local_resistance = trial_local_resistance;
@@ -159,6 +164,8 @@ int F21::commit_status() {
 }
 
 int F21::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     trial_local_flexibility = current_local_flexibility;
     trial_local_deformation = current_local_deformation;
     trial_local_resistance = current_local_resistance;

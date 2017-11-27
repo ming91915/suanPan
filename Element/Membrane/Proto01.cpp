@@ -161,18 +161,18 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
         LI += t_mat * int_pt[I].BI;
     }
 
-    mass.zeros();
+    trial_mass.zeros();
     const auto t_density = material_proto->get_parameter();
     if(t_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::quad(I.coor, 0);
             const auto tmp_a = t_density * I.factor;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
+            trial_mass(I + 1, I + 1) = trial_mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
         }
     }
 
@@ -224,21 +224,21 @@ int Proto01::update_status() {
 
     trial_beta += HI * HT * incre_alpha; // eq. 46
 
-    resistance.zeros();
+    trial_resistance.zeros();
     vec FI(3, fill::zeros);
     for(const auto& t_pt : int_pt) {
         const vec t_vector = t_pt.P * trial_beta * t_pt.factor;
-        resistance += t_pt.B.t() * t_vector; // eq. 54
-        FI += t_pt.BI.t() * t_vector;        // eq. 54
+        trial_resistance += t_pt.B.t() * t_vector; // eq. 54
+        FI += t_pt.BI.t() * t_vector;              // eq. 54
     }
 
     const mat tmp_mat = HILI.t() * HT;
-    const mat QT = tmp_mat * HILI;                         // eq. 60
-    const mat TT = tmp_mat * HIL;                          // eq. 60
-    solve(trial_qtitt, QT, TT);                            // eq. 65
-    solve(trial_qtifi, QT, FI);                            // eq. 65
-    resistance -= TT.t() * trial_qtifi;                    // eq. 64
-    stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
+    const mat QT = tmp_mat * HILI;                               // eq. 60
+    const mat TT = tmp_mat * HIL;                                // eq. 60
+    solve(trial_qtitt, QT, TT);                                  // eq. 65
+    solve(trial_qtifi, QT, FI);                                  // eq. 65
+    trial_resistance -= TT.t() * trial_qtifi;                    // eq. 64
+    trial_stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
 
     current_disp = trial_disp;
 
@@ -246,6 +246,9 @@ int Proto01::update_status() {
 }
 
 int Proto01::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
+
     current_lambda = trial_lambda;
     current_alpha = trial_alpha;
     current_beta = trial_beta;
@@ -259,18 +262,18 @@ int Proto01::commit_status() {
 }
 
 int Proto01::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_qtitt = trial_qtitt = initial_qtitt;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     current_lambda.zeros();
-    current_alpha.zeros();
-    current_beta.zeros();
-
     trial_lambda.zeros();
+    current_alpha.zeros();
     trial_alpha.zeros();
+    current_beta.zeros();
     trial_beta.zeros();
-
     current_qtifi.zeros();
     trial_qtifi.zeros();
-
-    trial_qtitt = current_qtitt = initial_qtitt;
 
     current_disp.zeros();
 
@@ -280,10 +283,11 @@ int Proto01::clear_status() {
 }
 
 int Proto01::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     trial_lambda = current_lambda;
     trial_alpha = current_alpha;
     trial_beta = current_beta;
-
     trial_qtitt = current_qtitt;
     trial_qtifi = current_qtifi;
 

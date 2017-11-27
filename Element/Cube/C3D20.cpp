@@ -49,7 +49,7 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
 
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
-        const vec t_vec{ plan(I, 0), plan(I, 1), plan(I, 2) };
+        const vec t_vec(std::initializer_list<double>{ plan(I, 0), plan(I, 1), plan(I, 2) });
         const auto pn = shape::cube(t_vec, 1, 20);
         const mat jacob = pn * ele_coor;
         const mat pn_pxy = solve(jacob, pn);
@@ -61,18 +61,21 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
         }
     }
 
-    mass.zeros();
+    initial_stiffness.zeros();
+    for(const auto& I : int_pt) initial_stiffness += I.strain_mat.t() * I.c_material->get_stiffness() * I.strain_mat * I.jacob_det * I.weight;
+
+    trial_mass.zeros();
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::cube(I.coor, 0, 20);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight;
             for(auto J = 0; J < c_node; ++J)
-                for(auto K = J; K < c_node; ++K) mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < c_node; ++K) trial_mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < c_node * c_dof; I += c_dof) {
-            mass(I + 1, I + 1) = mass(I + 2, I + 2) = mass(I, I);
-            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) mass(J, I) = mass(I + 1, J + 1) = mass(I + 2, J + 2) = mass(J + 1, I + 1) = mass(J + 2, I + 2) = mass(I, J);
+            trial_mass(I + 1, I + 1) = trial_mass(I + 2, I + 2) = trial_mass(I, I);
+            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(I + 2, J + 2) = trial_mass(J + 1, I + 1) = trial_mass(J + 2, I + 2) = trial_mass(I, J);
         }
     }
 }
@@ -86,31 +89,38 @@ int C3D20::update_status() {
         for(auto J = 0; J < c_dof; ++J) t_disp(idx++) = tmp_disp(J);
     }
 
-    stiffness.zeros();
-    resistance.zeros();
+    trial_stiffness.zeros();
+    trial_resistance.zeros();
     for(const auto& I : int_pt) {
         code += I.c_material->update_trial_status(I.strain_mat * t_disp);
         const mat t_factor = I.strain_mat.t() * I.jacob_det * I.weight;
-        stiffness += t_factor * I.c_material->get_stiffness() * I.strain_mat;
-        resistance += t_factor * I.c_material->get_stress();
+        trial_stiffness += t_factor * I.c_material->get_stiffness() * I.strain_mat;
+        trial_resistance += t_factor * I.c_material->get_stress();
     }
 
     return code;
 }
 
 int C3D20::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->commit_status();
     return code;
 }
 
 int C3D20::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->clear_status();
     return code;
 }
 
 int C3D20::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->reset_status();
     return code;

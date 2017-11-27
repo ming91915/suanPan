@@ -80,9 +80,9 @@ void ElementTemplate::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     //! The area is half of the determinant of the above matrix.
-    area = det(ele_coor) / 2.;
+    area = .5 * det(ele_coor);
 
-    mat inv_coor = inv(ele_coor);
+    const mat inv_coor = inv(ele_coor);
 
     //! A standerd way to construct the strain mat is to derive from the partial direvative of the shape function N. For CP3, as it is a constant stress/strain element, the direvatives are constants which can be directly obtained from above matrix.
     strain_mat.zeros(3, m_node * m_dof);
@@ -93,11 +93,13 @@ void ElementTemplate::initialize(const shared_ptr<DomainBase>& D) {
         strain_mat(2, 2 * i + 1) = inv_coor(1, i);
     }
 
-    const auto tmp_density = m_material->get_parameter();
-    if(tmp_density != 0.) {
+    initial_stiffness = strain_mat.t() * m_material->get_initial_stiffness() * strain_mat * area * thickness;
+
+    const auto t_density = m_material->get_parameter();
+    if(t_density != 0.) {
         //! Same as before, a quicker way to obtain shape function.
         vec n = mean(ele_coor) * inv_coor;
-        mass = n * n.t() * tmp_density * area * thickness;
+        trial_mass = n * n.t() * t_density * area * thickness;
     }
 }
 
@@ -122,9 +124,9 @@ int ElementTemplate::update_status() {
     }
     m_material->update_trial_status(strain_mat * trial_disp);
 
-    const mat tmp_mat = strain_mat.t() * area * thickness;
-    stiffness = tmp_mat * m_material->get_stiffness() * strain_mat;
-    resistance = tmp_mat * m_material->get_stress();
+    const mat t_factor = strain_mat.t() * area * thickness;
+    trial_stiffness = t_factor * m_material->get_stiffness() * strain_mat;
+    trial_resistance = t_factor * m_material->get_stress();
 
     return 0;
 }
@@ -132,8 +134,21 @@ int ElementTemplate::update_status() {
 /**
  * \brief Simply call corresponding methods in material objects. If the Element itself has history variables, they should also be updated/modified in following methods.
  */
-int ElementTemplate::commit_status() { return m_material->commit_status(); }
+int ElementTemplate::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
+    return m_material->commit_status();
+}
 
-int ElementTemplate::clear_status() { return m_material->clear_status(); }
+int ElementTemplate::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
+    return m_material->clear_status();
+}
 
-int ElementTemplate::reset_status() { return m_material->reset_status(); }
+int ElementTemplate::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
+    return m_material->reset_status();
+}

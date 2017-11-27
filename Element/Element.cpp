@@ -66,13 +66,24 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
         return;
     }
 
-    dof_encoding.zeros(total_dof);
-    resistance.zeros(total_dof);
-    mass.zeros(total_dof, total_dof);
-    damping.zeros(total_dof, total_dof);
-    stiffness.zeros(total_dof, total_dof);
-    initial_stiffness.zeros(total_dof, total_dof);
-    if(nlgeom) geometry.zeros(total_dof, total_dof);
+    dof_encoding.set_size(total_dof);
+
+    initial_stiffness.set_size(total_dof, total_dof);
+
+    trial_resistance.set_size(total_dof);
+    trial_mass.set_size(total_dof, total_dof);
+    trial_damping.set_size(total_dof, total_dof);
+    trial_stiffness.set_size(total_dof, total_dof);
+
+    current_resistance.set_size(total_dof);
+    current_mass.set_size(total_dof, total_dof);
+    current_damping.set_size(total_dof, total_dof);
+    current_stiffness.set_size(total_dof, total_dof);
+
+    if(nlgeom) {
+        current_geometry.set_size(total_dof, total_dof);
+        trial_geometry.set_size(total_dof, total_dof);
+    }
 
     // check if nodes are still valid
     node_ptr.clear();
@@ -127,17 +138,17 @@ const uvec& Element::get_node_encoding() const { return node_encoding; }
 
 const vector<weak_ptr<Node>>& Element::get_node_ptr() const { return node_ptr; }
 
-const vec& Element::get_resistance() const { return resistance; }
+const vec& Element::get_resistance() const { return trial_resistance; }
 
-const mat& Element::get_mass() const { return mass; }
+const mat& Element::get_mass() const { return trial_mass; }
 
-const mat& Element::get_damping() const { return damping; }
+const mat& Element::get_damping() const { return trial_damping; }
 
-const mat& Element::get_stiffness() const { return stiffness; }
+const mat& Element::get_stiffness() const { return trial_stiffness; }
 
 const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
-const mat& Element::get_geometry() const { return geometry; }
+const mat& Element::get_geometry() const { return trial_geometry; }
 
 int Element::update_status() { throw invalid_argument("hidden method called.\n"); }
 

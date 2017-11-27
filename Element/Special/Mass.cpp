@@ -20,10 +20,10 @@
 Mass::Mass(const unsigned& T, const unsigned& NT, const double& MA, const uvec& DT)
     : Element(T, ET_MASS, 1, unsigned(DT.max()), uvec{ NT })
     , magnitude(MA)
-    , dof_label(DT) {}
+    , dof_label(DT - 1) {}
 
 void Mass::initialize(const shared_ptr<DomainBase>&) {
-    for(const auto& I : dof_label) mass(I - 1, I - 1) = magnitude;
+    for(const auto& I : dof_label) trial_mass(I, I) = magnitude;
 }
 
 int Mass::update_status() { return 0; }

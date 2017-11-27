@@ -50,13 +50,19 @@ protected:
 
     uvec dof_encoding; /**< DoF encoding vector */
 
-    vec resistance; /**< resistance vector. */
-
-    mat mass;              /**< mass matrix */
-    mat damping;           /**< damping matrix */
-    mat stiffness;         /**< stiffness matrix */
     mat initial_stiffness; /**< initial stiffness matrix */
-    mat geometry;          /**< geometry matrix */
+
+    vec trial_resistance; /**< resistance vector. */
+    mat trial_mass;       /**< mass matrix */
+    mat trial_damping;    /**< damping matrix */
+    mat trial_stiffness;  /**< stiffness matrix */
+    mat trial_geometry;   /**< geometry matrix */
+
+    vec current_resistance;
+    mat current_mass;      /**< mass matrix */
+    mat current_damping;   /**< damping matrix */
+    mat current_stiffness; /**< stiffness matrix */
+    mat current_geometry;  /**< geometry matrix */
 
     vector<weak_ptr<Node>> node_ptr; /**< node pointers */
 public:

@@ -66,20 +66,19 @@ int Damper01::update_status() {
     vel_diff(0) = velocity_j(0) - velocity_i(0);
     vel_diff(1) = velocity_j(1) - velocity_i(1);
 
-    resistance.zeros();
-
     if(new_length == 0.) {
         if(length == 0.) return 0;
         direction_cosine = pos_diff / length;
     } else
         direction_cosine = pos_diff / new_length;
 
-    const auto trial_velocity = dot(direction_cosine, vel_diff);
+    const auto t_velocity = dot(direction_cosine, vel_diff);
 
-    const auto trial_resistance = -suanpan::sign(trial_velocity) * damping * pow(fabs(trial_velocity), alpha);
+    const auto t_resistance = -suanpan::sign(t_velocity) * damping * pow(fabs(t_velocity), alpha);
 
-    resistance(0) = -(resistance(2) = direction_cosine(0) * trial_resistance);
-    resistance(1) = -(resistance(3) = direction_cosine(1) * trial_resistance);
+    trial_resistance.zeros();
+    trial_resistance(0) = -(trial_resistance(2) = direction_cosine(0) * t_resistance);
+    trial_resistance(1) = -(trial_resistance(3) = direction_cosine(1) * t_resistance);
 
     return 0;
 }

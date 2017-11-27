@@ -26,16 +26,20 @@ const unsigned SingleSection::s_dof = 2;
 SingleSection::SingleSection(const unsigned T, const unsigned NT, const unsigned ST)
     : SectionElement(T, ET_SINGLESECTION, s_node, s_dof, uvec{ NT }, uvec{ ST }, false) {}
 
-void SingleSection::initialize(const shared_ptr<DomainBase>& D) { s_section = suanpan::make_copy(D->get_section(unsigned(section_tag(0)))); }
+void SingleSection::initialize(const shared_ptr<DomainBase>& D) {
+    s_section = suanpan::make_copy(D->get_section(unsigned(section_tag(0))));
+
+    initial_stiffness = s_section->get_initial_stiffness();
+}
 
 int SingleSection::update_status() {
     const auto& s_node = node_ptr[0].lock();
 
     s_section->update_trial_status(s_node->get_trial_displacement());
 
-    stiffness = s_section->get_stiffness();
+    trial_stiffness = s_section->get_stiffness();
 
-    resistance = s_section->get_resistance();
+    trial_resistance = s_section->get_resistance();
 
     return 0;
 }

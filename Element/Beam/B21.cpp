@@ -58,13 +58,17 @@ void B21::initialize(const shared_ptr<DomainBase>& D) {
 
     const IntegrationPlan plan(1, int_pt_num, IntegrationType::LOBATTO);
 
+    mat local_stiffness(3, 3, fill::zeros);
     int_pt.clear(), int_pt.reserve(int_pt_num);
     for(unsigned I = 0; I < int_pt_num; ++I) {
         int_pt.emplace_back(plan(I, 0), plan(I, 1) / 2., section_proto->get_copy());
         int_pt[I].strain_mat(0, 0) = 1. / length;
         int_pt[I].strain_mat(1, 1) = (3. * plan(I, 0) - 1.) / length;
         int_pt[I].strain_mat(1, 2) = (3. * plan(I, 0) + 1.) / length;
+        local_stiffness += int_pt[I].strain_mat.t() * int_pt[I].b_section->get_initial_stiffness() * int_pt[I].strain_mat * int_pt[I].weight * length;
     }
+
+    initial_stiffness = trans_mat.t() * local_stiffness * trans_mat;
 }
 
 int B21::update_status() {
@@ -91,25 +95,32 @@ int B21::update_status() {
         local_resistance += tmp_a * I.b_section->get_resistance();
     }
 
-    stiffness = trans_mat.t() * local_stiffness * trans_mat;
-    resistance = trans_mat.t() * local_resistance;
+    trial_stiffness = trans_mat.t() * local_stiffness * trans_mat;
+    trial_resistance = trans_mat.t() * local_resistance;
 
     return 0;
 }
 
 int B21::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->commit_status();
     return code;
 }
 
 int B21::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->clear_status();
     return code;
 }
 
 int B21::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->reset_status();
     return code;

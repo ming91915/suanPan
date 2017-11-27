@@ -37,8 +37,8 @@ PS::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doubl
 PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
     : MaterialElement(T, ET_PS, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH)
-    , tmp_a(5, 5)
-    , tmp_c(5, 8) {}
+    , A(5, 5)
+    , C(5, 8) {}
 
 void PS::initialize(const shared_ptr<DomainBase>& D) {
     mat ele_coor(m_node, m_dof);
@@ -64,7 +64,7 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
 
     const IntegrationPlan plan(2, 2, IntegrationType::GAUSS);
 
-    tmp_a.zeros(), tmp_c.zeros();
+    A.zeros(), C.zeros();
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         const vec t_vec{ plan(I, 0), plan(I, 1) };
@@ -88,26 +88,26 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
 
         const auto t_factor = thickness * int_pt[I].jacob_det * int_pt[I].weight;
         const mat t_mat = int_pt[I].n_stress.t() * t_factor;
-        tmp_c += t_mat * int_pt[I].strain_mat;
-        tmp_a += t_mat * solve(t_stiffness, int_pt[I].n_stress);
+        C += t_mat * int_pt[I].strain_mat;
+        A += t_mat * solve(t_stiffness, int_pt[I].n_stress);
     }
 
-    mass.zeros();
+    trial_mass.zeros();
     const auto tmp_density = material_proto->get_parameter(ParameterType::DENSITY);
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::quad(I.coor, 0);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
+            trial_mass(I + 1, I + 1) = trial_mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
         }
     }
 
-    stiffness = tmp_c.t() * solve(tmp_a, tmp_c);
+    trial_stiffness = C.t() * solve(A, C);
 }
 
 int PS::update_status() {
@@ -119,24 +119,28 @@ int PS::update_status() {
         for(auto J = 0; J < m_dof; ++J) trial_disp(idx++) = tmp_disp(J);
     }
 
-    resistance = stiffness * trial_disp;
+    trial_resistance = trial_stiffness * trial_disp;
 
     return 0;
 }
 
 int PS::commit_status() {
+    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int PS::clear_status() {
+    current_resistance.zeros();
+    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int PS::reset_status() {
+    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

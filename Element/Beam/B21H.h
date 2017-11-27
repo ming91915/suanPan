@@ -49,7 +49,7 @@ class B21H final : public SectionElement {
 
     vector<IntegrationPoint> int_pt, elastic_int_pt;
 
-    mat trans_mat, elastic_local_stiffness, elastic_section_stiffness;
+    mat trans_mat, elastic_local_stiffness;
 
 public:
     B21H(const unsigned,   // tag

@@ -19,8 +19,8 @@
  * @brief A Proto02 class.
  *
  * @author T
- * @date 13/09/2017
- * @version 0.2.0
+ * @date 27/09/2017
+ * @version 0.2.1
  * @file Proto02.h
  * @addtogroup Membrane
  * @ingroup Element
@@ -35,22 +35,25 @@
 class Proto02 : public MaterialElement {
     struct IntegrationPoint {
         vec coor;
-        double weight, jacob_det;
+        double weight, jacob_det, factor = 0.;
         unique_ptr<Material> m_material;
         mat P, A, B, BI;
+        IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
     static const unsigned m_node, m_dof;
 
-    static mat mapping;
+    static mat mapping, converter;
 
     const double thickness;
 
-    vector<unique_ptr<IntegrationPoint>> int_pt;
+    const bool reduced_scheme;
+
+    vector<IntegrationPoint> int_pt;
+
+    mat trans_mat; // temporaty factor matrix used to recover stress and strain
 
     mat HI, HIL, HILI; // constant matrices
-
-    mat trial_ht, current_ht;
 
     vec trial_disp, current_disp;     // displacement
     vec trial_lambda, current_lambda; // enhanced strain
@@ -62,7 +65,7 @@ class Proto02 : public MaterialElement {
     mat trial_qtifi, current_qtifi; // eq. 65
 
 public:
-    Proto02(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
+    Proto02(const unsigned, const uvec&, const unsigned, const double = 1., const bool = true);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

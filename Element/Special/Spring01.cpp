@@ -54,11 +54,10 @@ int Spring01::update_status() {
 
     // TODO: NEED FURTHER WORK
 
-    if(elongation == 0.) {
-        stiffness.zeros();
-        resistance.zeros();
-        return 0;
-    }
+    trial_stiffness.zeros();
+    trial_resistance.zeros();
+
+    if(elongation == 0.) return 0;
 
     const vec direction_cosine = new_position / new_length;
 
@@ -66,18 +65,16 @@ int Spring01::update_status() {
 
     const auto tmp_a = s_material->get_stiffness().at(0);
 
-    stiffness(0, 2) = -(stiffness(0, 0) = stiffness(2, 2) = tmp_a * direction_cosine(0) * direction_cosine(0));
-    stiffness(1, 3) = -(stiffness(1, 1) = stiffness(3, 3) = tmp_a * direction_cosine(1) * direction_cosine(1));
-    stiffness(0, 3) = stiffness(1, 2) = -(stiffness(0, 1) = stiffness(2, 3) = tmp_a * direction_cosine(0) * direction_cosine(1));
+    trial_stiffness(0, 2) = -(trial_stiffness(0, 0) = trial_stiffness(2, 2) = tmp_a * direction_cosine(0) * direction_cosine(0));
+    trial_stiffness(1, 3) = -(trial_stiffness(1, 1) = trial_stiffness(3, 3) = tmp_a * direction_cosine(1) * direction_cosine(1));
+    trial_stiffness(0, 3) = trial_stiffness(1, 2) = -(trial_stiffness(0, 1) = trial_stiffness(2, 3) = tmp_a * direction_cosine(0) * direction_cosine(1));
 
     for(auto I = 0; I < 3; ++I)
-        for(auto J = I + 1; J < 4; ++J) stiffness(J, I) = stiffness(I, J);
+        for(auto J = I + 1; J < 4; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
 
     const auto tmp_b = s_material->get_stress().at(0);
-    resistance(2) = tmp_b * direction_cosine(0);
-    resistance(3) = tmp_b * direction_cosine(1);
-    resistance(0) = -resistance(2);
-    resistance(1) = -resistance(3);
+    trial_resistance(0) = -(trial_resistance(2) = tmp_b * direction_cosine(0));
+    trial_resistance(1) = -(trial_resistance(3) = tmp_b * direction_cosine(1));
 
     return 0;
 }

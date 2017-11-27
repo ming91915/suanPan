@@ -61,7 +61,9 @@ void CP6::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(coor, 1. / 3., material_proto->get_copy(), shape::triangle(coor, 1) * inv_coor);
     }
 
-    mass.zeros();
+    initial_stiffness.zeros();
+
+    trial_mass.zeros();
     auto t_density = material_proto->get_parameter();
     if(t_density != 0.) {
         t_density *= area * thickness;
@@ -69,11 +71,11 @@ void CP6::initialize(const shared_ptr<DomainBase>& D) {
             const vec n_int = shape::triangle(I.coor, 0) * inv_coor;
             const auto t_factor = t_density * I.weight;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) mass(m_dof * J, m_dof * K) += t_factor * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += t_factor * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            mass(I + 1, I + 1) = mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) mass(J, I) = mass(I + 1, J + 1) = mass(J + 1, I + 1) = mass(I, J);
+            trial_mass(I + 1, I + 1) = trial_mass(I, I);
+            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
         }
     }
 }
@@ -219,118 +221,125 @@ int CP6::update_status() {
         const auto D33NX5D23NY5 = D33NX5 + D23NY5;
         const auto D33NX6D23NY6 = D33NX6 + D23NY6;
 
-        stiffness(0, 0) += NX1 * D11NX1D13NY1 + NY1 * D13NX1D33NY1;
-        stiffness(0, 1) += NX1 * D13NX1D33NY1 + NY1 * D12NX1D23NY1;
-        stiffness(0, 2) += NX2 * D11NX1D13NY1 + NY2 * D13NX1D33NY1;
-        stiffness(0, 3) += NX2 * D13NX1D33NY1 + NY2 * D12NX1D23NY1;
-        stiffness(0, 4) += NX3 * D11NX1D13NY1 + NY3 * D13NX1D33NY1;
-        stiffness(0, 5) += NX3 * D13NX1D33NY1 + NY3 * D12NX1D23NY1;
-        stiffness(0, 6) += NX4 * D11NX1D13NY1 + NY4 * D13NX1D33NY1;
-        stiffness(0, 7) += NX4 * D13NX1D33NY1 + NY4 * D12NX1D23NY1;
-        stiffness(0, 8) += NX5 * D11NX1D13NY1 + NY5 * D13NX1D33NY1;
-        stiffness(0, 9) += NX5 * D13NX1D33NY1 + NY5 * D12NX1D23NY1;
-        stiffness(0, 10) += NX6 * D11NX1D13NY1 + NY6 * D13NX1D33NY1;
-        stiffness(0, 11) += NX6 * D13NX1D33NY1 + NY6 * D12NX1D23NY1;
-        stiffness(1, 1) += NX1 * D33NX1D23NY1 + NY1 * D23NX1D22NY1;
-        stiffness(1, 2) += NX2 * D13NX1D12NY1 + NY2 * D33NX1D23NY1;
-        stiffness(1, 3) += NX2 * D33NX1D23NY1 + NY2 * D23NX1D22NY1;
-        stiffness(1, 4) += NX3 * D13NX1D12NY1 + NY3 * D33NX1D23NY1;
-        stiffness(1, 5) += NX3 * D33NX1D23NY1 + NY3 * D23NX1D22NY1;
-        stiffness(1, 6) += NX4 * D13NX1D12NY1 + NY4 * D33NX1D23NY1;
-        stiffness(1, 7) += NX4 * D33NX1D23NY1 + NY4 * D23NX1D22NY1;
-        stiffness(1, 8) += NX5 * D13NX1D12NY1 + NY5 * D33NX1D23NY1;
-        stiffness(1, 9) += NX5 * D33NX1D23NY1 + NY5 * D23NX1D22NY1;
-        stiffness(1, 10) += NX6 * D13NX1D12NY1 + NY6 * D33NX1D23NY1;
-        stiffness(1, 11) += NX6 * D33NX1D23NY1 + NY6 * D23NX1D22NY1;
-        stiffness(2, 2) += NX2 * D11NX2D13NY2 + NY2 * D13NX2D33NY2;
-        stiffness(2, 3) += NX2 * D13NX2D33NY2 + NY2 * D12NX2D23NY2;
-        stiffness(2, 4) += NX3 * D11NX2D13NY2 + NY3 * D13NX2D33NY2;
-        stiffness(2, 5) += NX3 * D13NX2D33NY2 + NY3 * D12NX2D23NY2;
-        stiffness(2, 6) += NX4 * D11NX2D13NY2 + NY4 * D13NX2D33NY2;
-        stiffness(2, 7) += NX4 * D13NX2D33NY2 + NY4 * D12NX2D23NY2;
-        stiffness(2, 8) += NX5 * D11NX2D13NY2 + NY5 * D13NX2D33NY2;
-        stiffness(2, 9) += NX5 * D13NX2D33NY2 + NY5 * D12NX2D23NY2;
-        stiffness(2, 10) += NX6 * D11NX2D13NY2 + NY6 * D13NX2D33NY2;
-        stiffness(2, 11) += NX6 * D13NX2D33NY2 + NY6 * D12NX2D23NY2;
-        stiffness(3, 3) += NX2 * D33NX2D23NY2 + NY2 * D23NX2D22NY2;
-        stiffness(3, 4) += NX3 * D13NX2D12NY2 + NY3 * D33NX2D23NY2;
-        stiffness(3, 5) += NX3 * D33NX2D23NY2 + NY3 * D23NX2D22NY2;
-        stiffness(3, 6) += NX4 * D13NX2D12NY2 + NY4 * D33NX2D23NY2;
-        stiffness(3, 7) += NX4 * D33NX2D23NY2 + NY4 * D23NX2D22NY2;
-        stiffness(3, 8) += NX5 * D13NX2D12NY2 + NY5 * D33NX2D23NY2;
-        stiffness(3, 9) += NX5 * D33NX2D23NY2 + NY5 * D23NX2D22NY2;
-        stiffness(3, 10) += NX6 * D13NX2D12NY2 + NY6 * D33NX2D23NY2;
-        stiffness(3, 11) += NX6 * D33NX2D23NY2 + NY6 * D23NX2D22NY2;
-        stiffness(4, 4) += NX3 * D11NX3D13NY3 + NY3 * D13NX3D33NY3;
-        stiffness(4, 5) += NX3 * D13NX3D33NY3 + NY3 * D12NX3D23NY3;
-        stiffness(4, 6) += NX4 * D11NX3D13NY3 + NY4 * D13NX3D33NY3;
-        stiffness(4, 7) += NX4 * D13NX3D33NY3 + NY4 * D12NX3D23NY3;
-        stiffness(4, 8) += NX5 * D11NX3D13NY3 + NY5 * D13NX3D33NY3;
-        stiffness(4, 9) += NX5 * D13NX3D33NY3 + NY5 * D12NX3D23NY3;
-        stiffness(4, 10) += NX6 * D11NX3D13NY3 + NY6 * D13NX3D33NY3;
-        stiffness(4, 11) += NX6 * D13NX3D33NY3 + NY6 * D12NX3D23NY3;
-        stiffness(5, 5) += NX3 * D33NX3D23NY3 + NY3 * D23NX3D22NY3;
-        stiffness(5, 6) += NX4 * D13NX3D12NY3 + NY4 * D33NX3D23NY3;
-        stiffness(5, 7) += NX4 * D33NX3D23NY3 + NY4 * D23NX3D22NY3;
-        stiffness(5, 8) += NX5 * D13NX3D12NY3 + NY5 * D33NX3D23NY3;
-        stiffness(5, 9) += NX5 * D33NX3D23NY3 + NY5 * D23NX3D22NY3;
-        stiffness(5, 10) += NX6 * D13NX3D12NY3 + NY6 * D33NX3D23NY3;
-        stiffness(5, 11) += NX6 * D33NX3D23NY3 + NY6 * D23NX3D22NY3;
-        stiffness(6, 6) += NX4 * D11NX4D13NY4 + NY4 * D13NX4D33NY4;
-        stiffness(6, 7) += NX4 * D13NX4D33NY4 + NY4 * D12NX4D23NY4;
-        stiffness(6, 8) += NX5 * D11NX4D13NY4 + NY5 * D13NX4D33NY4;
-        stiffness(6, 9) += NX5 * D13NX4D33NY4 + NY5 * D12NX4D23NY4;
-        stiffness(6, 10) += NX6 * D11NX4D13NY4 + NY6 * D13NX4D33NY4;
-        stiffness(6, 11) += NX6 * D13NX4D33NY4 + NY6 * D12NX4D23NY4;
-        stiffness(7, 7) += NX4 * D33NX4D23NY4 + NY4 * D23NX4D22NY4;
-        stiffness(7, 8) += NX5 * D13NX4D12NY4 + NY5 * D33NX4D23NY4;
-        stiffness(7, 9) += NX5 * D33NX4D23NY4 + NY5 * D23NX4D22NY4;
-        stiffness(7, 10) += NX6 * D13NX4D12NY4 + NY6 * D33NX4D23NY4;
-        stiffness(7, 11) += NX6 * D33NX4D23NY4 + NY6 * D23NX4D22NY4;
-        stiffness(8, 8) += NX5 * D11NX5D13NY5 + NY5 * D13NX5D33NY5;
-        stiffness(8, 9) += NX5 * D13NX5D33NY5 + NY5 * D12NX5D23NY5;
-        stiffness(8, 10) += NX6 * D11NX5D13NY5 + NY6 * D13NX5D33NY5;
-        stiffness(8, 11) += NX6 * D13NX5D33NY5 + NY6 * D12NX5D23NY5;
-        stiffness(9, 9) += NX5 * D33NX5D23NY5 + NY5 * D23NX5D22NY5;
-        stiffness(9, 10) += NX6 * D13NX5D12NY5 + NY6 * D33NX5D23NY5;
-        stiffness(9, 11) += NX6 * D33NX5D23NY5 + NY6 * D23NX5D22NY5;
-        stiffness(10, 10) += NX6 * D11NX6D13NY6 + NY6 * D13NX6D33NY6;
-        stiffness(10, 11) += NX6 * D13NX6D33NY6 + NY6 * D12NX6D23NY6;
-        stiffness(11, 11) += NX6 * D33NX6D23NY6 + NY6 * D23NX6D22NY6;
+        trial_stiffness(0, 0) += NX1 * D11NX1D13NY1 + NY1 * D13NX1D33NY1;
+        trial_stiffness(0, 1) += NX1 * D13NX1D33NY1 + NY1 * D12NX1D23NY1;
+        trial_stiffness(0, 2) += NX2 * D11NX1D13NY1 + NY2 * D13NX1D33NY1;
+        trial_stiffness(0, 3) += NX2 * D13NX1D33NY1 + NY2 * D12NX1D23NY1;
+        trial_stiffness(0, 4) += NX3 * D11NX1D13NY1 + NY3 * D13NX1D33NY1;
+        trial_stiffness(0, 5) += NX3 * D13NX1D33NY1 + NY3 * D12NX1D23NY1;
+        trial_stiffness(0, 6) += NX4 * D11NX1D13NY1 + NY4 * D13NX1D33NY1;
+        trial_stiffness(0, 7) += NX4 * D13NX1D33NY1 + NY4 * D12NX1D23NY1;
+        trial_stiffness(0, 8) += NX5 * D11NX1D13NY1 + NY5 * D13NX1D33NY1;
+        trial_stiffness(0, 9) += NX5 * D13NX1D33NY1 + NY5 * D12NX1D23NY1;
+        trial_stiffness(0, 10) += NX6 * D11NX1D13NY1 + NY6 * D13NX1D33NY1;
+        trial_stiffness(0, 11) += NX6 * D13NX1D33NY1 + NY6 * D12NX1D23NY1;
+        trial_stiffness(1, 1) += NX1 * D33NX1D23NY1 + NY1 * D23NX1D22NY1;
+        trial_stiffness(1, 2) += NX2 * D13NX1D12NY1 + NY2 * D33NX1D23NY1;
+        trial_stiffness(1, 3) += NX2 * D33NX1D23NY1 + NY2 * D23NX1D22NY1;
+        trial_stiffness(1, 4) += NX3 * D13NX1D12NY1 + NY3 * D33NX1D23NY1;
+        trial_stiffness(1, 5) += NX3 * D33NX1D23NY1 + NY3 * D23NX1D22NY1;
+        trial_stiffness(1, 6) += NX4 * D13NX1D12NY1 + NY4 * D33NX1D23NY1;
+        trial_stiffness(1, 7) += NX4 * D33NX1D23NY1 + NY4 * D23NX1D22NY1;
+        trial_stiffness(1, 8) += NX5 * D13NX1D12NY1 + NY5 * D33NX1D23NY1;
+        trial_stiffness(1, 9) += NX5 * D33NX1D23NY1 + NY5 * D23NX1D22NY1;
+        trial_stiffness(1, 10) += NX6 * D13NX1D12NY1 + NY6 * D33NX1D23NY1;
+        trial_stiffness(1, 11) += NX6 * D33NX1D23NY1 + NY6 * D23NX1D22NY1;
+        trial_stiffness(2, 2) += NX2 * D11NX2D13NY2 + NY2 * D13NX2D33NY2;
+        trial_stiffness(2, 3) += NX2 * D13NX2D33NY2 + NY2 * D12NX2D23NY2;
+        trial_stiffness(2, 4) += NX3 * D11NX2D13NY2 + NY3 * D13NX2D33NY2;
+        trial_stiffness(2, 5) += NX3 * D13NX2D33NY2 + NY3 * D12NX2D23NY2;
+        trial_stiffness(2, 6) += NX4 * D11NX2D13NY2 + NY4 * D13NX2D33NY2;
+        trial_stiffness(2, 7) += NX4 * D13NX2D33NY2 + NY4 * D12NX2D23NY2;
+        trial_stiffness(2, 8) += NX5 * D11NX2D13NY2 + NY5 * D13NX2D33NY2;
+        trial_stiffness(2, 9) += NX5 * D13NX2D33NY2 + NY5 * D12NX2D23NY2;
+        trial_stiffness(2, 10) += NX6 * D11NX2D13NY2 + NY6 * D13NX2D33NY2;
+        trial_stiffness(2, 11) += NX6 * D13NX2D33NY2 + NY6 * D12NX2D23NY2;
+        trial_stiffness(3, 3) += NX2 * D33NX2D23NY2 + NY2 * D23NX2D22NY2;
+        trial_stiffness(3, 4) += NX3 * D13NX2D12NY2 + NY3 * D33NX2D23NY2;
+        trial_stiffness(3, 5) += NX3 * D33NX2D23NY2 + NY3 * D23NX2D22NY2;
+        trial_stiffness(3, 6) += NX4 * D13NX2D12NY2 + NY4 * D33NX2D23NY2;
+        trial_stiffness(3, 7) += NX4 * D33NX2D23NY2 + NY4 * D23NX2D22NY2;
+        trial_stiffness(3, 8) += NX5 * D13NX2D12NY2 + NY5 * D33NX2D23NY2;
+        trial_stiffness(3, 9) += NX5 * D33NX2D23NY2 + NY5 * D23NX2D22NY2;
+        trial_stiffness(3, 10) += NX6 * D13NX2D12NY2 + NY6 * D33NX2D23NY2;
+        trial_stiffness(3, 11) += NX6 * D33NX2D23NY2 + NY6 * D23NX2D22NY2;
+        trial_stiffness(4, 4) += NX3 * D11NX3D13NY3 + NY3 * D13NX3D33NY3;
+        trial_stiffness(4, 5) += NX3 * D13NX3D33NY3 + NY3 * D12NX3D23NY3;
+        trial_stiffness(4, 6) += NX4 * D11NX3D13NY3 + NY4 * D13NX3D33NY3;
+        trial_stiffness(4, 7) += NX4 * D13NX3D33NY3 + NY4 * D12NX3D23NY3;
+        trial_stiffness(4, 8) += NX5 * D11NX3D13NY3 + NY5 * D13NX3D33NY3;
+        trial_stiffness(4, 9) += NX5 * D13NX3D33NY3 + NY5 * D12NX3D23NY3;
+        trial_stiffness(4, 10) += NX6 * D11NX3D13NY3 + NY6 * D13NX3D33NY3;
+        trial_stiffness(4, 11) += NX6 * D13NX3D33NY3 + NY6 * D12NX3D23NY3;
+        trial_stiffness(5, 5) += NX3 * D33NX3D23NY3 + NY3 * D23NX3D22NY3;
+        trial_stiffness(5, 6) += NX4 * D13NX3D12NY3 + NY4 * D33NX3D23NY3;
+        trial_stiffness(5, 7) += NX4 * D33NX3D23NY3 + NY4 * D23NX3D22NY3;
+        trial_stiffness(5, 8) += NX5 * D13NX3D12NY3 + NY5 * D33NX3D23NY3;
+        trial_stiffness(5, 9) += NX5 * D33NX3D23NY3 + NY5 * D23NX3D22NY3;
+        trial_stiffness(5, 10) += NX6 * D13NX3D12NY3 + NY6 * D33NX3D23NY3;
+        trial_stiffness(5, 11) += NX6 * D33NX3D23NY3 + NY6 * D23NX3D22NY3;
+        trial_stiffness(6, 6) += NX4 * D11NX4D13NY4 + NY4 * D13NX4D33NY4;
+        trial_stiffness(6, 7) += NX4 * D13NX4D33NY4 + NY4 * D12NX4D23NY4;
+        trial_stiffness(6, 8) += NX5 * D11NX4D13NY4 + NY5 * D13NX4D33NY4;
+        trial_stiffness(6, 9) += NX5 * D13NX4D33NY4 + NY5 * D12NX4D23NY4;
+        trial_stiffness(6, 10) += NX6 * D11NX4D13NY4 + NY6 * D13NX4D33NY4;
+        trial_stiffness(6, 11) += NX6 * D13NX4D33NY4 + NY6 * D12NX4D23NY4;
+        trial_stiffness(7, 7) += NX4 * D33NX4D23NY4 + NY4 * D23NX4D22NY4;
+        trial_stiffness(7, 8) += NX5 * D13NX4D12NY4 + NY5 * D33NX4D23NY4;
+        trial_stiffness(7, 9) += NX5 * D33NX4D23NY4 + NY5 * D23NX4D22NY4;
+        trial_stiffness(7, 10) += NX6 * D13NX4D12NY4 + NY6 * D33NX4D23NY4;
+        trial_stiffness(7, 11) += NX6 * D33NX4D23NY4 + NY6 * D23NX4D22NY4;
+        trial_stiffness(8, 8) += NX5 * D11NX5D13NY5 + NY5 * D13NX5D33NY5;
+        trial_stiffness(8, 9) += NX5 * D13NX5D33NY5 + NY5 * D12NX5D23NY5;
+        trial_stiffness(8, 10) += NX6 * D11NX5D13NY5 + NY6 * D13NX5D33NY5;
+        trial_stiffness(8, 11) += NX6 * D13NX5D33NY5 + NY6 * D12NX5D23NY5;
+        trial_stiffness(9, 9) += NX5 * D33NX5D23NY5 + NY5 * D23NX5D22NY5;
+        trial_stiffness(9, 10) += NX6 * D13NX5D12NY5 + NY6 * D33NX5D23NY5;
+        trial_stiffness(9, 11) += NX6 * D33NX5D23NY5 + NY6 * D23NX5D22NY5;
+        trial_stiffness(10, 10) += NX6 * D11NX6D13NY6 + NY6 * D13NX6D33NY6;
+        trial_stiffness(10, 11) += NX6 * D13NX6D33NY6 + NY6 * D12NX6D23NY6;
+        trial_stiffness(11, 11) += NX6 * D33NX6D23NY6 + NY6 * D23NX6D22NY6;
 
-        resistance(0) += NX1 * S1 + NY1 * S3;
-        resistance(1) += NX1 * S3 + NY1 * S2;
-        resistance(2) += NX2 * S1 + NY2 * S3;
-        resistance(3) += NX2 * S3 + NY2 * S2;
-        resistance(4) += NX3 * S1 + NY3 * S3;
-        resistance(5) += NX3 * S3 + NY3 * S2;
-        resistance(6) += NX4 * S1 + NY4 * S3;
-        resistance(7) += NX4 * S3 + NY4 * S2;
-        resistance(8) += NX5 * S1 + NY5 * S3;
-        resistance(9) += NX5 * S3 + NY5 * S2;
-        resistance(10) += NX6 * S1 + NY6 * S3;
-        resistance(11) += NX6 * S3 + NY6 * S2;
+        trial_resistance(0) += NX1 * S1 + NY1 * S3;
+        trial_resistance(1) += NX1 * S3 + NY1 * S2;
+        trial_resistance(2) += NX2 * S1 + NY2 * S3;
+        trial_resistance(3) += NX2 * S3 + NY2 * S2;
+        trial_resistance(4) += NX3 * S1 + NY3 * S3;
+        trial_resistance(5) += NX3 * S3 + NY3 * S2;
+        trial_resistance(6) += NX4 * S1 + NY4 * S3;
+        trial_resistance(7) += NX4 * S3 + NY4 * S2;
+        trial_resistance(8) += NX5 * S1 + NY5 * S3;
+        trial_resistance(9) += NX5 * S3 + NY5 * S2;
+        trial_resistance(10) += NX6 * S1 + NY6 * S3;
+        trial_resistance(11) += NX6 * S3 + NY6 * S2;
     }
 
     for(auto I = 0; I < 11; ++I)
-        for(auto J = I + 1; J < 12; ++J) stiffness(J, I) = stiffness(I, J);
+        for(auto J = I + 1; J < 12; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
 
     return 0;
 }
 
 int CP6::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int CP6::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int CP6::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

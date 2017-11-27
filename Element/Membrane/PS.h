@@ -46,7 +46,7 @@ class PS final : public MaterialElement {
 
     vector<IntegrationPoint> int_pt;
 
-    mat tmp_a, tmp_c;
+    mat A, C;
 
 public:
     PS(const unsigned&, const uvec&, const unsigned&, const double& = 1.);

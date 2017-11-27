@@ -90,7 +90,7 @@ void ElementExample::initialize(const shared_ptr<DomainBase>& D) {
     const auto tmp_density = m_material->get_parameter();
     if(tmp_density != 0.) {
         const vec n = mean(ele_coor) * inv_coor;
-        mass = n * n.t() * tmp_density * area * thickness;
+        trial_mass = n * n.t() * tmp_density * area * thickness;
     }
 }
 
@@ -104,8 +104,8 @@ int ElementExample::update_status() {
 
     m_material->update_trial_status(strain_mat * trial_disp);
 
-    stiffness = strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
-    resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
+    trial_stiffness = strain_mat.t() * m_material->get_stiffness() * strain_mat * area * thickness;
+    trial_resistance = strain_mat.t() * m_material->get_stress() * area * thickness;
 
     return 0;
 }

@@ -56,8 +56,6 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
         return;
     }
 
-    elastic_section_stiffness = section_proto->get_initial_stiffness();
-
     const auto elastic_length = 1. - 2. * hinge_length;
 
     // build up the elastic interior
@@ -71,6 +69,7 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
     int_pt.emplace_back(1. - 4. / 3. * hinge_length, .75 * hinge_length, section_proto->get_copy());
     int_pt.emplace_back(1., .25 * hinge_length, section_proto->get_copy());
 
+    const auto& elastic_section_stiffness = section_proto->get_initial_stiffness();
     // elastic part will be reused in computation
     elastic_local_stiffness.zeros(3, 3);
     for(auto& I : elastic_int_pt) {
@@ -80,11 +79,14 @@ void B21H::initialize(const shared_ptr<DomainBase>& D) {
         elastic_local_stiffness += I.strain_mat.t() * elastic_section_stiffness * I.strain_mat * I.weight * length;
     }
 
+    auto local_stiffness = elastic_local_stiffness;
     for(auto& I : int_pt) {
         I.strain_mat(0, 0) = 1. / length;
         I.strain_mat(1, 1) = (3. * I.coor - 1.) / length;
         I.strain_mat(1, 2) = (3. * I.coor + 1.) / length;
+        local_stiffness += I.strain_mat.t() * I.weight * length * I.b_section->get_stiffness() * I.strain_mat;
     }
+    initial_stiffness = trans_mat.t() * local_stiffness * trans_mat;
 }
 
 int B21H::update_status() {
@@ -113,25 +115,32 @@ int B21H::update_status() {
 
     for(const auto& I : elastic_int_pt) I.b_section->update_trial_status(I.strain_mat * local_deformation);
 
-    stiffness = trans_mat.t() * local_stiffness * trans_mat;
-    resistance = trans_mat.t() * local_resistance;
+    trial_stiffness = trans_mat.t() * local_stiffness * trans_mat;
+    trial_resistance = trans_mat.t() * local_resistance;
 
     return 0;
 }
 
 int B21H::commit_status() {
+    current_stiffness = trial_stiffness;
+    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->commit_status();
     return code;
 }
 
 int B21H::clear_status() {
+    current_stiffness = trial_stiffness = initial_stiffness;
+    current_resistance.zeros();
+    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->clear_status();
     return code;
 }
 
 int B21H::reset_status() {
+    trial_stiffness = current_stiffness;
+    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->reset_status();
     return code;
