@@ -51,19 +51,29 @@ PlaneStress::PlaneStress(const PlaneStress& P)
 }
 
 void PlaneStress::initialize(const shared_ptr<DomainBase>& D) {
-    if(D != nullptr && D->find_material(base_tag)) {
-        auto& material_proto = D->get_material(base_tag);
-        if(!material_proto->initialized) {
-            material_proto->Material::initialize(D);
-            material_proto->initialize(D);
+    if(D != nullptr) {
+        if(D->find_material(base_tag)) {
+            auto& material_proto = D->get_material(base_tag);
+            if(!material_proto->initialized) {
+                material_proto->Material::initialize(D);
+                material_proto->initialize(D);
+            }
+            base = material_proto->get_copy();
+        } else {
+            D->disable_material(get_tag());
+            return;
         }
-        base = material_proto->get_copy();
+    }
 
-        density = base->get_parameter();
+    if(base == nullptr) {
+        disable();
+        return;
     }
 
     current_full_strain.zeros(6);
     trial_full_strain.zeros(6);
+
+    density = base->get_parameter();
 
     current_stiffness = trial_stiffness = initial_stiffness = form_stiffness(base->get_initial_stiffness());
 }
