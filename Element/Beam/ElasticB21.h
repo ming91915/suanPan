@@ -32,7 +32,7 @@
 #include <Element/MaterialElement.h>
 
 class ElasticB21 final : public MaterialElement {
-    static const unsigned b_node, b_dof;
+    static const unsigned b_node, b_dof, b_size;
 
     const double area, moment_inertia;
 

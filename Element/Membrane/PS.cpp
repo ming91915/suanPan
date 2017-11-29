@@ -25,13 +25,14 @@
 
 const unsigned PS::m_node = 4;
 const unsigned PS::m_dof = 2;
+const unsigned PS::m_size = m_dof * m_node;
 
 PS::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M)
     : coor(C)
     , weight(W)
     , jacob_det(J)
     , m_material(move(M))
-    , strain_mat(3, m_node * m_dof, fill::zeros)
+    , strain_mat(3, m_size, fill::zeros)
     , n_stress(3, 5, fill::zeros) {}
 
 PS::PS(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
@@ -92,7 +93,9 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
         A += t_mat * solve(t_stiffness, int_pt[I].n_stress);
     }
 
-    trial_mass.zeros();
+    trial_stiffness = C.t() * solve(A, C);
+
+    trial_mass.zeros(m_size, m_size);
     const auto tmp_density = material_proto->get_parameter(ParameterType::DENSITY);
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
@@ -101,17 +104,15 @@ void PS::initialize(const shared_ptr<DomainBase>& D) {
             for(auto J = 0; J < m_node; ++J)
                 for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
-        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
+        for(auto I = 0; I < m_size; I += m_dof) {
             trial_mass(I + 1, I + 1) = trial_mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
+            for(auto J = I + m_dof; J < m_size; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
         }
     }
-
-    trial_stiffness = C.t() * solve(A, C);
 }
 
 int PS::update_status() {
-    vec trial_disp(m_node * m_dof);
+    vec trial_disp(m_size);
 
     auto idx = 0;
     for(const auto& I : node_ptr) {
@@ -125,22 +126,18 @@ int PS::update_status() {
 }
 
 int PS::commit_status() {
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int PS::clear_status() {
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int PS::reset_status() {
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

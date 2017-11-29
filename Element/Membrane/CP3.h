@@ -32,7 +32,7 @@
 #include <Element/MaterialElement.h>
 
 class CP3 final : public MaterialElement {
-    static const unsigned m_node, m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness; /**< thickness */
 
@@ -45,7 +45,7 @@ class CP3 final : public MaterialElement {
     mat assemble_stiffness(const mat&);
 
 public:
-    CP3(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
+    CP3(const unsigned, const uvec&, const unsigned, const double = 1.);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

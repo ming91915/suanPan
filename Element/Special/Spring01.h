@@ -33,7 +33,7 @@
 #include <Element/Element.h>
 
 class Spring01 : public Element {
-    static const unsigned s_node, s_dof;
+    static const unsigned s_node, s_dof, s_size;
 
     double length = 0.;
 

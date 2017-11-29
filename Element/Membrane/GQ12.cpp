@@ -25,15 +25,16 @@
 
 const unsigned GQ12::m_node = 4;
 const unsigned GQ12::m_dof = 3;
+const unsigned GQ12::m_size = m_dof * m_node;
 
 GQ12::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M)
     : coor(C)
     , weight(W)
     , jacob_det(J)
     , m_material(move(M))
-    , strain_mat(3, m_node * m_dof, fill::zeros) {}
+    , strain_mat(3, m_size, fill::zeros) {}
 
-GQ12::GQ12(const unsigned& T, const uvec& N, const unsigned& M, const double& TH)
+GQ12::GQ12(const unsigned T, const uvec& N, const unsigned M, const double TH)
     : MaterialElement(T, ET_GQ12, m_node, m_dof, N, uvec{ M }, false)
     , thickness(TH) {}
 
@@ -107,21 +108,21 @@ void GQ12::initialize(const shared_ptr<DomainBase>& D) {
         }
     }
 
-    initial_stiffness.zeros();
+    initial_stiffness.zeros(m_size, m_size);
     for(const auto& I : int_pt) initial_stiffness += I.strain_mat.t() * I.m_material->get_stiffness() * I.strain_mat * I.jacob_det * I.weight * thickness;
 }
 
 int GQ12::update_status() {
     auto code = 0, idx = 0;
 
-    vec trial_disp(m_node * m_dof);
+    vec trial_disp(m_size);
     for(const auto& I : node_ptr) {
         auto& tmp_disp = I.lock()->get_trial_displacement();
         for(auto J = 0; J < m_dof; ++J) trial_disp(idx++) = tmp_disp(J);
     }
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
+    trial_stiffness.zeros(m_size, m_size);
+    trial_resistance.zeros(m_size);
     for(const auto& I : int_pt) {
         code += I.m_material->update_trial_status(I.strain_mat * trial_disp);
         const mat tmp_mat = I.strain_mat.t() * I.jacob_det * I.weight * thickness;
@@ -133,25 +134,18 @@ int GQ12::update_status() {
 }
 
 int GQ12::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int GQ12::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int GQ12::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

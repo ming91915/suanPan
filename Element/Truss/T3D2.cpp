@@ -22,8 +22,9 @@
 
 const unsigned T3D2::t_node = 2;
 const unsigned T3D2::t_dof = 3;
+const unsigned T3D2::t_size = t_dof * t_node;
 
-T3D2::T3D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
+T3D2::T3D2(const unsigned T, const uvec& N, const unsigned M, const double A, const bool F, const bool UA, const bool LS)
     : MaterialElement(T, ET_T3D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , direction_cosine(3)

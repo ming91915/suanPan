@@ -93,13 +93,13 @@ void ElementTemplate::initialize(const shared_ptr<DomainBase>& D) {
         strain_mat(2, 2 * i + 1) = inv_coor(1, i);
     }
 
-    initial_stiffness = strain_mat.t() * m_material->get_initial_stiffness() * strain_mat * area * thickness;
+    trial_stiffness = current_stiffness = initial_stiffness = strain_mat.t() * m_material->get_initial_stiffness() * strain_mat * area * thickness;
 
     const auto t_density = m_material->get_parameter();
     if(t_density != 0.) {
         //! Same as before, a quicker way to obtain shape function.
         vec n = mean(ele_coor) * inv_coor;
-        trial_mass = n * n.t() * t_density * area * thickness;
+        trial_mass = current_mass = initial_mass = n * n.t() * t_density * area * thickness;
     }
 }
 
@@ -134,21 +134,8 @@ int ElementTemplate::update_status() {
 /**
  * \brief Simply call corresponding methods in material objects. If the Element itself has history variables, they should also be updated/modified in following methods.
  */
-int ElementTemplate::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
-    return m_material->commit_status();
-}
+int ElementTemplate::commit_status() { return m_material->commit_status(); }
 
-int ElementTemplate::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
-    return m_material->clear_status();
-}
+int ElementTemplate::clear_status() { return m_material->clear_status(); }
 
-int ElementTemplate::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
-    return m_material->reset_status();
-}
+int ElementTemplate::reset_status() { return m_material->reset_status(); }

@@ -50,21 +50,25 @@ protected:
 
     uvec dof_encoding; /**< DoF encoding vector */
 
-    mat initial_stiffness; /**< initial stiffness matrix */
+    vector<weak_ptr<Node>> node_ptr; /**< node pointers */
 
-    vec trial_resistance; /**< resistance vector. */
-    mat trial_mass;       /**< mass matrix */
-    mat trial_damping;    /**< damping matrix */
-    mat trial_stiffness;  /**< stiffness matrix */
-    mat trial_geometry;   /**< geometry matrix */
+    mat initial_mass;      /**< mass matrix */
+    mat initial_damping;   /**< damping matrix */
+    mat initial_stiffness; /**< stiffness matrix */
+    mat initial_geometry;  /**< geometry matrix */
 
-    vec current_resistance;
+    mat trial_mass;      /**< mass matrix */
+    mat trial_damping;   /**< damping matrix */
+    mat trial_stiffness; /**< stiffness matrix */
+    mat trial_geometry;  /**< geometry matrix */
+
     mat current_mass;      /**< mass matrix */
     mat current_damping;   /**< damping matrix */
     mat current_stiffness; /**< stiffness matrix */
     mat current_geometry;  /**< geometry matrix */
 
-    vector<weak_ptr<Node>> node_ptr; /**< node pointers */
+    vec trial_resistance;   /**< resistance vector */
+    vec current_resistance; /**< resistance vector */
 public:
     const bool initialized = false;
 
@@ -96,15 +100,20 @@ public:
     const vector<weak_ptr<Node>>& get_node_ptr() const;
 
     virtual const vec& get_resistance() const;
+
     virtual const mat& get_mass() const;
     virtual const mat& get_damping() const;
     virtual const mat& get_stiffness() const;
-    virtual const mat& get_initial_stiffness() const;
     virtual const mat& get_geometry() const;
 
+    virtual const mat& get_initial_mass() const;
+    virtual const mat& get_initial_damping() const;
+    virtual const mat& get_initial_stiffness() const;
+    virtual const mat& get_initial_geometry() const;
+
     virtual int update_status() = 0;
-    virtual int commit_status() = 0;
     virtual int clear_status() = 0;
+    virtual int commit_status() = 0;
     virtual int reset_status() = 0;
 
     virtual vector<vec> record(const OutputType&);

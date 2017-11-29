@@ -40,7 +40,7 @@ class C3D20 final : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
-    static const unsigned c_node, c_dof;
+    static const unsigned c_node, c_dof, c_size;
 
     const bool reduced_scheme;
 

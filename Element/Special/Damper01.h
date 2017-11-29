@@ -31,7 +31,7 @@
 #include <Element/Element.h>
 
 class Damper01 : public Element {
-    static unsigned d_node, d_dof;
+    static unsigned d_node, d_dof, d_size;
 
     const double damping, alpha;
 

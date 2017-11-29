@@ -24,6 +24,7 @@
 
 const unsigned CP6::m_node = 6;
 const unsigned CP6::m_dof = 2;
+const unsigned CP6::m_size = m_dof * m_node;
 
 CP6::IntegrationPoint::IntegrationPoint(const vec& C, const double W, unique_ptr<Material>&& M, const mat& PNPXY)
     : coor(C)
@@ -61,9 +62,7 @@ void CP6::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(coor, 1. / 3., material_proto->get_copy(), shape::triangle(coor, 1) * inv_coor);
     }
 
-    initial_stiffness.zeros();
-
-    trial_mass.zeros();
+    initial_mass.zeros(m_size, m_size);
     auto t_density = material_proto->get_parameter();
     if(t_density != 0.) {
         t_density *= area * thickness;
@@ -71,17 +70,21 @@ void CP6::initialize(const shared_ptr<DomainBase>& D) {
             const vec n_int = shape::triangle(I.coor, 0) * inv_coor;
             const auto t_factor = t_density * I.weight;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += t_factor * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) initial_mass(m_dof * J, m_dof * K) += t_factor * n_int(J) * n_int(K);
         }
-        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
+        for(auto I = 0; I < m_size; I += m_dof) {
+            initial_mass(I + 1, I + 1) = initial_mass(I, I);
+            for(auto J = I + m_dof; J < m_size; J += m_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(J + 1, I + 1) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int CP6::update_status() {
     auto code = 0;
+
+    trial_stiffness.zeros(m_size, m_size);
+    trial_resistance.zeros(m_size);
 
     vec t_strain(3);
     for(const auto& I : int_pt) {
@@ -317,29 +320,24 @@ int CP6::update_status() {
     for(auto I = 0; I < 11; ++I)
         for(auto J = I + 1; J < 12; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
 
+    if(initial_stiffness.is_empty()) initial_stiffness = trial_stiffness;
+
     return 0;
 }
 
 int CP6::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int CP6::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int CP6::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

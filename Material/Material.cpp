@@ -17,7 +17,7 @@
 
 #include "Material.h"
 
-Material::Material(const unsigned& T, const unsigned& CT, const MaterialType& MT, const double& D)
+Material::Material(const unsigned T, const unsigned CT, const MaterialType MT, const double D)
     : Tag(T, CT)
     , density(D)
     , material_type(MT) {
@@ -103,30 +103,27 @@ int Material::clear_status() {
     if(!trial_stress.is_empty()) trial_stress.zeros();
     if(!trial_history.is_empty()) trial_history.zeros();
 
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    trial_stiffness = current_stiffness = initial_stiffness;
 
     return 0;
 }
 
 int Material::commit_status() {
-    current_stiffness = trial_stiffness;
-
     if(!trial_strain.is_empty()) current_strain = trial_strain;
     if(!trial_strain_rate.is_empty()) current_strain_rate = trial_strain_rate;
     if(!trial_stress.is_empty()) current_stress = trial_stress;
     if(!trial_history.is_empty()) current_history = trial_history;
+    if(!trial_stiffness.is_empty()) current_stiffness = trial_stiffness;
 
     return 0;
 }
 
 int Material::reset_status() {
-    trial_stiffness = current_stiffness;
-
     if(!trial_strain.is_empty()) trial_strain = current_strain;
     if(!trial_strain_rate.is_empty()) trial_strain_rate = current_strain_rate;
     if(!trial_stress.is_empty()) trial_stress = current_stress;
     if(!trial_history.is_empty()) trial_history = current_history;
+    if(!trial_stiffness.is_empty()) trial_stiffness = current_stiffness;
 
     return 0;
 }

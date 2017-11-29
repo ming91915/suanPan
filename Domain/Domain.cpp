@@ -767,7 +767,10 @@ void Domain::commit_status() const {
     auto& t_element_pool = element_pond.get();
 
     suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->commit_status(); });
-    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) { t_element->commit_status(); });
+    suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
+        t_element->Element::commit_status();
+        t_element->commit_status();
+    });
 }
 
 void Domain::clear_status() const {
@@ -778,8 +781,8 @@ void Domain::clear_status() const {
 
     suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->clear_status(); });
     suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
+        t_element->Element::clear_status();
         t_element->clear_status();
-        // t_element->update_status();
     });
 }
 
@@ -791,8 +794,8 @@ void Domain::reset_status() const {
 
     suanpan_for_each(t_node_pool.cbegin(), t_node_pool.cend(), [](const shared_ptr<Node>& t_node) { t_node->reset_status(); });
     suanpan_for_each(t_element_pool.cbegin(), t_element_pool.cend(), [](const shared_ptr<Element>& t_element) {
+        t_element->Element::reset_status();
         t_element->reset_status();
-        // t_element->update_status();
     });
 }
 

@@ -25,6 +25,7 @@
 
 const unsigned CP4::m_node = 4;
 const unsigned CP4::m_dof = 2;
+const unsigned CP4::m_size = m_dof * m_node;
 
 CP4::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
     : coor(C)
@@ -33,7 +34,7 @@ CP4::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doub
     , m_material(move(M))
     , pn_pxy(PNPXY) {}
 
-CP4::CP4(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
+CP4::CP4(const unsigned T, const uvec& N, const unsigned M, const double TH, const bool R, const bool F)
     : MaterialElement(T, ET_CP4, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
     , reduced_scheme(R) {}
@@ -46,7 +47,7 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
     }
 
     if(reduced_scheme) {
-        hourglassing.zeros(m_node * m_dof);
+        hourglassing.zeros(m_size);
         const auto area = .5 * ((ele_coor(2, 0) - ele_coor(0, 0)) * (ele_coor(3, 1) - ele_coor(1, 1)) + (ele_coor(1, 0) - ele_coor(3, 0)) * (ele_coor(2, 1) - ele_coor(0, 1)));
         vec b1(4), b2(4);
         b1(0) = ele_coor(1, 1) - ele_coor(3, 1);
@@ -80,30 +81,29 @@ void CP4::initialize(const shared_ptr<DomainBase>& D) {
 
     if(nlgeom)
         for(auto&& I : int_pt) {
-            I.BN.zeros(3, m_node * m_dof);
-            I.BG.zeros(m_dof * m_dof, m_node * m_dof);
+            I.BN.zeros(3, m_size);
+            I.BG.zeros(m_dof * m_dof, m_size);
             for(auto J = 0; J < m_node; ++J) {
                 I.BG(0, m_dof * J) = I.BG(2, m_dof * J + 1) = I.pn_pxy(0, J);
                 I.BG(1, m_dof * J) = I.BG(3, m_dof * J + 1) = I.pn_pxy(1, J);
             }
         }
 
-    initial_stiffness.zeros();
-
-    trial_mass.zeros();
+    initial_mass.zeros(m_size, m_size);
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::quad(I.coor, 0);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) initial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
+            initial_mass(I + 1, I + 1) = initial_mass(I, I);
+            for(auto J = I + m_dof; J < m_size; J += m_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(J + 1, I + 1) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int CP4::update_status() {
@@ -116,16 +116,15 @@ int CP4::update_status() {
         for(auto J = 0; J < m_dof; ++J) ele_disp(I, J) = t_disp(J);
     }
 
-    if(nlgeom) trial_geometry.zeros();
+    if(nlgeom) trial_geometry.zeros(m_size, m_size);
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
+    trial_stiffness.zeros(m_size, m_size);
+    trial_resistance.zeros(m_size);
     for(auto& I : int_pt) {
         if(nlgeom) {
             mat gradient = I.pn_pxy * ele_disp;
-            gradient(0, 0) += 1.;
-            gradient(1, 1) += 1.;
-            mat t_mat = gradient * gradient.t() / 2.;
+            gradient(0, 0) += 1., gradient(1, 1) += 1.;
+            mat t_mat = .5 * gradient * gradient.t();
             t_strain(0) = t_mat(0, 0) - .5;
             t_strain(1) = t_mat(1, 1) - .5;
             t_strain(2) = t_mat(0, 1) + t_mat(1, 0);
@@ -309,29 +308,24 @@ int CP4::update_status() {
         trial_resistance += hourglassing * vectorise(ele_disp.t());
     }
 
+    if(initial_stiffness.is_empty()) initial_stiffness = trial_stiffness;
+
     return code;
 }
 
 int CP4::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->commit_status();
     return code;
 }
 
 int CP4::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->clear_status();
     return code;
 }
 
 int CP4::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.m_material->reset_status();
     return code;

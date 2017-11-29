@@ -40,18 +40,18 @@ class C3D8 final : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&, const mat&);
     };
 
-    static const unsigned c_node, c_dof;
+    static const unsigned c_node, c_dof, c_size;
 
     const bool reduced_scheme;
 
     vector<IntegrationPoint> int_pt;
 
 public:
-    C3D8(const unsigned&,     // tag
-        const uvec&,          // node tags
-        const unsigned&,      // material tag
-        const bool& = false,  // reduced integration
-        const bool& = false); // nonlinear geometry switch
+    C3D8(const unsigned,     // tag
+        const uvec&,         // node tags
+        const unsigned,      // material tag
+        const bool = false,  // reduced integration
+        const bool = false); // nonlinear geometry switch
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

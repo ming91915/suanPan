@@ -68,23 +68,6 @@ void Element::initialize(const shared_ptr<DomainBase>& D) {
 
     dof_encoding.set_size(total_dof);
 
-    initial_stiffness.set_size(total_dof, total_dof);
-
-    trial_resistance.set_size(total_dof);
-    trial_mass.set_size(total_dof, total_dof);
-    trial_damping.set_size(total_dof, total_dof);
-    trial_stiffness.set_size(total_dof, total_dof);
-
-    current_resistance.set_size(total_dof);
-    current_mass.set_size(total_dof, total_dof);
-    current_damping.set_size(total_dof, total_dof);
-    current_stiffness.set_size(total_dof, total_dof);
-
-    if(nlgeom) {
-        current_geometry.set_size(total_dof, total_dof);
-        trial_geometry.set_size(total_dof, total_dof);
-    }
-
     // check if nodes are still valid
     node_ptr.clear();
     node_ptr.reserve(num_node);
@@ -146,16 +129,48 @@ const mat& Element::get_damping() const { return trial_damping; }
 
 const mat& Element::get_stiffness() const { return trial_stiffness; }
 
+const mat& Element::get_geometry() const { return trial_geometry; }
+
+const mat& Element::get_initial_mass() const { return initial_mass; }
+
+const mat& Element::get_initial_damping() const { return initial_damping; }
+
 const mat& Element::get_initial_stiffness() const { return initial_stiffness; }
 
-const mat& Element::get_geometry() const { return trial_geometry; }
+const mat& Element::get_initial_geometry() const { return initial_geometry; }
 
 int Element::update_status() { throw invalid_argument("hidden method called.\n"); }
 
-int Element::commit_status() { throw invalid_argument("hidden method called.\n"); }
+int Element::clear_status() {
+    if(!initial_mass.is_empty()) trial_mass = current_mass = initial_mass;
+    if(!initial_damping.is_empty()) trial_damping = current_damping = initial_damping;
+    if(!initial_stiffness.is_empty()) trial_stiffness = current_stiffness = initial_stiffness;
+    if(!trial_geometry.is_empty()) trial_geometry = current_geometry = initial_geometry;
 
-int Element::clear_status() { throw invalid_argument("hidden method called.\n"); }
+    if(!trial_resistance.is_empty()) trial_resistance.zeros();
+    if(!current_resistance.is_empty()) current_resistance.zeros();
 
-int Element::reset_status() { throw invalid_argument("hidden method called.\n"); }
+    return 0;
+}
+
+int Element::commit_status() {
+    if(!trial_mass.is_empty()) current_mass = trial_mass;
+    if(!trial_damping.is_empty()) current_damping = trial_damping;
+    if(!trial_stiffness.is_empty()) current_stiffness = trial_stiffness;
+    if(!trial_geometry.is_empty()) current_geometry = trial_geometry;
+    if(!trial_resistance.is_empty()) current_resistance = trial_resistance;
+
+    return 0;
+}
+
+int Element::reset_status() {
+    if(!trial_mass.is_empty()) trial_mass = current_mass;
+    if(!trial_damping.is_empty()) trial_damping = current_damping;
+    if(!trial_stiffness.is_empty()) trial_stiffness = current_stiffness;
+    if(!trial_geometry.is_empty()) trial_geometry = current_geometry;
+    if(!trial_resistance.is_empty()) trial_resistance = current_resistance;
+
+    return 0;
+}
 
 vector<vec> Element::record(const OutputType&) { return {}; }

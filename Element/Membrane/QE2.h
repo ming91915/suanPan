@@ -43,7 +43,7 @@ class QE2 : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
-    static const unsigned m_node, m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     static mat mapping;
 
@@ -71,8 +71,8 @@ public:
 
     int update_status() override;
 
-    int commit_status() override;
     int clear_status() override;
+    int commit_status() override;
     int reset_status() override;
 
     vector<vec> record(const OutputType&) override;

@@ -23,9 +23,10 @@
 
 const unsigned CP3::m_node = 3;
 const unsigned CP3::m_dof = 2;
+const unsigned CP3::m_size = m_dof * m_node;
 
 mat CP3::assemble_stiffness(const mat& m_stiff) {
-    mat t_stiff(6, 6);
+    mat t_stiff(m_size, m_size);
 
     const auto t_factor = area * thickness;
 
@@ -120,7 +121,7 @@ mat CP3::assemble_stiffness(const mat& m_stiff) {
     return t_stiff;
 }
 
-CP3::CP3(const unsigned& T, const uvec& NT, const unsigned& MT, const double& TH)
+CP3::CP3(const unsigned T, const uvec& NT, const unsigned MT, const double TH)
     : MaterialElement(T, ET_CP3, m_node, m_dof, NT, uvec{ MT }, false)
     , thickness(TH) {}
 
@@ -144,18 +145,19 @@ void CP3::initialize(const shared_ptr<DomainBase>& D) {
 
     initial_stiffness = assemble_stiffness(m_material->get_initial_stiffness());
 
-    trial_mass.zeros();
+    initial_mass.zeros(m_size, m_size);
     auto t_density = m_material->get_parameter();
     if(t_density != 0.) {
         t_density *= area * thickness;
         const vec n = mean(ele_coor) * inv_coor;
         for(auto I = 0; I < m_node; ++I)
-            for(auto J = I; J < m_node; ++J) trial_mass(m_dof * I, m_dof * J) += t_density * n(I) * n(J);
+            for(auto J = I; J < m_node; ++J) initial_mass(m_dof * I, m_dof * J) += t_density * n(I) * n(J);
         for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
+            initial_mass(I + 1, I + 1) = initial_mass(I, I);
+            for(auto J = I + m_dof; J < m_size; J += m_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(J + 1, I + 1) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int CP3::update_status() {
@@ -185,6 +187,7 @@ int CP3::update_status() {
     const auto S2 = t_factor * t_stress(1);
     const auto S3 = t_factor * t_stress(2);
 
+    trial_resistance.set_size(m_size);
     trial_resistance(0) = NX1 * S1 + NY1 * S3;
     trial_resistance(1) = NX1 * S3 + NY1 * S2;
     trial_resistance(2) = NX2 * S1 + NY2 * S3;
@@ -195,23 +198,10 @@ int CP3::update_status() {
     return 0;
 }
 
-int CP3::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
-    return m_material->commit_status();
-}
+int CP3::commit_status() { return m_material->commit_status(); }
 
-int CP3::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
-    return m_material->clear_status();
-}
+int CP3::clear_status() { return m_material->clear_status(); }
 
-int CP3::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
-    return m_material->reset_status();
-}
+int CP3::reset_status() { return m_material->reset_status(); }
 
-void CP3::print() { suanpan_info("CPS3 element.\n"); }
+void CP3::print() { suanpan_info("CP3 element.\n"); }

@@ -32,7 +32,7 @@
 #include <Element/MaterialElement.h>
 
 class CP6 final : public MaterialElement {
-    static const unsigned m_node, m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness; /**< thickness */
 

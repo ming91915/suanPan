@@ -18,8 +18,8 @@
  * @class Material
  * @brief A Material abstract base class.
  * @author T
- * @date 27/07/2017
- * @version 0.1.0
+ * @date 29/11/2017
+ * @version 0.1.1
  * @file Material.h
  * @addtogroup Material
  * @{
@@ -68,7 +68,11 @@ public:
 
     const MaterialType material_type;
 
-    explicit Material(const unsigned& = 0, const unsigned& = CT_MATERIAL, const MaterialType& = MaterialType::D1, const double& = 0.);
+    explicit Material(const unsigned = 0,      // tag
+        const unsigned = CT_MATERIAL,          // class tag
+        const MaterialType = MaterialType::D1, // material type
+        const double = 0.                      // density
+    );
 
     virtual ~Material();
 

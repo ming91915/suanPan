@@ -25,6 +25,7 @@
 
 const unsigned CP8::m_node = 8;
 const unsigned CP8::m_dof = 2;
+const unsigned CP8::m_size = m_dof * m_node;
 
 CP8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
     : coor(C)
@@ -33,7 +34,7 @@ CP8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const doub
     , m_material(move(M))
     , pn_pxy(PNPXY) {}
 
-CP8::CP8(const unsigned& T, const uvec& N, const unsigned& M, const double& TH, const bool& R, const bool& F)
+CP8::CP8(const unsigned T, const uvec& N, const unsigned M, const double TH, const bool R, const bool F)
     : MaterialElement(T, ET_CP8, m_node, m_dof, N, uvec{ M }, F)
     , thickness(TH)
     , reduced_scheme(R) {}
@@ -51,8 +52,7 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
 
     const IntegrationPlan plan(2, 2, reduced_scheme ? IntegrationType::GAUSS : IntegrationType::IRONS);
 
-    int_pt.clear();
-    int_pt.reserve(plan.n_rows);
+    int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
         const vec t_vec{ plan(I, 0), plan(I, 1) };
         const auto pn = shape::quad(t_vec, 1, 8);
@@ -60,32 +60,31 @@ void CP8::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(t_vec, plan(I, 2), det(jacob), material_proto->get_copy(), solve(jacob, pn));
     }
 
-    initial_stiffness.zeros();
-
-    trial_mass.zeros();
+    initial_mass.zeros(m_size, m_size);
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::quad(I.coor, 0, 8);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight * thickness;
             for(auto J = 0; J < m_node; ++J)
-                for(auto K = J; K < m_node; ++K) trial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < m_node; ++K) initial_mass(m_dof * J, m_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
 
-        for(auto I = 0; I < m_node * m_dof; I += m_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I, I);
-            for(auto J = I + m_dof; J < m_node * m_dof; J += m_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(J + 1, I + 1) = trial_mass(I, J);
+        for(auto I = 0; I < m_size; I += m_dof) {
+            initial_mass(I + 1, I + 1) = initial_mass(I, I);
+            for(auto J = I + m_dof; J < m_size; J += m_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(J + 1, I + 1) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int CP8::update_status() {
     auto code = 0;
 
-    vec t_strain(3);
+    trial_stiffness.zeros(m_size, m_size);
+    trial_resistance.zeros(m_size);
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
+    vec t_strain(3);
     for(const auto& I : int_pt) {
         t_strain.zeros();
         for(auto J = 0; J < m_node; ++J) {
@@ -415,6 +414,8 @@ int CP8::update_status() {
 
     for(auto I = 0; I < 15; ++I)
         for(auto J = I + 1; J < 16; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
+
+    if(initial_stiffness.is_empty()) initial_stiffness = trial_stiffness;
 
     return code;
 }

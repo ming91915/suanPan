@@ -41,7 +41,7 @@ class CP4 final : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&, const mat&);
     };
 
-    static const unsigned m_node, m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness;
 
@@ -52,12 +52,12 @@ class CP4 final : public MaterialElement {
     mat hourglassing;
 
 public:
-    CP4(const unsigned&,      // tag
-        const uvec&,          // node tags
-        const unsigned&,      // material tag
-        const double& = 1.,   // thickness
-        const bool& = false,  // reduced integration
-        const bool& = false); // nonlinear geometry switch
+    CP4(const unsigned,      // tag
+        const uvec&,         // node tags
+        const unsigned,      // material tag
+        const double = 1.,   // thickness
+        const bool = false,  // reduced integration
+        const bool = false); // nonlinear geometry switch
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

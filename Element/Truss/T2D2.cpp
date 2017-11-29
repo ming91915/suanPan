@@ -22,8 +22,9 @@
 
 const unsigned T2D2::t_node = 2;
 const unsigned T2D2::t_dof = 2;
+const unsigned T2D2::t_size = t_dof * t_node;
 
-T2D2::T2D2(const unsigned& T, const uvec& N, const unsigned& M, const double& A, const bool& F, const bool& UA, const bool& LS)
+T2D2::T2D2(const unsigned T, const uvec& N, const unsigned M, const double A, const bool F, const bool UA, const bool LS)
     : MaterialElement(T, ET_T2D2, t_node, t_dof, N, uvec{ M }, F)
     , area(A)
     , update_area(UA)
@@ -48,7 +49,7 @@ void T2D2::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto tmp_d = area / length * as_scalar(t_material->get_initial_stiffness());
 
-    initial_stiffness.zeros();
+    initial_stiffness.zeros(t_size, t_size);
     initial_stiffness(0, 2) = initial_stiffness(2, 0) = -(initial_stiffness(0, 0) = initial_stiffness(2, 2) = tmp_d * direction_cosine(0) * direction_cosine(0));
     initial_stiffness(1, 3) = initial_stiffness(3, 1) = -(initial_stiffness(1, 1) = initial_stiffness(3, 3) = tmp_d * direction_cosine(1) * direction_cosine(1));
     initial_stiffness(0, 3) = initial_stiffness(1, 2) = initial_stiffness(2, 1) = initial_stiffness(3, 0) = -(initial_stiffness(0, 1) = initial_stiffness(1, 0) = initial_stiffness(2, 3) = initial_stiffness(3, 2) = tmp_d * direction_cosine(0) * direction_cosine(1));
@@ -86,15 +87,15 @@ int T2D2::update_status() {
 
     t_material->update_trial_status(trial_strain);
 
-    const auto tmp_d = new_area / new_length * as_scalar(t_material->get_stiffness());
+    const auto t_factor = new_area / new_length * as_scalar(t_material->get_stiffness());
 
-    trial_stiffness.zeros();
-    trial_stiffness(0, 2) = -(trial_stiffness(0, 0) = trial_stiffness(2, 2) = tmp_d * direction_cosine(0) * direction_cosine(0));
-    trial_stiffness(1, 3) = -(trial_stiffness(1, 1) = trial_stiffness(3, 3) = tmp_d * direction_cosine(1) * direction_cosine(1));
-    trial_stiffness(0, 3) = trial_stiffness(1, 2) = -(trial_stiffness(0, 1) = trial_stiffness(2, 3) = tmp_d * direction_cosine(0) * direction_cosine(1));
+    trial_stiffness.zeros(t_size, t_size);
+    trial_stiffness(0, 2) = -(trial_stiffness(0, 0) = trial_stiffness(2, 2) = t_factor * direction_cosine(0) * direction_cosine(0));
+    trial_stiffness(1, 3) = -(trial_stiffness(1, 1) = trial_stiffness(3, 3) = t_factor * direction_cosine(1) * direction_cosine(1));
+    trial_stiffness(0, 3) = trial_stiffness(1, 2) = -(trial_stiffness(0, 1) = trial_stiffness(2, 3) = t_factor * direction_cosine(0) * direction_cosine(1));
 
     if(nlgeom) {
-        trial_geometry.zeros();
+        trial_geometry.zeros(t_size, t_size);
         trial_geometry(0, 2) = trial_geometry(1, 3) = -(trial_geometry(0, 0) = trial_geometry(1, 1) = trial_geometry(2, 2) = trial_geometry(3, 3) = new_area / new_length * as_scalar(t_material->get_stress()));
         trial_stiffness += trial_geometry;
     }
@@ -102,34 +103,19 @@ int T2D2::update_status() {
     for(auto I = 0; I < 3; ++I)
         for(auto J = I + 1; J < 4; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
 
-    trial_resistance.zeros();
+    trial_resistance.zeros(t_size);
     const auto tmp_f = new_area * as_scalar(t_material->get_stress());
-    trial_resistance(2) = tmp_f * direction_cosine(0);
-    trial_resistance(3) = tmp_f * direction_cosine(1);
-    trial_resistance(0) = -trial_resistance(2);
-    trial_resistance(1) = -trial_resistance(3);
+    trial_resistance(0) = -(trial_resistance(2) = tmp_f * direction_cosine(0));
+    trial_resistance(1) = -(trial_resistance(3) = tmp_f * direction_cosine(1));
 
     return 0;
 }
 
-int T2D2::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
-    return t_material->commit_status();
-}
+int T2D2::commit_status() { return t_material->commit_status(); }
 
-int T2D2::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
-    return t_material->clear_status();
-}
+int T2D2::clear_status() { return t_material->clear_status(); }
 
-int T2D2::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
-    return t_material->reset_status();
-}
+int T2D2::reset_status() { return t_material->reset_status(); }
 
 void T2D2::print() {
     suanpan_info("2-D truss element with ");

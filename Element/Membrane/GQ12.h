@@ -45,15 +45,14 @@ class GQ12 : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness;
 
     vector<IntegrationPoint> int_pt;
 
 public:
-    GQ12(const unsigned&, const uvec&, const unsigned&, const double& = 1.);
+    GQ12(const unsigned, const uvec&, const unsigned, const double = 1.);
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

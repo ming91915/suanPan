@@ -122,25 +122,18 @@ int B21H::update_status() {
 }
 
 int B21H::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->commit_status();
     return code;
 }
 
 int B21H::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->clear_status();
     return code;
 }
 
 int B21H::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.b_section->reset_status();
     return code;

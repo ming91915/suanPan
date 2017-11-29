@@ -40,8 +40,7 @@ class CP8 final : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&, const mat&);
     };
 
-    static const unsigned m_node;
-    static const unsigned m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness;
 
@@ -50,12 +49,12 @@ class CP8 final : public MaterialElement {
     vector<IntegrationPoint> int_pt;
 
 public:
-    CP8(const unsigned&,      // tag
-        const uvec&,          // node tags
-        const unsigned&,      // material tag
-        const double& = 1.,   // thickness
-        const bool& = false,  // reduced integration
-        const bool& = false); // nonlinear geometry switch
+    CP8(const unsigned,      // tag
+        const uvec&,         // node tags
+        const unsigned,      // material tag
+        const double = 1.,   // thickness
+        const bool = false,  // reduced integration
+        const bool = false); // nonlinear geometry switch
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

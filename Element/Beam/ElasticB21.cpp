@@ -23,6 +23,7 @@
 
 const unsigned ElasticB21::b_node = 2;
 const unsigned ElasticB21::b_dof = 3;
+const unsigned ElasticB21::b_size = b_dof * b_node;
 
 ElasticB21::ElasticB21(const unsigned& T, const uvec& N, const double& A, const double& I, const unsigned& M, const bool& F)
     : MaterialElement(T, ET_ELASTICB21, b_node, b_dof, N, uvec{ M }, F)
@@ -67,7 +68,7 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
     initial_stiffness = strain_mat.t() * local_stiff * strain_mat;
 
     // mass
-    trial_mass.zeros();
+    initial_mass.zeros(b_size, b_size);
     const auto density = b_material->get_parameter(ParameterType::DENSITY);
     if(density != 0.) {
         mat trans(6, 6, fill::zeros);
@@ -75,16 +76,17 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
         trans(0, 0) = trans(1, 1) = trans(3, 3) = trans(4, 4) = direction_cosine(0);
         trans(1, 0) = trans(4, 3) = -(trans(0, 1) = trans(3, 4) = direction_cosine(1));
 
-        trial_mass(1, 1) = trial_mass(4, 4) = 156.;
-        trial_mass(1, 4) = trial_mass(4, 1) = 54.;
-        trial_mass(4, 5) = trial_mass(5, 4) = -(trial_mass(2, 1) = trial_mass(1, 2) = 22. * length);
-        trial_mass(2, 4) = trial_mass(4, 2) = -(trial_mass(5, 1) = trial_mass(1, 5) = -13. * length);
-        trial_mass(5, 2) = trial_mass(2, 5) = -.75 * (trial_mass(5, 5) = trial_mass(2, 2) = 4. * length * length);
-        trial_mass(3, 3) = trial_mass(0, 0) = 2. * (trial_mass(3, 0) = trial_mass(0, 3) = 140.);
-        trial_mass *= density * area * length / 420.;
+        initial_mass(1, 1) = initial_mass(4, 4) = 156.;
+        initial_mass(1, 4) = initial_mass(4, 1) = 54.;
+        initial_mass(4, 5) = initial_mass(5, 4) = -(initial_mass(2, 1) = initial_mass(1, 2) = 22. * length);
+        initial_mass(2, 4) = initial_mass(4, 2) = -(initial_mass(5, 1) = initial_mass(1, 5) = -13. * length);
+        initial_mass(5, 2) = initial_mass(2, 5) = -.75 * (initial_mass(5, 5) = initial_mass(2, 2) = 4. * length * length);
+        initial_mass(3, 3) = initial_mass(0, 0) = 2. * (initial_mass(3, 0) = initial_mass(0, 3) = 140.);
+        initial_mass *= density * area * length / 420.;
 
-        trial_mass = trans.t() * trial_mass * trans;
+        initial_mass = trans.t() * initial_mass * trans;
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int ElasticB21::update_status() {
@@ -123,8 +125,8 @@ int ElasticB21::update_status() {
 
         local_deformation(2) = atan((direction_cosine(0) * tmp_a - direction_cosine(1) * tmp_b) / (direction_cosine(0) * tmp_b + direction_cosine(1) * tmp_a));
     } else {
-        vec t_disp(6);
-        for(auto I = 0; I < 3; ++I) t_disp(I) = disp_i(I), t_disp(I + 3) = disp_j(I);
+        vec t_disp(b_size);
+        for(auto I = 0; I < b_dof; ++I) t_disp(I) = disp_i(I), t_disp(I + b_dof) = disp_j(I);
         local_deformation = strain_mat * t_disp;
     }
 
@@ -134,7 +136,7 @@ int ElasticB21::update_status() {
     trial_resistance = strain_mat.t() * local_force;
 
     if(nlgeom) {
-        vec R(6, fill::zeros), Z(6, fill::zeros);
+        vec R(b_size, fill::zeros), Z(b_size, fill::zeros);
         R(0) = Z(1) = -(R(3) = Z(4) = direction_cosine(0));
         R(1) = Z(3) = -(R(4) = Z(0) = direction_cosine(1));
 
@@ -147,23 +149,10 @@ int ElasticB21::update_status() {
     return 0;
 }
 
-int ElasticB21::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
-    return b_material->commit_status();
-}
+int ElasticB21::commit_status() { return b_material->commit_status(); }
 
-int ElasticB21::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
-    return b_material->clear_status();
-}
+int ElasticB21::clear_status() { return b_material->clear_status(); }
 
-int ElasticB21::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
-    return b_material->reset_status();
-}
+int ElasticB21::reset_status() { return b_material->reset_status(); }
 
 void ElasticB21::print() { suanpan_info("An elastic B21 element%s", nlgeom ? " with corotational formulation.\n" : ".\n"); }

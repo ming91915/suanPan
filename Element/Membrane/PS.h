@@ -40,7 +40,7 @@ class PS final : public MaterialElement {
         IntegrationPoint(const vec&, const double, const double, unique_ptr<Material>&&);
     };
 
-    static const unsigned m_node, m_dof;
+    static const unsigned m_node, m_dof, m_size;
 
     const double thickness;
 

@@ -35,8 +35,7 @@
 #include <Element/MaterialElement.h>
 
 class T3D2 final : public MaterialElement {
-    static const unsigned t_node;
-    static const unsigned t_dof;
+    static const unsigned t_node, t_dof, t_size;
 
     double length = 0.;   /**< length of the element */
     double area = 0.;     /**< area of the cross section */
@@ -47,13 +46,13 @@ class T3D2 final : public MaterialElement {
     const bool update_area; /**<  */
     const bool log_strain;  /**<  */
 public:
-    T3D2(const unsigned&,    // tag
-        const uvec&,         // node tag
-        const unsigned&,     // material tag
-        const double&,       // area
-        const bool& = false, // nonlinear geometry switch
-        const bool& = true,  // update area swicth
-        const bool& = true); // log strain swicth
+    T3D2(const unsigned,    // tag
+        const uvec&,        // node tag
+        const unsigned,     // material tag
+        const double,       // area
+        const bool = false, // nonlinear geometry switch
+        const bool = true,  // update area swicth
+        const bool = true); // log strain swicth
 
     void initialize(const shared_ptr<DomainBase>&) override;
 

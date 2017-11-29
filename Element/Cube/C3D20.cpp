@@ -24,13 +24,14 @@
 
 const unsigned C3D20::c_node = 20;
 const unsigned C3D20::c_dof = 3;
+const unsigned C3D20::c_size = c_dof * c_node;
 
 C3D20::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M)
     : coor(C)
     , weight(W)
     , jacob_det(J)
     , c_material(move(M))
-    , strain_mat(6, c_node * c_dof, fill::zeros) {}
+    , strain_mat(6, c_size, fill::zeros) {}
 
 C3D20::C3D20(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, const bool& F)
     : MaterialElement(T, ET_C3D20, c_node, c_dof, N, uvec{ M }, F)
@@ -61,36 +62,37 @@ void C3D20::initialize(const shared_ptr<DomainBase>& D) {
         }
     }
 
-    initial_stiffness.zeros();
+    initial_stiffness.zeros(c_size, c_size);
     for(const auto& I : int_pt) initial_stiffness += I.strain_mat.t() * I.c_material->get_stiffness() * I.strain_mat * I.jacob_det * I.weight;
 
-    trial_mass.zeros();
+    initial_mass.zeros(c_size, c_size);
     const auto tmp_density = material_proto->get_parameter();
     if(tmp_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::cube(I.coor, 0, 20);
             const auto tmp_a = tmp_density * I.jacob_det * I.weight;
             for(auto J = 0; J < c_node; ++J)
-                for(auto K = J; K < c_node; ++K) trial_mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < c_node; ++K) initial_mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
-        for(auto I = 0; I < c_node * c_dof; I += c_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I + 2, I + 2) = trial_mass(I, I);
-            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(I + 2, J + 2) = trial_mass(J + 1, I + 1) = trial_mass(J + 2, I + 2) = trial_mass(I, J);
+        for(auto I = 0; I < c_size; I += c_dof) {
+            initial_mass(I + 1, I + 1) = initial_mass(I + 2, I + 2) = initial_mass(I, I);
+            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(I + 2, J + 2) = initial_mass(J + 1, I + 1) = initial_mass(J + 2, I + 2) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int C3D20::update_status() {
     auto code = 0, idx = 0;
 
-    vec t_disp(60);
+    vec t_disp(c_size);
     for(const auto& I : node_ptr) {
         const auto& tmp_disp = I.lock()->get_trial_displacement();
         for(auto J = 0; J < c_dof; ++J) t_disp(idx++) = tmp_disp(J);
     }
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
+    trial_stiffness.zeros(c_size, c_size);
+    trial_resistance.zeros(c_size);
     for(const auto& I : int_pt) {
         code += I.c_material->update_trial_status(I.strain_mat * t_disp);
         const mat t_factor = I.strain_mat.t() * I.jacob_det * I.weight;
@@ -102,25 +104,18 @@ int C3D20::update_status() {
 }
 
 int C3D20::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->commit_status();
     return code;
 }
 
 int C3D20::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->clear_status();
     return code;
 }
 
 int C3D20::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->reset_status();
     return code;

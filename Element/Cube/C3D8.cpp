@@ -24,6 +24,7 @@
 
 const unsigned C3D8::c_node = 8;
 const unsigned C3D8::c_dof = 3;
+const unsigned C3D8::c_size = c_dof * c_node;
 
 C3D8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const double J, unique_ptr<Material>&& M, const mat& PNPXY)
     : coor(C)
@@ -32,7 +33,7 @@ C3D8::IntegrationPoint::IntegrationPoint(const vec& C, const double W, const dou
     , c_material(move(M))
     , pn_pxy(PNPXY) {}
 
-C3D8::C3D8(const unsigned& T, const uvec& N, const unsigned& M, const bool& R, const bool& F)
+C3D8::C3D8(const unsigned T, const uvec& N, const unsigned M, const bool R, const bool F)
     : MaterialElement(T, ET_C3D8, c_node, c_dof, N, uvec{ M }, F)
     , reduced_scheme(R) {}
 
@@ -45,7 +46,7 @@ void C3D8::initialize(const shared_ptr<DomainBase>& D) {
 
     const auto& material_proto = D->get_material(unsigned(material_tag(0)));
 
-    const IntegrationPlan plan(3, reduced_scheme ? 1 : 2, IntegrationType::GAUSS);
+    const IntegrationPlan plan(3, reduced_scheme ? 1 : 2, reduced_scheme ? IntegrationType::GAUSS : IntegrationType::IRONS);
 
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
@@ -55,22 +56,21 @@ void C3D8::initialize(const shared_ptr<DomainBase>& D) {
         int_pt.emplace_back(t_vec, plan(I, c_dof), det(jacob), material_proto->get_copy(), solve(jacob, pn));
     }
 
-    initial_stiffness.zeros();
-
-    trial_mass.zeros();
+    initial_mass.zeros(c_size, c_size);
     const auto t_density = material_proto->get_parameter();
     if(t_density != 0.) {
         for(const auto& I : int_pt) {
             const auto n_int = shape::cube(I.coor, 0);
             const auto tmp_a = t_density * I.jacob_det * I.weight;
             for(auto J = 0; J < c_node; ++J)
-                for(auto K = J; K < c_node; ++K) trial_mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
+                for(auto K = J; K < c_node; ++K) initial_mass(c_dof * J, c_dof * K) += tmp_a * n_int(J) * n_int(K);
         }
-        for(auto I = 0; I < c_node * c_dof; I += c_dof) {
-            trial_mass(I + 1, I + 1) = trial_mass(I + 2, I + 2) = trial_mass(I, I);
-            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) trial_mass(J, I) = trial_mass(I + 1, J + 1) = trial_mass(I + 2, J + 2) = trial_mass(J + 1, I + 1) = trial_mass(J + 2, I + 2) = trial_mass(I, J);
+        for(auto I = 0; I < c_size; I += c_dof) {
+            initial_mass(I + 1, I + 1) = initial_mass(I + 2, I + 2) = initial_mass(I, I);
+            for(auto J = I + c_dof; J < c_node * c_dof; J += c_dof) initial_mass(J, I) = initial_mass(I + 1, J + 1) = initial_mass(I + 2, J + 2) = initial_mass(J + 1, I + 1) = initial_mass(J + 2, I + 2) = initial_mass(I, J);
         }
     }
+    trial_mass = current_mass = initial_mass;
 }
 
 int C3D8::update_status() {
@@ -78,8 +78,8 @@ int C3D8::update_status() {
 
     vec t_strain(6);
 
-    trial_stiffness.zeros();
-    trial_resistance.zeros();
+    trial_stiffness.zeros(c_size, c_size);
+    trial_resistance.zeros(c_size);
     for(const auto& I : int_pt) {
         t_strain.zeros();
         for(auto J = 0; J < c_node; ++J) {
@@ -978,29 +978,24 @@ int C3D8::update_status() {
     for(auto I = 0; I < 23; ++I)
         for(auto J = I + 1; J < 24; ++J) trial_stiffness(J, I) = trial_stiffness(I, J);
 
+    if(initial_stiffness.is_empty()) initial_stiffness = trial_stiffness;
+
     return code;
 }
 
 int C3D8::commit_status() {
-    current_stiffness = trial_stiffness;
-    current_resistance = trial_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->commit_status();
     return code;
 }
 
 int C3D8::clear_status() {
-    current_stiffness = trial_stiffness = initial_stiffness;
-    current_resistance.zeros();
-    trial_resistance.zeros();
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->clear_status();
     return code;
 }
 
 int C3D8::reset_status() {
-    trial_stiffness = current_stiffness;
-    trial_resistance = current_resistance;
     auto code = 0;
     for(const auto& I : int_pt) code += I.c_material->reset_status();
     return code;

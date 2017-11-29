@@ -21,6 +21,7 @@
 
 unsigned Damper01::d_node = 2;
 unsigned Damper01::d_dof = 2;
+unsigned Damper01::d_size = d_dof * d_node;
 
 Damper01::Damper01(const unsigned T, const uvec& NT, const double C, const double A)
     : Element(T, ET_DAMPER01, d_node, d_dof, NT)
@@ -76,7 +77,7 @@ int Damper01::update_status() {
 
     const auto t_resistance = -suanpan::sign(t_velocity) * damping * pow(fabs(t_velocity), alpha);
 
-    trial_resistance.zeros();
+    trial_resistance.zeros(d_size);
     trial_resistance(0) = -(trial_resistance(2) = direction_cosine(0) * t_resistance);
     trial_resistance(1) = -(trial_resistance(3) = direction_cosine(1) * t_resistance);
 
