@@ -15,22 +15,22 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "ElasticB21.h"
+#include "EB21.h"
 #include <Domain/DomainBase.h>
 #include <Domain/Node.h>
 #include <Material/Material1D/Material1D.h>
 #include <Toolbox/tensorToolbox.h>
 
-const unsigned ElasticB21::b_node = 2;
-const unsigned ElasticB21::b_dof = 3;
-const unsigned ElasticB21::b_size = b_dof * b_node;
+const unsigned EB21::b_node = 2;
+const unsigned EB21::b_dof = 3;
+const unsigned EB21::b_size = b_dof * b_node;
 
-ElasticB21::ElasticB21(const unsigned& T, const uvec& N, const double& A, const double& I, const unsigned& M, const bool& F)
+EB21::EB21(const unsigned T, const uvec& N, const double A, const double I, const unsigned M, const bool F)
     : MaterialElement(T, ET_ELASTICB21, b_node, b_dof, N, uvec{ M }, F)
     , area(A)
     , moment_inertia(I) {}
 
-void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
+void EB21::initialize(const shared_ptr<DomainBase>& D) {
     auto& coord_i = node_ptr.at(0).lock()->get_coordinate();
     auto& coord_j = node_ptr.at(1).lock()->get_coordinate();
 
@@ -89,7 +89,7 @@ void ElasticB21::initialize(const shared_ptr<DomainBase>& D) {
     trial_mass = current_mass = initial_mass;
 }
 
-int ElasticB21::update_status() {
+int EB21::update_status() {
     const auto& node_i = node_ptr.at(0).lock();
     const auto& node_j = node_ptr.at(1).lock();
 
@@ -149,10 +149,10 @@ int ElasticB21::update_status() {
     return 0;
 }
 
-int ElasticB21::commit_status() { return b_material->commit_status(); }
+int EB21::commit_status() { return b_material->commit_status(); }
 
-int ElasticB21::clear_status() { return b_material->clear_status(); }
+int EB21::clear_status() { return b_material->clear_status(); }
 
-int ElasticB21::reset_status() { return b_material->reset_status(); }
+int EB21::reset_status() { return b_material->reset_status(); }
 
-void ElasticB21::print() { suanpan_info("An elastic B21 element%s", nlgeom ? " with corotational formulation.\n" : ".\n"); }
+void EB21::print() { suanpan_info("An elastic B21 element%s", nlgeom ? " with corotational formulation.\n" : ".\n"); }

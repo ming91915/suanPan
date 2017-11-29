@@ -159,7 +159,7 @@ cload 2 0 .125 2 85 81
 recorder 1 Node U 83
 
 step static 1
-set ini_step_size .0001
+set ini_step_size .001
 
 # solver BFGS 1
 
@@ -167,6 +167,7 @@ converger AbsIncreDisp 1 1E-4 7 0
 
 analyze
 
+#  -1.3939   2.8032
 peek node 83
 
 save recorder 1

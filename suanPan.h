@@ -132,12 +132,14 @@
 #define SUANPAN_EXIT 1
 #endif
 
+#ifdef _OPENMP
 #ifndef SUANPAN_MT
 #define SUANPAN_MT
 #endif
+#endif
 
-#ifdef _OPENMP
 #ifndef SUANPAN_MT
+#ifndef SUANPAN_DEBUG
 #define SUANPAN_MT
 #endif
 #endif

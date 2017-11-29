@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 /**
- * @class ElasticB21
+ * @class EB21
  * @brief The ElasticB21 class.
  * @author T
  * @date 14/09/2017
  * @version 0.1.1
- * @file ElasticB21.h
+ * @file EB21.h
  * @addtogroup Beam
  * @ingroup Element
  * @{
@@ -31,7 +31,7 @@
 
 #include <Element/MaterialElement.h>
 
-class ElasticB21 final : public MaterialElement {
+class EB21 final : public MaterialElement {
     static const unsigned b_node, b_dof, b_size;
 
     const double area, moment_inertia;
@@ -47,12 +47,12 @@ class ElasticB21 final : public MaterialElement {
     mat local_stiff;
 
 public:
-    ElasticB21(const unsigned&, // tag
-        const uvec&,            // node tags
-        const double&,          // area
-        const double&,          // moment of inertia
-        const unsigned&,        // material tags
-        const bool& = false     // nonliear geometry switch
+    EB21(const unsigned,   // tag
+        const uvec&,       // node tags
+        const double,      // area
+        const double,      // moment of inertia
+        const unsigned,    // material tags
+        const bool = false // nonliear geometry switch
     );
 
     void initialize(const shared_ptr<DomainBase>&) override;

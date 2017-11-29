@@ -23,6 +23,7 @@ Mass::Mass(const unsigned& T, const unsigned& NT, const double& MA, const uvec& 
     , dof_label(DT - 1) {}
 
 void Mass::initialize(const shared_ptr<DomainBase>&) {
+    trial_mass.zeros(dof_label.max() + 1, dof_label.max() + 1);
     for(const auto& I : dof_label) trial_mass(I, I) = magnitude;
 }
 

@@ -227,6 +227,7 @@ step static 1
 
 analyze
 
+#    0.2606   0.7864
 peek node 9
 
 exit

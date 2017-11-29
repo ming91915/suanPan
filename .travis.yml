@@ -19,18 +19,24 @@ script:
 before_install:
   - eval "${MATRIX_EVAL}"
 after_success:
+  - ./suanPan -f ../Example/B21.supan > /dev/null
+  - ./suanPan -f ../Example/BEGINNER.supan > /dev/null
   - ./suanPan -f ../Example/C3D20.supan > /dev/null
   - ./suanPan -f ../Example/C3D8.supan > /dev/null
   - ./suanPan -f ../Example/COOK.supan > /dev/null
   - ./suanPan -f ../Example/COOK4.supan > /dev/null
+  - ./suanPan -f ../Example/CP6.supan > /dev/null
+  - ./suanPan -f ../Example/CP8.supan > /dev/null
   - ./suanPan -f ../Example/CPS3.supan > /dev/null
   - ./suanPan -f ../Example/CPS4L.supan > /dev/null
   - ./suanPan -f ../Example/CPS4N100.supan > /dev/null
   - ./suanPan -f ../Example/CPS4N50.supan > /dev/null
   - ./suanPan -f ../Example/CPS4NL.supan > /dev/null
   - ./suanPan -f ../Example/CPS8.supan > /dev/null
-  - ./suanPan -f ../Example/ELASTICB21.supan > /dev/null
+  - ./suanPan -f ../Example/DYNAMIC.supan > /dev/null
+  - ./suanPan -f ../Example/EB21.supan > /dev/null
   - ./suanPan -f ../Example/EXTERNAL.LIB.supan > /dev/null
+  - ./suanPan -f ../Example/F21.supan > /dev/null
   - ./suanPan -f ../Example/GQ12.supan > /dev/null
   - ./suanPan -f ../Example/IREGULARBEAM.supan > /dev/null
   - ./suanPan -f ../Example/LEE.FRAME.supan > /dev/null
@@ -40,9 +46,9 @@ after_success:
   - ./suanPan -f ../Example/QE2.supan > /dev/null
   - ./suanPan -f ../Example/QE22.supan > /dev/null
   - ./suanPan -f ../Example/SHALLOW.ARC.supan > /dev/null
+  - ./suanPan -f ../Example/SINGLESECTION.supan > /dev/null
+  - ./suanPan -f ../Example/TESTMATERIAL.supan > /dev/null
   - ./suanPan -f ../Example/TRUSS2D.supan > /dev/null
-  - ./suanPan -f ../Example/B21.supan > /dev/null
-  - ./suanPan -f ../Example/F21.supan > /dev/null
   - for SRC in `find . | egrep '\.o'`; do gcov-6 -n $SRC > /dev/null; done
   - bash <(curl -s https://codecov.io/bash)
 notifications:

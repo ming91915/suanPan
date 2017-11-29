@@ -1191,20 +1191,24 @@ template <typename T> void Factory<T>::clear_stiffness() {
 }
 
 template <typename T> void Factory<T>::assemble_resistance(const Mat<T>& ER, const uvec& EI) {
+    if(ER.is_empty()) return;
     for(unsigned I = 0; I < EI.n_elem; ++I) trial_resistance(EI(I)) += ER(I);
 }
 
 template <typename T> void Factory<T>::assemble_mass(const Mat<T>& EM, const uvec& EI) {
+    if(EM.is_empty()) return;
     for(unsigned I = 0; I < EI.n_elem; ++I)
         for(unsigned J = 0; J < EI.n_elem; ++J) global_mass->at(EI(J), EI(I)) += EM(J, I);
 }
 
 template <typename T> void Factory<T>::assemble_damping(const Mat<T>& EC, const uvec& EI) {
+    if(EC.is_empty()) return;
     for(unsigned I = 0; I < EI.n_elem; ++I)
         for(unsigned J = 0; J < EI.n_elem; ++J) global_damping->at(EI(J), EI(I)) += EC(J, I);
 }
 
 template <typename T> void Factory<T>::assemble_stiffness(const Mat<T>& EK, const uvec& EI) {
+    if(EK.is_empty()) return;
     for(unsigned I = 0; I < EI.n_elem; ++I)
         for(unsigned J = 0; J < EI.n_elem; ++J) global_stiffness->at(EI(J), EI(I)) += EK(J, I);
 }

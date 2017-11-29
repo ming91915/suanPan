@@ -1,7 +1,7 @@
 material Elastic1D 1 100
 node 1 0 0
 node 2 1 0
-element Truss2D 1 1 2 1 10
+element T2D2 1 1 2 1 10
 
 fix 1 1 1
 fix 2 2 1 2

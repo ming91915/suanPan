@@ -53,8 +53,8 @@ int create_new_element(const shared_ptr<DomainBase>& domain, istringstream& comm
         new_gq12(new_element, command);
     else if(is_equal(element_id, "T2D2"))
         new_t2d2(new_element, command);
-    else if(is_equal(element_id, "ElasticB21"))
-        new_elasticb21(new_element, command);
+    else if(is_equal(element_id, "EB21"))
+        new_eb21(new_element, command);
     else if(is_equal(element_id, "B21"))
         new_b21(new_element, command);
     else if(is_equal(element_id, "B21H"))
@@ -504,10 +504,10 @@ void new_c3d20(unique_ptr<Element>& return_obj, istringstream& command) {
     return_obj = make_unique<C3D20>(tag, uvec(node_tag), material_tag, !!reduced_scheme, !!nonlinear);
 }
 
-void new_elasticb21(unique_ptr<Element>& return_obj, istringstream& command) {
+void new_eb21(unique_ptr<Element>& return_obj, istringstream& command) {
     unsigned tag;
     if((command >> tag).fail()) {
-        suanpan_debug("new_elasticb21() needs a valid tag.\n");
+        suanpan_debug("new_eb21() needs a valid tag.\n");
         return;
     }
 
@@ -515,7 +515,7 @@ void new_elasticb21(unique_ptr<Element>& return_obj, istringstream& command) {
     vector<uword> node_tag;
     for(auto I = 0; I < 2; ++I) {
         if((command >> node).fail()) {
-            suanpan_debug("new_elasticb21() needs two valid nodes.\n");
+            suanpan_debug("new_eb21() needs two valid nodes.\n");
             return;
         }
         node_tag.push_back(node);
@@ -523,29 +523,29 @@ void new_elasticb21(unique_ptr<Element>& return_obj, istringstream& command) {
 
     double area;
     if((command >> area).fail()) {
-        suanpan_debug("new_elasticb21() needs a valid area.\n");
+        suanpan_debug("new_eb21() needs a valid area.\n");
         return;
     }
 
     double moment_inertia;
     if((command >> moment_inertia).fail()) {
-        suanpan_debug("new_elasticb21() needs a valid moment of inertia.\n");
+        suanpan_debug("new_eb21() needs a valid moment of inertia.\n");
         return;
     }
 
     unsigned material_tag;
     if((command >> material_tag).fail()) {
-        suanpan_debug("new_elasticb21() needs a valid material tag.\n");
+        suanpan_debug("new_eb21() needs a valid material tag.\n");
         return;
     }
 
     unsigned nonlinear = 0;
     if(!command.eof()) {
-        if((command >> nonlinear).fail()) suanpan_debug("new_elasticb21() needs a valid nonlinear geomtery switch (0,1).\n");
+        if((command >> nonlinear).fail()) suanpan_debug("new_eb21() needs a valid nonlinear geomtery switch (0,1).\n");
     } else
-        suanpan_debug("new_elasticb21() assumes linear geometry.\n");
+        suanpan_debug("new_eb21() assumes linear geometry.\n");
 
-    return_obj = make_unique<ElasticB21>(tag, uvec(node_tag), area, moment_inertia, material_tag, !!nonlinear);
+    return_obj = make_unique<EB21>(tag, uvec(node_tag), area, moment_inertia, material_tag, !!nonlinear);
 }
 
 void new_b21(unique_ptr<Element>& return_obj, istringstream& command) {

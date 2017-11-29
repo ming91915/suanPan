@@ -24,26 +24,26 @@ node 21 -10.00000000 0.000000000
 
 material Elastic1D 1 10000
 
-element ElasticB21 1 1 2 100 1 1 1
-element ElasticB21 2 2 3 100 1 1 1
-element ElasticB21 3 3 4 100 1 1 1
-element ElasticB21 4 4 5 100 1 1 1
-element ElasticB21 5 5 6 100 1 1 1
-element ElasticB21 6 6 7 100 1 1 1
-element ElasticB21 7 7 8 100 1 1 1
-element ElasticB21 8 8 9 100 1 1 1
-element ElasticB21 9 9 10 100 1 1 1
-element ElasticB21 10 10 11 100 1 1 1
-element ElasticB21 11 11 12 100 1 1 1
-element ElasticB21 12 12 13 100 1 1 1
-element ElasticB21 13 13 14 100 1 1 1
-element ElasticB21 14 14 15 100 1 1 1
-element ElasticB21 15 15 16 100 1 1 1
-element ElasticB21 16 16 17 100 1 1 1
-element ElasticB21 17 17 18 100 1 1 1
-element ElasticB21 18 18 19 100 1 1 1
-element ElasticB21 19 19 20 100 1 1 1
-element ElasticB21 20 20 21 100 1 1 1
+element EB21 1 1 2 100 1 1 1
+element EB21 2 2 3 100 1 1 1
+element EB21 3 3 4 100 1 1 1
+element EB21 4 4 5 100 1 1 1
+element EB21 5 5 6 100 1 1 1
+element EB21 6 6 7 100 1 1 1
+element EB21 7 7 8 100 1 1 1
+element EB21 8 8 9 100 1 1 1
+element EB21 9 9 10 100 1 1 1
+element EB21 10 10 11 100 1 1 1
+element EB21 11 11 12 100 1 1 1
+element EB21 12 12 13 100 1 1 1
+element EB21 13 13 14 100 1 1 1
+element EB21 14 14 15 100 1 1 1
+element EB21 15 15 16 100 1 1 1
+element EB21 16 16 17 100 1 1 1
+element EB21 17 17 18 100 1 1 1
+element EB21 18 18 19 100 1 1 1
+element EB21 19 19 20 100 1 1 1
+element EB21 20 20 21 100 1 1 1
 
 fix 1 1 1 21
 fix 2 2 1 21

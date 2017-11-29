@@ -33,7 +33,7 @@ void new_qe2(unique_ptr<Element>&, istringstream&);
 void new_t2d2(unique_ptr<Element>&, istringstream&);
 void new_c3d8(unique_ptr<Element>&, istringstream&);
 void new_c3d20(unique_ptr<Element>&, istringstream&);
-void new_elasticb21(unique_ptr<Element>&, istringstream&);
+void new_eb21(unique_ptr<Element>&, istringstream&);
 void new_b21(unique_ptr<Element>&, istringstream&);
 void new_b21h(unique_ptr<Element>&, istringstream&);
 void new_f21(unique_ptr<Element>&, istringstream&);

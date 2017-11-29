@@ -5114,6 +5114,7 @@ set ini_step_size .01
 
 analyze
 
+# 6.8874
 peek node 1326
 
 exit
