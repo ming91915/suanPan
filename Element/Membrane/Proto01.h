@@ -53,7 +53,7 @@ class Proto01 : public MaterialElement {
 
     mat trans_mat; // temporaty factor matrix used to recover stress and strain
 
-    mat HI, HIL, HILI; // constant matrices
+    mat HI, HIL, HILI, L, LI; // constant matrices
 
     vec trial_disp, current_disp;     // displacement
     vec trial_lambda, current_lambda; // enhanced strain

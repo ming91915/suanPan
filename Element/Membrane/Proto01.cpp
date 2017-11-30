@@ -89,7 +89,9 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     vec disp_mode(4, fill::zeros);
 
-    mat H(11, 11, fill::zeros), L(11, 12, fill::zeros), LI(11, 3, fill::zeros);
+    mat H(11, 11, fill::zeros);
+
+    L.zeros(11, 12), LI.zeros(11, 3);
 
     int_pt.clear(), int_pt.reserve(plan.n_rows);
     for(unsigned I = 0; I < plan.n_rows; ++I) {
@@ -226,21 +228,13 @@ int Proto01::update_status() {
 
     trial_beta += HI * HT * incre_alpha; // eq. 46
 
-    trial_resistance.zeros(m_size);
-    vec FI(3, fill::zeros);
-    for(const auto& t_pt : int_pt) {
-        const vec t_vector = t_pt.P * trial_beta * t_pt.factor;
-        trial_resistance += t_pt.B.t() * t_vector; // eq. 54
-        FI += t_pt.BI.t() * t_vector;              // eq. 54
-    }
-
     const mat tmp_mat = HILI.t() * HT;
-    const mat QT = tmp_mat * HILI;                               // eq. 60
-    const mat TT = tmp_mat * HIL;                                // eq. 60
-    solve(trial_qtitt, QT, TT);                                  // eq. 65
-    solve(trial_qtifi, QT, FI);                                  // eq. 65
-    trial_resistance -= TT.t() * trial_qtifi;                    // eq. 64
-    trial_stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt; // eq. 61
+    const mat QT = tmp_mat * HILI;                                // eq. 60
+    const mat TT = tmp_mat * HIL;                                 // eq. 60
+    solve(trial_qtitt, QT, TT);                                   // eq. 65
+    solve(trial_qtifi, QT, LI.t() * trial_beta);                  // eq. 65
+    trial_resistance = L.t() * trial_beta - TT.t() * trial_qtifi; // eq. 64
+    trial_stiffness = HIL.t() * HT * HIL - TT.t() * trial_qtitt;  // eq. 61
 
     current_disp = trial_disp;
 
