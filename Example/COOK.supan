@@ -10,10 +10,10 @@ node 9 48 60
 
 material Elastic2D 1 1 .33333333
 
-element Proto01 1 1 2 5 4 1 1 1
-element Proto01 2 2 3 6 5 1 1 1
-element Proto01 3 4 5 8 7 1 1 1
-element Proto01 4 5 6 9 8 1 1 1
+element Proto01 1 1 2 5 4 1 1 0
+element Proto01 2 2 3 6 5 1 1 0
+element Proto01 3 4 5 8 7 1 1 0
+element Proto01 4 5 6 9 8 1 1 0
 
 # element PS 1 1 2 5 4 1 1
 # element PS 2 2 3 6 5 1 1

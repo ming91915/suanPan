@@ -32,6 +32,7 @@ step static 1
 analyze
 
 peek node 5 6
-# peek element 1
+peek element 1
+peek element 2
 
 exit
