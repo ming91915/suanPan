@@ -30,7 +30,7 @@ Concrete01::Concrete01(const unsigned& T, const double& EP, const double& SP, co
 void Concrete01::initialize(const shared_ptr<DomainBase>&) {
     switch(backbone_type) {
     case BackboneType::POPOVICS: {
-        N = .05802 * abs(peak_stress) + 1;
+        N = .05802 * abs(peak_stress) + 1.;
         break;
     }
     case BackboneType::THORENFELDT: {

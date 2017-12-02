@@ -31,9 +31,7 @@ void Bilinear1D::initialize(const shared_ptr<DomainBase>&) {
     current_history.zeros(2);
     trial_history.zeros(2);
 
-    initial_stiffness = elastic_modulus;
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    trial_stiffness = current_stiffness = initial_stiffness = elastic_modulus;
 }
 
 unique_ptr<Material> Bilinear1D::get_copy() { return make_unique<Bilinear1D>(*this); }

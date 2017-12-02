@@ -73,7 +73,7 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , alpha_p(AP)
     , factor_a(9. * bulk_modulus * alpha * alpha_p + sqrt(6.) * shear_modulus)
     , factor_b(3. * bulk_modulus * alpha_p)
-    , peak_stress(SC < 0. ? SC : -SC)
+    , peak_stress(SC > 0. ? SC : -SC)
     , crack_stress(ST > 0. ? ST : -ST)
     , bar_d_t(0)
     , a_t(2.)
