@@ -85,7 +85,7 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
 
     const IntegrationPlan plan(2, reduced_scheme ? 2 : 3, reduced_scheme ? IntegrationType::IRONS : IntegrationType::GAUSS);
 
-    mat pnt(2, 8), t_container(2, 2, fill::zeros);
+    mat pnt(2, 8), t_array(2, 2, fill::zeros);
 
     vec disp_mode(4, fill::zeros);
 
@@ -147,16 +147,16 @@ void Proto01::initialize(const shared_ptr<DomainBase>& D) {
             int_pt[I].B(2, m_dof * J + 2) = pnt_pxy(0, J + 4) + pnt_pxy(1, J);
         }
 
-        t_container(0, 0) = X * X - Y * Y + X;
-        t_container(1, 0) = Y * Y - X * X + Y;
-        t_container(0, 1) = 6. * X * Y + 3. * Y * Y - 1. + X;
-        t_container(1, 1) = 6. * X * Y + 3. * X * X - 1. + Y;
-        t_container = solve(jacob, t_container);
-        int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = t_container(0, 0);
-        int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_container(1, 0);
-        int_pt[I].BI(0, 2) = t_container(0, 1);
-        int_pt[I].BI(1, 2) = t_container(1, 1);
-        int_pt[I].BI(2, 2) = t_container(0, 1) + t_container(1, 1);
+        t_array(0, 0) = X * X - Y * Y + X;
+        t_array(1, 0) = Y * Y - X * X + Y;
+        t_array(0, 1) = 6. * X * Y + 3. * Y * Y - 1. + X;
+        t_array(1, 1) = 6. * X * Y + 3. * X * X - 1. + Y;
+        t_array = solve(jacob, t_array);
+        int_pt[I].BI(2, 1) = int_pt[I].BI(0, 0) = t_array(0, 0);
+        int_pt[I].BI(2, 0) = int_pt[I].BI(1, 1) = t_array(1, 0);
+        int_pt[I].BI(0, 2) = t_array(0, 1);
+        int_pt[I].BI(1, 2) = t_array(1, 1);
+        int_pt[I].BI(2, 2) = t_array(0, 1) + t_array(1, 1);
 
         const mat t_mat = int_pt[I].P.t() * int_pt[I].factor;
         H += t_mat * int_pt[I].A;
