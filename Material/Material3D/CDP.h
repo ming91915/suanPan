@@ -31,34 +31,34 @@
 #include <Material/Material3D/Material3D.h>
 
 class CDP : public Material3D {
+    static const vec norm_weight;
+
     const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
-    const double fbfc, alpha, alpha_p, factor_a, factor_b; /**< dilatancy */
+    const double alpha, alpha_p;
 
-    const double peak_stress, crack_stress;
+    const double f_t, f_c, g_t, g_c, a_t, a_c, cb_t, cb_c;
 
-    const double bar_d_t, a_t, cb_t, bar_d_c, a_c, cb_c;
+    const double factor_a, factor_b, factor_c, tolerance;
 
-    const double g_t, g_c;
+    vec trial_plastic_strain;
+    vec current_plastic_strain;
 
-    const double tolerance;
-
-    vec current_plastic_strain, trial_plastic_strain;
-
-    double compute_sqrt_phi(const double, const double) const;
-    double compute_big_phi(const double, const double) const;
-    double compute_f(const double, const double, const double) const;
-    double compute_bar_f(const double, const double, const double, const double) const;
-    double compute_d_d(const double, const double, const double) const;
-    double compute_d_f(const double, const double, const double) const;
-    double compute_d_bar_f(const double, const double, const double, const double) const;
-
+    vec compute_response(const double, const double, const double, const double) const;
     double compute_r(const vec&) const;
     vec compute_d_r(const vec&) const;
 
-    double compute_beta(const double, const double) const;
-
 public:
-    explicit CDP(const unsigned = 0, const double = 2E5, const double = 2E5, const double = 2E5, const double = .25, const double = 400., const double = 0., const double = 0., const double = 0., const double = 0.);
+    explicit CDP(const unsigned = 0, // tag
+        const double = 3E4,          // elastic modulus
+        const double = .2,           // poissons ratio
+        const double = 5.,           // crack stress (+)
+        const double = 50.,          // crush stress (+)
+        const double = 5E-4,         // normalized crack energy
+        const double = 5E-2,         // normalized crush energy
+        const double = .2,           // dilatancy parameter
+        const double = 1.16,         // biaxial compression strength ratio
+        const double = 2400E-12      // density
+    );
 
     void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 

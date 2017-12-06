@@ -25,10 +25,12 @@ vec unit_tensor2();
 mat unit_deviatoric_tensor4();
 mat unit_symmetric_tensor4();
 
+// applies to principal tensor
 double invariant1(const vec&);
 double invariant2(const vec&);
 double invariant3(const vec&);
 
+// applies to any tensor
 double invariant1(const mat&);
 double invariant2(const mat&);
 double invariant3(const mat&);

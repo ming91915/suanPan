@@ -45,7 +45,7 @@ mat tensor::unit_symmetric_tensor4() {
 
 double tensor::invariant1(const vec& S) { return accu(S); }
 
-double tensor::invariant2(const vec& S) { return S(0) * S(1) + S(1) * S(2) + S(2) * S(0); }
+double tensor::invariant2(const vec& S) { return -S(0) * S(1) - S(1) * S(2) - S(2) * S(0); }
 
 double tensor::invariant3(const vec& S) { return prod(S); }
 

@@ -23,7 +23,7 @@ Elastic3D::Elastic3D(const unsigned T, const double E, const double P, const dou
     , poissons_ratio(P) {}
 
 void Elastic3D::initialize(const shared_ptr<DomainBase>&) {
-    const auto shear_modulus = elastic_modulus / (1. + poissons_ratio) / 2.;
+    const auto shear_modulus = elastic_modulus / (2. + 2. * poissons_ratio);
     const auto lambda = shear_modulus * poissons_ratio / (.5 - poissons_ratio);
 
     initial_stiffness.zeros(6, 6);
@@ -35,8 +35,7 @@ void Elastic3D::initialize(const shared_ptr<DomainBase>&) {
 
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
 
-    current_stiffness = initial_stiffness;
-    trial_stiffness = initial_stiffness;
+    trial_stiffness = current_stiffness = initial_stiffness;
 }
 
 unique_ptr<Material> Elastic3D::get_copy() { return make_unique<Elastic3D>(*this); }
