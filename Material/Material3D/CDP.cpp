@@ -40,7 +40,7 @@ vec CDP::compute_response(const double f, const double a, const double cb, const
 
 double CDP::compute_r(const vec& p_stress) const {
     const auto abs_sum = accu(abs(p_stress));
-    return abs_sum == 0. ? 0. : .5 + .5 * (accu(p_stress) / abs_sum);
+    return abs_sum == 0. ? 0. : .5 + .5 * accu(p_stress) / abs_sum;
 }
 
 vec CDP::compute_d_r(const vec& p_stress) const {
@@ -67,13 +67,13 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , alpha((FBFC - 1.) / (2. * FBFC - 1.))
     , alpha_p(AP)
     , f_t(ST > 0. ? ST : -ST)
-    , f_c(SC > 0. ? SC : -SC)
+    , f_c(SC < 0. ? SC : -SC)
     , g_t(GT)
     , g_c(GC)
     , a_t(.5)
-    , a_c(2)
+    , a_c(2.)
     , cb_t(.5)
-    , cb_c(.5)
+    , cb_c(2.)
     , factor_a(3. * bulk_modulus * alpha_p)
     , factor_b(3. * alpha * factor_a + sqrt(6.) * shear_modulus)
     , factor_c(1. - alpha)
@@ -101,23 +101,26 @@ void CDP::initialize(const shared_ptr<DomainBase>&) {
 unique_ptr<Material> CDP::get_copy() { return make_unique<CDP>(*this); }
 
 int CDP::update_trial_status(const vec& t_strain) {
-    trial_strain = t_strain;
-
+    trial_history = current_history;
     trial_plastic_strain = current_plastic_strain;
 
-    trial_history = current_history;
-    auto& trial_kappa_t = trial_history(0);
-    auto& trial_kappa_c = trial_history(1);
+    const auto& trial_kappa_t = trial_history(0);
+    const auto& trial_kappa_c = trial_history(1);
 
-    const auto& current_kappa_t = current_history(0);
-    const auto& current_kappa_c = current_history(1);
+    trial_strain = t_strain;
 
+    // predictor
     trial_stress = initial_stiffness * (trial_strain - trial_plastic_strain);
 
+    // predictor tensor \sigma_{tr}
+    const auto t_stress = tensor::stress::to_tensor(trial_stress);
+
+    // principal predictor tensor \hat{\sigma}_{tr}
     vec p_stress;
     mat trans_mat;
-    eig_sym(p_stress, trans_mat, tensor::stress::to_tensor(trial_stress));
+    if(!eig_sym(p_stress, trans_mat, t_stress)) return -1;
 
+    // deviatoric principal predictor \hat{s}_tr
     const vec d_stress = p_stress - mean(p_stress);
 
     const auto const_yield = alpha * tensor::invariant1(p_stress) + sqrt(3. * tensor::invariant2(d_stress));
@@ -125,32 +128,31 @@ int CDP::update_trial_status(const vec& t_strain) {
     auto t_para = compute_response(f_t, a_t, cb_t, trial_kappa_t);
     auto c_para = compute_response(f_c, a_c, cb_c, trial_kappa_c);
 
-    auto yield_func = const_yield - factor_c * c_para(1);
+    auto yield_func = const_yield + factor_c * c_para(1);
 
     auto beta = 0.;
 
+    // effective stress \hat{\bar{\sigma}}
     auto e_stress = p_stress;
 
+    // \hat{\bar{\sigma}}_1
     const auto& e_stress_max = e_stress(2);
 
-    if(e_stress_max > 0.) beta = c_para(1) / t_para(1) * factor_c - 1. - alpha;
+    if(e_stress_max > 0.) beta = -c_para(1) / t_para(1) * factor_c - 1. - alpha;
 
     yield_func += beta;
 
     auto r_weight = compute_r(e_stress);
-    auto d_r = compute_d_r(e_stress);
-
     if(yield_func < tolerance) {
         trial_stress *= (1. - c_para(2)) * (1. - r_weight * t_para(2));
         return 0;
     }
 
-    const auto n_stress = norm(d_stress);
-    const vec u_stress = d_stress / n_stress;
+    const vec u_stress = d_stress / norm(d_stress);
     const vec t_pfpsigma = sqrt(1.5) * u_stress + alpha;
 
-    const auto const_min = (u_stress(0) + alpha_p) / g_c;
     const auto const_max = (u_stress(2) + alpha_p) / g_t;
+    const auto const_min = (u_stress(0) + alpha_p) / g_c;
 
     const vec dsigmadlambda = -double_shear * u_stress - factor_a;
 
@@ -158,7 +160,7 @@ int CDP::update_trial_status(const vec& t_strain) {
 
     auto counter = 0, flag = 0;
     while(true) {
-        const auto i_lambda = beta == 0. ? (const_yield - factor_c * c_para(1)) / factor_b : (const_yield - factor_c * c_para(1) + beta * p_stress(2)) / (factor_b - beta * dsigmadlambda(2));
+        const auto i_lambda = beta == 0. ? (const_yield + factor_c * c_para(1)) / factor_b : (const_yield + factor_c * c_para(1) + beta * e_stress(2)) / (factor_b - beta * dsigmadlambda(2));
 
         if(abs(i_lambda - p_lambda) < tolerance) break;
 
@@ -166,25 +168,25 @@ int CDP::update_trial_status(const vec& t_strain) {
 
         e_stress = p_stress + i_lambda * dsigmadlambda;
 
-        beta = e_stress(2) > 0. ? c_para(1) / t_para(1) * factor_c - 1. - alpha : 0.;
+        beta = e_stress(2) > 0. ? -c_para(1) / t_para(1) * factor_c - 1. - alpha : 0.;
 
         r_weight = compute_r(e_stress);
-        d_r = compute_d_r(e_stress);
+        const auto d_r = compute_d_r(e_stress);
 
         auto inner_counter = 0;
         while(true) {
             // H
             vec h(2, fill::zeros);
             if(r_weight != 0.) h(0) = r_weight * const_max * t_para(0);
-            if(r_weight != 1.) h(1) = (r_weight - 1.) * const_min * c_para(0);
+            if(r_weight != 1.) h(1) = (1. - r_weight) * const_min * c_para(0);
 
             // \pfrac{H}{\kappa}
             mat phpkappa(2, 2, fill::zeros);
             if(r_weight != 0.) phpkappa(0, 0) = r_weight * const_max * t_para(3);
-            if(r_weight != 1.) phpkappa(1, 1) = (r_weight - 1.) * const_min * c_para(3);
+            if(r_weight != 1.) phpkappa(1, 1) = (1. - r_weight) * const_min * c_para(3);
 
             // \pfrac{H}{\sigma}
-            const mat phpsigma = vec{ const_max * t_para(0), const_min * c_para(0) } * d_r.t();
+            const mat phpsigma = vec{ const_max * t_para(0), -const_min * c_para(0) } * d_r.t();
 
             // \pfrac{F}{\kappa}
             rowvec pfpkappa(2);
@@ -196,29 +198,27 @@ int CDP::update_trial_status(const vec& t_strain) {
                 pfpkappa(0) = 0.;
                 pfpkappa(1) = c_para(4);
             }
-            pfpkappa *= -factor_c;
+            pfpkappa *= factor_c;
 
             // \pfrac{F}{\sigma}
             auto pfpsigma = t_pfpsigma;
             pfpsigma(2) += beta;
 
-            // Q
-            vec q = -i_lambda * h;
-            q(0) += trial_kappa_t - current_kappa_t;
-            q(1) += trial_kappa_c - current_kappa_c;
-
             // dqdkappa
             const mat dqdkappa = i_lambda * phpkappa - eye(2, 2) - (h + i_lambda * phpsigma * dsigmadlambda) * pfpkappa / dot(pfpsigma, dsigmadlambda);
+
+            const vec q = -i_lambda * h + trial_history - current_history;
 
             const vec incre_kappa = solve(dqdkappa, q);
 
             if(norm(incre_kappa) < tolerance) break;
 
-            trial_kappa_t += incre_kappa(0);
-            trial_kappa_c += incre_kappa(1);
+            trial_history += incre_kappa;
 
             t_para = compute_response(f_t, a_t, cb_t, trial_kappa_t);
             c_para = compute_response(f_c, a_c, cb_c, trial_kappa_c);
+
+            beta = e_stress(2) > 0. ? -c_para(1) / t_para(1) * factor_c - 1. - alpha : 0.;
 
             if(++inner_counter > 200) {
                 flag = 1;
@@ -227,8 +227,6 @@ int CDP::update_trial_status(const vec& t_strain) {
         }
 
         suanpan_info("inner counter: %u\n", inner_counter);
-
-        beta = e_stress(2) > 0. ? c_para(1) / t_para(1) * factor_c - 1. - alpha : 0.;
 
         if(++counter > 20) {
             suanpan_error("cnnot converge in ten iterations.\n");
