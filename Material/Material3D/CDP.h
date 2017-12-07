@@ -31,6 +31,21 @@
 #include <Material/Material3D/Material3D.h>
 
 class CDP : public Material3D {
+    static const double sqrt_three_over_two;
+    const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
+    const double f_t, a_t, cb_t, g_t, f_c, a_c, cb_c, g_c;
+    const double alpha, alpha_p;
+    const double factor_a, factor_b, tolerance;
+
+    const vec unit_alpha_p;
+
+    vec trial_plastic_strain;
+    vec current_plastic_strain;
+
+    static vec compute_backbone(const double, const double, const double, const double);
+    static double compute_weight(const vec&);
+    static vec compute_d_weight(const vec&);
+
 public:
     explicit CDP(const unsigned = 0, // tag
         const double = 3E4,          // elastic modulus
