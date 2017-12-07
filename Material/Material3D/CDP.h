@@ -18,7 +18,7 @@
  * @class CDP
  * @brief The CDP class.
  * @author T
- * @date 08/08/2017
+ * @date 07/12/2017
  * @version 0.1.0
  * @file CDP.h
  * @addtogroup Material-3D
@@ -31,30 +31,14 @@
 #include <Material/Material3D/Material3D.h>
 
 class CDP : public Material3D {
-    static const vec norm_weight;
-
-    const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
-    const double alpha, alpha_p;
-
-    const double f_t, f_c, g_t, g_c, a_t, a_c, cb_t, cb_c;
-
-    const double factor_a, factor_b, factor_c, tolerance;
-
-    vec trial_plastic_strain;
-    vec current_plastic_strain;
-
-    vec compute_response(const double, const double, const double, const double) const;
-    double compute_r(const vec&) const;
-    vec compute_d_r(const vec&) const;
-
 public:
     explicit CDP(const unsigned = 0, // tag
         const double = 3E4,          // elastic modulus
         const double = .2,           // poissons ratio
-        const double = 5.,           // crack stress (+)
-        const double = 50.,          // crush stress (+)
-        const double = 5E-4,         // normalized crack energy
-        const double = 5E-2,         // normalized crush energy
+        const double = 3.,           // crack stress (+)
+        const double = 30.,          // crush stress (+)
+        const double = 5E-4,         // normalized crack energy (+)
+        const double = 5E-2,         // normalized crush energy (+)
         const double = .2,           // dilatancy parameter
         const double = 1.16,         // biaxial compression strength ratio
         const double = 2400E-12      // density

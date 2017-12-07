@@ -21,24 +21,20 @@ int main(int argc, char** argv) {
     wall_clock T;
     T.tic();
 
-    // argument_parser(argc, argv);
+    argument_parser(argc, argv);
 
-    const auto A = make_shared<CDP>();
-    A->Material::initialize();
-    A->initialize();
-
-    vec step(std::initializer_list<double>{ -1E-4, .2E-4, .2E-4, 0., 0., 0. });
-    // step = -step;
-    vector<double> B;
-
-    for(auto I = 0; I < 200; I++) {
-        A->update_incre_status(step);
-        A->commit_status();
-        B.emplace_back(A->get_stress().at(0));
-    }
-    vec C(B);
-
-    C.save("K", raw_ascii);
+    // const auto A = make_shared<CDP>();
+    // A->Material::initialize();
+    // A->initialize();
+    // const vec step(std::initializer_list<double>{ -1E-5, .2E-5, .2E-5, 0., 0., 0. });
+    // vector<double> B;
+    // for(auto I = 0; I < 200; I++) {
+    //    if(A->update_incre_status(step) == -1) break;
+    //    A->commit_status();
+    //    B.emplace_back(A->get_stress().at(0));
+    //}
+    // vec C(B);
+    // C.save("K", raw_ascii);
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
 
