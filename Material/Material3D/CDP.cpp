@@ -117,7 +117,7 @@ void CDP::initialize(const shared_ptr<DomainBase>&) {
 
 unique_ptr<Material> CDP::get_copy() { return make_unique<CDP>(*this); }
 
-double CDP::get_parameter(const ParameterType&) const { return trial_history(1); }
+double CDP::get_parameter(const ParameterType&) const { return trial_history(0); }
 
 int CDP::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
