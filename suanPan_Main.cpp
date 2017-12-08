@@ -26,16 +26,30 @@ int main(int argc, char** argv) {
     const auto A = make_shared<CDP>();
     A->Material::initialize();
     A->initialize();
-    vec step(std::initializer_list<double>{ -1E-6, .2E-6, .2E-6, 0., 0., 0. });
-    step = 100 * step;
-    vector<double> B;
-    for(auto I = 0; I < 100; I++) {
+    const vec old(std::initializer_list<double>{ -1E-6, .2E-6, .2E-6, 0., 0., 0. });
+    vector<double> B, C;
+    B.emplace_back(0.);
+    C.emplace_back(0.);
+    // const vec step = -4. * old;
+    const vec step = 100. * old;
+    for(auto I = 0; I < 150; I++) {
         if(A->update_incre_status(step) == -1) break;
         A->commit_status();
-        B.emplace_back(A->get_stress().at(0));
+        B.emplace_back(A->get_strain().at(0));
+        C.emplace_back(A->get_stress().at(0));
     }
-    vec C(B);
-    C.save("K", raw_ascii);
+
+    // step = 10. * old;
+    // for(auto I = 0; I < 200; I++) {
+    //    if(A->update_incre_status(step) == -1) break;
+    //    A->commit_status();
+    //    B.emplace_back(A->get_strain().at(0));
+    //    C.emplace_back(A->get_stress().at(0));
+    //}
+    mat D(B.size(), 2);
+    D.col(0) = vec{ B };
+    D.col(1) = vec{ C };
+    D.save("K", raw_ascii);
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
 

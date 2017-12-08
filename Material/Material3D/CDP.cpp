@@ -38,11 +38,6 @@ vec CDP::compute_backbone(const double f, const double a, const double cb, const
     return out;
 }
 
-double CDP::compute_weight(const vec& in) {
-    const auto abs_sum = accu(abs(in));
-    return abs_sum == 0. ? 0. : .5 + .5 * accu(in) / abs_sum;
-}
-
 vec CDP::compute_d_weight(const vec& in) {
     const auto abs_sum = accu(abs(in));
 
@@ -58,6 +53,11 @@ vec CDP::compute_d_weight(const vec& in) {
     return out;
 }
 
+double CDP::compute_weight(const vec& in) {
+    const auto abs_sum = accu(abs(in));
+    return abs_sum == 0. ? 0. : .5 + .5 * accu(in) / abs_sum;
+}
+
 CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double GT, const double GC, const double AP, const double BC, const double R)
     : Material3D(T, MT_CDP, R)
     , elastic_modulus(E)
@@ -66,17 +66,18 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , double_shear(2. * shear_modulus)
     , bulk_modulus(elastic_modulus / (3. - 6. * poissons_ratio))
     , f_t(ST > 0. ? ST : -ST)
-    , a_t(2.)
-    , cb_t(.5)
-    , g_t(5E-2)
+    , a_t(.1)
+    , cb_t(log(1. - .25) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
+    , g_t(GT)
     , f_c(SC < 0. ? SC : -SC)
-    , a_c(2.)
-    , cb_c(a_c == 1. ? .5 : log(1 - .2) / log(.5 + .5 / a_c))
-    , g_c(5E-2)
+    , a_c(3.)
+    , cb_c(a_c == 1. ? .5 : log(1 - .4) / log(.5 + .5 / a_c))
+    , g_c(GC)
     , alpha((BC - 1.) / (2. * BC - 1.))
-    , alpha_p(.2)
+    , alpha_p(AP)
     , factor_a(3. * bulk_modulus * alpha_p)
     , factor_b(3. * alpha * factor_a + sqrt_three_over_two * double_shear)
+    , factor_c(1. - alpha)
     , tolerance(1E-10)
     , unit_alpha_p(alpha_p * tensor::unit_tensor2()) {}
 
@@ -134,16 +135,16 @@ int CDP::update_trial_status(const vec& t_strain) {
     auto t_para = compute_backbone(f_t, a_t, cb_t, kappa_t);
     auto c_para = compute_backbone(f_c, a_c, cb_c, kappa_c);
 
-    auto t_yield = const_yield + (1. - alpha) * c_para(2);
+    auto t_yield = const_yield + factor_c * c_para(2);
 
     auto beta = 0.;
 
     // effective stress \hat{\bar{\sigma}}
-    vec e_stress = p_predictor;
+    auto e_stress = p_predictor;
 
-    if(e_stress(2) > 0.) beta = -c_para(2) / t_para(2) * (1. - alpha) - 1. - alpha;
+    if(e_stress(2) > 0.) beta = -c_para(2) / t_para(2) * factor_c - 1. - alpha;
 
-    const auto yield_func = t_yield + beta;
+    const auto yield_func = t_yield + beta * e_stress(2);
 
     auto r_weight = compute_weight(e_stress);
 
@@ -152,76 +153,71 @@ int CDP::update_trial_status(const vec& t_strain) {
         return 0;
     }
 
-    auto i_lambda = 0., p_lambda = 0.;
+    auto p_lambda = 0.;
 
     auto counter = 0, flag = 0;
     while(true) {
-        i_lambda = beta > 0. ? (t_yield + beta * p_predictor(2)) / (factor_b - beta * dsigmadlambda(2)) : t_yield / factor_b;
-
-        if(abs(i_lambda - p_lambda) < tolerance) break;
-        if(++counter > 200) {
+        if(++counter > 20) {
             flag = 1;
             break;
         }
+
+        const auto i_lambda = beta > 0. ? (t_yield + beta * p_predictor(2)) / (factor_b - beta * dsigmadlambda(2)) : t_yield / factor_b;
+
+        if(abs(i_lambda - p_lambda) < tolerance) break;
+
         p_lambda = i_lambda;
 
-        auto inner_counter = 0;
-        while(true) {
-            vec dfdkappa(2);
-            if(e_stress(2) > 0.) {
-                const auto t_factor = e_stress(2) / t_para(2);
-                dfdkappa(0) = c_para(2) / t_para(2) * t_factor * t_para(5);
-                dfdkappa(1) = (1. - t_factor) * c_para(5);
-            } else {
-                dfdkappa(0) = 0.;
-                dfdkappa(1) = c_para(5);
-            }
-            dfdkappa *= 1. - alpha;
+        e_stress = p_predictor + i_lambda * dsigmadlambda;
 
-            auto dfdsigma = c_dfdsigma;
-            dfdsigma(2) += beta;
+        r_weight = compute_weight(e_stress);
 
-            vec h(2, fill::zeros);
-            if(r_weight != 0.) h(0) = r_weight * t_para(1) * const_t;
-            if(r_weight != 1.) h(1) = (1. - r_weight) * c_para(1) * const_c;
+        auto dfdsigma = c_dfdsigma;
+        dfdsigma(2) += beta;
 
-            mat phpkappa(2, 2, fill::zeros);
-            if(r_weight != 0.) phpkappa(0, 0) = r_weight * t_para(4) * const_t;
-            if(r_weight != 1.) phpkappa(1, 1) = (1. - r_weight) * c_para(4) * const_c;
-
-            const mat phpsigma = vec{ t_para(1) * const_t, -c_para(1) * const_c } * compute_d_weight(e_stress).t();
-
-            const vec q = trial_history - current_history - i_lambda * h;
-            const mat dqdkappa = i_lambda * phpkappa - eye(2, 2) - (i_lambda * phpsigma * dsigmadlambda + h) * dfdkappa.t() / dot(dfdsigma, dsigmadlambda);
-
-            const vec i_kappa = solve(dqdkappa, q);
-
-            if(norm(i_kappa) < tolerance) break;
-
-            if(++inner_counter > 100) {
-                flag = 1;
-                break;
-            }
-
-            trial_history += i_kappa;
-
-            t_para = compute_backbone(f_t, a_t, cb_t, kappa_t);
-            c_para = compute_backbone(f_c, a_c, cb_c, kappa_c);
-
-            if(e_stress(2) > 0.) beta = -c_para(2) / t_para(2) * (1. - alpha) - 1. - alpha;
+        vec dfdkappa(2);
+        if(e_stress(2) > 0.) {
+            const auto t_factor = e_stress(2) / t_para(2);
+            dfdkappa(0) = c_para(2) / t_para(2) * t_factor * t_para(5);
+            dfdkappa(1) = (1. - t_factor) * c_para(5);
+        } else {
+            dfdkappa(0) = 0.;
+            dfdkappa(1) = c_para(5);
         }
+        dfdkappa *= factor_c;
 
-        suanpan_debug("inner counter: %u.\n", inner_counter);
+        vec h(2, fill::zeros);
+        if(r_weight != 0.) h(0) = r_weight * t_para(1) * const_t;
+        if(r_weight != 1.) h(1) = (1. - r_weight) * c_para(1) * const_c;
+
+        mat phpkappa(2, 2, fill::zeros);
+        if(r_weight != 0.) phpkappa(0, 0) = r_weight * t_para(4) * const_t;
+        if(r_weight != 1.) phpkappa(1, 1) = (1. - r_weight) * c_para(4) * const_c;
+
+        const mat phpsigma = vec{ t_para(1) * const_t, -c_para(1) * const_c } * compute_d_weight(e_stress).t();
+
+        const mat dqdkappa = i_lambda * phpkappa - eye(2, 2) - (i_lambda * phpsigma * dsigmadlambda + h) * dfdkappa.t() / dot(dfdsigma, dsigmadlambda);
+
+        trial_history += solve(dqdkappa, trial_history - current_history - i_lambda * h);
+
+        t_para = compute_backbone(f_t, a_t, cb_t, kappa_t);
+        c_para = compute_backbone(f_c, a_c, cb_c, kappa_c);
+
+        t_yield = const_yield + factor_c * c_para(2);
+
+        beta = e_stress(2) > 0. ? -c_para(2) / t_para(2) * factor_c - 1. - alpha : 0.;
     }
 
+    suanpan_debug("CDP model state determination loop counter: %u.\n", counter);
+
     if(flag == 1) {
-        suanpan_error("cannot converge.\n");
+        suanpan_error("CDP model cannot converge within 20 iterations.\n");
         return -1;
     }
 
     const auto d_stress = tensor::dev(tensor::stress::to_tensor(trial_stress));
     const vec n = tensor::stress::to_voigt(d_stress) / sqrt(accu(square(d_stress)));
-    trial_plastic_strain += i_lambda * (n + unit_alpha_p);
+    trial_plastic_strain += p_lambda * (n + unit_alpha_p);
     trial_stress = tensor::stress::to_voigt(trans_mat * diagmat(e_stress) * trans_mat.t());
     trial_stress *= (1. - c_para(0)) * (1. - r_weight * t_para(0));
 

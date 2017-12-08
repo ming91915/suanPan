@@ -35,7 +35,7 @@ class CDP : public Material3D {
     const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
     const double f_t, a_t, cb_t, g_t, f_c, a_c, cb_c, g_c;
     const double alpha, alpha_p;
-    const double factor_a, factor_b, tolerance;
+    const double factor_a, factor_b, factor_c, tolerance;
 
     const vec unit_alpha_p;
 
@@ -43,8 +43,8 @@ class CDP : public Material3D {
     vec current_plastic_strain;
 
     static vec compute_backbone(const double, const double, const double, const double);
-    static double compute_weight(const vec&);
     static vec compute_d_weight(const vec&);
+    static double compute_weight(const vec&);
 
 public:
     explicit CDP(const unsigned = 0, // tag
@@ -52,8 +52,8 @@ public:
         const double = .2,           // poissons ratio
         const double = 3.,           // crack stress (+)
         const double = 30.,          // crush stress (+)
-        const double = 5E-4,         // normalized crack energy (+)
-        const double = 5E-2,         // normalized crush energy (+)
+        const double = 50E-5,        // normalized crack energy (+)
+        const double = 50E-3,        // normalized crush energy (+)
         const double = .2,           // dilatancy parameter
         const double = 1.16,         // biaxial compression strength ratio
         const double = 2400E-12      // density
