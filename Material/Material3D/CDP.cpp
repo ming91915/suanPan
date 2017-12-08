@@ -166,7 +166,7 @@ int CDP::update_trial_status(const vec& t_strain) {
             break;
         }
 
-        const auto i_lambda = beta > 0. ? (t_yield + beta * p_predictor(2)) / (factor_b - beta * dsigmadlambda(2)) : t_yield / factor_b;
+        const auto i_lambda = beta == 0. ? t_yield / factor_b : (t_yield + beta * p_predictor(2)) / (factor_b - beta * dsigmadlambda(2));
 
         if(abs(i_lambda - p_lambda) < tolerance) break;
 

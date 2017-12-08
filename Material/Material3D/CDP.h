@@ -55,9 +55,9 @@ public:
         const double = 3.,           // crack stress (+)
         const double = 30.,          // crush stress (-)
         const double = 50E-5,        // normalized crack energy (+)
-        const double = 30E-3,        // normalized crush energy (+)
+        const double = 50E-3,        // normalized crush energy (+)
         const double = .2,           // hardening after crack stress a_t
-        const double = 2.,           // hardening after crush stress a_c
+        const double = 3.,           // hardening after crush stress a_c
         const double = .5,           // reference damage factor at half crack stress
         const double = .65,          // reference damage factor at crush stress
         const double = .2,           // dilatancy parameter
