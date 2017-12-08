@@ -748,7 +748,7 @@ void new_cdp(unique_ptr<Material>& return_obj, istringstream& command) {
         suanpan_error("new_cdp() requires a valid tag.\n");
         return;
     }
-    vec para_pool(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 5E-2, .2, 40, .5, .65, .2, 1.16, 2400E-12 });
+    vec para_pool(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 5E-2, .2, 2., .5, .65, .2, 1.16, 2400E-12 });
 
     auto idx = 0;
     double para;

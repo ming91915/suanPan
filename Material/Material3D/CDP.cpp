@@ -170,6 +170,9 @@ int CDP::update_trial_status(const vec& t_strain) {
         return 0;
     }
 
+    vec dfdsigma = c_dfdsigma, dfdkappa(2), h(2);
+    mat phpkappa(2, 2), phpsigma, dqdkappa;
+
     auto p_lambda = 0.;
 
     auto counter = 0, flag = 0;
@@ -189,31 +192,28 @@ int CDP::update_trial_status(const vec& t_strain) {
 
         r_weight = compute_weight(e_stress);
 
-        auto dfdsigma = c_dfdsigma;
-        dfdsigma(2) += beta;
+        dfdsigma(2) = c_dfdsigma(2) + beta;
 
-        vec dfdkappa(2);
         if(e_stress(2) > 0.) {
-            const auto t_factor = e_stress(2) / t_para(2);
+            const auto t_factor = factor_c * e_stress(2) / t_para(2);
             dfdkappa(0) = c_para(2) / t_para(2) * t_factor * t_para(5);
-            dfdkappa(1) = (1. - t_factor) * c_para(5);
+            dfdkappa(1) = (factor_c - t_factor) * c_para(5);
         } else {
             dfdkappa(0) = 0.;
-            dfdkappa(1) = c_para(5);
+            dfdkappa(1) = factor_c * c_para(5);
         }
-        dfdkappa *= factor_c;
 
-        vec h(2, fill::zeros);
+        h.zeros();
         if(r_weight != 0.) h(0) = r_weight * t_para(1) * const_t;
         if(r_weight != 1.) h(1) = (1. - r_weight) * c_para(1) * const_c;
 
-        mat phpkappa(2, 2, fill::zeros);
+        phpkappa.zeros();
         if(r_weight != 0.) phpkappa(0, 0) = r_weight * t_para(4) * const_t;
         if(r_weight != 1.) phpkappa(1, 1) = (1. - r_weight) * c_para(4) * const_c;
 
-        const mat phpsigma = vec{ t_para(1) * const_t, -c_para(1) * const_c } * compute_d_weight(e_stress).t();
+        phpsigma = vec{ t_para(1) * const_t, -c_para(1) * const_c } * compute_d_weight(e_stress).t();
 
-        const mat dqdkappa = i_lambda * phpkappa - eye(2, 2) - (i_lambda * phpsigma * dsigmadlambda + h) * dfdkappa.t() / dot(dfdsigma, dsigmadlambda);
+        dqdkappa = i_lambda * phpkappa - eye(2, 2) - (i_lambda * phpsigma * dsigmadlambda + h) * dfdkappa.t() / dot(dfdsigma, dsigmadlambda);
 
         trial_history += solve(dqdkappa, trial_history - current_history - i_lambda * h);
 

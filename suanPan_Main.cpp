@@ -23,7 +23,10 @@ int main(int argc, char** argv) {
 
     // argument_parser(argc, argv);
 
-    const auto A = make_shared<CDP>();
+    vec P(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 5E-2, .2, 2., .5, .65, .2, 1.16, 2400E-12 });
+    P(9) = .6;
+
+    const auto A = make_shared<CDP>(0, P(0), P(1), P(2), P(3), P(4), P(5), P(6), P(7), P(8), P(9), P(10), P(11), P(12));
     A->Material::initialize();
     A->initialize();
     const vec old(std::initializer_list<double>{ -1E-6, .2E-6, .2E-6, 0., 0., 0. });
