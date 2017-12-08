@@ -58,7 +58,7 @@ double CDP::compute_weight(const vec& in) {
     return abs_sum == 0. ? 0. : .5 + .5 * accu(in) / abs_sum;
 }
 
-CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double GT, const double GC, const double DT, const double DC, const double AP, const double BC, const double R)
+CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double GT, const double GC, const double AT, const double AC, const double DT, const double DC, const double AP, const double BC, const double R)
     : Material3D(T, MT_CDP, R)
     , elastic_modulus(E)
     , poissons_ratio(V < .5 ? V : .2)
@@ -66,11 +66,11 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , double_shear(2. * shear_modulus)
     , bulk_modulus(elastic_modulus / (3. - 6. * poissons_ratio))
     , f_t(ST > 0. ? ST : -ST)
-    , a_t(.1)
+    , a_t(AT)
     , cb_t(log(DT) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
     , g_t(GT)
     , f_c(SC < 0. ? SC : -SC)
-    , a_c(2.)
+    , a_c(AC)
     , cb_c(a_c == 1. ? .5 : log(DC) / log(.5 + .5 / a_c))
     , g_c(GC)
     , alpha((BC - 1.) / (2. * BC - 1.))

@@ -30,22 +30,22 @@ int main(int argc, char** argv) {
     vector<double> B, C;
     B.emplace_back(0.);
     C.emplace_back(0.);
-    // const vec step = -4. * old;
-    const vec step = 100. * old;
-    for(auto I = 0; I < 150; I++) {
+
+    // vec step = -4. * old;
+    // for(auto I = 0; I < 60; I++) {
+    //    if(A->update_incre_status(step) == -1) break;
+    //    A->commit_status();
+    //    B.emplace_back(A->get_strain().at(0));
+    //    C.emplace_back(A->get_stress().at(0));
+    //}
+    const vec step = 40. * old;
+    for(auto I = 0; I < 250; I++) {
         if(A->update_incre_status(step) == -1) break;
         A->commit_status();
         B.emplace_back(A->get_strain().at(0));
         C.emplace_back(A->get_stress().at(0));
     }
 
-    // step = 10. * old;
-    // for(auto I = 0; I < 200; I++) {
-    //    if(A->update_incre_status(step) == -1) break;
-    //    A->commit_status();
-    //    B.emplace_back(A->get_strain().at(0));
-    //    C.emplace_back(A->get_stress().at(0));
-    //}
     mat D(B.size(), 2);
     D.col(0) = vec{ B };
     D.col(1) = vec{ C };
