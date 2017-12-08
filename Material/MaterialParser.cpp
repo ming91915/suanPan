@@ -748,8 +748,14 @@ void new_cdp(unique_ptr<Material>& return_obj, istringstream& command) {
         suanpan_error("new_cdp() requires a valid tag.\n");
         return;
     }
+    vec para_pool(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 5E-2, .2, 40, .5, .65, .2, 1.16, 2400E-12 });
 
-    return_obj = make_unique<CDP>(tag);
+    auto idx = 0;
+    double para;
+    while(!command.eof() && idx < 13)
+        if(get_input(command, para)) para_pool(idx++) = para;
+
+    return_obj = make_unique<CDP>(tag, para_pool(0), para_pool(1), para_pool(2), para_pool(3), para_pool(4), para_pool(5), para_pool(6), para_pool(7), para_pool(8), para_pool(9), para_pool(10), para_pool(11), para_pool(12));
 }
 
 void new_bilinearelastic1d(unique_ptr<Material>& return_obj, istringstream& command) {

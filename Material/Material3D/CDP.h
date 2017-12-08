@@ -57,9 +57,9 @@ public:
         const double = 50E-5,        // normalized crack energy (+)
         const double = 50E-3,        // normalized crush energy (+)
         const double = .2,           // hardening after crack stress a_t
-        const double = 3.,           // hardening after crush stress a_c
+        const double = 2.5,          // hardening after crush stress a_c
         const double = .5,           // reference damage factor at half crack stress
-        const double = .65,          // reference damage factor at crush stress
+        const double = .7,           // reference damage factor at crush stress
         const double = .2,           // dilatancy parameter
         const double = 1.16,         // biaxial compression strength ratio
         const double = 2400E-12      // density
