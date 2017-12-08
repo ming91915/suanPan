@@ -76,6 +76,17 @@ vec tensor::dev(const vec& S) {
     return D;
 }
 
+double tensor::norm(const vec& in) {
+    if(in.n_elem != 6) throw;
+
+    auto out = 0.;
+
+    const vec square_in = square(in);
+    for(auto I = 0; I < 3; ++I) out += square_in(I) + 2. * square_in(I + 3);
+
+    return out;
+}
+
 mat tensor::dev(const mat& in) {
     auto out = in;
     out.diag() -= mean(out.diag());

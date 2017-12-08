@@ -38,6 +38,7 @@ double invariant3(const mat&);
 double trace(const vec&);
 double mean(const vec&);
 vec dev(const vec&);
+double norm(const vec&);
 
 mat dev(const mat&);
 

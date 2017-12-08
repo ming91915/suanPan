@@ -53,6 +53,19 @@ vec CDP::compute_d_weight(const vec& in) {
     return out;
 }
 
+mat CDP::compute_jacobian(const mat& in) {
+    mat out(3, 6);
+
+    for(auto I = 0; I < 3; ++I) {
+        for(auto J = 0; J < 3; ++J) out(I, J) = in(J, I) * in(J, I);
+        out(I, 3) = 2. * in(0, I) * in(1, I);
+        out(I, 4) = 2. * in(1, I) * in(2, I);
+        out(I, 5) = 2. * in(2, I) * in(0, I);
+    }
+
+    return out;
+}
+
 double CDP::compute_weight(const vec& in) {
     const auto abs_sum = accu(abs(in));
     return abs_sum == 0. ? 0. : .5 + .5 * accu(in) / abs_sum;
@@ -219,11 +232,13 @@ int CDP::update_trial_status(const vec& t_strain) {
         return -1;
     }
 
-    const auto d_stress = tensor::dev(tensor::stress::to_tensor(trial_stress));
-    const vec n = tensor::stress::to_voigt(d_stress) / sqrt(accu(square(d_stress)));
+    const auto d_stress = tensor::dev(trial_stress);
+    const vec n = d_stress / tensor::norm(d_stress);
     trial_plastic_strain += p_lambda * (n + unit_alpha_p);
     trial_stress = tensor::stress::to_voigt(trans_mat * diagmat(e_stress) * trans_mat.t());
     trial_stress *= (1. - c_para(0)) * (1. - r_weight * t_para(0));
+
+    const auto jacobian = compute_jacobian(trans_mat);
 
     return 0;
 }
