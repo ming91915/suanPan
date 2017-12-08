@@ -42,6 +42,8 @@ class CDP : public Material3D {
     vec trial_plastic_strain;
     vec current_plastic_strain;
 
+    mat inv_stiffness;
+
     static vec compute_backbone(const double, const double, const double, const double);
     static vec compute_d_weight(const vec&);
     static double compute_weight(const vec&);
@@ -51,9 +53,11 @@ public:
         const double = 3E4,          // elastic modulus
         const double = .2,           // poissons ratio
         const double = 3.,           // crack stress (+)
-        const double = 30.,          // crush stress (+)
+        const double = 30.,          // crush stress (-)
         const double = 50E-5,        // normalized crack energy (+)
-        const double = 50E-3,        // normalized crush energy (+)
+        const double = 30E-3,        // normalized crush energy (+)
+        const double = .5,           // reference damage factor at half crack stress
+        const double = .65,          // reference damage factor at crush stress
         const double = .2,           // dilatancy parameter
         const double = 1.16,         // biaxial compression strength ratio
         const double = 2400E-12      // density

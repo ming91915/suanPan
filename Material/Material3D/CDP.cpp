@@ -58,7 +58,7 @@ double CDP::compute_weight(const vec& in) {
     return abs_sum == 0. ? 0. : .5 + .5 * accu(in) / abs_sum;
 }
 
-CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double GT, const double GC, const double AP, const double BC, const double R)
+CDP::CDP(const unsigned T, const double E, const double V, const double ST, const double SC, const double GT, const double GC, const double DT, const double DC, const double AP, const double BC, const double R)
     : Material3D(T, MT_CDP, R)
     , elastic_modulus(E)
     , poissons_ratio(V < .5 ? V : .2)
@@ -67,11 +67,11 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , bulk_modulus(elastic_modulus / (3. - 6. * poissons_ratio))
     , f_t(ST > 0. ? ST : -ST)
     , a_t(.1)
-    , cb_t(log(1. - .25) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
+    , cb_t(log(DT) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
     , g_t(GT)
     , f_c(SC < 0. ? SC : -SC)
-    , a_c(3.)
-    , cb_c(a_c == 1. ? .5 : log(1 - .4) / log(.5 + .5 / a_c))
+    , a_c(2.)
+    , cb_c(a_c == 1. ? .5 : log(DC) / log(.5 + .5 / a_c))
     , g_c(GC)
     , alpha((BC - 1.) / (2. * BC - 1.))
     , alpha_p(AP)
@@ -91,6 +91,8 @@ void CDP::initialize(const shared_ptr<DomainBase>&) {
 
     for(auto I = 0; I < 3; ++I) initial_stiffness(I, I) += double_shear;
     for(auto I = 3; I < 6; ++I) initial_stiffness(I, I) = shear_modulus;
+
+    inv_stiffness = inv(initial_stiffness);
 
     trial_stiffness = current_stiffness = initial_stiffness;
 
@@ -149,7 +151,9 @@ int CDP::update_trial_status(const vec& t_strain) {
     auto r_weight = compute_weight(e_stress);
 
     if(yield_func < tolerance) {
-        trial_stress *= (1. - c_para(0)) * (1. - r_weight * t_para(0));
+        const auto damage = (1. - c_para(0)) * (1. - r_weight * t_para(0));
+        trial_stress *= damage;
+        trial_stiffness = damage * initial_stiffness;
         return 0;
     }
 
