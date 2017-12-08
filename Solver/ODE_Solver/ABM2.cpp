@@ -49,6 +49,8 @@ int ABM2::update_status() {
 
     ode_system->set_trial_variable(c_disp);
 
+    ode_system->set_error(norm(i_disp));
+
     return 0;
 }
 
