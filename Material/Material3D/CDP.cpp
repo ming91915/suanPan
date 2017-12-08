@@ -78,14 +78,14 @@ CDP::CDP(const unsigned T, const double E, const double V, const double ST, cons
     , shear_modulus(elastic_modulus / (2. + 2. * poissons_ratio))
     , double_shear(2. * shear_modulus)
     , bulk_modulus(elastic_modulus / (3. - 6. * poissons_ratio))
-    , f_t(ST > 0. ? ST : -ST)
     , a_t(AT)
     , cb_t(log(DT) / log(.5 * (1. + a_t - sqrt(1. + a_t * a_t)) / a_t))
     , g_t(GT)
-    , f_c(SC < 0. ? SC : -SC)
+    , f_t(ST > 0. ? ST : -ST)
     , a_c(AC)
     , cb_c(a_c == 1. ? .5 : log(DC) / log(.5 + .5 / a_c))
     , g_c(GC)
+    , f_c((SC < 0. ? SC : -SC) * 4. * a_c / pow(1. + a_c, 2.))
     , alpha((BC - 1.) / (2. * BC - 1.))
     , alpha_p(AP)
     , factor_a(3. * bulk_modulus * alpha_p)
@@ -116,6 +116,8 @@ void CDP::initialize(const shared_ptr<DomainBase>&) {
 }
 
 unique_ptr<Material> CDP::get_copy() { return make_unique<CDP>(*this); }
+
+double CDP::get_parameter(const ParameterType&) const { return trial_history(1); }
 
 int CDP::update_trial_status(const vec& t_strain) {
     trial_strain = t_strain;
@@ -150,14 +152,12 @@ int CDP::update_trial_status(const vec& t_strain) {
     auto t_para = compute_backbone(f_t, a_t, cb_t, kappa_t);
     auto c_para = compute_backbone(f_c, a_c, cb_c, kappa_c);
 
-    auto t_yield = const_yield + factor_c * c_para(2);
-
-    auto beta = 0.;
-
     // effective stress \hat{\bar{\sigma}}
     auto e_stress = p_predictor;
 
-    if(e_stress(2) > 0.) beta = -c_para(2) / t_para(2) * factor_c - 1. - alpha;
+    auto beta = e_stress(2) > 0. ? -c_para(2) / t_para(2) * factor_c - 1. - alpha : 0.;
+
+    auto t_yield = const_yield + factor_c * c_para(2);
 
     const auto yield_func = t_yield + beta * e_stress(2);
 

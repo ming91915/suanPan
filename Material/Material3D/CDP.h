@@ -33,7 +33,7 @@
 class CDP : public Material3D {
     static const double sqrt_three_over_two;
     const double elastic_modulus, poissons_ratio, shear_modulus, double_shear, bulk_modulus;
-    const double f_t, a_t, cb_t, g_t, f_c, a_c, cb_c, g_c;
+    const double a_t, cb_t, g_t, f_t, a_c, cb_c, g_c, f_c;
     const double alpha, alpha_p;
     const double factor_a, factor_b, factor_c, tolerance;
 
@@ -56,11 +56,11 @@ public:
         const double = 3.,           // crack stress (+)
         const double = 30.,          // crush stress (-)
         const double = 5E-4,         // normalized crack energy (+)
-        const double = 5E-2,         // normalized crush energy (+)
+        const double = 1E-4,         // normalized crush energy (+)
         const double = .2,           // hardening after crack stress a_t
-        const double = 2.5,          // hardening after crush stress a_c
+        const double = 5,            // hardening after crush stress a_c
         const double = .5,           // reference damage factor at half crack stress
-        const double = .65,          // reference damage factor at crush stress
+        const double = .5,           // reference damage factor at crush stress
         const double = .2,           // dilatancy parameter
         const double = 1.16,         // biaxial compression strength ratio
         const double = 2400E-12      // density
@@ -69,6 +69,8 @@ public:
     void initialize(const shared_ptr<DomainBase>& = nullptr) override;
 
     unique_ptr<Material> get_copy() override;
+
+    double get_parameter(const ParameterType&) const override;
 
     int update_trial_status(const vec&) override;
 

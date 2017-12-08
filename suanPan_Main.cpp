@@ -23,16 +23,16 @@ int main(int argc, char** argv) {
 
     // argument_parser(argc, argv);
 
-    vec P(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 5E-2, .2, 2., .5, .65, .2, 1.16, 2400E-12 });
-    P(9) = .6;
+    vec P(std::initializer_list<double>{ 3E4, .2, 3., 30., 5E-4, 1E-4, .2, 5., .5, .5, .2, 1.16, 2400E-12 });
 
     const auto A = make_shared<CDP>(0, P(0), P(1), P(2), P(3), P(4), P(5), P(6), P(7), P(8), P(9), P(10), P(11), P(12));
     A->Material::initialize();
     A->initialize();
     const vec old(std::initializer_list<double>{ -1E-6, .2E-6, .2E-6, 0., 0., 0. });
-    vector<double> B, C;
+    vector<double> B, C, E;
     B.emplace_back(0.);
     C.emplace_back(0.);
+    E.emplace_back(0.);
 
     // vec step = -4. * old;
     // for(auto I = 0; I < 60; I++) {
@@ -41,17 +41,19 @@ int main(int argc, char** argv) {
     //    B.emplace_back(A->get_strain().at(0));
     //    C.emplace_back(A->get_stress().at(0));
     //}
-    const vec step = 40. * old;
-    for(auto I = 0; I < 250; I++) {
+    const vec step = 50. * old;
+    for(auto I = 0; I < 200; I++) {
         if(A->update_incre_status(step) == -1) break;
         A->commit_status();
         B.emplace_back(A->get_strain().at(0));
         C.emplace_back(A->get_stress().at(0));
+        E.emplace_back(A->get_parameter(ParameterType::DENSITY));
     }
 
-    mat D(B.size(), 2);
+    mat D(B.size(), 3);
     D.col(0) = vec{ B };
     D.col(1) = vec{ C };
+    D.col(2) = vec{ E };
     D.save("K", raw_ascii);
 
     suanpan_info("Finished in %.3F seconds.\n", T.toc());
