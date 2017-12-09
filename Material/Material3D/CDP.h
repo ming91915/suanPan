@@ -46,7 +46,8 @@ class CDP : public Material3D {
 
     static vec compute_backbone(const double, const double, const double, const double);
     static vec compute_d_weight(const vec&);
-    static mat compute_jacobian(const mat&);
+    static mat compute_jacobian_nominal_to_principal(const mat&);
+    static mat compute_jacobian_principal_to_nominal(const mat&);
     static double compute_weight(const vec&);
 
 public:

@@ -53,14 +53,29 @@ vec CDP::compute_d_weight(const vec& in) {
     return out;
 }
 
-mat CDP::compute_jacobian(const mat& in) {
+mat CDP::compute_jacobian_nominal_to_principal(const mat& in) {
     mat out(3, 6);
 
+    out(span(0, 2), span(0, 2)) = square(in).t();
+
     for(auto I = 0; I < 3; ++I) {
-        for(auto J = 0; J < 3; ++J) out(I, J) = in(J, I) * in(J, I);
         out(I, 3) = 2. * in(0, I) * in(1, I);
         out(I, 4) = 2. * in(1, I) * in(2, I);
         out(I, 5) = 2. * in(2, I) * in(0, I);
+    }
+
+    return out;
+}
+
+mat CDP::compute_jacobian_principal_to_nominal(const mat& in) {
+    mat out(6, 3);
+
+    out(span(0, 2), span(0, 2)) = square(in);
+
+    for(auto I = 0; I < 3; ++I) {
+        out(3, I) = in(0, I) * in(1, I);
+        out(4, I) = in(1, I) * in(2, I);
+        out(5, I) = in(2, I) * in(0, I);
     }
 
     return out;
@@ -238,7 +253,7 @@ int CDP::update_trial_status(const vec& t_strain) {
     trial_stress = tensor::stress::to_voigt(trans_mat * diagmat(e_stress) * trans_mat.t());
     trial_stress *= (1. - c_para(0)) * (1. - r_weight * t_para(0));
 
-    const auto jacobian = compute_jacobian(trans_mat);
+    const auto jacobian = compute_jacobian_nominal_to_principal(trans_mat);
 
     return 0;
 }
